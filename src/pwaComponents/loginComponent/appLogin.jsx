@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,12 @@ function AppLogin() {
   } = useForm();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token-user")) {
+      navigate("/app/home");
+    }
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);
