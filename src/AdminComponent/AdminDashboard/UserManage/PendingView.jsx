@@ -11,8 +11,10 @@ import axios from "axios";
 import fileDownload from "js-file-download";
 import { FaFileDownload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
+import { useForm } from "react-hook-form";
 
 const PendingView = () => {
+  const [change, setChange] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
@@ -25,6 +27,41 @@ const PendingView = () => {
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    trigger,
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    await axios
+      .post(rejectUrl + "/" + objectId, {
+        companyName: data?.companyName,
+        dba: data?.dba,
+        addressLine: data?.address,
+        city: data?.city,
+        state: data?.state,
+        zipcode: data?.zipcode,
+        firstName: data?.firstName,
+        tobaccoLicence: data?.tobaccoId,
+        federalTaxId: data?.federalId,
+        accountOwnerId: data?.accountId,
+        businessLicense: data?.businessId,
+        salesTaxId: data?.salesId,
+        rejectReason: data?.reason,
+      })
+      .then((res) => {
+        if (res?.data.message === "Rejected") {
+
+          document.getElementById("modal-close21").click();
+          navigate("/UserManage");
+
+        }
+      });
+  };
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
@@ -43,11 +80,7 @@ const PendingView = () => {
       navigate("/UserManage");
     }
   };
-  const rejectUser = async () => {
-    //  await axios.post(rejectUrl + "/" + objectId).then((res)=>{
-    //   navigate("/UserManage");
-    //  })
-  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -514,7 +547,7 @@ const PendingView = () => {
                           data-bs-target="#staticBackdrop21"
                           className="comman_btn2 ms-2 text-decoration-none"
                         >
-                          Return
+                          Decline
                         </Link>
                       </div>
                     </div>
@@ -546,17 +579,20 @@ const PendingView = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="modal-close21"
               />
             </div>
             <div className="modal-body bg-light border rounded">
               <div className="container ">
                 <div className="row justify-content-center ">
-                  <form className="p-2">
+                  <form className="p-2" onSubmit={handleSubmit(onSubmit)}>
                     <h5 className="fw-bold">Enter Reason :</h5>
 
                     <textarea
                       className="w-100 fs-6 p-2"
                       style={{ height: "8rem" }}
+                      name="reason"
+                      {...register("reason")}
                     />
 
                     <div className="row text-start mt-3 return_Reason">
@@ -568,7 +604,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="companyName"
+                                {...register("companyName")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -584,7 +621,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="dba"
+                                {...register("dba")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -600,14 +638,15 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="address"
+                                {...register("address")}
                                 id="flexCheckDefault"
                               />
                               <label
                                 class="form-check-label mx-1"
                                 for="flexCheckDefault"
                               >
-                               Address Line
+                                Address Line
                               </label>
                             </div>
                           </li>
@@ -616,7 +655,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="city"
+                                {...register("city")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -632,14 +672,15 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="state"
+                                {...register("state")}
                                 id="flexCheckDefault"
                               />
                               <label
                                 class="form-check-label mx-1"
                                 for="flexCheckDefault"
                               >
-                               State
+                                State
                               </label>
                             </div>
                           </li>
@@ -648,7 +689,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="zipcode"
+                                {...register("zipcode")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -659,12 +701,17 @@ const PendingView = () => {
                               </label>
                             </div>
                           </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6">
+                        <ul className="list-group">
                           <li className="list-group-item">
                             <div class="form-check">
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="federalId"
+                                {...register("federalId")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -680,28 +727,25 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="salesId"
+                                {...register("salesId")}
                                 id="flexCheckDefault"
                               />
                               <label
                                 class="form-check-label mx-1"
                                 for="flexCheckDefault"
                               >
-                               Sales Tax Id
+                                Sales Tax Id
                               </label>
                             </div>
                           </li>
-                         
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul className="list-group">
-                        <li className="list-group-item">
+                          <li className="list-group-item">
                             <div class="form-check">
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="tobaccoId"
+                                {...register("tobaccoId")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -717,7 +761,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="businessId"
+                                {...register("businessId")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -733,7 +778,8 @@ const PendingView = () => {
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                name="firstName"
+                                {...register("firstName")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -744,28 +790,14 @@ const PendingView = () => {
                               </label>
                             </div>
                           </li>
+
                           <li className="list-group-item">
                             <div class="form-check">
                               <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Last Name
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value=""
+                                name="accountId"
+                                {...register("accountId")}
                                 id="flexCheckDefault"
                               />
                               <label
@@ -776,58 +808,12 @@ const PendingView = () => {
                               </label>
                             </div>
                           </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Email
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Phone
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Heard About Us
-                              </label>
-                            </div>
-                          </li>
                         </ul>
                       </div>
                       <div className="col-md-12 text-center mt-4">
-                         <button className="comman_btn2 rounded" >Return</button>
+                        <button className="comman_btn2 rounded" type="submit">
+                          Decline
+                        </button>
                       </div>
                     </div>
                   </form>

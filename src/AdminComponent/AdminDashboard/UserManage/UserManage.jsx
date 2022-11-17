@@ -147,7 +147,7 @@ const UserManage = () => {
         console.log(res);
       });
   };
-  const GenerateCrendential = async () => {
+  const   GenerateCrendential = async () => {
     await axios.post(genCrendentials).then((res) => {
       console.log(res);
       if (res?.data.message === "Credentials Sent Successfully") {
@@ -155,7 +155,7 @@ const UserManage = () => {
         setMsg("Credentials Sent Successfully");
       }
     });
-  };
+  }
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>

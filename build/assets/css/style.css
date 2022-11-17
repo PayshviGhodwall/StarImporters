@@ -2479,7 +2479,7 @@
     width: 30px;
   }
   .comman_banner {
-    background-image: url(../../assets//img/banner_img.png);
+    background-image: url(../../../public/assets/img/banner_1.jpg);
   }
   ._banner {
     height: 230px;
@@ -2569,6 +2569,14 @@
   /* Change the background color of the dropdown button when the dropdown content is shown */
   .dropdown:hover .dropbtn {
     background-color: #3e8e41;
+  }
+  .element {
+    -webkit-transition: 2s;
+    transition: 2s;
+  }
+  .element:hover { /* .element.hidden */
+    opacity: 0;
+    pointer-events: none; /* <-- This one */
   }
 
   /* Website Finish */

@@ -251,7 +251,7 @@ const EditProfile = () => {
                       <input
                         type="text"
                         className="form-control"
-                        defaultValue={adminData.fullName}
+                        defaultValue={adminData?.fullName}
                         name="name"
                         id="name"
                         {...register("name")}

@@ -90,7 +90,7 @@ const Navbar = () => {
           </div>
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
-              <Link to="#">
+              <Link to="/Cart">
                 <i className="fa fa-cart-arrow-down" />
 
                 <span className="count">0</span>
@@ -102,29 +102,26 @@ const Navbar = () => {
             </div>
             {UserAuth ? (
               <div className="d-flex mt-2 ">
-                
                 <div class="dropdown">
-                <Link to="/MyAccount" className="text-decoration-none mx-1">
-                  <button className="signup_btns m-2  ">My Account</button>
-                </Link>
+                  <Link to="/MyAccount" className="text-decoration-none mx-1">
+                    <button className="signup_btns m-2  ">My Account</button>
+                  </Link>
                   <div class="dropdown-content">
                     <Link
-                  to=""
-                  className="login_btns mt-3 text-decoration-none"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop1"
-                  aria-current="page"
-                  href="#"
-                  onClick={() => {
-                    LogOut();
-                  }}
-                >
-                  Logout
-                </Link>
+                      to=""
+                      className="login_btns mt-3 text-decoration-none"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop1"
+                      aria-current="page"
+                      href="#"
+                      onClick={() => {
+                        LogOut();
+                      }}
+                    >
+                      Logout
+                    </Link>
                   </div>
                 </div>
-
-               
               </div>
             ) : (
               <div className="d-flex mt-2">
@@ -160,8 +157,6 @@ const Navbar = () => {
                   <Link
                     to={{
                       pathname: "/CategoryProducts",
-                      search: "?sort=name",
-                      hash: "#the-hash",
                     }}
                     state={{ name: item?.categoryName }}
                     className="dropdown-toggle text-decoration-none"
@@ -178,7 +173,6 @@ const Navbar = () => {
                               <Link
                                 to={{
                                   pathname: "/SubCategory/Products",
-                                  search: "",
                                 }}
                                 state={{ name: item?.subCategoryName }}
                               >
@@ -196,7 +190,7 @@ const Navbar = () => {
               ))}
 
               <li>
-                <Link className="text-decoration-none" to="">
+                <Link className="text-decoration-none" to="AllBrands">
                   Brands
                 </Link>
               </li>

@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
-import staticImg from "../../assets/img/banner_img.png"
+import staticImg from "../../assets/img/banner_img.png";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
+import Banner from "../../assets/img/banner_img1.jpg";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
 import { useEffect } from "react";
@@ -86,7 +86,7 @@ const Homepage = ({ GetData }) => {
               <img
                 src={allSlides[0]?.banner}
                 className="d-block w-100 banner_slide"
-                alt="..."
+                alt=""
               />
               <div className="carousel-caption ">
                 <h5 className="d-flex text-start  Bannertext">
@@ -97,7 +97,7 @@ const Homepage = ({ GetData }) => {
                 </p>
 
                 <Link to="/Register" className="text-decoration-none ">
-                  <button className="comman_btn22 d-flex">SignUp</button>
+                  <button className={allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"}>SignUp</button>
                 </Link>
               </div>
             </div>
@@ -114,7 +114,7 @@ const Homepage = ({ GetData }) => {
                 <p className="fs-6 bannerTxt">{allSlides[1]?.description}</p>
 
                 <Link to="/Register" className="text-decoration-none ">
-                  <button className="comman_btn22  ">SignUp</button>
+                  <button className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}>SignUp</button>
                 </Link>
               </div>
             </div>
@@ -134,25 +134,31 @@ const Homepage = ({ GetData }) => {
                   to="/Register"
                   className="d-flex justify-content-end text-decoration-none "
                 >
-                  <button className="comman_btn22">SignUp</button>
+                  <button
+                    className={allSlides[2]?.banner ? "comman_btn22" : "d-none"}
+                  >
+                    SignUp
+                  </button>
                 </Link>
               </div>
             </div>
           </div>
           <button
-            className="carousel-control-prev"
+            className="carousel-control-prev "
+            style={{ opacity: "100" }}
             type="button"
             data-bs-target="#carouselExampleControls"
             data-bs-slide="prev"
           >
             <button
-              className="carousel-control-prev-icon p-4 slideBtn"
+              className="carousel-control-prev-icon p-4 slideBtn "
               aria-hidden="true"
             ></button>
-            <span className="visually-hidden ">Previous</span>
+            <span className="visually-hidden">Previous</span>
           </button>
           <button
             class="carousel-control-next"
+            style={{ opacity: "90" }}
             type="button"
             data-bs-target="#carouselExampleControls"
             data-bs-slide="next"

@@ -57,7 +57,6 @@ function AppSignUp() {
     const response = await userRegister(formData);
 
     const close = document.getElementById("close");
-    open;
     close.click();
     $(".modal-backdrop").remove();
 

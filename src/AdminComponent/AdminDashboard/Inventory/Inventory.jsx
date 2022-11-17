@@ -6,6 +6,9 @@ import Starlogo from "../../../assets/img/logo.png";
 import axios from "axios";
 import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
+import classNames from "classnames";
+import Swal from "sweetalert2";
+import { BiEdit } from "react-icons/bi";
 
 const Inventory = () => {
   const [productImage, setProductImage] = useState();
@@ -19,6 +22,13 @@ const Inventory = () => {
   const [brands, setBrands] = useState([]);
   const [change, setChange] = useState();
   const [Index, setIndex] = useState(0);
+  const importInput = document.getElementById("fileID");
+  const [impFile, setImpFile] = useState([]);
+  const [uploadError, setUploadError] = useState("");
+  const [set, setSet] = useState(true);
+  const [ux, setUx] = useState("");
+
+  const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
     { productType: [], flavour: [], flavourImage: [], barcode: [] },
   ]);
@@ -28,8 +38,7 @@ const Inventory = () => {
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-
-  console.log(formValues);
+  const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
 
   const {
     register,
@@ -45,11 +54,6 @@ const Inventory = () => {
       await axios.get(categoryApi).then((res) => {
         setCategories(res?.data.results);
       });
-      await axios.post(SubCategoryApi,{
-        category:"Tobacco"
-      }).then((res) => {
-        setSubCategories(res?.data.results);
-      });
       await axios.get(brandsApi).then((res) => {
         setBrands(res?.data.results);
       });
@@ -57,7 +61,7 @@ const Inventory = () => {
 
     getBrands();
     GetProducts();
-  }, [change,formValues]);
+  }, [change, formValues]);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
@@ -66,14 +70,16 @@ const Inventory = () => {
       setAllProducts(res.data?.results);
     });
   };
-  const NewSubCategory =async (e) =>{
-    let categoryId = e.target.value
-    await axios.post(SubCategoryApi,{
-      category:categoryId
-    }).then((res) => {
-      setSubCategories(res?.data.results);
-    });
-  }
+  const NewSubCategory = async (e) => {
+    let categoryId = e.target.value;
+    await axios
+      .post(SubCategoryApi, {
+        categoryId: categoryId,
+      })
+      .then((res) => {
+        setSubCategories(res?.data.results);
+      });
+  };
 
   let handleChange = (i, e) => {
     let newFormValues = [...formValues];
@@ -100,43 +106,38 @@ const Inventory = () => {
 
     axios.post(uploadImage, formData).then((res) => {
       console.log(res?.data.results);
-      setProductImage(res?.data.results.productImage)
+      setProductImage(res?.data.results.productImage);
     });
   };
-  const flavourImageSelection = async(e,index) => {
+  const flavourImageSelection = async (e, index) => {
     const formData = new FormData();
     formData.append("flavourImage", e.target.files[0]);
 
-   await axios.post(uploadImage, formData).then((res) => {
-    let data = res.data?.results
-    let newFormValues = [...formValues];
-    newFormValues[index][e.target.name] = data?.flavourImage;
-    setFormValues(newFormValues);
-    
+    await axios.post(uploadImage, formData).then((res) => {
+      let data = res.data?.results;
+      let newFormValues = [...formValues];
+      newFormValues[index][e.target.name] = data?.flavourImage;
+      setFormValues(newFormValues);
     });
   };
-console.log(productImage,flavourImages);
   const onSubmit = async (data) => {
     console.log(data);
-
     await axios
       .post(addProduct, {
-        productImage:productImage,
+        productImage: productImage,
         unitName: data?.productName,
         category: data?.category,
-        quantity: data?.quantity,
+        pBarcode: data?.pBarcode,
         subCategory: data?.subCategory,
         brand: data?.brands,
         type: formValues,
-        // barcode: barcode,
-        // productType: type,
-        // flavour: flavour,
-        // flavourImage:"ok",
-        description: "hiidifdi",
+        description: data?.desc,
       })
       .then((res) => {
-        console.log(res);
-        setChange(!change)
+        if (res?.data.message === "Product Added Successfully") {
+          setChange(!change);
+          reset({ productImage: [], productName: "", PBarcode: "" });
+        }
       });
   };
   const onSearch = async (e) => {
@@ -174,17 +175,58 @@ console.log(productImage,flavourImages);
     e.target.value = "";
   }
 
+  function ProhandleKeyDown(e) {
+    if (e.key !== "Enter") return;
+    const value = e.target.value;
+    if (!value.trim()) return;
+    setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
+    let newBarcode = { ...productBarcode };
+    newBarcode[e.target.name] = [
+      ...(productBarcode || []),
+      value.replace(/(\r\n|\n|\r)/gm, ""),
+    ];
+    e.target.value = "";
+  }
   const removeTag = (ind, i) => {
     console.log(ind, i);
     let newForm = { ...formValues };
-    newForm[i]?.barcode.splice(ind,1)
-    setChange(!change)
+    newForm[i]?.barcode.splice(ind, 1);
+    setChange(!change);
   };
-
+  const proRemoveTag = (ind) => {
+    console.log(ind, "jiji");
+    (productBarcode || []).splice(ind, 1);
+    setChange(!change);
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
+  };
+
+  const onUpload = async () => {
+    const formData = new FormData();
+    formData.append("csvFilePath", impFile);
+    await axios.post(importInvent, formData).then((res) => {
+      console.log(res);
+      setUploadError(res?.data.message);
+      if (res?.data.message === "Successfully Imported") {
+        setSet(!set);
+      }
+    });
+    document.getElementById("reUpload").hidden = false;
+  };
+  const onFileSelection = (e) => {
+    let file = e.target.files[0];
+    setImpFile(file);
+    setUx("uploaded");
+  };
+  const ProductStatus = async (index) => {
+    // await axios
+    //   .post(userStatus + "/" + approvedUsers[index]?._id)
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
   };
   return (
     <div className="admin_main">
@@ -322,7 +364,12 @@ console.log(productImage,flavourImages);
         <div className="admin_panel_data height_adjust">
           <div className="row inventory-management justify-content-center">
             <div className="col-12 text-end mb-4">
-              <a href="javascript:;" className="comman_btn2">
+              <a
+                data-bs-toggle="modal"
+                id="modal-toggle66"
+                data-bs-target="#staticBackdrop66"
+                className="comman_btn2"
+              >
                 Import Inventory
               </a>
             </div>
@@ -343,10 +390,13 @@ console.log(productImage,flavourImages);
                       <label htmlFor="">Product Name</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={classNames(
+                          "form-control  border border-secondary",
+                          { "is-invalid": errors.productName }
+                        )}
                         name="productName"
                         {...register("productName", {
-                          required: "Product Name is Required*",
+                          required: "Enter Product Name",
                         })}
                       />
                     </div>
@@ -358,24 +408,33 @@ console.log(productImage,flavourImages);
                       </label>{" "}
                       <input
                         type="file"
-                        className="form-control "
+                        className={classNames(
+                          "form-control  border border-secondary",
+                          { "is-invalid": errors.productImage }
+                        )}
                         defaultValue=""
                         name="productImage"
-                        onChange={(e)=> productImageSelection(e)}
+                        {...register("productImage", {
+                          required: "Enter Product Name",
+                        })}
+                        onChange={(e) => productImageSelection(e)}
                       />
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Category</label>
                       <select
-                        className="form-select form-control"
+                        className={classNames(
+                          " form-select form-control  border border-secondary",
+                          { "is-invalid": errors.category }
+                        )}
                         aria-label="Default select example"
                         name="category"
                         {...register("category", {
                           required: "category is Required*",
                         })}
-                        onChange={(e)=> NewSubCategory(e)}
+                        onChange={(e) => NewSubCategory(e)}
                       >
-                        <option selected="">Select Category</option>
+                        <option>Select Category</option>
 
                         {categories?.map((item, index) => (
                           <option value={item?._id} key={index}>
@@ -385,36 +444,72 @@ console.log(productImage,flavourImages);
                       </select>
                     </div>
 
-                    <div className="form-group col-4">
+                    <div className="form-group col-3">
                       <label htmlFor="">Sub Category</label>
                       <select
-                        className="form-select form-control"
+                        className={classNames(
+                          "  form-control  border border-secondary",
+                          { "is-invalid": errors.subCategory }
+                        )}
                         aria-label="Default select example"
                         name="subCategory"
                         {...register("subCategory", {
                           required: "SubCategory is Required*",
                         })}
                       >
-                        <option selected="">Select Sub Category</option>
-                        {(subCategories || [])?.map((item, index) => (
-                          <option value={item?._id} key={index}>
+                        <option value="">Select Sub Category</option>
+                        {(subCategories || []).map((item, index) => (
+                          <option value={item.subcategories?._id} key={index}>
                             {item.subcategories?.subCategoryName}
                           </option>
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-4">
-                      <label htmlFor="">Quantity</label>
+                    <div className="form-group col-3">
+                      <label htmlFor="">Barcode</label>
+                      <div className="">
+                        {(productBarcode || [])?.map((tag, ind) => (
+                          <div className="tag-item" key={ind}>
+                            <span className="tag-text">{tag}</span>
+                            <span
+                              className="close"
+                              onClick={() => proRemoveTag(ind)}
+                            >
+                              &times;
+                            </span>
+                          </div>
+                        ))}
+                        <input
+                          type="text"
+                          className={classNames(
+                            "form-control border border-secondary ",
+                            { "is-invalid": errors.pBarcode }
+                          )}
+                          name="pBarcode"
+                          {...register("pBarcode", {
+                            required: "Req",
+                          })}
+
+                          // onKeyDown={(e) => ProhandleKeyDown(e)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group col-3">
+                      <label htmlFor="">Description</label>
                       <input
                         type="text"
-                        className="form-control"
-                        name="quantity"
-                        {...register("quantity", {
-                          required: "quantity is Required*",
+                        className={classNames(
+                          " form-control border border-secondary",
+                          { "is-invalid": errors.desc }
+                        )}
+                        name="desc"
+                        {...register("desc", {
+                          required: "Required*",
                         })}
                       />
                     </div>
-                    <div className="form-group col-4">
+                    <div className="form-group col-3">
                       <label htmlFor="">Brands</label>
                       <select
                         className="form-select form-control"
@@ -503,7 +598,9 @@ console.log(productImage,flavourImages);
                                     id="flavourImage"
                                     name="flavourImage"
                                     defaultValue={element.flavourImage || ""}
-                                    onChange={(e)=> flavourImageSelection(e ,index)}
+                                    onChange={(e) =>
+                                      flavourImageSelection(e, index)
+                                    }
                                   />
                                 </div>
                                 {index ? (
@@ -604,7 +701,7 @@ console.log(productImage,flavourImages);
                               <th>Date</th>
                               <th>Product Name</th>
                               <th>Product Image</th>
-                              <th>Brand</th>
+                              <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -627,13 +724,29 @@ console.log(productImage,flavourImages);
                                   <td>{User?.createdAt.slice(0, 10)}</td>
                                   <td>{User?.unitName}</td>
                                   <td>
-                                    <img
-                                      width={40}
-                                      src={User?.productImage}
-
-                                    />
+                                    <img width={40} src={User?.productImage} />
                                   </td>
-                                  <td>{User?.quantity}</td>
+                                  <td>
+                                    {" "}
+                                    <div className="toggle-switch">
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox"
+                                        id={index + 1}
+                                        defaultChecked
+                                        onClick={() => {
+                                          ProductStatus(index);
+                                        }}
+                                      />
+                                      <label
+                                        className="label"
+                                        htmlFor={index + 1}
+                                      >
+                                        <span className="inner" />
+                                        <span className="switch" />
+                                      </label>
+                                    </div>
+                                  </td>
 
                                   <td>
                                     <Link
@@ -653,6 +766,92 @@ console.log(productImage,flavourImages);
                         </table>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal comman_modal_form forms_modal"
+        id="staticBackdrop66"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0 rounded-0  rounded-top">
+            <div className="modal-body">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                id="modal-close66"
+              />
+
+              <div>
+                <div className="container">
+                  <div className="">
+                    {set ? (
+                      <div className="drop_box p-5">
+                        <header>
+                          <h4>Choose File here</h4>
+                        </header>
+                        <p>Files Supported: CSV,EXCEL</p>
+                        <p className="text-dark bg-light p-2">
+                          {impFile?.name}{" "}
+                          <button
+                            hidden
+                            className="btn"
+                            id="reUpload"
+                            onClick={() => {
+                              importInput.click();
+                            }}
+                          >
+                            <BiEdit />
+                          </button>
+                        </p>
+                        <p className="text-danger fw-bold">{uploadError}</p>
+                        <input
+                          type="file"
+                          accept=".csv"
+                          id="fileID"
+                          style={{ display: "none" }}
+                          onChange={onFileSelection}
+                        />
+                        {ux !== "" ? (
+                          <button
+                            className="comman_btn"
+                            htmlFor=""
+                            onClick={onUpload}
+                          >
+                            Upload
+                          </button>
+                        ) : (
+                          <button
+                            className="comman_btn2"
+                            htmlFor=""
+                            onClick={() => {
+                              importInput.click();
+                            }}
+                          >
+                            Import
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="drop_box p-5">
+                        <h1 className="fs-5">CSV Imported</h1>
+                        <p> {impFile?.name} </p>
+                        <button className="comman_btn mt-3">
+                          Generate Passwords
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -325,29 +325,28 @@ const ProductByCate = () => {
                         search: "",
                         hash: "",
                       }}
-                      state={{id:item?._id}}>
-                        {console.log(item?._id)}
+                      state={{id:item?.products?._id}}>
                       <div className="partsproduct_img" >
                         <img src={item.products?.productImage} alt="Product" />
                       </div>
                       <div className="product_content mt-3 text-center">
-                        <Link to="" className="text-decoration-none">{item?.products?.unitName}</Link>
+                        <Link to="/AllProducts/Product" className="text-decoration-none">{item?.products?.unitName}</Link>
                         <Link className="fav_btn" href="javscript:;" />
                         <div className="rating_box mt-2 mb-1">
                           
-                            <i className="fa fa-star" />
+                            <i className="fa fa-star" style={{color:"#ffff00"}} />
                           
                           
-                            <i className="fa fa-star" />
+                            <i className="fa fa-star" style={{color:"#ffff00"}}/>
                         
                           
-                            <i className="fa fa-star" />
+                            <i className="fa fa-star" style={{color:"#ffff00"}} />
                           
                         
-                            <i className="fa fa-star" />
+                            <i className="fa fa-star" style={{color:"#ffff00"}} />
                           
                           
-                            <i className="fal fa-star" />
+                            <i className="fa fa-star" style={{color:" #f5f5f0"}} />
                           
                         </div>
                       </div>

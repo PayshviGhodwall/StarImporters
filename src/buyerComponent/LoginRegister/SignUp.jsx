@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const SignUp = () => {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}user/register`
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/register`;
 
   const {
     register,
@@ -73,13 +73,15 @@ const SignUp = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="row">
-                <h4 className=" mt-1 mb-3 fw-bold  fs-1 text-center text-dark">
+                <h2 className=" mt-1 mb-2 fw-bold  fs-1 text-center text-dark">
                   CREATE MY ACCOUNT
-                </h4>
+                </h2>
 
-                <p className=" text-center text-secondary fs-5 mb-5">
+                <p className=" text-center text-secondary fs-5 ">
                   Please fill in the information below
                 </p>
+                <small className="text-center text-secondary mb-5"> Fields marked with <span className="text-danger fw-bold">*</span> are Mandatory</small>
+
 
                 <div className="form-floating col-lg-6 mb-4">
                   <input
@@ -115,24 +117,16 @@ const SignUp = () => {
                   <input
                     type="text"
                     className={classNames(
-                      "form-control  border border-secondary signup_fields",
-                      { "is-invalid": errors.dba }
+                      "form-control  border border-secondary signup_fields"
                     )}
                     id="floatingPassword1"
                     placeholder="name@example.com"
                     name="dba"
-                    {...register("dba", {
-                      required: "DBA Name is Required*",
-                    })}
+                    {...register("dba")}
                   />
-                  {errors.dba && (
-                    <small className="errorText mx-1 fw-bold">
-                      {errors.dba?.message}
-                    </small>
-                  )}
 
                   <label htmlFor="floatingPassword1" className="mx-2 fw-bolder">
-                    DBA <span className="text-danger">*</span>
+                    DBA <span className="text-danger"></span>
                   </label>
                 </div>
                 <div className="form-floating col-6 mb-4">
@@ -163,7 +157,7 @@ const SignUp = () => {
                     type="text"
                     className="form-control  border border-secondary signup_fields"
                     id="floatingAddress2"
-                    placeholder=""
+                    placeholder="dds"
                   />
                   <label htmlFor="floatingAddress2" className="mx-2 fw-bolder">
                     Company Address line 2
@@ -328,111 +322,6 @@ const SignUp = () => {
                       Zip/Postal code <span className="text-danger">*</span>
                     </label>
                   </div>
-                  <div className="form-group col-6 mb-4 choose_file position-relative">
-                    <span className="fw-bolder">Federal Tax ID *</span>
-                    <label htmlFor="upload1">
-                      <i className="fa fa-file me-1  " />
-                      Choose File
-                    </label>
-                    <input
-                      type="file"
-                      className={classNames(
-                        "form-control  border border-secondary",
-                        { "is-invalid": errors.federalTaxId }
-                      )}
-                      defaultValue=""
-                      name="federalTaxId"
-                      id="upload1"
-                      {...register("federalTaxId", {
-                        required: "ID is Required*",
-                      })}
-                      onChange={(e) => onFileSelection(e, "federalTaxId")}
-                    />
-                    {errors.federalTaxId && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.federalTaxId?.message}
-                      </small>
-                    )}
-                  </div>
-                  <div className="form-group col-6 mb-4 choose_file position-relative">
-                    <span className="fw-bolder">Tobacco License*</span>
-                    <label htmlFor="upload2">
-                      <i className="fa fa-file me-1" />
-                      Choose File
-                    </label>
-                    <input
-                      type="file"
-                      className={classNames(
-                        "form-control  border border-secondary signup_fields",
-                        { "is-invalid": errors.tobaccoLicence }
-                      )}
-                      defaultValue=""
-                      name="tobaccoLicence"
-                      id="upload2"
-                      {...register("tobaccoLicence", {
-                        required: "ID is Required*",
-                      })}
-                      onChange={(e) => onFileSelection(e, "tobaccoLicence")}
-                    />
-                    {errors.tobaccoLicence && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.tobaccoLicence?.message}
-                      </small>
-                    )}
-                  </div>
-                  <div className="form-group col-6 mb-4 choose_file position-relative">
-                    <span className="fw-bolder">Sales Tax ID*</span>
-                    <label htmlFor="upload3">
-                      <i className="fa fa-file me-1" />
-                      Choose File
-                    </label>
-                    <input
-                      type="file"
-                      className={classNames(
-                        "form-control  border border-secondary signup_fields",
-                        { "is-invalid": errors.salesTaxId }
-                      )}
-                      defaultValue=""
-                      name="salesTaxId"
-                      id="upload3"
-                      {...register("salesTaxId", {
-                        required: "ID is Required*",
-                      })}
-                      onChange={(e) => onFileSelection(e, "salesTaxId")}
-                    />
-                    {errors.salesTaxId && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.salesTaxId?.message}
-                      </small>
-                    )}
-                  </div>
-                  <div className="form-group col-6 mb-5 choose_file position-relative">
-                    <span className="fw-bolder ">Business License*</span>
-                    <label htmlFor="upload4">
-                      <i className="fa fa-file me-1" />
-                      Choose File
-                    </label>
-                    <input
-                      type="file"
-                      className={classNames(
-                        "form-control  border border-secondary signup_fields",
-                        { "is-invalid": errors.businessLicense }
-                      )}
-                      defaultValue=""
-                      name="businessLicense"
-                      id="upload4"
-                      {...register("businessLicense", {
-                        required: "ID is Required*",
-                      })}
-                      onChange={(e) => onFileSelection(e, "businessLicense")}
-                    />
-                    {errors.businessLicense && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.businessLicense?.message}
-                      </small>
-                    )}
-                  </div>
-                  <hr style={{ margin: "10px auto 30px", width: "96%" }} />
                   <div className="form-floating col-6 mb-4 mt-4">
                     <input
                       type="text"
@@ -478,32 +367,6 @@ const SignUp = () => {
                     <label htmlFor="floatingInput8" className="mx-2 fw-bolder">
                       Contact Last name <span className="text-danger">*</span>
                     </label>
-                  </div>
-                  <div className="form-group col-12 mb-4 choose_file position-relative">
-                    <span className="fw-bolder">Account Owner ID*</span>
-                    <label htmlFor="upload5">
-                      <i className="fa fa-file me-1" />
-                      Choose File
-                    </label>
-                    <input
-                      type="file"
-                      className={classNames(
-                        "form-control  border border-secondary signup_fields",
-                        { "is-invalid": errors.accountOwnerId }
-                      )}
-                      defaultValue=""
-                      name="accountOwnerId"
-                      id="upload5"
-                      {...register("accountOwnerId", {
-                        required: "ID is Required*",
-                      })}
-                      onChange={(e) => onFileSelection(e, "accountOwnerId")}
-                    />
-                    {errors.accountOwnerId && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.accountOwnerId?.message}
-                      </small>
-                    )}
                   </div>
                   <div className="form-floating col-6 mb-4">
                     <input
@@ -567,11 +430,134 @@ const SignUp = () => {
                       Phone Number <span className="text-danger">*</span>
                     </label>
                   </div>
+
+                  <hr style={{ margin: "10px auto 30px", width: "96%" }} />
+                  <div className="form-group col-6 mb-4 choose_file position-relative">
+                    <span className="fw-bolder">Federal Tax ID : </span>
+                    <label htmlFor="upload1">
+                      <i className="fa fa-file me-1  " />
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className={classNames(
+                        "form-control  border border-secondary",
+                        { "is-invalid": errors.federalTaxId }
+                      )}
+                      defaultValue=""
+                      name="federalTaxId"
+                      id="upload1"
+                      {...register("federalTaxId")}
+                      onChange={(e) => onFileSelection(e, "federalTaxId")}
+                    />
+                    {errors.federalTaxId && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.federalTaxId?.message}
+                      </small>
+                    )}
+                  </div>
+                  <div className="form-group col-6 mb-4 choose_file position-relative">
+                    <span className="fw-bolder">Tobacco License :</span>
+                    <label htmlFor="upload2">
+                      <i className="fa fa-file me-1" />
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields",
+                        { "is-invalid": errors.tobaccoLicence }
+                      )}
+                      defaultValue=""
+                      name="tobaccoLicence"
+                      id="upload2"
+                      {...register("tobaccoLicence")}
+                      onChange={(e) => onFileSelection(e, "tobaccoLicence")}
+                    />
+                    {errors.tobaccoLicence && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.tobaccoLicence?.message}
+                      </small>
+                    )}
+                  </div>
+                  <div className="form-group col-6 mb-4 choose_file position-relative">
+                    <span className="fw-bolder">Sales Tax ID :</span>
+                    <label htmlFor="upload3">
+                      <i className="fa fa-file me-1" />
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields",
+                        { "is-invalid": errors.salesTaxId }
+                      )}
+                      defaultValue=""
+                      name="salesTaxId"
+                      id="upload3"
+                      {...register("salesTaxId")}
+                      onChange={(e) => onFileSelection(e, "salesTaxId")}
+                    />
+                    {errors.salesTaxId && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.salesTaxId?.message}
+                      </small>
+                    )}
+                  </div>
+                  <div className="form-group col-6 mb-3 choose_file position-relative">
+                    <span className="fw-bolder ">Business License :</span>
+                    <label htmlFor="upload4">
+                      <i className="fa fa-file me-1" />
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields",
+                        { "is-invalid": errors.businessLicense }
+                      )}
+                      defaultValue=""
+                      name="businessLicense"
+                      id="upload4"
+                      {...register("businessLicense")}
+                      onChange={(e) => onFileSelection(e, "businessLicense")}
+                    />
+                    {errors.businessLicense && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.businessLicense?.message}
+                      </small>
+                    )}
+                  </div>
+                  <div className="form-group col-12 mb-4 choose_file position-relative">
+                    <span className="fw-bolder">Account Owner ID :</span>
+                    <label htmlFor="upload5">
+                      <i className="fa fa-file me-1" />
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields",
+                        { "is-invalid": errors.accountOwnerId }
+                      )}
+                      defaultValue=""
+                      name="accountOwnerId"
+                      id="upload5"
+                      {...register("accountOwnerId")}
+                      onChange={(e) => onFileSelection(e, "accountOwnerId")}
+                    />
+                    {errors.accountOwnerId && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.accountOwnerId?.message}
+                      </small>
+                    )}
+                  </div>
+
                   <div className="form-floating col-12 mb-4 select_dropdown">
                     <select
                       className={classNames(
                         "form-select form-control shadow-none border border-secondary fw-bolder ",
-                        { "is-invalid": errors.phoneNumber }
+                        { "is-invalid": errors.heardAboutUs }
                       )}
                       id="floatingSelect2"
                       aria-label="Floating label select example"
@@ -594,14 +580,14 @@ const SignUp = () => {
                   </div>
                   <div class="form-check mt-1 col-6 mx-3 ">
                     <input
-                    
                       className={classNames(
-                        "form-check-input border border-secondary",
+                        "form-check-input border border-secondary"
                       )}
                       type="checkbox"
                       value=""
                       id="flexCheckAddress"
-                    
+                      name="wholeSale"
+                      {...register("wholeSale")}
                     />
                     <label
                       className="form-check-label fs-6 text-secondary fw-bold "
@@ -613,11 +599,14 @@ const SignUp = () => {
                   <div class="form-check mt-1 col-5 mx-2">
                     <input
                       className={classNames(
-                        "form-check-input border border-secondary",
+                        "form-check-input border border-secondary"
                       )}
                       type="checkbox"
                       value=""
+                      name="subscribe"
                       id="flexCheckAddress"
+                      {...register("subscribe")}
+
                     />
                     <label
                       className="form-check-label fs-6 text-secondary fw-bold "

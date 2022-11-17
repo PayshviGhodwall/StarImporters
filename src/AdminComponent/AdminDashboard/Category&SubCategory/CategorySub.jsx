@@ -9,14 +9,15 @@ import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 
 const CategorySub = () => {
-  const addCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/addCategory`
-  const addSubCategory =`${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/addSubCategory`
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`
-  const SubCategoryApi =`${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/getSubCategories`
-  const editCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/editCategory`
-  const editSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/editSubCategory`
+  const addCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/addCategory`;
+  const addSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/addSubCategory`;
+  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
+  const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/getSubCategories`;
+  const editCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/editCategory`;
+  const editSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/editSubCategory`;
+  const disableCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/categoryStatus`;
   const [sideBar, setSideBar] = useState(true);
-  const [change,setChange] = useState(false)
+  const [change, setChange] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
   const [allSubCategories, setAllSubCategories] = useState([]);
   console.log(allCategories);
@@ -28,14 +29,13 @@ const CategorySub = () => {
   const [categoryName, setCategoryName] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [category, setCategory] = useState("");
-  const [categoryIndex ,setCategoryIndex] = useState()
-  const [subCategoryIndex ,setSubCategoryIndex] = useState()
+  const [categoryIndex, setCategoryIndex] = useState();
+  const [subCategoryIndex, setSubCategoryIndex] = useState();
   console.log(categoryIndex);
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
-  
   const onFileSelection = (e, key) => {
     console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
@@ -49,8 +49,7 @@ const CategorySub = () => {
     await axios.post(addCategory, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Category added") {
-        setChange(!change)
-        
+        setChange(!change);
       }
     });
   };
@@ -64,8 +63,7 @@ const CategorySub = () => {
     await axios.post(addSubCategory, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
-        setChange(!change)
-        
+        setChange(!change);
       }
     });
   };
@@ -75,7 +73,6 @@ const CategorySub = () => {
     });
   };
   useEffect(() => {
-    
     const getSubCategories = async () => {
       await axios.get(SubCategoryApi).then((res) => {
         console.log(res);
@@ -87,11 +84,11 @@ const CategorySub = () => {
   }, [change]);
   const EditCategory = (index) => {
     setCategoryId(allCategories[index]?._id);
-    setCategoryIndex(index)
+    setCategoryIndex(index);
   };
   const EditSubCategory = (index) => {
     setSubCategoryId(allSubCategories[index]?._id);
-    setSubCategoryIndex(index)
+    setSubCategoryIndex(index);
   };
 
   const onEditSaveCategory = async (e) => {
@@ -103,7 +100,7 @@ const CategorySub = () => {
       console.log(res);
       if (res?.data.message === "Modified Successfully") {
         getCategories();
-        window.location.reload()
+        window.location.reload();
       }
     });
   };
@@ -112,12 +109,14 @@ const CategorySub = () => {
     const formData = new FormData();
     formData.append("subCategoryImage", files?.newSubCategoryImg);
     formData.append("subCategoryName", editSubCateName);
-    await axios.post(editSubCategory + "/" + subCategoryId, formData).then((res) => {
-      console.log(res);
-      if (res?.data.message === "Sub Category Modified") {
-        window.location.reload();
-      }
-    });
+    await axios
+      .post(editSubCategory + "/" + subCategoryId, formData)
+      .then((res) => {
+        console.log(res);
+        if (res?.data.message === "Sub Category Modified") {
+          window.location.reload();
+        }
+      });
   };
 
   const handleClick = () => {
@@ -125,9 +124,23 @@ const CategorySub = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+  const CategoryStatus = async (index) => {
+    await axios
+      .post(disableCategory + "/" + allCategories[index]?._id)
+      .then((res) => {
+        setChange(!change);
+      });
+  };
+  const subCategoryStatus = async (index) => {
+    // await axios
+    //   .post(userStatus + "/" + approvedUsers[index]?._id)
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
+  };
   return (
-     <div className={sideBar? "admin_main" : "expanded_main"}>
-    <div className={sideBar? "siderbar_section": "d-none"}>
+    <div className={sideBar ? "admin_main" : "expanded_main"}>
+      <div className={sideBar ? "siderbar_section" : "d-none"}>
         <div className="siderbar_inner">
           <div className="sidebar_logo">
             <Link to="" className="">
@@ -135,7 +148,7 @@ const CategorySub = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -145,70 +158,86 @@ const CategorySub = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i className="fa fa-home"></i> Dashboard
+                  <i className="fa fa-home"></i> Dashboard
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/UserManage"
-                  style={{ textDecoration: "none", fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif",
-                }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
-                 <i class="fa fa-user"></i> User Management
+                  <i class="fa fa-user"></i> User Management
                 </Link>
               </li>
               <li>
                 <Link
                   className="bg-white"
                   to="/CategorySub"
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif",
-                  color: "#3e4093",
-                 }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                    color: "#3e4093",
+                  }}
                 >
-                 <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Inventory"
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
-                <i class="far fa-building"></i>  Inventory Management
+                  <i class="far fa-building"></i> Inventory Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/brandsManage"
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
-                <i class="fa fa-ship"></i>  Brands Management
+                  <i class="fa fa-ship"></i> Brands Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/OrderRequest"
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
-                 <i class="fa fa-layer-group"></i>  Order request
+                  <i class="fa fa-layer-group"></i> Order request
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Cms"
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
-                 <i class="fa fa-cog"></i> CMS
+                  <i class="fa fa-cog"></i> CMS
                 </Link>
               </li>
               <li>
@@ -216,8 +245,11 @@ const CategorySub = () => {
                   className=""
                   to="/AdminLogin"
                   onClick={handleClick}
-                  style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
                 </Link>
@@ -229,7 +261,7 @@ const CategorySub = () => {
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
-          <div className="col">
+            <div className="col">
               {sideBar ? (
                 <div>
                   <h1
@@ -238,7 +270,9 @@ const CategorySub = () => {
                       console.log("yello");
                       setSideBar(!sideBar);
                     }}
-                  ><i className="fa fa-bars"></i></h1>
+                  >
+                    <i className="fa fa-bars"></i>
+                  </h1>
                 </div>
               ) : (
                 <div>
@@ -246,7 +280,7 @@ const CategorySub = () => {
                     <button
                       onClick={(e) => {
                         console.log(e);
-                        setSideBar(!sideBar)
+                        setSideBar(!sideBar);
                       }}
                     >
                       X
@@ -373,9 +407,37 @@ const CategorySub = () => {
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
                                               <td>{item?.categoryName}</td>
-                                              <td><img width={35} src={item?.categoryImage}></img></td>
-                                             
-                                              <td>Active</td>
+                                              <td>
+                                                <img
+                                                  width={80}
+                                                  src={item?.categoryImage}
+                                                ></img>
+                                              </td>
+
+                                              <td>
+                                                {" "}
+                                                <div className="toggle-switch">
+                                                  <input
+                                                    type="checkbox"
+                                                    className="checkbox"
+                                                    id={index + 1}
+                                                    defaultChecked={
+                                                      item?.status
+                                                    }
+                                                    onClick={() => {
+                                                      CategoryStatus(index);
+                                                    }}
+                                                  />
+                                                  <label
+                                                    className="label"
+                                                    htmlFor={index + 1}
+                                                  >
+                                                    <span className="inner" />
+                                                    <span className="switch" />
+                                                  </label>
+                                                </div>
+                                              </td>
+
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"
@@ -480,6 +542,7 @@ const CategorySub = () => {
                                           <th>Category Name</th>
                                           <th>Sub Category Name</th>
                                           <th>Media</th>
+                                          <th>Status</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -493,12 +556,37 @@ const CategorySub = () => {
                                               </td>
                                               <td>
                                                 {
-                                                  item.categoryName?.categoryName
-                                                    
+                                                  item.categoryName
+                                                    ?.categoryName
                                                 }
                                               </td>
                                               <td>{item?.subCategoryName}</td>
-                                              <td><img width={40} src={item?.subCategoryImage}></img></td>
+                                              <td>
+                                                <img
+                                                  width={80}
+                                                  src={item?.subCategoryImage}
+                                                ></img>
+                                              </td>
+                                              <td>
+                                                {" "}
+                                                <div className="toggle-switch">
+                                                  <input
+                                                    type="checkbox"
+                                                    className="checkbox"
+                                                    id={index + 1}
+                                                    onClick={() => {
+                                                      CategoryStatus(index);
+                                                    }}
+                                                  />
+                                                  <label
+                                                    className="label"
+                                                    htmlFor={index + 1}
+                                                  >
+                                                    <span className="inner" />
+                                                    <span className="switch" />
+                                                  </label>
+                                                </div>
+                                              </td>
 
                                               <td>
                                                 <Link
@@ -506,7 +594,6 @@ const CategorySub = () => {
                                                   data-bs-target="#staticBackdrop2"
                                                   className="comman_btn2"
                                                   href="javascript:;"
-                                                  
                                                   key={index}
                                                   onClick={() => {
                                                     EditSubCategory(index);
@@ -571,7 +658,6 @@ const CategorySub = () => {
                           className="profile-pic"
                           width={250}
                           src={allCategories[categoryIndex]?.categoryImage}
-                          
                         />
                       </div>
                       <div className="p-image">
@@ -641,7 +727,9 @@ const CategorySub = () => {
                         <img
                           className="profile-pic"
                           width={150}
-                          src={allSubCategories[subCategoryIndex]?.subCategoryImage}
+                          src={
+                            allSubCategories[subCategoryIndex]?.subCategoryImage
+                          }
                         />
                       </div>
                       <div className="p-image">
@@ -651,8 +739,9 @@ const CategorySub = () => {
                           type="file"
                           accept="image/*"
                           name="newSubCategoryImg"
-                          onChange={(e) => onFileSelection(e, "newSubCategoryImg")}
-
+                          onChange={(e) =>
+                            onFileSelection(e, "newSubCategoryImg")
+                          }
                         />
                       </div>
                     </div>
@@ -661,7 +750,9 @@ const CategorySub = () => {
                     <label htmlFor="">Sub Category Name</label>
                     <input
                       type="text"
-                      defaultValue={allSubCategories[subCategoryIndex]?.subCategoryName}
+                      defaultValue={
+                        allSubCategories[subCategoryIndex]?.subCategoryName
+                      }
                       className="form-control"
                       onChange={(e) => {
                         setEditSubCateName(e.target.value);
@@ -669,7 +760,12 @@ const CategorySub = () => {
                     />
                   </div>
                   <div className="form-group mb-0 col-auto mt-3">
-                    <button className="comman_btn" onClick={onEditSaveSubCategory}>Save</button>
+                    <button
+                      className="comman_btn"
+                      onClick={onEditSaveSubCategory}
+                    >
+                      Save
+                    </button>
                   </div>
                 </form>
               </div>

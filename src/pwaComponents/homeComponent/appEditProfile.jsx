@@ -8,6 +8,7 @@ import {
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
+import { toast } from "react-toastify";
 
 function AppEditProfile() {
   const [detail, setDetail] = useState("");

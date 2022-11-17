@@ -300,15 +300,9 @@ const AddUser = () => {
                           )}
                           name="dba"
                           id="DBA"
-                          {...register("dba", {
-                            required: "DBA Name is Required*",
-                          })}
+                          {...register("dba")}
                         />
-                        {errors.dba && (
-                          <small className="errorText mx-1 fw-bold">
-                            {errors.dba?.message}
-                          </small>
-                        )}
+                       
                       </div>
                       <div className="form-group col-6 mb-4">
                         <label htmlFor="address" className="fw-bold fs-6">
@@ -501,20 +495,14 @@ const AddUser = () => {
                               type="file"
                               id="file1"
                               name="federalTaxId"
-                              {...register("federalTaxId", {
-                                required: "ID is Required*",
-                              })}
+                              {...register("federalTaxId")}
                               onChange={(e) =>
                                 onFileSelection(e, "federalTaxId")
                               }
                             />
-                            {errors.federalTaxId && (
-                              <small className="errorText mx-1 fw-bold">
-                                {errors.federalTaxId?.message}
-                              </small>
-                            )}
+                           
 
-                            <label htmlFor="file1">
+                            <label htmlFor="file1" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={26} />
                                 <h1 className=" fs-6 mt-2 text-secondary">{files.federalTaxId?.name}</h1>
@@ -535,20 +523,14 @@ const AddUser = () => {
                               type="file"
                               id="file2"
                               name="tobaccoLicence"
-                              {...register("tobaccoLicence", {
-                                required: "ID is Required*",
-                              })}
+                              {...register("tobaccoLicence")}
                               onChange={(e) =>
                                 onFileSelection(e, "tobaccoLicence")
                               }
                             />
-                            {errors.tobaccoLicence && (
-                              <small className="errorText mx-1 fw-bold">
-                                {errors.tobaccoLicence?.message}
-                              </small>
-                            )}
+                            
 
-                            <label htmlFor="file2">
+                            <label htmlFor="file2" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
                                 <h1 className=" fs-6 mt-2 text-secondary">{files.tobaccoLicence?.name}</h1>
@@ -570,17 +552,11 @@ const AddUser = () => {
                               type="file"
                               id="file3"
                               name="salesTaxId"
-                              {...register("salesTaxId", {
-                                required: "ID is Required*",
-                              })}
+                              {...register("salesTaxId")}
                               onChange={(e) => onFileSelection(e, "salesTaxId")}
                             />
-                            {errors.salesTaxId && (
-                              <small className="errorText mx-1 fw-bold">
-                                {errors.salesTaxId?.message}
-                              </small>
-                            )}
-                            <label htmlFor="file3">
+                           
+                            <label htmlFor="file3" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
                                 <h1 className=" fs-6 mt-2 text-secondary">{files.salesTaxId?.name}</h1>
@@ -604,19 +580,13 @@ const AddUser = () => {
                               type="file"
                               id="file4"
                               name="businessLicense"
-                              {...register("businessLicense", {
-                                required: "ID is Required*",
-                              })}
+                              {...register("businessLicense")}
                               onChange={(e) =>
                                 onFileSelection(e, "businessLicense")
                               }
                             />
-                            {errors.businessLicense && (
-                              <small className="errorText mx-1 fw-bold">
-                                {errors.businessLicense?.message}
-                              </small>
-                            )}
-                            <label htmlFor="file4">
+                           
+                            <label htmlFor="file4" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
                                 <h1 className=" fs-6 mt-2 text-secondary">{files.businessLicense?.name}</h1>
@@ -684,20 +654,14 @@ const AddUser = () => {
                               type="file"
                               id="file5"
                               name="accountOwnerId"
-                              {...register("accountOwnerId", {
-                                required: "ID is Required*",
-                              })}
+                              {...register("accountOwnerId")}
                               onChange={(e) =>
                                 onFileSelection(e, "accountOwnerId")
                               }
                             />
-                            {errors.accountOwnerId && (
-                              <small className="errorText mx-1 fw-bold">
-                                {errors.accountOwnerId?.message}
-                              </small>
-                            )}
+                           
 
-                            <label htmlFor="file5">
+                            <label htmlFor="file5" className="mt-2">
                               <div className="">
                                 <FaFileUpload size={25} />
                                 <h1 className=" fs-6 mt-2 text-secondary">{files.accountOwnerId?.name}</h1>
