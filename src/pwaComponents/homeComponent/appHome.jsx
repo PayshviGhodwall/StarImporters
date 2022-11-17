@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppHeader from "./appHeader";
 import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-
-import $ from "jquery";
 import { Link } from "react-router-dom";
+import { homeBanner } from "../httpServices/homeHttpService/homeHttpService";
 
 function AppHome() {
+  const [banner, setBanner] = useState("");
+
+  useEffect(() => {
+    getBanner();
+  }, []);
+
+  const getBanner = async () => {
+    const { data } = await homeBanner();
+    if (!data.error) {
+      setBanner(data.results);
+    }
+  };
   return (
     <>
       <div className="star_imp_app">

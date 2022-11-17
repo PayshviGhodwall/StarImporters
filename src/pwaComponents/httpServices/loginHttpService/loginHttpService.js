@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export async function userLogin(formData) {
   try {
     const { data, headers } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}user/login`,
+      `${process.env.REACT_APP_APIENDPOINT}/user/login`,
       formData
     );
     console.log(data, headers);
@@ -27,7 +27,7 @@ export async function userLogin(formData) {
 export async function userRegister(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}user/register`,
+      `${process.env.REACT_APP_APIENDPOINT}/user/register`,
       formData
     );
     console.log(data);
@@ -47,7 +47,7 @@ export async function userRegister(formData) {
 export async function forgotPassword(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}user/forgotPassword`,
+      `${process.env.REACT_APP_APIENDPOINT}/user/forgotPassword`,
       formData
     );
     console.log(data);
@@ -67,7 +67,7 @@ export async function forgotPassword(formData) {
 export async function verifyOTP(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}user/verifyOTP`,
+      `${process.env.REACT_APP_APIENDPOINT}/user/verifyOTP`,
       formData
     );
     console.log(data);
@@ -85,7 +85,7 @@ export async function verifyOTP(formData) {
 export async function updatePassword(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}user/updatePassword`,
+      `${process.env.REACT_APP_APIENDPOINT}/user/updatePassword`,
       formData
     );
     console.log(data);
