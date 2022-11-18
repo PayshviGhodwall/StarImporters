@@ -542,7 +542,6 @@ const CategorySub = () => {
                                           <th>Category Name</th>
                                           <th>Sub Category Name</th>
                                           <th>Media</th>
-                                          <th>Status</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -567,27 +566,7 @@ const CategorySub = () => {
                                                   src={item?.subCategoryImage}
                                                 ></img>
                                               </td>
-                                              <td>
-                                                {" "}
-                                                <div className="toggle-switch">
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checkbox"
-                                                    id={index + 1}
-                                                    onClick={() => {
-                                                      CategoryStatus(index);
-                                                    }}
-                                                  />
-                                                  <label
-                                                    className="label"
-                                                    htmlFor={index + 1}
-                                                  >
-                                                    <span className="inner" />
-                                                    <span className="switch" />
-                                                  </label>
-                                                </div>
-                                              </td>
-
+                                              
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"

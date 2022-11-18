@@ -39,7 +39,8 @@ const Inventory = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
-
+  const [NN,setNN] = useState(false)
+  const [NewMessage,setNewMessage] = useState("")
   const {
     register,
     handleSubmit,
@@ -61,7 +62,7 @@ const Inventory = () => {
 
     getBrands();
     GetProducts();
-  }, [change, formValues]);
+  }, [change]);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
@@ -86,6 +87,7 @@ const Inventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
+  console.log(formValues);
 
   const addFormFields = (e) => {
     setFormValues([
@@ -94,10 +96,11 @@ const Inventory = () => {
     ]);
   };
   const removeFormFields = (index) => {
-    console.log(index - 1);
     let newFormValues = [...formValues];
     newFormValues?.splice(index, 1);
     setFormValues(newFormValues);
+    setChange(!change)
+    setNN(!NN)
   };
 
   const productImageSelection = (e) => {
@@ -136,9 +139,14 @@ const Inventory = () => {
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
           setChange(!change);
-          reset({ productImage: [], productName: "", PBarcode: "" });
-        }
-      });
+        } 
+      })
+      .catch((err)=>{
+        if (err.response?.data?.message === "Please enter valid Details of product") {
+          setNewMessage("Please Enter All Details of product*")
+        } 
+
+      })
   };
   const onSearch = async (e) => {
     e.preventDefault();
@@ -530,9 +538,10 @@ const Inventory = () => {
                     <div className="form-group col-12 mt-2 mb-4">
                       <form className="">
                         <div className="row flavour_box align-items-end mx-0 py-4 px-3">
+                         <p className="text-danger fw-bold"> {NewMessage}</p> 
                           {(formValues || [])?.map((element, index) => (
-                            <div className="form-group mb-0 col-12">
-                              <div className="row" key={index}>
+                            <div className="form-group mb-0 col-11">
+                              <div className="row" key={index + NN}>
                                 <div className="form-group col-2">
                                   <label htmlFor="">Type</label>
                                   <input
@@ -583,7 +592,7 @@ const Inventory = () => {
                                     />
                                   </div>
                                 </div>
-                                <div className="form-group mb-0 col-3 mt-1 choose_fileInvent position-relative">
+                                <div className="form-group mb-0 col-4 mt-1 choose_fileInvent position-relative">
                                   <span>Flavour Image </span>{" "}
                                   <label
                                     htmlFor="upload_video"
@@ -603,31 +612,27 @@ const Inventory = () => {
                                     }
                                   />
                                 </div>
-                                {index ? (
-                                  <div className="form-group col-2  add_btn">
-                                    <button
-                                      className="comman_btn "
-                                      type="button"
-                                      onClick={() => removeFormFields(index)}
-                                    >
-                                      Remove
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <div className="form-group mb-0 col-2 add_btn">
-                                    <button
-                                      className="comman_btn mb-4"
-                                      type="button"
-                                      onClick={() => addFormFields(index)}
-                                    >
-                                      <i className="fa fa-plus mt-1 mx-1" /> Add
-                                      More
-                                    </button>
-                                  </div>
-                                )}
+                                <div className="form-group col-1  rmv_btn">
+                                  <button
+                                    className="comman_btn "
+                                    type="button"
+                                    onClick={() => removeFormFields(index)}
+                                  >
+                                    <i className="fa fa-minus mt-1 mx-1" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           ))}
+                          <div className="form-group mb-4 col-1">
+                            <button
+                              className="comman_btn mb-4 add_btn"
+                              type="button"
+                              onClick={() => addFormFields()}
+                            >
+                              <i className="fa fa-plus mt-1 mx-1" />
+                            </button>
+                          </div>
                         </div>
                       </form>
                     </div>

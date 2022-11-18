@@ -31,7 +31,7 @@ const Login = () => {
       .then((res) => {
         if (res?.data.message === "Logged In") {
           setApiData(res?.data);
-          localStorage.setItem("loginToken", res?.data?.results.token);
+          localStorage.setItem("token-user", res?.data?.results.token);
           localStorage.setItem(
             "UserData",
             JSON.stringify(res?.data?.results?.verifyUser)

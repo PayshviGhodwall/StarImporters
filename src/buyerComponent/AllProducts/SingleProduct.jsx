@@ -3,6 +3,7 @@ import Footer from "../Footer/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../Homepage/Navbar";
 import { useEffect } from "react";
+
 import axios from "axios";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,20 +11,25 @@ import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Swal from "sweetalert2";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
-  const [unitCount, setUnitCount] = useState(0);
+  const [unitCount, setUnitCount] = useState(3);
   const [minDisable, setMinDisable] = useState(true);
   const [category, setCategory] = useState([]);
+  const [NState, setNState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
+  const [cartProduct,setCartProduct]= useState([])
   let location = useLocation();
   let objectId = location.state.id;
-  console.log(location, "joooo");
-  console.log(productImages);
+
+  axios.defaults.headers.common["x-auth-token-user"] =
+    localStorage.getItem("token-user");
+
   useEffect(() => {
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
@@ -43,19 +49,55 @@ const SingleProduct = () => {
     NewProducts();
   }, []);
 
-
-  const AddtoCart = async() =>{
-    await axios.post(addCart,{
-      productId:objectId,
-      quantity:unitCount
-    }).then((res)=>{
-      console.log(res);
-    })
-  }
+  const AddtoCart = async () => {
+    console.log(objectId);
+    cartProduct.push(objectId)
+    cartProduct.push(unitCount)
+    console.log(cartProduct);
+    await axios
+      .post(addCart, {
+        productId: cartProduct[0],
+        quantity: cartProduct[1],
+      })
+      .then((res) => {
+        if (res.data?.message === "Product added to cart") {
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      })
+      .catch((err) => {
+        if (
+          err.response?.data?.message === "Access Denied. No token provided."
+        ) {
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+        if (err.response?.data?.message === "You are not Authenticated Yet") {
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+        if (err.response?.data?.message === "Product added to cart") {
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      });
+  };
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
-      <Navbar />
+      <Navbar NState={NState} />
       <section className="comman_banner _banner">
         <div className="container ">
           <div className="row">
@@ -270,6 +312,7 @@ const SingleProduct = () => {
                           <div className="col-12 mt-3">
                             <a
                               className="comman_btn me-2 rounded"
+                              style={{ cursor: "pointer" }}
                               onClick={AddtoCart}
                             >
                               Add To Cart

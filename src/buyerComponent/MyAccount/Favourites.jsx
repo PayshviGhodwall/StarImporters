@@ -134,6 +134,18 @@ const Favourites = () => {
                       </h4>
                     </div>
                   </Link>
+                  <Link
+                    to="/BuyAgain"
+                    style={{ textDecoration: "none", fontSize: "15px" }}
+                    className="nav-link"
+                  >
+                    <div className="nav px-3 py-2 border  " role="tablist">
+                      <h4 className="">
+                        <i className="fa fa-shopping-cart mt-1" />
+                        <span className="fs-6 mx-2">BUY AGAIN</span>
+                      </h4>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

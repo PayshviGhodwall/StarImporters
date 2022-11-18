@@ -8,12 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
-import staticImg from "../../assets/img/banner_img.png";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Banner from "../../assets/img/banner_img1.jpg";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
 import { useEffect } from "react";
@@ -97,7 +95,13 @@ const Homepage = ({ GetData }) => {
                 </p>
 
                 <Link to="/Register" className="text-decoration-none ">
-                  <button className={allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"}>SignUp</button>
+                  <button
+                    className={
+                      allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"
+                    }
+                  >
+                    SignUp
+                  </button>
                 </Link>
               </div>
             </div>
@@ -114,7 +118,11 @@ const Homepage = ({ GetData }) => {
                 <p className="fs-6 bannerTxt">{allSlides[1]?.description}</p>
 
                 <Link to="/Register" className="text-decoration-none ">
-                  <button className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}>SignUp</button>
+                  <button
+                    className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}
+                  >
+                    SignUp
+                  </button>
                 </Link>
               </div>
             </div>

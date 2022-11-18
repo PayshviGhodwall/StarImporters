@@ -78,6 +78,9 @@ import AppCheckout from "./pwaComponents/homeComponent/appCheckout";
 import AppThankyou from "./pwaComponents/homeComponent/appThankyou";
 import AppContactUs from "./pwaComponents/homeComponent/appContactUs";
 import AppLogout from "./pwaComponents/homeComponent/appLogout";
+import Cart from "./buyerComponent/Cart/Cart";
+import BuyAgain from "./buyerComponent/MyAccount/BuyAgain";
+
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -109,6 +112,8 @@ function App() {
           <Route path="/Account" element={<Account />} />
           <Route path="/Favourites" element={<Favourites />} />
           <Route path="/Contact" element={<Contact />} />
+          <Route path="/BuyAgain" element={<BuyAgain />} />
+
           <Route path="/AgeVerified" element={<AgeVerification />} />
           <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
           <Route path="/Terms&Condition" element={<TermsCondition />} />
@@ -121,6 +126,8 @@ function App() {
           <Route path="/Brands/Products" element={<ProductByBrand />} />
           <Route path="/AllProducts/Product" element={<SingleProduct />} />
           <Route path="/AllBrands" element={<AllBrands />} />
+          <Route path="/Cart" element={<Cart />} />
+
 
           {/* admin Routes */}
           <Route path="/AdminLogin" element={<AdminLogin />} />

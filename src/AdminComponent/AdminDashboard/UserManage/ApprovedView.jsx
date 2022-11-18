@@ -1,10 +1,9 @@
 import React from "react";
 import { useState } from "react";
-
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { FaFileUpload } from "react-icons/fa";
-
+import { saveAs } from "file-saver";
 import Starlogo from "../../../assets/img/logo.png";
 import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
@@ -37,7 +36,9 @@ const ApprovedView = () => {
     };
     getUser();
   }, []);
-
+  const fileDownload = (url) => {
+    saveAs(url);
+  };
   const genPassword = async () => {
     await axios.post(generatePass + "/" + objectId).then((res) => {
       if (res?.data.message === "password Generated") {
@@ -361,10 +362,7 @@ const ApprovedView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.tobaccoLicence,
-                                      "tobaccoLicence.jpg"
-                                    );
+                                    fileDownload(user?.tobaccoLicence);
                                   }}
                                 >
                                   {user.tobaccoLicence ? (
@@ -407,10 +405,7 @@ const ApprovedView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.salesTaxId,
-                                      "salesTaxId.jpg"
-                                    );
+                                    fileDownload(user?.salesTaxId);
                                   }}
                                 >
                                   {user.salesTaxId ? (
@@ -453,10 +448,7 @@ const ApprovedView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.businessLicense,
-                                      "businessLicense.jpg"
-                                    );
+                                    fileDownload(user?.businessLicense);
                                   }}
                                 >
                                   {user.businessLicense ? (
@@ -515,13 +507,10 @@ const ApprovedView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.accountOwnerId,
-                                      "accountOwnerId.jpg"
-                                    );
+                                    fileDownload(user?.accountOwnerId);
                                   }}
                                 >
-                                 {user.accountOwnerId ? (
+                                  {user.accountOwnerId ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
                                     <FaFileUpload size={25} color="red" />

@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
-
+import { saveAs } from "file-saver";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-
 import Starlogo from "../../../assets/img/logo.png";
 import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
@@ -13,11 +12,9 @@ import ProfileBar from "../ProfileBar";
 
 const ReturnedView = () => {
   const [sideBar, setSideBar] = useState(true);
-
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`
-  const approveUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`
-  const rejectUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`
-
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
+  const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
+  const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
   const [user, setUser] = useState([]);
   const [approveText, setApproveText] = useState("Approve");
   axios.defaults.headers.common["x-auth-token-admin"] =
@@ -34,7 +31,9 @@ const ReturnedView = () => {
     };
     getUser();
   }, []);
-
+  const fileDownload = (url) => {
+    saveAs(url);
+  };
   const approveUser = async () => {
     const res = await axios.post(approveUrl + "/" + objectId, {
       isVerified: true,
@@ -54,8 +53,8 @@ const ReturnedView = () => {
   };
 
   return (
-    <div className={sideBar? "admin_main" : "expanded_main"}>
-    <div className={sideBar? "siderbar_section": "d-none"}>
+    <div className={sideBar ? "admin_main" : "expanded_main"}>
+      <div className={sideBar ? "siderbar_section" : "d-none"}>
         <div className="siderbar_inner">
           <div className="sidebar_logo">
             <Link to="" className="">
@@ -176,7 +175,7 @@ const ReturnedView = () => {
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
-          <div className="col">
+            <div className="col">
               {sideBar ? (
                 <div>
                   <h1
@@ -185,7 +184,9 @@ const ReturnedView = () => {
                       console.log("yello");
                       setSideBar(!sideBar);
                     }}
-                  ><i className="fa fa-bars"></i></h1>
+                  >
+                    <i className="fa fa-bars"></i>
+                  </h1>
                 </div>
               ) : (
                 <div>
@@ -193,7 +194,7 @@ const ReturnedView = () => {
                     <button
                       onClick={(e) => {
                         console.log(e);
-                        setSideBar(!sideBar)
+                        setSideBar(!sideBar);
                       }}
                     >
                       X
@@ -205,7 +206,6 @@ const ReturnedView = () => {
             <div className="col-auto d-flex ml-5">
               <ProfileBar />
             </div>
-            
           </div>
         </div>
       </div>
@@ -305,8 +305,15 @@ const ReturnedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.federalTaxId}
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => {
+                                    fileDownload(user?.federalTaxId)
+                                  }}
+                                >
+                                  <FaFileUpload size={25} />
+                                  {user?.federalTaxId}
+                                </Link>
                               </div>
                             </label>
                           </div>
@@ -324,8 +331,15 @@ const ReturnedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.tobaccoLicence}
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => {
+                                    fileDownload(user?.tobacoLicence);
+                                  }}
+                                >
+                                  <FaFileUpload size={25} />
+                                  {user?.tobacoLicence}
+                                </Link>
                               </div>
                             </label>
                           </div>
@@ -343,8 +357,15 @@ const ReturnedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.salesTaxId}
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => {
+                                    fileDownload(user?.salesTaxId);
+                                  }}
+                                >
+                                  <FaFileUpload size={25} />
+                                  {user?.salesTaxId}
+                                </Link>
                               </div>
                             </label>
                           </div>
@@ -362,8 +383,15 @@ const ReturnedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.businessLicense}
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => {
+                                    fileDownload(user?.businessLicense);
+                                  }}
+                                >
+                                  <FaFileUpload size={25} />
+                                  {user?.businessLicense}
+                                </Link>
                               </div>
                             </label>
                           </div>
@@ -397,8 +425,15 @@ const ReturnedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.accountOwnerId}
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => {
+                                    fileDownload(user?.accountOwnerId);
+                                  }}
+                                >
+                                  <FaFileUpload size={25} />
+                                  {user?.accountOwnerId}
+                                </Link>
                               </div>
                             </label>
                           </div>

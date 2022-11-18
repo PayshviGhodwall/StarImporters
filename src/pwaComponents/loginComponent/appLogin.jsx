@@ -33,6 +33,7 @@ function AppLogin() {
       toast.error("Invalid Email or Phone Number");
       return;
     }
+    formData.password = data?.password;
 
     const response = await userLogin(formData);
     if (!response.data.error) {

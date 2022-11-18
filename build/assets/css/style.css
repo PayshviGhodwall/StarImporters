@@ -231,7 +231,12 @@
     font-size: 13px;
     display: block;
   }
+  .product_parts_box:hover{
+    behavior: smooth;
+    transform: scale(1.1);
+    transition:  0.2s ease;
 
+  }
   .forms_modal_content .form-group label a {
     font-weight: 600;
   }
@@ -2479,7 +2484,7 @@
     width: 30px;
   }
   .comman_banner {
-    background-image: url(../../../public/assets/img/banner_1.jpg);
+    background-image: url(../img/banner_2.png);
   }
   ._banner {
     height: 230px;
@@ -4451,8 +4456,12 @@ background-color: #3e4093;
   .textArea {
     height: 15rem !important;
   }
-  .add_btn {
+  .rmv_btn{
     margin-top: 30px !important;
+  }
+  .add_btn {
+    position: relative;
+    top: 25px;
   }
   /* tags input*/
 

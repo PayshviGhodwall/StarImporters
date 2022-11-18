@@ -1,14 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.04ea5fe2.css",
-    "main.js": "/static/js/main.a534afdc.js",
-    "static/media/banner_img.png": "/static/media/banner_img.4e31979abef4eadbd2c7.png",
+    "main.js": "/static/js/main.c8650994.js",
     "static/media/logo.png": "/static/media/logo.967205a2e98fe897dcdc.png",
     "static/media/product_5.png": "/static/media/product_5.2ecb99a3b2282af6569b.png",
     "static/media/product_4.png": "/static/media/product_4.afee817cd02d12cefd69.png",
     "static/media/cigars_img.png": "/static/media/cigars_img.aa83408a38acfb344f4a.png",
     "static/media/profile_img1.png": "/static/media/profile_img1.4f4e5c53f25b67f08435.png",
-    "static/media/banner_img1.jpg": "/static/media/banner_img1.8ba076339837f91f9fd1.jpg",
     "static/media/product_new4.png": "/static/media/product_new4.4a0e6a318ea6fbb305ee.png",
     "static/media/product_new9.png": "/static/media/product_new9.168aa553d46fb4766802.png",
     "static/media/product_new6.png": "/static/media/product_new6.d8d0d62d7e16bfa32254.png",
@@ -17,10 +15,10 @@
     "static/media/product_new3.png": "/static/media/product_new3.aa4ec19912cf3d13f2c8.png",
     "index.html": "/index.html",
     "main.04ea5fe2.css.map": "/static/css/main.04ea5fe2.css.map",
-    "main.a534afdc.js.map": "/static/js/main.a534afdc.js.map"
+    "main.c8650994.js.map": "/static/js/main.c8650994.js.map"
   },
   "entrypoints": [
     "static/css/main.04ea5fe2.css",
-    "static/js/main.a534afdc.js"
+    "static/js/main.c8650994.js"
   ]
 }

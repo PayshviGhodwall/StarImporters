@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-
+import { saveAs } from "file-saver";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 
@@ -19,14 +19,12 @@ const PendingView = () => {
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
   const [sideBar, setSideBar] = useState(true);
-
   const [user, setUser] = useState([]);
   const [approveText, setApproveText] = useState("Approve");
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -55,10 +53,8 @@ const PendingView = () => {
       })
       .then((res) => {
         if (res?.data.message === "Rejected") {
-
           document.getElementById("modal-close21").click();
           navigate("/UserManage");
-
         }
       });
   };
@@ -72,6 +68,9 @@ const PendingView = () => {
     getUser();
   }, []);
 
+  const fileDownload = (url) => {
+    saveAs(url);
+  };
   const approveUser = async () => {
     const res = await axios.post(approveUrl + "/" + objectId);
     console.log(res, "hii");
@@ -375,10 +374,7 @@ const PendingView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.tobaccoLicence,
-                                      "tobaccoLicence.jpg"
-                                    );
+                                    fileDownload(user?.tobaccoLicence);
                                   }}
                                 >
                                   <FaFileDownload size={25} />
@@ -408,10 +404,7 @@ const PendingView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.salesTaxId,
-                                      "salesTaxId.jpg"
-                                    );
+                                    fileDownload(user?.salesTaxId);
                                   }}
                                 >
                                   <FaFileDownload size={25} />
@@ -441,10 +434,7 @@ const PendingView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.businessLicense,
-                                      "businessLicense.jpg"
-                                    );
+                                    fileDownload(user?.businessLicense);
                                   }}
                                 >
                                   <FaFileDownload size={25} />
@@ -490,16 +480,12 @@ const PendingView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(
-                                      user?.accountOwnerId,
-                                      "accountOwnerId.jpg"
-                                    );
+                                    fileDownload(user?.businessLicense);
                                   }}
                                 >
                                   <FaFileDownload size={25} />
 
-                                  <p className="" style={{ fontSize: "9px" }}>
-                                    {" "}
+                                  <p style={{ fontSize: "9px" }}>
                                     {user?.accountOwnerId}
                                   </p>
                                 </Link>

@@ -15,11 +15,16 @@ import axios from "axios";
 
 const Navbar = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
+  const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
   const [otpEmail, setOtpEmail] = useState();
   const [UserAuth, setUserAuth] = useState("");
   const [scrolled, setScrolled] = useState(false);
+  const [cartNum, setCartNum] = useState(0);
+
+  axios.defaults.headers.common["x-auth-token-user"] =
+  localStorage.getItem("token-user");
 
   const getEmail = (data) => {
     setOtpEmail(data);
@@ -30,19 +35,29 @@ const Navbar = () => {
       setCategory(res?.data.results);
     });
   };
+
   useEffect(() => {
+    CartCount();
     getCategory();
     handleScroll();
   }, []);
   useEffect(() => {
     // if (window.localStorage !== undefined) {
-    const authToken = localStorage.getItem("loginToken");
+    const authToken = localStorage.getItem("token-user");
     setUserAuth(authToken);
     // }
   }, [UserAuth]);
 
+  const CartCount = async () => {
+    await axios.get(cart).then((res) => {
+      console.log(res);
+      
+      setCartNum(res?.data.results);
+    });
+  };
+
   const LogOut = () => {
-    setUserAuth(localStorage.removeItem("loginToken"));
+    setUserAuth(localStorage.removeItem("token-user"));
     setUserAuth(localStorage.removeItem("UserData"));
     navigate("/");
     window.location.reload();
@@ -93,7 +108,7 @@ const Navbar = () => {
               <Link to="/Cart">
                 <i className="fa fa-cart-arrow-down" />
 
-                <span className="count">0</span>
+                <span className="count">{cartNum}</span>
               </Link>
               <Link to="javascript:;">
                 <i className="far fa-bell" />
@@ -129,6 +144,7 @@ const Navbar = () => {
                   to=""
                   className="login_btns mt-2"
                   data-bs-toggle="modal"
+                  id="modal-login"
                   data-bs-target="#staticBackdrop1"
                   aria-current="page"
                   href="#"
@@ -190,7 +206,7 @@ const Navbar = () => {
               ))}
 
               <li>
-                <Link className="text-decoration-none" to="AllBrands">
+                <Link className="text-decoration-none" to="/AllBrands">
                   Brands
                 </Link>
               </li>
