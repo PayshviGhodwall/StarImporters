@@ -132,7 +132,7 @@ function AppSignUp() {
                         placeholder=""
                         name="dba"
                         id="dba"
-                        {...register("dba", { required: true })}
+                        {...register("dba")}
                       />
 
                       {errors?.dba && (

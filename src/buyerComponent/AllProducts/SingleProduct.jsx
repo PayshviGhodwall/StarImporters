@@ -24,6 +24,8 @@ const SingleProduct = () => {
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
   const [cartProduct,setCartProduct]= useState([])
+  const [succesMsg,setSuccesMsg]= useState("")
+  const [change,setChange] = useState(false)
   let location = useLocation();
   let objectId = location.state.id;
 
@@ -47,7 +49,7 @@ const SingleProduct = () => {
 
     getCategory();
     NewProducts();
-  }, []);
+  }, [change]);
 
   const AddtoCart = async () => {
     console.log(objectId);
@@ -60,12 +62,9 @@ const SingleProduct = () => {
         quantity: cartProduct[1],
       })
       .then((res) => {
-        if (res.data?.message === "Product added to cart") {
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
+        if (res.data?.message === "Product added") {
+        setSuccesMsg("Product added to Cart!")
+         setChange(!change)
         }
       })
       .catch((err) => {
@@ -309,7 +308,8 @@ const SingleProduct = () => {
                               </span>
                             </div>
                           </div>
-                          <div className="col-12 mt-3">
+                          <p className="text-success fw-bold">{succesMsg}</p>
+                          <div className="col-12 mt-3 ">
                             <a
                               className="comman_btn me-2 rounded"
                               style={{ cursor: "pointer" }}

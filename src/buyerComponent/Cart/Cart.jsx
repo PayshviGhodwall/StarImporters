@@ -10,8 +10,7 @@ const Cart = () => {
   const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
-  axios.defaults.headers.common["x-auth-token-user"] =
-    localStorage.getItem("loginToken");
+  
   const getCart = async () => {
     await axios.get(getCartProducts).then((res) => {
       setProduct(res?.data.results);
@@ -22,6 +21,7 @@ const Cart = () => {
     setToken(localStorage.getItem("loginToken"));
     getCart();
   }, []);
+  
   console.log(product);
   return (
     <div>
