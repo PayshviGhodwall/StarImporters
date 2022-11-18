@@ -181,6 +181,10 @@ function App() {
             path="/app/home"
             element={width < 768 ? <AppHome /> : <Homepage />}
           />
+          <Route
+            path="/app/homeGuest"
+            element={width < 768 ? <AppHome /> : <Homepage />}
+          />
           <Route path="/app/cart" element={<AppCart />} />
           <Route
             path="/app/settings"

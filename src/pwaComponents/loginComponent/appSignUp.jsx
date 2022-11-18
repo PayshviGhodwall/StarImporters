@@ -32,24 +32,21 @@ function AppSignUp() {
       console.log(data[item]);
     }
 
-    if (
-      !(
-        selectedFile1 &&
-        selectedFile2 &&
-        selectedFile3 &&
-        selectedFile4 &&
-        selectedFile5
-      )
-    ) {
-      toast.error("Please attach all the required documents");
-      return;
+    if (selectedFile1) {
+      formData.append("federalTaxId", selectedFile1, selectedFile1.name);
     }
-
-    formData.append("federalTaxId", selectedFile1, selectedFile1.name);
-    formData.append("tobaccoLicence", selectedFile2, selectedFile2.name);
-    formData.append("salesTaxId", selectedFile3, selectedFile3.name);
-    formData.append("businessLicense", selectedFile4, selectedFile4.name);
-    formData.append("accountOwnerId", selectedFile5, selectedFile5.name);
+    if (selectedFile2) {
+      formData.append("tobaccoLicence", selectedFile2, selectedFile2.name);
+    }
+    if (selectedFile3) {
+      formData.append("salesTaxId", selectedFile3, selectedFile3.name);
+    }
+    if (selectedFile4) {
+      formData.append("businessLicense", selectedFile4, selectedFile4.name);
+    }
+    if (selectedFile5) {
+      formData.append("accountOwnerId", selectedFile5, selectedFile5.name);
+    }
 
     const link = document.getElementById("open");
     link.click();

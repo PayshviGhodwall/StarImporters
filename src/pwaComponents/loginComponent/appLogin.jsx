@@ -122,7 +122,7 @@ function AppLogin() {
                 </div>
 
                 <div className="view-as-guest mt-3">
-                  <Link className="btn" to="/app/home">
+                  <Link className="btn" to="/app/homeGuest">
                     View as Guest
                   </Link>
                 </div>
