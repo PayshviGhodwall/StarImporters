@@ -45,7 +45,14 @@ const AdminLogin = () => {
            }
         })
       }
-      
+      const togglePassword = () => {
+        let x = document.getElementById("floatingPassword");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      };
   return (
     <div>
       <section className="login_page">
@@ -123,6 +130,10 @@ const AdminLogin = () => {
                       >
                         Password
                       </label>
+                      <span
+                        onClick={togglePassword}
+                        className="fa fa-fw fa-eye field-icon toggle-password"
+                      />
                     </div>
                     <div className="form-group forgot_password mb-md-3 mb-3">
                       <Link to="/AdminForgotPassword" className="text-decoration-none fs-6" 

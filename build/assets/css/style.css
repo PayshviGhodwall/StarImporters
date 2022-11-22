@@ -115,6 +115,17 @@
     margin: 0 15px;
     text-decoration: none;
   }
+  .fade-scale {
+    transform: scale(0);
+    opacity: 0;
+    -webkit-transition: all .25s linear;
+    -o-transition: all .25s linear;
+    transition: all .25s linear;
+  }
+  .fade-scale.in {
+    opacity: 1;
+    transform: scale(1);
+  }
   .social_icon a {
     font-size: 19px;
     display: inline-block;
@@ -410,7 +421,7 @@
     color: #fff;
     display: flex !important;
     align-items: center;
-    width: 120px !important;
+    width: 110px !important;
     justify-content: center;
     text-align: center;
     border-radius: 4px 0 0 4px;
@@ -2514,8 +2525,8 @@
   }
   .arrow {
     position: relative;
-    top: 2px;
-    font-size: 20px;
+    top: 0px;
+    font-size: 18px;
   }
 
   /*  */
@@ -2624,7 +2635,7 @@
   }
 
   .sidebar_btn {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .siderbar_section {
@@ -2705,7 +2716,7 @@
     color: #fff;
     font-weight: 500;
     display: flex;
-    font-size: 15px;
+    font-size: 18px;
     padding: 16px 15px;
     border-radius: 15px 0 0 15px;
     position: relative;
@@ -3112,7 +3123,6 @@
     padding: 0.5rem;
   }
   .flavourImage .imageSection .flavour-pic {
-    width: 120px !important;
     height: 200px;
     object-fit: cover;
   }
@@ -3476,10 +3486,27 @@
     border-radius: 20px;
     transition: all 0.3s ease-in 0s;
   }
+  .switchF {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 30px;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+  }
   .checkbox:checked + .label .inner {
     margin-left: 0;
   }
   .checkbox:checked + .label .switch {
+    right: 0px;
+  }
+  .checkbox:checked + .label .switchF {
     right: 0px;
   }
   .admin_img {
@@ -4077,7 +4104,7 @@ background-color: #3e4093;
     color: #fff;
     display: flex !important;
     align-items: center;
-    width: 120px;
+    width: 110px;
     justify-content: center;
     text-align: center;
     border-radius: 8px 0 0 8px;
@@ -4092,7 +4119,7 @@ background-color: #3e4093;
     color: #fff;
     display: flex !important;
     align-items: center;
-    width: 120px;
+    width: 100px;
     justify-content: center;
     text-align: center;
     border-radius: 8px 0 0 8px;
@@ -4107,7 +4134,7 @@ background-color: #3e4093;
     color: #fff;
     display: flex !important;
     align-items: center;
-    width: 100px !important;
+    width: 110px !important;
     justify-content: center;
     text-align: center;
     border-radius: 8px 0 0 8px;
@@ -4501,6 +4528,7 @@ background-color: #3e4093;
 
   .tags-input {
     flex-grow: 1;
+    
     padding: 0.5em 0;
     border: none;
     outline: none;

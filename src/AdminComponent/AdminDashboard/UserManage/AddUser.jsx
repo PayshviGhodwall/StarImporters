@@ -100,7 +100,7 @@ const AddUser = () => {
                   className="fw-bold bg-white"
                   to="/UserManage"
                   style={{ textDecoration: "none", fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif",
+                  
                   color: "#3e4093",
                 }}
                 >
@@ -112,7 +112,7 @@ const AddUser = () => {
                   className=""
                   to="/CategorySub"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
                 </Link>
@@ -122,7 +122,7 @@ const AddUser = () => {
                   className=""
                   to="/Inventory"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                 <i class="far fa-building"></i>  Inventory Management
                 </Link>
@@ -132,7 +132,7 @@ const AddUser = () => {
                   className=""
                   to="/brandsManage"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                 <i class="fa fa-ship"></i>  Brands Management
                 </Link>
@@ -142,7 +142,7 @@ const AddUser = () => {
                   className=""
                   to="/OrderRequest"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                  <i class="fa fa-layer-group"></i>  Order request
                 </Link>
@@ -152,7 +152,7 @@ const AddUser = () => {
                   className=""
                   to="/Cms"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                  <i class="fa fa-cog"></i> CMS
                 </Link>
@@ -163,7 +163,7 @@ const AddUser = () => {
                   to="/AdminLogin"
                   onClick={handleClick}
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
                 </Link>
@@ -722,11 +722,6 @@ const AddUser = () => {
                               message: "maximium 10 Characters",
                             },
                             minLength: 10,
-                            pattern: {
-                              value:
-                                /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
-                              message: "Invalid Number",
-                            },
                           })}
                         />
                         {errors.phoneNumber && (

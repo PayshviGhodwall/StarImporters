@@ -168,7 +168,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-user"></i> User Management
@@ -181,7 +181,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                     color: "#3e4093",
                   }}
                 >
@@ -195,7 +195,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -208,7 +208,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -221,7 +221,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -234,7 +234,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -248,7 +248,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout

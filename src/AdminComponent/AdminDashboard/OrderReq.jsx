@@ -38,7 +38,7 @@ const OrderReq = () => {
                   className=""
                   to="/UserManage"
                   style={{ textDecoration: "none", fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif",
+                  
                 }}
                 >
                  <i class="fa fa-user"></i> User Management
@@ -49,7 +49,7 @@ const OrderReq = () => {
                   className=""
                   to="/CategorySub"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif",
+                  
                  }}
                 >
                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -60,7 +60,7 @@ const OrderReq = () => {
                   className=""
                   to="/Inventory"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", 
+                   
                 }}
                 >
                 <i class="far fa-building"></i>  Inventory Management
@@ -71,7 +71,7 @@ const OrderReq = () => {
                   className=""
                   to="/brandsManage"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                 <i class="fa fa-ship"></i>  Brands Management
                 </Link>
@@ -82,7 +82,7 @@ const OrderReq = () => {
                   to="/OrderRequest"
                   style={{ textDecoration: "none",  fontSize: "18px",
                   color: "#3e4093",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                  <i class="fa fa-layer-group"></i>  Order request
                 </Link>
@@ -92,7 +92,7 @@ const OrderReq = () => {
                   className=""
                   to="/Cms"
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                  <i class="fa fa-cog"></i> CMS
                 </Link>
@@ -103,7 +103,7 @@ const OrderReq = () => {
                   to="/AdminLogin"
                   onClick={handleClick}
                   style={{ textDecoration: "none",  fontSize: "18px",
-                  fontFamily: "'Rubik', sans-serif", }}
+                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
                 </Link>

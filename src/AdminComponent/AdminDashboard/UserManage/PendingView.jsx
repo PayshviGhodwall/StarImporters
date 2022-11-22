@@ -9,7 +9,7 @@ import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
 import fileDownload from "js-file-download";
-import { FaFileDownload } from "react-icons/fa";
+import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
 
@@ -116,7 +116,7 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+
                     color: "#3e4093",
                   }}
                 >
@@ -130,7 +130,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -143,7 +142,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -156,7 +154,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -169,7 +166,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -182,7 +178,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -196,7 +191,6 @@ const PendingView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -263,7 +257,7 @@ const PendingView = () => {
                     <div className="row py-2">
                       <div className="col-12 text-center mb-4">
                         <div className="Pending-view_img">
-                          <img src={profile} alt="" />
+                          <img src={Starlogo} alt="" />
                         </div>
                         <h4 className="user_name">{user?.firstName}</h4>
                       </div>
@@ -328,7 +322,13 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            user.federalTaxId
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }
+                        >
                           <span className="fw-bold">Federal Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -347,7 +347,11 @@ const PendingView = () => {
                                     fileDownload(user?.federalTaxId);
                                   }}
                                 >
-                                  <FaFileDownload size={25} />
+                                  {user?.tobaccoLicence ? (
+                                    <FaFileDownload size={25} color="black" />
+                                  ) : (
+                                    <FaFileUpload size={25} color="red" />
+                                  )}
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.federalTaxId}
                                   </p>
@@ -358,7 +362,13 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            user?.tobaccoLicence
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }
+                        >
                           <span className="fw-bold">Tobacco License:</span>
                           <div className="col img_box_show">
                             <input
@@ -377,7 +387,11 @@ const PendingView = () => {
                                     fileDownload(user?.tobaccoLicence);
                                   }}
                                 >
-                                  <FaFileDownload size={25} />
+                                  {user?.tobaccoLicence ? (
+                                    <FaFileDownload size={25} color="black" />
+                                  ) : (
+                                    <FaFileUpload size={25} color="red" />
+                                  )}
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.tobaccoLicence}
                                   </p>
@@ -388,7 +402,15 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            user?.salesTaxId
+
+                            
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }
+                        >
                           <span className="fw-bold">Sales Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -407,7 +429,11 @@ const PendingView = () => {
                                     fileDownload(user?.salesTaxId);
                                   }}
                                 >
-                                  <FaFileDownload size={25} />
+                                  {user.salesTaxId ? (
+                                    <FaFileDownload size={25} color="black" />
+                                  ) : (
+                                    <FaFileUpload size={25} color="red" />
+                                  )}
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.salesTaxId}
                                   </p>
@@ -418,7 +444,13 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            user?.businessLicense
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }
+                        >
                           <span className="fw-bold">Business License:</span>
                           <div className="col img_box_show">
                             <input
@@ -437,7 +469,11 @@ const PendingView = () => {
                                     fileDownload(user?.businessLicense);
                                   }}
                                 >
-                                  <FaFileDownload size={25} />
+                                  {user?.businessLicense ? (
+                                    <FaFileDownload size={25} color="black" />
+                                  ) : (
+                                    <FaFileUpload size={25} color="red" />
+                                  )}
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.businessLicense}
                                   </p>
@@ -464,7 +500,13 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-md-12 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            user?.accountOwnerId
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }
+                        >
                           <span className="fw-bold">Account Owner ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -480,10 +522,14 @@ const PendingView = () => {
                                   to=""
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(user?.businessLicense);
+                                    fileDownload(user?.accountOwnerId);
                                   }}
                                 >
-                                  <FaFileDownload size={25} />
+                                  {user.accountOwnerId ? (
+                                    <FaFileDownload size={25} color="black" />
+                                  ) : (
+                                    <FaFileUpload size={25} color="red" />
+                                  )}
 
                                   <p style={{ fontSize: "9px" }}>
                                     {user?.accountOwnerId}
@@ -798,7 +844,7 @@ const PendingView = () => {
                       </div>
                       <div className="col-md-12 text-center mt-4">
                         <button className="comman_btn2 rounded" type="submit">
-                          Decline
+                          Send To Email
                         </button>
                       </div>
                     </div>

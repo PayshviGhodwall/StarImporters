@@ -9,22 +9,31 @@ const ProductByCate = () => {
   const location = useLocation();
   console.log(location.state.name);
   const [category, setCategory] = useState({});
-  const getProduct =  `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`
+  const [brands, setBrands] = useState([]);
+  const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
+  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [products, setProducts] = useState([]);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
-   
+
   useEffect(() => {
     setCategory(location?.state.name);
     getProducts();
+    GetBrands();
   }, [location]);
-
-  const getProducts = async () => {
-    await axios.post(getProduct, {
-      category:location.state?.name
-    }).then((res) => {
-      setProducts(res.data?.results);
+  const GetBrands = async () => {
+    await axios.get(getBrands).then((res) => {
+      setBrands(res?.data.results);
     });
+  };
+  const getProducts = async () => {
+    await axios
+      .post(getProduct, {
+        category: location.state?.name,
+      })
+      .then((res) => {
+        setProducts(res.data?.results);
+      });
   };
 
   return (
@@ -79,7 +88,6 @@ const ProductByCate = () => {
                           aria-controls="collapse3"
                         >
                           Product Brands
-
                         </button>
                       </h2>
                       <div
@@ -90,58 +98,34 @@ const ProductByCate = () => {
                       >
                         <div className="accordion-body px-0 pt-3 pb-0">
                           <div className="row">
-                            <div className="col-12 form-group checkbox_design">
-                              <input
-                                className="d-none"
-                                type="checkbox"
-                                id="check5"
-                                name="check5"
-                              />
-                              <label htmlFor="check5"> Vape</label>
-                            </div>
-                            <div className="col-12 form-group checkbox_design">
-                              <input
-                                className="d-none"
-                                defaultChecked=""
-                                type="checkbox"
-                                id="check6"
-                                name="check6"
-                              />
-                              <label htmlFor="check6"> Smoke</label>
-                            </div>
-                            <div className="col-12 form-group checkbox_design">
-                              <input
-                                className="d-none"
-                                type="checkbox"
-                                id="check7"
-                                name="check7"
-                              />
-                              <label htmlFor="check7"> Kids</label>
-                            </div>
-                            <div className="col-12 form-group checkbox_design">
-                              <input
-                                className="d-none"
-                                type="checkbox"
-                                id="check8"
-                                name="check8"
-                              />
-                              <label htmlFor="check8">
-                                {" "}
-                                C-Store &amp; Novelty
-                              </label>
-                            </div>
-                            <div className="col-12 form-group checkbox_design">
-                              <input
-                                className="d-none"
-                                type="checkbox"
-                                id="check9"
-                                name="check9"
-                              />
-                              <label htmlFor="check9">
-                                {" "}
-                                Glass &amp; Sillicone
-                              </label>
-                            </div>
+                            {(brands || [])?.map((item, index) => (
+                              
+                              <div className="col-12 form-group " key={index}>
+                                <input
+                                  className=""
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    position: "relative",
+                                    top: "4px",
+                                  }}
+                                  type="checkbox"
+                                  id="check5"
+                                  name="check5"
+                                />
+                                <label
+                                  htmlFor="check5"
+                                  style={{
+                                    fontWeight: "500",
+                                    marginLeft: "13px",
+                                    fontSize: "15px",
+                                  }}
+                                >
+                                  {item?.brandName}
+                                  
+                                </label>
+                              </div>
+                            ))}
                             <div className="col-12 mt-3">
                               <Link
                                 className="more_btn text-decoration-none
@@ -316,53 +300,70 @@ const ProductByCate = () => {
               </div>
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
-                    {(products || [])?.map((item,index)=>(
-                  <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
+                  {(products || [])?.map((item, index) => (
+                    <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
+                      <div className="product_parts_box">
+                        <Link
+                          className="text-decoration-none"
+                          to={{
+                            pathname: "/AllProducts/Product",
+                            search: "",
+                            hash: "",
+                          }}
+                          state={{ id: item?.products?._id }}
+                        >
+                          <div className="partsproduct_img">
+                            <img
+                              src={item.products?.productImage}
+                              alt="Product"
+                            />
+                          </div>
+                          <div className="product_content mt-3 text-center">
+                            <Link
+                              to="/AllProducts/Product"
+                              className="text-decoration-none"
+                            >
+                              {item?.products?.unitName}
+                            </Link>
+                            <Link className="fav_btn" href="javscript:;" />
+                            <div className="rating_box mt-2 mb-1">
+                              <i
+                                className="fa fa-star"
+                                style={{ color: "#ffff00" }}
+                              />
 
-                    <div className="product_parts_box"  >
-                      <Link className="text-decoration-none" to={{
-                        pathname: "/AllProducts/Product",
-                        search: "",
-                        hash: "",
-                      }}
-                      state={{id:item?.products?._id}}>
-                      <div className="partsproduct_img" >
-                        <img src={item.products?.productImage} alt="Product" />
+                              <i
+                                className="fa fa-star"
+                                style={{ color: "#ffff00" }}
+                              />
+
+                              <i
+                                className="fa fa-star"
+                                style={{ color: "#ffff00" }}
+                              />
+
+                              <i
+                                className="fa fa-star"
+                                style={{ color: "#ffff00" }}
+                              />
+
+                              <i
+                                className="fa fa-star"
+                                style={{ color: " #f5f5f0" }}
+                              />
+                            </div>
+                          </div>
+                        </Link>
                       </div>
-                      <div className="product_content mt-3 text-center">
-                        <Link to="/AllProducts/Product" className="text-decoration-none">{item?.products?.unitName}</Link>
-                        <Link className="fav_btn" href="javscript:;" />
-                        <div className="rating_box mt-2 mb-1">
-                          
-                            <i className="fa fa-star" style={{color:"#ffff00"}} />
-                          
-                          
-                            <i className="fa fa-star" style={{color:"#ffff00"}}/>
-                        
-                          
-                            <i className="fa fa-star" style={{color:"#ffff00"}} />
-                          
-                        
-                            <i className="fa fa-star" style={{color:"#ffff00"}} />
-                          
-                          
-                            <i className="fa fa-star" style={{color:" #f5f5f0"}} />
-                          
-                        </div>
-                      </div>
-                      </Link>
                     </div>
-                  </div>
-
-                    ))}
-
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
       </>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

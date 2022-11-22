@@ -9,16 +9,17 @@ import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
 import classNames from "classnames";
-import { FaFileUpload } from "react-icons/fa";
+import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 
 const EditUser = () => {
   const [files, setFiles] = useState([]);
-  console.log(files);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
+  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
+  const [prodImg, setProdImg] = useState();
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
@@ -32,11 +33,21 @@ const EditUser = () => {
     trigger,
     reset,
   } = useForm();
-  const onFileSelection = (e, key) => {
+  const onProfileSelection = async (e, key) => {
+    console.log(e);
+    setFiles({ ...files, [key]: e.target.files[0] });
+    const formData = new FormData();
+    formData.append("productImage", e.target.files[0]);
+
+    await axios.post(uploadImage, formData).then((res) => {
+      console.log(res.data?.results);
+      setProdImg(res.data?.results?.productImage);
+    });
+  };
+  const onFileSelection = async (e, key) => {
     console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
   };
-
   const onSubmit = async (data) => {
     console.log(data, "hii");
     const formData = new FormData();
@@ -113,7 +124,7 @@ const EditUser = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -133,7 +144,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                     color: "#3e4093",
                   }}
                 >
@@ -147,7 +158,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -160,7 +171,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -173,7 +184,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -186,7 +197,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -199,7 +210,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -213,7 +224,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -223,6 +234,7 @@ const EditUser = () => {
           </div>
         </div>
       </div>
+
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
@@ -285,11 +297,16 @@ const EditUser = () => {
                         <div className="form-group col-auto">
                           <div className="account_profile position-relative d-inline-block">
                             <div className="">
-                              <img className="" width={150} src={profile} />
+                              <img
+                                className=""
+                                width={150}
+                                src={prodImg ? prodImg : user?.profileImage}
+                                alt="Please Upload Image"
+                              />
                             </div>
 
                             <div className="p-image">
-                            <i className="upload-iconIN fas fa-camera" />
+                              <i className="upload-iconIN fas fa-camera" />
 
                               <input
                                 className="file-uploadIN"
@@ -298,7 +315,7 @@ const EditUser = () => {
                                 accept="image/*"
                                 {...register("imageProfile")}
                                 onChange={(e) =>
-                                  onFileSelection(e, "imageProfile")
+                                  onProfileSelection(e, "imageProfile")
                                 }
                               />
                             </div>
@@ -507,9 +524,7 @@ const EditUser = () => {
                           <span className="fw-bold fs-6">Federal Tax ID:</span>
                           <div className="col img_box_show">
                             <input
-                              className={classNames(
-                                "d-none  border border-secondary signup_fields"
-                              )}
+                              className="d-none"
                               type="file"
                               id="file1"
                               name="federalTaxId"
@@ -526,10 +541,16 @@ const EditUser = () => {
 
                             <label htmlFor="file1">
                               <div className="">
-                                <FaFileUpload size={25} />
+                                {files?.federalTaxId || user?.federalTaxId ? (
+                                  <FaFileDownload size={25} />
+                                ) : (
+                                  <FaFileUpload size={25} />
+                                )}
 
                                 <p className="mt-2" style={{ fontSize: "9px" }}>
-                                  {user?.federalTaxId}
+                                  {files?.federalTaxId?.name
+                                    ? files?.federalTaxId?.name
+                                    : user?.federalTaxId}
                                 </p>
                               </div>
                             </label>
@@ -558,10 +579,17 @@ const EditUser = () => {
 
                             <label htmlFor="file2">
                               <div className="">
-                                <FaFileUpload size={25} />
+                                {files?.tobaccoLicence ||
+                                user?.tobaccoLicence ? (
+                                  <FaFileDownload size={25} />
+                                ) : (
+                                  <FaFileUpload size={25} />
+                                )}
 
                                 <p className="mt-2" style={{ fontSize: "9px" }}>
-                                  {user?.tobaccoLicence}
+                                  {files?.tobaccoLicence?.name
+                                    ? files?.tobaccoLicence?.name
+                                    : user?.tobaccoLicence}
                                 </p>
                               </div>
                             </label>
@@ -582,10 +610,16 @@ const EditUser = () => {
                             />
                             <label htmlFor="file3">
                               <div className="">
-                                <FaFileUpload size={25} />
+                                {files?.salesTaxId || user?.salesTaxId ? (
+                                  <FaFileDownload size={25} />
+                                ) : (
+                                  <FaFileUpload size={25} />
+                                )}
 
                                 <p className="mt-2" style={{ fontSize: "9px" }}>
-                                  {user?.salesTaxId}
+                                  {files?.salesTaxId?.name
+                                    ? files?.salesTaxId?.name
+                                    : user?.salesTaxId}
                                 </p>
                               </div>
                             </label>
@@ -608,12 +642,18 @@ const EditUser = () => {
                                 onFileSelection(e, "businessLicense")
                               }
                             />
-                            <label htmlFor="file1">
+                            <label htmlFor="file4">
                               <div className="">
-                                <FaFileUpload size={25} />
+                                {files?.businessLicense || user?.businessLicense ? (
+                                  <FaFileDownload size={25} />
+                                ) : (
+                                  <FaFileUpload size={25} />
+                                )}
 
                                 <p className="mt-2" style={{ fontSize: "9px" }}>
-                                  {user?.businessLicense}
+                                  {files?.businessLicense?.name
+                                    ? files?.businessLicense?.name
+                                    : user?.businessLicense}
                                 </p>
                               </div>
                             </label>
@@ -677,8 +717,17 @@ const EditUser = () => {
 
                             <label htmlFor="file5">
                               <div className="">
-                                <FaFileUpload size={25} />
-                                {user?.accountOwnerId}
+                                {files?.accountOwnerId || user?.accountOwnerId ? (
+                                  <FaFileDownload size={25} />
+                                ) : (
+                                  <FaFileUpload size={25} />
+                                )}
+
+                                <p className="mt-2" style={{ fontSize: "9px" }}>
+                                  {files?.accountOwnerId?.name
+                                    ? files?.accountOwnerId?.name
+                                    : user?.accountOwnerId}
+                                </p>
                               </div>
                             </label>
                           </div>
@@ -730,11 +779,6 @@ const EditUser = () => {
                               message: "maximium 10 Characters",
                             },
                             minLength: 10,
-                            pattern: {
-                              value:
-                                /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
-                              message: "Invalid Number",
-                            },
                           })}
                         />
                         {errors.phoneNumber && (

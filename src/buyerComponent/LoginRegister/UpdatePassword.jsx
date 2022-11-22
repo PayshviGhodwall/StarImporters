@@ -1,18 +1,16 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
 import classNames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 
-
-
 const UpdatePassword = (otpEmail) => {
   const navigate = useNavigate();
 
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}user/updatePassword`
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/updatePassword`;
   let email = otpEmail?.otpEmail;
-  const[error,setError] = useState()
+  const [error, setError] = useState();
 
   const {
     register,
@@ -22,41 +20,34 @@ const UpdatePassword = (otpEmail) => {
     trigger,
   } = useForm();
 
-  const onSubmit =  (data) => {
-    const password = data.password
-if(data.Npassword !== data.password){
-   setError("Password Does'nt Match")
-}
-else if(data.Npassword === password){
-  setError("")
-  axios.post(apiUrl,{
-    email,
-    password
-    
-  })
-  .then((res)=>{
-    if (res?.data.message === "Password Updated Successfully") {
-      Swal.fire({
-        title: "Your Password Updated Successfully",
-        text: "",
-        icon: "success",
-        showCloseButton: true,
-        focusConfirm: false,
-        
-      })
-      setTimeout(() => {
-        navigate("/")
-        window.location.reload()
-         
-        }, 1000);
+  const onSubmit = (data) => {
+    const password = data.password;
+    if (data.Npassword !== data.password) {
+      setError("Password Does'nt Match");
+    } else if (data.Npassword === password) {
+      setError("");
+      axios
+        .post(apiUrl, {
+          email,
+          password,
+        })
+        .then((res) => {
+          if (res?.data.message === "Password Updated Successfully") {
+            Swal.fire({
+              title: "Your Password Updated Successfully",
+              text: "",
+              icon: "success",
+              showCloseButton: true,
+              focusConfirm: false,
+            });
+            setTimeout(() => {
+              navigate("/");
+              window.location.reload();
+            }, 1000);
+          }
+        });
     }
-  })
-
-   
-}
-
-
-  }
+  };
 
   return (
     <div>
@@ -67,8 +58,9 @@ else if(data.Npassword === password){
             <p>Create a new password</p>
             <p>{error}</p>
           </div>
-          <form className="forms_modal_content form-design"
-          onSubmit={handleSubmit(onSubmit)}
+          <form
+            className="forms_modal_content form-design"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="form-floating mb-4">
               <input
@@ -92,7 +84,9 @@ else if(data.Npassword === password){
                   {errors.Npassword?.message}
                 </small>
               )}
-              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">New Password</label>
+              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">
+                New Password
+              </label>
             </div>
             <div className="form-floating mb-4">
               <input
@@ -116,7 +110,9 @@ else if(data.Npassword === password){
                   {errors.password?.message}
                 </small>
               )}
-              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">Confirm New Password</label>
+              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">
+                Confirm New Password
+              </label>
             </div>
             <div className="form-group">
               <button href="javscript:;" type="submit" className="comman_btn">

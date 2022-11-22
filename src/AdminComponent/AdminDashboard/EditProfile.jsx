@@ -85,7 +85,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                     color: "#3e4093",
                   }}
                 >
@@ -99,7 +99,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -112,7 +112,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -125,7 +125,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -138,7 +138,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -151,7 +151,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -165,7 +165,7 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout

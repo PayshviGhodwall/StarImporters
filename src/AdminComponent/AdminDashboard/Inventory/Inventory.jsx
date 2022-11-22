@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEventHandler } from "react";
+import React, { useState, KeyboardEventHandler, useReducer } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { useForm } from "react-hook-form";
@@ -9,12 +9,17 @@ import ProfileBar from "../ProfileBar";
 import classNames from "classnames";
 import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
-
+import { useScrollBy } from "react-use-window-scroll";
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update state to force render
+}
 const Inventory = () => {
   const [productImage, setProductImage] = useState();
   const [flavourImages, setFlavourImages] = useState([]);
   const [barcodes, setBarcodes] = useState([]);
   const [values, setValues] = useState({ from: "", to: "" });
+  const [sideBar, setSideBar] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -39,8 +44,10 @@ const Inventory = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
-  const [NN,setNN] = useState(false)
-  const [NewMessage,setNewMessage] = useState("")
+  const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
+  const [NN, setNN] = useState(Math.random());
+  const [NewMessage, setNewMessage] = useState("");
+  const scrollBy = useScrollBy();
   const {
     register,
     handleSubmit,
@@ -92,15 +99,14 @@ const Inventory = () => {
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
-      { productType: [], flavour: [], flavourImage: [], barcode: [] },
+      { productType: "", flavour: [], flavourImage: [], barcode: [],flavourPrice:"" },
     ]);
   };
   const removeFormFields = (index) => {
     let newFormValues = [...formValues];
     newFormValues?.splice(index, 1);
     setFormValues(newFormValues);
-    setChange(!change)
-    setNN(!NN)
+    setChange(!change);
   };
 
   const productImageSelection = (e) => {
@@ -131,6 +137,7 @@ const Inventory = () => {
         unitName: data?.productName,
         category: data?.category,
         pBarcode: data?.pBarcode,
+        productPrice: data?.productPrice,
         subCategory: data?.subCategory,
         brand: data?.brands,
         type: formValues,
@@ -138,15 +145,18 @@ const Inventory = () => {
       })
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
-          setChange(!change);
-        } 
+          window.location.reload(false);
+          scrollBy(500, 0);
+        }
       })
-      .catch((err)=>{
-        if (err.response?.data?.message === "Please enter valid Details of product") {
-          setNewMessage("Please Enter All Details of product*")
-        } 
-
-      })
+      .catch((err) => {
+        if (
+          err.response?.data?.message ===
+          "Please enter valid Details of product"
+        ) {
+          setNewMessage("Please Enter All Details of product*");
+        }
+      });
   };
   const onSearch = async (e) => {
     e.preventDefault();
@@ -168,7 +178,7 @@ const Inventory = () => {
 
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
-    if (e.key !== "Enter") return;
+    if (e.key !== "Tab") return;
     // Get the value of the input
     const value = e.target.value;
     // If the value is empty, return
@@ -184,7 +194,7 @@ const Inventory = () => {
   }
 
   function ProhandleKeyDown(e) {
-    if (e.key !== "Enter") return;
+    if (e.key !== "Tab") return;
     const value = e.target.value;
     if (!value.trim()) return;
     setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
@@ -230,15 +240,13 @@ const Inventory = () => {
     setUx("uploaded");
   };
   const ProductStatus = async (index) => {
-    // await axios
-    //   .post(userStatus + "/" + approvedUsers[index]?._id)
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
+    await axios.post(prodStatus + "/" + allProducts[index]?._id).then((res) => {
+      console.log(res);
+    });
   };
   return (
-    <div className="admin_main">
-      <div className="siderbar_section">
+    <div className={sideBar ? "admin_main" : "expanded_main"}>
+      <div className={sideBar ? "siderbar_section" : "d-none"}>
         <div className="siderbar_inner">
           <div className="sidebar_logo">
             <Link to="" className="">
@@ -266,7 +274,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-user"></i> User Management
@@ -279,7 +286,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -292,7 +298,7 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+
                     color: "#3e4093",
                   }}
                 >
@@ -306,7 +312,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -319,7 +324,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -332,7 +336,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -346,7 +349,6 @@ const Inventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -360,9 +362,32 @@ const Inventory = () => {
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
             <div className="col">
-              <a className="sidebar_btn" href="javscript:;">
-                <i className="far fa-bars" />
-              </a>
+              {sideBar ? (
+                <div>
+                  <h1
+                    className="mt-2 text-white"
+                    onClick={() => {
+                      console.log("yello");
+                      setSideBar(!sideBar);
+                    }}
+                  >
+                    <i className="fa fa-bars"></i>
+                  </h1>
+                </div>
+              ) : (
+                <div>
+                  <h3 className="">
+                    <button
+                      onClick={(e) => {
+                        console.log(e);
+                        setSideBar(!sideBar);
+                      }}
+                    >
+                      X
+                    </button>
+                  </h3>
+                </div>
+              )}
             </div>
             <div className="col-auto d-flex ml-5">
               <ProfileBar />
@@ -394,7 +419,7 @@ const Inventory = () => {
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-group col-4">
+                    <div className="form-group col-3">
                       <label htmlFor="">Product Name</label>
                       <input
                         type="text"
@@ -403,12 +428,13 @@ const Inventory = () => {
                           { "is-invalid": errors.productName }
                         )}
                         name="productName"
+                        placeholder="Enter Product Name"
                         {...register("productName", {
                           required: "Enter Product Name",
                         })}
                       />
                     </div>
-                    <div className="form-group col-4 choose_fileInvent position-relative">
+                    <div className="form-group col-3 choose_fileInvent position-relative">
                       <span>Product Image </span>
                       <label htmlFor="upload_video" className="inputText">
                         <i className="fa fa-camera me-1" />
@@ -428,7 +454,7 @@ const Inventory = () => {
                         onChange={(e) => productImageSelection(e)}
                       />
                     </div>
-                    <div className="form-group col-4">
+                    <div className="form-group col-3">
                       <label htmlFor="">Category</label>
                       <select
                         className={classNames(
@@ -473,9 +499,9 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
-                      <div className="">
+                      <div className="tags-input-container py-0 border border-secondary">
                         {(productBarcode || [])?.map((tag, ind) => (
                           <div className="tag-item" key={ind}>
                             <span className="tag-text">{tag}</span>
@@ -489,16 +515,14 @@ const Inventory = () => {
                         ))}
                         <input
                           type="text"
-                          className={classNames(
-                            "form-control border border-secondary ",
-                            { "is-invalid": errors.pBarcode }
-                          )}
-                          name="pBarcode"
-                          {...register("pBarcode", {
-                            required: "Req",
+                          className={classNames("form-control  ", {
+                            "is-invalid": errors.pBarcode,
                           })}
-
-                          // onKeyDown={(e) => ProhandleKeyDown(e)}
+                          style={{ border: "none" }}
+                          name="pBarcode"
+                          placeholder="Enter Product Barcodes"
+                          {...register("pBarcode")}
+                          onKeyDown={(e) => ProhandleKeyDown(e)}
                         />
                       </div>
                     </div>
@@ -512,9 +536,23 @@ const Inventory = () => {
                           { "is-invalid": errors.desc }
                         )}
                         name="desc"
+                        placeholder="Enter Product Description"
                         {...register("desc", {
                           required: "Required*",
                         })}
+                      />
+                    </div>
+                    <div className="form-group col-2">
+                      <label htmlFor="">Price</label>
+                      <input
+                        type=""
+                        className={classNames(
+                          " form-control border border-secondary",
+                          { "is-invalid": errors.desc }
+                        )}
+                        name="productPrice"
+                        placeholder="Enter Product Price"
+                        {...register("productPrice")}
                       />
                     </div>
                     <div className="form-group col-3">
@@ -535,20 +573,21 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-12 mt-2 mb-4">
+                    <div className="form-group col-12 mt-2">
                       <form className="">
                         <div className="row flavour_box align-items-end mx-0 py-4 px-3">
-                         <p className="text-danger fw-bold"> {NewMessage}</p> 
+                          <p className="text-danger fw-bold"> {NewMessage}</p>
                           {(formValues || [])?.map((element, index) => (
-                            <div className="form-group mb-0 col-11">
-                              <div className="row" key={index + NN}>
+                            <div className="form-group mb-0 col-12">
+                              <div className="row" key={index}>
                                 <div className="form-group col-2">
                                   <label htmlFor="">Type</label>
                                   <input
                                     type="text"
                                     className="form-control"
                                     name="productType"
-                                    defaultValue={element.productType || ""}
+                                    placeholder="Enter Product Type"
+                                    value={element.productType || ""}
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
@@ -558,10 +597,22 @@ const Inventory = () => {
                                     type="text"
                                     className="form-control"
                                     name="flavour"
-                                    defaultValue={element.flavour || ""}
+                                    placeholder="Enter Flavour"
+                                    value={element.flavour || ""}
                                     onChange={(e) => handleChange(index, e)}
                                   />
-                                </div>{" "}
+                                </div>
+                                <div className="form-group mb-0 col-2">
+                                  <label htmlFor="">Price</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="flavourPrice"
+                                    placeholder="Enter Price"
+                                    value={element.flavourPrice || ""}
+                                    onChange={(e) => handleChange(index, e)}
+                                  />
+                                </div>
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">Barcode</label>
                                   <div className="tags-input-container">
@@ -592,7 +643,7 @@ const Inventory = () => {
                                     />
                                   </div>
                                 </div>
-                                <div className="form-group mb-0 col-4 mt-1 choose_fileInvent position-relative">
+                                <div className="form-group mb-0 col-2 mt-1 choose_fileInvent position-relative">
                                   <span>Flavour Image </span>{" "}
                                   <label
                                     htmlFor="upload_video"
@@ -606,7 +657,6 @@ const Inventory = () => {
                                     className="form-control"
                                     id="flavourImage"
                                     name="flavourImage"
-                                    defaultValue={element.flavourImage || ""}
                                     onChange={(e) =>
                                       flavourImageSelection(e, index)
                                     }
@@ -624,21 +674,21 @@ const Inventory = () => {
                               </div>
                             </div>
                           ))}
-                          <div className="form-group mb-4 col-1">
+                          <div className="form-group  col-12 text-center mt-1 mb-2 mb-0">
                             <button
-                              className="comman_btn mb-4 add_btn"
+                              className="comman_btn add_btn"
                               type="button"
                               onClick={() => addFormFields()}
                             >
-                              <i className="fa fa-plus mt-1 mx-1" />
+                              <i className="fa fa-plus mt-1 mx-1" /> Add More
                             </button>
                           </div>
                         </div>
                       </form>
                     </div>
-                    <div className="form-group mb-0 col-12 text-center mt-2">
+                    <div className="form-group mb-0 col-12 text-center ">
                       <button className="comman_btn" type="submit">
-                        Save
+                        Save Product
                       </button>
                     </div>
                   </form>
@@ -738,7 +788,7 @@ const Inventory = () => {
                                         type="checkbox"
                                         className="checkbox"
                                         id={index + 1}
-                                        defaultChecked
+                                        defaultChecked={User?.status}
                                         onClick={() => {
                                           ProductStatus(index);
                                         }}

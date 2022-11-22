@@ -36,7 +36,8 @@ const UserManage = () => {
   const importInput = document.getElementById("fileID");
   const dropArea = document.getElementById("dropBox");
   const navigate = useNavigate();
-
+  const [crenditials, setCrenditials] = useState([]);
+  const [errEmails,setErrorEmails] = useState([])
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -108,10 +109,14 @@ const UserManage = () => {
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(uploadUrl, formData).then((res) => {
-      console.log(res);
       setUploadError(res?.data.message);
-      if (res?.data.message === "Successfully Imported") {
+      if (res?.data.message === "Imported details") {
         setSet(!set);
+        setCrenditials(res?.data.results?.userNameAndPassword);
+      }
+      if (res?.data.message === "Duplicte email OR Already Registered") {
+        setErrorEmails(res?.data.results)
+        console.log(errEmails);
       }
     });
     document.getElementById("reUpload").hidden = false;
@@ -147,15 +152,19 @@ const UserManage = () => {
         console.log(res);
       });
   };
-  const   GenerateCrendential = async () => {
-    await axios.post(genCrendentials).then((res) => {
-      console.log(res);
-      if (res?.data.message === "Credentials Sent Successfully") {
-        document.getElementById("modal-toggle87").click();
-        setMsg("Credentials Sent Successfully");
-      }
-    });
-  }
+  const GenerateCrendential = async () => {
+    await axios
+      .post(genCrendentials, {
+        credentials: crenditials,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res?.data.message === "Credentials Sent Successfully") {
+          document.getElementById("modal-toggle87").click();
+          setMsg("Credentials Sent Successfully");
+        }
+      });
+  };
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -186,7 +195,7 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+
                     color: "#3e4093",
                   }}
                 >
@@ -200,7 +209,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -213,7 +221,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -226,7 +233,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -239,7 +245,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -252,7 +257,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -266,7 +270,6 @@ const UserManage = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -373,7 +376,10 @@ const UserManage = () => {
                             aria-controls="nav-home"
                             aria-selected="true"
                           >
-                            Pending <span className="circle_count">{pendingUsers?.length}</span>
+                            Pending{" "}
+                            <span className="circle_count">
+                              {pendingUsers?.length}
+                            </span>
                           </button>
                           <button
                             className="nav-link outline-0"
@@ -385,7 +391,10 @@ const UserManage = () => {
                             aria-controls="nav-approve"
                             aria-selected="false"
                           >
-                            Approved <span className="circle_count">{approvedUsers?.length}</span>
+                            Approved{" "}
+                            <span className="circle_count">
+                              {approvedUsers?.length}
+                            </span>
                           </button>
                           <button
                             className="nav-link outline-0 border-0"
@@ -397,7 +406,10 @@ const UserManage = () => {
                             aria-controls="nav-return"
                             aria-selected="false"
                           >
-                            Returned <span className="circle_count">{rejectedUsers?.length}</span>
+                            Returned{" "}
+                            <span className="circle_count">
+                              {rejectedUsers?.length}
+                            </span>
                           </button>
                         </div>
                       </nav>
@@ -758,7 +770,7 @@ const UserManage = () => {
               />
 
               <div>
-                <div className="container">
+                <div className="container-lg">
                   <div className="">
                     {set ? (
                       <div className="drop_box p-5">
@@ -782,7 +794,6 @@ const UserManage = () => {
                         <p className="text-danger fw-bold">{uploadError}</p>
                         <input
                           type="file"
-                          accept=".csv"
                           id="fileID"
                           style={{ display: "none" }}
                           onChange={onFileSelection}
@@ -806,6 +817,33 @@ const UserManage = () => {
                             Import
                           </button>
                         )}
+                  <div className="row  w-100 text-start mt-3">
+                    <div className="col-6">
+                      {errEmails ?
+                      <h3 className="" style={{fontSize:"12px"}}>Duplicate Emails</h3>
+                      : null
+                    }
+                      <ul style={{listStyle:"none"}}>
+                        {(errEmails?.duplicateMails || []).map((item,ind)=>(
+                        <li key={ind} style={{fontSize:"12px",position:"relative", left:"-28px"}} >{item}</li>
+                             
+                        ))}
+                      </ul>
+                      </div>
+                      <div className="col-6">
+                      {errEmails ?
+                      <h3 className="" style={{fontSize:"12px"}}>Existing Emails</h3>
+                      : null
+                    }
+                      <ul style={{listStyle:"none"}}>
+                        {(errEmails?.alreadyRegistered || []).map((item,ind)=>(
+                        <li key={ind} style={{fontSize:"12px",position:"relative",left:"-28px"}} >{item?.email}</li>
+                             
+                        ))}
+                      </ul>
+                      </div>
+                    </div>
+
                       </div>
                     ) : (
                       <div className="drop_box p-5">
@@ -817,8 +855,11 @@ const UserManage = () => {
                         >
                           Generate Passwords
                         </button>
+
                       </div>
+                      
                     )}
+                    
                   </div>
                 </div>
               </div>
@@ -850,8 +891,7 @@ const UserManage = () => {
                   <div className="row justify-content-center p-2">
                     <div className="col-11 text-center mt-2">
                       <p className="fs-4 fw-bold">
-                      <i class="fa fa-check-double mx-1 text-success"></i>
-
+                        <i class="fa fa-check-double mx-1 text-success"></i>
                         All Crenditials Sent Successfully!
                       </p>
                     </div>

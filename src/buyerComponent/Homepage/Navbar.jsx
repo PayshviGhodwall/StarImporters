@@ -12,6 +12,7 @@ import ForgotPassword from "../LoginRegister/ForgotPassword";
 import SendOtp from "../LoginRegister/SendOtp";
 import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
+import LoginPass from "../LoginRegister/LoginPass";
 
 const Navbar = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
@@ -231,11 +232,25 @@ const Navbar = () => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <Login />
+            <Login getEmail = {getEmail}/>
           </div>
         </div>
       </div>
-
+      <div
+        className="modal  login_modal forms_modal fade"
+        id="staticBackdrop72"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="false"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <LoginPass otpEmail={otpEmail} />
+          </div>
+        </div>
+      </div>
       <div
         className="modal  comman_modal_form forms_modal"
         id="staticBackdrop2"

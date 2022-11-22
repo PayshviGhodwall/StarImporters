@@ -54,7 +54,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-user"></i> User Management
@@ -67,7 +66,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -80,7 +78,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -93,7 +90,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -106,7 +102,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -119,7 +114,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -133,7 +127,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout

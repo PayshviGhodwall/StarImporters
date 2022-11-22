@@ -7,10 +7,9 @@ const AgeVerification = ({ ModalClose }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-      document.cookie = "cookie=store";
-      ModalClose.click();
-    } 
-  
+    document.cookie = "cookie=store";
+    ModalClose.click();
+  };
 
   return (
     <div className="">
@@ -22,10 +21,7 @@ const AgeVerification = ({ ModalClose }) => {
               <span className="fs-4">ARE YOU 21 YEARS OLD OR OLDER?</span>
               <form>
                 <div className="form-group custom_checkboxs mt-3 mb-md-4 mb-3">
-                  <label
-                    htmlFor=""
-                    className="fs-3"
-                  >
+                  <label htmlFor="" className="fs-3">
                     THIS WEBSITE REQUIRES YOU TO BE 21+ YEARS OLDER TO ENTER.
                   </label>
                 </div>
@@ -36,7 +32,12 @@ const AgeVerification = ({ ModalClose }) => {
                 >
                   Yes, I am
                 </button>
-                <a className="comman_btn2 shadow mx-2" href="javascript:;" >
+                <a
+                  className="comman_btn2 shadow mx-2"
+                  onClick={() => {
+                    window.close();
+                  }}
+                >
                   Exit
                 </a>
               </form>

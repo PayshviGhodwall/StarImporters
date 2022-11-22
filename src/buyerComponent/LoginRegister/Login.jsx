@@ -5,16 +5,26 @@ import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import classNames from "classnames";
+import Starlogo from "../../assets/img/logo.png";
+import LoginPass from "./LoginPass";
 
-const Login = () => {
+const Login = ({getEmail}) => {
   const [apiData, setApiData] = useState([]);
+  const [state, setState] = useState(false);
   const navigate = useNavigate();
   const Swal = require("sweetalert2");
-  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/login`;
+  const [emailerr ,setEmailErr] = useState()
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/preLogin`;
   const autoClose = () => {
     document.getElementById("close").click();
   };
+  useEffect(() => {
 
+
+  }, [state]);
+  const handleRefresh = () => {
+    setState(true);
+  };
   const {
     register,
     handleSubmit,
@@ -22,37 +32,22 @@ const Login = () => {
     formState: { errors },
     trigger,
   } = useForm();
+
   const onSubmit = async (data) => {
+    getEmail(data?.email)
     await axios
       .post(apiUrl, {
         email: data.email,
-        password: data.password,
       })
       .then((res) => {
-        if (res?.data.message === "Logged In") {
-          setApiData(res?.data);
-          localStorage.setItem("token-user", res?.data?.results.token);
-          localStorage.setItem(
-            "UserData",
-            JSON.stringify(res?.data?.results?.verifyUser)
-          );
+        if (res?.data.message === "Please enter password") {
+          localStorage.setItem("userEmail",data.email)
 
-          Swal.fire({
-            title: "You have been successfully Logged In .",
-            text: "",
-            icon: "success",
-            showCloseButton: true,
-            focusConfirm: false,
-          });
-
-          setTimeout(() => {
-            window.location.reload();
-          }, [1000]);
-          autoClose();
+          document.getElementById("pass-Modal").click();
         }
-        if (res?.data.message === "You are not authorised by admin") {
+         if (res?.data.message === "Your ID in under review") {
           Swal.fire({
-            title: "You are not authorised by admin",
+            title: "Your ID in under review",
             text: "Do you want to continue",
             icon: "error",
             confirmButtonText: "Cool",
@@ -66,24 +61,24 @@ const Login = () => {
             confirmButtonText: "Ok",
           });
         }
-        if (res?.data.message === "Wrong Password") {
+        if (res?.data.message === "You need to provide details again") {
+          localStorage.setItem("userEmail",data.email)
+
           Swal.fire({
-            title: "Wrong Password",
+            title:
+              "Oops! Your Registration  request is Declined.Please Re-submit your application.",
             width: 600,
-            text: "Do you want to continue",
+            text: "Click Below to know reason.",
             icon: "error",
-            confirmButtonText: "Cool",
+            confirmButtonText: "Go to Sign Up",
+          }).then((res) => {
+            autoClose();
+            navigate("/Register/ReSubmit");
           });
         }
         if (res?.data.message === "Email is not registered") {
-          Swal.fire({
-            title: "Email is not registered",
-            width: 600,
-            icon: "error",
-            confirmButtonText: "Ok",
-          });
+          setEmailErr("Email is not registered!")
         }
-       
       });
   };
   const togglePassword = () => {
@@ -104,6 +99,7 @@ const Login = () => {
           id="close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          onClick={handleRefresh}
         />
         <div className="row align-items-center">
           <div className="col-md-12">
@@ -112,25 +108,30 @@ const Login = () => {
               <div className="forms_modal_content">
                 <div className="row">
                   <div className="col-md-12 heading_forms mb-4">
-                    <h3 className="fw-bolder fs-2">
-                      Welcome to Star Importers!
+                    <div className="text-center mb-3">
+                      <Link className="header_logo" to="/">
+                        <img src={Starlogo} alt="" />
+                      </Link>
+                    </div>
+                    <h3 className="fs-3 text-center">
+                      Welcome to StarImporters.
                     </h3>
-                    <span className=" fs-6 mx-1">
-                      Login to your account &amp; place an order
+                    <span className=" fs-6 mx-1 mt-2 text-center ">
+                      Login to your account !
                     </span>
                   </div>
                   <form
                     action=""
-                    className="col-12 form-design"
+                    className="row form-design justify-content-center mx-1"
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-floating mb-4">
+
+                    <div className="form-floating mb-1 col-9 ">
                       <input
                         type="email"
-                        className={classNames(
-                          "form-control  border border-secondary px-3",
-                          { "is-invalid": errors.email }
-                        )}
+                        className={classNames("form-control   px-3", {
+                          "is-invalid": errors.email,
+                        })}
                         id="floatingEmail"
                         placeholder="Password"
                         name="email"
@@ -138,16 +139,14 @@ const Login = () => {
                           required: "Please Enter Your Email",
                         })}
                       />
-                      {errors.email && (
-                        <small className="errorText mx-1 fw-bold">
-                          {errors.email?.message}
-                        </small>
-                      )}
+                     
                       <label htmlFor="floatingEmail" className="fs-6 fw-bolder">
                         Email Address
                       </label>
+                      <p className="" style={{color:"#eb3237"}}> {emailerr} </p>
+
                     </div>
-                    <div className="form-floating mb-4">
+                    {/* <div className="form-floating mb-4">
                       <input
                         type="password"
                         className={classNames(
@@ -177,29 +176,20 @@ const Login = () => {
                         onClick={togglePassword}
                         className="fa fa-fw fa-eye field-icon toggle-password"
                       />
-                    </div>
-                    <div className="form-group forgot_password mb-md-3 mb-3">
-                      <a
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop2"
-                        href="javascript:;"
-                        className="text-decoration-none text-primary fw-bold"
-                      >
-                        Forgot Your Password?
-                      </a>
-                    </div>
-                    <div className="form-group mb-3">
-                      <button type="submit" className="comman_btn py-2">
+                    </div> */}
+                    
+                    <div className="form-group mb-3 text-center">
+                      <button type="submit" className="comman_btn py-2 rounded">
                         Sign In
                       </button>
                     </div>
-                    <div className="form-group comman_text">
+                    <div className="form-group comman_text text-center">
                       <span>
                         Don't have an account?{" "}
                         <Link
                           to="/Register"
                           data-bs-dismiss="modal"
-                          className="text-decoration-none text-primary fw-bold"
+                          className="text-decoration-none text-primary "
                         >
                           SIGN UP
                         </Link>
@@ -212,6 +202,14 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop72"
+        id="pass-Modal"
+        className="d-none"
+      >
+        pass
+      </button>
     </div>
   );
 };

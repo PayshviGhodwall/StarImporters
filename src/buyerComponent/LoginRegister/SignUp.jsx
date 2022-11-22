@@ -49,8 +49,8 @@ const SignUp = () => {
         console.log(res);
         if (res?.data.message === "Registered Successfully") {
           Swal.fire({
-            title: "You have been Registered Successfully.",
-            text: "Please Be Patient We will contact You Shortly",
+            title: "Thanks You! Your Account Is Under Review.",
+            text: "We will be reviewing your account.Please check your registered email.",
             icon: "success",
             button: "Ok",
           });
@@ -80,8 +80,11 @@ const SignUp = () => {
                 <p className=" text-center text-secondary fs-5 ">
                   Please fill in the information below
                 </p>
-                <small className="text-center text-secondary mb-5"> Fields marked with <span className="text-danger fw-bold">*</span> are Mandatory</small>
-
+                <small className="text-center text-secondary mb-5">
+                  {" "}
+                  Fields marked with{" "}
+                  <span className="text-danger fw-bold">*</span> are Mandatory
+                </small>
 
                 <div className="form-floating col-lg-6 mb-4">
                   <input
@@ -411,11 +414,6 @@ const SignUp = () => {
                           message: "maximium 10 Charcarters",
                         },
                         minLength: 10,
-                        pattern: {
-                          value:
-                            /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
-                          message: "Invalid Number",
-                        },
                       })}
                     />
                     {errors.phoneNumber && (
@@ -606,7 +604,6 @@ const SignUp = () => {
                       name="subscribe"
                       id="flexCheckAddress"
                       {...register("subscribe")}
-
                     />
                     <label
                       className="form-check-label fs-6 text-secondary fw-bold "

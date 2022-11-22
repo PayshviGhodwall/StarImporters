@@ -82,7 +82,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                     color: "#3e4093",
                   }}
                 >
@@ -96,7 +96,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -109,7 +109,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -122,7 +122,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -135,7 +135,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -148,7 +148,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -162,7 +162,7 @@ const ApprovedView = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    fontFamily: "'Rubik', sans-serif",
+                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -230,7 +230,7 @@ const ApprovedView = () => {
                       <div className="col-12 text-center mb-4">
                         <div className="Pending-view_img">
                           <img
-                            src={user?.profileImage}
+                            src={user?.profileImage ? user?.profileImage : Starlogo }
                             alt="Image not Uploaded"
                           />
                         </div>
@@ -451,7 +451,7 @@ const ApprovedView = () => {
                                     fileDownload(user?.businessLicense);
                                   }}
                                 >
-                                  {user.businessLicense ? (
+                                  {user?.businessLicense ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
                                     <FaFileUpload size={25} color="red" />

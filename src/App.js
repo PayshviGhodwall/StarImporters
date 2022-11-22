@@ -80,6 +80,7 @@ import AppContactUs from "./pwaComponents/homeComponent/appContactUs";
 import AppLogout from "./pwaComponents/homeComponent/appLogout";
 import Cart from "./buyerComponent/Cart/Cart";
 import BuyAgain from "./buyerComponent/MyAccount/BuyAgain";
+import SignUpAgain from "./buyerComponent/LoginRegister/SignUpAgain";
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage GetData={GetData} />} />
           <Route path="/Register" element={<SignUp />} />
+          <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
           <Route path="/login" element={<Login newData={GetData} />} />
           <Route
             path="/MyAccount"

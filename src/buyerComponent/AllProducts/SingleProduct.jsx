@@ -17,15 +17,16 @@ const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
-  const [unitCount, setUnitCount] = useState(3);
+  const [unitCount, setUnitCount] = useState(1);
   const [minDisable, setMinDisable] = useState(true);
+  const [flavour, setFlavour] = useState("");
   const [category, setCategory] = useState([]);
   const [NState, setNState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
-  const [cartProduct,setCartProduct]= useState([])
-  const [succesMsg,setSuccesMsg]= useState("")
-  const [change,setChange] = useState(false)
+  const [cartProduct, setCartProduct] = useState([]);
+  const [succesMsg, setSuccesMsg] = useState("");
+  const [change, setChange] = useState(false);
   let location = useLocation();
   let objectId = location.state.id;
 
@@ -53,8 +54,8 @@ const SingleProduct = () => {
 
   const AddtoCart = async () => {
     console.log(objectId);
-    cartProduct.push(objectId)
-    cartProduct.push(unitCount)
+    cartProduct.push(objectId);
+    cartProduct.push(unitCount);
     console.log(cartProduct);
     await axios
       .post(addCart, {
@@ -63,8 +64,8 @@ const SingleProduct = () => {
       })
       .then((res) => {
         if (res.data?.message === "Product added") {
-        setSuccesMsg("Product added to Cart!")
-         setChange(!change)
+          setSuccesMsg("Product added to Cart!");
+          setChange(!change);
         }
       })
       .catch((err) => {
@@ -110,7 +111,7 @@ const SingleProduct = () => {
                         to="/"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-1">&#62;</span>{" "}
+                        Home <span className="arrow mx-1 ">&#62;</span>{" "}
                       </Link>
                     </li>
                     <li className="item_nanner">
@@ -151,73 +152,26 @@ const SingleProduct = () => {
                     data-bs-ride="carousel"
                   >
                     <div className="carousel-indicators">
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to={0}
-                        className="active"
-                        aria-current="true"
-                        aria-label="Slide 1"
-                      >
-                        <img src={product?.productImage} alt="" />
-                      </button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to={1}
-                        aria-label="Slide 2"
-                      >
-                        <img src={product?.productImage} alt="" />
-                      </button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to={2}
-                        aria-label="Slide 3"
-                      >
-                        <img src="assets/img/product_new3.png" alt="" />
-                      </button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to={3}
-                        aria-label="Slide 4"
-                      >
-                        <img src="assets/img/product_new1.png" alt="" />
-                      </button>
+                      {(product?.type || []).map((item, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => {
+                            document.getElementById("productMainImg").src =
+                              item?.flavourImage;
+                            setFlavour(item?.flavour);
+                          }}
+                        >
+                          <img src={item?.flavourImage} alt="" />
+                        </button>
+                      ))}
                     </div>
                     <div className="carousel-inner">
                       <div className="carousel-item active">
                         <div className="productimg_show">
                           <img
                             src={product?.productImage}
-                            className="d-block"
-                            alt="..."
-                          />
-                        </div>
-                      </div>
-                      <div className="carousel-item">
-                        <div className="productimg_show">
-                          <img
-                            src="assets/img/product_new2.png"
-                            className="d-block"
-                            alt="..."
-                          />
-                        </div>
-                      </div>
-                      <div className="carousel-item">
-                        <div className="productimg_show">
-                          <img
-                            src="assets/img/product_new3.png"
-                            className="d-block"
-                            alt="..."
-                          />
-                        </div>
-                      </div>
-                      <div className="carousel-item">
-                        <div className="productimg_show">
-                          <img
-                            src="assets/img/product_new1.png"
+                            id="productMainImg"
                             className="d-block"
                             alt="..."
                           />
@@ -260,7 +214,7 @@ const SingleProduct = () => {
                           <div className="col-12">
                             <div className="row offers_box pt-3 pb-3 border-0">
                               <div className="col-12 offers_head ">
-                                <strong>Flavor</strong>
+                                <strong>Flavor : {flavour}</strong>
                               </div>
                               <div
                                 className="col-lg-11"
@@ -272,15 +226,34 @@ const SingleProduct = () => {
                                     style={{ border: "none" }}
                                   >
                                     {(product?.type || []).map(
-                                      (item, index) => (
-                                        <a
-                                          className=" text-decoration-none"
-                                          key={index}
-                                          style={{ cursor: "pointer" }}
-                                        >
-                                          {item.flavour}
-                                        </a>
-                                      )
+                                      (item, index) => {
+                                        return flavour === item?.flavour ? (
+                                          <a
+                                            className=" text-decoration-none text-white"
+                                            key={index}
+                                            style={{
+                                              cursor: "pointer",
+                                              backgroundColor: "#3e4093",
+                                            }}
+                                          >
+                                            {item.flavour}
+                                          </a>
+                                        ) : (
+                                          <a
+                                            className=" text-decoration-none"
+                                            key={index}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => {
+                                              document.getElementById(
+                                                "productMainImg"
+                                              ).src = item?.flavourImage;
+                                              setFlavour(item?.flavour);
+                                            }}
+                                          >
+                                            {item.flavour}
+                                          </a>
+                                        );
+                                      }
                                     )}
                                   </div>
                                 </div>
@@ -291,8 +264,11 @@ const SingleProduct = () => {
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span
                                 className="minus"
+                                style={{userSelect:"none"}}
                                 onClick={() => {
-                                  setUnitCount(unitCount - 1);
+                                  unitCount == 1
+                                    ? setUnitCount(1)
+                                    : setUnitCount(unitCount - 1);
                                 }}
                               >
                                 -
@@ -300,6 +276,7 @@ const SingleProduct = () => {
                               <input type="text" value={unitCount} />
                               <span
                                 className="plus"
+                                style={{userSelect:"none"}}
                                 onClick={() => {
                                   setUnitCount(unitCount + 1);
                                 }}
