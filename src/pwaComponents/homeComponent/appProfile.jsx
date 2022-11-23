@@ -30,8 +30,8 @@ function AppProfile() {
                   <div className="user-profile me-3">
                     <img
                       src={
-                        detail.profileImage
-                          ? detail.profileImage
+                        detail?.profileImage
+                          ? detail?.profileImage
                           : "../assets/img/profile_img1.png"
                       }
                       alt=""

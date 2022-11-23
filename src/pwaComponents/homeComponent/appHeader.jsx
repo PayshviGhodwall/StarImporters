@@ -37,8 +37,8 @@ function AppHeader() {
                 <Link to="/app/profile">
                   <img
                     src={
-                      detail.profileImage
-                        ? detail.profileImage
+                      detail?.profileImage
+                        ? detail?.profileImage
                         : "../assets/img/profile_img1.png"
                     }
                     alt=""

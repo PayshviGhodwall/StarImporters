@@ -97,11 +97,64 @@ export async function editProfile(formData) {
   }
 }
 
-export async function homeBanner(formData) {
+export async function homeBanner() {
   try {
     const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}/user/homeBanner/getSlides`,
-      formData
+      `${process.env.REACT_APP_APIENDPOINT}/user/homeBanner/getSlides`
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function getCategory() {
+  try {
+    const { data } = await appHttpService.get(
+      `${process.env.REACT_APP_APIENDPOINT}/user/category/getCategory`
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function getAllProducts() {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
+export async function getBrands() {
+  try {
+    const { data } = await appHttpService.get(
+      `${process.env.REACT_APP_APIENDPOINT}/user/brands/getBrands`
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
+export async function getSubCategories() {
+  try {
+    const { data } = await appHttpService.get(
+      `${process.env.REACT_APP_APIENDPOINT}/user/subCategory/getSubCategories`
     );
     console.log(data);
 

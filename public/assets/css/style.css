@@ -10504,4 +10504,9 @@ background-color: #3e4093;
   .d-none {
     display: none;
   }
+  .banner_text{
+    font-size: 18px;
+    width: 200px;
+    line-height: 25px;
+  }
 }
