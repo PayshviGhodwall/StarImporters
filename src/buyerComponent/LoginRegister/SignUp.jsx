@@ -31,7 +31,8 @@ const SignUp = () => {
       const formData = new FormData();
       formData.append("companyName", data?.companyName);
       formData.append("dba", data?.dba);
-      formData.append("addressLine", data?.addressLine);
+      formData.append("addressLine", data?.addressLine1);
+      formData.append("addressLine", data?.addressLine2);
       formData.append("city", data?.city);
       formData.append("state", data?.state);
       formData.append("zipcode", data?.zipcode);

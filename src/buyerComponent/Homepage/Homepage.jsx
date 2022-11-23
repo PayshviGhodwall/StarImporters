@@ -597,7 +597,7 @@ const Homepage = ({ GetData }) => {
             >
               {(brands || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <Link to="/AllBrands" className="brand_box col-sm-12 p-sm-4">
+                  <Link to="/AllBrands" state={"hisds"} className="brand_box col-sm-12 p-sm-4">
                     <img src={item?.brandImage} alt="" />
                   </Link>
                 </SwiperSlide>

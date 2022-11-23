@@ -7,6 +7,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import { Toggle } from "rsuite";
+import CheckIcon from "@rsuite/icons/Check";
+import CloseIcon from "@rsuite/icons/Close";
 
 const EditInventory = () => {
   const [files, setFiles] = useState([]);
@@ -19,14 +22,22 @@ const EditInventory = () => {
   const [change, setChange] = useState();
   const [Nchnge, setNchnge] = useState();
   const [barcodes, setBarcodes] = useState([]);
+  const [flavourPS, setFlavourPS] = useState();
   const [productBarcode, setProductBarcode] = useState([]);
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
+  const flavourPrice = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
   const [formValues, setFormValues] = useState([
-    { productType: [], flavour: [], flavourImage: [], barcode: [],flavourPrice:"" },
+    {
+      productType: [],
+      flavour: [],
+      flavourImage: [],
+      barcode: [],
+      flavourPrice: "",
+    },
   ]);
   const EditProduct =
     "http://ec2-3-210-230-78.compute-1.amazonaws.com:7000/api/admin/inventory/updateProduct";
@@ -190,7 +201,16 @@ const EditInventory = () => {
     (productBarcode || []).splice(ind, 1);
     setChange(!change);
   };
-  const FlavourStatus = () => {};
+  const FlavourStatus = async(index) => {
+    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
+      console.log(res);
+    });
+  };
+  const priceStatus = async(index) => {
+    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
+      console.log(res);
+    });
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -226,7 +246,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-user"></i> User Management
@@ -239,7 +258,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -252,7 +270,7 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
+
                     color: "#3e4093",
                   }}
                 >
@@ -266,7 +284,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -279,7 +296,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -292,7 +308,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -306,7 +321,6 @@ const EditInventory = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -508,7 +522,10 @@ const EditInventory = () => {
                       <form className="">
                         <div className="row flavour_box align-items-end mx-0 py-4 px-3">
                           {(formValues || []).map((item, index) => (
-                            <div className="form-group mb-0 col-lg-12 col-md-12" key={index}>
+                            <div
+                              className="form-group mb-0 col-lg-12 col-md-12"
+                              key={index}
+                            >
                               <div className="row">
                                 <div className="form-group col-lg-2 col-md-2">
                                   <label htmlFor="">Type</label>
@@ -554,7 +571,18 @@ const EditInventory = () => {
                                   </div>
                                 </div>
                                 <div className="form-group mb-0 col-2">
-                                  <label htmlFor="">Price</label>
+                                  <label htmlFor="" className="d-flex">Price:<Toggle
+                                    size="sm"
+                                    className="mx-2"
+                                    color="#3e4093"
+                                    defaultChecked={toString(item?.flavourStatus)}
+                                    checkedChildren="enable"
+                                    unCheckedChildren="disable"
+                                    onChange={() => {
+                                      priceStatus(index);
+                                    }}
+                                  /></label>
+
                                   <input
                                     type="text"
                                     className="form-control"
@@ -562,6 +590,7 @@ const EditInventory = () => {
                                     placeholder="Enter Price"
                                     onChange={(e) => handleChange(index, e)}
                                   />
+                                 
                                 </div>
                                 <div className="form-group mb-2  col-lg-2 col-md-2 mt-1">
                                   <label className="">Flavour Image </label>
@@ -569,7 +598,10 @@ const EditInventory = () => {
                                     <div className="imageSection d-inline-flex">
                                       <img
                                         className="flavour-pic"
-                                        style={{ height: "200px",width:"150px" }}
+                                        style={{
+                                          height: "200px",
+                                          width: "150px",
+                                        }}
                                         src={item?.flavourImage}
                                       />
                                     </div>
@@ -600,7 +632,10 @@ const EditInventory = () => {
                                         FlavourStatus();
                                       }}
                                     />
-                                    <label className="label" htmlFor="FlavourStatus">
+                                    <label
+                                      className="label"
+                                      htmlFor="FlavourStatus"
+                                    >
                                       <span className="inner" />
                                       <span className="switchF" />
                                     </label>

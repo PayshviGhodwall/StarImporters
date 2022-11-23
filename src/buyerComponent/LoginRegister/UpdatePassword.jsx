@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const UpdatePassword = (otpEmail) => {
   const navigate = useNavigate();
-
+  const[state,setState]=useState(false)
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/updatePassword`;
   let email = otpEmail?.otpEmail;
   const [error, setError] = useState();
@@ -19,7 +19,9 @@ const UpdatePassword = (otpEmail) => {
     formState: { errors },
     trigger,
   } = useForm();
-
+  const handleRefresh = () => {
+    setState(true);
+  };
   const onSubmit = (data) => {
     const password = data.password;
     if (data.Npassword !== data.password) {
@@ -75,7 +77,7 @@ const UpdatePassword = (otpEmail) => {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     message:
-                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters #,^,$",
                   },
                 })}
               />
@@ -90,7 +92,7 @@ const UpdatePassword = (otpEmail) => {
             </div>
             <div className="form-floating mb-4">
               <input
-                type="password"
+                type="text"
                 className="form-control shadow-none border border-secondary"
                 id="floatingPassword"
                 placeholder="New Password"
@@ -101,7 +103,7 @@ const UpdatePassword = (otpEmail) => {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     message:
-                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters,Avoid #,^,$",
                   },
                 })}
               />

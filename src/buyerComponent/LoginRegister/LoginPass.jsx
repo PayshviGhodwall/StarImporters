@@ -6,9 +6,12 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import classNames from "classnames";
 import Starlogo from "../../assets/img/logo.png";
-
+import { Button } from "rsuite";
+// Default CSS
+import "rsuite/dist/rsuite.min.css";
 const LoginPass = ({otpEmail}) => {
   const[state,setState]=useState(false)
+  const [loader,setLoader] = useState(false)
   const navigate = useNavigate();
   const Swal = require("sweetalert2");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/login`;
@@ -19,6 +22,9 @@ const LoginPass = ({otpEmail}) => {
   
  const handleRefresh = () => {
     setState(!state);
+    setLoader(false)
+    document.getElementById("Password-Input").value=""
+    console.log("kjklkjkl");
   };
   const {
     register,
@@ -28,6 +34,7 @@ const LoginPass = ({otpEmail}) => {
     trigger,
   } = useForm();
   const onSubmit = async (data) => {
+    setLoader(true)
     await axios
       .post(apiUrl, {
         email: otpEmail,
@@ -35,6 +42,7 @@ const LoginPass = ({otpEmail}) => {
       })
       .then((res) => {
         if (res?.data.message === "Logged In") {
+            setLoader(false)
           localStorage.setItem("token-user", res?.data?.results.token);
           localStorage.setItem(
             "UserData",
@@ -55,6 +63,7 @@ const LoginPass = ({otpEmail}) => {
           autoClose();
         }
         if (res?.data.message === "Your ID in under review") {
+            setLoader(false)
           Swal.fire({
             title: "Your ID in under review",
             text: "Do you want to continue",
@@ -63,6 +72,8 @@ const LoginPass = ({otpEmail}) => {
           });
         }
         if (res?.data.message === "You are suspended by admin") {
+            setLoader(false)
+            
           Swal.fire({
             title: "Your Account has beed disabled. Please Contact Admin!",
             width: 600,
@@ -71,6 +82,7 @@ const LoginPass = ({otpEmail}) => {
           });
         }
         if (res?.data.message === "Wrong Password") {
+            setLoader(false)
           Swal.fire({
             title: "Wrong Password",
             width: 600,
@@ -103,7 +115,7 @@ const LoginPass = ({otpEmail}) => {
           id="close"
           data-bs-dismiss="modal"
           aria-label="Close"
-          onClick={handleRefresh}
+          onClick={()=>handleRefresh()}
         />
         <div className="row align-items-center">
           <div className="col-md-12">
@@ -174,9 +186,9 @@ const LoginPass = ({otpEmail}) => {
                       </a>
                     </div>
                     <div className="form-group mb-3 text-center">
-                      <button type="submit" className="comman_btn py-2 rounded">
+                      <Button loading={loader} style={{backgroundColor:"#eb3237"}} appearance="primary" type="submit" className="comman_btn py-2 rounded">
                         Sign In
-                      </button>
+                      </Button>
                     </div>
                     <div className="form-group comman_text text-center">
                       <span>

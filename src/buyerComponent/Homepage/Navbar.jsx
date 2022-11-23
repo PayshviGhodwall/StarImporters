@@ -18,6 +18,7 @@ const Navbar = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const [category, setCategory] = useState([]);
+  const [state,setState] = useState(false)
   const navigate = useNavigate();
   const [otpEmail, setOtpEmail] = useState();
   const [UserAuth, setUserAuth] = useState("");
@@ -26,6 +27,10 @@ const Navbar = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
   localStorage.getItem("token-user");
+
+  const handleRefresh = () => {
+    window.location.reload(false)
+  };
 
   const getEmail = (data) => {
     setOtpEmail(data);
@@ -41,7 +46,7 @@ const Navbar = () => {
     CartCount();
     getCategory();
     handleScroll();
-  }, []);
+  }, [state]);
   useEffect(() => {
     // if (window.localStorage !== undefined) {
     const authToken = localStorage.getItem("token-user");
@@ -292,6 +297,7 @@ const Navbar = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  onClick={handleRefresh}
                 />
                 <SendOtp otpEmail={otpEmail} />
               </div>
@@ -317,6 +323,7 @@ const Navbar = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  onClick={handleRefresh}
                 />
                 <UpdatePassword otpEmail={otpEmail} />
               </div>

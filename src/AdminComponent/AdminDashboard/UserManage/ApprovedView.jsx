@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-import { FaFileUpload } from "react-icons/fa";
+import { FaFileUpload, FaLessThanEqual } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import Starlogo from "../../../assets/img/logo.png";
 import profile from "../../../assets/img/profile_img1.png";
@@ -11,6 +11,10 @@ import axios from "axios";
 import { FaFileDownload } from "react-icons/fa";
 import fileDownload from "js-file-download";
 import ProfileBar from "../ProfileBar";
+import { Button } from "rsuite";
+// Default CSS
+import "rsuite/dist/rsuite.min.css";
+import Swal from "sweetalert2";
 const ApprovedView = () => {
   const [msg, setMsg] = useState("");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -22,6 +26,7 @@ const ApprovedView = () => {
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
+  const[loader,setLoader] = useState(false)
 
   useEffect(() => {
     const getUser = async () => {
@@ -40,9 +45,17 @@ const ApprovedView = () => {
     saveAs(url);
   };
   const genPassword = async () => {
+    setLoader(true)
     await axios.post(generatePass + "/" + objectId).then((res) => {
       if (res?.data.message === "password Generated") {
+        setLoader(false)
         setMsg("Password Generated Successfully");
+        Swal.fire({
+          title: "Password Generated Successfully",
+          text: "Please Check your Email",
+          icon: "success",
+          showCloseButton: true,
+        });
       }
     });
   };
@@ -585,21 +598,23 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="text-success mx-1">{msg}</div>
 
                       <div className="col-12 text-center">
                         <Link
                           to="/UserManage/ApprovedView-editUser"
-                          className="comman_btn text-decoration-none"
+                          className="comman_btn2 text-decoration-none"
                         >
                           {editText}
                         </Link>
-                        <button
+                        <Button
+                        loading={loader}
+                        style ={{backgroundColor:"#eb3237",fontSize:"20px",position:"relative",top:"-2px"}}
+                        appearance="primary"
                           className="comman_btn2 mx-2"
                           onClick={genPassword}
                         >
                           Generate Password
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>

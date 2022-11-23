@@ -2,12 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-
+import { Button } from "rsuite";
+// Default CSS
+import "rsuite/dist/rsuite.min.css";
 import Starlogo from "../../../assets/img/logo.png";
 import profile from "../../../assets/img/profile_img1.png";
 import { HiMenu } from "react-icons/hi";
 import { BiEdit } from "react-icons/bi";
-
 import { useEffect } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
@@ -24,7 +25,8 @@ const UserManage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [impFile, setImpFile] = useState([]);
   const [userId, setUserId] = useState();
-  const [ux, setUx] = useState("");
+  const [ux, setUx] = useState(false);
+  const [um, setUm] = useState(false);
   const [sideBar, setSideBar] = useState(true);
   const [uploadError, setUploadError] = useState("");
   const [pendingUsers, setPendingUsers] = useState([]);
@@ -37,11 +39,11 @@ const UserManage = () => {
   const dropArea = document.getElementById("dropBox");
   const navigate = useNavigate();
   const [crenditials, setCrenditials] = useState([]);
-  const [errEmails,setErrorEmails] = useState([])
+  const [errEmails, setErrorEmails] = useState([]);
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
-    setUx("uploaded");
+    setUx(true);
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -112,14 +114,22 @@ const UserManage = () => {
       setUploadError(res?.data.message);
       if (res?.data.message === "Imported details") {
         setSet(!set);
+        setUm(true)
         setCrenditials(res?.data.results?.userNameAndPassword);
       }
       if (res?.data.message === "Duplicte email OR Already Registered") {
-        setErrorEmails(res?.data.results)
+        setUm(true)
+        setErrorEmails(res?.data.results);
         console.log(errEmails);
       }
     });
     document.getElementById("reUpload").hidden = false;
+  };
+  const modalClose = () => {
+    setErrorEmails([]);
+    setUx(!ux);
+    setImpFile("");
+    setUm(false)
   };
 
   const handleClick = () => {
@@ -767,10 +777,11 @@ const UserManage = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={modalClose}
               />
 
               <div>
-                <div className="container-lg">
+                <div className="container-lg w-100">
                   <div className="">
                     {set ? (
                       <div className="drop_box p-5">
@@ -791,14 +802,16 @@ const UserManage = () => {
                             <BiEdit />
                           </button>
                         </p>
-                        <p className="text-danger fw-bold">{uploadError}</p>
+                        {um ? (
+                          <p className="text-danger fw-bold">{uploadError}</p>
+                        ) : null}
                         <input
                           type="file"
                           id="fileID"
                           style={{ display: "none" }}
                           onChange={onFileSelection}
                         />
-                        {ux !== "" ? (
+                        {ux ? (
                           <button
                             className="comman_btn"
                             htmlFor=""
@@ -817,33 +830,54 @@ const UserManage = () => {
                             Import
                           </button>
                         )}
-                  <div className="row  w-100 text-start mt-3">
-                    <div className="col-6">
-                      {errEmails ?
-                      <h3 className="" style={{fontSize:"12px"}}>Duplicate Emails</h3>
-                      : null
-                    }
-                      <ul style={{listStyle:"none"}}>
-                        {(errEmails?.duplicateMails || []).map((item,ind)=>(
-                        <li key={ind} style={{fontSize:"12px",position:"relative", left:"-28px"}} >{item}</li>
-                             
-                        ))}
-                      </ul>
-                      </div>
-                      <div className="col-6">
-                      {errEmails ?
-                      <h3 className="" style={{fontSize:"12px"}}>Existing Emails</h3>
-                      : null
-                    }
-                      <ul style={{listStyle:"none"}}>
-                        {(errEmails?.alreadyRegistered || []).map((item,ind)=>(
-                        <li key={ind} style={{fontSize:"12px",position:"relative",left:"-28px"}} >{item?.email}</li>
-                             
-                        ))}
-                      </ul>
-                      </div>
-                    </div>
-
+                        <div className="row  w-100 text-start mt-3">
+                          <div className="col-6">
+                            {errEmails ? (
+                              <h3 className="" style={{ fontSize: "12px" }}>
+                                Duplicate Emails
+                              </h3>
+                            ) : null}
+                            <ul style={{ listStyle: "none" }}>
+                              {(errEmails?.duplicateMails || []).map(
+                                (item, ind) => (
+                                  <li
+                                    key={ind}
+                                    style={{
+                                      fontSize: "12px",
+                                      position: "relative",
+                                      left: "-28px",
+                                    }}
+                                  >
+                                    {item}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                          <div className="col-6">
+                            {errEmails ? (
+                              <h3 className="" style={{ fontSize: "12px" }}>
+                                Existing Emails
+                              </h3>
+                            ) : null}
+                            <ul style={{ listStyle: "none" }}>
+                              {(errEmails?.alreadyRegistered || []).map(
+                                (item, ind) => (
+                                  <li
+                                    key={ind}
+                                    style={{
+                                      fontSize: "12px",
+                                      position: "relative",
+                                      left: "-28px",
+                                    }}
+                                  >
+                                    {item?.email}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                     ) : (
                       <div className="drop_box p-5">
@@ -855,11 +889,8 @@ const UserManage = () => {
                         >
                           Generate Passwords
                         </button>
-
                       </div>
-                      
                     )}
-                    
                   </div>
                 </div>
               </div>

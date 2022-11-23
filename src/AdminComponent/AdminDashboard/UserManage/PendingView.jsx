@@ -3,7 +3,9 @@ import { useState } from "react";
 import { saveAs } from "file-saver";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-
+import { Button } from "rsuite";
+// Default CSS
+import "rsuite/dist/rsuite.min.css";
 import Starlogo from "../../../assets/img/logo.png";
 import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
@@ -14,7 +16,7 @@ import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
 
 const PendingView = () => {
-  const [change, setChange] = useState(false);
+  const[loader,setLoader] = useState(false)
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
@@ -72,10 +74,10 @@ const PendingView = () => {
     saveAs(url);
   };
   const approveUser = async () => {
+    setLoader(true)
     const res = await axios.post(approveUrl + "/" + objectId);
     console.log(res, "hii");
     if (res?.data.message === "User approved Successfully") {
-      setApproveText("Approved");
       navigate("/UserManage");
     }
   };
@@ -567,20 +569,24 @@ const PendingView = () => {
                         </div>
                       </div>
                       <div className="col-12 text-center">
-                        <Link
+                        <Button
                           href="javascript:;"
+                          loading={loader}
+                          style={{backgroundColor:"#eb3237",color:"#fff",fontWeight:"500",borderRadius:"30px",}}
                           className="comman_btn text-decoration-none"
                           onClick={approveUser}
                         >
-                          {approveText}
-                        </Link>
-                        <Link
+                         Approve
+                        </Button>
+                        <Button
+                          style={{backgroundColor:"#3e4093",color:"#fff",fontWeight:"500",borderRadius:"30px"}}
+
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop21"
                           className="comman_btn2 ms-2 text-decoration-none"
                         >
                           Decline
-                        </Link>
+                        </Button>
                       </div>
                     </div>
                   </div>

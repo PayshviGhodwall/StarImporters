@@ -11,8 +11,11 @@ import axios from "axios";
 import classNames from "classnames";
 import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
-
+import { Button } from "rsuite";
+// Default CSS
+import "rsuite/dist/rsuite.min.css";
 const EditUser = () => {
+  const[loader,setLoader] = useState(false)
   const [files, setFiles] = useState([]);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
@@ -49,6 +52,7 @@ const EditUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
+    setLoader(true)
     console.log(data, "hii");
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
@@ -74,6 +78,7 @@ const EditUser = () => {
       console.log(res);
       if (res?.data.message === "User Deatils Updated Successfully") {
         navigate("/UserManage/ApprovedView");
+      
       }
     });
   };
@@ -845,9 +850,15 @@ const EditUser = () => {
                       </div>
 
                       <div className="col-12 text-center">
-                        <button className="comman_btn mx-2" type="submit">
+                      <Button
+                        loading={loader}
+                        style ={{backgroundColor:"#eb3237",fontSize:"20px",position:"relative",top:"-2px"}}
+                        appearance="primary"
+                          className="comman_btn2 mx-2"
+                          type="submit"
+                        >
                           Submit
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   </div>
