@@ -14,7 +14,7 @@ import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 
-const Navbar = () => {
+const Navbar = ({NState}) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const [category, setCategory] = useState([]);
@@ -46,7 +46,7 @@ const Navbar = () => {
     CartCount();
     getCategory();
     handleScroll();
-  }, [state]);
+  }, [state,NState]);
   useEffect(() => {
     // if (window.localStorage !== undefined) {
     const authToken = localStorage.getItem("token-user");
@@ -174,7 +174,7 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              {(category || [])?.map((item, index) => (
+              {(category || [])?.filter((item, idx) => idx < 10).map((item, index) => (
                 <li key={index + 1}>
                   <Link
                     to={{
@@ -216,11 +216,7 @@ const Navbar = () => {
                   Brands
                 </Link>
               </li>
-              <li>
-                <Link className="text-decoration-none" to="/MyQuotes">
-                  My Quotes
-                </Link>
-              </li>
+             
             </ul>
           </div>
         </div>

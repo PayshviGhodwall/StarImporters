@@ -93,12 +93,7 @@ const LoginPass = ({otpEmail}) => {
         }
         if (res?.data.message === "First Time Login") {
           setLoader(false)
-          console.log(res?.data?.results.token);
-          localStorage.setItem("token-user", res?.data?.results.token);
-          localStorage.setItem(
-            "UserData",
-            JSON.stringify(res?.data?.results?.verifyUser)
-          );
+         
           document.getElementById("modal-toggle").click();
            
         }

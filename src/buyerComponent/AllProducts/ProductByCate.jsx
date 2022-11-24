@@ -13,8 +13,7 @@ const ProductByCate = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [products, setProducts] = useState([]);
-  axios.defaults.headers.common["x-auth-token-user"] =
-    localStorage.getItem("loginToken");
+  
 
   useEffect(() => {
     setCategory(location?.state.name);
@@ -98,7 +97,7 @@ const ProductByCate = () => {
                       >
                         <div className="accordion-body px-0 pt-3 pb-0">
                           <div className="row">
-                            {(brands || [])?.map((item, index) => (
+                            {(brands || [])?.filter((item, idx) => idx < 5).map((item, index) => (
                               
                               <div className="col-12 form-group " key={index}>
                                 <input
@@ -118,7 +117,7 @@ const ProductByCate = () => {
                                   style={{
                                     fontWeight: "500",
                                     marginLeft: "13px",
-                                    fontSize: "15px",
+                                    fontSize: "18px",
                                   }}
                                 >
                                   {item?.brandName}
@@ -132,7 +131,7 @@ const ProductByCate = () => {
                         "
                                 href="javscript:;"
                               >
-                                54 More
+                               More
                               </Link>
                             </div>
                           </div>

@@ -12,12 +12,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
+import { set } from "rsuite/esm/utils/dateUtils";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
-  const[loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
   const [minDisable, setMinDisable] = useState(true);
   const [flavour, setFlavour] = useState("");
@@ -31,9 +32,12 @@ const SingleProduct = () => {
   let location = useLocation();
   let objectId = location.state.id;
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const handle2Open = () => setOpen2(true);
   const handleClose = () => setOpen(false);
-  const navigate = useNavigate()
+  const handle2Close = () => setOpen2(false);
+  const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -57,7 +61,7 @@ const SingleProduct = () => {
   }, [change]);
 
   const AddtoCart = async () => {
-    setLoader(true)
+    setLoader(true);
     console.log(objectId);
     cartProduct.push(objectId);
     cartProduct.push(unitCount);
@@ -68,17 +72,26 @@ const SingleProduct = () => {
         quantity: cartProduct[1],
       })
       .then((res) => {
-        if (res.data?.message === "Product added") {
-          setLoader(false)
+        if (res.data?.message === "Product Added") {
+          setLoader(false);
           setSuccesMsg("Product added to Cart!");
-          setChange(!change);
+          document.getElementById("req-modal2").click();
+
+          setNState(true);
+        }
+        if (res.data?.message === "Product is already in Cart") {
+          setLoader(false);
+          setSuccesMsg("Product added to Cart!");
+          document.getElementById("req-modal2").click();
+
+          setNState(true);
         }
       })
       .catch((err) => {
         if (
           err.response?.data?.message === "Access Denied. No token provided."
         ) {
-          setLoader(false)
+          setLoader(false);
           Swal.fire({
             title: "Please Login to your Account!",
             icon: "error",
@@ -86,19 +99,30 @@ const SingleProduct = () => {
           });
         }
         if (err.response?.data?.message === "You are not Authenticated Yet") {
-          setLoader(false)
+          setLoader(false);
           Swal.fire({
             title: "Please Login to your Account!",
             icon: "error",
             focusConfirm: false,
           });
         }
-       
+        if (err.response?.data.message === "") {
+          setLoader(false);
+          Swal.fire({
+            title: "Product is already in Cart!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
       });
+      setTimeout(()=>{
+        setLoader(false)
+       
+      },8000)
   };
-  const QuoteReq =()=>{
-    document.getElementById("req-modal").click()
-  }
+  const QuoteReq = () => {
+    document.getElementById("req-modal").click();
+  };
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
@@ -295,7 +319,13 @@ const SingleProduct = () => {
                             <Button
                               className="comman_btn me-2 rounded mb-1"
                               loading={loader}
-                              style={{ cursor: "pointer",backgroundColor:"#eb3237" , color:"#fff",fontSize:"16px",fontWeight:"500px", }}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#eb3237",
+                                color: "#fff",
+                                fontSize: "16px",
+                                fontWeight: "500px",
+                              }}
                               onClick={AddtoCart}
                             >
                               Add To Cart
@@ -387,24 +417,64 @@ const SingleProduct = () => {
       </>
       <Footer />
       <ButtonToolbar>
+        <Button onClick={handle2Open} id="req-modal2">
+          Open
+        </Button>
+      </ButtonToolbar>
+      <ButtonToolbar>
         <Button onClick={handleOpen} id="req-modal">
           Open
         </Button>
       </ButtonToolbar>
 
-      <Modal open={open} onClose={handleClose} style={{marginTop:"150px"}}>
+      <Modal open={open} onClose={handleClose} style={{ marginTop: "150px" }}>
         <Modal.Header>
-          <Modal.Title className="fs-4">Quotation Added to My Quotes!</Modal.Title>
+          <Modal.Title className="fs-4">
+            Quotation Added to My Quotes!
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-center">
-            <button className="comman_btn rounded mx-4" onClick={()=>{navigate("/MyQuotes")}}>View Quotes</button>
-            <button className="comman_btn2 rounded mx-3">Continue Shopping</button>
+            <button
+              className="comman_btn rounded mx-4"
+              onClick={() => {
+                navigate("/MyQuotes");
+              }}
+            >
+              View Quotes
+            </button>
+            <button className="comman_btn2 rounded mx-3">
+              Continue Shopping
+            </button>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-         
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      <Modal open={open2} onClose={handle2Close} style={{ marginTop: "150px" }}>
+        <Modal.Header>
+          <Modal.Title className="fs-4">Product Added to Cart!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex justify-content-center">
+            <button
+              className="comman_btn rounded mx-4"
+              onClick={() => {
+                navigate("/Cart");
+              }}
+            >
+              View Cart
+            </button>
+            <button
+              className="comman_btn2 rounded mx-3"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </div>
   );
