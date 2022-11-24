@@ -3,7 +3,7 @@ import Footer from "../Footer/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../Homepage/Navbar";
 import { useEffect } from "react";
-
+import { Modal, Toggle, Button, ButtonToolbar, Placeholder } from "rsuite";
 import axios from "axios";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,6 +17,7 @@ const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
+  const[loader,setLoader] = useState(false)
   const [unitCount, setUnitCount] = useState(1);
   const [minDisable, setMinDisable] = useState(true);
   const [flavour, setFlavour] = useState("");
@@ -29,7 +30,10 @@ const SingleProduct = () => {
   const [change, setChange] = useState(false);
   let location = useLocation();
   let objectId = location.state.id;
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const navigate = useNavigate()
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -53,6 +57,7 @@ const SingleProduct = () => {
   }, [change]);
 
   const AddtoCart = async () => {
+    setLoader(true)
     console.log(objectId);
     cartProduct.push(objectId);
     cartProduct.push(unitCount);
@@ -64,6 +69,7 @@ const SingleProduct = () => {
       })
       .then((res) => {
         if (res.data?.message === "Product added") {
+          setLoader(false)
           setSuccesMsg("Product added to Cart!");
           setChange(!change);
         }
@@ -72,6 +78,7 @@ const SingleProduct = () => {
         if (
           err.response?.data?.message === "Access Denied. No token provided."
         ) {
+          setLoader(false)
           Swal.fire({
             title: "Please Login to your Account!",
             icon: "error",
@@ -79,21 +86,19 @@ const SingleProduct = () => {
           });
         }
         if (err.response?.data?.message === "You are not Authenticated Yet") {
+          setLoader(false)
           Swal.fire({
             title: "Please Login to your Account!",
             icon: "error",
             focusConfirm: false,
           });
         }
-        if (err.response?.data?.message === "Product added to cart") {
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
+       
       });
   };
+  const QuoteReq =()=>{
+    document.getElementById("req-modal").click()
+  }
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
@@ -264,7 +269,7 @@ const SingleProduct = () => {
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span
                                 className="minus"
-                                style={{userSelect:"none"}}
+                                style={{ userSelect: "none" }}
                                 onClick={() => {
                                   unitCount == 1
                                     ? setUnitCount(1)
@@ -276,7 +281,7 @@ const SingleProduct = () => {
                               <input type="text" value={unitCount} />
                               <span
                                 className="plus"
-                                style={{userSelect:"none"}}
+                                style={{ userSelect: "none" }}
                                 onClick={() => {
                                   setUnitCount(unitCount + 1);
                                 }}
@@ -287,16 +292,17 @@ const SingleProduct = () => {
                           </div>
                           <p className="text-success fw-bold">{succesMsg}</p>
                           <div className="col-12 mt-3 ">
-                            <a
-                              className="comman_btn me-2 rounded"
-                              style={{ cursor: "pointer" }}
+                            <Button
+                              className="comman_btn me-2 rounded mb-1"
+                              loading={loader}
+                              style={{ cursor: "pointer",backgroundColor:"#eb3237" , color:"#fff",fontSize:"16px",fontWeight:"500px", }}
                               onClick={AddtoCart}
                             >
                               Add To Cart
-                            </a>
-                            <a className="comman_btn2" href="javascript:;">
+                            </Button>
+                            <button className="comman_btn2" onClick={QuoteReq}>
                               Request Quotation
-                            </a>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -380,6 +386,26 @@ const SingleProduct = () => {
         </section>
       </>
       <Footer />
+      <ButtonToolbar>
+        <Button onClick={handleOpen} id="req-modal">
+          Open
+        </Button>
+      </ButtonToolbar>
+
+      <Modal open={open} onClose={handleClose} style={{marginTop:"150px"}}>
+        <Modal.Header>
+          <Modal.Title className="fs-4">Quotation Added to My Quotes!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex justify-content-center">
+            <button className="comman_btn rounded mx-4" onClick={()=>{navigate("/MyQuotes")}}>View Quotes</button>
+            <button className="comman_btn2 rounded mx-3">Continue Shopping</button>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+         
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

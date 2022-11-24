@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 
-const Cart = () => {
+const MyQuotes = () => {
   const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
@@ -132,4 +132,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default MyQuotes;

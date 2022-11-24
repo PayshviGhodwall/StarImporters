@@ -81,6 +81,7 @@ import AppLogout from "./pwaComponents/homeComponent/appLogout";
 import Cart from "./buyerComponent/Cart/Cart";
 import BuyAgain from "./buyerComponent/MyAccount/BuyAgain";
 import SignUpAgain from "./buyerComponent/LoginRegister/SignUpAgain";
+import MyQuotes from "./buyerComponent/Homepage/MyQuotes";
 
 
 function App() {
@@ -129,6 +130,7 @@ function App() {
           <Route path="/AllProducts/Product" element={<SingleProduct />} />
           <Route path="/AllBrands" element={<AllBrands />} />
           <Route path="/Cart" element={<Cart />} />
+          <Route path="/MyQuotes" element={<MyQuotes />} />
 
 
           {/* admin Routes */}
