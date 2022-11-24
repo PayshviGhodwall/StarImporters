@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
 import classNames from "classnames";
-
+import { useTimer } from "react-timer-hook";
 
 const SendOtp = (otpEmail) => {
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`
-  const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`
-  const[error,setError]=useState("")
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`;
+  const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
+  const [error, setError] = useState("");
   let email = otpEmail?.otpEmail;
   const {
     register,
@@ -18,53 +18,69 @@ const SendOtp = (otpEmail) => {
     trigger,
   } = useForm();
   console.log(otpEmail, "Ptop");
-
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 400);
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    time,
+    onExpire: () => console.warn("onExpire called"),
+  });
+ console.log(days);
   const onSubmit = async (data) => {
     const tempOtp = data.number1 + data.number2 + data.number3 + data.number4;
     const otp = parseInt(tempOtp);
-   console.log(tempOtp);
+    console.log(tempOtp);
     const VerifyUser = () => {
-     axios.post(apiUrl,{
-        email,
-        otp
-      })
-      .then((res) => {
-        console.log(res);
-        if (res?.data.message === "OTP Verified") {
-          Swal.fire({
-            title: "OTP Verified", 
-            text: "",
-            icon: "Success",
-            confirmButtonText: "OK",
-          });
-          document.getElementById("modal-toggle").click();
-
-        }
-        else if (res?.data.message === "Invalid OTP") {
-         setError("Invalid Otp")
-        }
-      });
+      axios
+        .post(apiUrl, {
+          email,
+          otp,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res?.data.message === "OTP Verified") {
+            Swal.fire({
+              title: "OTP Verified",
+              text: "",
+              icon: "Success",
+              confirmButtonText: "OK",
+            });
+            document.getElementById("modal-toggle").click();
+          } else if (res?.data.message === "Invalid OTP") {
+            setError("Invalid Otp");
+          }
+        });
     };
     VerifyUser();
   };
 
-  const ResendOtp =async (e)=>{
-     e.preventDefault()
-     await  axios
-     .post(sendOtp, {
-       email: email,
-     }).then((res)=>{
-      console.log(res?.data.results);
-     })
-  }
-  const  moveOnMax =(event, field, nextFieldID)=> {
+  const ResendOtp = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(sendOtp, {
+        email: email,
+      })
+      .then((res) => {
+        console.log(res?.data.results);
+      });
+  };
+  const moveOnMax = (event, field, nextFieldID) => {
     event = event || window.event;
     if (event.keyCode != 9) {
-        if (field.value.length >= field.maxLength) {
-            nextFieldID.focus();
-        }
+      if (field.value.length >= field.maxLength) {
+        nextFieldID.focus();
+      }
     }
-}
+  };
   return (
     <div>
       <div className="row align-items-center justify-content-center text-center">
@@ -90,7 +106,13 @@ const SendOtp = (otpEmail) => {
                 {...register("number1", {
                   required: "Required",
                 })}
-                onKeyUp={(event)=>{moveOnMax(event,document.getElementById("number1"),document.getElementById("number2"))}}
+                onKeyUp={(event) => {
+                  moveOnMax(
+                    event,
+                    document.getElementById("number1"),
+                    document.getElementById("number2")
+                  );
+                }}
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
@@ -101,8 +123,13 @@ const SendOtp = (otpEmail) => {
                 {...register("number2", {
                   required: "Required",
                 })}
-                onKeyUp={(event)=>{moveOnMax(event,document.getElementById("number2"),document.getElementById("number3"))}}
-
+                onKeyUp={(event) => {
+                  moveOnMax(
+                    event,
+                    document.getElementById("number2"),
+                    document.getElementById("number3")
+                  );
+                }}
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
@@ -113,8 +140,13 @@ const SendOtp = (otpEmail) => {
                 {...register("number3", {
                   required: "Required",
                 })}
-                onKeyUp={(event)=>{moveOnMax(event,document.getElementById("number3"),document.getElementById("number4"))}}
-
+                onKeyUp={(event) => {
+                  moveOnMax(
+                    event,
+                    document.getElementById("number3"),
+                    document.getElementById("number4")
+                  );
+                }}
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
@@ -130,7 +162,7 @@ const SendOtp = (otpEmail) => {
             <div className="fs-6 text-danger fw-bold">{error}</div>
             <div className="form-group my-3">
               <div className="time_js">
-                <span className="fw-bold fs-5 text-info">01:34</span>
+                <span className="fw-bold fs-5 text-info">{minutes}:{seconds}</span>
               </div>
             </div>
             <div className="form-group mb-4">

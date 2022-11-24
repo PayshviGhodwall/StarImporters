@@ -57,6 +57,22 @@ const SignUp = () => {
           });
           navigate("/");
         }
+        if (res?.data.message === "Email is already registered") {
+          Swal.fire({
+            title: "Email is Already registered!",
+            text: "Please Login to your Account",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+        if (res?.data.message === "Phone is already registered") {
+          Swal.fire({
+            title: "This Phone Number is Already Registered ",
+            text: "Please Enter a new Number ",
+            icon: "error",
+            button: "Ok",
+          });
+        }
       });
     };
 
@@ -552,7 +568,7 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="form-floating col-12 mb-4 select_dropdown">
+                  <div className="form-floating col-6 mb-4 select_dropdown">
                     <select
                       className={classNames(
                         "form-select form-control shadow-none border border-secondary fw-bolder ",
@@ -577,6 +593,37 @@ const SignUp = () => {
                       How did you hear about us?
                     </label>
                   </div>
+                  <div className="form-floating col-6 mb-4">
+                    <input
+                      type="number"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields ",
+                        { "is-invalid": errors.businessNumber }
+                      )}
+                      id="floatingPassword11"
+                      placeholder="Password"
+                      name="businessNumber"
+                      {...register("businessNumber", {
+                        maxLength: {
+                          value: 10,
+                          message: "maximium 10 Charcarters",
+                        },
+                        minLength: 10,
+                      })}
+                    />
+                    {errors.businessNumber && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.businessNumber?.message}
+                      </small>
+                    )}
+                    <label
+                      htmlFor="floatingPassword11"
+                      className="mx-2 fw-bolder"
+                    >
+                      Business Number <span className="text-danger">*</span>
+                    </label>
+                  </div>
+
                   <div class="form-check mt-1 col-6 mx-3 ">
                     <input
                       className={classNames(

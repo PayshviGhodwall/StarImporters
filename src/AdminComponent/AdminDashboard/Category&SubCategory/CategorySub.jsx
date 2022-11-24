@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
+import Swal from "sweetalert2";
 
 const CategorySub = () => {
   const addCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/addCategory`;
@@ -47,9 +48,14 @@ const CategorySub = () => {
     formData.append("categoryName", categoryName);
 
     await axios.post(addCategory, formData).then((res) => {
-      console.log(res);
       if (res?.data.message === "Category added") {
         setChange(!change);
+      } else if (res?.data.message === "Category is already added") {
+        Swal.fire({
+          title: "Category is already added!",
+          icon: "error",
+          button: "Ok",
+        });
       }
     });
   };
@@ -64,6 +70,13 @@ const CategorySub = () => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
         setChange(!change);
+      }
+      else if (res?.data.message === "Sub Category is already exist") {
+        Swal.fire({
+          title: "Sub Category is already added!",
+          icon: "error",
+          button: "Ok",
+        });
       }
     });
   };
@@ -168,7 +181,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-user"></i> User Management
@@ -181,7 +193,7 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
+
                     color: "#3e4093",
                   }}
                 >
@@ -195,7 +207,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -208,7 +219,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -221,7 +231,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -234,7 +243,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -248,7 +256,6 @@ const CategorySub = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -566,7 +573,7 @@ const CategorySub = () => {
                                                   src={item?.subCategoryImage}
                                                 ></img>
                                               </td>
-                                              
+
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"
