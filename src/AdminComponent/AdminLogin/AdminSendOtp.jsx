@@ -11,6 +11,7 @@ import { useEffect } from "react";
 const AdminSendOtp = ({ AdminEmail }) => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/verifyOtp`;
   const sendOtp =`${process.env.REACT_APP_APIENDPOINTNEW}api/admin/forgetPassword`
+  
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [email, setEmail] = useState();

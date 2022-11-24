@@ -12,6 +12,7 @@ const UpdatePassword = (otpEmail) => {
   let email = otpEmail?.otpEmail;
   const [error, setError] = useState();
 
+
   const {
     register,
     handleSubmit,
@@ -42,10 +43,10 @@ const UpdatePassword = (otpEmail) => {
               showCloseButton: true,
               focusConfirm: false,
             });
-            setTimeout(() => {
-              navigate("/");
-              window.location.reload();
-            }, 1000);
+            // setTimeout(() => {
+            //   navigate("/");
+            //   window.location.reload();
+            // }, 1000);
           }
         });
     }

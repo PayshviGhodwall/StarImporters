@@ -34,6 +34,7 @@ const UserManage = () => {
   const [rejectedUsers, setRejectedUsers] = useState([]);
   const [set, setSet] = useState(true);
   const [msg, setMsg] = "";
+  const[loader,setLoader] = useState(false)
   const [enableUser, setEnableUser] = useState();
   const importInput = document.getElementById("fileID");
   const dropArea = document.getElementById("dropBox");
@@ -108,16 +109,19 @@ const UserManage = () => {
   }, [search]);
 
   const onUpload = async () => {
+    setLoader(true)
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(uploadUrl, formData).then((res) => {
       setUploadError(res?.data.message);
       if (res?.data.message === "Imported details") {
+        setLoader(false)
         setSet(!set);
         setUm(true)
         setCrenditials(res?.data.results?.userNameAndPassword);
       }
       if (res?.data.message === "Duplicte email OR Already Registered") {
+        setLoader(false)
         setUm(true)
         setErrorEmails(res?.data.results);
         console.log(errEmails);
@@ -126,10 +130,11 @@ const UserManage = () => {
     document.getElementById("reUpload").hidden = false;
   };
   const modalClose = () => {
-    setErrorEmails([]);
-    setUx(!ux);
-    setImpFile("");
-    setUm(false)
+    window.location.reload(false)
+    // setErrorEmails([]);
+    // setUx(!ux);
+    // setImpFile("");
+    // setUm(false)
   };
 
   const handleClick = () => {
@@ -769,9 +774,9 @@ const UserManage = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content border-0 rounded-0  rounded-top">
-            <div className="modal-body">
+            <div className="modal-body ">
               <button
                 type="button"
                 className="btn-close"
@@ -812,13 +817,15 @@ const UserManage = () => {
                           onChange={onFileSelection}
                         />
                         {ux ? (
-                          <button
+                          <Button
                             className="comman_btn"
                             htmlFor=""
+                            loading={loader}
+                            style ={{backgroundColor:"#eb3237",color:"#fff",fontSize:"20px",position:"relative",top:"-2px"}}
                             onClick={onUpload}
                           >
                             Upload
-                          </button>
+                          </Button>
                         ) : (
                           <button
                             className="comman_btn2"
@@ -915,6 +922,7 @@ const UserManage = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={()=>{window.location.reload(false)}}
               />
 
               <div>

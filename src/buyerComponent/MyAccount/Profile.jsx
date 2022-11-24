@@ -3,6 +3,8 @@ import "../../assets/css/main.css";
 import axios from "axios";
 import { Uploader, Message, Loader, useToaster } from 'rsuite';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import Starlogo from "../../assets/img/logo.png";
+
 
 function previewFile(file, callback) {
   const reader = new FileReader();
@@ -57,7 +59,7 @@ const Profile = () => {
           <div className="col-auto">
             <div className="account_profile">
               <div className="">
-                <img className="profileImage"  src={users?.profileImage} />
+                <img className="profileImage"  src={users?.profileImage ? users?.profileImage : Starlogo } />
               </div>
               <div className="">
                 <img

@@ -217,8 +217,8 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link className="text-decoration-none" to="/Contact">
-                  Contact Us
+                <Link className="text-decoration-none" to="/MyQuotes">
+                  My Quotes
                 </Link>
               </li>
             </ul>

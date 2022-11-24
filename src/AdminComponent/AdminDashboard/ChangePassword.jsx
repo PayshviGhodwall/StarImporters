@@ -223,7 +223,7 @@ const ChangePassword = () => {
                       </label>
                       <label htmlFor="">Old Password</label>
                       <input
-                        type="password"
+                        type="text"
                         className="form-control"
                         placeholder="Enter Old Password"
                         name="oldPassword"
@@ -245,7 +245,7 @@ const ChangePassword = () => {
                       <label htmlFor="">Confirm New Password </label>
                       
                       <input
-                        type="password"
+                        type="text"
                         className="form-control"
                         placeholder="Enter Password"
                         

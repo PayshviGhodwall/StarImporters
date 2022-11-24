@@ -28,7 +28,7 @@ const Cart = () => {
   return (
     <div>
       <Navbar />
-      <section className="cart_page py-5">
+      <section className="cart_page py-5" style={{backgroundColor:"#eef3ff"}}>
         {token ? (
           <div className="container bg-white">
             <div className="row p-4">
@@ -37,7 +37,7 @@ const Cart = () => {
                   Checkout
                 </a>
               </div>
-              <div className="col-12">
+              <div className="col-12 bg-white" >
                 <div className="row">
                   <div className="col-12">
                     <div className="cart_table">
