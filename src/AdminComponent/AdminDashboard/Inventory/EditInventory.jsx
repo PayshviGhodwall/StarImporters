@@ -135,6 +135,14 @@ const EditInventory = () => {
             button: "Ok",
           });
         }
+        if (res?.data.message == "Trouble in updating please provide right credential") {
+          Swal.fire({
+            title: "Please provide right details",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+        
         setNchnge(Nchnge);
       });
   };
@@ -202,6 +210,11 @@ const EditInventory = () => {
     setChange(!change);
   };
   const FlavourStatus = async(index) => {
+    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
+      console.log(res);
+    });
+  };
+  const flavourPriceStatus = async(index) => {
     await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
       console.log(res);
     });
@@ -455,15 +468,26 @@ const EditInventory = () => {
                       </select>
                     </div>
                     <div className="form-group col-3">
-                      <label htmlFor="">Price</label>
+                      <label htmlFor="" className="d-flex">Price:<Toggle
+                                    size="sm"
+                                    className="mx-2"
+                                    color="#3e4093"
+                                    defaultChecked={true}
+                                    checkedChildren="enable"
+                                    unCheckedChildren="disable"
+                                    onChange={() => {
+                                      priceStatus();
+                                    }}
+                                  /></label>
                       <input
                         type=""
-                        defaultValue={allProducts[0]?.unitName}
+                        defaultValue={allProducts[0]?.price}
                         className="form-control"
                         name="productPrice"
                         placeholder="Enter Product Price"
                         {...register("productPrice")}
                       />
+
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
@@ -579,7 +603,7 @@ const EditInventory = () => {
                                     checkedChildren="enable"
                                     unCheckedChildren="disable"
                                     onChange={() => {
-                                      priceStatus(index);
+                                      flavourPriceStatus(index);
                                     }}
                                   /></label>
 
