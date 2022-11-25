@@ -485,7 +485,7 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact First name:</span>
                           <div className="col">
@@ -493,11 +493,20 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                    
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact Last name:</span>
                           <div className="col">
                             <strong> {user?.lastName}</strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">Phone Number:</span>
+                          <div className="col">
+                            <strong>{user?.phoneNumber}</strong>
                           </div>
                         </div>
                       </div>
@@ -552,9 +561,9 @@ const PendingView = () => {
                       </div>
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
-                          <span className="fw-bold">Phone Number:</span>
+                          <span className="fw-bold">Business Number:</span>
                           <div className="col">
-                            <strong>{user?.phoneNumber}</strong>
+                            <strong>{user?.businessPhoneNumber}</strong>
                           </div>
                         </div>
                       </div>

@@ -1066,13 +1066,15 @@
     border-radius: 50px;
   }
   .radio_design label::before {
-    content: "\f111";
-    font-family: "Font Awesome 5 Pro";
-    font-weight: 600;
-    font-size: 13px;
-    top: 2px;
-    left: 5px;
-    color: #3e4093;
+    position: absolute;
+    content: "";
+    top: 3.5px;
+    left: 3.5px;
+    height: 15px;
+    width: 15px;
+    background-color: #234476;
+    border-radius: 50px;
+    opacity: 0;
   }
   .width_adjust_right {
     width: 62%;
@@ -1438,7 +1440,9 @@
   }
   .remove_btn {
     color: #f00;
+    background-color: #FFF;
     font-weight: 600;
+    margin-top: 0;
     font-size: 14px;
     display: block;
   }

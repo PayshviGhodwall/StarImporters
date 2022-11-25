@@ -13,7 +13,7 @@ const Account = () => {
     name: "",
     phone: "",
     email: "",
-    password: "",
+    password: "", 
   });
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;

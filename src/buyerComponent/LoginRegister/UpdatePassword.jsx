@@ -43,10 +43,10 @@ const UpdatePassword = (otpEmail) => {
               showCloseButton: true,
               focusConfirm: false,
             });
-            // setTimeout(() => {
-            //   navigate("/");
-            //   window.location.reload();
-            // }, 1000);
+            setTimeout(() => {
+              navigate("/");
+              window.location.reload(false);
+            }, 1000);
           }
         });
     }

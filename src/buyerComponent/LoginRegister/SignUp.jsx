@@ -6,10 +6,12 @@ import "../../assets/css/main.css";
 import axios from "axios";
 import classNames from "classnames";
 import Swal from "sweetalert2";
+import { Button } from "rsuite";
 
 const SignUp = () => {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
+  const[loader,setLoader]=useState(false)
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/register`;
 
   const {
@@ -27,18 +29,20 @@ const SignUp = () => {
   console.log(files);
 
   const onSubmit = (data) => {
+    setLoader(true)
     const SignUpData = async (e) => {
       const formData = new FormData();
       formData.append("companyName", data?.companyName);
       formData.append("dba", data?.dba);
-      formData.append("addressLine", data?.addressLine1);
-      formData.append("addressLine", data?.addressLine2);
+      formData.append("addressLine", data?.addressLine);
       formData.append("city", data?.city);
       formData.append("state", data?.state);
       formData.append("zipcode", data?.zipcode);
       formData.append("firstName", data?.firstName);
       formData.append("lastName", data?.lastName);
       formData.append("email", data?.email);
+      formData.append("wholesaleConfirmation", data?.wholeSale);
+      formData.append("newsLetter", data?.subscribe);
       formData.append("phoneNumber", data?.phoneNumber);
       formData.append("federalTaxId", files?.federalTaxId);
       formData.append("businessLicense", files?.businessLicense);
@@ -46,18 +50,20 @@ const SignUp = () => {
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
 
-      let response = await axios.post(apiUrl, formData).then((res) => {
-        console.log(res);
-        if (res?.data.message === "Registered Successfully") {
+     await axios.post(apiUrl, formData).then((response) => {
+        if (response?.data.message === "Registered Successfully") {
+          setLoader(false)
           Swal.fire({
             title: "Thanks You! Your Account Is Under Review.",
             text: "We will be reviewing your account.Please check your registered email.",
             icon: "success",
             button: "Ok",
-          });
+          }); 
           navigate("/");
         }
-        if (res?.data.message === "Email is already registered") {
+        if (response?.data.message === "Email is already registered") {
+          setLoader(false)
+
           Swal.fire({
             title: "Email is Already registered!",
             text: "Please Login to your Account",
@@ -65,7 +71,9 @@ const SignUp = () => {
             button: "Ok",
           });
         }
-        if (res?.data.message === "Phone is already registered") {
+        if (response?.data.message === "Phone is already registered") {
+          setLoader(false)
+
           Swal.fire({
             title: "This Phone Number is Already Registered ",
             text: "Please Enter a new Number ",
@@ -73,9 +81,20 @@ const SignUp = () => {
             button: "Ok",
           });
         }
-      });
-    };
+        if (response?.data.message == "Wrong input") {
+          setLoader(false)
 
+          console.log();
+          Swal.fire({
+            title: "Enter Valid Data in Required Fields.",
+            text: "",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+      })
+    };
+    
     SignUpData();
   };
   return (
@@ -630,7 +649,7 @@ const SignUp = () => {
                         "form-check-input border border-secondary"
                       )}
                       type="checkbox"
-                      value=""
+                      value={true}
                       id="flexCheckAddress"
                       name="wholeSale"
                       {...register("wholeSale")}
@@ -648,7 +667,7 @@ const SignUp = () => {
                         "form-check-input border border-secondary"
                       )}
                       type="checkbox"
-                      value=""
+                      value={true}
                       name="subscribe"
                       id="flexCheckAddress"
                       {...register("subscribe")}
@@ -662,10 +681,10 @@ const SignUp = () => {
                   </div>
 
                   <div className="col-12 text-center mt-4">
-                    <button className="comman_btn2 mx-2">Cancel</button>
-                    <button className="comman_btn mx-2" type="submit">
+                    <Button className="comman_btn2 mx-2 fw-bold" appearance="primary" onClick={()=>{navigate("/")}} style={{backgroundColor:"#eb3237",color:"#fff"}}>Cancel</Button>
+                    <Button  loading={loader} appearance="primary" className="comman_btn mx-2 fw-bold" type="submit"  style={{backgroundColor:"#3e4093",color:"#fff"}}>
                       Submit
-                    </button>
+                    </Button>
                   </div>
                 </>
               </div>

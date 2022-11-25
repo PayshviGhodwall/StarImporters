@@ -14,8 +14,9 @@ import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
+import Swal from "sweetalert2";
 const EditUser = () => {
-  const[loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const [files, setFiles] = useState([]);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
@@ -52,7 +53,7 @@ const EditUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
-    setLoader(true)
+    setLoader(true);
     console.log(data, "hii");
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
@@ -66,6 +67,8 @@ const EditUser = () => {
     formData.append("lastName", data?.lastName);
     formData.append("email", data?.email);
     formData.append("phoneNumber", data?.phoneNumber);
+    formData.append("businessPhoneNumber", data?.businessNumber);
+    formData.append("businessNumber", data?.businessNumber);
     formData.append("federalTaxId", files?.federalTaxId);
     formData.append("businessLicense", files?.businessLicense);
     formData.append("tobaccoLicence", files?.tobaccoLicence);
@@ -77,8 +80,25 @@ const EditUser = () => {
     await axios.post(apiUrl2 + "/" + objectId, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "User Deatils Updated Successfully") {
+        setLoader(false);
         navigate("/UserManage/ApprovedView");
-      
+      }
+      if (res?.data.message === "Email is already registered") {
+        setLoader(false);
+        Swal.fire({
+          title: "Email is Already registered!",
+          icon: "error",
+          button: "Ok",
+        });
+      }
+      if (res?.data.message === "Phone is already registered") {
+        setLoader(false);
+
+        Swal.fire({
+          title: "Phone is already registered!",
+          icon: "error",
+          button: "Ok",
+        });
       }
     });
   };
@@ -95,7 +115,8 @@ const EditUser = () => {
     defalutValues.imageProfile = results.imageProfile;
     defalutValues.companyName = results.companyName;
     defalutValues.dba = results.dba;
-    defalutValues.addressLine = results.addressLine;
+    defalutValues.addressLine = results.addressLine1;
+    defalutValues.addressLine = results.addressLine2;
     defalutValues.city = results.city;
     defalutValues.state = results.state;
     defalutValues.zipcode = results.zipcode;
@@ -149,7 +170,7 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
+
                     color: "#3e4093",
                   }}
                 >
@@ -163,7 +184,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Category &amp; Sub Category
@@ -176,7 +196,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="far fa-building"></i> Inventory Management
@@ -189,7 +208,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-ship"></i> Brands Management
@@ -202,7 +220,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-layer-group"></i> Order request
@@ -215,7 +232,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-cog"></i> CMS
@@ -229,7 +245,6 @@ const EditUser = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i class="fa fa-sign-out-alt"></i>Logout
@@ -649,7 +664,8 @@ const EditUser = () => {
                             />
                             <label htmlFor="file4">
                               <div className="">
-                                {files?.businessLicense || user?.businessLicense ? (
+                                {files?.businessLicense ||
+                                user?.businessLicense ? (
                                   <FaFileDownload size={25} />
                                 ) : (
                                   <FaFileUpload size={25} />
@@ -665,7 +681,7 @@ const EditUser = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Contact First name
                         </label>
@@ -681,7 +697,7 @@ const EditUser = () => {
                           {...register("firstName")}
                         />
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="LastName" className="fw-bold fs-6">
                           Contact Last name
                         </label>
@@ -697,6 +713,32 @@ const EditUser = () => {
                             required: "last Name is Required",
                           })}
                         />
+                      </div>
+                      <div className="form-group col-4 mb-4">
+                        <label htmlFor="" className="fw-bold fs-6">
+                          Phone Number
+                        </label>
+                        <input
+                          type="text"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields "
+                          )}
+                          defaultValue={user?.phoneNumber}
+                          name="phoneNumber"
+                          id="name"
+                          {...register("phoneNumber", {
+                            maxLength: {
+                              value: 10,
+                              message: "maximium 10 Characters",
+                            },
+                            minLength: 10,
+                          })}
+                        />
+                        {errors.phoneNumber && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.phoneNumber?.message}
+                          </small>
+                        )}
                       </div>
                       <div className="col-md-12 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
@@ -722,7 +764,8 @@ const EditUser = () => {
 
                             <label htmlFor="file5">
                               <div className="">
-                                {files?.accountOwnerId || user?.accountOwnerId ? (
+                                {files?.accountOwnerId ||
+                                user?.accountOwnerId ? (
                                   <FaFileDownload size={25} />
                                 ) : (
                                   <FaFileUpload size={25} />
@@ -768,17 +811,18 @@ const EditUser = () => {
                       </div>
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
-                          Phone Number
+                          Business Number
                         </label>
                         <input
                           type="text"
                           className={classNames(
-                            "form-control  border border-secondary signup_fields "
+                            "form-control  border border-secondary signup_fields ",
+                            { "is-invalid": errors.businessNumber }
                           )}
-                          defaultValue={user?.phoneNumber}
-                          name="phoneNumber"
+                          name="businessNumber"
                           id="name"
-                          {...register("phoneNumber", {
+                          defaultValue={user?.businessPhoneNumber}
+                          {...register("businessNumber", {
                             maxLength: {
                               value: 10,
                               message: "maximium 10 Characters",
@@ -786,12 +830,13 @@ const EditUser = () => {
                             minLength: 10,
                           })}
                         />
-                        {errors.phoneNumber && (
+                        {errors.businessNumber && (
                           <small className="errorText mx-1 fw-bold">
-                            {errors.phoneNumber?.message}
+                            {errors.businessNumber?.message}
                           </small>
                         )}
                       </div>
+
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           How do you know about us?
@@ -850,10 +895,15 @@ const EditUser = () => {
                       </div>
 
                       <div className="col-12 text-center">
-                      <Button
-                        loading={loader}
-                        style ={{backgroundColor:"#eb3237",fontSize:"20px",position:"relative",top:"-2px"}}
-                        appearance="primary"
+                        <Button
+                          loading={loader}
+                          style={{
+                            backgroundColor: "#eb3237",
+                            fontSize: "20px",
+                            position: "relative",
+                            top: "-2px",
+                          }}
+                          appearance="primary"
                           className="comman_btn2 mx-2"
                           type="submit"
                         >

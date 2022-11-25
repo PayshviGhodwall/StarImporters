@@ -82,6 +82,7 @@ import Cart from "./buyerComponent/Cart/Cart";
 import BuyAgain from "./buyerComponent/MyAccount/BuyAgain";
 import SignUpAgain from "./buyerComponent/LoginRegister/SignUpAgain";
 import MyQuotes from "./buyerComponent/Homepage/MyQuotes";
+import Checkout from "./buyerComponent/Cart/Checkout";
 
 
 function App() {
@@ -162,6 +163,7 @@ function App() {
           <Route path="/BrandsManage" element={<BrandsManage />} />
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
+          <Route path="/Cart/Checkout" element={<Checkout />} />
 
           {/* App Routes */}
           <Route

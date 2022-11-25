@@ -134,7 +134,7 @@ const Homepage = ({ GetData }) => {
               />
               <div className="carousel-caption bannerTitle2">
                 <h5 className=" text-end  Bannertext">{allSlides[2]?.title}</h5>
-                <p className="d-flex text-end fs-6 bannerTxt">
+                <p className="d-flex text-end fs-6 ">
                   {allSlides[2]?.description}
                 </p>
 

@@ -11,12 +11,15 @@ import classNames from "classnames";
 import { FaFileUpload } from "react-icons/fa";
 import { data } from "jquery";
 import ProfileBar from "../ProfileBar";
+import { Button } from "rsuite";
+import Swal from "sweetalert2";
 
 const AddUser = () => {
   const [files, setFiles] = useState([]);
   const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addUser`
   const navigate = useNavigate();
   const [emailErr,setEmailErr] = useState("")
+  const [loader,setLoader] = useState("")
   const [sideBar, setSideBar] = useState(true);
 
   const {
@@ -32,12 +35,15 @@ const AddUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
+    setLoader(true)
     console.log(data);
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
     formData.append("companyName", data?.companyName);
     formData.append("dba", data?.dba);
-    formData.append("addressLine", data?.addressLine);
+    formData.append("addressLine", data?.addressLine1);
+    formData.append("addressLine", data?.addressLine2);
+    formData.append("businessPhoneNumber", data?.businessNumber);
     formData.append("city", data?.city);
     formData.append("state", data?.state);
     formData.append("zipcode", data?.zipcode);
@@ -57,9 +63,32 @@ const AddUser = () => {
     await axios.post(apiUrl, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Registered Successfully") {
+        setLoader(false)
         navigate("/UserManage");
       }
       if (res?.data.message === "Email is already registered") {
+        setLoader(false)
+        Swal.fire({
+          title: "Email is Already registered!",
+          icon: "error",
+          button: "Ok",
+        });
+        setEmailErr("Email is already registered")
+        
+      }
+      if (res?.data.message === "Phone is already registered") {
+        setLoader(false)
+
+        Swal.fire({
+          title: "Phone is already registered!",
+          icon: "error",
+          button: "Ok",
+        });
+        
+      }
+      if (res?.data.message === "Email is already registered") {
+        setLoader(false)
+
         setEmailErr("Email is already registered")
         
       }
@@ -312,17 +341,17 @@ const AddUser = () => {
                           type="text"
                           className={classNames(
                             "form-control  border border-secondary signup_fields",
-                            { "is-invalid": errors.addressLine }
+                            { "is-invalid": errors.addressLine1 }
                           )}
-                          name="addressLine"
+                          name="addressLine1"
                           id="address"
-                          {...register("addressLine", {
+                          {...register("addressLine1", {
                             required: "Company Adrress Line1 is Required*",
                           })}
                         />
-                        {errors.addressLine && (
+                        {errors.addressLine1 && (
                           <small className="errorText mx-1 fw-bold">
-                            {errors.addressLine?.message}
+                            {errors.addressLine1?.message}
                           </small>
                         )}
                       </div>
@@ -333,8 +362,9 @@ const AddUser = () => {
                         <input
                           type="text"
                           className="form-control border border-secondary "
-                          name="name"
+                          name="addressLine2"
                           id="addressLine2"
+                          {...register("addressLine2")}
                         />
                       </div>
                       <div className="form-group col-4 mb-4">
@@ -596,7 +626,7 @@ const AddUser = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Contact First name
                         </label>
@@ -618,7 +648,7 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Contact Last name
                         </label>
@@ -637,6 +667,34 @@ const AddUser = () => {
                         {errors.lastName && (
                           <small className="errorText mx-1 fw-bold">
                             {errors.lastName?.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="form-group col-4 mb-4">
+                        <label htmlFor="" className="fw-bold fs-6">
+                          Phone Number
+                        </label>
+                        <input
+                          type="text"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields ",
+                            { "is-invalid": errors.phoneNumber }
+                          )}
+                          name="phoneNumber"
+                          id="name"
+                          {...register("phoneNumber", {
+                            required: "Phone Number is Required*",
+
+                            maxLength: {
+                              value: 10,
+                              message: "maximium 10 Characters",
+                            },
+                            minLength: 10,
+                          })}
+                        />
+                        {errors.phoneNumber && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.phoneNumber?.message}
                           </small>
                         )}
                       </div>
@@ -704,18 +762,18 @@ const AddUser = () => {
                       </div>
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
-                          Phone Number
+                          Business Number
                         </label>
                         <input
                           type="text"
                           className={classNames(
                             "form-control  border border-secondary signup_fields ",
-                            { "is-invalid": errors.phoneNumber }
+                            { "is-invalid": errors.businessNumber }
                           )}
-                          name="phoneNumber"
+                          name="businessNumber"
                           id="name"
-                          {...register("phoneNumber", {
-                            required: "Phone Number is Required*",
+                          {...register("businessNumber", {
+                          
 
                             maxLength: {
                               value: 10,
@@ -724,9 +782,9 @@ const AddUser = () => {
                             minLength: 10,
                           })}
                         />
-                        {errors.phoneNumber && (
+                        {errors.businessNumber && (
                           <small className="errorText mx-1 fw-bold">
-                            {errors.phoneNumber?.message}
+                            {errors.businessNumber?.message}
                           </small>
                         )}
                       </div>
@@ -762,9 +820,9 @@ const AddUser = () => {
                         </select>
                       </div>
                       <div className="col-12 text-center mt-4">
-                        <button className="comman_btn mx-2" type="submit">
+                        <Button loading={loader} className="comman_btn mx-2" style={{backgroundColor:"#eb3237",color:"#FFF"}}  type="submit">
                           Submit
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   </div>

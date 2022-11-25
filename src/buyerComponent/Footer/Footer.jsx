@@ -51,7 +51,7 @@ const Footer = () => {
       </section>
       <section className="footer_dark">
         <div className="footer_top">
-          <div className="container">
+           <div className="container">
             <div className="row">
               <div className="col-lg-3 col-md-12 text-white text-lg-start text-md-center">
                 <div className="widget">
@@ -97,19 +97,19 @@ const Footer = () => {
                   <h6 className="widget_title">Category</h6>
                   <ul className="widget_links">
                     <li>
-                      <Link className="text-decoration-none" to ="">Vape </Link>
+                      <Link className="text-decoration-none" to ="/">Vape </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="">Smoke </Link>
+                      <Link className="text-decoration-none" to ="/">Smoke </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="">Kids </Link>
+                      <Link className="text-decoration-none" to ="/">Kids </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="">C-Store &amp; Novelty </Link>
+                      <Link className="text-decoration-none" to ="/">C-Store &amp; Novelty </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="">Glass &amp; Sillicone </Link>
+                      <Link className="text-decoration-none" to ="/">Glass &amp; Sillicone </Link>
                     </li>
                   </ul>
                 </div>
@@ -147,27 +147,27 @@ const Footer = () => {
               <div className="col-md-6">
                 <ul className="footer_payment text-center text-lg-end mb-0">
                   <li>
-                    <Link className="text-decoration-none" to ="">
+                    <Link className="text-decoration-none" to ="/">
                       <img src={require("../../assets/img/visa.png")} alt="visa" />
                      </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to ="">
+                    <Link className="text-decoration-none" to ="/">
                       <img src={require("../../assets/img/discover.png")} alt="discover" />
                      </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to ="">
+                    <Link className="text-decoration-none" to ="/">
                       <img src={require("../../assets/img/master_card.png")} alt="master_card" />
                      </Link>
                   </li>
                   <li>
-                    <Link href="#">
+                    <Link href="/">
                       <img src={require("../../assets/img/paypal.png")} alt="paypal" />
                      </Link>
                   </li>
                   <li>
-                    <Link href="#">
+                    <Link href="/">
                       <img
                         src={require("../../assets/img/amarican_express.png")}
                         alt="amarican_express"

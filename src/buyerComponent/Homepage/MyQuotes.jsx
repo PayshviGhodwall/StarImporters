@@ -8,16 +8,15 @@ import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const MyQuotes = () => {
-  const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
-  const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/removeProducts`;
+  const getQuoteProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/getQuotes`;
+  const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/removeQuoteProducts`;
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
-  const [count, setCount] = useState(1);
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-  const getCart = async () => {
-    await axios.get(getCartProducts).then((res) => {
+  const getQuotes = async () => {
+    await axios.get(getQuoteProducts).then((res) => {
       setProduct(res?.data.results.products);
     });
   };
@@ -25,7 +24,7 @@ const MyQuotes = () => {
   console.log(product);
   useEffect(() => {
     setToken(localStorage.getItem("token-user"));
-    getCart();
+    getQuotes();
   }, []);
 
   const RemoveProduct = async (index) => {
@@ -34,7 +33,7 @@ const MyQuotes = () => {
         productId: product[index].productId?._id,
       })
       .then((res) => {
-        getCart();
+        getQuotes()
       });
   };
   return (
@@ -85,11 +84,6 @@ const MyQuotes = () => {
 
             <div className="container bg-white ">
               <div className="row p-4">
-                <div className="col-12 text-end mb-4">
-                  <a className="comman_btn" href="checkout.html">
-                    Checkout
-                  </a>
-                </div>
                 <div className="col-12 bg-white">
                   <div className="row">
                     <div className="col-12">
@@ -104,11 +98,14 @@ const MyQuotes = () => {
                             </thead>
                             <tbody>
                               {(product || []).map((item, index) => (
-                                <tr key={index}>
+                                <tr
+                                  key={index}
+                                  style={{ backgroundColor: "#eef3ff" }}
+                                >
                                   <td>
                                     <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
                                       <div className="col-auto">
-                                        <span className="cart_product">
+                                        <span className="cart_product bg-white">
                                           <img
                                             src={item?.productId?.productImage}
                                             alt=""
@@ -117,9 +114,12 @@ const MyQuotes = () => {
                                       </div>
                                       <div className="col">
                                         <div className="cart_content">
-                                          <h3 className="fs-4">
-                                            {item?.productId?.unitName}{" "}
-                                          </h3>
+                                          <Link className="text-decoration-none text-dark">
+                                            {" "}
+                                            <h3 className="fs-5">
+                                              {item?.productId?.unitName}{" "}
+                                            </h3>
+                                          </Link>
                                           <p>
                                             Lorem ipsum dolor sit, amet
                                             consectetur adipisicing elit. Facere
@@ -145,14 +145,23 @@ const MyQuotes = () => {
                                             </div>
                                             <span>(216)</span>
                                           </div>
-                                          <button
-                                            className="remove_btn"
+                                          <a
+                                            className="text-decoration-none"
+                                            style={{
+                                              marginTop: "-3px",
+                                              color: "#eb3237",
+                                              cursor: "pointer",
+                                            }}
                                             onClick={() => {
                                               RemoveProduct(index);
                                             }}
                                           >
+                                            <i
+                                              class="fa fa-trash"
+                                              aria-hidden="true"
+                                            ></i>{" "}
                                             Remove
-                                          </button>
+                                          </a>
                                         </div>
                                       </div>
                                     </div>
@@ -171,6 +180,14 @@ const MyQuotes = () => {
                               ))}
                             </tbody>
                           </table>
+                          <div className="col-12 text-center mb-3 mt-5">
+                            <Link
+                              className="comman_btn text-decoration-none"
+                              to="/Cart/Checkout"
+                            >
+                              Checkout
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>

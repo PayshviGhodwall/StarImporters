@@ -6,8 +6,9 @@ const AgeVerification = ({ ModalClose }) => {
   const [err, setErr] = useState(false);
 
   const handleClick = (e) => {
+    var expires = new Date(Date.now() + 86400 * 4000).toUTCString();
     e.preventDefault();
-    document.cookie = "cookie=store";
+    document.cookie = "cookie=store; expires =" + expires + ";";
     ModalClose.click();
   };
 

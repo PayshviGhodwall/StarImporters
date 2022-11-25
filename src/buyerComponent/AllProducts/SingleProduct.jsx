@@ -18,7 +18,9 @@ const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
+  const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const [loader, setLoader] = useState(false);
+  const [loader1, setLoader2] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
   const [minDisable, setMinDisable] = useState(true);
   const [flavour, setFlavour] = useState("");
@@ -79,7 +81,7 @@ const SingleProduct = () => {
 
           setNState(true);
         }
-        if (res.data?.message === "Product is already in Cart") {
+        if (res.data?.message === "Product modified") {
           setLoader(false);
           setSuccesMsg("Product added to Cart!");
           document.getElementById("req-modal2").click();
@@ -115,13 +117,64 @@ const SingleProduct = () => {
           });
         }
       });
-      setTimeout(()=>{
-        setLoader(false)
-       
-      },8000)
+    setTimeout(() => {
+      setLoader(false);
+    }, 8000);
   };
-  const QuoteReq = () => {
-    document.getElementById("req-modal").click();
+  const AddtoQuote = async () => {
+    setLoader2(true);
+    cartProduct.push(objectId);
+    cartProduct.push(unitCount);
+    await axios
+      .post(addQuote, {
+        productId: cartProduct[0],
+        quantity: cartProduct[1],
+      })
+      .then((res) => {
+        if (res.data?.message === "Quote is Added") {
+          setLoader(false);
+          setSuccesMsg("Product added to Quote!");
+          document.getElementById("req-modal").click();
+
+        }
+        if (res.data?.message === "Quote is already in Cart") {
+          setLoader(false);
+          setSuccesMsg("Product added to Cart!");
+          document.getElementById("req-modal").click();
+
+        }
+      })
+      .catch((err) => {
+        if (
+          err.response?.data?.message === "Access Denied. No token provided."
+        ) {
+          setLoader(false);
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+        if (err.response?.data?.message === "You are not Authenticated Yet") {
+          setLoader(false);
+          Swal.fire({
+            title: "Please Login to your Account!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+        if (err.response?.data.message === "") {
+          setLoader(false);
+          Swal.fire({
+            title: "Product is already in Cart!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      });
+    setTimeout(() => {
+      setLoader(false);
+    }, 8000);
   };
 
   return (
@@ -195,6 +248,7 @@ const SingleProduct = () => {
                         </button>
                       ))}
                     </div>
+
                     <div className="carousel-inner">
                       <div className="carousel-item active">
                         <div className="productimg_show">
@@ -330,7 +384,7 @@ const SingleProduct = () => {
                             >
                               Add To Cart
                             </Button>
-                            <button className="comman_btn2" onClick={QuoteReq}>
+                            <button className="comman_btn2" onClick={AddtoQuote}>
                               Request Quotation
                             </button>
                           </div>
@@ -430,7 +484,7 @@ const SingleProduct = () => {
       <Modal open={open} onClose={handleClose} style={{ marginTop: "150px" }}>
         <Modal.Header>
           <Modal.Title className="fs-4">
-            Quotation Added to My Quotes!
+          <i class="fas fa-check-circle "></i> Quotation Added to My Quotes!
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -443,7 +497,9 @@ const SingleProduct = () => {
             >
               View Quotes
             </button>
-            <button className="comman_btn2 rounded mx-3">
+            <button className="comman_btn2 rounded mx-3"   onClick={() => {
+                navigate("/");
+              }}>
               Continue Shopping
             </button>
           </div>
@@ -452,7 +508,10 @@ const SingleProduct = () => {
       </Modal>
       <Modal open={open2} onClose={handle2Close} style={{ marginTop: "150px" }}>
         <Modal.Header>
-          <Modal.Title className="fs-4">Product Added to Cart!</Modal.Title>
+          <Modal.Title className="fs-4">
+            {" "}
+            <i class="fas fa-check-circle"></i> Product Added to Cart!
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-center">

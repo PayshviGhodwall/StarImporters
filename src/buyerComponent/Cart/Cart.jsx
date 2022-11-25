@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 const Cart = () => {
   const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
@@ -14,7 +15,7 @@ const Cart = () => {
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
   const [count, setCount] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
   const getCart = async () => {
@@ -47,7 +48,7 @@ const Cart = () => {
       >
         {token ? (
           <div className="container user-management-tabs px-0">
-                         <nav className="w-100">
+            <nav className="w-100">
               <div className="nav nav-tabs  " id="nav-tab" role="tablist">
                 <button
                   className="nav-link active"
@@ -84,104 +85,106 @@ const Cart = () => {
               </div>
             </nav>
 
-            
-          <div className="container bg-white ">
-
-           
-            <div className="row p-4">
-              <div className="col-12 text-end mb-4">
-                <a className="comman_btn" href="checkout.html">
-                  Checkout
-                </a>
-              </div>
-              <div className="col-12 bg-white">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="cart_table">
-                      <div className="table-responsive">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>Product Details</th>
-                              <th>Quantity</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {(product || []).map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
-                                    <div className="col-auto">
-                                      <span className="cart_product">
-                                        <img
-                                          src={item?.productId?.productImage}
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                    <div className="col">
-                                      <div className="cart_content">
-                                        <h3 className="fs-4">
-                                          {item?.productId?.unitName}{" "}
-                                        </h3>
-                                        <p>
-                                          Lorem ipsum dolor sit, amet
-                                          consectetur adipisicing elit. Facere
-                                          similique odio sed accusantium.
-                                        </p>
-                                        <div className="rate_main d-flex align-items-center my-md-3 my-2">
-                                          <div className="rating_box">
-                                            <a href="javasript:;">
-                                              <i className="fas fa-star" />
-                                            </a>
-                                            <a href="javasript:;">
-                                              <i className="fas fa-star" />
-                                            </a>
-                                            <a href="javasript:;">
-                                              <i className="fas fa-star" />
-                                            </a>
-                                            <a href="javasript:;">
-                                              <i className="fas fa-star" />
-                                            </a>
-                                            <a href="javasript:;">
-                                              <i className="fa fa-star" />
-                                            </a>
+            <div className="container bg-white ">
+              <div className="row p-4">
+                <div className="col-12 bg-white">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="cart_table">
+                        <div className="table-responsive">
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th>Product Details</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {(product || []).map((item, index) => (
+                                <tr key={index}  style={{ backgroundColor: "#eef3ff" }}>
+                                  <td>
+                                    <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
+                                      <div className="col-auto">
+                                        <span className="cart_product bg-white">
+                                          <img
+                                            src={item?.productId?.productImage}
+                                            alt=""
+                                          />
+                                        </span>
+                                      </div>
+                                      <div className="col">
+                                        <div className="cart_content">
+                                        <Link className="text-decoration-none text-dark"> <h3 className="fs-5">
+                                            {item?.productId?.unitName}{" "}
+                                          </h3>
+                                          </Link> 
+                                          <p>
+                                            Lorem ipsum dolor sit, amet
+                                            consectetur adipisicing elit. Facere
+                                            similique odio sed accusantium.
+                                          </p>
+                                          <div className="rate_main d-flex align-items-center my-md-3 my-2">
+                                            <div className="rating_box">
+                                              <a href="javasript:;">
+                                                <i className="fas fa-star" />
+                                              </a>
+                                              <a href="javasript:;">
+                                                <i className="fas fa-star" />
+                                              </a>
+                                              <a href="javasript:;">
+                                                <i className="fas fa-star" />
+                                              </a>
+                                              <a href="javasript:;">
+                                                <i className="fas fa-star" />
+                                              </a>
+                                              <a href="javasript:;">
+                                                <i className="fa fa-star" />
+                                              </a>
+                                            </div>
+                                            <span>(216)</span>
                                           </div>
-                                          <span>(216)</span>
+                                          <a
+                                            className="text-decoration-none"
+                                            style={{marginTop:"-3px", color:"#eb3237",cursor:"pointer"}}
+                                            onClick={() => {
+                                              RemoveProduct(index);
+                                            }}
+                                          >
+                                           <i class="fa fa-trash" aria-hidden="true"></i> Remove
+                                          </a>
                                         </div>
-                                        <button
-                                          className="remove_btn"
-                                          onClick={() => {
-                                            RemoveProduct(index);
-                                          }}
-                                        >
-                                          Remove
-                                        </button>
                                       </div>
                                     </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="number">
-                                    <input
-                                      type="text"
-                                      className="border bg-light rounded"
-                                      style={{ width: "70px" }}
-                                      defaultValue={item?.quantity}
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                  </td>
+                                  <td>
+                                    <div className="number">
+                                      <input
+                                        type="text"
+                                        className="border bg-light rounded"
+                                        style={{ width: "70px" }}
+                                        defaultValue={item?.quantity}
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          <div className="col-12 text-center mb-3 mt-5">
+                            <Link
+                              className="comman_btn text-decoration-none"
+                              to="/"
+                            >
+                              Checkout
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
         ) : (
           <div className="container bg-white">
