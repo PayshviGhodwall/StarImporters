@@ -458,7 +458,7 @@ const EditInventory = () => {
                       <label htmlFor="">Price</label>
                       <input
                         type=""
-                        defaultValue={allProducts[0]?.unitName}
+                        defaultValue={allProducts[0]?.productPrice}
                         className="form-control"
                         name="productPrice"
                         placeholder="Enter Product Price"
@@ -588,6 +588,8 @@ const EditInventory = () => {
                                     className="form-control"
                                     name="flavourPrice"
                                     placeholder="Enter Price"
+                                    defaultValue={item?.flavourPrice}
+
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                  

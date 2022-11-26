@@ -99,7 +99,13 @@ const Inventory = () => {
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
-      { productType: "", flavour: [], flavourImage: [], barcode: [],flavourPrice:"" },
+      {
+        productType: "",
+        flavour: [],
+        flavourImage: [],
+        barcode: [],
+        flavourPrice: "",
+      },
     ]);
   };
   const removeFormFields = (index) => {
