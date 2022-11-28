@@ -67,7 +67,7 @@ const ChangePassword = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i className="fa fa-home"></i> Dashboard
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-home"></i> Dashboard
                 </Link>
               </li>
               <li>
@@ -81,7 +81,7 @@ const ChangePassword = () => {
                     color: "#3e4093",
                   }}
                 >
-                  <i class="fa fa-user"></i> User Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-user"></i> User Management
                 </Link>
               </li>
               <li>
@@ -94,7 +94,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Category &amp; Sub Category
                 </Link>
               </li>
               <li>
@@ -107,7 +107,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="far fa-building"></i> Inventory Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="far fa-building"></i> Inventory Management
                 </Link>
               </li>
               <li>
@@ -120,7 +120,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="fa fa-ship"></i> Brands Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-ship"></i> Brands Management
                 </Link>
               </li>
               <li>
@@ -133,7 +133,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="fa fa-layer-group"></i> Order request
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Order request
                 </Link>
               </li>
               <li>
@@ -146,7 +146,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="fa fa-cog"></i> CMS
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-cog"></i> CMS
                 </Link>
               </li>
               <li>
@@ -160,7 +160,7 @@ const ChangePassword = () => {
                     
                   }}
                 >
-                  <i class="fa fa-sign-out-alt"></i>Logout
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-sign-out-alt"></i>Logout
                 </Link>
               </li>
             </ul>

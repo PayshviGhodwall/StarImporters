@@ -4,7 +4,6 @@ import Navbar from "./Navbar";
 import { useForm } from "react-hook-form";
 import { BsFillStarFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
@@ -30,6 +29,7 @@ const Homepage = ({ GetData }) => {
   const ModalClose = document.getElementById("age_close");
   const modalCloseTerms = document.getElementById("terms_close");
   const navigate = useNavigate();
+
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
   useEffect(() => {
@@ -70,6 +70,7 @@ const Homepage = ({ GetData }) => {
 
   return (
     <div className="home_page">
+      
       <Navbar />
 
       <section className="home">

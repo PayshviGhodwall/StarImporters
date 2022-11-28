@@ -34,7 +34,7 @@ const UserManage = () => {
   const [rejectedUsers, setRejectedUsers] = useState([]);
   const [set, setSet] = useState(true);
   const [msg, setMsg] = "";
-  const[loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const [enableUser, setEnableUser] = useState();
   const importInput = document.getElementById("fileID");
   const dropArea = document.getElementById("dropBox");
@@ -109,20 +109,20 @@ const UserManage = () => {
   }, [search]);
 
   const onUpload = async () => {
-    setLoader(true)
+    setLoader(true);
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(uploadUrl, formData).then((res) => {
       setUploadError(res?.data.message);
       if (res?.data.message === "Imported details") {
-        setLoader(false)
+        setLoader(false);
         setSet(!set);
-        setUm(true)
+        setUm(true);
         setCrenditials(res?.data.results?.userNameAndPassword);
       }
       if (res?.data.message === "Duplicte email OR Already Registered") {
-        setLoader(false)
-        setUm(true)
+        setLoader(false);
+        setUm(true);
         setErrorEmails(res?.data.results);
         console.log(errEmails);
       }
@@ -130,7 +130,7 @@ const UserManage = () => {
     document.getElementById("reUpload").hidden = false;
   };
   const modalClose = () => {
-    window.location.reload(false)
+    window.location.reload(false);
     // setErrorEmails([]);
     // setUx(!ux);
     // setImpFile("");
@@ -200,81 +200,93 @@ const UserManage = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "2px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
                 <Link
-                  className="fw-bold bg-white"
+                  className="bg-white"
                   to="/UserManage"
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-
                     color: "#3e4093",
                   }}
                 >
-                  <i class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/CategorySub"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Inventory"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "6px", top: "3px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/brandsManage"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/OrderRequest"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Cms"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -282,12 +294,13 @@ const UserManage = () => {
                   className=""
                   to="/AdminLogin"
                   onClick={handleClick}
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -478,7 +491,7 @@ const UserManage = () => {
                               <div className="table-responsive">
                                 <table className="table mb-0">
                                   <thead>
-                                    <tr>
+                                    <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
                                       <th>S.No.</th>
                                       <th>Date</th>
                                       <th>User Name</th>
@@ -577,7 +590,7 @@ const UserManage = () => {
                                 <div className="table-responsive">
                                   <table className="table mb-0">
                                     <thead>
-                                      <tr>
+                                      <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
                                         <th>S.No.</th>
                                         <th>Date</th>
                                         <th>User Name</th>
@@ -700,7 +713,7 @@ const UserManage = () => {
                               <div className="table-responsive">
                                 <table className="table mb-0">
                                   <thead>
-                                    <tr>
+                                    <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
                                       <th>S.No.</th>
                                       <th>Date</th>
                                       <th>User Name</th>
@@ -821,7 +834,13 @@ const UserManage = () => {
                             className="comman_btn"
                             htmlFor=""
                             loading={loader}
-                            style ={{backgroundColor:"#eb3237",color:"#fff",fontSize:"20px",position:"relative",top:"-2px"}}
+                            style={{
+                              backgroundColor: "#eb3237",
+                              color: "#fff",
+                              fontSize: "20px",
+                              position: "relative",
+                              top: "-2px",
+                            }}
                             onClick={onUpload}
                           >
                             Upload
@@ -922,7 +941,9 @@ const UserManage = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={()=>{window.location.reload(false)}}
+                onClick={() => {
+                  window.location.reload(false);
+                }}
               />
 
               <div>

@@ -343,6 +343,15 @@ const SingleProduct = () => {
                               </div>
                             </div>
                           </div>
+                          <div className="col-12">
+                            { product?.productPrice ?
+                          <p>Price : {product?.productPrice}</p>
+                          : 
+                          null
+
+                            }
+                            
+                          </div>
                           <div className="col-12 quantity_box d-md-flex align-items-center mt-md-3 mb-md-2">
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span

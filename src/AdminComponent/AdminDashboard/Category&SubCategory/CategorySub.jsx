@@ -70,8 +70,7 @@ const CategorySub = () => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
         setChange(!change);
-      }
-      else if (res?.data.message === "Sub Category is already exist") {
+      } else if (res?.data.message === "Sub Category is already exist") {
         Swal.fire({
           title: "Sub Category is already added!",
           icon: "error",
@@ -171,45 +170,52 @@ const CategorySub = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "2px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/UserManage"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
                 <Link
-                  className="bg-white"
+                  className="bg-white "
                   to="/CategorySub"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-
-                    color: "#3e4093",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px",
+                  color: "#3e4093",
+                }}
                 >
-                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Inventory"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "6px", top: "3px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
@@ -221,31 +227,37 @@ const CategorySub = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/OrderRequest"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Cms"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -253,12 +265,13 @@ const CategorySub = () => {
                   className=""
                   to="/AdminLogin"
                   onClick={handleClick}
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -396,7 +409,7 @@ const CategorySub = () => {
                                   <div className="table-responsive">
                                     <table className="table mb-0">
                                       <thead>
-                                        <tr>
+                                        <tr style={{backgroundColor:"#f2f2f2"}}>
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>Category Name</th>
@@ -543,7 +556,7 @@ const CategorySub = () => {
                                   <div className="table-responsive">
                                     <table className="table mb-0">
                                       <thead>
-                                        <tr>
+                                        <tr style={{backgroundColor:"#f2f2f2"}}>
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>Category Name</th>

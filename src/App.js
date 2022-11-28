@@ -98,10 +98,12 @@ function App() {
 
   return (
     <div className="App">
+
       <ToastContainer />
       <Router>
         <ScrollToTop />
         <Routes>
+          
           <Route path="/" element={<Homepage GetData={GetData} />} />
           <Route path="/Register" element={<SignUp />} />
           <Route path="/Register/ReSubmit" element={<SignUpAgain />} />

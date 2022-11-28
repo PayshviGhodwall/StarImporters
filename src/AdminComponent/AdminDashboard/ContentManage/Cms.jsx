@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
-  const [change,setChange] = useState(false)
+  const [change, setChange] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [Tdisabled, setTDisabled] = useState(true);
   const [Pdisabled, setPDisabled] = useState(true);
@@ -28,17 +28,17 @@ const Cms = () => {
   const [editedPrivacy, setEditedPrivacy] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
- 
-  const AllSlides =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`
-  const EditSlide =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`
-  const AddSlide =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/addSlide`
-  const DeleteSlide =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/deleteSlide`
-  const getAbout =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/aboutus`
-  const getTerms =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/TAndC`
-  const getPrivacy =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/privacyPolicy`
-  const editAboutUs =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editAbout`
-  const editTerms =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`
-  const editPrivacy =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`
+
+  const AllSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`;
+  const EditSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`;
+  const AddSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/addSlide`;
+  const DeleteSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/deleteSlide`;
+  const getAbout = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/aboutus`;
+  const getTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/TAndC`;
+  const getPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/privacyPolicy`;
+  const editAboutUs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editAbout`;
+  const editTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`;
+  const editPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`;
 
   const {
     register,
@@ -50,7 +50,6 @@ const Cms = () => {
   } = useForm();
 
   const onFileSelection = (e, key) => {
-   
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
@@ -73,13 +72,12 @@ const Cms = () => {
       .post(EditSlide + "/" + slideData[1]?._id, formData)
       .then((res) => {
         console.log(res);
-        if(res?.data.message === "Slide Modified Successfully"){
-          setChange(!change)
+        if (res?.data.message === "Slide Modified Successfully") {
+          setChange(!change);
         }
       });
   };
   const onSubmitThird = async (data) => {
-
     const formData = new FormData();
     formData.append("title", data.slide3Title);
     formData.append("description", data.slide3Desc);
@@ -88,14 +86,13 @@ const Cms = () => {
       .post(EditSlide + "/" + slideData[2]?._id, formData)
       .then((res) => {
         console.log(res);
-        if(res?.data.message === "Slide Modified Successfully"){
-          setChange(!change)
-          
+        if (res?.data.message === "Slide Modified Successfully") {
+          setChange(!change);
         }
       });
   };
   const onSubmit = async (data) => {
-    console.log(data , "joi");
+    console.log(data, "joi");
 
     const formData = new FormData();
     formData.append("title", data.slideTitle);
@@ -105,9 +102,8 @@ const Cms = () => {
       .post(EditSlide + "/" + slideData[0]?._id, formData)
       .then((res) => {
         console.log(res);
-        if(res?.data.message === "Slide Modified Successfully"){
-          setChange(!change)
-          
+        if (res?.data.message === "Slide Modified Successfully") {
+          setChange(!change);
         }
       });
   };
@@ -209,8 +205,8 @@ const Cms = () => {
   };
 
   return (
-    <div className={sideBar? "admin_main" : "expanded_main"}>
-    <div className={sideBar? "siderbar_section": "d-none"}>
+    <div className={sideBar ? "admin_main" : "expanded_main"}>
+      <div className={sideBar ? "siderbar_section" : "d-none"}>
         <div className="siderbar_inner">
           <div className="sidebar_logo">
             <Link to="" className="">
@@ -228,46 +224,50 @@ const Cms = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "2px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/UserManage"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/CategorySub"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/Inventory"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "6px", top: "3px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
@@ -280,34 +280,37 @@ const Cms = () => {
                     
                   }}
                 >
-                  <i class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
                 <Link
                   className=""
                   to="/OrderRequest"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
                 <Link
                   className="bg-white"
                   to="/Cms"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                    color: "#3e4093",
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px",color:"#3e4093" }}
                 >
-                  <i class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -315,13 +318,13 @@ const Cms = () => {
                   className=""
                   to="/AdminLogin"
                   onClick={handleClick}
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    
-                  }}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  <i class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -331,7 +334,7 @@ const Cms = () => {
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
-          <div className="col">
+            <div className="col">
               {sideBar ? (
                 <div>
                   <h1
@@ -340,7 +343,9 @@ const Cms = () => {
                       console.log("yello");
                       setSideBar(!sideBar);
                     }}
-                  ><i className="fa fa-bars"></i></h1>
+                  >
+                    <i className="fa fa-bars"></i>
+                  </h1>
                 </div>
               ) : (
                 <div>
@@ -348,7 +353,7 @@ const Cms = () => {
                     <button
                       onClick={(e) => {
                         console.log(e);
-                        setSideBar(!sideBar)
+                        setSideBar(!sideBar);
                       }}
                     >
                       X
@@ -527,7 +532,10 @@ const Cms = () => {
                                                 accept="image/*"
                                                 {...register("slides")}
                                                 onChange={(e) =>
-                                                  onFileSelection(e, "slide1Img")
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide1Img"
+                                                  )
                                                 }
                                               />
                                             </div>
@@ -579,7 +587,6 @@ const Cms = () => {
                                         className="form-design row"
                                         action=""
                                         onSubmit={handleSubmit(onSubmitSecond)}
-
                                       >
                                         <div className="form-group col-12 slide_img">
                                           <label htmlFor="" className="labels">
@@ -591,9 +598,6 @@ const Cms = () => {
                                                 className="SlideCms"
                                                 src={slideData[1]?.banner}
                                               />
- 
-                  
-            
                                             </div>
                                             <div className="p-image">
                                               <i className=" fas fa-camera" />
@@ -603,7 +607,10 @@ const Cms = () => {
                                                 type="file"
                                                 {...register("slides")}
                                                 onChange={(e) =>
-                                                  onFileSelection(e, "slide2Img")
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide2Img"
+                                                  )
                                                 }
                                               />
                                             </div>
@@ -616,7 +623,6 @@ const Cms = () => {
                                           <input
                                             type="text"
                                             className="form-control"
-                                          
                                             name="slide2Title"
                                             {...register("slide2Title")}
                                           />
@@ -656,7 +662,6 @@ const Cms = () => {
                                         className="form-design row"
                                         action=""
                                         onSubmit={handleSubmit(onSubmitThird)}
-
                                       >
                                         <div className="form-group col-12 slide_img">
                                           <label htmlFor="" className="labels">
@@ -673,12 +678,14 @@ const Cms = () => {
                                               <i className="upload-button fas fa-camera" />
                                               <input
                                                 className="file-uploads"
-                                                name = "slide3Img"
-                                            
+                                                name="slide3Img"
                                                 type="file"
                                                 {...register("slides")}
                                                 onChange={(e) =>
-                                                  onFileSelection(e, "slide3Img")
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide3Img"
+                                                  )
                                                 }
                                               />
                                             </div>
@@ -691,7 +698,6 @@ const Cms = () => {
                                           <input
                                             type="text"
                                             className="form-control"
-                                            
                                             name="slide3Title"
                                             {...register("slide3Title")}
                                           />

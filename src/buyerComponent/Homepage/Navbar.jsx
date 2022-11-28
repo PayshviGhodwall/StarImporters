@@ -6,7 +6,7 @@ import { AiOutlineBell } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
 import { TbMinusVertical } from "react-icons/tb";
 import Login from "../LoginRegister/Login";
-
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Link, useNavigate } from "react-router-dom";
 import ForgotPassword from "../LoginRegister/ForgotPassword";
 import SendOtp from "../LoginRegister/SendOtp";
@@ -14,22 +14,64 @@ import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 
-const Navbar = ({NState}) => {
+const Navbar = ({ NState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const [category, setCategory] = useState([]);
-  const [state,setState] = useState(false)
+  const [state, setState] = useState(false);
   const navigate = useNavigate();
   const [otpEmail, setOtpEmail] = useState();
   const [UserAuth, setUserAuth] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [cartNum, setCartNum] = useState(0);
 
+  const items = [
+    {
+      id: 0,
+      name: "Cobol",
+    },
+    {
+      id: 1,
+      name: "JavaScript",
+    },
+    {
+      id: 2,
+      name: "Basic",
+    },
+    {
+      id: 3,
+      name: "PHP",
+    },
+    {
+      id: 4,
+      name: "Java",
+    },
+  ];
+
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(string, results);
+  };
+
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result);
+  };
+
+  const handleOnSelect = (item) => {
+    // the item selected
+    console.log(item);
+  };
+
+  const handleOnFocus = () => {
+    console.log("Focused");
+  };
   axios.defaults.headers.common["x-auth-token-user"] =
-  localStorage.getItem("token-user");
+    localStorage.getItem("token-user");
 
   const handleRefresh = () => {
-    window.location.reload(false)
+    window.location.reload(false);
   };
 
   const getEmail = (data) => {
@@ -46,7 +88,7 @@ const Navbar = ({NState}) => {
     CartCount();
     getCategory();
     handleScroll();
-  }, [state,NState]);
+  }, [state, NState]);
   useEffect(() => {
     // if (window.localStorage !== undefined) {
     const authToken = localStorage.getItem("token-user");
@@ -57,7 +99,7 @@ const Navbar = ({NState}) => {
   const CartCount = async () => {
     await axios.get(cart).then((res) => {
       console.log(res);
-      
+
       setCartNum(res?.data.results);
     });
   };
@@ -77,7 +119,7 @@ const Navbar = ({NState}) => {
     }
   };
   return (
-    <div className="header_main">
+    <div className="header_main Zindex-9" style={{ overflow: "visible" }}>
       <header className="">
         <div className="row header_top py-3 px-4 align-items-center justify-content-between">
           <div className="col-auto">
@@ -85,29 +127,21 @@ const Navbar = ({NState}) => {
               <img src={Starlogo} alt="" />
             </Link>
           </div>
-          <div className="col-lg-6 col-md-5 d-flex align-items-center">
-            <div className="header_search">
-              <form className="row justify-content-center" action="">
-                <div className="col pe-0">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      id="search"
-                      name="search"
-                      className="form-control shadow-none"
-                      placeholder="Search"
-                    />
-                  </div>
-                </div>
-                <div className="col-auto ps-0">
-                  <div className="form-group">
-                    <button type="search" className="Btn-design rounded-end">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+          <div className="col-lg-6 col-md-5 align-items-center">
+            <ReactSearchAutocomplete
+              items={items}
+              styling={{
+                zIndex: "9",
+                borderRadius: "10px",
+
+                border: "2px solid #3e4093",
+              }}
+              onSearch={handleOnSearch}
+              onHover={handleOnHover}
+              onSelect={handleOnSelect}
+              onFocus={handleOnFocus}
+              placeholder="Search "
+            />
           </div>
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
@@ -174,49 +208,50 @@ const Navbar = ({NState}) => {
                   Home
                 </Link>
               </li>
-              {(category || [])?.filter((item, idx) => idx < 10).map((item, index) => (
-                <li key={index + 1}>
-                  <Link
-                    to={{
-                      pathname: "/CategoryProducts",
-                    }}
-                    state={{ name: item?.categoryName }}
-                    className="dropdown-toggle text-decoration-none"
-                    href="Javascript:;"
-                  >
-                    {item?.categoryName}
-                  </Link>
-                  <div className="dropdown-menu maga_drop_down py-lg-4 py-md-3 shadow">
-                    <div className="container-fluid px-0">
-                      <div className="row w-100 mx-5">
-                        {(item?.subcategories || []).map((item, index) => (
-                          <div className="col-lg-2 col-md-6" key={index}>
-                            <div className="maga_drop__menus">
-                              <Link
-                                to={{
-                                  pathname: "/SubCategory/Products",
-                                }}
-                                state={{ name: item?.subCategoryName }}
-                              >
-                                <h3 className="dropdown_heading fs-6">
-                                  {item?.subCategoryName}
-                                </h3>
-                              </Link>
+              {(category || [])
+                ?.filter((item, idx) => idx < 10)
+                .map((item, index) => (
+                  <li key={index + 1} className="zindex-1">
+                    <Link
+                      to={{
+                        pathname: "/CategoryProducts",
+                      }}
+                      state={{ name: item?.categoryName }}
+                      className="dropdown-toggle text-decoration-none"
+                      href="Javascript:;"
+                    >
+                      {item?.categoryName}
+                    </Link>
+                    <div className="dropdown-menu maga_drop_down py-lg-4 py-md-3 shadow">
+                      <div className="container-fluid px-0">
+                        <div className="row w-100 mx-5">
+                          {(item?.subcategories || []).map((item, index) => (
+                            <div className="col-lg-2 col-md-6" key={index}>
+                              <div className="maga_drop__menus">
+                                <Link
+                                  to={{
+                                    pathname: "/SubCategory/Products",
+                                  }}
+                                  state={{ name: item?.subCategoryName }}
+                                >
+                                  <h3 className="dropdown_heading fs-6">
+                                    {item?.subCategoryName}
+                                  </h3>
+                                </Link>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
 
               <li>
                 <Link className="text-decoration-none" to="/AllBrands">
                   Brands
                 </Link>
               </li>
-             
             </ul>
           </div>
         </div>
@@ -233,7 +268,7 @@ const Navbar = ({NState}) => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <Login getEmail = {getEmail}/>
+            <Login getEmail={getEmail} />
           </div>
         </div>
       </div>

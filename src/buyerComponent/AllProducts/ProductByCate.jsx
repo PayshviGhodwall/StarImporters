@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
-
+import { useNavigate } from "react-router-dom";
 const ProductByCate = () => {
   const location = useLocation();
   console.log(location.state.name);
@@ -18,6 +18,7 @@ const ProductByCate = () => {
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
   console.log(brandName);
+  const navigate = useNavigate();
   useEffect(() => {
     setCategory(location?.state.name);
     getProducts();
@@ -300,7 +301,7 @@ const ProductByCate = () => {
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
-                        <Link
+                        {/* <Link
                           className="text-decoration-none"
                           to={{
                             pathname: "/AllProducts/Product",
@@ -308,69 +309,74 @@ const ProductByCate = () => {
                             hash: "",
                           }}
                           state={{ id: item?.products?._id }}
-                        >
-                          <div className="partsproduct_img">
-                            <img
-                              src={item.products?.productImage}
-                              alt="Product"
+                        > */}
+                        <div className="partsproduct_img">
+                          <img
+                            src={item.products?.productImage}
+                            alt="Product"
+                            onClick={() => {
+                              navigate("/AllProducts/Product", {
+                                state: { id: item?.products?._id },
+                              });
+                            }}
+                          />
+                        </div>
+                        {/* </Link> */}
+                        <div className="product_content mt-3 text-center">
+                          <div className="d-flex justify-content-center">
+                            <h1
+                              className="text-center fs-4 fw-bolder "
+                              style={{position:"relative",left:"0px"}}
+                            >
+                              {item?.products?.unitName}
+                            </h1>
+                            <p style={{ right: "5px",position:"absolute" }}>
+                              {heart ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    setHeart(!heart);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    setHeart(!heart);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                            </p>
+                          </div>
+                          <div className="rating_box mt-2 mb-1">
+                            <i
+                              className="fa fa-star"
+                              style={{ color: "#FFCA33" }}
+                            />
+
+                            <i
+                              className="fa fa-star"
+                              style={{ color: "#FFCA33" }}
+                            />
+
+                            <i
+                              className="fa fa-star"
+                              style={{ color: "#FFCA33" }}
+                            />
+
+                            <i
+                              className="fa fa-star"
+                              style={{ color: "#FFCA33" }}
+                            />
+
+                            <i
+                              className="fa fa-star"
+                              style={{ color: "#E2E2E2 " }}
                             />
                           </div>
-                          </Link>
-                          <div className="product_content mt-3 text-center">
-                            <div className="d-flex justify-content-center">
-                              <Link
-                                to="/AllProducts/Product"
-                                state={{ id: item?.products?._id }}
-                                className="text-decoration-none"
-                                style={{marginLeft:"90px"}}
-                              >
-                                {item?.products?.unitName}
-                              </Link>
-                              <p style={{marginLeft:"80px"}}>
-                                {heart ? (
-                                  <i  
-                                    class="fa fa-heart"
-                                    onClick={()=>{setHeart(!heart)}}
-                                     
-                                    style={{ color: "#3e4093 " }}
-                                  />
-                                ) : (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={()=>{setHeart(!heart)}}
-                                    style={{ color: "#E1E1E1 " }}
-                                  />
-                                )}
-                              </p>
-                            </div>
-                            <div className="rating_box mt-2 mb-1">
-                              <i
-                                className="fa fa-star"
-                                style={{ color: "#FFCA33" }}
-                              />
-
-                              <i
-                                className="fa fa-star"
-                                style={{ color: "#FFCA33" }}
-                              />
-
-                              <i
-                                className="fa fa-star"
-                                style={{ color: "#FFCA33" }}
-                              />
-
-                              <i
-                                className="fa fa-star"
-                                style={{ color: "#FFCA33" }}
-                              />
-
-                              <i
-                                className="fa fa-star"
-                                style={{ color: "#E2E2E2 " }}
-                              />
-                            </div>
-                          </div>
-                      
+                        </div>
                       </div>
                     </div>
                   ))}

@@ -135,6 +135,14 @@ const EditInventory = () => {
             button: "Ok",
           });
         }
+        if (res?.data.message == "Trouble in updating please provide right credential") {
+          Swal.fire({
+            title: "Please provide right details",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+        
         setNchnge(Nchnge);
       });
   };
@@ -206,6 +214,11 @@ const EditInventory = () => {
       console.log(res);
     });
   };
+  const flavourPriceStatus = async(index) => {
+    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
+      console.log(res);
+    });
+  };
   const priceStatus = async(index) => {
     await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
       console.log(res);
@@ -236,7 +249,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i className="fa fa-home"></i> Dashboard
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-home"></i> Dashboard
                 </Link>
               </li>
               <li>
@@ -248,7 +261,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-user"></i> User Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-user"></i> User Management
                 </Link>
               </li>
               <li>
@@ -260,7 +273,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-layer-group"></i> Category &amp; Sub Category
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Category &amp; Sub Category
                 </Link>
               </li>
               <li>
@@ -274,7 +287,7 @@ const EditInventory = () => {
                     color: "#3e4093",
                   }}
                 >
-                  <i class="far fa-building"></i> Inventory Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="far fa-building"></i> Inventory Management
                 </Link>
               </li>
               <li>
@@ -286,7 +299,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-ship"></i> Brands Management
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-ship"></i> Brands Management
                 </Link>
               </li>
               <li>
@@ -298,7 +311,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-layer-group"></i> Order request
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Order request
                 </Link>
               </li>
               <li>
@@ -310,7 +323,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-cog"></i> CMS
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-cog"></i> CMS
                 </Link>
               </li>
               <li>
@@ -323,7 +336,7 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                  <i class="fa fa-sign-out-alt"></i>Logout
+                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-sign-out-alt"></i>Logout
                 </Link>
               </li>
             </ul>
@@ -455,15 +468,29 @@ const EditInventory = () => {
                       </select>
                     </div>
                     <div className="form-group col-3">
-                      <label htmlFor="">Price</label>
+                      <label htmlFor="" className="d-flex">Price:<Toggle
+                                    size="sm"
+                                    className="mx-2"
+                                    color="#3e4093"
+                                    defaultChecked={true}
+                                    checkedChildren="enable"
+                                    unCheckedChildren="disable"
+                                    onChange={() => {
+                                      priceStatus();
+                                    }}
+                                  /></label>
                       <input
                         type=""
+
                         defaultValue={allProducts[0]?.productPrice}
+
+
                         className="form-control"
                         name="productPrice"
                         placeholder="Enter Product Price"
                         {...register("productPrice")}
                       />
+
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
@@ -579,7 +606,7 @@ const EditInventory = () => {
                                     checkedChildren="enable"
                                     unCheckedChildren="disable"
                                     onChange={() => {
-                                      priceStatus(index);
+                                      flavourPriceStatus(index);
                                     }}
                                   /></label>
 
@@ -608,7 +635,7 @@ const EditInventory = () => {
                                       />
                                     </div>
                                     <div className="p-image">
-                                      <i className="upload-iconIN fas fa-camera" />
+                                     <i style={{position:"relative",left:"4px",top:"4px"}}  className="upload-iconIN fas fa-camera" />
                                       <input
                                         className="file-uploadIN"
                                         type="file"
