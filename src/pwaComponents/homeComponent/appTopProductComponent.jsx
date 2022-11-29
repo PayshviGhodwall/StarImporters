@@ -33,25 +33,31 @@ function TopProduct() {
           <div className="row g-2">
             {product.map((item, index) => {
               return (
-                <div className="col-6 col-md-4">
-                  <div className="card product-card">
-                    <div className="card-body">
-                      <Link
-                        className="product-thumbnail d-block"
-                        to={`/app/product-detail/${item._id}`}
-                      >
-                        <img className="mb-2" src={item.productImage} alt="" />
-                      </Link>
-                      <Link className="product-title" to="/app/product-detail">
-                        {item.unitName}
-                      </Link>
+                <div class="col-6 col-md-4 d-flex align-items-stretch">
+                  <div class="card product-card w-100">
+                    <div class="card-body">
+                      <a class="wishlist-btn" href="#">
+                        <i class="fa-solid fa-heart"></i>
+                      </a>
 
-                      <div className="product-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
+                      <a class="product-thumbnail d-block" href="javascript:;">
+                        <img class="mb-2" src={item.productImage} alt="" />
+                      </a>
+                      <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <a class="product-title" href="javascript:;">
+                            {item.unitName}
+                          </a>
+                        </div>
+                        <div class="col-auto">
+                          <Link
+                            class="cart_bttn"
+                            to=""
+                            onClick={() => addToCartt(item._id)}
+                          >
+                            <i class="fa-light fa-plus"></i>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>

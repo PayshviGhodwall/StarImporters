@@ -28,14 +28,13 @@ function AppLogin() {
 
     if (!response.data.error) {
       navigate("/app/home");
-
       window.flutter_inappwebview
         .callHandler("Flutter")
         .then(function (result) {
           // print to the console the data coming
           // from the Flutter side.
-          console.log(JSON.stringify(result), "hey me", data.email);
-          window.flutter_inappwebview.callHandler(data.email);
+          console.log(JSON.stringify(result), "jhbdjbdf", data.email);
+          window.flutter_inappwebview.callHandler("Flutter", data.email);
         });
     }
   };

@@ -4,7 +4,10 @@ import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-import { getAllProducts } from "../httpServices/homeHttpService/homeHttpService";
+import {
+  addToCart,
+  getAllProducts,
+} from "../httpServices/homeHttpService/homeHttpService";
 
 function AppProductList() {
   const [product, setProduct] = useState([]);
@@ -19,15 +22,27 @@ function AppProductList() {
       setProduct(data.results.slice(0, 4));
     }
   };
+  const addToCartt = async (id) => {
+    const formData = {
+      productId: id,
+      quantity: 1,
+    };
+    console.log(formData);
+    const { data } = await addToCart(formData);
+    if (!data.error) {
+      navigate("/app/cart");
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
         <div class="header-area" id="headerArea">
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
-              <a href="home.html">
+              <Link to="/app/home">
                 <i class="fa-solid fa-arrow-left-long"></i>
-              </a>
+              </Link>
             </div>
 
             <div class="page-heading">
@@ -340,9 +355,13 @@ function AppProductList() {
                               </a>
                             </div>
                             <div class="col-auto">
-                              <a class="cart_bttn" href="cart.html">
+                              <Link
+                                class="cart_bttn"
+                                to=""
+                                onClick={() => addToCartt(item._id)}
+                              >
                                 <i class="fa-light fa-plus"></i>
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
