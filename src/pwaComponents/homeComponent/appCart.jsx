@@ -7,6 +7,7 @@ import {
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import WebHeader2 from "./webHeader2";
 
 function AppCart() {
   const [cart, setCart] = useState([]);
@@ -24,7 +25,7 @@ function AppCart() {
   };
 
   const deleteProduct = async (id) => {
-    const { data } = await deleteCart(id);
+    const { data } = await deleteCart({ productId: id });
     if (!data.error) {
       getCarts();
     }
@@ -45,7 +46,31 @@ function AppCart() {
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <div class="header-area" id="headerArea">
+          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <div class="back-button me-2 me-2">
+              <Link to="/app/home">
+                <i class="fa-solid fa-arrow-left-long"></i>
+              </Link>
+            </div>
+            <div class="page-heading">
+              <h6 class="mb-0">Cart</h6>
+            </div>
+            <div
+              class="suha-navbar-toggler ms-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#suhaOffcanvas"
+              aria-controls="suhaOffcanvas"
+            >
+              <div>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="container">
             <div className="cart-wrapper-area py-3">
@@ -77,8 +102,10 @@ function AppCart() {
                               </div>
                             </td>
                             <td>
-                              <Link to="/app/product-detail">
-                                BLVK Frznberry
+                              <Link
+                                to={`/app/product-detail/${item.productId._id}`}
+                              >
+                                {item.productId.unitName}
                               </Link>
                             </td>
                             <td>

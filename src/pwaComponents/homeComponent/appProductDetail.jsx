@@ -10,16 +10,23 @@ import {
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import WebHeader2 from "./webHeader2";
+import SimlarProduct from "./appSimilarProductComponent";
 
 function AppProductDetail() {
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [flavour, setFlavour] = useState({
+    flavour: "",
+    flavourImage: "",
+    flavourPrice: "",
+  });
   let { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getProductDetail();
-  }, []);
+  }, [flavour]);
 
   const getProductDetail = async () => {
     const { data } = await getProductDetaill(id);
@@ -47,10 +54,52 @@ function AppProductDetail() {
     }
   };
 
+  const getFlavour = (index) => {
+    const flavourData = productDetail?.type.map((option) => option);
+    console.log(flavourData);
+    if (flavour.flavour === flavourData[0].flavour) {
+      setFlavour({
+        flavour: "",
+        flavourImage: "",
+      });
+    } else
+      setFlavour({
+        flavour: flavourData[index].flavour,
+        flavourImage: flavourData[index].flavourImage,
+      });
+  };
+
+  console.log(flavour);
+
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <div class="header-area" id="headerArea">
+          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <div class="back-button me-2 me-2">
+              <Link to="/app/home">
+                <i class="fa-solid fa-arrow-left-long"></i>
+              </Link>
+            </div>
+            <div class="page-heading">
+              <h6 class="mb-0">Product Details</h6>
+            </div>
+            <div
+              class="suha-navbar-toggler ms-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#suhaOffcanvas"
+              aria-controls="suhaOffcanvas"
+            >
+              <div>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <WebHeader2 />
+
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper">
             <OwlCarousel
@@ -65,13 +114,34 @@ function AppProductDetail() {
               items={1}
             >
               <div className="single-product-slide item">
-                <img src={productDetail.productImage} alt="" />
+                <img
+                  src={
+                    flavour.flavourImage
+                      ? flavour.flavourImage
+                      : productDetail.productImage
+                  }
+                  alt=""
+                />
               </div>
               <div className="single-product-slide item">
-                <img src={productDetail.productImage} alt="" />
+                <img
+                  src={
+                    flavour.flavourImage
+                      ? flavour.flavourImage
+                      : productDetail.productImage
+                  }
+                  alt=""
+                />
               </div>
               <div className="single-product-slide item">
-                <img src={productDetail.productImage} alt="" />
+                <img
+                  src={
+                    flavour.flavourImage
+                      ? flavour.flavourImage
+                      : productDetail.productImage
+                  }
+                  alt=""
+                />
               </div>
             </OwlCarousel>
           </div>
@@ -131,55 +201,19 @@ function AppProductDetail() {
               <div className="container">
                 <div className="choose-color-wrapper">
                   <p className="mb-1 font-weight-bold">
-                    Flavor: Pineapple Strawnana
+                    Flavor: {flavour.flavour}
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      <a className="disabled" href="javascript:;">
-                        Black Ice
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Blue Razz Ice
-                      </a>
-                      <a className="" href="javascript:;">
-                        Blueberry Energize
-                      </a>
-                      <a className="" href="javascript:;">
-                        Cranberry Grape
-                      </a>
-                      <a className="" href="javascript:;">
-                        Fuji Ice
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Grape Energy
-                      </a>
-                      <a className="" href="javascript:;">
-                        Green Apple
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Gumi
-                      </a>
-                      <a className="" href="javascript:;">
-                        Mango Peach Apricot
-                      </a>
-                      <a className="" href="javascript:;">
-                        Guava Ice
-                      </a>
-                      <a className="" href="javascript:;">
-                        Malaysian Mango
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Malibu
-                      </a>
-                      <a className="" href="javascript:;">
-                        Mango Peach
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Miami Mint
-                      </a>
-                      <a className="disabled" href="javascript:;">
-                        Peach Berry
-                      </a>
+                      {productDetail?.type?.map((item, index) => (
+                        <Link
+                          className=""
+                          to=""
+                          onClick={() => getFlavour(index)}
+                        >
+                          {item.flavour}
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -201,186 +235,12 @@ function AppProductDetail() {
                 </div>
               </div>
             </div>
-            <div className="p-specification bg-white py-3">
-              <div className="container">
-                <h6>Specifications</h6>
-                <p>{productDetail.description}</p>
-                <ul className="mb-3 ps-3">
-                  <li>
-                    <i className="fa-solid fa-check me-1"></i> 100% Good Reviews
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check me-1"></i> 7 Days Returns
-                  </li>
-                  <li>
-                    {" "}
-                    <i className="fa-solid fa-check me-1"></i> Warranty not
-                    Aplicable
-                  </li>
-                  <li>
-                    {" "}
-                    <i className="fa-solid fa-check me-1"></i> 100% Brand New
-                    Product
-                  </li>
-                </ul>
-              </div>
-            </div>
+
             <div className="pb-3"></div>
-            <div className="related-product-wrapper bg-white py-3 mb-3">
-              <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-                  <h6>Related Products</h6>
-                  <a className="btn p-0" href="shop-list.html">
-                    View All
-                  </a>
-                </div>
-                <OwlCarousel
-                  className="related-product-slide"
-                  autoplay={true}
-                  autoplayHoverPause={false}
-                  autoplayTimeout={5000}
-                  dots={false}
-                  loop={true}
-                  nav={false}
-                  fade={false}
-                  items={2}
-                  margin={10}
-                >
-                  <div className="card product-card my-2 item">
-                    <div className="card-body">
-                      <span className="badge rounded-pill badge-success">
-                        New
-                      </span>
-                      <a className="wishlist-btn" href="#">
-                        <i className="fa-solid fa-heart"></i>
-                      </a>
-                      <Link
-                        className="product-thumbnail d-block"
-                        to="/app/product-detail"
-                      >
-                        <img
-                          className="mb-2"
-                          src="../assets/img/product_1.png"
-                          alt=""
-                        />
-                        <ul
-                          className="offer-countdown-timer d-flex align-items-center shadow-sm"
-                          data-countdown="2023/12/31 23:59:59"
-                        >
-                          <li>
-                            <span className="days">0</span>d
-                          </li>
-                          <li>
-                            <span className="hours">0</span>h
-                          </li>
-                          <li>
-                            <span className="minutes">0</span>m
-                          </li>
-                          <li>
-                            <span className="seconds">0</span>s
-                          </li>
-                        </ul>
-                      </Link>
-                      <Link className="product-title" to="/app/product-detail">
-                        BLVK Frznberry
-                      </Link>
-
-                      <div className="product-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card product-card my-2 item">
-                    <div className="card-body">
-                      <a className="wishlist-btn" href="#">
-                        <i className="fa-solid fa-heart"></i>
-                      </a>
-
-                      <Link
-                        className="product-thumbnail d-block"
-                        to="/app/product-detail"
-                      >
-                        <img
-                          className="mb-2"
-                          src="../assets/img/product_4.png"
-                          alt=""
-                        />
-                      </Link>
-                      <Link className="product-title" to="/app/product-detail">
-                        Cherry Pineapple
-                      </Link>
-                      <div className="product-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card product-card my-2 item">
-                    <div className="card-body">
-                      <a className="wishlist-btn" href="#">
-                        <i className="fa-solid fa-heart"></i>
-                      </a>
-
-                      <Link
-                        className="product-thumbnail d-block"
-                        to="/app/product-detail"
-                      >
-                        <img
-                          className="mb-2"
-                          src="../assets/img/product_5.png"
-                          alt=""
-                        />
-                      </Link>
-                      <Link className="product-title" to="/app/product-detail">
-                        4K's Wraps
-                      </Link>
-                      <div className="product-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card product-card my-2 item">
-                    <div className="card-body">
-                      <a className="wishlist-btn" href="#">
-                        <i className="fa-solid fa-heart"></i>
-                      </a>
-
-                      <Link
-                        className="product-thumbnail d-block"
-                        to="/app/product-detail"
-                      >
-                        <img
-                          className="mb-2"
-                          src="../assets/img/product_new1.png"
-                          alt=""
-                        />
-                      </Link>
-                      <Link className="product-title" to="/app/product-detail">
-                        Elf Bar 5000Puff
-                      </Link>
-                      <div className="product-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                </OwlCarousel>
-              </div>
-            </div>
+            {console.log(productDetail?.category?.categoryName)}
+            <SimlarProduct
+              categoryName={productDetail?.category?.categoryName}
+            />
             <div className="rating-and-review-wrapper bg-white py-3 mb-3 dir-rtl">
               <div className="container">
                 <h6>Ratings &amp; Reviews</h6>

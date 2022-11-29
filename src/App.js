@@ -261,7 +261,7 @@ function App() {
           />
           <Route path="/app/order-detail" element={<AppOrderDetail />} />
           <Route
-            path="/app/product-category"
+            path="/app/product-category/:id"
             element={<AppProductCategory />}
           />
           <Route path="/app/product-list" element={<AppProductList />} />

@@ -8,9 +8,11 @@ import {
   addToCart,
   getAllProducts,
 } from "../httpServices/homeHttpService/homeHttpService";
+import { useNavigate } from "react-router-dom";
 
 function AppProductList() {
   const [product, setProduct] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProductList();
@@ -19,7 +21,7 @@ function AppProductList() {
   const getProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
-      setProduct(data.results.slice(0, 4));
+      setProduct(data.results);
     }
   };
   const addToCartt = async (id) => {
@@ -342,12 +344,12 @@ function AppProductList() {
                             <i class="fa-solid fa-heart"></i>
                           </a>
 
-                          <a
+                          <Link
                             class="product-thumbnail d-block"
-                            href="javascript:;"
+                            to={`/app/product-detail/${item._id}`}
                           >
                             <img class="mb-2" src={item.productImage} alt="" />
-                          </a>
+                          </Link>
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col">
                               <a class="product-title" href="javascript:;">

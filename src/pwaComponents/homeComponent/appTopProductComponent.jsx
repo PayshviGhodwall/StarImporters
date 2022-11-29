@@ -4,10 +4,17 @@ import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link } from "react-router-dom";
-import { getAllProducts } from "../httpServices/homeHttpService/homeHttpService";
+import {
+  addToCart,
+  getAllProducts,
+} from "../httpServices/homeHttpService/homeHttpService";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function TopProduct() {
   const [product, setProduct] = useState([]);
+  let { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProductList();
@@ -20,9 +27,21 @@ function TopProduct() {
     }
   };
 
+  const addToCartt = async (id) => {
+    const formData = {
+      productId: id,
+      quantity: 1,
+    };
+    console.log(formData);
+    const { data } = await addToCart(formData);
+    if (!data.error) {
+      navigate("/app/cart");
+    }
+  };
+
   return (
     <>
-      <div className="top-products-area py-3">
+      <div className="top-products-area pb-3 ">
         <div className="container">
           <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
             <h6>Featured Products</h6>
@@ -40,14 +59,24 @@ function TopProduct() {
                         <i class="fa-solid fa-heart"></i>
                       </a>
 
-                      <a class="product-thumbnail d-block" href="javascript:;">
+                      <Link
+                        class="product-thumbnail d-block"
+                        to={`/app/product-detail/${item._id}`}
+                      >
                         <img class="mb-2" src={item.productImage} alt="" />
-                      </a>
+                      </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">
                           <a class="product-title" href="javascript:;">
                             {item.unitName}
                           </a>
+                          <div className="product-rating">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                          </div>
                         </div>
                         <div class="col-auto">
                           <Link

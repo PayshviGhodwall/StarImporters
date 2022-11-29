@@ -130,8 +130,10 @@ export async function updateCart(formData) {
 export async function deleteCart(id) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/deleteCart/${id}
-      `
+      `${process.env.REACT_APP_APIENDPOINT}/user/cart/removeProducts
+
+      `,
+      id
     );
     console.log(data);
     if (!data.error) {
@@ -193,6 +195,21 @@ export async function getAllProducts() {
   try {
     const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function getByCategory(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getByCategory
+      `,
+      formData
     );
     console.log(data);
 
