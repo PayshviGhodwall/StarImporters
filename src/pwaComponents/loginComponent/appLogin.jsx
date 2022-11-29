@@ -34,7 +34,7 @@ function AppLogin() {
         .then(function (result) {
           // print to the console the data coming
           // from the Flutter side.
-          console.log(JSON.stringify(result));
+          console.log(JSON.stringify(result), "hey me", data.email);
           window.flutter_inappwebview.callHandler(data.email);
         });
     }

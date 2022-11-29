@@ -318,123 +318,38 @@ function AppProductList() {
                 </div>
               </div>
               <div class="row g-2 product_list_main">
-                <div class="col-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card product-card w-100">
-                    <div class="card-body">
-                      <a class="wishlist-btn" href="#">
-                        <i class="fa-solid fa-heart"></i>
-                      </a>
+                {product.map((item, index) => {
+                  return (
+                    <div class="col-6 col-md-4 d-flex align-items-stretch">
+                      <div class="card product-card w-100">
+                        <div class="card-body">
+                          <a class="wishlist-btn" href="#">
+                            <i class="fa-solid fa-heart"></i>
+                          </a>
 
-                      <a class="product-thumbnail d-block" href="javascript:;">
-                        <img
-                          class="mb-2"
-                          src="../assests/img/product_1.png"
-                          alt=""
-                        />
-                      </a>
-                      <div class="row mt-1 d-flex align-items-center justify-content-between">
-                        <div class="col">
-                          <a class="product-title" href="javascript:;">
-                            BLVK Frznberry
+                          <a
+                            class="product-thumbnail d-block"
+                            href="javascript:;"
+                          >
+                            <img class="mb-2" src={item.productImage} alt="" />
                           </a>
-                        </div>
-                        <div class="col-auto">
-                          <a class="cart_bttn" href="cart.html">
-                            <i class="fa-light fa-plus"></i>
-                          </a>
+                          <div class="row mt-1 d-flex align-items-center justify-content-between">
+                            <div class="col">
+                              <a class="product-title" href="javascript:;">
+                                {item.unitName}
+                              </a>
+                            </div>
+                            <div class="col-auto">
+                              <a class="cart_bttn" href="cart.html">
+                                <i class="fa-light fa-plus"></i>
+                              </a>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="col-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card product-card w-100">
-                    <div class="card-body">
-                      <a class="wishlist-btn" href="#">
-                        <i class="fa-solid fa-heart"></i>
-                      </a>
-
-                      <a class="product-thumbnail d-block" href="javascript:;">
-                        <img
-                          class="mb-2"
-                          src="../assests/img/product_4.png"
-                          alt=""
-                        />
-                      </a>
-
-                      <div class="row mt-1 d-flex align-items-center justify-content-between">
-                        <div class="col">
-                          <a class="product-title" href="javascript:;">
-                            Cherry Pineapple
-                          </a>
-                        </div>
-                        <div class="col-auto">
-                          <a class="cart_bttn" href="cart.html">
-                            <i class="fa-light fa-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card product-card w-100">
-                    <div class="card-body">
-                      <a class="wishlist-btn" href="#">
-                        <i class="fa-solid fa-heart"></i>
-                      </a>
-
-                      <a class="product-thumbnail d-block" href="javascript:;">
-                        <img
-                          class="mb-2"
-                          src="../assests/img/product_5.png"
-                          alt=""
-                        />
-                      </a>
-                      <div class="row mt-1 d-flex align-items-center justify-content-between">
-                        <div class="col">
-                          <a class="product-title" href="javascript:;">
-                            4K's Wraps
-                          </a>
-                        </div>
-                        <div class="col-auto">
-                          <a class="cart_bttn" href="cart.html">
-                            <i class="fa-light fa-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card product-card w-100">
-                    <div class="card-body">
-                      <a class="wishlist-btn" href="#">
-                        <i class="fa-solid fa-heart"></i>
-                      </a>
-
-                      <a class="product-thumbnail d-block" href="javascript:;">
-                        <img
-                          class="mb-2"
-                          src="../assests/img/product_new1.png"
-                          alt=""
-                        />
-                      </a>
-                      <div class="row mt-1 d-flex align-items-center justify-content-between">
-                        <div class="col">
-                          <a class="product-title" href="javascript:;">
-                            Elf Bar 5000Puff
-                          </a>
-                        </div>
-                        <div class="col-auto">
-                          <a class="cart_bttn" href="cart.html">
-                            <i class="fa-light fa-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </div>
