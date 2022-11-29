@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  getCart,
+  updateCart,
+} from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppCart() {
+  const [cart, setCart] = useState([]);
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    getCarts();
+  }, []);
+
+  const getCarts = async () => {
+    const { data } = await getCart();
+    if (!data.error) {
+      setCart(data.results.products);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    const { data } = await getCart(id);
+    if (!data.error) {
+      getCarts();
+    }
+  };
+
+  const updateQuantity = async (e, id) => {
+    setQuantity(e);
+    const formData = {
+      productId: id,
+      quantity: e,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      getCarts();
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
@@ -15,78 +52,54 @@ function AppCart() {
                 <div className="table-responsive card-body">
                   <table className="table mb-0">
                     <tbody>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_1.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">BLVK Frznberry</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_4.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">Cherry Pineapple</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_5.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">4K's Wraps</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
+                      {cart.map((item, index) => {
+                        return (
+                          <tr>
+                            <th scope="row">
+                              <Link
+                                className="remove-product"
+                                to=""
+                                onClick={() =>
+                                  deleteProduct(item.productId._id)
+                                }
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </Link>
+                            </th>
+                            <td>
+                              <div className="cart_icon">
+                                <img
+                                  className=""
+                                  src={item.productId.productImage}
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <Link to="/app/product-detail">
+                                BLVK Frznberry
+                              </Link>
+                            </td>
+                            <td>
+                              <div className="quantity">
+                                <input
+                                  className="qty-text"
+                                  type="text"
+                                  id={`quantity${index}`}
+                                  value={quantity}
+                                  onChange={(e) =>
+                                    updateQuantity(
+                                      e.target.value,
+                                      item.productId._id,
+                                      index
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

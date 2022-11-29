@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { userRegister } from "../httpServices/loginHttpService/loginHttpService";
 import { RotatingLines } from "react-loader-spinner";
 import $ from "jquery";
+import Swal from "sweetalert2";
 
 function AppSignUp() {
   const [selectedFile1, setSelectedFile1] = useState(null);
@@ -13,6 +14,7 @@ function AppSignUp() {
   const [selectedFile3, setSelectedFile3] = useState(null);
   const [selectedFile4, setSelectedFile4] = useState(null);
   const [selectedFile5, setSelectedFile5] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const {
     register,
@@ -24,7 +26,11 @@ function AppSignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoader(true);
     console.log(data);
+
+    data.addressLine = [data.addressLine, data.addressLine1];
+    delete data.addressLine1;
 
     const formData = new FormData();
     for (const item in data) {
@@ -48,21 +54,36 @@ function AppSignUp() {
       formData.append("accountOwnerId", selectedFile5, selectedFile5.name);
     }
 
-    const link = document.getElementById("open");
-    link.click();
-
     const response = await userRegister(formData);
 
-    const close = document.getElementById("close");
-    close.click();
-    $(".modal-backdrop").remove();
+    if (response?.data.message === "Registered Successfully") {
+      setLoader(false);
+      Swal.fire({
+        title: "Thanks You! Your account is under review.",
+        text: "We will be reviewing your account. Please check your registered email.",
+        icon: "success",
+        button: "Ok",
+      });
+      navigate("/app/pre-login");
+    }
+    if (response?.data.message === "Email is already registered") {
+      setLoader(false);
+      Swal.fire({
+        title: "Email is Already Registered!",
+        text: "Please login to your account",
+        icon: "error",
+        button: "Ok",
+      });
+    }
+    if (response?.data.message === "Phone is already registered") {
+      setLoader(false);
 
-    if (!response.data.error) {
-      navigate("/app/login");
-    } else {
-      const close = document.getElementById("close");
-      close.click();
-      $(".modal-backdrop").remove();
+      Swal.fire({
+        title: "Phone Number is Already Registered!",
+        text: "Please enter a new number ",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -101,7 +122,9 @@ function AppSignUp() {
                 <div className="register-form mt-5">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group text-start mb-4">
-                      <span>Company</span>
+                      <span>
+                        Company <strong>*</strong>
+                      </span>
                       <label for="username">
                         <i className="fa fa-building"></i>
                       </label>
@@ -142,7 +165,9 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>Company Address 1</span>
+                      <span>
+                        Company Address 1 <strong>*</strong>
+                      </span>
                       <label for="username">
                         <i className="fas fa-map-signs"></i>
                       </label>
@@ -182,7 +207,9 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>City</span>
+                      <span>
+                        City <strong>*</strong>
+                      </span>
                       <label for="username">
                         <i className="fa fa-map-marker-alt"></i>
                       </label>
@@ -201,7 +228,9 @@ function AppSignUp() {
                       )}{" "}
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>State</span>
+                      <span>
+                        State <strong>*</strong>
+                      </span>
                       <label for="username">
                         <i className="fa fa-map-marker-alt"></i>
                       </label>
@@ -221,7 +250,9 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>Zip/Postal</span>
+                      <span>
+                        Zip/Postal <strong>*</strong>
+                      </span>
                       <label for="username">
                         <i className="fa fa-mars" aria-hidden="true"></i>
                       </label>
@@ -239,6 +270,116 @@ function AppSignUp() {
                           This field is required
                         </p>
                       )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>
+                        Contact First Name <strong>*</strong>
+                      </span>
+                      <label for="username">
+                        <i className="fa-solid fa-user"></i>
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder=""
+                        name="firstName"
+                        id="firstName"
+                        {...register("firstName", { required: true })}
+                      />
+
+                      {errors?.firstName && (
+                        <p className="form-error mt-1">
+                          This field is required
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>
+                        Contact Last Name <strong>*</strong>
+                      </span>
+                      <label for="username">
+                        <i className="fa-solid fa-user"></i>
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder=""
+                        name="lastName"
+                        id="lastName"
+                        {...register("lastName", { required: true })}
+                      />
+
+                      {errors?.lastName && (
+                        <p className="form-error mt-1">
+                          This field is required
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>
+                        Email <strong>*</strong>
+                      </span>
+                      <label for="email">
+                        <i className="fa-solid fa-at"></i>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="email"
+                        id="email"
+                        {...register("email", {
+                          required: "This field is required",
+                          pattern: {
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Invalid email address",
+                          },
+                        })}
+                      />
+
+                      {errors?.email && (
+                        <p className="form-error mt-1">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>
+                        Phone Number <strong>*</strong>
+                      </span>
+                      <label for="text">
+                        <i className="fa fa-phone" aria-hidden="true"></i>
+                      </label>
+                      <input
+                        className="form-control"
+                        type="number"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        {...register("phoneNumber", {
+                          required: true,
+                          maxLength: 10,
+                          minLength: 10,
+                        })}
+                      />
+                      {errors.phoneNumber &&
+                        errors.phoneNumber.type === "required" && (
+                          <p className="form-error mt-2">
+                            This field is required
+                          </p>
+                        )}
+
+                      {errors.phoneNumber &&
+                        errors.phoneNumber.type === "maxLength" && (
+                          <p className="form-error mt-2">
+                            Please enter 10 digit number
+                          </p>
+                        )}
+                      {errors.phoneNumber &&
+                        errors.phoneNumber.type === "minLength" && (
+                          <p className="form-error mt-2">
+                            Please enter 10 digit number
+                          </p>
+                        )}
                     </div>
                     <div className="form-group choose_file position-relative text-start mb-4">
                       <span>Federal Tax ID </span>
@@ -284,54 +425,15 @@ function AppSignUp() {
                         onChange={(e) => onFileSelection(e.target.files, 4)}
                       />
                     </div>
-                    <hr
+                    {/* <hr
                       style={{
                         margin: "10px auto 30px",
                         width: "100%",
                         border: "1px dashed #fff",
                         opacity: "1",
                       }}
-                    />
-                    <div className="form-group text-start mb-4">
-                      <span>Contact First Name</span>
-                      <label for="username">
-                        <i className="fa-solid fa-user"></i>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                        name="firstName"
-                        id="firstName"
-                        {...register("firstName", { required: true })}
-                      />
+                    /> */}
 
-                      {errors?.firstName && (
-                        <p className="form-error mt-1">
-                          This field is required
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-group text-start mb-4">
-                      <span>Contact Last Name</span>
-                      <label for="username">
-                        <i className="fa-solid fa-user"></i>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                        name="lastName"
-                        id="lastName"
-                        {...register("lastName", { required: true })}
-                      />
-
-                      {errors?.lastName && (
-                        <p className="form-error mt-1">
-                          This field is required
-                        </p>
-                      )}
-                    </div>
                     <div className="form-group choose_file position-relative text-start mb-4">
                       <span>Account Owner ID </span>
                       <label for="p-5">Choose file</label>
@@ -344,67 +446,44 @@ function AppSignUp() {
                       />
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>Email</span>
-                      <label for="email">
-                        <i className="fa-solid fa-at"></i>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="email"
-                        id="email"
-                        {...register("email", {
-                          required: "This field is required",
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Invalid email address",
-                          },
-                        })}
-                      />
-
-                      {errors?.email && (
-                        <p className="form-error mt-1">
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-group text-start mb-4">
-                      <span>Phone Number</span>
+                      <span>
+                        Business Number <strong>*</strong>
+                      </span>
                       <label for="text">
                         <i className="fa fa-phone" aria-hidden="true"></i>
                       </label>
                       <input
                         className="form-control"
                         type="number"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        {...register("phoneNumber", {
+                        id="businessNumber"
+                        name="businessNumber"
+                        {...register("businessNumber", {
                           required: true,
                           maxLength: 10,
                           minLength: 10,
                         })}
                       />
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "required" && (
+                      {errors.businessNumber &&
+                        errors.businessNumber.type === "required" && (
                           <p className="form-error mt-2">
                             This field is required
                           </p>
                         )}
 
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "maxLength" && (
+                      {errors.businessNumber &&
+                        errors.businessNumber.type === "maxLength" && (
                           <p className="form-error mt-2">
                             Please enter 10 digit number
                           </p>
                         )}
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "minLength" && (
+                      {errors.businessNumber &&
+                        errors.businessNumber.type === "minLength" && (
                           <p className="form-error mt-2">
                             Please enter 10 digit number
                           </p>
                         )}
                     </div>
+
                     <div className="form-group text-start mb-4">
                       <span>How did you hear about us?</span>
                       <label for="username">
@@ -436,14 +515,21 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="d-flex">
-                      <button className="comman_btn me-1" type="submit">
-                        Cancel
-                      </button>
+                      <button className="comman_btn me-1">Cancel</button>
                       <button
                         className="comman_btn2 bg-white text-dark ms-1"
                         type="submit"
                       >
-                        Submit
+                        {loader ? (
+                          <RotatingLines
+                            strokeColor="#eb3237"
+                            animationDuration="0.75"
+                            width="30"
+                            visible={true}
+                          />
+                        ) : (
+                          "Submit"
+                        )}
                       </button>
                     </div>
                   </form>
@@ -461,37 +547,6 @@ function AppSignUp() {
           </div>
         </div>
       </div>
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <RotatingLines
-            strokeColor="#eb3237"
-            strokeWidth="5"
-            animationDuration="0.75"
-            width="60"
-            visible={true}
-            wrapperStyle={{ margin: "100px" }}
-          />
-        </div>
-      </div>
-
-      <button
-        className="d-none"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        id="close"
-      ></button>
-      <button
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        id="open"
-        className="d-none"
-      ></button>
     </>
   );
 }

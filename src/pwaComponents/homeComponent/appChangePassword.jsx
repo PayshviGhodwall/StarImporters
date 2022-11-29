@@ -79,7 +79,14 @@ function AppChangePassword() {
                 <div className="card user-info-card">
                   <div className="card-body p-4 d-flex align-items-center">
                     <div className="user-profile me-3">
-                      <img src="../assets/img/profile_img1.png" alt="" />
+                      <img
+                        src={
+                          detail?.profileImage
+                            ? detail?.profileImage
+                            : "/assets/img/profile_img1.png"
+                        }
+                        alt=""
+                      />
                     </div>
                     <div className="user-info">
                       <h5 className="mb-0">{detail.companyName}</h5>

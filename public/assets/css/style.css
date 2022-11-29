@@ -92,7 +92,7 @@
   .header_logo img {
     max-width: 150px;
   }
- 
+
   .signup_btns {
     background-color: #3e4093;
     display: inline-flex;
@@ -119,9 +119,9 @@
   .fade-scale {
     transform: scale(0);
     opacity: 0;
-    -webkit-transition: all .25s linear;
-    -o-transition: all .25s linear;
-    transition: all .25s linear;
+    -webkit-transition: all 0.25s linear;
+    -o-transition: all 0.25s linear;
+    transition: all 0.25s linear;
   }
   .fade-scale.in {
     opacity: 1;
@@ -243,11 +243,10 @@
     font-size: 13px;
     display: block;
   }
-  .product_parts_box:hover{
+  .product_parts_box:hover {
     behavior: smooth;
     transform: scale(1.1);
-    transition:  0.2s ease;
-
+    transition: 0.2s ease;
   }
   .forms_modal_content .form-group label a {
     font-weight: 600;
@@ -1441,7 +1440,7 @@
   }
   .remove_btn {
     color: #f00;
-    background-color: #FFF;
+    background-color: #fff;
     font-weight: 600;
     margin-top: 0;
     font-size: 14px;
@@ -2595,7 +2594,8 @@
     -webkit-transition: 2s;
     transition: 2s;
   }
-  .element:hover { /* .element.hidden */
+  .element:hover {
+    /* .element.hidden */
     opacity: 0;
     pointer-events: none; /* <-- This one */
   }
@@ -2717,8 +2717,8 @@
     display: none;
   }
 
-  .sidebar_menus ul li a{
-    font-weight:lighter;
+  .sidebar_menus ul li a {
+    font-weight: lighter;
     color: #fff;
     display: flex;
     font-size: 16px;
@@ -2734,8 +2734,7 @@
   .sidebar_menus ul li i {
     width: 32px !important;
     font-size: 14px;
-    background:transparent;
-
+    background: transparent;
   }
 
   .sidebar_logo a {
@@ -4484,7 +4483,7 @@ background-color: #3e4093;
   .textArea {
     height: 15rem !important;
   }
-  .rmv_btn{
+  .rmv_btn {
     margin-top: 30px !important;
   }
   .add_btn {
@@ -4529,7 +4528,7 @@ background-color: #3e4093;
 
   .tags-input {
     flex-grow: 1;
-    
+
     padding: 0.5em 0;
     border: none;
     outline: none;
@@ -4833,7 +4832,7 @@ background-color: #3e4093;
   .section-heading h6 {
     margin-bottom: 0 !important;
     color: #020310;
-    line-height: 1;
+    line-height: 25px;
   }
   .section-heading p {
     margin-bottom: 0;
@@ -10499,15 +10498,137 @@ background-color: #3e4093;
   .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.5) !important;
   }
-  .sc-gswNZR {
-    margin: 75% 45%;
-  }
+
   .d-none {
     display: none;
   }
-  .banner_text{
+  .banner_text {
     font-size: 18px;
     width: 200px;
     line-height: 25px;
+  }
+  .form-group span strong {
+    color: #eb3237;
+  }
+
+  .swal2-icon.swal2-error {
+    border-color: #eb3237 !important;
+    color: #eb3237 !important;
+    font-size: 10px !important;
+  }
+  .swal2-styled.swal2-confirm {
+    background-color: #eb3237 !important;
+  }
+  .swal2-html-container {
+    font-size: 1em !important;
+  }
+  .swal2-title {
+    font-size: 1.25em !important;
+  }
+  .swal2-styled.swal2-confirm:focus {
+    box-shadow: none !important;
+  }
+  .swal2-icon.swal2-success {
+    border-color: #3e4093 !important;
+    color: #3e4093 !important;
+    font-size: 10px !important;
+  }
+  .swal2-icon.swal2-success .swal2-success-ring {
+    border: 0.25em solid #3e4093 !important;
+  }
+  .swal2-icon.swal2-success [class^="swal2-success-line"] {
+    background-color: #3e4093 !important;
+  }
+  .error-bottom {
+    border-bottom: 1px solid #eb3237 !important;
+  }
+
+  voice_search .modal-content {
+    border: 0;
+    border-radius: 4px;
+  }
+  .voice_search_ouuter {
+    position: relative;
+  }
+  .voice_search_ouuter .btn-close {
+    position: absolute;
+    right: 2px;
+    top: -8px;
+    font-size: 14px;
+  }
+  .voice_box {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 0;
+  }
+  .voice_box p {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+  .voice_box {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 14px 0;
+  }
+  .voice_box_btn a {
+    height: 54px;
+    margin: 0 auto;
+    width: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    color: #000;
+    font-size: 22px;
+  }
+  .voice_search .modal-dialog {
+    margin: 0 auto;
+    max-width: 90%;
+  }
+  .voice_search {
+    padding: 0 !important;
+  }
+  .didnt_hear a {
+    background-color: #f2f2f2;
+  }
+  .hear a {
+    background-color: #3e4093;
+    color: #fff;
+    position: relative;
+  }
+  .hear a::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: #3e4093 solid 2px;
+    border-radius: 100%;
+    animation: ringPulse 2s infinite linear;
+  }
+  @keyframes ringPulse {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    10% {
+      opacity: 1;
+    }
+    80%,
+    100% {
+      opacity: 0;
+      transform: scale(1.7);
+    }
+  }
+  .no-data {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 65%;
+    margin-top: 130px;
   }
 }

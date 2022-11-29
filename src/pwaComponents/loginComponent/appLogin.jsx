@@ -24,18 +24,8 @@ function AppLogin() {
 
   const onSubmit = async (data) => {
     console.log(data);
-    let formData = {};
-    if (validator.isEmail(data.email)) {
-      formData.email = data.email;
-    } else if (validator.isNumeric(+data.email) && data.email.length === 10) {
-      formData.phoneNumber = data.email;
-    } else {
-      toast.error("Invalid Email or Phone Number");
-      return;
-    }
-    formData.password = data?.password;
+    const response = await userLogin(data);
 
-    const response = await userLogin(formData);
     if (!response.data.error) {
       navigate("/app/home");
     }

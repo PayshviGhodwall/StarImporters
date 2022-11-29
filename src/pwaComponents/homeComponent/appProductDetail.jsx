@@ -1,11 +1,52 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
+import {
+  addToCart,
+  getProductDetaill,
+} from "../httpServices/homeHttpService/homeHttpService";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function AppProductDetail() {
+  const [productDetail, setProductDetail] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  let { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getProductDetail();
+  }, []);
+
+  const getProductDetail = async () => {
+    const { data } = await getProductDetaill(id);
+    if (!data.error) {
+      setProductDetail(data.results);
+    }
+  };
+  const getQuantity = (type) => {
+    if (type === "add") {
+      setQuantity(quantity + 1);
+    } else {
+      if (quantity > 0) setQuantity(quantity - 1);
+    }
+  };
+
+  const addToCartt = async () => {
+    const formData = {
+      productId: id,
+      quantity: quantity,
+    };
+    console.log(formData);
+    const { data } = await addToCart(formData);
+    if (!data.error) {
+      navigate("/app/cart");
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
@@ -24,13 +65,13 @@ function AppProductDetail() {
               items={1}
             >
               <div className="single-product-slide item">
-                <img src="../assets/img/product_new8.png" alt="" />
+                <img src={productDetail.productImage} alt="" />
               </div>
               <div className="single-product-slide item">
-                <img src="../assets/img/product_4.png" alt="" />
+                <img src={productDetail.productImage} alt="" />
               </div>
               <div className="single-product-slide item">
-                <img src="../assets/img/product_new9.png" alt="" />
+                <img src={productDetail.productImage} alt="" />
               </div>
             </OwlCarousel>
           </div>
@@ -38,7 +79,7 @@ function AppProductDetail() {
             <div className="product-title-meta-data bg-white mb-3 py-3">
               <div className="container d-flex justify-content-between rtl-flex-d-row-r">
                 <div className="p-title-price">
-                  <h5 className="mb-1">Elf Bar 5000Puff</h5>
+                  <h5 className="mb-1">{productDetail.unitName}</h5>
                 </div>
                 <div className="p-wishlist-share">
                   <Link to="/app/wishlist">
@@ -62,15 +103,25 @@ function AppProductDetail() {
                   </div>
                   <form className="cart-form mt-3 w-100" action="#" method="">
                     <div className="order-plus-minus d-flex align-items-center">
-                      <div className="quantity-button-handler">-</div>
+                      <div
+                        className="quantity-button-handler"
+                        onClick={() => getQuantity("sub")}
+                      >
+                        -
+                      </div>
                       <input
                         className="form-control cart-quantity-input"
-                        type="text"
+                        type="number"
                         step="1"
                         name="quantity"
-                        value="3"
+                        value={quantity}
                       />
-                      <div className="quantity-button-handler">+</div>
+                      <div
+                        className="quantity-button-handler"
+                        onClick={() => getQuantity("add")}
+                      >
+                        +
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -137,7 +188,11 @@ function AppProductDetail() {
             <div className="cart-form-wrapper bg-white mb-3 py-3">
               <div className="container">
                 <div className="">
-                  <Link className="comman_btn mb-2" to="/app/cart">
+                  <Link
+                    className="comman_btn mb-2"
+                    to=""
+                    onClick={() => addToCartt()}
+                  >
                     Add To Cart
                   </Link>
                   <button className="comman_btn2" type="submit">
@@ -149,12 +204,7 @@ function AppProductDetail() {
             <div className="p-specification bg-white py-3">
               <div className="container">
                 <h6>Specifications</h6>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Quasi, eum? Id, culpa? At officia quisquam laudantium nisi
-                  mollitia nesciunt, qui porro asperiores cum voluptates placeat
-                  similique recusandae in facere quos vitae?
-                </p>
+                <p>{productDetail.description}</p>
                 <ul className="mb-3 ps-3">
                   <li>
                     <i className="fa-solid fa-check me-1"></i> 100% Good Reviews
@@ -173,12 +223,6 @@ function AppProductDetail() {
                     Product
                   </li>
                 </ul>
-                <p className="mb-0">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Quasi, eum? Id, culpa? At officia quisquam laudantium nisi
-                  mollitia nesciunt, qui porro asperiores cum voluptates placeat
-                  similique recusandae in facere quos vitae?
-                </p>
               </div>
             </div>
             <div className="pb-3"></div>
