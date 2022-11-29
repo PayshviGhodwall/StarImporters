@@ -82,9 +82,9 @@ function AppHome() {
                 <Link className="comman_btn text-white ms-1" to="">
                   <i className="fa-solid fa-microphone"></i>
                 </Link>
-                {/* <a className="comman_btn2 ms-1" href="#">
+                <a className="comman_btn2 ms-1" href="#">
                   <i className="fa fa-qrcode"></i>
-                </a> */}
+                </a>
               </div>
             </div>
           </div>
