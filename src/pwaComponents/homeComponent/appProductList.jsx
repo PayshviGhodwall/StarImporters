@@ -22,16 +22,290 @@ function AppProductList() {
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
-        <div className="page-content-wrapper">
-          <div className="py-3">
-            <div className="container">
-              <div className="row g-1 align-items-center justify-content-end mb-4">
-                <div className="col-4">
-                  <div className="select-product-catagory">
+        <div class="header-area" id="headerArea">
+          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <div class="back-button me-2">
+              <a href="home.html">
+                <i class="fa-solid fa-arrow-left-long"></i>
+              </a>
+            </div>
+
+            <div class="page-heading">
+              <h6 class="mb-0">Product List</h6>
+            </div>
+
+            <div
+              class="filter-option ms-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#suhaFilterOffcanvas"
+              aria-controls="suhaFilterOffcanvas"
+            >
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+          </div>
+        </div>
+        <div
+          class="offcanvas offcanvas-start suha-filter-offcanvas-wrap"
+          tabindex="-1"
+          id="suhaFilterOffcanvas"
+          aria-labelledby="suhaFilterOffcanvasLabel"
+        >
+          <button
+            class="btn-close text-reset"
+            type="button"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+
+          <div class="offcanvas-body py-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <div class="widget catagory mb-4">
+                    <h6 class="widget-title mb-2">Brand</h6>
+                    <div class="widget-desc">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="zara"
+                          type="checkbox"
+                          checked
+                        />
+                        <label class="form-check-label" for="zara">
+                          Vape
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="Gucci"
+                          type="checkbox"
+                        />
+                        <label class="form-check-label" for="Gucci">
+                          Smoke
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="Nike"
+                          type="checkbox"
+                        />
+                        <label class="form-check-label" for="Nike">
+                          C-Store & Novelty
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="Denim"
+                          type="checkbox"
+                        />
+                        <label class="form-check-label" for="Denim">
+                          Glass & Sillicone
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="widget catagory mb-4">
+                    <h6 class="widget-title mb-2">Sort By</h6>
+                    <div class="widget-desc">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="v1"
+                          name="same"
+                          type="radio"
+                          checked
+                        />
+                        <label class="form-check-label" for="v1">
+                          Price: Low to High
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="v2"
+                          name="same"
+                          type="radio"
+                        />
+                        <label class="form-check-label" for="v2">
+                          Price: High to Low
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="v3"
+                          name="same"
+                          type="radio"
+                        />
+                        <label class="form-check-label" for="v3">
+                          Alphabetically: A - Z
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="v4"
+                          name="same"
+                          type="radio"
+                        />
+                        <label class="form-check-label" for="v4">
+                          Alphabetically: Z - A{" "}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="widget ratings mb-4">
+                    <h6 class="widget-title mb-2">Ratings</h6>
+                    <div class="widget-desc">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="5star"
+                          type="radio"
+                          checked
+                          name="v1"
+                        />
+                        <label class="form-check-label" for="5star">
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="4star"
+                          type="radio"
+                          name="v1"
+                        />
+                        <label class="form-check-label" for="4star">
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="3star"
+                          type="radio"
+                          name="v1"
+                        />
+                        <label class="form-check-label" for="3star">
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="2star"
+                          type="radio"
+                          name="v1"
+                        />
+                        <label class="form-check-label" for="2star">
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          id="1star"
+                          type="radio"
+                          name="v1"
+                        />
+                        <label class="form-check-label" for="1star">
+                          <i class="fa-solid fa-star text-warning"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                          <i class="fa-solid fa-star text-secondary"></i>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="widget price-range mb-4">
+                    <h6 class="widget-title mb-2">Price Range</h6>
+                    <div class="widget-desc">
+                      <div class="row g-3">
+                        <div class="col-6">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="floatingInput"
+                              type="text"
+                              placeholder="1"
+                              value="1"
+                            />
+                            <label for="floatingInput">Min</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="floatingInput"
+                              type="text"
+                              placeholder="1"
+                              value="5000"
+                            />
+                            <label for="floatingInput">Max</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="apply-filter-btn">
+                    <a class="comman_btn" href="#">
+                      Apply Filter
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-content-wrapper">
+          <div class="py-3">
+            <div class="container">
+              <div class="row g-1 align-items-center justify-content-end mb-4">
+                <div class="col-auto">
+                  <div class="custom_select_design">
                     <select
-                      className="right small border-0"
-                      id="selectProductCatagory"
+                      class=""
                       name="selectProductCatagory"
                       aria-label="Default select example"
                     >
@@ -43,76 +317,124 @@ function AppProductList() {
                   </div>
                 </div>
               </div>
-              <div className="row g-2">
-                {product.map((item, index) => {
-                  return (
-                    <div className="col-6 col-md-4">
-                      <div className="card product-card">
-                        <div className="card-body">
-                          <Link
-                            className="product-thumbnail d-block"
-                            to={`/app/product-detail/${item._id}`}
-                          >
-                            <img
-                              className="mb-2"
-                              src={item.productImage}
-                              alt=""
-                            />
-                          </Link>
-                          <Link
-                            className="product-title"
-                            to="/app/product-detail"
-                          >
-                            {item.unitName}
-                          </Link>
+              <div class="row g-2 product_list_main">
+                <div class="col-6 col-md-4 d-flex align-items-stretch">
+                  <div class="card product-card w-100">
+                    <div class="card-body">
+                      <a class="wishlist-btn" href="#">
+                        <i class="fa-solid fa-heart"></i>
+                      </a>
 
-                          <div className="product-rating">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                          </div>
+                      <a class="product-thumbnail d-block" href="javascript:;">
+                        <img
+                          class="mb-2"
+                          src="../assests/img/product_1.png"
+                          alt=""
+                        />
+                      </a>
+                      <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <a class="product-title" href="javascript:;">
+                            BLVK Frznberry
+                          </a>
+                        </div>
+                        <div class="col-auto">
+                          <a class="cart_bttn" href="cart.html">
+                            <i class="fa-light fa-plus"></i>
+                          </a>
                         </div>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                </div>
+                <div class="col-6 col-md-4 d-flex align-items-stretch">
+                  <div class="card product-card w-100">
+                    <div class="card-body">
+                      <a class="wishlist-btn" href="#">
+                        <i class="fa-solid fa-heart"></i>
+                      </a>
 
-                {product.map((item, index) => {
-                  return (
-                    <div className="col-12">
-                      <div className="horizontal-product-card">
-                        <div className="d-flex align-items-center">
-                          <div className="product-thumbnail-side">
-                            <Link
-                              className="product-thumbnail shadow-sm d-block"
-                              to={`/app/product-detail/${item._id}`}
-                            >
-                              <img src={item.productImage} alt="" />
-                            </Link>
-                          </div>
-                          <div className="product-description">
-                            <a className="wishlist-btn" href="#">
-                              <i className="far fa-heart"></i>
-                            </a>
-                            <Link
-                              className="product-title d-block"
-                              to="/app/product-detail"
-                            >
-                              {item.unitName}
-                            </Link>
+                      <a class="product-thumbnail d-block" href="javascript:;">
+                        <img
+                          class="mb-2"
+                          src="../assests/img/product_4.png"
+                          alt=""
+                        />
+                      </a>
 
-                            <div className="product-rating">
-                              <i className="fa-solid fa-star"></i>4.88{" "}
-                              <span className="ms-1">(39 review)</span>
-                            </div>
-                          </div>
+                      <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <a class="product-title" href="javascript:;">
+                            Cherry Pineapple
+                          </a>
+                        </div>
+                        <div class="col-auto">
+                          <a class="cart_bttn" href="cart.html">
+                            <i class="fa-light fa-plus"></i>
+                          </a>
                         </div>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                </div>
+                <div class="col-6 col-md-4 d-flex align-items-stretch">
+                  <div class="card product-card w-100">
+                    <div class="card-body">
+                      <a class="wishlist-btn" href="#">
+                        <i class="fa-solid fa-heart"></i>
+                      </a>
+
+                      <a class="product-thumbnail d-block" href="javascript:;">
+                        <img
+                          class="mb-2"
+                          src="../assests/img/product_5.png"
+                          alt=""
+                        />
+                      </a>
+                      <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <a class="product-title" href="javascript:;">
+                            4K's Wraps
+                          </a>
+                        </div>
+                        <div class="col-auto">
+                          <a class="cart_bttn" href="cart.html">
+                            <i class="fa-light fa-plus"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-4 d-flex align-items-stretch">
+                  <div class="card product-card w-100">
+                    <div class="card-body">
+                      <a class="wishlist-btn" href="#">
+                        <i class="fa-solid fa-heart"></i>
+                      </a>
+
+                      <a class="product-thumbnail d-block" href="javascript:;">
+                        <img
+                          class="mb-2"
+                          src="../assests/img/product_new1.png"
+                          alt=""
+                        />
+                      </a>
+                      <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <a class="product-title" href="javascript:;">
+                            Elf Bar 5000Puff
+                          </a>
+                        </div>
+                        <div class="col-auto">
+                          <a class="cart_bttn" href="cart.html">
+                            <i class="fa-light fa-plus"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
