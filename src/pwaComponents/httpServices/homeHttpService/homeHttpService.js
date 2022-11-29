@@ -127,6 +127,24 @@ export async function updateCart(formData) {
   }
 }
 
+export async function deleteCart(id) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/cart/deleteCart/${id}
+      `
+    );
+    console.log(data);
+    if (!data.error) {
+      toast.success(data.message);
+    } else toast.error(data.message);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
 export async function editProfile(formData) {
   try {
     const { data } = await appHttpService.post(

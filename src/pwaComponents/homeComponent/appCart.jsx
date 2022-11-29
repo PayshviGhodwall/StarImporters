@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  deleteCart,
   getCart,
   updateCart,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -23,7 +24,7 @@ function AppCart() {
   };
 
   const deleteProduct = async (id) => {
-    const { data } = await getCart(id);
+    const { data } = await deleteCart(id);
     if (!data.error) {
       getCarts();
     }
@@ -86,12 +87,11 @@ function AppCart() {
                                   className="qty-text"
                                   type="text"
                                   id={`quantity${index}`}
-                                  value={quantity}
+                                  value={item.quantity}
                                   onChange={(e) =>
                                     updateQuantity(
                                       e.target.value,
-                                      item.productId._id,
-                                      index
+                                      item.productId._id
                                     )
                                   }
                                 />
