@@ -674,7 +674,7 @@ const EditInventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-2  col-lg-2 col-md-2 mt-1 mx-2">
+                                <div className="form-group mb-2  col-lg-2 col-md-2 mt-1 ">
                                   <label className="">Flavour Image </label>
                                   <div className="flavourImage position-relative d-inline-block">
                                     <div className="imageSection d-inline-flex">
@@ -692,14 +692,15 @@ const EditInventory = () => {
                                       <i
                                         style={{
                                           position: "relative",
-                                          left: "-6px",
-                                          top: "4px",
+                                          left: "5px",
+                                          top: "1px",
+                                          color:"#000"
                                         }}
-                                        className="upload-iconIN fas fa-camera"
+                                        className=" fas fa-camera"
                                       />
                                       <input
                                         className=""
-                                        style={{pointer:"cursor",left:"-5px",position:"relative"}}
+                                        style={{pointer:"cursor",left:"-5px",position:"relative",opacity:"10%"}}
                                         type="file"
                                         accept="image/*"
                                         name="flavourImage"

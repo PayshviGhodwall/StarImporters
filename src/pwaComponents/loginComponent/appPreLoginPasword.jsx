@@ -28,10 +28,18 @@ function AppPreLoginPassword() {
     data.email = location.state.email;
 
     const response = await userPreLoginPassword(data);
-
-    if (!response.data.error) {
-      navigate("/app/success", { state: { email: data.email } });
+    
+    if (response?.data.message === "Logged In") {
+      localStorage.setItem("token-user", response?.data?.results.token);
+      navigate("/app/home");
     }
+    if (response?.data.message === "First Time Login") {
+    
+      navigate("/app/success", { state: { email: data.email } });
+    
+       
+    }
+   
   };
 
   return (

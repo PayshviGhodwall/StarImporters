@@ -174,7 +174,7 @@ function App() {
           />
           <Route
             path="/app/login"
-            element={width < 768 ? <AppLogin /> : <Login />}
+            element={width < 768 ? <AppPreLogin /> : <Login />}
           />
           <Route
             path="/app/pre-login-password"

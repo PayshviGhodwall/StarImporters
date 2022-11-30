@@ -92,8 +92,8 @@ function WebHeader2() {
               </Link>
             </li>
             <li>
-              <Link to="/app/logout">
-                <i className="fa-solid fa-toggle-off"></i>Sign Out
+              <Link to="/app/login">
+                <i className="fa-solid fa-toggle-off"></i>Sign
               </Link>
             </li>
           </ul>

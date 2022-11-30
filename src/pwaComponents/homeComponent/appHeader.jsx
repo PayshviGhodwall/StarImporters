@@ -144,7 +144,7 @@ function AppHeader() {
                 </Link>
               </li>
               <li>
-                <Link to="/app/logout">
+                <Link to="/app/login">
                   <i className="fa-solid fa-toggle-off"></i>Sign Out
                 </Link>
               </li>

@@ -116,6 +116,11 @@ function AppPreLogin() {
                     </Link>
                   </p>
                 </div>
+                <div className="view-as-guest mt-2">
+                  <Link className="btn" to="/app/homeGuest">
+                    View as Guest
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
