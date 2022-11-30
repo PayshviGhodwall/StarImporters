@@ -1,46 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getBrands } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import WebHeader2 from "./webHeader2";
 
 function AppBrands() {
+  const [brand, setBrand] = useState([]);
+
+  useEffect(() => {
+    getBrandList();
+  }, []);
+
+  const getBrandList = async () => {
+    const { data } = await getBrands();
+    if (!data.error) {
+      setBrand(data.results);
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <div class="header-area" id="headerArea">
+          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <div class="back-button me-2 me-2">
+              <Link to="/app/home">
+                <i class="fa-solid fa-arrow-left-long"></i>
+              </Link>
+            </div>
+            <div class="page-heading">
+              <h6 class="mb-0">Brands</h6>
+            </div>
+            <div
+              class="suha-navbar-toggler ms-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#suhaOffcanvas"
+              aria-controls="suhaOffcanvas"
+            >
+              <div>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="brands_section pt-3">
             <div className="row mx-0">
-              <div className="col-6 mb-3 pe-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_1.png" alt="" />
-                </a>
-              </div>
-              <div className="col-6 mb-3 ps-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_2.png" alt="" />
-                </a>
-              </div>
-              <div className="col-6 mb-3 pe-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_6.png" alt="" />
-                </a>
-              </div>
-              <div className="col-6 mb-3 ps-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_4.png" alt="" />
-                </a>
-              </div>
-              <div className="col-6 mb-3 pe-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_5.png" alt="" />
-                </a>
-              </div>
-              <div className="col-6 mb-3 ps-2">
-                <a className="brands_box shadow" href="javascript:;">
-                  <img src="../assets/img/brand_6.png" alt="" />
-                </a>
-              </div>
+              {brand.map((item, index) => {
+                return (
+                  <div className="col-6 mb-3 pe-2">
+                    <Link className="brands_box shadow" to="">
+                      <img src={item.brandImage} alt="" />
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

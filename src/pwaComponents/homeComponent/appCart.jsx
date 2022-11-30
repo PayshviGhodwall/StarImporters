@@ -1,13 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  deleteCart,
+  getCart,
+  updateCart,
+} from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import WebHeader2 from "./webHeader2";
 
 function AppCart() {
+  const [cart, setCart] = useState([]);
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    getCarts();
+  }, []);
+
+  const getCarts = async () => {
+    const { data } = await getCart();
+    if (!data.error) {
+      setCart(data.results.products);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    const { data } = await deleteCart({ productId: id });
+    if (!data.error) {
+      getCarts();
+    }
+  };
+
+  const updateQuantity = async (e, id) => {
+    setQuantity(e);
+    const formData = {
+      productId: id,
+      quantity: e,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      getCarts();
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <div class="header-area" id="headerArea">
+          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <div class="back-button me-2 me-2">
+              <Link to="/app/home">
+                <i class="fa-solid fa-arrow-left-long"></i>
+              </Link>
+            </div>
+            <div class="page-heading">
+              <h6 class="mb-0">Cart</h6>
+            </div>
+            <div
+              class="suha-navbar-toggler ms-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#suhaOffcanvas"
+              aria-controls="suhaOffcanvas"
+            >
+              <div>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="container">
             <div className="cart-wrapper-area py-3">
@@ -15,78 +78,55 @@ function AppCart() {
                 <div className="table-responsive card-body">
                   <table className="table mb-0">
                     <tbody>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_1.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">BLVK Frznberry</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_4.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">Cherry Pineapple</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <a className="remove-product" href="#">
-                            <i className="fa-solid fa-xmark"></i>
-                          </a>
-                        </th>
-                        <td>
-                          <div className="cart_icon">
-                            <img
-                              className=""
-                              src="../assets/img/product_5.png"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <Link to="/app/product-detail">4K's Wraps</Link>
-                        </td>
-                        <td>
-                          <div className="quantity">
-                            <input className="qty-text" type="text" value="1" />
-                          </div>
-                        </td>
-                      </tr>
+                      {cart.map((item, index) => {
+                        return (
+                          <tr>
+                            <th scope="row">
+                              <Link
+                                className="remove-product"
+                                to=""
+                                onClick={() =>
+                                  deleteProduct(item.productId._id)
+                                }
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </Link>
+                            </th>
+                            <td>
+                              <div className="cart_icon">
+                                <img
+                                  className=""
+                                  src={item.productId.productImage}
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/app/product-detail/${item.productId._id}`}
+                              >
+                                {item.productId.unitName}
+                              </Link>
+                            </td>
+                            <td>
+                              <div className="quantity">
+                                <input
+                                  className="qty-text"
+                                  type="text"
+                                  id={`quantity${index}`}
+                                  value={item.quantity}
+                                  onChange={(e) =>
+                                    updateQuantity(
+                                      e.target.value,
+                                      item.productId._id
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

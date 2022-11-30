@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getUserProfile } from "../httpServices/homeHttpService/homeHttpService";
+import {
+  countProducts,
+  getUserProfile,
+} from "../httpServices/homeHttpService/homeHttpService";
 
 function AppHeader() {
   const [detail, setDetail] = useState("");
+  const [count, setCount] = useState("");
 
   useEffect(() => {
     getUserDetail();
+    getCartCount();
   }, []);
 
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
     if (!data.error) {
       setDetail(data.results);
+    }
+  };
+  const getCartCount = async () => {
+    const { data } = await countProducts();
+    if (!data.error) {
+      setCount(data.results);
     }
   };
   return (
@@ -29,7 +40,7 @@ function AppHeader() {
               <div className="cart-icon-wrap">
                 <Link to="/app/cart">
                   <i className="fa-solid fa-bag-shopping"></i>
-                  <span>2</span>
+                  <span>{count}</span>
                 </Link>
               </div>
 
@@ -39,7 +50,7 @@ function AppHeader() {
                     src={
                       detail?.profileImage
                         ? detail?.profileImage
-                        : "../assets/img/profile_img1.png"
+                        : "/assets/img/profile_img1.png"
                     }
                     alt=""
                   />
@@ -76,10 +87,18 @@ function AppHeader() {
           <div className="offcanvas-body">
             <div className="sidenav-profile">
               <div className="user-profile">
-                <img src="../assets/img/profile_img1.png" alt="" />
+                <img
+                  src={
+                    detail?.profileImage
+                      ? detail?.profileImage
+                      : "/assets/img/profile_img1.png"
+                  }
+                />
               </div>
               <div className="user-info">
-                <h5 className="user-name mb-1 text-white">Ajay Sharma</h5>
+                <h5 className="user-name mb-1 text-white">
+                  {detail.companyName}
+                </h5>
                 <p className="available-balance text-white">
                   Available points <span className="counter">499</span>
                 </p>

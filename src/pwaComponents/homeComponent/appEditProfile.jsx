@@ -33,8 +33,6 @@ function AppEditProfile() {
       let defaultValues = {};
       defaultValues.firstName = data.results.firstName;
       defaultValues.lastName = data.results.lastName;
-      defaultValues.phoneNumber = data.results.phoneNumber;
-      defaultValues.email = data.results.email;
       defaultValues.addressLine = data.results.addressLine;
 
       reset({ ...defaultValues });
@@ -190,31 +188,9 @@ function AppEditProfile() {
                         type="number"
                         id="phoneNumber"
                         name="phoneNumber"
-                        {...register("phoneNumber", {
-                          required: true,
-                          maxLength: 10,
-                          minLength: 10,
-                        })}
+                        value={detail.phoneNumber}
+                        disabled
                       />
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "required" && (
-                          <p className="form-error mt-2">
-                            This field is required
-                          </p>
-                        )}
-
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "maxLength" && (
-                          <p className="form-error mt-2">
-                            Please enter 10 digit number
-                          </p>
-                        )}
-                      {errors.phoneNumber &&
-                        errors.phoneNumber.type === "minLength" && (
-                          <p className="form-error mt-2">
-                            Please enter 10 digit number
-                          </p>
-                        )}
                     </div>
                     <div className="mb-3">
                       <div className="title mb-2">
@@ -227,14 +203,7 @@ function AppEditProfile() {
                         name="email"
                         id="email"
                         disabled
-                        {...register("email", {
-                          required: "This field is required",
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Invalid email address",
-                          },
-                        })}
+                        value={detail.email}
                       />
                     </div>
                     <div className="mb-3">

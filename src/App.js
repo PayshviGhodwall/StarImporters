@@ -83,7 +83,10 @@ import BuyAgain from "./buyerComponent/MyAccount/BuyAgain";
 import SignUpAgain from "./buyerComponent/LoginRegister/SignUpAgain";
 import MyQuotes from "./buyerComponent/Homepage/MyQuotes";
 import Checkout from "./buyerComponent/Cart/Checkout";
-
+import AppPreLogin from "./pwaComponents/loginComponent/appPreLogin";
+import AppReSignUp from "./pwaComponents/loginComponent/appReSignUp";
+import AppProductBySearch from "./pwaComponents/homeComponent/appProductBySearch";
+import AppPreLoginPassword from "./pwaComponents/loginComponent/appPreLoginPasword";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -98,12 +101,10 @@ function App() {
 
   return (
     <div className="App">
-
       <ToastContainer />
       <Router>
         <ScrollToTop />
         <Routes>
-          
           <Route path="/" element={<Homepage GetData={GetData} />} />
           <Route path="/Register" element={<SignUp />} />
           <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
@@ -134,7 +135,6 @@ function App() {
           <Route path="/AllBrands" element={<AllBrands />} />
           <Route path="/Cart" element={<Cart />} />
           <Route path="/MyQuotes" element={<MyQuotes />} />
-
 
           {/* admin Routes */}
           <Route path="/AdminLogin" element={<AdminLogin />} />
@@ -169,12 +169,24 @@ function App() {
 
           {/* App Routes */}
           <Route
+            path="/app/pre-login"
+            element={width < 768 ? <AppPreLogin /> : <Login />}
+          />
+          <Route
             path="/app/login"
             element={width < 768 ? <AppLogin /> : <Login />}
           />
           <Route
+            path="/app/pre-login-password"
+            element={width < 768 ? <AppPreLoginPassword /> : <Login />}
+          />
+          <Route
             path="/app/register"
             element={width < 768 ? <AppSignUp /> : <SignUp />}
+          />
+          <Route
+            path="/app/re-register"
+            element={width < 768 ? <AppReSignUp /> : <SignUp />}
           />
           <Route
             path="/app/forgot-password"
@@ -234,7 +246,14 @@ function App() {
           <Route path="/app/notifications" element={<AppNotifications />} />
           <Route path="/app/brands" element={<AppBrands />} />
           <Route path="/app/wishlist" element={<AppWishlist />} />
-          <Route path="/app/product-detail" element={<AppProductDetail />} />
+          <Route
+            path="/app/product-detail/:id"
+            element={<AppProductDetail />}
+          />
+          <Route
+            path="/app/product-by-search"
+            element={<AppProductBySearch />}
+          />
           <Route path="/app/request-detail" element={<AppRequestDetail />} />
           <Route
             path="/app/notification-detail"
@@ -242,7 +261,7 @@ function App() {
           />
           <Route path="/app/order-detail" element={<AppOrderDetail />} />
           <Route
-            path="/app/product-category"
+            path="/app/product-category/:id"
             element={<AppProductCategory />}
           />
           <Route path="/app/product-list" element={<AppProductList />} />
@@ -250,6 +269,8 @@ function App() {
           <Route path="/app/thankyou" element={<AppThankyou />} />
           <Route path="/app/contact-us" element={<AppContactUs />} />
           <Route path="/app/logout" element={<AppLogout />} />
+
+          {/*  */}
 
           {/*  */}
         </Routes>

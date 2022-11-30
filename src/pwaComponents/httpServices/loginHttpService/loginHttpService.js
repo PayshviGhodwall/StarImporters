@@ -24,6 +24,41 @@ export async function userLogin(formData) {
   }
 }
 
+export async function userPreLoginPassword(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/login`,
+      formData
+    );
+    console.log(data);
+
+    if (!data.error) {
+      toast.success(data.message);
+    } else toast.success(data.message);
+
+    console.log(data.message);
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
+export async function userPreLogin(formData) {
+  try {
+    const { data, headers } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/preLogin`,
+      formData
+    );
+
+    console.log(data);
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
 export async function userRegister(formData) {
   try {
     const { data } = await appHttpService.post(
@@ -32,9 +67,28 @@ export async function userRegister(formData) {
     );
     console.log(data);
 
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
+
+    console.log(data.message);
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function reSignup(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/reSignup`,
+      formData
+    );
+    console.log(data);
+
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     console.log(data.message);
     return { data };
@@ -92,6 +146,21 @@ export async function updatePassword(formData) {
     if (!data.error) {
       toast.success(data.message);
     } else toast.error(data.message);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+
+export async function semiSignup(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/semiSignup`,
+      formData
+    );
+    console.log(data);
 
     return { data };
   } catch (error) {

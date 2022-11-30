@@ -26,7 +26,9 @@
     "jquery": "^3.6.1",
     "jquery-nice-select": "^1.1.0",
     "js-file-download": "^0.4.12",
+    "quagga": "^0.12.1",
     "react": "^18.2.0",
+    
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.35.0",
     "react-hooks-global-state": "^2.0.0",
@@ -36,6 +38,7 @@
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
     "react-search-autocomplete": "^8.2.1",
+    "react-speech-recognition": "^3.10.0",
     "react-tabs": "^5.1.0",
     "react-timer-hook": "^3.0.5",
     "react-toastify": "^9.1.1",

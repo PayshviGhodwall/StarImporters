@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getUserProfile } from "../httpServices/homeHttpService/homeHttpService";
 
 function WebHeader2() {
+  const [detail, setDetail] = useState("");
+
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
+  const getUserDetail = async () => {
+    const { data } = await getUserProfile();
+    if (!data.error) {
+      setDetail(data.results);
+    }
+  };
+
   return (
     <>
       <div
@@ -20,10 +34,19 @@ function WebHeader2() {
         <div className="offcanvas-body">
           <div className="sidenav-profile">
             <div className="user-profile">
-              <img src="../assets/img/profile_img1.png" alt="" />
+              <img
+                src={
+                  detail?.profileImage
+                    ? detail?.profileImage
+                    : "/assets/img/profile_img1.png"
+                }
+                alt=""
+              />
             </div>
             <div className="user-info">
-              <h5 className="user-name mb-1 text-white">Ajay Sharma</h5>
+              <h5 className="user-name mb-1 text-white">
+                {detail.companyName}
+              </h5>
               <p className="available-balance text-white">
                 Available points <span className="counter">499</span>
               </p>
