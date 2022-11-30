@@ -15,12 +15,17 @@ function AppPreLogin() {
   } = useForm();
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (localStorage.getItem("token-user")) {
+      navigate("/app/home");
+    }
+  }, []);
   useEffect(() => {}, []);
 
   const onSubmit = async (data) => {
     console.log(data);
     const response = await userPreLogin(data);
+   
 
     if (response.data.message === "Your ID in under review") {
       Swal.fire({

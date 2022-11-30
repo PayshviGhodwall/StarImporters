@@ -144,7 +144,7 @@ function AppHeader() {
                 </Link>
               </li>
               <li>
-                <Link to="/app/login">
+                <Link to="/app/login" onClick={()=>{localStorage.removeItem("token-user")}}>
                   <i className="fa-solid fa-toggle-off"></i>Sign Out
                 </Link>
               </li>
