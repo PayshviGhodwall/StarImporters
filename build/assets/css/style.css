@@ -2599,6 +2599,7 @@
     opacity: 0;
     pointer-events: none; /* <-- This one */
   }
+  
 
   /* Website Finish */
 
@@ -3434,6 +3435,7 @@
     text-align: left;
     top: 8px;
   }
+  
   .checkbox {
     display: none;
   }
