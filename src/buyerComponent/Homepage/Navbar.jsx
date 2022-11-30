@@ -14,9 +14,12 @@ import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 
-const Navbar = ({ NState }) => {
+const Navbar = ({ NState,GetChange }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
+  const searchApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeSearch`;
+  const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
+  const [SearchData, setSearchData] = useState([]);
   const [category, setCategory] = useState([]);
   const [state, setState] = useState(false);
   const navigate = useNavigate();
@@ -47,10 +50,20 @@ const Navbar = ({ NState }) => {
       name: "Java",
     },
   ];
+  useEffect(() => {
+    AllProducts();
+    CartCount();
+    getCategory();
+    handleScroll();
+  }, [state, NState]);
 
-  const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
+  const handleOnSearch = async (e,string, results) => {
+    if(e.key === 'Enter'){
+      navigate("/AllProducts/Product", {
+        state: { id: results },
+      });
+    }
+  
     console.log(string, results);
   };
 
@@ -60,8 +73,11 @@ const Navbar = ({ NState }) => {
   };
 
   const handleOnSelect = (item) => {
-    // the item selected
     console.log(item);
+    navigate("/AllProducts/Product", {
+      state: { id: item?._id, CateName: item.categoryName },
+    });
+    
   };
 
   const handleOnFocus = () => {
@@ -83,12 +99,16 @@ const Navbar = ({ NState }) => {
       setCategory(res?.data.results);
     });
   };
+  const AllProducts = async () => {
+    await axios.post(allProd).then((res) => {
+      console.log(res);
+      setSearchData(res?.data.results);
+    });
+  };
+  const handleKeyDown =()=>{
+    console.log("enrt");
+  }
 
-  useEffect(() => {
-    CartCount();
-    getCategory();
-    handleScroll();
-  }, [state, NState]);
   useEffect(() => {
     // if (window.localStorage !== undefined) {
     const authToken = localStorage.getItem("token-user");
@@ -129,17 +149,20 @@ const Navbar = ({ NState }) => {
           </div>
           <div className="col-lg-6 col-md-5 align-items-center">
             <ReactSearchAutocomplete
-              items={items}
+              items={SearchData}
               styling={{
                 zIndex: "9",
                 borderRadius: "10px",
 
                 border: "2px solid #3e4093",
               }}
+              fuseOptions={{ keys: ["unitName", "pBarcode"] }} // Search on both fields
+              resultStringKeyName="unitName"
               onSearch={handleOnSearch}
               onHover={handleOnHover}
               onSelect={handleOnSelect}
               onFocus={handleOnFocus}
+              onKeyDown = {(e)=>{handleKeyDown(e)}}
               placeholder="Search "
             />
           </div>

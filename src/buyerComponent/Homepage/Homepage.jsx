@@ -31,24 +31,20 @@ const Homepage = ({ GetData }) => {
   const navigate = useNavigate();
 
   axios.defaults.headers.common["x-auth-token-user"] =
-    localStorage.getItem("loginToken");
+    localStorage.getItem("token-user");
   useEffect(() => {
     let x = document.cookie;
-    let y = document.cookie;
-
+    let token = localStorage.getItem("token-user");
+   if(!token){
     if (x === "") {
       const modal = document.getElementById("age_modal");
       setTimeout(() => {
         modal.click();
       }, 1000);
-    } else if (y === "") {
-      const modal = document.getElementById("terms_modal");
-      setTimeout(() => {
-        modal.click();
-      }, 5000);
     }
+  }
     getSlides();
-    getCategory();
+    getCategory();  
     getBrands();
   }, []);
 
@@ -70,7 +66,6 @@ const Homepage = ({ GetData }) => {
 
   return (
     <div className="home_page">
-      
       <Navbar />
 
       <section className="home">
@@ -598,7 +593,11 @@ const Homepage = ({ GetData }) => {
             >
               {(brands || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <Link to="/AllBrands" state={"hisds"} className="brand_box col-sm-12 p-sm-4">
+                  <Link
+                    to="/AllBrands"
+                    state={"hisds"}
+                    className="brand_box col-sm-12 p-sm-4"
+                  >
                     <img src={item?.brandImage} alt="" />
                   </Link>
                 </SwiperSlide>

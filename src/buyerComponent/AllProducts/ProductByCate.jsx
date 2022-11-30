@@ -8,19 +8,19 @@ import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 const ProductByCate = () => {
   const location = useLocation();
-  console.log(location.state.name);
   const [category, setCategory] = useState({});
   const [brands, setBrands] = useState([]);
   const [brandName, setBrandName] = useState();
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const getSubCategories = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getSubCategories`;
   const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
   console.log(brandName);
   const navigate = useNavigate();
-  useEffect(() => {
-    setCategory(location?.state.name);
+  useEffect(() => { 
+    setCategory(location?.state?.name);
     getProducts();
     GetBrands();
   }, [location]);
@@ -38,12 +38,13 @@ const ProductByCate = () => {
         setProducts(res.data?.results);
       });
   };
+
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
-      .post(ProductFilter, {
-        brand: brandName,
-        sortBt: 1,
+      .post((getProduct + "?sortBy=1"),{
+      category:location.state?.name
+       
       })
       .then((res) => {
         setProducts(res.data?.results);
@@ -57,7 +58,7 @@ const ProductByCate = () => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>{location.state.name}</h1>
+              <h1>{location?.state?.name}</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb mb-0">
@@ -70,7 +71,7 @@ const ProductByCate = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      {location.state.name}
+                      {location?.state?.name}
                     </li>
                   </ol>
                 </nav>
@@ -128,13 +129,71 @@ const ProductByCate = () => {
                               </div>
                             ))}
                           <div className="col-12 mt-3">
-                            <Link
+                            <p
+                              className="more_btn text-decoration-none
+                        "
+                        style={{cursor:"pointer"}}
+                        onClick={()=>{navigate("/AllBrands")}}
+                            >
+                              More
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Panel>
+                    <Panel
+                      header="Sub Categories"
+                      eventKey={3}
+                      id="panel3"
+                      defaultExpanded
+                      className="fw-bold"
+                    >
+
+
+
+
+                      <div className="accordion-body px-0 pt-3 pb-0">
+                        <div className="row">
+                          {(brands || [])
+                            ?.filter((item, idx) => idx < 5)
+                            .map((item, index) => (
+                              <div className="col-12 form-group " key={index}>
+                                <input
+                                  className=""
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    position: "relative",
+                                    top: "4px",
+                                  }}
+                                  type="checkbox"
+                                  value={item?.brandName}
+                                  id="check5"
+                                  name="check5"
+                                  onChange={(e) => {
+                                    setBrandName(e.target.value);
+                                  }}
+                                />
+                                <label
+                                  htmlFor="check5"
+                                  style={{
+                                    fontWeight: "500",
+                                    marginLeft: "13px",
+                                    fontSize: "18px",
+                                  }}
+                                >
+                                  {item?.brandName}
+                                </label>
+                              </div>
+                            ))}
+                          <div className="col-12 mt-3">
+                            <p
                               className="more_btn text-decoration-none
                         "
                               href="javscript:;"
                             >
                               More
-                            </Link>
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -175,105 +234,7 @@ const ProductByCate = () => {
                         </div>
                       </div>
                     </Panel>
-                    <Panel
-                      header="Ratings"
-                      eventKey={3}
-                      defaultExpanded
-                      id="panel3"
-                      className="fw-bold"
-                    >
-                      <div className="">
-                        <div className="row rating_box mb-2">
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              4{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              2{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              3{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </Panel>
+                    
                   </PanelGroup>
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">
@@ -298,6 +259,8 @@ const ProductByCate = () => {
               </div>
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
+
+
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
@@ -316,7 +279,7 @@ const ProductByCate = () => {
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
-                                state: { id: item?.products?._id },
+                                state: { id: item?.products?._id,CateName:item?.categoryName},
                               });
                             }}
                           />
@@ -326,11 +289,16 @@ const ProductByCate = () => {
                           <div className="d-flex justify-content-center">
                             <h1
                               className="text-center fs-4 fw-bolder "
-                              style={{position:"relative",left:"0px"}}
+                              style={{ position: "relative", left: "0px" }}
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: { id: item?.products?._id,CateName:item?.categoryName},
+                                });
+                              }}
                             >
                               {item?.products?.unitName}
                             </h1>
-                            <p style={{ right: "5px",position:"absolute" }}>
+                            <p style={{ right: "5px", position: "absolute" }}>
                               {heart ? (
                                 <i
                                   class="fa fa-heart"

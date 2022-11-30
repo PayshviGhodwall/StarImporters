@@ -17,7 +17,7 @@ import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
 const EditUser = () => {
   const [loader, setLoader] = useState(false);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState({imageProfile:"",federalTaxId:"",businessLicense:"",tobaccoLicence:"",salesTaxId:"",accountOwnerId:""});
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
@@ -53,7 +53,6 @@ const EditUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
-    setLoader(true);
     console.log(data, "hii");
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
@@ -111,28 +110,7 @@ const EditUser = () => {
     const res = await axios.post(apiUrl + "/" + objectId);
     let results = res?.data.results;
     setUser(res.data.results);
-    let defalutValues = {};
-    defalutValues.imageProfile = results.imageProfile;
-    defalutValues.companyName = results.companyName;
-    defalutValues.dba = results.dba;
-    defalutValues.addressLine = results.addressLine1;
-    defalutValues.addressLine = results.addressLine2;
-    defalutValues.city = results.city;
-    defalutValues.state = results.state;
-    defalutValues.zipcode = results.zipcode;
-    defalutValues.federalTaxId = results.federalTaxId;
-    defalutValues.tobaccoLicence = results.tobaccoLicence;
-    defalutValues.salesTaxId = results.salesTaxId;
-    defalutValues.businessLicense = results.businessLicense;
-    defalutValues.firstName = results.firstName;
-    defalutValues.lastName = results.lastName;
-    defalutValues.accountOwnerId = results.accountOwnerId;
-    defalutValues.email = results.email;
-    defalutValues.phoneNumber = results.phoneNumber;
-    defalutValues.heardAboutUs = results.heardAboutUs;
-    defalutValues.quotation = results.quotation;
 
-    reset({ ...defalutValues });
     return res.data;
   };
   const handleClick = () => {
@@ -324,6 +302,7 @@ const EditUser = () => {
                   <div className="col-12 p-4 Pending-view-main">
                     <form
                       className="row py-2 form-design"
+                      autoComplete="off"
                       onSubmit={handleSubmit(onSubmit)}
                     >
                       <div className="col-12 text-center mb-4">
@@ -365,6 +344,7 @@ const EditUser = () => {
                             "form-control  border border-secondary  signup_fields",
                             { "is-invalid": errors.email }
                           )}
+                          defaultValue={user?.companyName}
                           name="companyName"
                           id="name"
                           {...register("companyName")}
@@ -386,6 +366,8 @@ const EditUser = () => {
                             { "is-invalid": errors.dba }
                           )}
                           name="dba"
+                          defaultValue={user?.dba}
+
                           id="DBA"
                           {...register("dba")}
                         />
@@ -401,6 +383,8 @@ const EditUser = () => {
                         </label>
                         <input
                           type="text"
+                          defaultValue={user?.addressLine}
+
                           className={classNames(
                             "form-control  border border-secondary signup_fields"
                           )}
@@ -431,6 +415,8 @@ const EditUser = () => {
                           )}
                           name="city"
                           id="name"
+                          defaultValue={user?.city}
+
                           {...register("city")}
                         />
                         {errors.city && (
@@ -449,6 +435,8 @@ const EditUser = () => {
                           )}
                           aria-label="Default select example"
                           name="state"
+                          defaultValue={user?.state}
+
                           {...register("state")}
                         >
                           <option value="">Select a state/province...</option>
@@ -544,6 +532,8 @@ const EditUser = () => {
                           )}
                           name="zipcode"
                           id="name"
+                          defaultValue={user?.zipcode}
+
                           {...register("zipcode")}
                         />
                         {errors.zipcode && (
@@ -560,6 +550,7 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file1"
+
                               name="federalTaxId"
                               {...register("federalTaxId")}
                               onChange={(e) =>
@@ -722,9 +713,9 @@ const EditUser = () => {
                           )}
                           name="lastName"
                           id="LastName"
-                          {...register("lastName", {
-                            required: "last Name is Required",
-                          })}
+                          defaultValue={user?.lastName}
+
+                          {...register("lastName")}
                         />
                       </div>
                       <div className="form-group col-4 mb-4">
@@ -881,8 +872,8 @@ const EditUser = () => {
                               <input
                                 className="d-none"
                                 type="radio"
+                                defaultChecked
                                 id="vii"
-                                data-val="true"
                                 value="true"
                                 name="quotation"
                                 {...register("quotation")}
@@ -896,7 +887,7 @@ const EditUser = () => {
                                 className="d-none"
                                 type="radio"
                                 id="sh"
-                                data-val="false"
+                                defaultValue="yes"
                                 value="false"
                                 name="quotation"
                                 {...register("quotation")}

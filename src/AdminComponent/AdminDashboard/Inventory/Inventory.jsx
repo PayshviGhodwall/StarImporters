@@ -10,6 +10,7 @@ import classNames from "classnames";
 import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
+import { Button } from "rsuite";
 function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
   return () => setValue((value) => value + 1); // update state to force render
@@ -32,6 +33,7 @@ const Inventory = () => {
   const [uploadError, setUploadError] = useState("");
   const [set, setSet] = useState(true);
   const [ux, setUx] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
@@ -135,7 +137,8 @@ const Inventory = () => {
       setFormValues(newFormValues);
     });
   };
-  const onSubmit = async (data) => {      
+  const onSubmit = async (data) => {
+    setLoader(true);
     console.log(data);
     await axios
       .post(addProduct, {
@@ -151,6 +154,7 @@ const Inventory = () => {
       })
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
+          setLoader(false);
           window.location.reload(false);
           scrollBy(500, 0);
         }
@@ -160,6 +164,12 @@ const Inventory = () => {
           err.response?.data?.message ===
           "Please enter valid Details of product"
         ) {
+          setLoader(false);
+          Swal.fire({
+            title: "Please Enter Valid Details of product",
+            icon: "error",
+            focusConfirm: false,
+          });
           setNewMessage("Please Enter All Details of product*");
         }
       });
@@ -261,95 +271,120 @@ const Inventory = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
-                                            <li>
-                                              <Link
-                                                className=" "
-                                                to="/AdminDashboard"
-                                                style={{
-                                                  textDecoration: "none",
-                                                  fontSize: "18px",
-                                                }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"2px"}}    className="fa fa-home"></i> Dashboard
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className=""
-                                                to="/UserManage"
-                                                style={{ textDecoration: "none", fontSize: "18px",
-                                                
-                                              }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"3px"}}    class="fa fa-user"></i> User Management
-                                              </Link>
-                                            </li>
-                                            <li>                                                                
-                                              <Link
-                                                className=""
-                                                to="/CategorySub"
-                                                style={{ textDecoration: "none",  fontSize: "18px",
-                                                
-                                              }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"3px"}}    class="fa fa-layer-group"></i> Category &amp; Sub Category
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className="bg-white"
-                                                to="/Inventory"
-                                                style={{ textDecoration: "none",  fontSize: "18px",color:"#3e4093"
-                                                
-                                              }}
-                                              >
-                                            <i style={{position:"relative",left:"6px",top:"3px"}}    class="far fa-building"></i>  Inventory Management
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className=""
-                                                to="/brandsManage"
-                                                style={{ textDecoration: "none",  fontSize: "18px",
-                                                
-                                                }}
-                                              >
-                                            <i style={{position:"relative",left:"4px",top:"3px"}}    class="fa fa-ship"></i>  Brands Management
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className=""
-                                                to="/OrderRequest"
-                                                style={{ textDecoration: "none",  fontSize: "18px",
-                                                }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"3px"}}  class="fa fa-layer-group"></i>  Order request
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className=""
-                                                to="/Cms"
-                                                style={{ textDecoration: "none",  fontSize: "18px",
-                                                }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"3px"}}    class="fa fa-cog"></i> CMS
-                                              </Link>
-                                            </li>
-                                            <li>
-                                              <Link
-                                                className=""
-                                                to="/AdminLogin"
-                                                onClick={handleClick}
-                                                style={{ textDecoration: "none",  fontSize: "18px",
-                                                }}
-                                              >
-                                              <i style={{position:"relative",left:"4px",top:"3px"}}    class="fa fa-sign-out-alt"></i>Logout
-                                              </Link>
-                                            </li>
-                                          </ul>
+            <ul className="list-unstyled ps-1 m-0">
+              <li>
+                <Link
+                  className=" "
+                  to="/AdminDashboard"
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                  }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "2px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/UserManage"
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/CategorySub"
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="bg-white"
+                  to="/Inventory"
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    color: "#3e4093",
+                  }}
+                >
+                  <i
+                    style={{ position: "relative", left: "6px", top: "3px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/brandsManage"
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/OrderRequest"
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/Cms"
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=""
+                  to="/AdminLogin"
+                  onClick={handleClick}
+                  style={{ textDecoration: "none", fontSize: "18px" }}
+                >
+                  <i
+                    style={{ position: "relative", left: "4px", top: "3px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -682,9 +717,14 @@ const Inventory = () => {
                       </form>
                     </div>
                     <div className="form-group mb-0 col-12 text-center ">
-                      <button className="comman_btn" type="submit">
+                      <Button
+                        loading={loader}
+                        className="comman_btn"
+                        style={{ backgroundColor: "#eb3237", color: "#fff" }}
+                        type="submit"
+                      >
                         Save Product
-                      </button>
+                      </Button>
                     </div>
                   </form>
                 </div>

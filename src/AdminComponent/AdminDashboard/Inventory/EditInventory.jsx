@@ -23,24 +23,27 @@ const EditInventory = () => {
   const [Nchnge, setNchnge] = useState();
   const [barcodes, setBarcodes] = useState([]);
   const [flavourPS, setFlavourPS] = useState();
+  const [priceStatus, setPriceStatus] = useState();
   const [productBarcode, setProductBarcode] = useState([]);
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-  const flavourPrice = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+  const flavourPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+  const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+  const productPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+
   const [formValues, setFormValues] = useState([
     {
       productType: [],
       flavour: [],
       flavourImage: [],
       barcode: [],
-      flavourPrice: "",
+      flavourPrice: Number,
     },
   ]);
-  const EditProduct =
-    "http://ec2-3-210-230-78.compute-1.amazonaws.com:7000/api/admin/inventory/updateProduct";
+  const EditProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/updateProduct`;
   const location = useLocation();
   let id = location.state?.id;
   const {
@@ -78,6 +81,7 @@ const EditInventory = () => {
       setFormValues(res?.data.results.type);
     });
   };
+
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -124,6 +128,7 @@ const EditInventory = () => {
         productPrice: data?.productPrice,
         brand: data?.brands,
         description: data?.desc,
+        productPriceStatus: data?.productPriceStatus,
         productImage: productImage,
         type: formValues,
       })
@@ -135,14 +140,17 @@ const EditInventory = () => {
             button: "Ok",
           });
         }
-        if (res?.data.message == "Trouble in updating please provide right credential") {
+        if (
+          res?.data.message ==
+          "Trouble in updating please provide right credential"
+        ) {
           Swal.fire({
             title: "Please provide right details",
             icon: "error",
             button: "Ok",
           });
         }
-        
+
         setNchnge(Nchnge);
       });
   };
@@ -209,21 +217,24 @@ const EditInventory = () => {
     (productBarcode || []).splice(ind, 1);
     setChange(!change);
   };
-  const FlavourStatus = async(index) => {
-    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
-      console.log(res);
-    });
+  const TypeStatus = async (index) => {
+    console.log("fdsfd");
+    await axios
+      .post(typeDisable + "/" + allProducts[0]?._id, {
+        flavourId: allProducts[0]?.type[index]?._id,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
-  const flavourPriceStatus = async(index) => {
-    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
-      console.log(res);
-    });
+  const flavourStatus = async (index) => {
+    await axios
+      .post(flavourPriceStatus + "/" + formValues[index]?._id)
+      .then((res) => {
+        console.log(res);
+      });
   };
-  const priceStatus = async(index) => {
-    await axios.post(flavourPrice + "/" + formValues[index]?._id).then((res) => {
-      console.log(res);
-    });
-  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -249,7 +260,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
@@ -261,7 +276,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
@@ -273,7 +292,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
@@ -287,7 +310,11 @@ const EditInventory = () => {
                     color: "#3e4093",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
@@ -299,7 +326,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
@@ -311,7 +342,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
@@ -323,7 +358,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -336,7 +375,11 @@ const EditInventory = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -403,7 +446,11 @@ const EditInventory = () => {
                           <img
                             className="profile-pic"
                             style={{ height: "200px" }}
-                            src={allProducts[0]?.productImage}
+                            src={
+                              productImage
+                                ? productImage
+                                : allProducts[0]?.productImage
+                            }
                           />
                         </div>
                         <div className="p-image">
@@ -468,29 +515,32 @@ const EditInventory = () => {
                       </select>
                     </div>
                     <div className="form-group col-3">
-                      <label htmlFor="" className="d-flex">Price:<Toggle
-                                    size="sm"
-                                    className="mx-2"
-                                    color="#3e4093"
-                                    defaultChecked={true}
-                                    checkedChildren="enable"
-                                    unCheckedChildren="disable"
-                                    onChange={() => {
-                                      priceStatus();
-                                    }}
-                                  /></label>
+                      
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked"
+                          defaultChecked={allProducts[0]?.productPriceStatus}
+                          name="productPriceStatus"
+                            {...register("productPriceStatus")}
+                          
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheckChecked"
+                        >
+                          Product Price
+                        </label>
+                      </div>
                       <input
-                        type=""
-
+                        type="Number"
                         defaultValue={allProducts[0]?.productPrice}
-
-
                         className="form-control"
                         name="productPrice"
                         placeholder="Enter Product Price"
                         {...register("productPrice")}
                       />
-
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
@@ -598,30 +648,33 @@ const EditInventory = () => {
                                   </div>
                                 </div>
                                 <div className="form-group mb-0 col-2">
-                                  <label htmlFor="" className="d-flex">Price:<Toggle
-                                    size="sm"
-                                    className="mx-2"
-                                    color="#3e4093"
-                                    defaultChecked={toString(item?.flavourStatus)}
-                                    checkedChildren="enable"
-                                    unCheckedChildren="disable"
-                                    onChange={() => {
-                                      flavourPriceStatus(index);
-                                    }}
-                                  /></label>
+                                  <label htmlFor="" className="d-flex">
+                                    Price:
+                                    <Toggle
+                                      size="sm"
+                                      className="mx-2"
+                                      color="#3e4093"
+                                      defaultChecked={toString(
+                                        item?.flavourStatus
+                                      )}
+                                      checkedChildren="enable"
+                                      unCheckedChildren="disable"
+                                      onChange={() => {
+                                        flavourPriceStatus(index);
+                                      }}
+                                    />
+                                  </label>
 
                                   <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
                                     name="flavourPrice"
                                     placeholder="Enter Price"
                                     defaultValue={item?.flavourPrice}
-
                                     onChange={(e) => handleChange(index, e)}
                                   />
-                                 
                                 </div>
-                                <div className="form-group mb-2  col-lg-2 col-md-2 mt-1">
+                                <div className="form-group mb-2  col-lg-2 col-md-2 mt-1 mx-2">
                                   <label className="">Flavour Image </label>
                                   <div className="flavourImage position-relative d-inline-block">
                                     <div className="imageSection d-inline-flex">
@@ -629,15 +682,24 @@ const EditInventory = () => {
                                         className="flavour-pic"
                                         style={{
                                           height: "200px",
-                                          width: "150px",
+                                          width: "130px",
+                                          marginLeft:"0"
                                         }}
                                         src={item?.flavourImage}
                                       />
                                     </div>
                                     <div className="p-image">
-                                     <i style={{position:"relative",left:"4px",top:"4px"}}  className="upload-iconIN fas fa-camera" />
+                                      <i
+                                        style={{
+                                          position: "relative",
+                                          left: "-6px",
+                                          top: "4px",
+                                        }}
+                                        className="upload-iconIN fas fa-camera"
+                                      />
                                       <input
-                                        className="file-uploadIN"
+                                        className=""
+                                        style={{pointer:"cursor",left:"-5px",position:"relative"}}
                                         type="file"
                                         accept="image/*"
                                         name="flavourImage"
@@ -655,10 +717,10 @@ const EditInventory = () => {
                                     <input
                                       type="checkbox"
                                       className="checkbox"
+                                      defaultChecked={item?.flavourStatus}
                                       id="FlavourStatus"
-                                      defaultChecked
                                       onClick={() => {
-                                        FlavourStatus();
+                                        TypeStatus(index);
                                       }}
                                     />
                                     <label

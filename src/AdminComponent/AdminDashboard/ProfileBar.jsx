@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProfileBar = () => {
   const getAdmin = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAdminData`;
@@ -9,6 +10,15 @@ const ProfileBar = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   useEffect(() => {
+    let token =  localStorage.getItem("AdminLogToken");
+    if(!token ){
+      Swal.fire({
+        title: "Un-Authenticated Request",
+        text: "Please Login!",
+        icon: "error",
+        confirmButtonText: "okay",
+      });
+    }  
     const GetAdminData = async () => {
       await axios.get(getAdmin).then((res) => {
         setAdminData(res?.data.results.admin);

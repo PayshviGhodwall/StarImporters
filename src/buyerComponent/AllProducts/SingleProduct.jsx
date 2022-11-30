@@ -19,35 +19,55 @@ const SingleProduct = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
+  const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
   const [loader, setLoader] = useState(false);
   const [loader1, setLoader2] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
   const [minDisable, setMinDisable] = useState(true);
-  const [flavour, setFlavour] = useState("");
+  const [flavour, setFlavour] = useState();
   const [category, setCategory] = useState([]);
+  const [simProducts, setSimProducts] = useState([]);
+  const [FInd, setFInd] = useState();
   const [NState, setNState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
+  const [type, setType] = useState([]);
   const [cartProduct, setCartProduct] = useState([]);
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
   let location = useLocation();
-  let objectId = location.state.id;
+  const[ objectId ,setObjectID]= useState()
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [categoryName,setCategoryName] = useState()
   const handleOpen = () => setOpen(true);
   const handle2Open = () => setOpen2(true);
   const handleClose = () => setOpen(false);
   const handle2Close = () => setOpen2(false);
   const navigate = useNavigate();
+  const GetChange = (data)=>{
+    
+    setChange(data)
+  }
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-
+  console.log(objectId,location?.state?.id);
+  if(objectId !== location?.state?.id ){
+    setObjectID(location?.state?.id)
+  }
   useEffect(() => {
+   
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
+         axios.post(similarProduct,{
+          category:res.data?.results?.category?.categoryName
+        }).then((res) => {
+          setSimProducts(res?.data.results);
+        });
+      
         setProduct(res.data.results);
+        setType(res.data.results?.type);
         setProductImages(res.data.results?.productImage);
         setProductImages({ ...productImages }, res.data.results?.type);
       });
@@ -57,11 +77,14 @@ const SingleProduct = () => {
         setCategory(res?.data.results);
       });
     };
+  console.log(categoryName);
 
     getCategory();
     NewProducts();
-  }, [change]);
-
+    getSimilarProducts()
+  }, [change,objectId]);
+  const  getSimilarProducts = async () => {}
+   
   const AddtoCart = async () => {
     setLoader(true);
     console.log(objectId);
@@ -135,13 +158,11 @@ const SingleProduct = () => {
           setLoader(false);
           setSuccesMsg("Product added to Quote!");
           document.getElementById("req-modal").click();
-
         }
         if (res.data?.message === "Quote is already in Cart") {
           setLoader(false);
           setSuccesMsg("Product added to Cart!");
           document.getElementById("req-modal").click();
-
         }
       })
       .catch((err) => {
@@ -179,7 +200,7 @@ const SingleProduct = () => {
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
-      <Navbar NState={NState} />
+      <Navbar NState={NState} GetChange={GetChange} />
       <section className="comman_banner _banner">
         <div className="container ">
           <div className="row">
@@ -234,6 +255,17 @@ const SingleProduct = () => {
                     data-bs-ride="carousel"
                   >
                     <div className="carousel-indicators">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          document.getElementById("productMainImg").src =
+                            product?.productImage;
+
+                          setFlavour();
+                        }}
+                      >
+                        <img src={product?.productImage} alt="" />
+                      </button>
                       {(product?.type || []).map((item, index) => (
                         <button
                           key={index}
@@ -308,49 +340,55 @@ const SingleProduct = () => {
                                     className="col-lg-12 flavour_box p-2"
                                     style={{ border: "none" }}
                                   >
-                                    {(product?.type || []).map(
-                                      (item, index) => {
-                                        return flavour === item?.flavour ? (
-                                          <a
-                                            className=" text-decoration-none text-white"
-                                            key={index}
-                                            style={{
-                                              cursor: "pointer",
-                                              backgroundColor: "#3e4093",
-                                            }}
-                                          >
-                                            {item.flavour}
-                                          </a>
-                                        ) : (
-                                          <a
-                                            className=" text-decoration-none"
-                                            key={index}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => {
-                                              document.getElementById(
-                                                "productMainImg"
-                                              ).src = item?.flavourImage;
-                                              setFlavour(item?.flavour);
-                                            }}
-                                          >
-                                            {item.flavour}
-                                          </a>
-                                        );
-                                      }
-                                    )}
+                                    {(product?.type || []).map((item, ind) => {
+                                      return flavour === item?.flavour ? (
+                                        <a
+                                          className=" text-decoration-none text-white"
+                                          key={ind}
+                                          style={{
+                                            cursor: "pointer",
+                                            backgroundColor: "#3e4093",
+                                          }}
+                                        >
+                                          {item.flavour}
+                                        </a>
+                                      ) : (
+                                        <a
+                                          className=" text-decoration-none"
+                                          key={ind}
+                                          style={{ cursor: "pointer" }}
+                                          onClick={() => {
+                                            document.getElementById(
+                                              "productMainImg"
+                                            ).src = item?.flavourImage;
+                                            setFlavour(item?.flavour);
+                                            setFInd(ind);
+                                          }}
+                                        >
+                                          {item.flavour}
+                                        </a>
+                                      );
+                                    })}
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="col-12">
-                            { product?.productPrice ?
-                          <p>Price : {product?.productPrice}</p>
-                          : 
-                          null
 
-                            }
-                            
+                          <div className="col-12">
+                            {product?.productPriceStatus ? (
+                              <p className="fw-bold">
+                                Price : $
+                                {flavour
+                                  ? type[FInd]?.flavourPrice
+                                  : product?.productPrice}
+                              </p>  
+                            ) : (
+                              <p className="fw-bold">
+                                Price : $
+                                {flavour ? type[FInd]?.flavourPrice : null}
+                              </p>
+                            )}
                           </div>
                           <div className="col-12 quantity_box d-md-flex align-items-center mt-md-3 mb-md-2">
                             <div className="number me-md-4 mb-md-0 mb-3">
@@ -393,7 +431,10 @@ const SingleProduct = () => {
                             >
                               Add To Cart
                             </Button>
-                            <button className="comman_btn2" onClick={AddtoQuote}>
+                            <button
+                              className="comman_btn2"
+                              onClick={AddtoQuote}
+                            >
                               Request Quotation
                             </button>
                           </div>
@@ -430,7 +471,7 @@ const SingleProduct = () => {
         <section className="features_products bg-white  w-100 ">
           <div className="container mb-5">
             <div className="col-12 comman_head mb-2 mt-5 text-center ">
-              <h2>Related Products</h2>
+              <h2>Similar Products</h2>
             </div>
 
             <Swiper
@@ -441,16 +482,33 @@ const SingleProduct = () => {
               modules={[Pagination, Navigation]}
               className="mySwiper px-5 py-2"
             >
-              {(category || [])?.map((item, index) => (
+              {(simProducts || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
                   <div className="p-3 mb-2">
                     <div className="text-center">
                       <div className="product_parts_box">
+                        
                         <div className="partsproduct_img">
-                          <img src={item?.categoryImage} alt="Product" />
+                          <img src={item?.productImage} alt="Product" onClick={() => {
+                                setObjectID(item?._id) 
+                              setChange(!change)
+                              window.scrollTo({
+                                top: 0, 
+                                behavior: 'smooth'
+                               
+                              });
+                            }} />
                         </div>
                         <div className="product_content mt-3 text-center">
-                          <a>BLVK Frznberry</a>
+                          <a onClick={() => {
+                                setObjectID(item?._id) 
+                              setChange(!change)
+                              window.scrollTo({
+                                top: 0, 
+                                behavior: 'smooth'
+                               
+                              });
+                            }}>{item?.unitName}</a>
                           <div className="rating_box mt-2 mb-1">
                             <a href="javasript:;">
                               <i className="fas fa-star" />
@@ -493,7 +551,7 @@ const SingleProduct = () => {
       <Modal open={open} onClose={handleClose} style={{ marginTop: "150px" }}>
         <Modal.Header>
           <Modal.Title className="fs-4">
-          <i class="fas fa-check-circle "></i> Quotation Added to My Quotes!
+            <i class="fas fa-check-circle "></i> Quotation Added to My Quotes!
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -506,9 +564,12 @@ const SingleProduct = () => {
             >
               View Quotes
             </button>
-            <button className="comman_btn2 rounded mx-3"   onClick={() => {
+            <button
+              className="comman_btn2 rounded mx-3"
+              onClick={() => {
                 navigate("/");
-              }}>
+              }}
+            >
               Continue Shopping
             </button>
           </div>

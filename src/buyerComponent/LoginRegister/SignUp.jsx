@@ -679,13 +679,14 @@ const SignUp = () => {
                       Subscribe to our email newslette
                     </label>
                   </div>
-
                   <div className="col-12 text-center mt-4">
                     <Button className="comman_btn2 mx-2 fw-bold" appearance="primary" onClick={()=>{navigate("/")}} style={{backgroundColor:"#eb3237",color:"#fff"}}>Cancel</Button>
                     <Button  loading={loader} appearance="primary" className="comman_btn mx-2 fw-bold" type="submit"  style={{backgroundColor:"#3e4093",color:"#fff"}}>
                       Submit
                     </Button>
                   </div>
+                  <p className="fs-6 text-center mt-3 text-secondary"> *By signing up, you agree to our <Link to="/Terms&Condition" state={"jiij"} className="text-decoration-none">Terms and Conditions.</Link></p>
+
                 </>
               </div>
             </form>
