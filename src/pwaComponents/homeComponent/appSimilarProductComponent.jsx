@@ -5,6 +5,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link } from "react-router-dom";
 import {
+  addToCart,
   getAllProducts,
   similarProduct,
 } from "../httpServices/homeHttpService/homeHttpService";
