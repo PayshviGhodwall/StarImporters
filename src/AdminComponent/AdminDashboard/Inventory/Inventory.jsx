@@ -245,8 +245,8 @@ const Inventory = () => {
     await axios.post(importInvent, formData).then((res) => {
       console.log(res);
       setUploadError(res?.data.message);
-      if (res?.data.message === "Successfully Imported") {
-        setSet(!set);
+      if (res?.data.message === "Imported Successfully") {
+        window.location.reload(false)
       }
     });
     document.getElementById("reUpload").hidden = false;
@@ -880,6 +880,7 @@ const Inventory = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={()=>{window.location.reload(false)}}
                 id="modal-close66"
               />
 

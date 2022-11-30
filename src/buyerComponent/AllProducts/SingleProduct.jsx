@@ -274,6 +274,7 @@ const SingleProduct = () => {
                             document.getElementById("productMainImg").src =
                               item?.flavourImage;
                             setFlavour(item?.flavour);
+                            setFInd(index)
                           }}
                         >
                           <img src={item?.flavourImage} alt="" />

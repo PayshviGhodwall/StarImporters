@@ -190,7 +190,7 @@ const Cart = () => {
                                       <div className="number">
                                         <input
                                           type="text"
-                                          className="border bg-light rounded"
+                                          className="border bg-white rounded"
                                           style={{ width: "70px" }}
                                           defaultValue={item?.quantity}
                                         />
