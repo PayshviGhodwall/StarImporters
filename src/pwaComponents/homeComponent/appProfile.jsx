@@ -32,7 +32,7 @@ function AppProfile() {
                       src={
                         detail?.profileImage
                           ? detail?.profileImage
-                          : "../assets/img/profile_img1.png"
+                          : "../assets/img/logo.png"
                       }
                       alt=""
                     />
