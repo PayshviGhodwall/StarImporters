@@ -490,8 +490,9 @@ const SingleProduct = () => {
                         
                         <div className="partsproduct_img">
                           <img src={item?.productImage} alt="Product" onClick={() => {
-                                setObjectID(item?._id) 
-                              setChange(!change)
+                                navigate("/AllProducts/Product", {
+                                  state: { id: item?._id, },
+                                });
                               window.scrollTo({
                                 top: 0, 
                                 behavior: 'smooth'
@@ -501,8 +502,9 @@ const SingleProduct = () => {
                         </div>
                         <div className="product_content mt-3 text-center">
                           <a onClick={() => {
-                                setObjectID(item?._id) 
-                              setChange(!change)
+                                 navigate("/AllProducts/Product", {
+                                  state: { id: item?._id, },
+                                });
                               window.scrollTo({
                                 top: 0, 
                                 behavior: 'smooth'

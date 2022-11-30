@@ -41,6 +41,7 @@ const ProductBySubCate = () => {
   console.log(products);
   const filterProduct = async (e) => {
     e.preventDefault();
+    
     await axios
       .post((getProduct + "?sortBy=1"),{
       subCategory:location.state?.name
