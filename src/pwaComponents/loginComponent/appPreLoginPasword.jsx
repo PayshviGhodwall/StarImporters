@@ -40,20 +40,10 @@ function AppPreLoginPassword() {
         localStorage.setItem("token-user", response?.data?.results.token);
         navigate("/app/home");
         if (window.flutter_inappwebview) {
-          let dd =  await window.flutter_inappwebview.callHandler("Flutter", data.email);
-          // window.flutter_inappwebview.callHandler("Flutter", data.email);
-        console.log(dd,"hello");
+           window.flutter_inappwebview.callHandler("Flutter", data.email);
 
         }
-      //   window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-      //     window.flutter_inappwebview.callHandler('Flutter')
-      //       .then(function(result) {
-      //         // print to the console the data coming
-      //         // from the Flutter side.
-      //         console.log(result,"resultssss");
-
-      //     });
-      // });
+      //  
       }
     }
     if (response?.data.message === "First Time Login") {
