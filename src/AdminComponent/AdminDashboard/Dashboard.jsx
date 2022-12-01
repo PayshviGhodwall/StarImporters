@@ -33,14 +33,15 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className="bg-white"
                   to="/AdminDashboard"
                   style={{
                     textDecoration: "none",
-                    fontSize: "18px",color:"#3e4093"
+                    fontSize: "18px",
+                    color: "#3e4093",
                   }}
                 >
                   <i
@@ -57,7 +58,6 @@ const Dashboard = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                  
                   }}
                 >
                   <i
@@ -163,11 +163,14 @@ const Dashboard = () => {
                       setSideBar(!sideBar);
                     }}
                   >
-                   <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-bars"></i>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "4px" }}
+                      className="fa fa-bars"
+                    ></i>
                   </h1>
                 </div>
               ) : (
-                <div> 
+                <div>
                   <h3 className="">
                     <button
                       onClick={(e) => {
@@ -183,6 +186,201 @@ const Dashboard = () => {
             </div>
             <div className="col-auto d-flex ml-5">
               <ProfileBar />
+            </div>
+          </div>
+        </div>
+        <div className="admin_panel_data height_adjust">
+          <div className="row dashboard_part justify-content-center">
+            <div className="col-12">
+              <div className="row ms-3 mb-5 justify-content-center">
+                <div className="col d-flex align-items-stretch">
+                  <a
+                    href="javascript:;"
+                    className="row dashboard_box box_design me-3 w-100 text-decoration-none"
+                  >
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="fas fa-user" />
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Total User</h2>
+                        <span>20000</span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div className="col d-flex align-items-stretch">
+                  <a
+                    className="row dashboard_box box_design me-3 w-100 text-decoration-none"
+                  >
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="fa fa-shopping-bag" />
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Total Orders</h2>
+                        <span>20000</span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div className="col d-flex align-items-stretch pe-0">
+                  <a
+                  
+                    className="row dashboard_box box_design me-0 w-100 text-decoration-none"
+                  >
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="fas fa-user-friends" />
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Request History</h2>
+                        <span>100</span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div className="row mx-0">
+                <div className="col-12 design_outter_comman recent_orders shadow">
+                  <div className="row comman_header justify-content-between">
+                    <div className="col-auto">
+                      <h2>Recent Orders</h2>
+                    </div>
+                    <div className="col-3">
+                      <form className="form-design" action="">
+                        <div className="form-group mb-0 position-relative icons_set">
+                          <input
+                            type="text"
+                            className="form-control bg-white"
+                            placeholder="Search Recent Orders"
+                            name="name"
+                            id="name"
+                          />
+                          <i className="far fa-search" />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <form
+                    className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                    action=""
+                  >
+                    <div className="form-group mb-0 col-5">
+                      <label htmlFor="">From</label>
+                      <input type="date" className="form-control" />
+                    </div>
+                    <div className="form-group mb-0 col-5">
+                      <label htmlFor="">To</label>
+                      <input type="date" className="form-control" />
+                    </div>
+                    <div className="form-group mb-0 col-auto">
+                      <button className="comman_btn">Search</button>
+                    </div>
+                  </form>
+                  <div className="row">
+                    <div className="col-12 comman_table_design px-0">
+                      <div className="table-responsive">
+                        <table className="table mb-0">
+                          <thead>
+                            <tr  style={{backgroundColor:"#f2f2f2"}}>
+                              <th>S.No.</th>
+                              <th>User Name</th>
+                              <th>Mobile Number</th>
+                              <th>Order Date</th>
+                              <th>Order ID</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>1</td>
+                              <td>Ajay Sharma</td>
+                              <td>9899012312</td>
+                              <td>01/07/2022</td>
+                              <td>1001</td>
+                              <td>
+                                <a
+                                  className="comman_btn table_viewbtn"
+                                  href="user-details.html"
+                                >
+                                  View
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>2</td>
+                              <td>Ajay Sharma</td>
+                              <td>9899012312</td>
+                              <td>01/07/2022</td>
+                              <td>1002</td>
+                              <td>
+                                <a
+                                  className="comman_btn table_viewbtn"
+                                  href="user-details.html"
+                                >
+                                  View
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>3</td>
+                              <td>Ajay Sharma</td>
+                              <td>9899012312</td>
+                              <td>01/07/2022</td>
+                              <td>1003</td>
+                              <td>
+                                <a
+                                  className="comman_btn table_viewbtn"
+                                  href="user-details.html"
+                                >
+                                  View
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>4</td>
+                              <td>Ajay Sharma</td>
+                              <td>9899012312</td>
+                              <td>01/07/2022</td>
+                              <td>1004</td>
+                              <td>
+                                <a
+                                  className="comman_btn table_viewbtn"
+                                  href="user-details.html"
+                                >
+                                  View
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>5</td>
+                              <td>Ajay Sharma</td>
+                              <td>9899012312</td>
+                              <td>01/07/2022</td>
+                              <td>1005</td>
+                              <td>
+                                <a
+                                  className="comman_btn table_viewbtn"
+                                  href="user-details.html"
+                                >
+                                  View
+                                </a>{" "}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

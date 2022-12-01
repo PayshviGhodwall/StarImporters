@@ -39,15 +39,18 @@ function AppPreLoginPassword() {
       if (response?.data.message === "Logged In") {
         localStorage.setItem("token-user", response?.data?.results.token);
         navigate("/app/home");
-        if (window.flutter_inappwebview)
-          window.flutter_inappwebview.callHandler("Flutter", data.email);
+        if (window.flutter_inappwebview) {
+          let dd =  window.flutter_inappwebview.callHandler("Flutter", data.email);
+          // window.flutter_inappwebview.callHandler("Flutter", data.email);
+        console.log(dd);
+        }
       }
     }
     if (response?.data.message === "First Time Login") {
       navigate("/app/success", { state: { email: data.email } });
     }
   };
-
+  console.log();
   return (
     <>
       <div className="star_imp_app">

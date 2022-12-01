@@ -24,7 +24,7 @@ import Inventory from "./AdminComponent/AdminDashboard/Inventory/Inventory";
 import UserManage from "./AdminComponent/AdminDashboard/UserManage/UserManage";
 import BrandsManage from "./AdminComponent/AdminDashboard/BrandsManage/BrandsManage";
 import Cms from "./AdminComponent/AdminDashboard/ContentManage/Cms";
-import OrderReq from "./AdminComponent/AdminDashboard/OrderReq";
+import OrderReq from "./AdminComponent/AdminDashboard/OrdersManage/OrderReq";
 import AgeVerification from "./buyerComponent/AgeVerification";
 import AdminForgotPassword from "./AdminComponent/AdminLogin/AdminForgotPassword";
 import AdminSendOtp from "./AdminComponent/AdminLogin/AdminSendOtp";
@@ -87,6 +87,8 @@ import AppPreLogin from "./pwaComponents/loginComponent/appPreLogin";
 import AppReSignUp from "./pwaComponents/loginComponent/appReSignUp";
 import AppProductBySearch from "./pwaComponents/homeComponent/appProductBySearch";
 import AppPreLoginPassword from "./pwaComponents/loginComponent/appPreLoginPasword";
+import ViewOrder from "./AdminComponent/AdminDashboard/OrdersManage/viewOrder";
+import ViewQuoteReq from "./AdminComponent/AdminDashboard/OrdersManage/viewQuoteReq";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -164,6 +166,9 @@ function App() {
           <Route path="/Inventory/View-Edit" element={<EditInventory />} />
           <Route path="/BrandsManage" element={<BrandsManage />} />
           <Route path="/Cms" element={<Cms />} />
+          <Route path="/OrderRequest" element={<OrderReq />} />
+          <Route path="/OrderRequest/ViewOrder" element={<ViewOrder/>} />
+          <Route path="/OrderRequest/ViewQuotationRequest" element={<ViewQuoteReq/>} />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
 

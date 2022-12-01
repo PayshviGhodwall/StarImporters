@@ -531,7 +531,7 @@ const Inventory = () => {
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
-                      <div className="tags-input-container py-0 border border-secondary">
+                      <div className="tags-input-container border border-secondary">
                         {(productBarcode || [])?.map((tag, ind) => (
                           <div className="tag-item" key={ind}>
                             <span className="tag-text">{tag}</span>
@@ -545,7 +545,7 @@ const Inventory = () => {
                         ))}
                         <input
                           type="text"
-                          className={classNames("form-control  ", {
+                          className={classNames("form-control shadow-none  ", {
                             "is-invalid": errors.pBarcode,
                           })}
                           style={{ border: "none" }}
@@ -786,7 +786,7 @@ const Inventory = () => {
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
-                            <tr>
+                            <tr  style={{backgroundColor:"#f2f2f2"}}>
                               <th>S.No.</th>
                               <th>Date</th>
                               <th>Product Name</th>
@@ -809,7 +809,7 @@ const Inventory = () => {
                                 }
                               })
                               .map((User, index) => (
-                                <tr key={index} className="">
+                                <tr key={index} className="" >
                                   <td>{index + 1}.</td>
                                   <td>{User?.createdAt.slice(0, 10)}</td>
                                   <td>{User?.unitName}</td>

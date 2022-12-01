@@ -161,13 +161,6 @@ const AdminSendOtp = ({ AdminEmail }) => {
                         />
                       </div>
                       <div className="fs-6 text-danger fw-bold">{error}</div>
-                      <div className="form-group my-3">
-                        <div className="time_js">
-                          <span className=" d-flex justify-content-center fw-bold fs-5 text-danger">
-                            01:34
-                          </span>
-                        </div>
-                      </div>
                       <div className="form-group mb-4 d-flex justify-content-center">
                         <button className="comman_btn2  " type="submit">
                           Submit
