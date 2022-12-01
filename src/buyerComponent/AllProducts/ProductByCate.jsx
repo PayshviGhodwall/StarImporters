@@ -16,7 +16,7 @@ const ProductByCate = () => {
   const getSubCategories = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getSubCategories`;
   const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const [products, setProducts] = useState([]);
-  const [heart, setHeart] = useState(false);
+  const [heart, setHeart] = useState([]);
   console.log(brandName);
   const navigate = useNavigate();
   useEffect(() => { 
