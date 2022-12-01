@@ -42,8 +42,17 @@ function AppPreLoginPassword() {
         if (window.flutter_inappwebview) {
           let dd =  window.flutter_inappwebview.callHandler("Flutter", data.email);
           // window.flutter_inappwebview.callHandler("Flutter", data.email);
-        console.log(dd);
+        console.log(dd,"hello");
         }
+        window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+          window.flutter_inappwebview.callHandler('Flutter')
+            .then(function(result) {
+              // print to the console the data coming
+              // from the Flutter side.
+              console.log(result,"resultssss");
+
+          });
+      });
       }
     }
     if (response?.data.message === "First Time Login") {
