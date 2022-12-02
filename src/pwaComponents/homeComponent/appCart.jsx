@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   deleteCart,
   getCart,
@@ -12,7 +12,7 @@ import WebHeader2 from "./webHeader2";
 function AppCart() {
   const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(0);
-
+const navigate = useNavigate()
   useEffect(() => {
     getCarts();
   }, []);
@@ -42,7 +42,21 @@ function AppCart() {
       getCarts();
     }
   };
-
+  // var toggle = document.getElementById('container');
+  // var toggleContainer = document.getElementById('toggle-container');
+  // var toggleNumber;
+  
+  // toggle.addEventListener('click', function() {
+  //   toggleNumber = !toggleNumber;
+  //   if (toggleNumber) {
+  //     toggleContainer.style.clipPath = 'inset(0 0 0 50%)';
+  //     toggleContainer.style.backgroundColor = '#D74046';
+  //   } else {
+  //     toggleContainer.style.clipPath = 'inset(0 50% 0 0)';
+  //     toggleContainer.style.backgroundColor = 'dodgerblue';
+  //   }
+  //   console.log(toggleNumber)
+  // });
   return (
     <>
       <div className="star_imp_app">
@@ -53,8 +67,17 @@ function AppCart() {
                 <i class="fa-solid fa-arrow-left-long"></i>
               </Link>
             </div>
-            <div class="page-heading">
-              <h6 class="mb-0">Cart</h6>
+
+            <div id="container">
+              <div class="inner-container">
+                <div class="toggle" onClick={()=>{navigate("/app/quotes")}}>
+                  <p  className="text-dark fw-bold">Quotes</p>
+                </div>
+                <div class="toggle"  style={{backgroundColor:"#eb3237"}} onClick={()=>{navigate("/app/cart")}} >
+                  <p className="text-white fw-bold">Cart</p>
+                </div>
+              </div>
+            
             </div>
             <div
               class="suha-navbar-toggler ms-2"
@@ -131,8 +154,6 @@ function AppCart() {
                   </table>
                 </div>
               </div>
-
-            
 
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">

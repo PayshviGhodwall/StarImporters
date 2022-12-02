@@ -137,8 +137,14 @@ function AppHome() {
 
           <div className="product-catagories-wrapper py-3">
             <div className="container">
+            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>Top Categories</h6>
+            <Link className="btn p-0" to="/app/Categories">
+              View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
+            </Link>
+          </div>
               <div className="row g-2 rtl-flex-d-row-r">
-                {category.map((item, index) => {
+                {category.filter((item, idx) => idx < 6).map((item, index) => {
                   return (
                     <div className="col-4 d-flex align-items-stretch">
                       <div className="card catagory-card w-100">

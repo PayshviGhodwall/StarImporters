@@ -107,6 +107,20 @@ export async function getCart() {
     return { error };
   }
 }
+export async function getQuotes() {
+  try {
+    const { data } = await appHttpService.get(
+      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/getQuotes
+      `
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
 
 export async function updateCart(formData) {
   try {
@@ -126,11 +140,48 @@ export async function updateCart(formData) {
     return { error };
   }
 }
+export async function updateQuote(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/updateQuote
+      `,
+      formData
+    );
+    console.log(data);
+    if (!data.error) {
+      toast.success(data.message);
+    } else toast.error(data.message);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
 
 export async function deleteCart(id) {
   try {
     const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/cart/removeProducts
+
+      `,
+      id
+    );
+    console.log(data);
+    if (!data.error) {
+      toast.success(data.message);
+    } else toast.error(data.message);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function deleteQuote(id) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/removeQuoteProducts
 
       `,
       id
@@ -295,6 +346,24 @@ export async function addToCart(formData) {
   try {
     const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/cart/addToCart
+      `,
+      formData
+    );
+    console.log(data);
+    if (!data.error) {
+      toast.success(data.message);
+    } else toast.error(data.message);
+
+    return { data };
+  } catch (error) {
+    if (error.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
+export async function addToQuote(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/addQuote
       `,
       formData
     );

@@ -7,7 +7,7 @@ import {
 
 function AppHeader() {
   const [detail, setDetail] = useState("");
-  const [count, setCount] = useState("");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     getUserDetail();
@@ -99,9 +99,7 @@ function AppHeader() {
                 <h5 className="user-name mb-1 text-white">
                   {detail.companyName}
                 </h5>
-                <p className="available-balance text-white">
-                  Available points <span className="counter">499</span>
-                </p>
+                
               </div>
             </div>
 

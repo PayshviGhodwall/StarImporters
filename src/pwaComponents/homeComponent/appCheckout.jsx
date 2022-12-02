@@ -124,7 +124,7 @@ function AppCheckout() {
                             />
                             <label for="fastShipping">
                               In-Store Pickup{" "}
-                              <span>1 days delivary for 0$  </span>
+                              <span>1 days delivery  </span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -138,7 +138,7 @@ function AppCheckout() {
                               }}
                             />
                             <label for="normalShipping">
-                              Delivery <span>1-2 days delivary for $0.4</span>
+                              Delivery <span>1-2 days delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -157,7 +157,7 @@ function AppCheckout() {
                             />
                             <label for="fastShipping">
                               In-Store Pickup{" "}
-                              <span>1 days delivary for $1.0</span>
+                              <span>1 days delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -171,7 +171,7 @@ function AppCheckout() {
                               }}
                             />
                             <label for="courier">
-                              Shipment <span>5-8 days delivary for $0.3</span>
+                              Shipment <span>5-8 days delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>

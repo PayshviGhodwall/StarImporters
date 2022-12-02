@@ -22,8 +22,8 @@ function TopProduct() {
 
   const getProductList = async () => {
     const { data } = await getAllProducts();
-    if (!data.error) {
-      setProduct(data.results.slice(0, 4));
+    if (!data?.error) {
+      setProduct(data?.results.slice(0, 4));
     }
   };
 
@@ -56,6 +56,8 @@ function TopProduct() {
                   <div class="card product-card w-100">
                     <div class="card-body">
                       <a class="wishlist-btn" href="#">
+
+                        
                         <i class="fa-solid fa-heart"></i>
                       </a>
 

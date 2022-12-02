@@ -33,7 +33,7 @@ function WebHeader2() {
 
         <div className="offcanvas-body">
           <div className="sidenav-profile">
-            <div className="user-profile">
+            <div className="user-profile-icon ms-2">
               <img
                 src={
                   detail?.profileImage
@@ -47,9 +47,7 @@ function WebHeader2() {
               <h5 className="user-name mb-1 text-white">
                 {detail.companyName}
               </h5>
-              <p className="available-balance text-white">
-                Available points <span className="counter">499</span>
-              </p>
+             
             </div>
           </div>
 
@@ -92,9 +90,9 @@ function WebHeader2() {
               </Link>
             </li>
             <li>
-              <Link to="/app/login">
-                <i className="fa-solid fa-toggle-off"></i>Sign
-              </Link>
+            <Link to="/app/logout">
+                  <i className="fa-solid fa-toggle-off"></i>Sign Out
+                </Link>
             </li>
           </ul>
         </div>

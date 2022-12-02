@@ -6,6 +6,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
   addToCart,
+  addToQuote,
   getProductDetaill,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useParams } from "react-router-dom";
@@ -53,7 +54,17 @@ function AppProductDetail() {
       navigate("/app/cart");
     }
   };
-
+  const AddtoQuotess = async () => {
+    const formData = {
+      productId: id,
+      quantity: quantity,
+    };
+    console.log(formData);
+    const { data } = await addToQuote(formData);
+    if (!data.error) {
+      navigate("/app/quotes");
+    }
+  };
   const getFlavour = (index) => {
     const flavourData = productDetail?.type.map((option) => option);
     console.log(flavourData);
@@ -229,7 +240,9 @@ function AppProductDetail() {
                   >
                     Add To Cart
                   </Link>
-                  <button className="comman_btn2" type="submit">
+                  <button className="comman_btn2" type="submit" 
+                    onClick={() => AddtoQuotess()}
+                    >
                     Request Quotation
                   </button>
                 </div>

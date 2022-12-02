@@ -91,6 +91,8 @@ import ViewOrder from "./AdminComponent/AdminDashboard/OrdersManage/viewOrder";
 import ViewQuoteReq from "./AdminComponent/AdminDashboard/OrdersManage/viewQuoteReq";
 import UserDetails from "./AdminComponent/AdminDashboard/userDetails";
 import AppProductBrands from "./pwaComponents/homeComponent/appProductBrands";
+import AppCategories from "./pwaComponents/homeComponent/appCategories";
+import AppQuotes from "./pwaComponents/homeComponent/appQuotes";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -221,6 +223,7 @@ function App() {
             element={width < 768 ? <AppHome /> : <Homepage />}
           />
           <Route path="/app/cart" element={<AppCart />} />
+          <Route path="/app/quotes" element={<AppQuotes />} />
           <Route
             path="/app/settings"
             element={width < 768 ? <AppSettings /> : <MyAccount />}
@@ -253,6 +256,7 @@ function App() {
           <Route path="/app/my-request" element={<AppRequests />} />
           <Route path="/app/notifications" element={<AppNotifications />} />
           <Route path="/app/brands" element={<AppBrands />} />
+          <Route path="/app/Categories" element={<AppCategories />} />
           <Route path="/app/wishlist" element={<AppWishlist />} />
           <Route
             path="/app/product-detail/:id"
