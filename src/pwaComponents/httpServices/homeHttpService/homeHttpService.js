@@ -88,7 +88,7 @@ export async function countProducts() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response);
     return { error };
   }
 }

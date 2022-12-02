@@ -22,8 +22,8 @@ function AppHeader() {
   };
   const getCartCount = async () => {
     const { data } = await countProducts();
-    if (!data.error) {
-      setCount(data.results);
+    if (!data?.error) {
+      setCount(data?.results);
     }
   };
   return (

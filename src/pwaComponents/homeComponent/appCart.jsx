@@ -101,7 +101,7 @@ const navigate = useNavigate()
                 <div className="table-responsive card-body">
                   <table className="table mb-0">
                     <tbody>
-                      {cart.map((item, index) => {
+                      {(cart || []).map((item, index) => {
                         return (
                           <tr>
                             <th scope="row">

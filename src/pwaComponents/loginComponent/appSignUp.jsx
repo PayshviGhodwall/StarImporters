@@ -458,7 +458,7 @@ function AppSignUp() {
                         id="businessNumber"
                         name="businessNumber"
                         {...register("businessNumber", {
-                          required: true,
+                          required: false,
                           maxLength: 10,
                           minLength: 10,
                         })}
