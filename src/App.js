@@ -89,6 +89,8 @@ import AppProductBySearch from "./pwaComponents/homeComponent/appProductBySearch
 import AppPreLoginPassword from "./pwaComponents/loginComponent/appPreLoginPasword";
 import ViewOrder from "./AdminComponent/AdminDashboard/OrdersManage/viewOrder";
 import ViewQuoteReq from "./AdminComponent/AdminDashboard/OrdersManage/viewQuoteReq";
+import UserDetails from "./AdminComponent/AdminDashboard/userDetails";
+import AppProductBrands from "./pwaComponents/homeComponent/appProductBrands";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -170,6 +172,7 @@ function App() {
           <Route path="/OrderRequest/ViewOrder" element={<ViewOrder/>} />
           <Route path="/OrderRequest/ViewQuotationRequest" element={<ViewQuoteReq/>} />
           <Route path="/OrderRequest" element={<OrderReq />} />
+          <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
 
           {/* App Routes */}
@@ -268,6 +271,10 @@ function App() {
           <Route
             path="/app/product-category/:id"
             element={<AppProductCategory />}
+          />
+           <Route
+            path="/app/productBrands"
+            element={<AppProductBrands />}
           />
           <Route path="/app/product-list" element={<AppProductList />} />
           <Route path="/app/checkout" element={<AppCheckout />} />

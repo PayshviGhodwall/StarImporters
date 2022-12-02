@@ -120,7 +120,7 @@ const MyAccount = () => {
                     </div>
                   </Link>
                   <Link
-                    to="/Account"
+                    to="/Favourites"
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
@@ -131,8 +131,9 @@ const MyAccount = () => {
                       </h4>
                     </div>
                   </Link>
+                  
                   <Link
-                    to="/Favourites"
+                    to="/MainMenu"
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >

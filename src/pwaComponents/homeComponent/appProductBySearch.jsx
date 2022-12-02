@@ -87,6 +87,7 @@ function AppProductBySearch() {
   const microphoneSearch = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
+      console.log(Dd);
       if (Dd) {
         setSearch(Dd);
       }

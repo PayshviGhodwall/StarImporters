@@ -6645,6 +6645,8 @@ background-color: #3e4093;
 
   .single-settings .title {
     font-size: 14px;
+    position: relative;
+    
   }
   .single-settings .title i {
     width: 1.5rem;
@@ -6660,10 +6662,12 @@ background-color: #3e4093;
   }
   .single-settings .title span {
     font-weight: 500;
+    
   }
   .single-settings .title span span {
     font-size: 10px;
     margin-left: 0.5rem;
+    
   }
   .single-settings .data-content {
     font-size: 14px;

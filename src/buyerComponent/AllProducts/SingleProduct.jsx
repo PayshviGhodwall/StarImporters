@@ -36,36 +36,36 @@ const SingleProduct = () => {
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
   let location = useLocation();
-  const[ objectId ,setObjectID]= useState()
+  const [objectId, setObjectID] = useState();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const [categoryName,setCategoryName] = useState()
+  const [categoryName, setCategoryName] = useState();
   const handleOpen = () => setOpen(true);
   const handle2Open = () => setOpen2(true);
   const handleClose = () => setOpen(false);
   const handle2Close = () => setOpen2(false);
   const navigate = useNavigate();
-  const GetChange = (data)=>{
-    
-    setChange(data)
-  }
+  const GetChange = (data) => {
+    setChange(data);
+  };
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-  console.log(objectId,location?.state?.id);
-  if(objectId !== location?.state?.id ){
-    setObjectID(location?.state?.id)
+  console.log(objectId, location?.state?.id);
+  if (objectId !== location?.state?.id) {
+    setObjectID(location?.state?.id);
   }
   useEffect(() => {
-   
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
-         axios.post(similarProduct,{
-          category:res.data?.results?.category?.categoryName
-        }).then((res) => {
-          setSimProducts(res?.data.results);
-        });
-      
+        axios
+          .post(similarProduct, {
+            category: res.data?.results?.category?.categoryName,
+          })
+          .then((res) => {
+            setSimProducts(res?.data.results);
+          });
+
         setProduct(res.data.results);
         setType(res.data.results?.type);
         setProductImages(res.data.results?.productImage);
@@ -77,14 +77,14 @@ const SingleProduct = () => {
         setCategory(res?.data.results);
       });
     };
-  console.log(categoryName);
+    console.log(categoryName);
 
     getCategory();
     NewProducts();
-    getSimilarProducts()
-  }, [change,objectId]);
-  const  getSimilarProducts = async () => {}
-   
+    getSimilarProducts();
+  }, [change, objectId]);
+  const getSimilarProducts = async () => {};
+
   const AddtoCart = async () => {
     setLoader(true);
     console.log(objectId);
@@ -274,7 +274,7 @@ const SingleProduct = () => {
                             document.getElementById("productMainImg").src =
                               item?.flavourImage;
                             setFlavour(item?.flavour);
-                            setFInd(index)
+                            setFInd(index);
                           }}
                         >
                           <img src={item?.flavourImage} alt="" />
@@ -375,22 +375,27 @@ const SingleProduct = () => {
                               </div>
                             </div>
                           </div>
-
-                          <div className="col-12">
-                            {product?.productPriceStatus ? (
+                          {product?.productPriceStatus ? (
+                            <div className="col-12">
                               <p className="fw-bold">
-                                Price : $
+                                
+                                {flavour
+                                  ? "Price : $"
+                                  : "Price : $" + product?.productPrice}
                                 {flavour
                                   ? type[FInd]?.flavourPrice
                                   : product?.productPrice}
-                              </p>  
-                            ) : (
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="col-12">
                               <p className="fw-bold">
-                                Price : $
+                                {flavour ? "Price : $" : null}
+
                                 {flavour ? type[FInd]?.flavourPrice : null}
                               </p>
-                            )}
-                          </div>
+                            </div>
+                          )}
                           <div className="col-12 quantity_box d-md-flex align-items-center mt-md-3 mb-md-2">
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span
@@ -488,30 +493,35 @@ const SingleProduct = () => {
                   <div className="p-3 mb-2">
                     <div className="text-center">
                       <div className="product_parts_box">
-                        
                         <div className="partsproduct_img">
-                          <img src={item?.productImage} alt="Product" onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: { id: item?._id, },
-                                });
-                              window.scrollTo({
-                                top: 0, 
-                                behavior: 'smooth'
-                               
+                          <img
+                            src={item?.productImage}
+                            alt="Product"
+                            onClick={() => {
+                              navigate("/AllProducts/Product", {
+                                state: { id: item?._id },
                               });
-                            }} />
+                              window.scrollTo({
+                                top: 0,
+                                behavior: "smooth",
+                              });
+                            }}
+                          />
                         </div>
                         <div className="product_content mt-3 text-center">
-                          <a onClick={() => {
-                                 navigate("/AllProducts/Product", {
-                                  state: { id: item?._id, },
-                                });
-                              window.scrollTo({
-                                top: 0, 
-                                behavior: 'smooth'
-                               
+                          <a
+                            onClick={() => {
+                              navigate("/AllProducts/Product", {
+                                state: { id: item?._id },
                               });
-                            }}>{item?.unitName}</a>
+                              window.scrollTo({
+                                top: 0,
+                                behavior: "smooth",
+                              });
+                            }}
+                          >
+                            {item?.unitName}
+                          </a>
                           <div className="rating_box mt-2 mb-1">
                             <a href="javasript:;">
                               <i className="fas fa-star" />

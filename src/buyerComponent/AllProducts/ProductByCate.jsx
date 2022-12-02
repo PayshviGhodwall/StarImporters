@@ -10,20 +10,23 @@ const ProductByCate = () => {
   const location = useLocation();
   const [category, setCategory] = useState({});
   const [brands, setBrands] = useState([]);
+  const [message, setMessage] = useState();
   const [brandName, setBrandName] = useState();
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const getSubCategories = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getSubCategories`;
   const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [products, setProducts] = useState([]);
-  const [heart, setHeart] = useState([]);
+  const [heart, setHeart] = useState(false);
   console.log(brandName);
   const navigate = useNavigate();
-  useEffect(() => { 
+  useEffect(() => {
     setCategory(location?.state?.name);
     getProducts();
     GetBrands();
-  }, [location]);
+  }, [location, heart]);
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -42,15 +45,30 @@ const ProductByCate = () => {
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
-      .post((getProduct + "?sortBy=1"),{
-      category:location.state?.name
-       
+      .post(getProduct + "?sortBy=1", {
+        category: location.state?.name,
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
   const clearFilters = () => {};
+  const addToFav = async (index) => {
+    await axios.post(addFav, {
+      productId: products[index]?.products?._id,
+    });
+    setMessage("Added to Favourites!");
+    setHeart(!heart);
+  };
+  const rmvFromFav = async (index) => {
+    await axios.post(rmvFav, {
+      productId: products[index]?.products?._id,
+    });
+
+    setMessage("Removed from Favourites!");
+    setHeart(!heart);
+  };
+
   return (
     <div>
       <Navbar />
@@ -132,8 +150,10 @@ const ProductByCate = () => {
                             <p
                               className="more_btn text-decoration-none
                         "
-                        style={{cursor:"pointer"}}
-                        onClick={()=>{navigate("/AllBrands")}}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                navigate("/AllBrands");
+                              }}
                             >
                               More
                             </p>
@@ -148,10 +168,6 @@ const ProductByCate = () => {
                       defaultExpanded
                       className="fw-bold"
                     >
-
-
-
-
                       <div className="accordion-body px-0 pt-3 pb-0">
                         <div className="row">
                           {(brands || [])
@@ -234,7 +250,6 @@ const ProductByCate = () => {
                         </div>
                       </div>
                     </Panel>
-                    
                   </PanelGroup>
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">
@@ -259,8 +274,6 @@ const ProductByCate = () => {
               </div>
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
-
-
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
@@ -279,7 +292,10 @@ const ProductByCate = () => {
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
-                                state: { id: item?.products?._id,CateName:item?.categoryName},
+                                state: {
+                                  id: item?.products?._id,
+                                  CateName: item?.categoryName,
+                                },
                               });
                             }}
                           />
@@ -292,18 +308,21 @@ const ProductByCate = () => {
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
                                 navigate("/AllProducts/Product", {
-                                  state: { id: item?.products?._id,CateName:item?.categoryName},
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
                                 });
                               }}
                             >
                               {item?.products?.unitName}
                             </h1>
                             <p style={{ right: "5px", position: "absolute" }}>
-                              {heart ? (
+                              {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {
-                                    setHeart(!heart);
+                                    rmvFromFav(index);
                                   }}
                                   style={{ color: "#3e4093 " }}
                                 />
@@ -311,7 +330,7 @@ const ProductByCate = () => {
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {
-                                    setHeart(!heart);
+                                    addToFav(index);
                                   }}
                                   style={{ color: "#E1E1E1 " }}
                                 />

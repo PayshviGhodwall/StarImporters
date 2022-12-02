@@ -146,30 +146,9 @@ function AppProductCategory() {
                   <div class="widget catagory mb-4">
                     <h6 class="widget-title mb-2">Sort By</h6>
                     <div class="widget-desc">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v1"
-                          name="same"
-                          type="radio"
-                          checked
-                        />
-                        <label class="form-check-label" for="v1">
-                          Price: Low to High
-                        </label>
-                      </div>
+                      
 
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v2"
-                          name="same"
-                          type="radio"
-                        />
-                        <label class="form-check-label" for="v2">
-                          Price: High to Low
-                        </label>
-                      </div>
+                      
 
                       <div class="form-check">
                         <input
@@ -197,126 +176,8 @@ function AppProductCategory() {
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="widget ratings mb-4">
-                    <h6 class="widget-title mb-2">Ratings</h6>
-                    <div class="widget-desc">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="5star"
-                          type="radio"
-                          checked
-                          name="v1"
-                        />
-                        <label class="form-check-label" for="5star">
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                        </label>
-                      </div>
+               
 
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="4star"
-                          type="radio"
-                          name="v1"
-                        />
-                        <label class="form-check-label" for="4star">
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="3star"
-                          type="radio"
-                          name="v1"
-                        />
-                        <label class="form-check-label" for="3star">
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="2star"
-                          type="radio"
-                          name="v1"
-                        />
-                        <label class="form-check-label" for="2star">
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="1star"
-                          type="radio"
-                          name="v1"
-                        />
-                        <label class="form-check-label" for="1star">
-                          <i class="fa-solid fa-star text-warning"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                          <i class="fa-solid fa-star text-secondary"></i>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="widget price-range mb-4">
-                    <h6 class="widget-title mb-2">Price Range</h6>
-                    <div class="widget-desc">
-                      <div class="row g-3">
-                        <div class="col-6">
-                          <div class="form-floating">
-                            <input
-                              class="form-control"
-                              id="floatingInput"
-                              type="text"
-                              placeholder="1"
-                              value="1"
-                            />
-                            <label for="floatingInput">Min</label>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-floating">
-                            <input
-                              class="form-control"
-                              id="floatingInput"
-                              type="text"
-                              placeholder="1"
-                              value="5000"
-                            />
-                            <label for="floatingInput">Max</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="col-12">
                   <div class="apply-filter-btn">
                     <a class="comman_btn" href="#">
@@ -360,11 +221,11 @@ function AppProductCategory() {
 
                           <Link
                             class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item.products._id}`}
+                            to={`/app/product-detail/${item?.products?._id}`}
                           >
                             <img
                               class="mb-2"
-                              src={item.products.productImage}
+                              src={item?.products?.productImage}
                               alt=""
                             />
                           </Link>
@@ -385,7 +246,7 @@ function AppProductCategory() {
                               <Link
                                 class="cart_bttn"
                                 to=""
-                                onClick={() => addToCartt(item.products._id)}
+                                onClick={() => addToCartt(item?.products?._id)}
                               >
                                 <i class="fa-light fa-plus"></i>
                               </Link>

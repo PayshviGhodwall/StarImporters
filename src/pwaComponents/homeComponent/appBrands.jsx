@@ -53,8 +53,8 @@ function AppBrands() {
               {brand.map((item, index) => {
                 return (
                   <div className="col-6 mb-3 pe-2">
-                    <Link className="brands_box shadow" to="">
-                      <img src={item.brandImage} alt="" />
+                    <Link className="brands_box shadow"  to="/app/productBrands" state={{name:item?.brandName}} >
+                      <img src={item?.brandImage} alt="" />
                     </Link>
                   </div>
                 );

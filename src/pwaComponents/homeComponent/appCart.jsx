@@ -19,14 +19,14 @@ function AppCart() {
 
   const getCarts = async () => {
     const { data } = await getCart();
-    if (!data.error) {
-      setCart(data.results.products);
+    if (!data?.error) {
+      setCart(data?.results?.products);
     }
   };
 
   const deleteProduct = async (id) => {
     const { data } = await deleteCart({ productId: id });
-    if (!data.error) {
+    if (!data?.error) {
       getCarts();
     }
   };
@@ -86,7 +86,7 @@ function AppCart() {
                                 className="remove-product"
                                 to=""
                                 onClick={() =>
-                                  deleteProduct(item.productId._id)
+                                  deleteProduct(item?.productId._id)
                                 }
                               >
                                 <i className="fa-solid fa-xmark"></i>
@@ -96,16 +96,16 @@ function AppCart() {
                               <div className="cart_icon">
                                 <img
                                   className=""
-                                  src={item.productId.productImage}
+                                  src={item?.productId?.productImage}
                                   alt=""
                                 />
                               </div>
                             </td>
                             <td>
                               <Link
-                                to={`/app/product-detail/${item.productId._id}`}
+                                to={`/app/product-detail/${item?.productId?._id}`}
                               >
-                                {item.productId.unitName}
+                                {item?.productId?.unitName}
                               </Link>
                             </td>
                             <td>
@@ -114,11 +114,11 @@ function AppCart() {
                                   className="qty-text"
                                   type="text"
                                   id={`quantity${index}`}
-                                  value={item.quantity}
+                                  value={item?.quantity}
                                   onChange={(e) =>
                                     updateQuantity(
                                       e.target.value,
-                                      item.productId._id
+                                      item?.productId?._id
                                     )
                                   }
                                 />
@@ -132,28 +132,7 @@ function AppCart() {
                 </div>
               </div>
 
-              <div className="card coupon-card mb-3">
-                <div className="card-body">
-                  <div className="apply-coupon">
-                    <h6 className="mb-0">Have a coupon?</h6>
-                    <p className="mb-2">
-                      Enter your coupon code here &amp; get awesome discounts!
-                    </p>
-                    <div className="coupon-form">
-                      <form action="#">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="SUHA30"
-                        />
-                        <button className="btn btn-primary" type="submit">
-                          Apply
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
 
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">

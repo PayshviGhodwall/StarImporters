@@ -7,19 +7,20 @@ import Navbar from "../Homepage/Navbar";
 const Checkout = () => {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const [users, setUsers] = useState();
+  const [delevryChoice, setDelevryChoice] = useState(false);
   useEffect(() => {
-    const getUser =async()=>{
-        await axios.get(userApi).then((res)=>{
-          console.log(res);
-          setUsers(res?.data.results)
-        })
-       }
-       getUser()
+    const getUser = async () => {
+      await axios.get(userApi).then((res) => {
+        console.log(res);
+        setUsers(res?.data.results);
+      });
+    };
+    getUser();
   }, []);
-
+  console.log(users?.state);
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <section className="comman_banner _banner">
         <div className="container">
           <div className="row">
@@ -60,62 +61,96 @@ const Checkout = () => {
         </div>
       </section>
       <>
-        <section className="Checkout_page py-5" style={{backgroundColor:"#eef3ff"}}>
+        <section
+          className="Checkout_page py-5"
+          style={{ backgroundColor: "#eef3ff" }}
+        >
           <div className="container bg-white">
             <div className="row p-4 align-items-end">
               <div className="col-12 mb-4">
                 <div className="chosse_location">
                   <h3>Choose your checkout</h3>
-                  <form className="row" action="">
-                    <div className="form-group col-4 custom_radio">
-                      <input
-                        type="radio"
-                        defaultChecked="true"
-                        className="d-none"
-                        value={true}
-                        id="new_radio"
-                        name="radioo"
-                      />
-                      <label htmlFor="new_radio">In-Store Pickup</label>
-                    </div>
-                    <div className="form-group col-4 custom_radio">
-                      <input
-                        type="radio"
-                        className="d-none"
-                        value={true}
 
-                        id="new_radio1"
-                        name="radioo"
-                      />
-                      <label htmlFor="new_radio1">Delivery</label>
-                    </div>
-                    <div className="form-group col-4 custom_radio">
-                      <input
-                        type="radio"
-                        className="d-none"
-                        id="new_radio2"
-                        value={true}
+                  {users?.state == "Georgia" ? (
+                    <form className="row" action="">
+                      <div className="form-group col-4 custom_radio">
+                        <input
+                          type="radio"
+                          defaultChecked="true"
+                          className="d-none"
+                          value={true}
+                          id="new_radio"
+                          name="radioo"
+                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
 
-                        name="radioo"
-                      />
-                      <label htmlFor="new_radio2">Shipment</label>
-                    </div>
-                  </form>
+                        />
+                        <label htmlFor="new_radio">In-Store Pickup</label>
+                      </div>
+                      <div className="form-group col-4 custom_radio">
+                        <input
+                          type="radio"
+                          className="d-none"
+                          value={true}
+                          onClick={() => {
+                            setDelevryChoice(!delevryChoice);
+                          }}
+                          id="new_radio1"
+                          name="radioo"
+                        />
+                        <label htmlFor="new_radio1">Delivery</label>
+                      </div>
+                    </form>
+                  ) : (
+                    <form className="row" action="">
+                      <div className="form-group col-4 custom_radio">
+                        <input
+                          type="radio"
+                          defaultChecked="true"
+                          className="d-none"
+                          value={true}
+                          id="new_radio"
+                          name="radioo"
+                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
+
+                        />
+                        <label htmlFor="new_radio">In-Store Pickup</label>
+                      </div>
+                      <div className="form-group col-4 custom_radio">
+                        <input
+                          type="radio"
+                          className="d-none"
+                          id="new_radio2"
+                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
+                          value={true}
+                          name="radioo"
+                        />
+                        <label htmlFor="new_radio2">Shipment</label>
+                      </div>
+                    </form>
+                  )}
                 </div>
               </div>
               <div className="col-12 pt-3 mb-4">
-                <div className="row mx-0 Checkout_address">
-                  <span>Address :</span>
-                  <h2>{users?.firstName}</h2>
-                  <p className="mb-0">
-                   {users?.addressLine}
-                  </p>
-                </div>
+                {delevryChoice ? (
+                  <div className="row mx-0 Checkout_address">
+                    <span>Address :</span>
+                    <h2>{users?.firstName}</h2>
+                    <p className="mb-0">{users?.addressLine + "," + users?.city + "," + users?.state + "-" + users?.zipcode} </p>
+                  </div>
+                ) : (
+                  <div className="row mx-0 Checkout_address">
+                    <span>Store Address :</span>
+                    <h2>Star Importers</h2>
+                    <p className="mb-0">
+                      2166 Mountain Industrial Blvd, Tucker, GA, United States,
+                      Georgia
+                    </p>
+                    <p>5898687485,748746595</p>
+                  </div>
+                )}
               </div>
               <div className="col-12 text-start">
-                <button className="comman_btn">
-                  Proceed
-                </button>
+                <button className="comman_btn">Proceed</button>
               </div>
             </div>
           </div>

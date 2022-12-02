@@ -219,7 +219,21 @@ export async function getByCategory(formData) {
     return { error };
   }
 }
+export async function getByBrands(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getByBrands
+      `,
+      formData
+    );
+    console.log(data);
 
+    return { data };
+  } catch (error) {
+    if (error?.response) toast.error(error.response.data.message);
+    return { error };
+  }
+}
 export async function similarProduct() {
   try {
     const { data } = await appHttpService.post(

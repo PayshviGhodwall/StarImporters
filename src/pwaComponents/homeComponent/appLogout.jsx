@@ -9,7 +9,7 @@ function AppLogout() {
 
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
-    if (!data.error) {
+    if (!data?.error) {
       await logout();
       if (window.flutter_inappwebview)
         window.flutter_inappwebview.callHandler("logout", data.results.email);

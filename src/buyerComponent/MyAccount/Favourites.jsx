@@ -3,14 +3,26 @@ import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
-
+import axios from "axios";
 
 const Favourites = () => {
   const [users, setUsers] = useState();
+  const allFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/allFav`;
+  const [products, setProducts] = useState();
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
+    getFavourites();
   }, []);
+
+  const getFavourites = async () => {
+    await axios.get(allFav).then((res) => {
+      console.log(res);
+      setProducts(res?.data?.results);
+    });
+  };
+
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -48,7 +60,7 @@ const Favourites = () => {
 
       <div className="myaccount mb-4 ">
         <div className="container-lg position-relative">
-        <Profile/>
+          <Profile />
         </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
@@ -155,163 +167,50 @@ const Favourites = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="row myfavourites">
-                      <div className="col-lg-3 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
+                      {(products?.products || [])?.map((item, index) => (
+                        <div
+                          className="col-lg-3 col-md-4 mb-lg-4 mb-md-2"
+                          key={index}
+                        >
+                          <div className="product_parts_box">
+                            <div className="partsproduct_img">
+                              <img
+                                src={item?.productId?.productImage}
+                                alt="Product"
+                              />
                             </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
+                            <div className="product_content mt-2 text-center">
+                              <Link to="" className="text-decoration-none">
+                                {item?.productId?.unitName}
+                              </Link>
+                              <div className="rating_box mt-1 mb-0">
+                                <a href="javasript:;">
+                                  <i className="fas fa-star" />
+                                </a>
+                                <a href="javasript:;">
+                                  <i className="fas fa-star" />
+                                </a>
+                                <a href="javasript:;">
+                                  <i className="fas fa-star" />
+                                </a>
+                                <a href="javasript:;">
+                                  <i className="fas fa-star" />
+                                </a>
+                                <a href="javasript:;">
+                                  <i
+                                    className="fa fa-star"
+                                    style={{ color: "#b1afaa" }}
+                                  ></i>
+                                </a>
+                              </div>
+                              <a
+                                className="fav_btn change_btn"
+                                href="javscript:;"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-lg-3 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-3 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-3 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                     
+                      ))}
                     </div>
                   </div>
                 </div>

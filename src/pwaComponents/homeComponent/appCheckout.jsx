@@ -1,9 +1,23 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppCheckout() {
+  const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const [users, setUsers] = useState();
+  const [delevryChoice, setDelevryChoice] = useState(false);
+  useEffect(() => {
+    const getUser = async () => {
+      await axios.get(userApi).then((res) => {
+        console.log(res);
+        setUsers(res?.data.results);
+      });
+    };
+    getUser();
+  }, []);
+  console.log(users?.state);
   return (
     <>
       <div class="star_imp_app">
@@ -26,29 +40,62 @@ function AppCheckout() {
                         <i class="fa-solid fa-user"></i>
                         <span>Full Name</span>
                       </div>
-                      <div class="data-content">Ajay Sharma</div>
+                      <div class="data-content">
+                        {users?.firstName + " " + users?.lastName}
+                      </div>
                     </div>
                     <div class="single-profile-data d-flex align-items-center justify-content-between">
                       <div class="title d-flex align-items-center">
                         <i class="fa-solid fa-envelope"></i>
                         <span>Email Address</span>
                       </div>
-                      <div class="data-content">Ajay@example.com</div>
+                      <div class="data-content">{users?.email}</div>
                     </div>
                     <div class="single-profile-data d-flex align-items-center justify-content-between">
                       <div class="title d-flex align-items-center">
                         <i class="fa-solid fa-phone"></i>
                         <span>Phone</span>
                       </div>
-                      <div class="data-content">+880 000 111 222</div>
+                      <div class="data-content">{users?.phoneNumber}</div>
                     </div>
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
+
+                    {
+                      delevryChoice ?
+                      <div class="single-profile-data d-flex align-items-center justify-content-between">
                       <div class="title d-flex align-items-center">
                         <i class="fa-solid fa-location-crosshairs"></i>
-                        <span>Shipping Address</span>
+                        
+                        <span className="mt-0">Shipping Address</span>
                       </div>
-                      <div class="data-content">28/C Green Road, BD</div>
+                      <div class="data-content">
+                        {users?.addressLine +
+                          "," +
+                          users?.state +
+                          "-" +
+                          users?.zipcode}
+                      </div>
                     </div>
+                    :
+                    <div class="single-profile-data d-flex align-items-center justify-content-between">
+                    <div class="title  ">
+                      <i class="fa-solid fa-location-crosshairs"></i>
+                      
+                      <span className="mt-0">Store Address</span>
+                    </div>
+                    <div class="data-content">
+                      <p>
+                      <p className="mb-0">
+                       2166 Mountain Industrial Blvd.
+                      GA, United States,
+                      Georgia,
+                      78548962
+                    </p>
+                    
+                      </p>
+                    </div>
+                  </div>
+                    }
+                   
                   </div>
                 </div>
               </div>
@@ -63,39 +110,73 @@ function AppCheckout() {
                 <div class="card shipping-method-choose-card">
                   <div class="card-body">
                     <div class="shipping-method-choose">
-                      <ul class="ps-0">
-                        <li>
-                          <input
-                            id="fastShipping"
-                            type="radio"
-                            name="selector"
-                            checked
-                          />
-                          <label for="fastShipping">
-                            In-Store Pickup{" "}
-                            <span>1 days delivary for $1.0</span>
-                          </label>
-                          <div class="check"></div>
-                        </li>
-                        <li>
-                          <input
-                            id="normalShipping"
-                            type="radio"
-                            name="selector"
-                          />
-                          <label for="normalShipping">
-                            Delivery <span>3-7 days delivary for $0.4</span>
-                          </label>
-                          <div class="check"></div>
-                        </li>
-                        <li>
-                          <input id="courier" type="radio" name="selector" />
-                          <label for="courier">
-                            Shipment <span>5-8 days delivary for $0.3</span>
-                          </label>
-                          <div class="check"></div>
-                        </li>
-                      </ul>
+                      {users?.state == "Georgia" ? (
+                        <ul class="ps-0">
+                          <li>
+                            <input
+                              id="fastShipping"
+                              type="radio"
+                              name="selector"
+                              onClick={() => {
+                                setDelevryChoice(false);
+                              }}
+                              defaultChecked="true"
+                            />
+                            <label for="fastShipping">
+                              In-Store Pickup{" "}
+                              <span>1 days delivary for 0$  </span>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                          <li>
+                            <input
+                              id="normalShipping"
+                              type="radio"
+                              name="selector"
+                              onClick={() => {
+                                setDelevryChoice(true);
+                              }}
+                            />
+                            <label for="normalShipping">
+                              Delivery <span>1-2 days delivary for $0.4</span>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                        </ul>
+                      ) : (
+                        <ul class="ps-0">
+                          <li>
+                            <input
+                              id="fastShipping"
+                              type="radio"
+                              name="selector"
+                              onClick={() => {
+                                setDelevryChoice(false);
+                              }}
+                              defaultChecked="true"
+                            />
+                            <label for="fastShipping">
+                              In-Store Pickup{" "}
+                              <span>1 days delivary for $1.0</span>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                          <li>
+                            <input
+                              id="courier"
+                              type="radio"
+                              name="selector"
+                              onClick={() => {
+                                setDelevryChoice(true);
+                              }}
+                            />
+                            <label for="courier">
+                              Shipment <span>5-8 days delivary for $0.3</span>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </div>

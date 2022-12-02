@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
 
 import Starlogo from "../../assets/img/logo.png";
@@ -10,14 +10,7 @@ import ProfileBar from "./ProfileBar";
 
 const Dashboard = () => {
   const [sideBar, setSideBar] = useState(true);
-
-  $(document).ready(function () {
-    $(".sidebar_btn").on("click", function () {
-      $(".siderbar_section").toggleClass("hide_sidebar");
-      $(".admin_main").toggleClass("admin_full");
-    });
-  });
-
+  const  navigate = useNavigate()
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -306,12 +299,12 @@ const Dashboard = () => {
                               <td>01/07/2022</td>
                               <td>1001</td>
                               <td>
-                                <a
-                                  className="comman_btn table_viewbtn"
-                                  href="user-details.html"
+                                <button
+                                  className="comman_btn table_viewbtn "
+                                  onClick={()=>{navigate("/Dashboard/UserDetails")}}
                                 >
                                   View
-                                </a>
+                                </button>
                               </td>
                             </tr>
                             <tr>
