@@ -132,9 +132,9 @@ function AppPreLogin() {
                   </Link>
                 </div>
                 <div className="view-as-guest mt-2">
-                  <Link className="btn" to="/app/homeGuest" onClick={faceLogin} >
+                  <a className="btn"  to="" onClick={faceLogin} >
                     Login with face
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

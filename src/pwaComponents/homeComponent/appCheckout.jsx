@@ -80,7 +80,7 @@ function AppCheckout() {
                     </div>
 
                     {
-                      delevryChoice ?
+                      delevryChoice == "Shipment" || delevryChoice == "Delivery" ?
                       <div class="single-profile-data d-flex align-items-center justify-content-between">
                       <div class="title d-flex align-items-center">
                         <i class="fa-solid fa-location-crosshairs"></i>
