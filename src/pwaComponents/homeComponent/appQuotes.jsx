@@ -161,11 +161,11 @@ function AppQuotes() {
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <h5 className="total-price mb-0"></h5>
-                  {quotes ? <Link className="comman_btn" to="/app/checkout">
-                    Checkout Now
+                  {quotes ? <Link className="comman_btn" to="/app/my-request">
+                    MyQuotes
                   </Link> 
                   :
-                  <Link className="comman_btn" to="/app/checkout">
+                  <Link className="comman_btn" to="/app/home">
                   Start Shopping
                 </Link>
                   }

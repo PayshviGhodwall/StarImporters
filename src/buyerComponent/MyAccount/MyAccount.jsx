@@ -8,21 +8,27 @@ import Profile from "./Profile";
 
 const MyAccount = () => {
   const [users, setUsers] = useState([]);
-  const userApi =  `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`
-
+  const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const getOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/getOrder`;
+  const [orderDetails, setOrderDetails] = useState([]);
   axios.defaults.headers.common["x-auth-token-user"] =
-  localStorage.getItem("loginToken");
- 
-  
+    localStorage.getItem("loginToken");
+
   useEffect(() => {
-    getUser()
+    const GetOrders = async () => {
+      await axios.get(getOrder).then((res) => {
+        setOrderDetails(res?.data.results?.orders);
+      });
+    };
+    GetOrders();
+    getUser();
   }, []);
 
-  const getUser = async()=>{
-   await axios.get(userApi).then((res)=>{
-     setUsers(res?.data.results)
-   })
-  }
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      setUsers(res?.data.results);
+    });
+  };
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -60,7 +66,7 @@ const MyAccount = () => {
 
       <div className="myaccount mb-4 ">
         <div className="container-lg position-relative">
-          <Profile/>
+          <Profile />
         </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
@@ -131,7 +137,7 @@ const MyAccount = () => {
                       </h4>
                     </div>
                   </Link>
-                  
+
                   <Link
                     to="/MainMenu"
                     style={{ textDecoration: "none", fontSize: "15px" }}
@@ -174,116 +180,36 @@ const MyAccount = () => {
                           <h2>My Order :</h2>
                         </div>
                       </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
+                      {(orderDetails || [])?.map((item, index) => (
+                        <div className="col-6 mb-3 d-flex" key={index}>
+                          <Link
+                            href="order-details.html"
+                            className="my_orderbox position-relative text-decoration-none"
+                          >
+                            <div className="left_part">
+                              <div className="status_order d-block">
+                                Status: {item?.status}
+                              </div>
+                              <div className="order_id d-block mb-1">
+                                Order ID: <strong>{item?.orderId}</strong>
+                              </div>
+                              <div className="date_box">
+                                {item?.createdAt.slice(0, 10)}
+                              </div>
                             </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>12312</strong>
+                            <div className="items_box">
+                              <h2>Items :</h2>
+                              {(item?.products || []).map((item, ind) => (
+                                <ul className="list-unstyled mb-0">
+                                  <li key={ind}>{item?.productId?.unitName}</li>
+                                </ul>
+                              ))}
                             </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>234234</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>123123</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>0990345</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>  
+                          </Link>
+                        </div>
+                      ))}
+                     </div>
+                  </div>
                 </div>
               </div>
             </div>

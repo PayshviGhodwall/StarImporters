@@ -1,13 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 
 const Checkout = () => {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
-  const [delevryChoice, setDelevryChoice] = useState(false);
+  const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
+  const navigate = useNavigate()
+  const autoClose = () => {
+    document.getElementById("close").click();
+  };
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
@@ -17,6 +23,68 @@ const Checkout = () => {
     };
     getUser();
   }, []);
+  const createOrder = async()=>{
+    
+    if(delevryChoice == "Shipment"){
+      await axios.post(newOrder,{
+        type:"Shipment",
+        address:users?.addressLine[0] + users?.addressLine[1]
+        
+       }).then((res)=>{
+        if (!res.error) {
+          Swal.fire({
+            title: "Hurray! Order Placed.",
+            text: "You can Track your order on my account",
+            icon: "success",
+            confirmButtonText: "My Orders",
+          }).then((res) => {
+            navigate("/MyAccount");
+          });
+        }
+       })
+    }
+    else if(delevryChoice == "Delivery") {
+      await axios.post(newOrder,{
+        type:"Delivery",
+        address:users?.addressLine[0] + users?.addressLine[1]
+        
+
+       }).then((res)=>{
+        if (!res.error) {
+          Swal.fire({
+            title: "Hurray! Order Placed.",
+            text: "You can Track your order on my account",
+            
+            icon: "success",
+            confirmButtonText: "My Orders",
+          }).then((res) => {
+            navigate("/MyAccount");
+          });
+        }
+       })
+    }
+    else if(delevryChoice == "In-Store Pickup") {
+      await axios.post(newOrder,{
+        type:"In-Store Pickup",
+        address:users?.addressLine[0] + users?.addressLine[1]
+
+       }).then((res)=>{
+        if (!res.error) {
+          Swal.fire({
+            title: "Hurray! Order Placed.",
+            text: "You can Track your order on my account",
+            
+            icon: "success",
+            confirmButtonText: "My Orders",
+          }).then((res) => {
+            navigate("/MyAccount");
+          });
+        }
+       })
+    }
+   
+  }
+  
   console.log(users?.state);
   return (
     <div>
@@ -81,8 +149,10 @@ const Checkout = () => {
                           value={true}
                           id="new_radio"
                           name="radioo"
-                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
-
+                          onClick={() => {
+                            setDelevryChoice("In-Store Pickup");
+                            
+                          }}
                         />
                         <label htmlFor="new_radio">In-Store Pickup</label>
                       </div>
@@ -92,7 +162,7 @@ const Checkout = () => {
                           className="d-none"
                           value={true}
                           onClick={() => {
-                            setDelevryChoice(!delevryChoice);
+                            setDelevryChoice("Delivery");
                           }}
                           id="new_radio1"
                           name="radioo"
@@ -110,8 +180,9 @@ const Checkout = () => {
                           value={true}
                           id="new_radio"
                           name="radioo"
-                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
-
+                          onClick={() => {
+                            setDelevryChoice("In-Store Pickup");
+                          }}
                         />
                         <label htmlFor="new_radio">In-Store Pickup</label>
                       </div>
@@ -120,7 +191,9 @@ const Checkout = () => {
                           type="radio"
                           className="d-none"
                           id="new_radio2"
-                          onClick={()=>{setDelevryChoice(!delevryChoice)}}
+                          onClick={() => {
+                            setDelevryChoice("Shipment");
+                          }}
                           value={true}
                           name="radioo"
                         />
@@ -131,11 +204,20 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="col-12 pt-3 mb-4">
-                {delevryChoice ? (
+                { delevryChoice == "Shipment" || delevryChoice == "Delivery" ?
+                (
                   <div className="row mx-0 Checkout_address">
                     <span>Address :</span>
                     <h2>{users?.firstName}</h2>
-                    <p className="mb-0">{users?.addressLine + "," + users?.city + "," + users?.state + "-" + users?.zipcode} </p>
+                    <p className="mb-0">
+                      {users?.addressLine[0] +
+                        "," +
+                        users?.city +
+                        "," +
+                        users?.state +
+                        "-" +
+                        users?.zipcode}{" "}
+                    </p>
                   </div>
                 ) : (
                   <div className="row mx-0 Checkout_address">
@@ -150,7 +232,7 @@ const Checkout = () => {
                 )}
               </div>
               <div className="col-12 text-start">
-                <button className="comman_btn">Proceed</button>
+                <button className="comman_btn" onClick={createOrder}>Proceed</button>
               </div>
             </div>
           </div>

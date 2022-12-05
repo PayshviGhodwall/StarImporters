@@ -65,8 +65,8 @@ function AppPreLogin() {
   };
    const faceLogin = ()=>{
     if (window.flutter_inappwebview) {
-      window.flutter_inappwebview.callHandler("loginWithFaceID");
-
+     let data = window.flutter_inappwebview.callHandler("loginWithFaceID");
+   console.log(data,"jiidid");
    }
    }
   return (

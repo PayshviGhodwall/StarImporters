@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
@@ -8,7 +9,7 @@ function AppCheckout() {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
-  const [delevryChoice, setDelevryChoice] = useState();
+  const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
@@ -20,18 +21,38 @@ function AppCheckout() {
   }, []);
   const createOrder = async()=>{
     
-    if(delevryChoice == true){
+    if(delevryChoice == "Shipment"){
       await axios.post(newOrder,{
         type:"Shipment",
-        address:users?.addressLine
-
+        address:users?.addressLine[0] + users?.addressLine[1]
+        
+       }).then((res)=>{
+        if (!res.error) {
+          toast.success(res?.data.message)
+        }
        })
     }
-    else {
+    else if(delevryChoice == "Delivery") {
       await axios.post(newOrder,{
-        type:"",
-        address:users?.addressLine
+        type:"Delivery",
+        address:users?.addressLine[0] + users?.addressLine[1]
+        
 
+       }).then((res)=>{
+        if (!res.error) {
+          toast.success(res?.data.message)
+        }
+       })
+    }
+    else if(delevryChoice == "In-Store Pickup") {
+      await axios.post(newOrder,{
+        type:"In-Store Pickup",
+        address:users?.addressLine[0] + users?.addressLine[1]
+
+       }).then((res)=>{
+        if (!res.error) {
+          toast.success(res?.data.message)
+        }
        })
     }
    
