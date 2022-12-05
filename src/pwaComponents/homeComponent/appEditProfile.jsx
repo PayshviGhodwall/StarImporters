@@ -36,8 +36,8 @@ function AppEditProfile() {
       defaultValues.addressLine = data.results.addressLine;
 
       reset({ ...defaultValues });
-      if (data.results.profileImage) {
-        setImageFile(data.results.profileImage);
+      if (data?.results?.profileImage) {
+        setImageFile(data?.results?.profileImage);
       }
     }
   };
@@ -115,7 +115,7 @@ function AppEditProfile() {
                         src={
                           imageFile
                             ? imageFile
-                            : "../assets/img/profile_img1.png"
+                            : "../assets/img/logo.png"
                         }
                         alt=""
                       />

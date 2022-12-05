@@ -29,7 +29,7 @@ function AppHeader() {
   return (
     <>
       <div className="star_imp_app">
-        <div className="header-area" id="headerArea">
+        <div className="header-area " id="headerArea" >
           <div className="container h-100 d-flex align-items-center justify-content-between d-flex rtl-flex-d-row-r">
             <div className="logo-wrapper">
               <Link to="/app/home">
@@ -80,14 +80,16 @@ function AppHeader() {
           <button
             className="btn-close btn-close-white"
             type="button"
+            id="closeModal"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           ></button>
 
           <div className="offcanvas-body">
-            <div className="sidenav-profile">
-              <div className="user-profile">
+            <div className="">
+              <div className="mb-2" >
                 <img
+                style={{width:"120px",height:"120px",borderRadius:"50%",marginLeft:"40px"}}
                   src={
                     detail?.profileImage
                       ? detail?.profileImage
@@ -96,7 +98,7 @@ function AppHeader() {
                 />
               </div>
               <div className="user-info">
-                <h5 className="user-name mb-1 text-white">
+                <h5 className="user-name  text-white text-center mt-3">
                   {detail.companyName}
                 </h5>
                 

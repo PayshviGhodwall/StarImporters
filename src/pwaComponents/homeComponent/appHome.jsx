@@ -166,24 +166,7 @@ function AppHome() {
 
           <TopProduct />
 
-          <div className="container">
-            <div className="cta-text dir-rtl p-4 p-lg-5">
-              <div className="row">
-                <div className="col-9">
-                  <h4 className="text-white mb-1">
-                    20% discount on women's care items
-                  </h4>
-                  <p className="text-white mb-2 opacity-75">
-                    Offer will continue till this Friday.
-                  </p>
-                  <a className="comman_btn" href="#">
-                    Grab this offer
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+         
           <div className="flash-sale-wrapper mt-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
@@ -206,12 +189,12 @@ function AppHome() {
                 items={3}
                 margin={10}
               >
-                {brand.map((item, index) => {
+                {(brand || []).map((item, index) => {
                   return (
-                    <div className="card flash-sale-card item">
+                    <div className="card flash-sale-card item" key={index}>
                       <div className="card-body">
                         <Link to="/app/brands">
-                          <img src={item.brandImage} alt="" />
+                          <img src={item?.brandImage} alt="" />
                         </Link>
                       </div>
                     </div>

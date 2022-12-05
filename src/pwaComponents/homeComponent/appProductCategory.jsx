@@ -12,10 +12,15 @@ import {
 import TopProduct from "./appTopProductComponent";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function AppProductCategory() {
-  const [category, setCategory] = useState([]);
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [product, setProduct] = useState([]);
+  const [heart, setHeart] = useState(false);
+  const [category, setCategory] = useState([]);
 
   let { id } = useParams();
   const navigate = useNavigate();
@@ -49,7 +54,30 @@ function AppProductCategory() {
       navigate("/app/cart");
     }
   };
+  const addToFav = async (index) => {
+    await axios
+      .post(addFav, {
+        productId: product[index]?.products?._id,
+      })
+      .then((res) => {
+        toast.success(res?.data?.message);
+      });
+    getProductList();
 
+    setHeart(!heart);
+  };
+  const rmvFromFav = async (index) => {
+    await axios
+      .post(rmvFav, {
+        productId: product[index]?.products?._id,
+      })
+      .then((res) => {
+        toast.error(res?.data?.message);
+      });
+    getProductList();
+
+    setHeart(!heart);
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -146,10 +174,6 @@ function AppProductCategory() {
                   <div class="widget catagory mb-4">
                     <h6 class="widget-title mb-2">Sort By</h6>
                     <div class="widget-desc">
-                      
-
-                      
-
                       <div class="form-check">
                         <input
                           class="form-check-input"
@@ -176,7 +200,6 @@ function AppProductCategory() {
                     </div>
                   </div>
                 </div>
-               
 
                 <div class="col-12">
                   <div class="apply-filter-btn">
@@ -210,13 +233,29 @@ function AppProductCategory() {
                 </div>
               </div>
               <div class="row g-2 product_list_main">
-                {product.map((item, index) => {
+                {(product || [])?.map((item, index) => {
                   return (
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
                           <a class="wishlist-btn" href="#">
-                            <i class="fa-solid fa-heart"></i>
+                            {item?.products?.favourities ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
                           </a>
 
                           <Link
@@ -232,7 +271,7 @@ function AppProductCategory() {
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col">
                               <a class="product-title" href="javascript:;">
-                                {item.products.unitName}
+                                {item?.products?.unitName}
                               </a>
                               <div className="product-rating">
                                 <i className="fa-solid fa-star"></i>

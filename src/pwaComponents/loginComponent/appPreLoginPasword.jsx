@@ -40,7 +40,8 @@ function AppPreLoginPassword() {
         localStorage.setItem("token-user", response?.data?.results.token);
         navigate("/app/home");
         if (window.flutter_inappwebview) {
-           window.flutter_inappwebview.callHandler("Flutter", data.email);
+           window.flutter_inappwebview.callHandler("Flutter", data?.email);
+           window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,data?.password);
 
         }
       //  
@@ -48,6 +49,17 @@ function AppPreLoginPassword() {
     }
     if (response?.data.message === "First Time Login") {
       navigate("/app/success", { state: { email: data.email } });
+    }
+  };
+  const togglePassword = () => {
+    let x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+      setTimeout(()=>{
+        x.type = "password"
+      },[2000])
+    } else {
+      x.type = "password";
     }
   };
   console.log();
@@ -74,6 +86,7 @@ function AppPreLoginPassword() {
                       <label for="password">
                         <i className="fa-solid fa-key"></i>
                       </label>
+                      
                       <input
                         type="password"
                         className="form-control"
@@ -82,7 +95,12 @@ function AppPreLoginPassword() {
                         id="password"
                         {...register("password", { required: true })}
                       />
-
+                      <span
+                      style={{position:'relative',left:"330px",top:"-25px"}}
+                        onClick={togglePassword}
+                        className="fa fa-fw fa-eye field-icon toggle-password"
+                      />
+                       
                       {errors?.password && (
                         <p className="form-error mt-1">
                           This field is required

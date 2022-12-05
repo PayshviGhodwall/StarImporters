@@ -15,7 +15,7 @@ function AppPrivacy() {
   const getContentInfo = async () => {
     const { data } = await privacyPolicy();
     if (!data.error) {
-      setContent(data.results[0].description);
+      setContent(data?.results[0].description);
     }
   };
 

@@ -14,10 +14,16 @@ import {
 import TopProduct from "./appTopProductComponent";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function AppProductBrands() {
-  const [brands, setBrands] = useState([]);
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [product, setProduct] = useState([]);
+  const [heart, setHeart] = useState(false);
+  const [brands, setBrands] = useState([]);
+
 
   let location = useLocation();
   const navigate = useNavigate();
@@ -51,7 +57,30 @@ function AppProductBrands() {
       navigate("/app/cart");
     }
   };
+  const addToFav = async (index) => {
+    await axios
+      .post(addFav, {
+        productId: product[index]?.products?._id,
+      })
+      .then((res) => {
+        toast.success(res?.data?.message);
+      });
+    getProductList();
 
+    setHeart(!heart);
+  };
+  const rmvFromFav = async (index) => {
+    await axios
+      .post(rmvFav, {
+        productId: product[index]?.products?._id,
+      })
+      .then((res) => {
+        toast.error(res?.data?.message);
+      });
+    getProductList();
+
+    setHeart(!heart);
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -212,14 +241,31 @@ function AppProductBrands() {
                 </div>
               </div>
               <div class="row g-2 product_list_main">
-                {product.map((item, index) => {
+                {(product || []).map((item, index) => {
                   return (
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          <a class="wishlist-btn" href="#">
-                            <i class="fa-solid fa-heart"></i>
+                        <a class="wishlist-btn" href="#">
+                            {item?.products?.favourities ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
                           </a>
+
 
                           <Link
                             class="product-thumbnail d-block"

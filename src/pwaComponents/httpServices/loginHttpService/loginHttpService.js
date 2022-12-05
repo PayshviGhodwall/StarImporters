@@ -108,7 +108,7 @@ export async function forgotPassword(formData) {
 
     if (!data.error) {
       await localStorage.removeItem("token-user");
-      toast.success(data.results.otp);
+      
     } else toast.error(data.message);
 
     if (!data.error) return { data };

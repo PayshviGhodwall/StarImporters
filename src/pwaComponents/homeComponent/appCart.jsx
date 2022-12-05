@@ -158,9 +158,15 @@ const navigate = useNavigate()
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <h5 className="total-price mb-0"></h5>
-                  <Link className="comman_btn" to="/app/checkout">
+                  {cart ? <Link className="comman_btn" to="/app/checkout">
                     Checkout Now
-                  </Link>
+                  </Link> 
+                  :
+                  <Link className="comman_btn" to="/app/checkout">
+                  Start Shopping
+                </Link>
+                  }
+                 
                 </div>
               </div>
             </div>

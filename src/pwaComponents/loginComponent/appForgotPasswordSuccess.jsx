@@ -31,7 +31,13 @@ function AppForgotPasswordSuccess() {
     const response = await updatePassword(formData);
 
     if (!response.data.error) {
+
       navigate("/app/login");
+      if (window.flutter_inappwebview) {
+        window.flutter_inappwebview.callHandler("saveDetails" , location.state.email ,data?.password);
+        
+  
+     }
     }
   };
   return (
@@ -62,7 +68,7 @@ function AppForgotPasswordSuccess() {
                       </label>
 
                       <input
-                        type="password"
+                        type="text"
                         className="form-control"
                         placeholder="**********"
                         name="password"

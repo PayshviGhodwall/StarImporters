@@ -13,10 +13,16 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import WebHeader2 from "./webHeader2";
 import SimlarProduct from "./appSimilarProductComponent";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function AppProductDetail() {
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  const [heart, setHeart] = useState(false);
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [categoryName, setCategoryName] = useState([]);
   const [flavour, setFlavour] = useState({
     flavour: "",
     flavourImage: "",
@@ -27,12 +33,13 @@ function AppProductDetail() {
 
   useEffect(() => {
     getProductDetail();
-  }, [flavour]);
+  }, [flavour,id]);
 
   const getProductDetail = async () => {
     const { data } = await getProductDetaill(id);
     if (!data.error) {
       setProductDetail(data.results);
+      setCategoryName(data?.results?.category)
     }
   };
   const getQuantity = (type) => {
@@ -79,7 +86,24 @@ function AppProductDetail() {
         flavourImage: flavourData[index].flavourImage,
       });
   };
-
+  const addToFav = async () => {
+    await axios.post(addFav, {
+      productId: productDetail?._id,
+    }).then((res)=>{
+      toast.success(res?.data?.message);
+    })
+    getProductDetail();
+    setHeart(!heart);
+  };
+  const rmvFromFav = async () => {
+    await axios.post(rmvFav, {
+      productId: productDetail._id,
+    }).then((res)=>{
+      toast.error(res?.data?.message);
+    })
+    getProductDetail();
+    setHeart(!heart);
+  };
   console.log(flavour);
 
   return (
@@ -127,9 +151,9 @@ function AppProductDetail() {
               <div className="single-product-slide item">
                 <img
                   src={
-                    flavour.flavourImage
-                      ? flavour.flavourImage
-                      : productDetail.productImage
+                    flavour?.flavourImage
+                      ? flavour?.flavourImage
+                      : productDetail?.productImage
                   }
                   alt=""
                 />
@@ -137,9 +161,9 @@ function AppProductDetail() {
               <div className="single-product-slide item">
                 <img
                   src={
-                    flavour.flavourImage
-                      ? flavour.flavourImage
-                      : productDetail.productImage
+                    flavour?.flavourImage
+                      ? flavour?.flavourImage
+                      : productDetail?.productImage
                   }
                   alt=""
                 />
@@ -147,9 +171,9 @@ function AppProductDetail() {
               <div className="single-product-slide item">
                 <img
                   src={
-                    flavour.flavourImage
-                      ? flavour.flavourImage
-                      : productDetail.productImage
+                    flavour?.flavourImage
+                      ? flavour?.flavourImage
+                      : productDetail?.productImage
                   }
                   alt=""
                 />
@@ -160,11 +184,27 @@ function AppProductDetail() {
             <div className="product-title-meta-data bg-white mb-3 py-3">
               <div className="container d-flex justify-content-between rtl-flex-d-row-r">
                 <div className="p-title-price">
-                  <h5 className="mb-1">{productDetail.unitName}</h5>
+                  <h5 className="mb-1">{productDetail?.unitName}</h5>
                 </div>
                 <div className="p-wishlist-share">
-                  <Link to="/app/wishlist">
-                    <i className="fa-solid fa-heart"></i>
+                  <Link>
+                        {productDetail?.favourities ? (
+                          <i
+                            class="fa fa-heart"
+                            onClick={() => {
+                              rmvFromFav();
+                            }}
+                            style={{ color: "#3e4093 " }}
+                          />
+                        ) : (
+                          <i
+                            class="fa fa-heart"
+                            onClick={() => {
+                              addToFav();
+                            }}
+                            style={{ color: "#E1E1E1 " }}
+                          />
+                        )}
                   </Link>
                 </div>
               </div>
@@ -212,7 +252,7 @@ function AppProductDetail() {
               <div className="container">
                 <div className="choose-color-wrapper">
                   <p className="mb-1 font-weight-bold">
-                    Flavor: {flavour.flavour}
+                    Flavor: {flavour?.flavour}
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
@@ -222,7 +262,7 @@ function AppProductDetail() {
                           to=""
                           onClick={() => getFlavour(index)}
                         >
-                          {item.flavour}
+                          {item?.flavour}
                         </Link>
                       ))}
                     </div>
@@ -252,7 +292,7 @@ function AppProductDetail() {
             <div className="pb-3"></div>
             {console.log(productDetail?.category?.categoryName)}
             <SimlarProduct
-              categoryName={productDetail?.category?.categoryName}
+              categoryName={categoryName}
             />
             <div className="rating-and-review-wrapper bg-white py-3 mb-3 dir-rtl">
               <div className="container">

@@ -288,9 +288,8 @@ export async function getByBrands(formData) {
 export async function similarProduct() {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/category/similarProduct
-
-      `
+      `${process.env.REACT_APP_APIENDPOINT}/user/category/similarProduct`
+      
     );
     console.log(data);
 
@@ -351,12 +350,12 @@ export async function addToCart(formData) {
     );
     console.log(data);
     if (!data.error) {
-      toast.success(data.message);
+      toast.success(data.message + " " + " to Cart");
     } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) toast.error(error.response.data.message );
     return { error };
   }
 }

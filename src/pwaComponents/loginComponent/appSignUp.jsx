@@ -57,6 +57,10 @@ function AppSignUp() {
     const response = await userRegister(formData);
 
     if (response?.data.message === "Registered Successfully") {
+      if (window.flutter_inappwebview) {
+        window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,"xyzz" );
+  
+     }
       setLoader(false);
       Swal.fire({
         title: "Thanks You! Your account is under review.",

@@ -79,6 +79,7 @@ const EditInventory = () => {
     await axios.get(getProducts + "/" + id).then((res) => {
       setAllProducts([res?.data.results]);
       setFormValues(res?.data.results.type);
+      setProductBarcode(res?.data.results?.pBarcode)
     });
   };
 
@@ -124,7 +125,7 @@ const EditInventory = () => {
         unitName: data?.productName,
         category: data?.category,
         subCategory: data?.subCategory,
-        pBarcode: data?.pBarcode,
+        pBarcode: productBarcode,
         productPrice: data?.productPrice,
         brand: data?.brands,
         description: data?.desc,
@@ -184,7 +185,7 @@ const EditInventory = () => {
   };
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
-    if (e.key !== "Enter") return;
+    if (e.key !== "Tab") return;
     // Get the value of the input
     const value = e.target.value;
     // If the value is empty, return
@@ -200,7 +201,7 @@ const EditInventory = () => {
   }
 
   function ProhandleKeyDown(e) {
-    if (e.key !== "Enter") return;
+    if (e.key !== "Tab") return;
     const value = e.target.value;
     if (!value.trim()) return;
     setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
@@ -234,12 +235,25 @@ const EditInventory = () => {
         console.log(res);
       });
   };
-
+  const addFormFields = (e) => {
+    setFormValues([
+      ...formValues,
+      {
+        productType: "",
+        flavour: [],
+        flavourImage: [],
+        barcode: [],
+        flavourPrice: "",
+        flavourStatus:true,
+      },
+    ]);
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -544,8 +558,8 @@ const EditInventory = () => {
                     </div>
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
-                      <div className="tags-input-container">
-                        {/* {(productBarcode || [])?.map((tag, ind) => (
+                      <div className="tags-input-container  border border-secondary">
+                      {(productBarcode || [])?.map((tag, ind) => (
                           <div className="tag-item" key={ind}>
                             <span className="tag-text">{tag}</span>
                             <span
@@ -555,15 +569,16 @@ const EditInventory = () => {
                               &times;
                             </span>
                           </div>
-                        ))} */}
-                        <input
+                        ))}
+                         <input
                           type="text"
-                          className="tags-input mb-0"
-                          defaultValue={allProducts[0]?.pBarcode}
+                          
+                          className="form-control shadow-none"
+                          style={{ border: "none" }}
                           name="pBarcode"
+                          placeholder="Enter Product Barcodes"
                           {...register("pBarcode")}
-
-                          // onKeyDown={(e) => ProhandleKeyDown(e)}
+                          onKeyDown={(e) => ProhandleKeyDown(e)}
                         />
                       </div>
                     </div>
@@ -719,7 +734,6 @@ const EditInventory = () => {
                                       type="checkbox"
                                       className="checkbox"
                                       defaultChecked={item?.flavourStatus}
-                                      id="FlavourStatus"
                                       onClick={() => {
                                         TypeStatus(index);
                                       }}
@@ -732,6 +746,7 @@ const EditInventory = () => {
                                       <span className="switchF" />
                                     </label>
                                   </div>
+                                  
                                 </div>
                               </div>
                             </div>
@@ -739,7 +754,15 @@ const EditInventory = () => {
                         </div>
                       </form>
                     </div>
+                   
                     <div className="form-group mb-0 col-12 text-center mt-2">
+                    <button
+                              className="comman_btn  mx-2"
+                              type="button"
+                              onClick={() => addFormFields()}
+                            >
+                              <i className="fa fa-plus mt-1 mx-1" /> Add More Flavours
+                            </button>
                       <button className="comman_btn" onClick={onSubmit}>
                         Save
                       </button>

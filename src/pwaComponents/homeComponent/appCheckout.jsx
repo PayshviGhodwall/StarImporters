@@ -6,8 +6,9 @@ import AppHeader from "./appHeader";
 
 function AppCheckout() {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
-  const [delevryChoice, setDelevryChoice] = useState(false);
+  const [delevryChoice, setDelevryChoice] = useState();
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
@@ -17,6 +18,25 @@ function AppCheckout() {
     };
     getUser();
   }, []);
+  const createOrder = async()=>{
+    
+    if(delevryChoice == true){
+      await axios.post(newOrder,{
+        type:"Shipment",
+        address:users?.addressLine
+
+       })
+    }
+    else {
+      await axios.post(newOrder,{
+        type:"",
+        address:users?.addressLine
+
+       })
+    }
+   
+  }
+  
   console.log(users?.state);
   return (
     <>
@@ -118,7 +138,7 @@ function AppCheckout() {
                               type="radio"
                               name="selector"
                               onClick={() => {
-                                setDelevryChoice(false);
+                                setDelevryChoice("In-Store Pickup");
                               }}
                               defaultChecked="true"
                             />
@@ -134,7 +154,7 @@ function AppCheckout() {
                               type="radio"
                               name="selector"
                               onClick={() => {
-                                setDelevryChoice(true);
+                                setDelevryChoice("Delivery");
                               }}
                             />
                             <label for="normalShipping">
@@ -151,7 +171,7 @@ function AppCheckout() {
                               type="radio"
                               name="selector"
                               onClick={() => {
-                                setDelevryChoice(false);
+                                setDelevryChoice("In-Store Pickup");
                               }}
                               defaultChecked="true"
                             />
@@ -167,7 +187,7 @@ function AppCheckout() {
                               type="radio"
                               name="selector"
                               onClick={() => {
-                                setDelevryChoice(true);
+                                setDelevryChoice("Shipment");
                               }}
                             />
                             <label for="courier">
@@ -180,7 +200,8 @@ function AppCheckout() {
                     </div>
                   </div>
                 </div>
-                <Link class="comman_btn mt-3" to="/app/thankyou">
+               
+                <Link class="comman_btn mt-3" to="/app/thankyou" onClick={createOrder}  >
                   Procced
                 </Link>
               </div>

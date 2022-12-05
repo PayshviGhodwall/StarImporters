@@ -101,6 +101,7 @@ function AppQuotes() {
             <div className="cart-wrapper-area py-3">
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body">
+                  
                   <table className="table mb-0">
                     <tbody>
                       {(quotes || []).map((item, index) => {
@@ -160,9 +161,14 @@ function AppQuotes() {
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <h5 className="total-price mb-0"></h5>
-                  <Link className="comman_btn" to="/app/checkout">
+                  {quotes ? <Link className="comman_btn" to="/app/checkout">
                     Checkout Now
-                  </Link>
+                  </Link> 
+                  :
+                  <Link className="comman_btn" to="/app/checkout">
+                  Start Shopping
+                </Link>
+                  }
                 </div>
               </div>
             </div>

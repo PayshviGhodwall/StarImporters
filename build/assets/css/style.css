@@ -5568,6 +5568,7 @@ background-color: #3e4093;
     line-height: 16px;
     border: 1px solid #3e4093;
   }
+ 
   .user-profile-icon a {
     border: 2px solid #ebebeb;
     border-radius: 50%;
@@ -8820,6 +8821,8 @@ background-color: #3e4093;
     border-radius: 50%;
   }
   .user-info-card .user-profile img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
   }
 

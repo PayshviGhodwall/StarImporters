@@ -63,7 +63,12 @@ function AppPreLogin() {
       toast.success("Please enter password");
     }
   };
+   const faceLogin = ()=>{
+    if (window.flutter_inappwebview) {
+      window.flutter_inappwebview.callHandler("loginWithFaceID");
 
+   }
+   }
   return (
     <>
       <div className="star_imp_app">
@@ -124,6 +129,11 @@ function AppPreLogin() {
                 <div className="view-as-guest mt-2">
                   <Link className="btn" to="/app/homeGuest">
                     View as Guest
+                  </Link>
+                </div>
+                <div className="view-as-guest mt-2">
+                  <Link className="btn" to="/app/homeGuest" onClick={faceLogin} >
+                    Login with face
                   </Link>
                 </div>
               </div>

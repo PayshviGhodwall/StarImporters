@@ -18,11 +18,13 @@ import TermsCondition from "./Terms&Condition";
 import axios from "axios";
 import { useState } from "react";
 
-const Homepage = ({ GetData }) => {
+const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
   const slidesApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getSlides`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const brandApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
+  const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
   const [productsCate, setProductsCate] = useState("hello");
@@ -46,8 +48,15 @@ const Homepage = ({ GetData }) => {
     getSlides();
     getCategory();  
     getBrands();
-  }, []);
+    AllProducts();
 
+  }, []);
+const AllProducts = async () => {
+    await axios.post(allProd).then((res) => {
+      console.log(res);
+      setFeatured(res?.data.results);
+    });
+  };
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
       setAllSlides(res?.data.results);
@@ -218,343 +227,52 @@ const Homepage = ({ GetData }) => {
             <h2>Featured Products</h2>
           </div>
           <div className="row">
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_1.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
+            {(featured || [])?.filter((item, idx) => idx < 8).map((item,index)=>(
+                    <div className="col-lg-3 col-md-4 col-sm-4" key={index}>
+                    <div className="product_parts_box shadow">
+                      <div className="partsproduct_img ">
+                        <img
+                          src={item?.productImage}
+                          className="mt-3 mb-3"
+                          alt="Product"
+                        />
+                      </div>
+                      <div className="product_content mt-3 text-center">
+                        <FontAwesomeIcon  />
+                        <Link
+                          to=""
+                          style={{
+                            textDecoration: "none",
+                            color: "#3e4093",
+                            fontWeight: "600",
+                            fontFamily: "poppins",
+                          }}
+                        >
+                          {item?.unitName}
+                        </Link>
+                        <div className="rating_box mt-2 mb-1">
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #CACACA" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_1.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_5.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_4.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_new3.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_new2.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_new4.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-4">
-              <div className="product_parts_box shadow">
-                <div className="partsproduct_img ">
-                  <img
-                    src={require("../../assets/img/product_new6.png")}
-                    className="mt-3 mb-3"
-                    alt="Product"
-                  />
-                </div>
-                <div className="product_content mt-3 text-center">
-                  <FontAwesomeIcon icon="check-square" />
-                  <Link
-                    to=""
-                    style={{
-                      textDecoration: "none",
-                      color: "#3e4093",
-                      fontWeight: "600",
-                      fontFamily: "poppins",
-                    }}
-                  >
-                    BLVK Frznberry
-                  </Link>
-                  <div className="rating_box mt-2 mb-1">
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #FFCC00  " />
-                    </Link>
-                    <Link className="mx-1">
-                      <BsFillStarFill color=" #CACACA" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            ))}
+            
+</div>
         </div>
       </section>
       <section className="product_show_home">
