@@ -110,7 +110,7 @@ function AppPreLogin() {
             navigate("/app/home");
             if (window.flutter_inappwebview) {
                window.flutter_inappwebview.callHandler("Flutter", data?.email);
-               window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,data?.password);
+              //  window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,data?.password);
     
             }
           //  
