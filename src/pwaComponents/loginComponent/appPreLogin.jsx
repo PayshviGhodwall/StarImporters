@@ -64,7 +64,7 @@ function AppPreLogin() {
   };
   const faceLogin = async () => {
     if (window.flutter_inappwebview) {
-      let data = window.flutter_inappwebview.callHandler("loginWithFaceID");
+      let data = await window.flutter_inappwebview.callHandler("loginWithFaceID");
       data = data ? JSON.parse(data) : null;
       console.log(data);
       const response = await userPreLogin(data);
