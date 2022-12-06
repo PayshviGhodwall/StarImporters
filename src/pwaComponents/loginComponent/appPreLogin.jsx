@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { userPreLogin } from "../httpServices/loginHttpService/loginHttpService";
+import { userPreLogin, userPreLoginPassword } from "../httpServices/loginHttpService/loginHttpService";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
@@ -25,7 +25,6 @@ function AppPreLogin() {
   const onSubmit = async (data) => {
     console.log(data);
     const response = await userPreLogin(data);
-   
 
     if (response.data.message === "Your ID in under review") {
       Swal.fire({
@@ -63,12 +62,67 @@ function AppPreLogin() {
       toast.success("Please enter password");
     }
   };
-   const faceLogin = ()=>{
+  const faceLogin = async () => {
     if (window.flutter_inappwebview) {
-     let data = window.flutter_inappwebview.callHandler("loginWithFaceID");
-   console.log(data,"jiidid");
-   }
-   }
+      let data = window.flutter_inappwebview.callHandler("loginWithFaceID");
+      data = data ? JSON.parse(data) : null;
+      console.log(data);
+      const response = await userPreLogin(data);
+      if (response?.data.message === "Your ID in under review") {
+        Swal.fire({
+          title: "Your ID in under review",
+          text: "Do you want to continue",
+          icon: "error",
+          button: "Ok",
+        });
+      }
+
+      if (response?.data.message === "You are suspended by admin") {
+        Swal.fire({
+          title: "Your account has beed disabled. Please contact admin!",
+          width: 600,
+          icon: "error",
+          button: "Ok",
+        });
+      }
+      if (response?.data.message === "You need to provide details again") {
+        Swal.fire({
+          title:
+            "Oops! Your registration request is declined. Please re-submit your application.",
+          width: 600,
+          text: "",
+          icon: "error",
+          button: "Go to Sign Up",
+        });
+        navigate("/app/re-register", { state: { email: data.email } });
+      }
+      if (response?.data.message === "Email is not registered") {
+        toast.error("Email is not registered");
+      }
+      if (response?.data.message === "Please enter password") {
+       
+        const response = await userPreLoginPassword(data);
+        if (!response.data.error) {
+          navigate("/app/home");
+    
+          if (response?.data.message === "Logged In") {
+            localStorage.setItem("token-user", response?.data?.results.token);
+            navigate("/app/home");
+            if (window.flutter_inappwebview) {
+               window.flutter_inappwebview.callHandler("Flutter", data?.email);
+               window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,data?.password);
+    
+            }
+          //  
+          }
+        }
+        if (response?.data.message === "First Time Login") {
+          navigate("/app/success", { state: { email: data.email } });
+        }
+
+      }
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -132,7 +186,7 @@ function AppPreLogin() {
                   </Link>
                 </div>
                 <div className="view-as-guest mt-2">
-                  <a className="btn"  to="" onClick={faceLogin} >
+                  <a className="btn" to="" onClick={faceLogin}>
                     Login with face
                   </a>
                 </div>
