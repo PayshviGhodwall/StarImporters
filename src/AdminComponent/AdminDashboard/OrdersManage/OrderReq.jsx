@@ -7,16 +7,24 @@ import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
+  const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const [orders, setOrders] = useState([]);
+  const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     OrderRequest();
+    QuoteRequest();
   }, []);
   const OrderRequest = async () => {
-    await axios.get(orderList).then((res) => {
-      setOrders(res?.data.results?.orders);
+    await axios.post(orderList).then((res) => {
+      setOrders(res?.data.results);
+    });
+  };
+  const QuoteRequest = async () => {
+    await axios.post(quoteList).then((res) => {
+      setQuoteReq(res?.data.results);
     });
   };
   const handleClick = () => {
@@ -277,17 +285,21 @@ const OrderReq = () => {
                                       <tbody>
                                         {(orders || [])?.map((item, index) => (
                                           <tr key={index}>
-                                            <td>1</td>
-                                            <td>Ajay Sharma</td>
-                                            <td>+1 735783567523</td>
-                                            <td>xyz@gmail.com</td>
-                                            <td>Pending</td>
+                                            <td>{index+1}</td>
+                                            <td>{item?.userId?.firstName + " " + item?.userId?.lastName}</td>
+                                            <td>{item?.userId?.phoneNumber}</td>
+                                            <td>{item?.userId?.email}</td>
+                                            <td>{item?.status}</td>
                                             <td>
                                               <button
                                                 className="comman_btn table_viewbtn"
                                                 onClick={() => {
                                                   navigate(
-                                                    "/OrderRequest/ViewOrder"
+                                                    "/OrderRequest/ViewOrder",{
+                                                      state: {
+                                                       id:item?._id
+                                                      },
+                                                    }
                                                   );
                                                 }}
                                               >
@@ -345,25 +357,31 @@ const OrderReq = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                          <td>5</td>
-                                          <td>Ajay Sharma</td>
-                                          <td>+1 735783567523</td>
-                                          <td>xyz@gmail.com</td>
-                                          <td>Pending</td>
-                                          <td>
-                                            <button
-                                              className="comman_btn table_viewbtn text-decoration-none"
-                                              onClick={() => {
-                                                navigate(
-                                                  "/OrderRequest/ViewQuotationRequest"
-                                                );
-                                              }}
-                                            >
-                                              View
-                                            </button>
-                                          </td>
-                                        </tr>
+                                      {(quoteReq || [])?.map((item, index) => (
+                                          <tr key={index}>
+                                            <td>{index+1}</td>
+                                            <td>{item?.userId?.firstName + " " + item?.userId?.lastName}</td>
+                                            <td>{item?.userId?.phoneNumber}</td>
+                                            <td>{item?.userId?.email}</td>
+                                            <td>{item?.status}</td>
+                                            <td>
+                                              <button
+                                                className="comman_btn table_viewbtn"
+                                                onClick={() => {
+                                                  navigate(
+                                                    "/OrderRequest/ViewQuotationRequest",{
+                                                      state: {
+                                                       id:item?._id
+                                                      },
+                                                    }
+                                                  );  
+                                                }}
+                                              >
+                                                View
+                                              </button>
+                                            </td>
+                                          </tr>
+                                        ))}
                                       </tbody>
                                     </table>
                                   </div>

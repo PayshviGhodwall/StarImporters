@@ -35,6 +35,7 @@ function WebHeader2() {
           <div className="sidenav-profile">
             <div className="user-profile-icon ms-2">
               <img
+              className="userProfile"
                 src={
                   detail?.profileImage
                     ? detail?.profileImage

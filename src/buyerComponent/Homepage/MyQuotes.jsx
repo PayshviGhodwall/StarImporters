@@ -7,10 +7,12 @@ import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Animate from "../../Animate";
+import Swal from "sweetalert2";
 
 const MyQuotes = () => {
   const getQuoteProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/getQuotes`;
   const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/removeQuoteProducts`;
+  const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const MyQuotes = () => {
     localStorage.getItem("token-user");
   const getQuotes = async () => {
     await axios.get(getQuoteProducts).then((res) => {
-      setProduct(res?.data.results.products);
+      setProduct(res?.data.results[0].products);
     });
   };
 
@@ -37,6 +39,19 @@ const MyQuotes = () => {
         getQuotes()
       });
   };
+  const addToQuotes =async()=>{
+   await axios.post(addQuotes).then((res)=>{
+    if(!res?.error){
+      Swal.fire({
+        title: "Your Quotation Request Has Submitted!",
+        text:"Check Status here",
+        icon: "success",
+        button: "Ok",
+      });
+      navigate("/RequestOrder")
+    }
+   })
+  }
   return (
     <div>
       <Navbar />
@@ -91,7 +106,7 @@ const MyQuotes = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="cart_table">
-                      {product.length ? (
+                      {product?.length ? (
 
                         <div className="table-responsive">
                           <table className="table">
@@ -188,9 +203,10 @@ const MyQuotes = () => {
                           <div className="col-12 text-center mb-3 mt-5">
                             <Link
                               className="comman_btn text-decoration-none"
-                              to="/Cart/Checkout"
+                              to=""
+                              onClick={addToQuotes}
                             >
-                              Checkout
+                              Send Request
                             </Link>
                           </div>
                         </div>

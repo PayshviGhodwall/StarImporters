@@ -44,9 +44,10 @@ function AppHeader() {
                 </Link>
               </div>
 
-              <div className="user-profile-icon ms-2">
+              <div className="user-profile ms-2">
                 <Link to="/app/profile">
                   <img
+                  className="headerProfile"
                     src={
                       detail?.profileImage
                         ? detail?.profileImage

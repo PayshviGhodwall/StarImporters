@@ -1,9 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppOrderDetail() {
+  const getOrderDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/viewOrder`;
+  const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+  let location = useLocation();
+
+
+  let id = location?.state?.id;
+
+  useEffect(() => {
+    OrderDetails();
+  }, []);
+  const OrderDetails = async () => {
+    await axios.get(getOrderDetails + "/" + id).then((res) => {
+      setOrders(res?.data.results);
+    });
+  };
+
+  
   return (
     <>
       <div className="star_imp_app">

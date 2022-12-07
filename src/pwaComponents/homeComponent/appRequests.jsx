@@ -1,9 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppRequests() {
+  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/getQuotes`;
+  const [orderDetails, setOrderDetails] = useState([]);
+
+  useEffect(() => {
+    const GetOrders = async () => {
+      await axios.get(getQuotes).then((res) => {
+        setOrderDetails(res?.data?.results);
+      });
+    };
+    GetOrders();
+  }, []);
   return (
     <>
       <div className="star_imp_app">
@@ -11,106 +24,36 @@ function AppRequests() {
         <div className="my_order_new">
           <div className="container">
             <div className="row">
-              <div className="col-12 mb-3">
-                <Link
-                  to="/app/request-detail"
-                  className="my_orderbox position-relative shadow"
-                >
-                  <div className="left_part">
-                    <div className="status_order d-block">Status: Approved</div>
-                    <div className="order_id d-block mb-1">
-                      Request ID: <strong>12312</strong>
+            {(orderDetails || [])?.map((item, index) => (
+                <div className="col-12 mb-3" key={index}>
+                  <Link
+                    to="/app/request-detail"
+                    state={{id:item?._id}}
+                    className="my_orderbox position-relative shadow"
+                  >
+                    <div className="left_part">
+                      <div className="status_order d-block">
+                        Status: {item?.status}
+                      </div>
+                      <div className="order_id d-block mb-1">
+                        Request ID: <strong>{item?.orderId}</strong>
+                      </div>
+                      <div className="date_box">
+                        {item?.createdAt.slice(0, 10)}
+                      </div>
                     </div>
-                    <div className="date_box">
-                      Sep 21, 2022 | <span>03:45 PM</span>
+                    <div className="items_box">
+                      <h2>Items :</h2>
+                      {(item?.products || []).map((item, ind) => (
+                        <ul className="list-unstyled mb-0">
+                          <li key={ind}>{item?.productId?.unitName}</li>
+                         
+                        </ul>
+                      ))}
                     </div>
-                  </div>
-                  <div className="items_box">
-                    <h2>Items :</h2>
-                    <ul className="list-unstyled mb-0">
-                      <li>BLVK Frznberry</li>
-                      <li>Cherry Pineapple</li>
-                      <li>4K's Wraps</li>
-                      <li>Elf Bar 5000Puff</li>
-                    </ul>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-12 mb-3">
-                <Link
-                  to="/app/request-detail"
-                  className="my_orderbox position-relative shadow"
-                >
-                  <div className="left_part">
-                    <div className="status_order d-block">Status: Approved</div>
-                    <div className="order_id d-block mb-1">
-                      Request ID: <strong>12312</strong>
-                    </div>
-                    <div className="date_box">
-                      Sep 21, 2022 | <span>03:45 PM</span>
-                    </div>
-                  </div>
-                  <div className="items_box">
-                    <h2>Items :</h2>
-                    <ul className="list-unstyled mb-0">
-                      <li>BLVK Frznberry</li>
-                      <li>Cherry Pineapple</li>
-                      <li>4K's Wraps</li>
-                      <li>Elf Bar 5000Puff</li>
-                    </ul>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-12 mb-3">
-                <Link
-                  to="/app/request-detail"
-                  className="my_orderbox position-relative shadow"
-                >
-                  <div className="left_part">
-                    <div className="status_order d-block">Status: Approved</div>
-                    <div className="order_id d-block mb-1">
-                      Request ID: <strong>12312</strong>
-                    </div>
-                    <div className="date_box">
-                      Sep 21, 2022 | <span>03:45 PM</span>
-                    </div>
-                  </div>
-                  <div className="items_box">
-                    <h2>Items :</h2>
-                    <ul className="list-unstyled mb-0">
-                      <li>BLVK Frznberry</li>
-                      <li>Cherry Pineapple</li>
-                      <li>4K's Wraps</li>
-                      <li>Elf Bar 5000Puff</li>
-                    </ul>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-12 mb-3">
-                <Link
-                  to="/app/request-detail"
-                  className="my_orderbox position-relative shadow"
-                >
-                  <div className="left_part">
-                    <div className="status_order d-block">Status: Approved</div>
-                    <div className="order_id d-block mb-1">
-                      Request ID: <strong>12312</strong>
-                    </div>
-                    <div className="date_box">
-                      Sep 21, 2022 | <span>03:45 PM</span>
-                    </div>
-                  </div>
-                  <div className="items_box">
-                    <h2>Items :</h2>
-                    <ul className="list-unstyled mb-0">
-                      <li>BLVK Frznberry</li>
-                      <li>Cherry Pineapple</li>
-                      <li>4K's Wraps</li>
-                      <li>Elf Bar 5000Puff</li>
-                    </ul>
-                  </div>
-                </Link>
-              </div>
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </div>

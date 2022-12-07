@@ -22,7 +22,7 @@ function AppQuotes() {
   const getAllQuotes = async () => {
     const { data } = await getQuotes();
     if (!data?.error) {
-      setQuotes(data?.results?.products);
+      setQuotes(data?.results[0]?.products);
     }
   };
 

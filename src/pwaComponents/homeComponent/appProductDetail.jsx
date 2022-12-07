@@ -19,7 +19,9 @@ import { toast } from "react-toastify";
 function AppProductDetail() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const [heart, setHeart] = useState(false);
+  const [userDetail, setUserDetail] = useState([]);
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [categoryName, setCategoryName] = useState([]);
@@ -33,8 +35,13 @@ function AppProductDetail() {
 
   useEffect(() => {
     getProductDetail();
+    userInfo();
   }, [flavour,id]);
-
+  const userInfo =async()=>{
+    await axios.get(userData).then((res)=>{
+     setUserDetail(res?.data?.results)
+    })
+   }
   const getProductDetail = async () => {
     const { data } = await getProductDetaill(id);
     if (!data.error) {
@@ -280,11 +287,16 @@ function AppProductDetail() {
                   >
                     Add To Cart
                   </Link>
+                  {userDetail?.quotation === true ? 
+
                   <button className="comman_btn2" type="submit" 
                     onClick={() => AddtoQuotess()}
                     >
                     Request Quotation
                   </button>
+                  :
+                  null
+}
                 </div>
               </div>
             </div>

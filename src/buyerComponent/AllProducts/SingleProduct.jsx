@@ -20,10 +20,11 @@ const SingleProduct = () => {
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
+  const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const [loader, setLoader] = useState(false);
   const [loader1, setLoader2] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
-  const [minDisable, setMinDisable] = useState(true);
+  const [userDetail, setUserDetail] = useState([]);
   const [flavour, setFlavour] = useState();
   const [category, setCategory] = useState([]);
   const [simProducts, setSimProducts] = useState([]);
@@ -48,13 +49,22 @@ const SingleProduct = () => {
   const GetChange = (data) => {
     setChange(data);
   };
+
+
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+    
   console.log(objectId, location?.state?.id);
+
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
   }
   useEffect(() => {
+    const userInfo =async()=>{
+     await axios.get(userData).then((res)=>{
+      setUserDetail(res?.data?.results)
+     })
+    }
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
@@ -80,6 +90,7 @@ const SingleProduct = () => {
     console.log(categoryName);
 
     getCategory();
+    userInfo();
     NewProducts();
     getSimilarProducts();
   }, [change, objectId]);
@@ -378,7 +389,6 @@ const SingleProduct = () => {
                           {product?.productPriceStatus ? (
                             <div className="col-12">
                               <p className="fw-bold">
-                                
                                 {flavour
                                   ? "Price : $"
                                   : "Price : $" + product?.productPrice}
@@ -387,15 +397,7 @@ const SingleProduct = () => {
                                   : product?.productPrice}
                               </p>
                             </div>
-                          ) : (
-                            <div className="col-12">
-                              <p className="fw-bold">
-                                {flavour ? "Price : $" : null}
-
-                                {flavour ? type[FInd]?.flavourPrice : null}
-                              </p>
-                            </div>
-                          )}
+                          ) : null}
                           <div className="col-12 quantity_box d-md-flex align-items-center mt-md-3 mb-md-2">
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span
@@ -437,12 +439,25 @@ const SingleProduct = () => {
                             >
                               Add To Cart
                             </Button>
-                            <button
-                              className="comman_btn2"
-                              onClick={AddtoQuote}
-                            >
-                              Request Quotation
-                            </button>
+                            {userDetail?.quotation === true ? 
+                            <Button
+                            className="comman_btn2"
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#3e4093",
+                              color: "#fff",
+                              fontSize: "16px",
+                              fontWeight: "500px",
+                            }}
+                            onClick={AddtoQuote}
+                          >
+                            Request Quotation
+                          </Button>
+                          :
+                          null
+                            
+                          }
+                            
                           </div>
                         </div>
                       </div>

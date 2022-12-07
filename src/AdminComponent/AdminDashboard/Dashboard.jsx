@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
 
@@ -7,10 +7,42 @@ import profile from "../../assets/img/profile_img1.png";
 import { HiMenuAlt1 } from "react-icons/hi";
 import $ from "jquery";
 import ProfileBar from "./ProfileBar";
+import axios from "axios";
 
 const Dashboard = () => {
+  const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
+  const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalUsers`;
+  const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalOrders`;
+  const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/total`;
+  const [orders, setOrders] = useState([]);
+  const [totalOrders, setTotalOrders] = useState();
+  const [totalUsers, setTotalUsers] = useState();
+  const [totalRequest, setTotalRequest] = useState();
   const [sideBar, setSideBar] = useState(true);
-  const  navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    GetAllOrders();
+    GetAllUsers();
+    OrderRequest();
+  }, []);
+
+  const OrderRequest = async () => {
+    await axios.post(orderList).then((res) => {
+      setOrders(res?.data.results?.orders);
+    });
+  };
+  const GetAllOrders = async () => {
+    await axios.get(totalOrder).then((res) => {
+      setTotalOrders(res?.data.results);
+    });
+  };
+  const GetAllUsers = async () => {
+    await axios.get(totalUser).then((res) => {
+      setTotalUsers(res?.data.results);
+    });
+  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -199,15 +231,13 @@ const Dashboard = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Total User</h2>
-                        <span>20000</span>
+                        <span>{totalUsers}</span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div className="col d-flex align-items-stretch">
-                  <a
-                    className="row dashboard_box box_design me-3 w-100 text-decoration-none"
-                  >
+                  <a className="row dashboard_box box_design me-3 w-100 text-decoration-none">
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i className="fa fa-shopping-bag" />
@@ -216,16 +246,13 @@ const Dashboard = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Total Orders</h2>
-                        <span>20000</span>
+                        <span>{totalOrders}</span>
                       </div>
                     </div>
                   </a>
                 </div>
                 <div className="col d-flex align-items-stretch pe-0">
-                  <a
-                  
-                    className="row dashboard_box box_design me-0 w-100 text-decoration-none"
-                  >
+                  <a className="row dashboard_box box_design me-0 w-100 text-decoration-none">
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i className="fas fa-user-friends" />
@@ -282,7 +309,7 @@ const Dashboard = () => {
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
-                            <tr  style={{backgroundColor:"#f2f2f2"}}>
+                            <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
                               <th>User Name</th>
                               <th>Mobile Number</th>
@@ -292,81 +319,33 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>Ajay Sharma</td>
-                              <td>9899012312</td>
-                              <td>01/07/2022</td>
-                              <td>1001</td>
-                              <td>
-                                <button
-                                  className="comman_btn table_viewbtn "
-                                  onClick={()=>{navigate("/Dashboard/UserDetails")}}
-                                >
-                                  View
-                                </button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>Ajay Sharma</td>
-                              <td>9899012312</td>
-                              <td>01/07/2022</td>
-                              <td>1002</td>
-                              <td>
-                                <a
-                                  className="comman_btn table_viewbtn"
-                                  href="user-details.html"
-                                >
-                                  View
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>Ajay Sharma</td>
-                              <td>9899012312</td>
-                              <td>01/07/2022</td>
-                              <td>1003</td>
-                              <td>
-                                <a
-                                  className="comman_btn table_viewbtn"
-                                  href="user-details.html"
-                                >
-                                  View
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>4</td>
-                              <td>Ajay Sharma</td>
-                              <td>9899012312</td>
-                              <td>01/07/2022</td>
-                              <td>1004</td>
-                              <td>
-                                <a
-                                  className="comman_btn table_viewbtn"
-                                  href="user-details.html"
-                                >
-                                  View
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>5</td>
-                              <td>Ajay Sharma</td>
-                              <td>9899012312</td>
-                              <td>01/07/2022</td>
-                              <td>1005</td>
-                              <td>
-                                <a
-                                  className="comman_btn table_viewbtn"
-                                  href="user-details.html"
-                                >
-                                  View
-                                </a>{" "}
-                              </td>
-                            </tr>
+                            {(orders || [])?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  {item?.userId?.firstName +
+                                    " " +
+                                    item?.userId?.lastName}
+                                </td>
+                                <td>{item?.userId?.phoneNumber}</td>
+                                <td>{item?.createdAt?.slice(0, 10)}</td>
+                                <td>{item?.orderId}</td>
+                                <td>
+                                  <button
+                                    className="comman_btn table_viewbtn"
+                                    onClick={() => {
+                                      navigate("/OrderRequest/ViewOrder", {
+                                        state: {
+                                          id: item?._id,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    View
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>

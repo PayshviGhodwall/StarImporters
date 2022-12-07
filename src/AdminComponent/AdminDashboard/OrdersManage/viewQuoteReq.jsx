@@ -1,10 +1,32 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const ViewQuoteReq = () => {
   const [sideBar, setSideBar] = useState(true);
+  let location = useLocation();
+  const QuoteView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/singleUserQuote`;
+  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
+  const [quote, setQuote] = useState([]);
+  const [quotetatus, setQuoteStatus] = useState();
+  const [newPrice, setNewPrice] = useState();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
+
+  let id = location?.state?.id;
+
+  useEffect(() => {
+    QuoteDetails();
+  }, []);
+
+  const QuoteDetails = async () => {
+    await axios.get(QuoteView + "/" + id).then((res) => {
+      setQuote(res?.data.results);
+    });
+  };
+
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -85,7 +107,7 @@ const ViewQuoteReq = () => {
                   className=""
                   to="/brandsManage"
                   style={{ textDecoration: "none", fontSize: "18px" }}
-                >
+                > 
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}
                     class="fa fa-ship"
@@ -187,26 +209,26 @@ const ViewQuoteReq = () => {
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
-                      <h2>Order Details</h2>
+                      <h2>Quotation Request Details</h2>
                     </div>
                   </div>
                   <div className="row p-4 py-5">
                     <div className="col-12 mb-4">
                       <div className="row mx-0 border rounded py-4 px-3 position-relative">
-                        <span className="small_header">Order Details</span>
+                        <span className="small_header">Request Details </span>
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Order Date:</span>
+                            <span>Request Date:</span>
                             <div className="col">
-                              <strong>10/09/2022</strong>
+                              <strong>{quote?.createdAt?.slice(0, 10)}</strong>
                             </div>
                           </div>
                         </div>
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Order Id:</span>
+                            <span>Request Id:</span>
                             <div className="col">
-                              <strong>ASD8ASDJ8ASD</strong>
+                              <strong>{quote?.quoteId}</strong>
                             </div>
                           </div>
                         </div>
@@ -214,7 +236,7 @@ const ViewQuoteReq = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Total Products:</span>
                             <div className="col">
-                              <strong>200</strong>
+                              <strong>{quote?.products?.length}</strong>
                             </div>
                           </div>
                         </div>
@@ -234,130 +256,66 @@ const ViewQuoteReq = () => {
                                   />
                                 </th>
                                 <th>Quantity</th>
+                                <th>Total</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>
-                                  <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                    <div className="col-auto">
-                                      <span className="cart_product">
-                                        <img
-                                          src="assets/img/product_new9.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                    <div className="col">
-                                      <div className="cart_content">
-                                        <h3>Elf Bar 5000Puff</h3>
-                                        <p>Bar Code: 232323</p>
-                                        <span className="ordertext my-2 d-block ">
-                                          Ordered On: 12/12/2021
+                              {(quote?.products || [])?.map((item, index) => (
+                                <tr>
+                                  <td>
+                                    <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
+                                      <div className="col-auto">
+                                        <span className="cart_product">
+                                          <img
+                                            src={item?.productId?.productImage}
+                                            alt=""
+                                          />
                                         </span>
                                       </div>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <span className="quantity_text">2</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                    <div className="col-auto">
-                                      <span className="cart_product">
-                                        <img
-                                          src="assets/img/product_new9.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                    <div className="col">
-                                      <div className="cart_content">
-                                        <h3>Elf Bar 5000Puff</h3>
-                                        <p>Bar Code: 45645</p>
-                                        <span className="ordertext my-2 d-block ">
-                                          Ordered On: 12/12/2021
-                                        </span>
+                                      <div className="col">
+                                        <div className="cart_content ">
+                                          <h3 className="fs-5">
+                                            {item?.productId?.unitName}
+                                          </h3>
+                                          <p>
+                                            Barcode :{" "}
+                                            {item?.productId?.pBarcode[0]}
+                                          </p>
+                                          <span className="ordertext my-2 d-block ">
+                                            <label className=" mb-2 fw-bold">
+                                              Add Price :
+                                            </label>
+                                            <input
+                                              type="number"
+                                              className="form-control fs-6"
+                                              style={{ width: "120px" }}
+                                              onChange={(e) => {
+                                                let price = e.target.value;
+                                                setNewPrice(e.target.value);
+                                                setTotalPrice(price * item?.quantity);
+                                              }}
+                                            ></input>
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <span className="quantity_text">2</span>
-                                </td>
-                              </tr>
+                                  </td>
+                                  <td>
+                                    <span className="quantity_text fs-5 fw-bold">
+                                      {item?.quantity}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="quantity_text fs-5 fw-bold">
+                                      {totalPrice}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 mb-5">
-                      <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                        <span className="small_header">
-                          Change Order Status
-                        </span>
-                        <div className="col-12 Change_staus">
-                          <form
-                            className="form-design row align-items-end"
-                            action=""
-                          >
-                            <div className="form-group mb-0 col">
-                              <label htmlFor="">Order Status</label>
-                              <select
-                                className="form-select form-control"
-                                aria-label="Default select example"
-                              >
-                                <option value={1}>Order Placed</option>
-                                <option value={2}>Dispatched</option>
-                                <option selected="" value={3}>
-                                  Shipped
-                                </option>
-                                <option value={3}>Delivered</option>
-                              </select>
-                            </div>
-                            <div className="form-group mb-0 col-auto">
-                              <button className="comman_btn">Save</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                        <span className="small_header">Shipment Details</span>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Buyer Name:</span>
-                            <div className="col">
-                              <strong>Ajay Sharma</strong>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Email:</span>
-                            <div className="col">
-                              <strong>ajay@gmail.com</strong>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Mobile Number:</span>
-                            <div className="col">
-                              <strong>+1 80910923123</strong>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Shipment Location:</span>
-                            <div className="col">
-                              <strong>Lorem ipsum dolor sit,</strong>
-                            </div>
+                          <div className="text-center">
+                            <button className="comman_btn">Share</button>
                           </div>
                         </div>
                       </div>

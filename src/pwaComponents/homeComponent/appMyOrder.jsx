@@ -28,6 +28,7 @@ function AppMyOrder() {
                 <div className="col-12 mb-3" key={index}>
                   <Link
                     to="/app/order-detail"
+                    state={{id:item?._id}}
                     className="my_orderbox position-relative shadow"
                   >
                     <div className="left_part">

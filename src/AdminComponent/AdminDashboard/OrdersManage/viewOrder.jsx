@@ -1,10 +1,44 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
+  let location = useLocation();
+  const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
+  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
+  const [orders, setOrders] = useState([]);
+  const [orderStatus, setOrderStatus] = useState();
+  const navigate = useNavigate();
+
+  let id = location?.state?.id;
+
+  useEffect(() => {
+    OrderDetails();
+  }, []);
+
+  const OrderDetails = async () => {
+    await axios.get(orderView + "/" + id).then((res) => {
+      setOrders(res?.data.results);
+    });
+  };
+  const UpdateOrderStatus = async (e) => {
+    e.preventDefault();
+    await axios.post(updateOrder + "/" + id, {
+      status: orderStatus,
+    }).then((res)=>{
+      if(!res?.error){
+        Swal.fire({
+          title: "Order Status Updated",
+          icon: "success",
+          button: "Ok",
+        });
+      }
+    })
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -198,7 +232,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Date:</span>
                             <div className="col">
-                              <strong>10/09/2022</strong>
+                              <strong>{orders?.createdAt?.slice(0, 10)}</strong>
                             </div>
                           </div>
                         </div>
@@ -206,7 +240,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Id:</span>
                             <div className="col">
-                              <strong>ASD8ASDJ8ASD</strong>
+                              <strong>{orders?.orderId}</strong>
                             </div>
                           </div>
                         </div>
@@ -214,7 +248,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Total Products:</span>
                             <div className="col">
-                              <strong>200</strong>
+                              <strong>{orders?.products?.length}</strong>
                             </div>
                           </div>
                         </div>
@@ -237,58 +271,42 @@ const ViewOrder = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>
-                                  <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                    <div className="col-auto">
-                                      <span className="cart_product">
-                                        <img
-                                          src="assets/img/product_new9.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                    <div className="col">
-                                      <div className="cart_content">
-                                        <h3>Elf Bar 5000Puff</h3>
-                                        <p>Bar Code: 232323</p>
-                                        <span className="ordertext my-2 d-block ">
-                                          Ordered On: 12/12/2021
+                              {(orders?.products || [])?.map((item, index) => (
+                                <tr>
+                                  <td>
+                                    <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
+                                      <div className="col-auto">
+                                        <span className="cart_product">
+                                          <img
+                                            src={item?.productId?.productImage}
+                                            alt=""
+                                          />
                                         </span>
                                       </div>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <span className="quantity_text">2</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                    <div className="col-auto">
-                                      <span className="cart_product">
-                                        <img
-                                          src="assets/img/product_new9.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                    <div className="col">
-                                      <div className="cart_content">
-                                        <h3>Elf Bar 5000Puff</h3>
-                                        <p>Bar Code: 45645</p>
-                                        <span className="ordertext my-2 d-block ">
-                                          Ordered On: 12/12/2021
-                                        </span>
+                                      <div className="col">
+                                        <div className="cart_content ">
+                                          <h3 className="fs-5">
+                                            {item?.productId?.unitName}
+                                          </h3>
+                                          <p>{item?.productId?.pBarcode[0]}</p>
+                                          <span className="ordertext my-2 d-block ">
+                                            Ordered On:{" "}
+                                            {item?.productId?.createdAt?.slice(
+                                              0,
+                                              10
+                                            )}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <span className="quantity_text">2</span>
-                                </td>
-                              </tr>
+                                  </td>
+                                  <td>
+                                    <span className="quantity_text">
+                                      {item?.quantity}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
                         </div>
@@ -309,17 +327,27 @@ const ViewOrder = () => {
                               <select
                                 className="form-select form-control"
                                 aria-label="Default select example"
+                                onChange={(e) => {
+                                  setOrderStatus(e.target.value);
+                                }}
                               >
-                                <option value={1}>Order Placed</option>
-                                <option value={2}>Dispatched</option>
-                                <option selected="" value={3}>
-                                  Shipped
+                                <option selected="">{orders?.status}</option>
+                                <option value="ORDER PLACED">
+                                  Order Placed
                                 </option>
-                                <option value={3}>Delivered</option>
+                                <option value="DISPATCHED">Dispatched</option>
+                                <option value="SHIPPED">Shipped</option>
+                                <option value="DELIVERED">Delivered</option>
+                                <option value="CANCEL">Canceled</option>
                               </select>
                             </div>
                             <div className="form-group mb-0 col-auto">
-                              <button className="comman_btn">Save</button>
+                              <button
+                                className="comman_btn"
+                                onClick={UpdateOrderStatus}
+                              >
+                                Save
+                              </button>
                             </div>
                           </form>
                         </div>
@@ -332,7 +360,11 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Buyer Name:</span>
                             <div className="col">
-                              <strong>Ajay Sharma</strong>
+                              <strong>
+                                {orders?.userId?.firstName +
+                                  " " +
+                                  orders?.userId?.lastName}
+                              </strong>
                             </div>
                           </div>
                         </div>
@@ -340,7 +372,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Email:</span>
                             <div className="col">
-                              <strong>ajay@gmail.com</strong>
+                              <strong>{orders?.userId?.email}</strong>
                             </div>
                           </div>
                         </div>
@@ -348,7 +380,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Mobile Number:</span>
                             <div className="col">
-                              <strong>+1 80910923123</strong>
+                              <strong>{orders?.userId?.phoneNumber}</strong>
                             </div>
                           </div>
                         </div>
@@ -356,7 +388,15 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Shipment Location:</span>
                             <div className="col">
-                              <strong>Lorem ipsum dolor sit,</strong>
+                              <strong>
+                                {orders?.userId?.addressLine[0] +
+                                  "," +
+                                  orders?.userId?.city +
+                                  "," +
+                                  orders?.userId?.state +
+                                  "-" +
+                                  orders?.userId?.zipcode}
+                              </strong>
                             </div>
                           </div>
                         </div>

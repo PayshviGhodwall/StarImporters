@@ -131,12 +131,12 @@ export async function updateCart(formData) {
     );
     console.log(data);
     if (!data.error) {
-      toast.success(data.message);
+      // toast.success(data.message);
     } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -174,7 +174,7 @@ export async function deleteCart(id) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -355,7 +355,7 @@ export async function addToCart(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message );
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -373,7 +373,7 @@ export async function addToQuote(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }

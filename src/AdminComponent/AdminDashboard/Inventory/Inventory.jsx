@@ -11,10 +11,7 @@ import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue((value) => value + 1); // update state to force render
-}
+
 const Inventory = () => {
   const [productImage, setProductImage] = useState();
   const [flavourImages, setFlavourImages] = useState([]);
@@ -246,7 +243,7 @@ const Inventory = () => {
       console.log(res);
       setUploadError(res?.data.message);
       if (res?.data.message === "Imported Successfully") {
-        window.location.reload(false)
+        window.location.reload(false);
       }
     });
     document.getElementById("reUpload").hidden = false;
@@ -786,7 +783,7 @@ const Inventory = () => {
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
-                            <tr  style={{backgroundColor:"#f2f2f2"}}>
+                            <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
                               <th>Date</th>
                               <th>Product Name</th>
@@ -809,7 +806,7 @@ const Inventory = () => {
                                 }
                               })
                               .map((User, index) => (
-                                <tr key={index} className="" >
+                                <tr key={index} className="">
                                   <td>{index + 1}.</td>
                                   <td>{User?.createdAt.slice(0, 10)}</td>
                                   <td>{User?.unitName}</td>
@@ -880,7 +877,9 @@ const Inventory = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={()=>{window.location.reload(false)}}
+                onClick={() => {
+                  window.location.reload(false);
+                }}
                 id="modal-close66"
               />
 

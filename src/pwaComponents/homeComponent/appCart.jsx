@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   deleteCart,
   getCart,
+  searchByBarcode,
   updateCart,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
@@ -12,7 +13,7 @@ import WebHeader2 from "./webHeader2";
 function AppCart() {
   const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(0);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     getCarts();
   }, []);
@@ -42,10 +43,26 @@ const navigate = useNavigate()
       getCarts();
     }
   };
+
+  const cameraScan = async () => {
+    if (window.flutter_inappwebview) {
+      let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
+      if (Dd) {
+        const { data } = await searchByBarcode({
+          barcode: Dd,
+        });
+        if (!data.error) {
+          if (data.results.length)
+            navigate(`/app/product-detail/${data.results[0]._id}`);
+          window.location.reload();
+        }
+      }
+    }
+  };
   // var toggle = document.getElementById('container');
   // var toggleContainer = document.getElementById('toggle-container');
   // var toggleNumber;
-  
+
   // toggle.addEventListener('click', function() {
   //   toggleNumber = !toggleNumber;
   //   if (toggleNumber) {
@@ -57,6 +74,40 @@ const navigate = useNavigate()
   //   }
   //   console.log(toggleNumber)
   // });
+  const HandleDecrease = async (id) => {
+    const formData = {
+      productId: cart[id]?.productId?._id,
+      quantity: cart[id]?.quantity,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      setCart((cart) =>
+        cart?.map((item, ind) =>
+          id === ind
+            ? {
+                ...item,
+                quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0),
+              }
+            : item
+        )
+      );
+    }
+  };
+  const HandleIncrease = async (id) => {
+    console.log(id);
+    const formData = {
+      productId: cart[id]?.productId?._id,
+      quantity: cart[id]?.quantity,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      setCart((cart) =>
+        cart?.map((item, ind) =>
+          id === ind ? { ...item, quantity: item?.quantity + 1 } : item
+        )
+      );
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -70,15 +121,26 @@ const navigate = useNavigate()
 
             <div id="container">
               <div class="inner-container">
-                <div class="toggle" onClick={()=>{navigate("/app/quotes")}}>
-                  <p  className="text-dark fw-bold">Quotes</p>
+                <div
+                  class="toggle"
+                  onClick={() => {
+                    navigate("/app/quotes");
+                  }}
+                >
+                  <p className="text-dark fw-bold">Quotes</p>
                 </div>
-                <div class="toggle"  style={{backgroundColor:"#eb3237"}} onClick={()=>{navigate("/app/cart")}} >
+                <div
+                  class="toggle"
+                  style={{ backgroundColor: "#eb3237" }}
+                  onClick={() => {
+                    navigate("/app/cart");
+                  }}
+                >
                   <p className="text-white fw-bold">Cart</p>
                 </div>
               </div>
-            
             </div>
+
             <div
               class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
@@ -96,15 +158,15 @@ const navigate = useNavigate()
         <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="container">
-            <div className="cart-wrapper-area py-3">
+            <div className="cart-wrapper-area py-3 ">
               <div className="cart-table card mb-3">
-                <div className="table-responsive card-body">
+                <div className="table-responsive card-body p-1">
                   <table className="table mb-0">
                     <tbody>
                       {(cart || []).map((item, index) => {
                         return (
                           <tr>
-                            <th scope="row">
+                            <th scope="">
                               <Link
                                 className="remove-product"
                                 to=""
@@ -133,8 +195,26 @@ const navigate = useNavigate()
                             </td>
                             <td>
                               <div className="quantity">
+                                <span
+                                  className="minus fs-5 fw-bold ms-5"
+                                  style={{ userSelect: "none" }}
+                                  onClick={() => {
+                                    HandleDecrease(index);
+                                  }}
+                                >
+                                  {item?.quantity <= 1 ? (
+                                    <i
+                                      class="fa fa-trash fs-6 text-danger"
+                                      onClick={() =>
+                                        deleteProduct(item?.productId._id)
+                                      }
+                                    ></i>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </span>
                                 <input
-                                  className="qty-text"
+                                  className="qty-text mx-2"
                                   type="text"
                                   id={`quantity${index}`}
                                   value={item?.quantity}
@@ -145,6 +225,15 @@ const navigate = useNavigate()
                                     )
                                   }
                                 />
+                                <span
+                                  className="plus fs-5 fw-bold"
+                                  style={{ userSelect: "none" }}
+                                  onClick={() => {
+                                    HandleIncrease(index);
+                                  }}
+                                >
+                                  +
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -154,24 +243,33 @@ const navigate = useNavigate()
                   </table>
                 </div>
               </div>
-
-              <div className="card cart-amount-area">
-                <div className="card-body d-flex align-items-center justify-content-between">
-                  <h5 className="total-price mb-0"></h5>
-                  {cart ? <Link className="comman_btn" to="/app/checkout">
-                    Checkout Now
-                  </Link> 
-                  :
-                  <Link className="comman_btn" to="/app/checkout">
-                  Start Shopping
-                </Link>
-                  }
-                 
+              <div className="row">
+                <div className=" col-6 cart-amount-area ms-0">
+                  <div className="card-body d-flex align-items-center justify-content-between">
+                    <h5 className="total-price mb-0"></h5>
+                    {cart ? (
+                      <Link className="comman_btn" to="/app/checkout">
+                        Checkout
+                      </Link>
+                    ) : (
+                      <Link className="comman_btn" to="/app/checkout">
+                        Start Shopping
+                      </Link>
+                    )}
+                  </div>
+                </div>
+                <div className="col-6 cart-amount-area">
+                  <div className="card-body d-flex align-items-center justify-content-between">
+                    <h5 className="total-price mb-0"></h5>
+                    <a className="comman_btn2" onClick={cameraScan}>
+                      <i className="fa fa-qrcode mx-1"></i> <span>Scan QR</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>{" "}
+        </div>
         <AppFooter />
       </div>
     </>
