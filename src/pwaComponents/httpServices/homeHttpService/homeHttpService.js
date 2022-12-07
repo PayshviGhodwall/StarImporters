@@ -238,7 +238,7 @@ export async function getCategory() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -251,7 +251,7 @@ export async function getAllProducts() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -266,7 +266,7 @@ export async function getByCategory(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -281,7 +281,7 @@ export async function getByBrands(formData) {
 
     return { data };
   } catch (error) {
-    if (error?.response) toast.error(error.response.data.message);
+    if (error?.response) 
     return { error };
   }
 }
@@ -295,7 +295,7 @@ export async function similarProduct() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -309,7 +309,7 @@ export async function getBrands() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -323,7 +323,7 @@ export async function getSubCategories() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -336,7 +336,7 @@ export async function getProductDetaill(id) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -388,7 +388,7 @@ export async function homeSearch(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }

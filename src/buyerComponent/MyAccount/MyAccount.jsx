@@ -183,7 +183,7 @@ const MyAccount = () => {
                       {(orderDetails || [])?.map((item, index) => (
                         <div className="col-6 mb-3 d-flex" key={index}>
                           <Link
-                            href="order-details.html"
+                            to=""
                             className="my_orderbox position-relative text-decoration-none"
                           >
                             <div className="left_part">

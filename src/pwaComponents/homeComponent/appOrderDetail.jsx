@@ -18,7 +18,7 @@ function AppOrderDetail() {
   }, []);
   const OrderDetails = async () => {
     await axios.get(getOrderDetails + "/" + id).then((res) => {
-      setOrders(res?.data.results);
+      setOrders(res?.data.results?.orders);
     });
   };
 
@@ -39,7 +39,7 @@ function AppOrderDetail() {
                         <span className="data_main">Order Date :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">10/09/2022</span>
+                        <span className="data_submain">{orders?.createdAt?.slice(0,10)}</span>
                       </div>
                     </div>
                   </div>
@@ -49,7 +49,7 @@ function AppOrderDetail() {
                         <span className="data_main">Order Id :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">ASD8ASDJ8ASD</span>
+                        <span className="data_submain">{orders?.orderId}</span>
                       </div>
                     </div>
                   </div>
@@ -59,7 +59,7 @@ function AppOrderDetail() {
                         <span className="data_main">Total Products :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">200</span>
+                        <span className="data_submain">{orders?.products?.length}</span>
                       </div>
                     </div>
                   </div>
@@ -70,12 +70,14 @@ function AppOrderDetail() {
                   <div className="table-responsive card-body">
                     <table className="table mb-0">
                       <tbody>
-                        <tr>
+                        {(orders?.products || [])?.map((item,index)=>(
+
+<tr key={index}>
                           <td>
                             <div className="cart_icon">
                               <img
                                 className=""
-                                src="../assets/img/product_1.png"
+                                src={item?.productId?.productImage}
                                 alt=""
                               />
                             </div>
@@ -83,13 +85,13 @@ function AppOrderDetail() {
                           <td>
                             <div className="order_items">
                               <Link to="/app/product-detail">
-                                BLVK Frznberry
+                              {item?.productId?.unitName}
                               </Link>
                               <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
+                                Bar Code: <span>{item?.productId?.pBarcode[0]}</span>
                               </div>
                               <div className="bar_code mt-1">
-                                Ordered On: <span>12/12/2021</span>
+                                Ordered On: <span>{item?.productId?.createdAt?.slice(0,10)}</span>
                               </div>
                             </div>
                           </td>
@@ -98,75 +100,14 @@ function AppOrderDetail() {
                               <input
                                 className="qty-text"
                                 type="text"
-                                value="1"
+                                value={item?.quantity}
                               />
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src="../assets/img/product_4.png"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">
-                                Cherry Pineapple
-                              </Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
-                              </div>
-                              <div className="bar_code mt-1">
-                                Ordered On: <span>12/12/2021</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value="1"
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src="../assets/img/product_5.png"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">4K's Wraps</Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
-                              </div>
-                              <div className="bar_code mt-1">
-                                Ordered On: <span>12/12/2021</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value="1"
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                        ))}
+                        
+                     
                       </tbody>
                     </table>
                   </div>
@@ -265,7 +206,7 @@ function AppOrderDetail() {
                         <span className="data_main">Buyer Name :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">David</span>
+                        <span className="data_submain">{}</span>
                       </div>
                     </div>
                   </div>
