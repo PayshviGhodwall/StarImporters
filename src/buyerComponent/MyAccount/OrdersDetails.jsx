@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
@@ -9,18 +9,21 @@ import Profile from "./Profile";
 const OrderDetails = () => {
   const [users, setUsers] = useState([]);
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-  const getOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/getOrder`;
+  const getOrderDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/viewOrder`;
   const [orderDetails, setOrderDetails] = useState([]);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
 
+  let location = useLocation();
+  let id = location?.state?.id;
+
   useEffect(() => {
-    const GetOrders = async () => {
-      await axios.get(getOrder).then((res) => {
+    const GetOrder = async () => {
+      await axios.get(getOrderDetails + "/" + id).then((res) => {
         setOrderDetails(res?.data.results?.orders);
       });
     };
-    GetOrders();
+    GetOrder();
     getUser();
   }, []);
 
@@ -35,7 +38,7 @@ const OrderDetails = () => {
       <section className="comman_banner _banner">
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            <div className="col-lg-12">
               <h1>My Account</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
@@ -70,7 +73,7 @@ const OrderDetails = () => {
         </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
-            <div className="col-lg-3   col-md-3 col-sm-5 col-xs-5 ">
+            <div className="col-lg-3   col-md-3 col-sm-3 col-xs-3 ">
               <div className="row  ">
                 {/* My Account Tab Menu Start */}
                 <div className="myaccount_tabs bg-white p-2">
@@ -165,7 +168,7 @@ const OrderDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 ">
+            <div className="col-xl-9 col-md-9 col-sm-9 ">
               <div className="bg-white p-4 ">
                 <div className="tab-content" id="nav-tabContent">
                   <div
@@ -174,7 +177,7 @@ const OrderDetails = () => {
                     role="tabpanel"
                     aria-labelledby="nav-home-tab"
                   >
-                    <div className="col-xl-9">
+                    <div className="col-xl-12 justify content center">
                       <div className="bg-white p-4">
                         <div className="tab-content" id="nav-tabContent">
                           <div
@@ -196,42 +199,27 @@ const OrderDetails = () => {
                                   </span>
                                   <div className="col-4">
                                     <div className="row">
-                                      <div className="col-6">
+                                      <div className="col-12 d-flex">
                                         <span className="data_main">
-                                          Order Date :
-                                        </span>
-                                      </div>
-                                      <div className="col-6">
-                                        <span className="data_submain">
-                                          10/09/2022
+                                          Order Date : {orderDetails?.createdAt?.slice(0,10)}
                                         </span>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-4">
+                                  <div className="col-5">
                                     <div className="row">
-                                      <div className="col-6">
+                                      <div className="col-12 d-flex">
                                         <span className="data_main">
-                                          Order Id :
-                                        </span>
-                                      </div>
-                                      <div className="col-6">
-                                        <span className="data_submain">
-                                          ASD8ASDJ8ASD
+                                          Order Id : {orderDetails?.orderId}
                                         </span>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-4">
+                                  <div className="col-3">
                                     <div className="row">
-                                      <div className="col text-center">
+                                      <div className="col-12 text-center">
                                         <span className="data_main">
-                                          Total Products :
-                                        </span>
-                                      </div>
-                                      <div className="col-auto">
-                                        <span className="data_submain">
-                                          200
+                                          Total Products : {orderDetails?.products?.length}
                                         </span>
                                       </div>
                                     </div>
@@ -255,62 +243,38 @@ const OrderDetails = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                          <td>
-                                            <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                              <div className="col-auto">
-                                                <span className="cart_product">
-                                                  <img
-                                                    src="assets/img/product_new1.png"
-                                                    alt=""
-                                                  />
-                                                </span>
-                                              </div>
-                                              <div className="col">
-                                                <div className="cart_content">
-                                                  <h3>Elf Bar 5000Puff</h3>
-                                                  <p>Bar Code: 232323</p>
-                                                  <span className="ordertext my-2 d-block ">
-                                                    Ordered On: 12/12/2021
-                                                  </span>
+                                        {(orderDetails?.products || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
+                                                  <div className="col-auto">
+                                                    <span className="cart_product">
+                                                      <img
+                                                        src={item?.productId?.productImage}
+                                                        alt=""
+                                                      />
+                                                    </span>
+                                                  </div>
+                                                  <div className="col">
+                                                    <div className="cart_content">
+                                                      <h3>{item?.productId?.unitName}</h3>
+                                                      <p>Bar Code: {item?.productId?.pBarcode[0]}</p>
+                                                      <span className="ordertext my-2 d-block ">
+                                                        Ordered On: {item?.productId?.createdAt?.slice(0,10)}
+                                                      </span>
+                                                    </div>
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <span className="quantity_text">
-                                              2
-                                            </span>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>
-                                            <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                              <div className="col-auto">
-                                                <span className="cart_product">
-                                                  <img
-                                                    src="assets/img/product_new9.png"
-                                                    alt=""
-                                                  />
+                                              </td>
+                                              <td>
+                                                <span className="quantity_text">
+                                                  {item?.quantity}
                                                 </span>
-                                              </div>
-                                              <div className="col">
-                                                <div className="cart_content">
-                                                  <h3>Elf Bar 5000Puff</h3>
-                                                  <p>Bar Code: 45645</p>
-                                                  <span className="ordertext my-2 d-block ">
-                                                    Ordered On: 12/12/2021
-                                                  </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <span className="quantity_text">
-                                              2
-                                            </span>
-                                          </td>
-                                        </tr>
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
                                       </tbody>
                                     </table>
                                   </div>

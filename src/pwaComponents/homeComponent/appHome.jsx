@@ -177,30 +177,34 @@ function AppHome() {
                   View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
                 </Link>
               </div>
-              <OwlCarousel
-                className="flash-sale-slide"
-                autoplay={true}
-                autoplayHoverPause={false}
-                autoplayTimeout={5000}
-                dots={false}
-                loop={true}
-                nav={false}
-                fade={false}
-                items={3}
-                margin={10}
-              >
-                {(brand || []).map((item, index) => {
-                  return (
-                    <div className="card flash-sale-card item" key={index}>
-                      <div className="card-body">
-                        <Link to="/app/brands">
-                          <img src={item?.brandImage} alt="" />
-                        </Link>
+              {brand.length ? (
+                <OwlCarousel
+                  className="flash-sale-slide"
+                  autoplay={true}
+                  autoplayHoverPause={false}
+                  autoplayTimeout={5000}
+                  dots={false}
+                  loop={true}
+                  nav={false}
+                  fade={false}
+                  items={3}
+                  margin={10}
+                >
+                  {brand.map((item, index) => {
+                    return (
+                      <div className="card flash-sale-card item" key={index}>
+                        <div className="card-body">
+                          <Link to="/app/brands">
+                            <img src={item?.brandImage} alt="" />
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </OwlCarousel>
+                    );
+                  })}
+                </OwlCarousel>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
