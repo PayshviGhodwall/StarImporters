@@ -36,17 +36,17 @@ function AppProductDetail() {
   useEffect(() => {
     getProductDetail();
     userInfo();
-  }, [flavour,id]);
-  const userInfo =async()=>{
-    await axios.get(userData).then((res)=>{
-     setUserDetail(res?.data?.results)
-    })
-   }
+  }, [flavour, id]);
+  const userInfo = async () => {
+    await axios.get(userData).then((res) => {
+      setUserDetail(res?.data?.results);
+    });
+  };
   const getProductDetail = async () => {
     const { data } = await getProductDetaill(id);
     if (!data.error) {
       setProductDetail(data.results);
-      setCategoryName(data?.results?.category)
+      setCategoryName(data?.results?.category);
     }
   };
   const getQuantity = (type) => {
@@ -94,20 +94,24 @@ function AppProductDetail() {
       });
   };
   const addToFav = async () => {
-    await axios.post(addFav, {
-      productId: productDetail?._id,
-    }).then((res)=>{
-      toast.success(res?.data?.message);
-    })
+    await axios
+      .post(addFav, {
+        productId: productDetail?._id,
+      })
+      .then((res) => {
+        toast.success(res?.data?.message);
+      });
     getProductDetail();
     setHeart(!heart);
   };
   const rmvFromFav = async () => {
-    await axios.post(rmvFav, {
-      productId: productDetail._id,
-    }).then((res)=>{
-      toast.error(res?.data?.message);
-    })
+    await axios
+      .post(rmvFav, {
+        productId: productDetail._id,
+      })
+      .then((res) => {
+        toast.error(res?.data?.message);
+      });
     getProductDetail();
     setHeart(!heart);
   };
@@ -144,7 +148,7 @@ function AppProductDetail() {
 
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper">
-          {productDetail ? (
+            {productDetail?.productImage ? (
               <OwlCarousel
                 className=" product-slides "
                 autoplay={true}
@@ -199,23 +203,23 @@ function AppProductDetail() {
                 </div>
                 <div className="p-wishlist-share">
                   <Link>
-                        {productDetail?.favourities ? (
-                          <i
-                            class="fa fa-heart"
-                            onClick={() => {
-                              rmvFromFav();
-                            }}
-                            style={{ color: "#3e4093 " }}
-                          />
-                        ) : (
-                          <i
-                            class="fa fa-heart"
-                            onClick={() => {
-                              addToFav();
-                            }}
-                            style={{ color: "#E1E1E1 " }}
-                          />
-                        )}
+                    {productDetail?.favourities ? (
+                      <i
+                        class="fa fa-heart"
+                        onClick={() => {
+                          rmvFromFav();
+                        }}
+                        style={{ color: "#3e4093 " }}
+                      />
+                    ) : (
+                      <i
+                        class="fa fa-heart"
+                        onClick={() => {
+                          addToFav();
+                        }}
+                        style={{ color: "#E1E1E1 " }}
+                      />
+                    )}
                   </Link>
                 </div>
               </div>
@@ -291,28 +295,22 @@ function AppProductDetail() {
                   >
                     Add To Cart
                   </Link>
-                  {userDetail?.quotation === true ? 
-
-                  <button className="comman_btn2" type="submit" 
-                    onClick={() => AddtoQuotess()}
+                  {userDetail?.quotation === true ? (
+                    <button
+                      className="comman_btn2"
+                      type="submit"
+                      onClick={() => AddtoQuotess()}
                     >
-                    Request Quotation
-                  </button>
-                  :
-                  null
-}
+                      Request Quotation
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>
 
             <div className="pb-3"></div>
             {console.log(productDetail?.category?.categoryName)}
-            <SimlarProduct
-              categoryName={categoryName}
-            />
-            
-           
-            
+            <SimlarProduct categoryName={categoryName} />
           </div>
         </div>
 
