@@ -163,7 +163,7 @@ function AppCart() {
                 <div className="table-responsive card-body p-1">
                   <table className="table mb-0">
                     <tbody>
-                      {(cart || []).map((item, index) => {
+                      {(cart || [])?.map((item, index) => {
                         return (
                           <tr>
                             <th scope="">
@@ -194,7 +194,7 @@ function AppCart() {
                               </Link>
                             </td>
                             <td>
-                              <div className="quantity">
+                              <div className="quantity d-flex">
                                 <span
                                   className="minus fs-5 fw-bold ms-5"
                                   style={{ userSelect: "none" }}
@@ -244,25 +244,25 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                <div className=" col-6 cart-amount-area ms-0">
+                <div className=" col-6 cart-amount-area p-1">
                   <div className="card-body d-flex align-items-center justify-content-between">
                     <h5 className="total-price mb-0"></h5>
-                    {cart ? (
+                    {cart?.length ? (
                       <Link className="comman_btn" to="/app/checkout">
                         Checkout
                       </Link>
                     ) : (
-                      <Link className="comman_btn" to="/app/checkout">
+                      <Link className="comman_btn " to="/app/checkout">
                         Start Shopping
                       </Link>
                     )}
                   </div>
                 </div>
-                <div className="col-6 cart-amount-area">
+                <div className="col-6 cart-amount-area p-1">
                   <div className="card-body d-flex align-items-center justify-content-between">
                     <h5 className="total-price mb-0"></h5>
                     <a className="comman_btn2" onClick={cameraScan}>
-                      <i className="fa fa-qrcode mx-1"></i> <span>Scan QR</span>
+                    Scan Barcode
                     </a>
                   </div>
                 </div>

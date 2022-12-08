@@ -28,7 +28,7 @@ function AppCheckout() {
         
        }).then((res)=>{
         if (!res.error) {
-          toast.success(res?.data.message)
+          console.log(res?.data.message)
         }
        })
     }
@@ -40,7 +40,7 @@ function AppCheckout() {
 
        }).then((res)=>{
         if (!res.error) {
-          toast.success(res?.data.message)
+          console.log(res?.data.message)
         }
        })
     }
@@ -51,7 +51,7 @@ function AppCheckout() {
 
        }).then((res)=>{
         if (!res.error) {
-          toast.success(res?.data.message)
+          console.log(res?.data.message)
         }
        })
     }

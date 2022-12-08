@@ -1,4 +1,5 @@
 import axios from "axios";
+import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,11 +11,16 @@ const ViewOrder = () => {
   let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
+  const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
 
   let id = location?.state?.id;
+
+  const fileDownload = (url,name) => {
+    saveAs(url,name);
+  };
 
   useEffect(() => {
     OrderDetails();
@@ -39,6 +45,27 @@ const ViewOrder = () => {
       }
     })
   };
+  const exportOrder = async()=>{
+  await axios.post(orderExport,{
+    orderDate:orders?.createdAt?.slice(0, 10),
+    orderId :orders?.orderId,
+    products:orders?.products?.length,
+    item : orders?.products?.map((item)=>(
+      item?.productId?.unitName
+    )),
+    quantity:orders?.products?.map((item)=>(
+      item?.quantity
+    )),
+     buyerName:orders?.userId?.firstName,
+     buyerEmail:orders?.userId?.email,
+     buyerMobile:orders?.userId?.phoneNumber,
+     buyerLocation:orders?.userId?.addressLine[0]
+  }).then((res)=>{
+    if(!res?.error){
+      fileDownload(res?.data.results?.file,orders?.orderId)
+    }
+  })
+  }
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -223,6 +250,9 @@ const ViewOrder = () => {
                     <div className="col-auto">
                       <h2>Order Details</h2>
                     </div>
+                    <div className="col-auto">
+                      <button className="comman_btn2" onClick={exportOrder}>Export <i class="fa fa-download"></i></button>
+                    </div>
                   </div>
                   <div className="row p-4 py-5">
                     <div className="col-12 mb-4">
@@ -286,9 +316,9 @@ const ViewOrder = () => {
                                       <div className="col">
                                         <div className="cart_content ">
                                           <h3 className="fs-5">
-                                            {item?.productId?.unitName}
+                                           {item?.productId?.unitName}
                                           </h3>
-                                          <p>{item?.productId?.pBarcode[0]}</p>
+                                          <p>Barcode : {item?.productId?.pBarcode[0]}</p>
                                           <span className="ordertext my-2 d-block ">
                                             Ordered On:{" "}
                                             {item?.productId?.createdAt?.slice(
@@ -356,7 +386,7 @@ const ViewOrder = () => {
                     <div className="col-12">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                         <span className="small_header">Shipment Details</span>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Buyer Name:</span>
                             <div className="col">
@@ -368,7 +398,7 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Email:</span>
                             <div className="col">
@@ -376,7 +406,7 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Mobile Number:</span>
                             <div className="col">
@@ -396,6 +426,16 @@ const ViewOrder = () => {
                                   orders?.userId?.state +
                                   "-" +
                                   orders?.userId?.zipcode}
+                              </strong>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6 my-3 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Order Type:</span>
+                            <div className="col">
+                              <strong>
+                                {orders?.type}
                               </strong>
                             </div>
                           </div>

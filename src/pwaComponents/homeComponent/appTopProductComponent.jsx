@@ -48,7 +48,7 @@ function TopProduct() {
     await axios.post(addFav, {
       productId: product[index]?._id,
     }).then((res)=>{
-      toast.success(res?.data?.message);
+      // toast.success(res?.data?.message);
     })
     getProductList()
     setHeart(!heart);
@@ -57,7 +57,7 @@ function TopProduct() {
     await axios.post(rmvFav, {
       productId: product[index]?._id,
     }).then((res)=>{
-      toast.error(res?.data?.message);
+      // toast.error(res?.data?.message);
     })
     getProductList()
     setHeart(!heart);

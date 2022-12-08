@@ -11,7 +11,7 @@ export async function privacyPolicy(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response)
     return { error };
   }
 }
@@ -26,7 +26,7 @@ export async function aboutUs(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -41,7 +41,7 @@ export async function tAndC(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response)
     return { error };
   }
 }
@@ -53,13 +53,13 @@ export async function changePassword(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) 
     return { error };
   }
 }
@@ -74,7 +74,7 @@ export async function getUserProfile(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -103,7 +103,7 @@ export async function getCart() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -117,7 +117,7 @@ export async function getQuotes() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -130,9 +130,9 @@ export async function updateCart(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      // toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   // toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
@@ -148,13 +148,13 @@ export async function updateQuote(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -168,9 +168,9 @@ export async function deleteCart(id) {
       id
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
@@ -187,13 +187,13 @@ export async function deleteQuote(id) {
       id
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response)  console.log(error.response.data.message);
     return { error };
   }
 }
@@ -205,13 +205,13 @@ export async function editProfile(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -225,7 +225,7 @@ export async function homeBanner() {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -349,9 +349,9 @@ export async function addToCart(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message + " " + " to Cart");
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message + " " + " to Cart");
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
@@ -367,9 +367,9 @@ export async function addToQuote(formData) {
       formData
     );
     console.log(data);
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.error(data.message);
 
     return { data };
   } catch (error) {
@@ -404,7 +404,7 @@ export async function searchByBarcode(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }

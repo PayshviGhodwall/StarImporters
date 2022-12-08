@@ -6,6 +6,7 @@ import {
   getCart,
   getQuotes,
   updateCart,
+  updateQuote,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
@@ -59,6 +60,44 @@ function AppQuotes() {
   //   }
   //   console.log(toggleNumber)
   // });
+   const HandleDecrease = async (id) => {
+    const formData = {
+      productId: quotes[id]?.productId?._id,
+      quantity: quotes[id]?.quantity,
+    };
+    const { data } = await updateQuote(formData);
+    if (!data.error) {
+      setQuotes((quotes) =>
+        quotes?.map((item, ind) =>
+          id === ind
+            ? {
+                ...item,
+                quantity: item?.quantity - (item[0]?.quantity > 1 ? 1 : 0),
+              }
+            : item
+        )
+      );
+    }
+  };
+
+
+  const HandleIncrease = async (id) => {
+    console.log(id);
+    const formData = {
+      productId: quotes[id]?.productId?._id,
+      quantity: quotes[id]?.quantity,
+    };
+    const { data } = await updateQuote(formData);
+    if (!data.error) {
+      setQuotes((quotes) =>
+        quotes?.map((item, ind) =>
+          id === ind ? { ...item, quantity: item[0]?.quantity + 1 } : item
+        )
+      );
+    }
+  };
+
+
   return (
     <>
       <div className="star_imp_app">
@@ -135,9 +174,27 @@ function AppQuotes() {
                               </Link>
                             </td>
                             <td>
-                              <div className="quantity">
+                            <div className="quantity d-flex">
+                                <span
+                                  className="minus fs-5 fw-bold ms-5"
+                                  style={{ userSelect: "none" }}
+                                  onClick={() => {
+                                    HandleDecrease(index);
+                                  }}
+                                >
+                                  {item?.quantity <= 1 ? (
+                                    <i
+                                      class="fa fa-trash fs-6 text-danger"
+                                      onClick={() =>
+                                        deleteProduct(item?.productId._id)
+                                      }
+                                    ></i>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </span>
                                 <input
-                                  className="qty-text"
+                                  className="qty-text mx-2"
                                   type="text"
                                   id={`quantity${index}`}
                                   value={item?.quantity}
@@ -148,6 +205,15 @@ function AppQuotes() {
                                     )
                                   }
                                 />
+                                <span
+                                  className="plus fs-5 fw-bold"
+                                  style={{ userSelect: "none" }}
+                                  onClick={() => {
+                                    HandleIncrease(index);
+                                  }}
+                                >
+                                  +
+                                </span>
                               </div>
                             </td>
                           </tr>

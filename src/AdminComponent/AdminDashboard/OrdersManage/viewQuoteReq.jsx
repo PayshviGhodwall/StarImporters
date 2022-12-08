@@ -211,6 +211,7 @@ const ViewQuoteReq = () => {
                     <div className="col-auto">
                       <h2>Quotation Request Details</h2>
                     </div>
+                    
                   </div>
                   <div className="row p-4 py-5">
                     <div className="col-12 mb-4">
@@ -288,13 +289,18 @@ const ViewQuoteReq = () => {
                                             <input
                                               type="number"
                                               className="form-control fs-6"
-                                              style={{ width: "120px" }}
+                                              style={{ width: "80px" }}
                                               onChange={(e) => {
                                                 let price = e.target.value;
-                                                setNewPrice(e.target.value);
-                                                setTotalPrice(price * item?.quantity);
+                                               setQuote((quote)=>
+                                                 quote?.products?.map((item,ind)=>(
+                                                  index === ind ? { ...item, price: item?.price * price } : item
+                                                 ))
+                                               )
                                               }}
+                                              
                                             ></input>
+                                            
                                           </span>
                                         </div>
                                       </div>
@@ -307,7 +313,7 @@ const ViewQuoteReq = () => {
                                   </td>
                                   <td>
                                     <span className="quantity_text fs-5 fw-bold">
-                                      {totalPrice}
+                                      {item?.price}
                                     </span>
                                   </td>
                                 </tr>
