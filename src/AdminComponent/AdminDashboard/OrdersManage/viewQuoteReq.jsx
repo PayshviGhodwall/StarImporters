@@ -10,9 +10,7 @@ const ViewQuoteReq = () => {
   const QuoteView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/singleUserQuote`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const [quote, setQuote] = useState([]);
-  const [quotetatus, setQuoteStatus] = useState();
-  const [newPrice, setNewPrice] = useState();
-  const [totalPrice, setTotalPrice] = useState(0);
+  
   const navigate = useNavigate();
 
   let id = location?.state?.id;
