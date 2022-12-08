@@ -144,48 +144,52 @@ function AppProductDetail() {
 
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper">
-            <OwlCarousel
-              className=" product-slides "
-              autoplay={true}
-              autoplayHoverPause={false}
-              autoplayTimeout={5000}
-              dots={false}
-              loop={true}
-              nav={false}
-              fade={false}
-              items={1}
-            >
-              <div className="single-product-slide item">
-                <img
-                  src={
-                    flavour?.flavourImage
-                      ? flavour?.flavourImage
-                      : productDetail?.productImage
-                  }
-                  alt=""
-                />
-              </div>
-              <div className="single-product-slide item">
-                <img
-                  src={
-                    flavour?.flavourImage
-                      ? flavour?.flavourImage
-                      : productDetail?.productImage
-                  }
-                  alt=""
-                />
-              </div>
-              <div className="single-product-slide item">
-                <img
-                  src={
-                    flavour?.flavourImage
-                      ? flavour?.flavourImage
-                      : productDetail?.productImage
-                  }
-                  alt=""
-                />
-              </div>
-            </OwlCarousel>
+          {productDetail ? (
+              <OwlCarousel
+                className=" product-slides "
+                autoplay={true}
+                autoplayHoverPause={false}
+                autoplayTimeout={5000}
+                dots={false}
+                loop={true}
+                nav={false}
+                fade={false}
+                items={1}
+              >
+                <div className="single-product-slide item">
+                  <img
+                    src={
+                      flavour?.flavourImage
+                        ? flavour?.flavourImage
+                        : productDetail?.productImage
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className="single-product-slide item">
+                  <img
+                    src={
+                      flavour?.flavourImage
+                        ? flavour?.flavourImage
+                        : productDetail?.productImage
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className="single-product-slide item">
+                  <img
+                    src={
+                      flavour?.flavourImage
+                        ? flavour?.flavourImage
+                        : productDetail?.productImage
+                    }
+                    alt=""
+                  />
+                </div>
+              </OwlCarousel>
+            ) : (
+              ""
+            )}
           </div>
           <div className="product-description pb-3">
             <div className="product-title-meta-data bg-white mb-3 py-3">
