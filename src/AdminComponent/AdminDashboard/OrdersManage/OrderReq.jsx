@@ -224,7 +224,7 @@ const OrderReq = () => {
                             aria-controls="nav-home"
                             aria-selected="true"
                           >
-                            Order<span className="circle_count">{orders[0]?.products?.length ? orders[0]?.products?.length : 0 }</span>
+                            Order<span className="circle_count">{orders?.length ? orders?.length : 0 }</span>
                           </button>
                           <button
                             className="nav-link"
@@ -237,7 +237,7 @@ const OrderReq = () => {
                             aria-selected="false"
                           >
                             Quotation Request
-                            <span className="circle_count">{quoteReq[0]?.products?.length ? quoteReq[0]?.products?.length : 0}</span>
+                            <span className="circle_count">{quoteReq?.length ? quoteReq?.length : 0}</span>
                           </button>
                         </div>
                       </nav>

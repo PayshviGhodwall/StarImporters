@@ -269,7 +269,7 @@ const Account = () => {
               </div>
             </div>
 
-            <div className="col-lg-9 ">
+            <div className="col-lg-9 col-md-9 col-sm-9">
               <div className="bg-white p-4 ">
                 <div className="row mx-0 py-2">
                   <div className="col-12 text-end mb-4">

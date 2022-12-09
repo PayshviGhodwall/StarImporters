@@ -154,7 +154,7 @@ const Address = () => {
               </div>
             </div>
 
-            <div className="col-lg-9 ">
+            <div className="col-lg-9 col-md-9 col-sm-9">
               <div className="bg-white p-4 ">
                 <div className="row">
                   <div className=" pt-3">

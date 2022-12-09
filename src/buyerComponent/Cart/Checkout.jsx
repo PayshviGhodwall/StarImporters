@@ -10,7 +10,7 @@ const Checkout = () => {
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const autoClose = () => {
     document.getElementById("close").click();
   };
@@ -23,69 +23,72 @@ const Checkout = () => {
     };
     getUser();
   }, []);
-  const createOrder = async()=>{
-    
-    if(delevryChoice == "Shipment"){
-      await axios.post(newOrder,{
-        type:"Shipment",
-        address:users?.addressLine[0] + users?.addressLine[1]
-        
-       }).then((res)=>{
-        if (!res.error) {
-          Swal.fire({
-            title: "Hurray! Order Placed.",
-            text: "You can Track your order on my account",
-            icon: "success",
-            confirmButtonText: "My Orders",
-          }).then((res) => {
-            navigate("/MyAccount");
-          });
-        }
-       })
-    }
-    else if(delevryChoice == "Delivery") {
-      await axios.post(newOrder,{
-        type:"Delivery",
-        address:users?.addressLine[0] + users?.addressLine[1]
-        
+  const createOrder = async () => {
+    if (delevryChoice == "Shipment") {
+      await axios
+        .post(newOrder, {
+          type: "Shipment",
+          address: users?.addressLine[0] + users?.addressLine[1],
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Hurray! Order Placed.",
+              text: "You can Track your order on my account",
+              icon: "success",
+              confirmButtonText: "View Order",
+            }).then((data) => {
+              navigate("/OrderDetails", {
+                state: { id: res?.data.results?.order._id },
+              });
+            });
+          }
+        });
+    } else if (delevryChoice == "Delivery") {
+      await axios
+        .post(newOrder, {
+          type: "Delivery",
+          address: users?.addressLine[0] + users?.addressLine[1],
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Hurray! Order Placed.",
+              text: "You can Track your order on my account",
 
-       }).then((res)=>{
-        if (!res.error) {
-          Swal.fire({
-            title: "Hurray! Order Placed.",
-            text: "You can Track your order on my account",
-            
-            icon: "success",
-            confirmButtonText: "My Orders",
-          }).then((res) => {
-            navigate("/MyAccount");
-          });
-        }
-       })
-    }
-    else if(delevryChoice == "In-Store Pickup") {
-      await axios.post(newOrder,{
-        type:"In-Store Pickup",
-        address:users?.addressLine[0] + users?.addressLine[1]
+              icon: "success",
+              confirmButtonText: "View Order",
+            }).then((data) => {
+              navigate("/OrderDetails", {
+                state: { id: res?.data.results.order._id },
+              });
+            });
+          }
+        });
+    } else if (delevryChoice == "In-Store Pickup") {
+      await axios
+        .post(newOrder, {
+          type: "In-Store Pickup",
+          address: users?.addressLine[0] + users?.addressLine[1],
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Hurray! Order Placed.",
+              text: "You can Track your order on my account",
 
-       }).then((res)=>{
-        if (!res.error) {
-          Swal.fire({
-            title: "Hurray! Order Placed.",
-            text: "You can Track your order on my account",
-            
-            icon: "success",
-            confirmButtonText: "My Orders",
-          }).then((res) => {
-            navigate("/MyAccount");
-          });
-        }
-       })
+              icon: "success",
+              confirmButtonText: "View Order",
+            }).then((data) => {
+              navigate("/OrderDetails", {
+                state: { id: res?.data.results.order._id },
+              });
+            });
+          }
+        });
     }
-   
-  }
-  
-  console.log(users?.state);
+  };
+
   return (
     <div>
       <Navbar />
@@ -151,7 +154,6 @@ const Checkout = () => {
                           name="radioo"
                           onClick={() => {
                             setDelevryChoice("In-Store Pickup");
-                            
                           }}
                         />
                         <label htmlFor="new_radio">In-Store Pickup</label>
@@ -204,8 +206,7 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="col-12 pt-3 mb-4">
-                { delevryChoice == "Shipment" || delevryChoice == "Delivery" ?
-                (
+                {delevryChoice == "Shipment" || delevryChoice == "Delivery" ? (
                   <div className="row mx-0 Checkout_address">
                     <span>Address :</span>
                     <h2>{users?.firstName}</h2>
@@ -232,7 +233,9 @@ const Checkout = () => {
                 )}
               </div>
               <div className="col-12 text-start">
-                <button className="comman_btn" onClick={createOrder}>Proceed</button>
+                <button className="comman_btn" onClick={createOrder}>
+                  Proceed
+                </button>
               </div>
             </div>
           </div>

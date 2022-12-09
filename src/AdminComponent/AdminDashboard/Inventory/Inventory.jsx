@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
+import ReactPaginate from "react-paginate";
 
 const Inventory = () => {
   const [productImage, setProductImage] = useState();
@@ -47,6 +48,10 @@ const Inventory = () => {
   const [NN, setNN] = useState(Math.random());
   const [NewMessage, setNewMessage] = useState("");
   const scrollBy = useScrollBy();
+  const [postsPerPage] = useState(30);
+  const [offset, setOffset] = useState(1);
+  const [posts, setAllPosts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
   const {
     register,
     handleSubmit,
@@ -68,13 +73,20 @@ const Inventory = () => {
 
     getBrands();
     GetProducts();
-  }, [change]);
+  }, [change, offset]);
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setOffset(selectedPage + 1);
+  };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
   const GetProducts = async () => {
     await axios.post(getProducts).then((res) => {
-      setAllProducts(res.data?.results);
+      let data = res?.data.results;
+      let slice = data.slice(offset - 1, offset - 1 + postsPerPage);
+      setAllProducts(slice);
+      setPageCount(Math.ceil(data?.length / postsPerPage));
     });
   };
   const NewSubCategory = async (e) => {
@@ -256,6 +268,21 @@ const Inventory = () => {
   const ProductStatus = async (index) => {
     await axios.post(prodStatus + "/" + allProducts[index]?._id).then((res) => {
       console.log(res);
+    });
+  };
+  const OnSearching = async () => {
+    await axios.post(getProducts).then((res) => {
+      let data = res?.data.results;
+      let filter = data.filter((User) => {
+        if (searchTerm == "") {
+          return User;
+        } else if (
+          User?.unitName.toLowerCase().includes(searchTerm?.toLowerCase())
+        ) {
+          return User;
+        }
+      });
+      setAllProducts(filter);
     });
   };
   return (
@@ -740,6 +767,7 @@ const Inventory = () => {
                             name="name"
                             id="name"
                             onChange={(e) => {
+                              OnSearching(e);
                               setSearchTerm(e.target.value);
                             }}
                           />
@@ -793,64 +821,65 @@ const Inventory = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {(allProducts || [])
-                              .filter((User) => {
-                                if (searchTerm == "") {
-                                  return User;
-                                } else if (
-                                  User?.unitName
-                                    .toLowerCase()
-                                    .includes(searchTerm?.toLowerCase())
-                                ) {
-                                  return User;
-                                }
-                              })
-                              .map((User, index) => (
-                                <tr key={index} className="">
-                                  <td>{index + 1}.</td>
-                                  <td>{User?.createdAt.slice(0, 10)}</td>
-                                  <td>{User?.unitName}</td>
-                                  <td>
-                                    <img width={40} src={User?.productImage} />
-                                  </td>
-                                  <td>
-                                    {" "}
-                                    <div className="toggle-switch">
-                                      <input
-                                        type="checkbox"
-                                        className="checkbox"
-                                        id={index + 1}
-                                        defaultChecked={User?.status}
-                                        onClick={() => {
-                                          ProductStatus(index);
-                                        }}
-                                      />
-                                      <label
-                                        className="label"
-                                        htmlFor={index + 1}
-                                      >
-                                        <span className="inner" />
-                                        <span className="switch" />
-                                      </label>
-                                    </div>
-                                  </td>
-
-                                  <td>
-                                    <Link
-                                      className="comman_btn2  text-decoration-none"
-                                      to={{
-                                        pathname: "/Inventory/View-Edit",
+                            {(allProducts || [])?.map((User, index) => (
+                              <tr key={index} className="">
+                                <td>{index + 1}.</td>
+                                <td>{User?.createdAt.slice(0, 10)}</td>
+                                <td>{User?.unitName}</td>
+                                <td>
+                                  <img width={40} src={User?.productImage} />
+                                </td>
+                                <td>
+                                  {" "}
+                                  <div className="toggle-switch">
+                                    <input
+                                      type="checkbox"
+                                      className="checkbox"
+                                      id={index + 1}
+                                      defaultChecked={User?.status}
+                                      onClick={() => {
+                                        ProductStatus(index);
                                       }}
-                                      state={{ id: User?._id }}
-                                      id={index}
+                                    />
+                                    <label
+                                      className="label"
+                                      htmlFor={index + 1}
                                     >
-                                      View
-                                    </Link>
-                                  </td>
-                                </tr>
-                              ))}
+                                      <span className="inner" />
+                                      <span className="switch" />
+                                    </label>
+                                  </div>
+                                </td>
+
+                                <td>
+                                  <Link
+                                    className="comman_btn2  text-decoration-none"
+                                    to={{
+                                      pathname: "/Inventory/View-Edit",
+                                    }}
+                                    state={{ id: User?._id }}
+                                    id={index}
+                                  >
+                                    View
+                                  </Link>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
+                      </div>
+                      <div className="col-12 d-flex justify-content-center">
+                        <ReactPaginate
+                          previousLabel={"< previous"}
+                          nextLabel={"next >"}
+                          breakLabel={"..."}
+                          breakClassName={"break-me"}
+                          pageCount={pageCount}
+                          onPageChange={handlePageClick}
+                          containerClassName={"pagination"}
+                          subContainerClassName={"pages pagination"}
+                          activeClassName={"active"}
+                        />
                       </div>
                     </div>
                   </div>

@@ -9,6 +9,7 @@ import axios from "axios";
 import { post } from "jquery";
 import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
+import Swal from "sweetalert2";
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
@@ -26,9 +27,7 @@ const Cms = () => {
   const [editedAbout, setEditedAbout] = useState("");
   const [editedTerms, setEditedTerms] = useState("");
   const [editedPrivacy, setEditedPrivacy] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-
+  const [selectedFile, setSelectedFile] = useState();
   const AllSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`;
   const EditSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`;
   const AddSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/addSlide`;
@@ -51,6 +50,7 @@ const Cms = () => {
 
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
+    setSelectedFile(e.target.files[0]);
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -73,7 +73,12 @@ const Cms = () => {
       .then((res) => {
         console.log(res);
         if (res?.data.message === "Slide Modified Successfully") {
-          setChange(!change);
+          getSlides();
+          Swal.fire({
+            title: "Slide Modified!",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
@@ -87,12 +92,16 @@ const Cms = () => {
       .then((res) => {
         console.log(res);
         if (res?.data.message === "Slide Modified Successfully") {
-          setChange(!change);
+          getSlides();
+          Swal.fire({
+            title: "Slide Modified",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
   const onSubmit = async (data) => {
-    console.log(data, "joi");
 
     const formData = new FormData();
     formData.append("title", data.slideTitle);
@@ -101,9 +110,13 @@ const Cms = () => {
     await axios
       .post(EditSlide + "/" + slideData[0]?._id, formData)
       .then((res) => {
-        console.log(res);
-        if (res?.data.message === "Slide Modified Successfully") {
-          setChange(!change);
+        if (!res.error) {
+          getSlides()
+          Swal.fire({
+            title: "Slide Modified!",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
@@ -277,7 +290,6 @@ const Cms = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
                   <i
@@ -304,7 +316,11 @@ const Cms = () => {
                 <Link
                   className="bg-white"
                   to="/Cms"
-                  style={{ textDecoration: "none", fontSize: "18px",color:"#3e4093" }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    color: "#3e4093",
+                  }}
                 >
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}

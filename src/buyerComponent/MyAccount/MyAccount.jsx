@@ -165,7 +165,7 @@ const MyAccount = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 ">
+            <div className="col-xl-9 col-md-9 col-sm-9">
               <div className="bg-white p-4 ">
                 <div className="tab-content" id="nav-tabContent">
                   <div

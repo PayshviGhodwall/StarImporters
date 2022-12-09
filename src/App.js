@@ -94,6 +94,7 @@ import AppProductBrands from "./pwaComponents/homeComponent/appProductBrands";
 import AppCategories from "./pwaComponents/homeComponent/appCategories";
 import AppQuotes from "./pwaComponents/homeComponent/appQuotes";
 import OrderDetails from "./buyerComponent/MyAccount/OrdersDetails";
+import RequestDetails from "./buyerComponent/MyAccount/ReqDetails";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -122,6 +123,7 @@ function App() {
           />
           <Route path="/RequestOrder" element={<RequestOrders />} />
           <Route path="/OrderDetails" element={<OrderDetails />} />
+          <Route path="/RequestDetails" element={<RequestDetails />} />
           <Route path="/MainMenu" element={<MainMenu />} />
           <Route path="/Address" element={<Address />} />
           <Route path="/Account" element={<Account />} />

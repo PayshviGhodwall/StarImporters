@@ -286,20 +286,20 @@ const OrderDetails = () => {
                                     Track Your Order
                                   </span>
                                   <ul className="track_order list-unstyled mb-0">
-                                    <li className="active">
+                                    <li className={orderDetails?.status === "DISPATCHED" || orderDetails?.status === "SHIPPED" || orderDetails?.status === "DELIVERED" ? "active" : "" }>
                                       <span className="track_circle" />
                                       Order Placed
                                     </li>
-                                    <li>
+                                    <li className={orderDetails?.status === "SHIPPED" || orderDetails?.status === "DELIVERED" ? "active" : "" }>
                                       <span className="track_circle" />
                                       Dispatched
                                     </li>
-                                    <li>
+                                    <li className={orderDetails?.status === "DELIVERED" ? "active" : "" }>
                                       <span className="track_circle" />
                                       Shipped
                                     </li>
                                     <li>
-                                      <span className="track_circle" />
+                                      <span className={orderDetails?.status === "DELIVERED" ? "track_circle fw-bold text-success" : "track_circle" } />
                                       Delivered
                                     </li>
                                   </ul>
@@ -319,7 +319,7 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                          David
+                                        {orderDetails?.userId?.firstName + " "+ orderDetails?.userId?.lastName }
                                         </span>
                                       </div>
                                     </div>
@@ -333,7 +333,7 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                          david@gmail.com
+                                          {orderDetails?.userId?.email}
                                         </span>
                                       </div>
                                     </div>
@@ -347,7 +347,7 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                          +1 80910923123
+                                          {orderDetails?.userId?.phoneNumber}
                                         </span>
                                       </div>
                                     </div>
@@ -361,7 +361,7 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                          Lorem ipsum dolor sit,
+                                           {orderDetails?.userId?.addressLine[0]}
                                         </span>
                                       </div>
                                     </div>

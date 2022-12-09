@@ -1,9 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppRequestDetail() {
+  const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
+  const [quoteDetails, setQuoteDetails] = useState([]);
+ 
+
+  let location = useLocation();
+  let id = location?.state?.id;
+
+  useEffect(() => {
+    const GetQuote = async () => {
+      await axios.post(getQuoteDetails,{
+        quoteId:id
+      }).then((res) => {
+        setQuoteDetails(res?.data.results);
+      });
+    };
+    GetQuote();
+  }, []);
   return (
     <>
       <div className="star_imp_app">
@@ -20,7 +39,7 @@ function AppRequestDetail() {
                         <span className="data_main">Request Date :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">10/09/2022</span>
+                        <span className="data_submain">{}</span>
                       </div>
                     </div>
                   </div>

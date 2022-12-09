@@ -37,21 +37,20 @@ const Homepage = () => {
   useEffect(() => {
     let x = document.cookie;
     let token = localStorage.getItem("token-user");
-   if(!token){
-    if (x === "") {
-      const modal = document.getElementById("age_modal");
-      setTimeout(() => {
-        modal.click();
-      }, 1000);
+    if (!token) {
+      if (x === "") {
+        const modal = document.getElementById("age_modal");
+        setTimeout(() => {
+          modal.click();
+        }, 1000);
+      }
     }
-  }
     getSlides();
-    getCategory();  
+    getCategory();
     getBrands();
     AllProducts();
-
   }, []);
-const AllProducts = async () => {
+  const AllProducts = async () => {
     await axios.post(allProd).then((res) => {
       console.log(res);
       setFeatured(res?.data.results);
@@ -227,52 +226,63 @@ const AllProducts = async () => {
             <h2>Featured Products</h2>
           </div>
           <div className="row">
-            {(featured || [])?.filter((item, idx) => idx < 8).map((item,index)=>(
-                    <div className="col-lg-3 col-md-4 col-sm-4" key={index}>
-                    <div className="product_parts_box shadow">
-                      <div className="partsproduct_img ">
-                        <img
-                          src={item?.productImage}
-                          className="mt-3 mb-3"
-                          alt="Product"
-                        />
-                      </div>
-                      <div className="product_content mt-3 text-center">
-                        <FontAwesomeIcon  />
-                        <Link
-                          to=""
-                          style={{
-                            textDecoration: "none",
-                            color: "#3e4093",
-                            fontWeight: "600",
-                            fontFamily: "poppins",
-                          }}
-                        >
-                          {item?.unitName}
+            {(featured || [])
+              ?.filter((item, idx) => idx < 8)
+              .map((item, index) => (
+                <div className="col-lg-3 col-md-4 col-sm-4" key={index}>
+                  <div
+                    className="product_parts_box shadow"
+                    onClick={() =>
+                      navigate("/AllProducts/Product", {
+                        state: {
+                          id: item?._id,
+                        
+                        },
+                      })
+                    }
+                  >
+                    <div className="partsproduct_img ">
+                      <img
+                        src={item?.productImage}
+                        className="mt-3 mb-3"
+                        alt="Product"
+                      />
+                    </div>
+                    <div className="product_content mt-3 text-center">
+                      <FontAwesomeIcon />
+                      <Link
+                        to=""
+                        style={{
+                          textDecoration: "none",
+                          color: "#3e4093",
+                          fontWeight: "600",
+                          fontFamily: "poppins",
+                        }}
+                      >
+                        {item?.unitName}
+                      </Link>
+                      <div className="rating_box mt-2 mb-1">
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
                         </Link>
-                        <div className="rating_box mt-2 mb-1">
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #CACACA" />
-                          </Link>
-                        </div>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #CACACA" />
+                        </Link>
                       </div>
                     </div>
                   </div>
-            ))}
-            
-</div>
+                </div>
+              ))}
+          </div>
         </div>
       </section>
       <section className="product_show_home">

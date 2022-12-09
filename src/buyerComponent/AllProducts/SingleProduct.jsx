@@ -394,7 +394,7 @@ const SingleProduct = () => {
                                   : "Price : $" + product?.productPrice}
                                 {flavour
                                   ? type[FInd]?.flavourPrice
-                                  : product?.productPrice}
+                                  : null}
                               </p>
                             </div>
                           ) : null}

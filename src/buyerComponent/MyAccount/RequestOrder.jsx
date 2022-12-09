@@ -7,21 +7,20 @@ import axios from "axios";
 import Profile from "./Profile";
 
 const RequestOrders = () => {
-  const [users, setUsers] = useState();
+  const [quotes, setQuotes] = useState([]);
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`
-
-  axios.defaults.headers.common["x-auth-token-user"] =
-    localStorage.getItem("loginToken");
+  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`
 
   useEffect(() => {
-    getUser();
+    GetQuote();
   }, []);
 
-  const getUser = async () => {
-    await axios.get(userApi).then((res) => {
-      setUsers(res?.data.results);
+  const GetQuote = async () => {
+    await axios.get(getQuotes).then((res) => {
+      setQuotes(res?.data.results);
     });
   };
+  console.log(quotes);
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -160,7 +159,7 @@ const RequestOrders = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 ">
+            <div className="col-xl-9 col-md-9 col-sm-9">
               <div className="bg-white p-4 ">
                 <div className="tab-content" id="nav-tabContent">
                   <div
@@ -175,116 +174,38 @@ const RequestOrders = () => {
                           <h2>Request Order :</h2>
                         </div>
                       </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
+                     
+                      {(quotes || [])?.map((item, index) => (
+                        <div className="col-6 mb-3 d-flex" key={index}>
+                          <Link
+                            to="/RequestDetails"
+                            state={{id:item?.quoteId}}
+                            className="my_orderbox position-relative text-decoration-none"
+                          >
+                            <div className="left_part">
+                              <div className="status_order d-block">
+                                Status: {item?.status}
+                              </div>
+                              <div className="order_id d-block mb-1">
+                                Request ID: <strong>{item?.quoteId}</strong>
+                              </div>
+                              <div className="date_box">
+                               Date : {item?.createdAt.slice(0, 10)}
+                              </div>
                             </div>
-                            <div className="order_id d-block mb-1">
-                              Request ID: <strong>12312</strong>
+                            <div className="items_box">
+                              <h2>Items :</h2>
+                              {(item?.products || []).map((item, ind) => (
+                                <ul className="list-unstyled mb-0">
+                                  <li key={ind}>{item?.productId?.unitName}</li>
+                                </ul>
+                              ))}
                             </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Request ID: <strong>234234</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>123123</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className="col-6 mb-3 d-flex">
-                        <Link
-                          href="order-details.html"
-                          className="my_orderbox position-relative text-decoration-none"
-                        >
-                          <div className="left_part">
-                            <div className="status_order d-block">
-                              Status: Pending
-                            </div>
-                            <div className="order_id d-block mb-1">
-                              Order ID: <strong>0990345</strong>
-                            </div>
-                            <div className="date_box">
-                              Sep 21, 2022 | <span>03:45 PM</span>
-                            </div>
-                          </div>
-                          <div className="items_box">
-                            <h2>Items :</h2>
-                            <ul className="list-unstyled mb-0">
-                              <li>BLVK Frznberry</li>
-                              <li>Cherry Pineapple</li>
-                              <li>4K's Wraps</li>
-                              <li>Elf Bar 5000Puff</li>
-                            </ul>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                          </Link>
+                        </div>
+                      ))}
+                     </div>
+                     </div>
 
                   <div
                     className="tab-pane fade"

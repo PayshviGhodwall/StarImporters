@@ -52,6 +52,21 @@ const MyQuotes = () => {
     }
    })
   }
+  const HandleIncrease = (id) => {
+    console.log(id);
+    setProduct((product) =>
+      product?.map((item, ind) =>
+        id === ind ? { ...item, quantity: item?.quantity + 1 } : item
+      )
+    );
+  };
+  const HandleDecrease = (id) => {
+    setProduct((product) =>
+      product.map((item, ind) =>
+        id === ind ? { ...item, quantity: item?.quantity - (item?.quantity > 1 ? 1:0) } : item
+      )
+    );
+  };
   return (
     <div>
       <Navbar />
@@ -187,14 +202,40 @@ const MyQuotes = () => {
                                     </div>
                                   </td>
                                   <td>
-                                    <div className="number">
-                                      <input
-                                        type="text"
-                                        className="border bg-light rounded"
-                                        style={{ width: "70px" }}
-                                        defaultValue={item?.quantity}
-                                      />
-                                    </div>
+                                  <div className="number me-md-4 mb-md-0 mb-3">
+                                          <span
+                                            className="minus"
+                                            style={{ userSelect: "none" }}
+                                            onClick={() => {
+                                              HandleDecrease(index);
+                                            }}
+                                          >
+                                            {item?.quantity <= 1 ? (
+                                              <i
+                                                class="fa fa-trash fs-6 text-danger"
+                                                onClick={() => {
+                                                  RemoveProduct(index);
+                                                }}
+                                              ></i>
+                                            ) : (
+                                              "-"
+                                            )}
+                                          </span>
+                                          <input
+                                            type="text"
+                                            value={item?.quantity}
+                                          
+                                          />
+                                          <span
+                                            className="plus"
+                                            style={{ userSelect: "none" }}
+                                            onClick={() => {
+                                              HandleIncrease(index);
+                                            }}
+                                          >
+                                            +
+                                          </span>
+                                        </div>
                                   </td>
                                 </tr>
                               ))}

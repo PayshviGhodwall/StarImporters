@@ -6,7 +6,7 @@ import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppRequests() {
-  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/getQuotes`;
+  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`;
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function AppRequests() {
                         Status: {item?.status}
                       </div>
                       <div className="order_id d-block mb-1">
-                        Request ID: <strong>{item?.orderId}</strong>
+                        Request ID: <strong>{item?.quoteId}</strong>
                       </div>
                       <div className="date_box">
                         {item?.createdAt.slice(0, 10)}

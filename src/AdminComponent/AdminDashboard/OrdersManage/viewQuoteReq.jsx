@@ -8,13 +8,11 @@ const ViewQuoteReq = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
   const QuoteView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/singleUserQuote`;
+  const setPrice = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/setQuotePrice`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
+  const [products,setProducts] = useState([{productId:[],quantity:[]}])
   const [quote, setQuote] = useState([]);
-  
-  const navigate = useNavigate();
-
   let id = location?.state?.id;
-
   useEffect(() => {
     QuoteDetails();
   }, []);
@@ -24,7 +22,23 @@ const ViewQuoteReq = () => {
       setQuote(res?.data.results);
     });
   };
+  const handleChange = (i, e) => {
+    let newProduct = [...products];
+    // newProduct.push("productId",quote?.products[i]?.productId?._id)
+    // newProduct.push("quantity",e.target.value)
+    newProduct[i][e.target.name] = e.target.value;
+    newProduct[i]["productId"] = quote?.products[i]?.productId?._id;
+    setProducts(newProduct);
+  console.log(products);
 
+  };
+  const shareQuotePrice = async () => {
+    await axios
+      .post(setPrice + "/" + id, {
+        products: products, 
+      })
+      .then((res) => {});
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -105,7 +119,7 @@ const ViewQuoteReq = () => {
                   className=""
                   to="/brandsManage"
                   style={{ textDecoration: "none", fontSize: "18px" }}
-                > 
+                >
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}
                     class="fa fa-ship"
@@ -209,7 +223,6 @@ const ViewQuoteReq = () => {
                     <div className="col-auto">
                       <h2>Quotation Request Details</h2>
                     </div>
-                    
                   </div>
                   <div className="row p-4 py-5">
                     <div className="col-12 mb-4">
@@ -255,7 +268,7 @@ const ViewQuoteReq = () => {
                                   />
                                 </th>
                                 <th>Quantity</th>
-                                <th>Total</th>
+                                {/* <th>Total</th> */}
                               </tr>
                             </thead>
                             <tbody>
@@ -286,19 +299,13 @@ const ViewQuoteReq = () => {
                                             </label>
                                             <input
                                               type="number"
+                                              name="quantity"
                                               className="form-control fs-6"
                                               style={{ width: "80px" }}
                                               onChange={(e) => {
-                                                let price = e.target.value;
-                                               setQuote((quote)=>
-                                                 quote?.products?.map((item,ind)=>(
-                                                  index === ind ? { ...item, price: item?.price * price } : item
-                                                 ))
-                                               )
+                                                handleChange(index,e)
                                               }}
-                                              
                                             ></input>
-                                            
                                           </span>
                                         </div>
                                       </div>
@@ -309,17 +316,17 @@ const ViewQuoteReq = () => {
                                       {item?.quantity}
                                     </span>
                                   </td>
-                                  <td>
+                                  {/* <td>
                                     <span className="quantity_text fs-5 fw-bold">
                                       {item?.price}
                                     </span>
-                                  </td>
+                                  </td> */}
                                 </tr>
                               ))}
                             </tbody>
                           </table>
                           <div className="text-center">
-                            <button className="comman_btn">Share</button>
+                            <button className="comman_btn" onClick={shareQuotePrice}>Share</button>
                           </div>
                         </div>
                       </div>

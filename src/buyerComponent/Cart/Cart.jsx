@@ -62,7 +62,9 @@ const Cart = () => {
   const HandleDecrease = (id) => {
     setProduct((product) =>
       product.map((item, ind) =>
-        id === ind ? { ...item, quantity: item?.quantity - (item?.quantity > 1 ? 1:0) } : item
+        id === ind
+          ? { ...item, quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0) }
+          : item
       )
     );
   };
@@ -122,7 +124,6 @@ const Cart = () => {
                     MY QUOTATIONS
                   </button>
                 </div>
-                
               </nav>
               <div className="container bg-white ">
                 <div className="row p-4">
@@ -147,24 +148,48 @@ const Cart = () => {
                                     >
                                       <td>
                                         <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
-                                          <div className="col-auto">
+                                          <div
+                                            className="col-auto"
+                                            onClick={() =>
+                                              navigate("/AllProducts/Product", {
+                                                state: {
+                                                  id: item?.productId?._id,
+                                                },
+                                              })
+                                            }
+                                          >
                                             <span className="cart_product bg-white">
                                               <img
                                                 src={
                                                   item?.productId?.productImage
                                                 }
+                                                style={{ cursor: "pointer" }}
                                                 alt=""
                                               />
                                             </span>
                                           </div>
                                           <div className="col">
                                             <div className="cart_content">
-                                              <Link className="text-decoration-none text-dark">
+                                              <h1
+                                                style={{ cursor: "pointer" }}
+                                                className="text-decoration-none text-dark"
+                                                onClick={() =>
+                                                  navigate(
+                                                    "/AllProducts/Product",
+                                                    {
+                                                      state: {
+                                                        id: item?.productId
+                                                          ?._id,
+                                                      },
+                                                    }
+                                                  )
+                                                }
+                                              >
                                                 {" "}
                                                 <h3 className="fs-5">
                                                   {item?.productId?.unitName}{" "}
                                                 </h3>
-                                              </Link>
+                                              </h1>
                                               <p>
                                                 Lorem ipsum dolor sit, amet
                                                 consectetur adipisicing elit.

@@ -10,7 +10,6 @@ function AppOrderDetail() {
   const navigate = useNavigate();
   let location = useLocation();
 
-
   let id = location?.state?.id;
 
   useEffect(() => {
@@ -22,7 +21,6 @@ function AppOrderDetail() {
     });
   };
 
-  
   return (
     <>
       <div className="star_imp_app">
@@ -39,7 +37,9 @@ function AppOrderDetail() {
                         <span className="data_main">Order Date :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">{orders?.createdAt?.slice(0,10)}</span>
+                        <span className="data_submain">
+                          {orders?.createdAt?.slice(0, 10)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -59,7 +59,9 @@ function AppOrderDetail() {
                         <span className="data_main">Total Products :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">{orders?.products?.length}</span>
+                        <span className="data_submain">
+                          {orders?.products?.length}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -70,44 +72,45 @@ function AppOrderDetail() {
                   <div className="table-responsive card-body">
                     <table className="table mb-0">
                       <tbody>
-                        {(orders?.products || [])?.map((item,index)=>(
-
-<tr key={index}>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src={item?.productId?.productImage}
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">
-                              {item?.productId?.unitName}
-                              </Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>{item?.productId?.pBarcode[0]}</span>
+                        {(orders?.products || [])?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="cart_icon">
+                                <img
+                                  className=""
+                                  src={item?.productId?.productImage}
+                                  alt=""
+                                />
                               </div>
-                              <div className="bar_code mt-1">
-                                Ordered On: <span>{item?.productId?.createdAt?.slice(0,10)}</span>
+                            </td>
+                            <td>
+                              <div className="order_items">
+                                <Link to="/app/product-detail">
+                                  {item?.productId?.unitName}
+                                </Link>
+                                <div className="bar_code mt-1">
+                                  Bar Code:{" "}
+                                  <span>{item?.productId?.pBarcode[0]}</span>
+                                </div>
+                                <div className="bar_code mt-1">
+                                  Ordered On:{" "}
+                                  <span>
+                                    {item?.productId?.createdAt?.slice(0, 10)}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value={item?.quantity}
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                            </td>
+                            <td>
+                              <div className="quantity">
+                                <input
+                                  className="qty-text"
+                                  type="text"
+                                  value={item?.quantity}
+                                />
+                              </div>
+                            </td>
+                          </tr>
                         ))}
-                        
-                     
                       </tbody>
                     </table>
                   </div>
@@ -129,7 +132,15 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className="single-order-status active">
+                    <div
+                      className={
+                        orders?.status === "DISPATCHED" ||
+                        orders?.status === "SHIPPED" ||
+                        orders?.status === "DELIVERED"
+                          ? "single-order-status active"
+                          : "single-order-status"
+                      }
+                    >
                       <div className="order-icon">
                         <i className="fa-solid fa-box-open"></i>
                       </div>
@@ -142,7 +153,14 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className="single-order-status active">
+                    <div
+                      className={
+                        orders?.status === "SHIPPED" ||
+                        orders?.status === "DELIVERED"
+                          ? "single-order-status active"
+                          : "single-order-status"
+                      }
+                    >
                       <div className="order-icon">
                         <i className="fa-solid fa-truck"></i>
                       </div>
@@ -155,7 +173,14 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className="single-order-status">
+                    <div
+                      className={
+                        orders?.status === "SHIPPED" ||
+                        orders?.status === "DELIVERED"
+                          ? "single-order-status active"
+                          : "single-order-status"
+                      }
+                    >
                       <div className="order-icon">
                         <i className="fa-solid fa-truck-fast"></i>
                       </div>
@@ -168,7 +193,7 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className="single-order-status">
+                    <div className={ orders?.status === "DELIVERED" ? "single-order-status active" : "single-order-status" }>
                       <div className="order-icon">
                         <i className="fa-solid fa-store"></i>
                       </div>
@@ -181,7 +206,13 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className="single-order-status">
+                    <div
+                      className={
+                        orders?.status === "DELIVERED"
+                          ? "single-order-status active"
+                          : "single-order-status"
+                      }
+                    >
                       <div className="order-icon">
                         <i className="fa-solid fa-heart-circle-check"></i>
                       </div>
@@ -206,7 +237,9 @@ function AppOrderDetail() {
                         <span className="data_main">Buyer Name :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">{}</span>
+                        <span className="data_submain">
+                          {orders?.userId?.firstName}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -216,7 +249,9 @@ function AppOrderDetail() {
                         <span className="data_main">Email:</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">david@gmail.com</span>
+                        <span className="data_submain">
+                          {orders?.userId?.email}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -226,7 +261,9 @@ function AppOrderDetail() {
                         <span className="data_main">Mobile Number:</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">+1 80910923123</span>
+                        <span className="data_submain">
+                          {orders?.userId?.phoneNumber}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -237,7 +274,7 @@ function AppOrderDetail() {
                       </div>
                       <div className="col-6">
                         <span className="data_submain">
-                          Lorem ipsum dolor sit,
+                          {orders?.userId?.addressLine[0]}
                         </span>
                       </div>
                     </div>

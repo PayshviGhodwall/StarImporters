@@ -4540,6 +4540,33 @@ background-color: #3e4093;
   .return_Reason .list-group {
     font-size: 15px;
   }
+   
+.pagination {
+  margin-top: 45px;
+  margin-left: -40px;
+  display: flex;
+  list-style: none;
+  outline: none;
+  border-radius: 30%;
+ }
+  
+ .pagination>.active>a {
+  background-color: #3b4093;
+  color: #fff;
+ }
+  
+ .pagination>li>a {
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+ }
+  
+ .pagination>li>a, .pagination>li>span {
+  color: #000;
+  background-color: #f2f2f2;
+  text-decoration: none;
+  
+ }
 
   /* Admin Finish */
 }

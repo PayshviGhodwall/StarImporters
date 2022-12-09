@@ -14,6 +14,8 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 import { post } from "jquery";
 import ProfileBar from "../ProfileBar";
+import ReactPaginate from "react-paginate";
+
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
@@ -41,6 +43,15 @@ const UserManage = () => {
   const navigate = useNavigate();
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
+  const [postsPerPage] = useState(30);
+  const [offset, setOffset] = useState(1);
+  const [posts, setAllPosts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setOffset(selectedPage + 1);
+  };
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -91,7 +102,11 @@ const UserManage = () => {
       const res = await axios.post(apiUrl, {
         type: "APPROVED",
       });
-      setApprovedUsers(res.data.results);
+      let data = res?.data.results;
+      let slice = data.slice(offset - 1, offset - 1 + postsPerPage);
+      setApprovedUsers(slice);
+
+      setPageCount(Math.ceil(data?.length / postsPerPage));
 
       return res.data;
     };
@@ -106,7 +121,7 @@ const UserManage = () => {
     getPendingUser();
     getApprovedUser();
     getRejectedUser();
-  }, [search]);
+  }, [search,offset]);
 
   const onUpload = async () => {
     setLoader(true);
@@ -661,6 +676,19 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
+                                  <div className="col-12 d-flex justify-content-center">
+                        <ReactPaginate
+                          previousLabel={"< previous"}
+                          nextLabel={"next >"}
+                          breakLabel={"..."}
+                          breakClassName={"break-me"}
+                          pageCount={pageCount}
+                          onPageChange={handlePageClick}
+                          containerClassName={"pagination"}
+                          subContainerClassName={"pages pagination"}
+                          activeClassName={"active"}
+                        />
+                      </div>
                                 </div>
                               </div>
                             </div>
