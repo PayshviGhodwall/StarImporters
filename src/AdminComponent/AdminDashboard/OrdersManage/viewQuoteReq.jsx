@@ -1,6 +1,7 @@
 import axios from "axios";
+import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
@@ -9,35 +10,76 @@ const ViewQuoteReq = () => {
   let location = useLocation();
   const QuoteView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/singleUserQuote`;
   const setPrice = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/setQuotePrice`;
-  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
-  const [products,setProducts] = useState([{productId:[],quantity:[]}])
+  const QuoteExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportQuotes`;
+  // const [products,setProducts] = useState([{productId:[],quantity:[],price:[]}])
   const [quote, setQuote] = useState([]);
+
+  const navigate = useNavigate();
   let id = location?.state?.id;
   useEffect(() => {
     QuoteDetails();
   }, []);
-
+  const fileDownload = (url, name) => {
+    saveAs(url, name);
+  };
   const QuoteDetails = async () => {
     await axios.get(QuoteView + "/" + id).then((res) => {
       setQuote(res?.data.results);
     });
   };
   const handleChange = (i, e) => {
-    let newProduct = [...products];
-    // newProduct.push("productId",quote?.products[i]?.productId?._id)
-    // newProduct.push("quantity",e.target.value)
-    newProduct[i][e.target.name] = e.target.value;
-    newProduct[i]["productId"] = quote?.products[i]?.productId?._id;
-    setProducts(newProduct);
-  console.log(products);
-
+    // let newProduct = [...products];
+    let newProducts = { ...quote };
+    newProducts.products[i].price = e.target.value;
+    // newProduct[i][e.target.name] = e.target.value;
+    // newProduct[i]["productId"] = quote?.products[i]?.productId?._id;
+    // newProduct[i]["quantity"] = quote?.products[i]?.quantity;
+    setQuote(newProducts);
   };
+  console.log(quote);
+
   const shareQuotePrice = async () => {
+    const product = [];
+    for (const prod of quote.products) {
+      product.push({
+        productId: prod?.productId?._id,
+        price: prod?.price,
+        quantity: prod?.quantity,
+      });
+    }
     await axios
       .post(setPrice + "/" + id, {
-        products: products, 
+        products: product,
       })
-      .then((res) => {});
+      .then((res) => {
+        if (!res?.error) {
+          Swal.fire({
+            title: "Price Shared!",
+            icon: "success",
+            button: "Ok",
+          }).then((nav) => {
+            navigate("/OrderRequest");
+          });
+        }
+      });
+  };
+
+  const exportQuote = async () => {
+    await axios
+      .post(QuoteExport, {
+        requestDate: quote?.createdAt?.slice(0, 10),
+        requestId: quote?.quoteId,
+        products: quote?.products?.length,
+        item: quote?.products?.map((item) => item?.productId?.unitName),
+        quantity: quote?.products?.map((item) => item?.quantity),
+        buyerName: quote?.userId?.firstName,
+        buyerEmail: quote?.userId?.email,
+      })
+      .then((res) => {
+        if (!res?.error) {
+          fileDownload(res?.data.results?.file, quote?.quoteId);
+        }
+      });
   };
 
   const handleClick = () => {
@@ -223,6 +265,11 @@ const ViewQuoteReq = () => {
                     <div className="col-auto">
                       <h2>Quotation Request Details</h2>
                     </div>
+                    <div className="col-auto">
+                      <button className="comman_btn2" onClick={exportQuote}>
+                        Export <i class="fa fa-download"></i>
+                      </button>
+                    </div>
                   </div>
                   <div className="row p-4 py-5">
                     <div className="col-12 mb-4">
@@ -299,11 +346,11 @@ const ViewQuoteReq = () => {
                                             </label>
                                             <input
                                               type="number"
-                                              name="quantity"
+                                              name="price"
                                               className="form-control fs-6"
                                               style={{ width: "80px" }}
                                               onChange={(e) => {
-                                                handleChange(index,e)
+                                                handleChange(index, e);
                                               }}
                                             ></input>
                                           </span>
@@ -326,7 +373,12 @@ const ViewQuoteReq = () => {
                             </tbody>
                           </table>
                           <div className="text-center">
-                            <button className="comman_btn" onClick={shareQuotePrice}>Share</button>
+                            <button
+                              className="comman_btn"
+                              onClick={shareQuotePrice}
+                            >
+                              Share
+                            </button>
                           </div>
                         </div>
                       </div>

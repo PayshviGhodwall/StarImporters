@@ -13,7 +13,7 @@ const Dashboard = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalUsers`;
   const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalOrders`;
-  const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/total`;
+  const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
   const [totalUsers, setTotalUsers] = useState();
@@ -24,8 +24,9 @@ const Dashboard = () => {
   useEffect(() => {
     GetAllOrders();
     GetAllUsers();
+    GetAllRequest();
     OrderRequest();
-  }, []);
+  }); 
 
   const OrderRequest = async () => {
     await axios.post(orderList).then((res) => {
@@ -42,7 +43,11 @@ const Dashboard = () => {
       setTotalUsers(res?.data.results);
     });
   };
-
+  const GetAllRequest = async () => {
+    await axios.get(totalReq).then((res) => {
+      setTotalRequest(res?.data.results);
+    });
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -261,7 +266,7 @@ const Dashboard = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Request History</h2>
-                        <span>100</span>
+                        <span>{totalRequest}</span>
                       </div>
                     </div>
                   </a>

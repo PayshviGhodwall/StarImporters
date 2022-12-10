@@ -53,7 +53,7 @@ const Footer = () => {
         <div className="footer_top">
            <div className="container">
             <div className="row">
-              <div className="col-lg-3 col-md-12 text-white text-lg-start text-md-center">
+              <div className="col-lg-4 col-md-12 text-white text-lg-start text-md-center">
                 <div className="widget">
                   <div className="footer_logo">
                     <Link className="text-decoration-none" to ="">
@@ -66,7 +66,7 @@ const Footer = () => {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 text-white">
+              <div className="col-lg-4 col-md-4 col-sm-6 text-white">
                 <div className="widget">
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
@@ -92,29 +92,8 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 text-white">
-                <div className="widget">
-                  <h6 className="widget_title">Category</h6>
-                  <ul className="widget_links">
-                    <li>
-                      <Link className="text-decoration-none" to ="/">Vape </Link>
-                    </li>
-                    <li>
-                      <Link className="text-decoration-none" to ="/">Smoke </Link>
-                    </li>
-                    <li>
-                      <Link className="text-decoration-none" to ="/">Kids </Link>
-                    </li>
-                    <li>
-                      <Link className="text-decoration-none" to ="/">C-Store &amp; Novelty </Link>
-                    </li>
-                    <li>
-                      <Link className="text-decoration-none" to ="/">Glass &amp; Sillicone </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-4 col-sm-6 text-white">
+              
+              <div className="col-lg-4 col-md-4 col-sm-6 text-white">
                 <div className="widget">
                   <h6 className="widget_title">Contact Info</h6>
                   <ul className="contact_info contact_info_light">

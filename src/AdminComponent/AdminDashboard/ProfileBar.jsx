@@ -28,22 +28,9 @@ const ProfileBar = () => {
   }, []);
 
   return (
-    <div className="d-flex">
-        <div className="d-flex flex-column mt-2">
-          <Link
-            className="text-decoration-none text-white"
-            to="/AdminDashboard/EditProfile"
-          >
-            Edit Profile
-          </Link>
-          <Link
-            className="text-decoration-none text-white"
-            to="/AdminDashboard/changePassword"
-          >
-            Change Password
-          </Link>
-        </div>
-        <div className="dropdown mx-2">
+    <div className="">
+       
+        <div className="dropdown  mt-1">
           <div>
             <button
               className="btn btn-secondary p-0 mt-2"
@@ -59,16 +46,22 @@ const ProfileBar = () => {
                 width={50}
               />
             </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <ul className="dropdown-menu mt-1"  aria-labelledby="dropdownMenuButton1">
               <li>
-                <a className="dropdown-item" href="edit-profile.html">
-                  Edit Profile
-                </a>
+              <Link
+            className="text-decoration-none text-dark dropdown-item"
+            to="/AdminDashboard/EditProfile"
+          >
+            Edit Profile
+          </Link>
               </li>
               <li>
-                <a className="dropdown-item" href="change-password.html">
-                  Change Password
-                </a>
+              <Link
+            className="text-decoration-none text-dark dropdown-item"
+            to="/AdminDashboard/changePassword"
+          >
+            Change Password
+          </Link>
               </li>
             </ul>
           </div>

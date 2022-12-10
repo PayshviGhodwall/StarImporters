@@ -12,7 +12,7 @@ function WebHeader2() {
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
     if (!data.error) {
-      setDetail(data.results);
+      setDetail(data?.results);
     }
   };
 
@@ -46,7 +46,7 @@ function WebHeader2() {
             </div>
             <div className="user-info">
               <h5 className="user-name mb-1 text-white">
-                {detail.companyName}
+                {detail?.companyName}
               </h5>
              
             </div>

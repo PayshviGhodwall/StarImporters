@@ -63,6 +63,7 @@ const Account = () => {
       if (res.data.message === "Profile updated Successfully") {
         setChange(!change)
        let Modal = document.getElementById("close-modal11")
+       window.location.reload()
           Modal.click()
       }
     });
@@ -614,7 +615,7 @@ const Account = () => {
                       <input
                         type="password"
                         name="Oldpassword"
-                        defaultValue="userPassword"
+                        defaultValue=""
                         className="form-control shadow-none px-3"
                         id="password-input2"
                       />
@@ -628,7 +629,7 @@ const Account = () => {
                       <input
                         type="password"
                         name="password"
-                        defaultValue="idontknow"
+                        defaultValue=""
                         className="form-control shadow-none px-3"
                         id="password-input"
                         onChange={UpdatedData}

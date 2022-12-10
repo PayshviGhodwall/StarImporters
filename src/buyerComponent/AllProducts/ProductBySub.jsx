@@ -20,11 +20,13 @@ const ProductBySubCate = () => {
   const [heart, setHeart] = useState(false);
   const [subCategoryName,setSubCategoryName]= useState()
   const getProduct =  `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
  
   useEffect(() => {
     getProducts();
     GetBrands()
-  },[location]);
+  },[location,heart]);
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -53,6 +55,18 @@ const ProductBySubCate = () => {
   };
   const clearFilters = () => {};
 
+  const addToFav = async (index) => {
+    await axios.post(addFav, {
+      productId: products[index]?.products?._id,
+    });
+    setHeart(!heart);
+  };
+  const rmvFromFav = async (index) => {
+    await axios.post(rmvFav, {
+      productId: products[index]?.products?._id,
+    });
+    setHeart(!heart);
+  };
   return (
     <div>
       <Navbar />
@@ -341,11 +355,11 @@ const ProductBySubCate = () => {
                               {item?.products?.unitName}
                             </h1>
                             <p style={{ right: "5px", position: "absolute" }}>
-                              {heart ? (
+                              {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {
-                                    setHeart(!heart);
+                                    rmvFromFav(index);
                                   }}
                                   style={{ color: "#3e4093 " }}
                                 />
@@ -353,7 +367,7 @@ const ProductBySubCate = () => {
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {
-                                    setHeart(!heart);
+                                    addToFav(index);
                                   }}
                                   style={{ color: "#E1E1E1 " }}
                                 />

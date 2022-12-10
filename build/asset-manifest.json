@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.07e4e4a6.css",
-    "main.js": "/static/js/main.971a2432.js",
+    "main.js": "/static/js/main.1a065059.js",
     "static/media/logo.png": "/static/media/logo.967205a2e98fe897dcdc.png",
     "static/media/cigars_img.png": "/static/media/cigars_img.aa83408a38acfb344f4a.png",
     "static/media/profile_img1.png": "/static/media/profile_img1.4f4e5c53f25b67f08435.png",
     "static/media/product_new9.png": "/static/media/product_new9.168aa553d46fb4766802.png",
     "index.html": "/index.html",
     "main.07e4e4a6.css.map": "/static/css/main.07e4e4a6.css.map",
-    "main.971a2432.js.map": "/static/js/main.971a2432.js.map"
+    "main.1a065059.js.map": "/static/js/main.1a065059.js.map"
   },
   "entrypoints": [
     "static/css/main.07e4e4a6.css",
-    "static/js/main.971a2432.js"
+    "static/js/main.1a065059.js"
   ]
 }

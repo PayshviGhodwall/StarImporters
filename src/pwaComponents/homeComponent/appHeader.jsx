@@ -17,7 +17,7 @@ function AppHeader() {
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
     if (!data.error) {
-      setDetail(data.results);
+      setDetail(data?.results);
     }
   };
   const getCartCount = async () => {
@@ -100,7 +100,7 @@ function AppHeader() {
               </div>
               <div className="user-info">
                 <h5 className="user-name  text-white text-center mt-3">
-                  {detail.companyName}
+                  {detail?.companyName}
                 </h5>
                 
               </div>

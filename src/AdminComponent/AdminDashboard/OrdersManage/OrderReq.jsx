@@ -11,6 +11,7 @@ const OrderReq = () => {
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
+  const [values, setValues] = useState({ from: "", to: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,37 @@ const OrderReq = () => {
     await axios.post(quoteList).then((res) => {
       setQuoteReq(res?.data.results);
     });
+  };
+
+  const handleDate = (e) => {
+    const value = e.target.value;
+    setValues({
+      ...values,
+      [e.target.name]: value,
+    });
+  };
+
+  const onOrderSearch = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(quoteList, {
+        from: values.from,
+        to: values.to,
+      })
+      .then((res) => {
+        setQuoteReq(res?.data.results);
+      });
+  };
+  const onQuoteSearch = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(quoteList, {
+        from: values.from,
+        to: values.to,
+      })
+      .then((res) => {
+        setQuoteReq(res?.data.results);
+      });
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -224,7 +256,10 @@ const OrderReq = () => {
                             aria-controls="nav-home"
                             aria-selected="true"
                           >
-                            Order<span className="circle_count">{orders?.length ? orders?.length : 0 }</span>
+                            Order
+                            <span className="circle_count">
+                              {orders?.length ? orders?.length : 0}
+                            </span>
                           </button>
                           <button
                             className="nav-link"
@@ -237,7 +272,9 @@ const OrderReq = () => {
                             aria-selected="false"
                           >
                             Quotation Request
-                            <span className="circle_count">{quoteReq?.length ? quoteReq?.length : 0}</span>
+                            <span className="circle_count">
+                              {quoteReq?.length ? quoteReq?.length : 0}
+                            </span>
                           </button>
                         </div>
                       </nav>
@@ -256,14 +293,31 @@ const OrderReq = () => {
                               >
                                 <div className="form-group mb-0 col-5">
                                   <label htmlFor="">From</label>
-                                  <input type="date" className="form-control" />
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
+                                    value={values.from}
+                                    onChange={handleDate}
+                                  />
                                 </div>
                                 <div className="form-group mb-0 col-5">
                                   <label htmlFor="">To</label>
-                                  <input type="date" className="form-control" />
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
+                                    value={values.to}
+                                    onChange={handleDate}
+                                  />
                                 </div>
                                 <div className="form-group mb-0 col-auto">
-                                  <button className="comman_btn">Search</button>
+                                  <button
+                                    className="comman_btn"
+                                    onClick={onOrderSearch}
+                                  >
+                                    Search
+                                  </button>
                                 </div>
                               </form>
                               <div className="row">
@@ -285,8 +339,12 @@ const OrderReq = () => {
                                       <tbody>
                                         {(orders || [])?.map((item, index) => (
                                           <tr key={index}>
-                                            <td>{index+1}</td>
-                                            <td>{item?.userId?.firstName + " " + item?.userId?.lastName}</td>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                              {item?.userId?.firstName +
+                                                " " +
+                                                item?.userId?.lastName}
+                                            </td>
                                             <td>{item?.userId?.phoneNumber}</td>
                                             <td>{item?.userId?.email}</td>
                                             <td>{item?.status}</td>
@@ -295,9 +353,10 @@ const OrderReq = () => {
                                                 className="comman_btn table_viewbtn"
                                                 onClick={() => {
                                                   navigate(
-                                                    "/OrderRequest/ViewOrder",{
+                                                    "/OrderRequest/ViewOrder",
+                                                    {
                                                       state: {
-                                                       id:item?._id
+                                                        id: item?._id,
                                                       },
                                                     }
                                                   );
@@ -330,14 +389,18 @@ const OrderReq = () => {
                               >
                                 <div className="form-group mb-0 col-5">
                                   <label htmlFor="">From</label>
-                                  <input type="date" className="form-control" />
+                                  <input type="date" className="form-control" name="from"
+                                    value={values.from}
+                                    onChange={handleDate} />
                                 </div>
                                 <div className="form-group mb-0 col-5">
                                   <label htmlFor="">To</label>
-                                  <input type="date" className="form-control" />
+                                  <input type="date" className="form-control"  name="to"
+                                    value={values.to}
+                                    onChange={handleDate} />
                                 </div>
                                 <div className="form-group mb-0 col-auto">
-                                  <button className="comman_btn">Search</button>
+                                  <button className="comman_btn" onClick={onQuoteSearch}>Search</button>
                                 </div>
                               </form>
                               <div className="row">
@@ -357,31 +420,40 @@ const OrderReq = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                      {(quoteReq || [])?.map((item, index) => (
-                                          <tr key={index}>
-                                            <td>{index+1}</td>
-                                            <td>{item?.userId?.firstName + " " + item?.userId?.lastName}</td>
-                                            <td>{item?.userId?.phoneNumber}</td>
-                                            <td>{item?.userId?.email}</td>
-                                            <td>{item?.status}</td>
-                                            <td>
-                                              <button
-                                                className="comman_btn table_viewbtn"
-                                                onClick={() => {
-                                                  navigate(
-                                                    "/OrderRequest/ViewQuotationRequest",{
-                                                      state: {
-                                                       id:item?._id
-                                                      },
-                                                    }
-                                                  );  
-                                                }}
-                                              >
-                                                View
-                                              </button>
-                                            </td>
-                                          </tr>
-                                        ))}
+                                        {(quoteReq || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>{index + 1}</td>
+                                              <td>
+                                                {item?.userId?.firstName +
+                                                  " " +
+                                                  item?.userId?.lastName}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.phoneNumber}
+                                              </td>
+                                              <td>{item?.userId?.email}</td>
+                                              <td>{item?.status}</td>
+                                              <td>
+                                                <button
+                                                  className="comman_btn table_viewbtn"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      "/OrderRequest/ViewQuotationRequest",
+                                                      {
+                                                        state: {
+                                                          id: item?._id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}
+                                                >
+                                                  View
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
                                       </tbody>
                                     </table>
                                   </div>

@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
+import OrderDetails from "./OrdersDetails";
 
 const RequestDetails = () => {
   const [users, setUsers] = useState([]);
@@ -78,7 +79,7 @@ const RequestDetails = () => {
                     className="nav-link"
                   >
                     <div
-                      className="  nav-active flex-coloumn text-white  px-3 py-2 border  "
+                      className="  nav flex-coloumn   px-3 py-2 border  "
                       role=""
                     >
                       <h4 className="mt-1">
@@ -92,7 +93,7 @@ const RequestDetails = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div className="nav px-3 py-2 border   " role="tablist">
+                    <div className="nav-active px-3 text-white py-2 border   " role="tablist">
                       <h4 className="">
                         <i className="fas fa-file mt-1" />
                         <span className="fs-6 mx-2">REQUEST ORDER</span>
@@ -184,8 +185,8 @@ const RequestDetails = () => {
                             <div className="row">
                               <div className="col-12 mb-3">
                                 <div className="order_heading">
-                                  <h2>Request Details :</h2>
-                                </div>
+                                  <h2>Request Details : {quoteDetails?.status}</h2>
+                                </div>  
                               </div>
                               <div class="col-12 mt-3 mb-4">
                                  <div class="row mx-0 border rounded pt-4 p-3 position-relative">
@@ -193,7 +194,7 @@ const RequestDetails = () => {
                                     <div class="col-4 ">
                                        <div class="row">
                                           <div class="col-6">
-                                             <span class="data_main">Request Date: 1057</span>
+                                             <span class="data_main">Request Date: {quoteDetails?.createdAt?.slice(0,10)}</span>
                                           </div>
                                         
                                        </div>
@@ -201,7 +202,7 @@ const RequestDetails = () => {
                                     <div class="col-4">
                                        <div class="row">
                                           <div class="col-6">
-                                             <span class="data_main">Request Id : dfsd</span>
+                                             <span class="data_main">Request Id : {quoteDetails?.quoteId}</span>
                                           </div>
                                           
                                        </div>
@@ -209,7 +210,7 @@ const RequestDetails = () => {
                                     <div class="col-4">
                                        <div class="row">
                                           <div class="col text-center">
-                                             <span class="data_main">Total Products : 200</span>
+                                             <span class="data_main">Total Products : {quoteDetails?.products?.length}</span>
                                           </div>
                                          
                                        </div>
@@ -230,6 +231,7 @@ const RequestDetails = () => {
                                             />
                                           </th>
                                           <th>Quantity</th>
+                                          <th>Total(Usd)</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -251,7 +253,7 @@ const RequestDetails = () => {
                                                       <h3>{item?.productId?.unitName}</h3>
                                                       <p>Bar Code: {item?.productId?.pBarcode[0]}</p>
                                                       <span className="ordertext my-2 d-block ">
-                                                        Ordered On: {item?.productId?.createdAt?.slice(0,10)}
+                                                         Price : ${item?.price} 
                                                       </span>
                                                     </div>
                                                   </div>
@@ -260,6 +262,11 @@ const RequestDetails = () => {
                                               <td>
                                                 <span className="quantity_text">
                                                   {item?.quantity}
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span className="quantity_text">
+                                                  ${item?.price * item?.quantity}
                                                 </span>
                                               </td>
                                             </tr>
