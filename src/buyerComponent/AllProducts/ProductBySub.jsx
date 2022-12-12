@@ -80,7 +80,7 @@ const ProductBySubCate = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-2">&#62;</span>{" "}
@@ -192,105 +192,7 @@ const ProductBySubCate = () => {
                         </div>
                       </div>
                     </Panel>
-                    <Panel
-                      header="Ratings"
-                      eventKey={3}
-                      defaultExpanded
-                      id="panel3"
-                      className="fw-bold"
-                    >
-                      <div className="">
-                        <div className="row rating_box mb-2">
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              4{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              2{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                          <div className="col-12 form-group ">
-                            <input
-                              className=""
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                position: "relative",
-                                top: "4px",
-                              }}
-                              type="checkbox"
-                              id="check5"
-                              name="check5"
-                            />
-                            <label
-                              htmlFor="check5"
-                              style={{
-                                fontWeight: "500",
-                                marginLeft: "13px",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {" "}
-                              3{" "}
-                              <Link href="javasript:;">
-                                <i className="fas fa-star" />
-                              </Link>{" "}
-                              &amp; UP
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </Panel>
+                  
                   </PanelGroup>
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">

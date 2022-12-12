@@ -5,7 +5,7 @@ function AppFooter() {
   return (
     <>
       <div className="star_imp_app">
-        <div className="footer-nav-area" id="footerNav">
+        <div className="footer-nav-area w-100" id="footerNav">
           <div className="suha-footer-nav">
             <ul className="h-100 d-flex align-items-center justify-content-between ps-0 d-flex rtl-flex-d-row-r">
               <li>

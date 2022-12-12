@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
 import classNames from "classnames";
 import { useTimer } from "react-timer-hook";
+import { count } from "rsuite/esm/utils/ReactChildren";
 
 const SendOtp = (otpEmail) => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
   const [error, setError] = useState("");
+  const [counter, setCounter] = useState(0);
   let email = otpEmail?.otpEmail;
   const {
     register,
@@ -17,24 +19,11 @@ const SendOtp = (otpEmail) => {
     formState: { errors },
     trigger,
   } = useForm();
-  console.log(otpEmail, "Ptop");
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 400);
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
-    time,
-    onExpire: () => console.warn("onExpire called"),
-  });
- console.log(days);
+
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter, email]);
+
   const onSubmit = async (data) => {
     const tempOtp = data.number1 + data.number2 + data.number3 + data.number4;
     const otp = parseInt(tempOtp);
@@ -49,9 +38,9 @@ const SendOtp = (otpEmail) => {
           console.log(res);
           if (res?.data.message === "OTP Verified") {
             Swal.fire({
-              title: "OTP Verified",
+              title: "OTP Verified Successfully.",
               text: "",
-              icon: "Success",
+              icon: "success",
               confirmButtonText: "OK",
             });
             document.getElementById("modal-toggle").click();
@@ -64,6 +53,7 @@ const SendOtp = (otpEmail) => {
   };
 
   const ResendOtp = async (e) => {
+    setCounter(60);
     e.preventDefault();
     await axios
       .post(sendOtp, {
@@ -71,6 +61,14 @@ const SendOtp = (otpEmail) => {
       })
       .then((res) => {
         console.log(res?.data.results);
+        if (!res.error) {
+          Swal.fire({
+            title: "OTP Resent Successfully.",
+            text: "Please check your registered Email.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        }
       });
   };
   const moveOnMax = (event, field, nextFieldID) => {
@@ -99,7 +97,7 @@ const SendOtp = (otpEmail) => {
             <div className="form-group mb-3 d-flex justify-content-center">
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input "
-                type="text"
+                type="number"
                 maxLength={1}
                 name="number1"
                 id="number1"
@@ -116,7 +114,7 @@ const SendOtp = (otpEmail) => {
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                type="text"
+                type="number"
                 maxLength={1}
                 name="number2"
                 id="number2"
@@ -133,7 +131,7 @@ const SendOtp = (otpEmail) => {
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                type="text"
+                type="number"
                 maxLength={1}
                 name="number3"
                 id="number3"
@@ -150,7 +148,7 @@ const SendOtp = (otpEmail) => {
               />
               <input
                 className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                type="text"
+                type="number"
                 maxLength={1}
                 name="number4"
                 id="number4"
@@ -159,10 +157,19 @@ const SendOtp = (otpEmail) => {
                 })}
               />
             </div>
+            <div className="mx-3 mb-3">
+              {errors.number1 && (
+                <small className="errorText mx-5 fw-bold fs-6 text-center">
+                  {errors.number1?.message}
+                </small>
+              )}
+            </div>
             <div className="fs-6 text-danger fw-bold">{error}</div>
             <div className="form-group my-3">
               <div className="time_js">
-                <span className="fw-bold fs-5 text-info">{minutes}:{seconds}</span>
+                <span className="fw-bold fs-5" style={{ color: "#3b4093" }}>
+                  00:{counter}
+                </span>
               </div>
             </div>
             <div className="form-group mb-4">
@@ -173,13 +180,22 @@ const SendOtp = (otpEmail) => {
             <div className="form-group mb-0 comman_text">
               <span>
                 Didn't receive the OTP?{" "}
-                <a
-                  href="javascript:;"
-                  className="text-decoration-none text-info"
-                  onClick={ResendOtp}
-                >
-                  Resend OTP
-                </a>
+                {counter ? (
+                  <a
+                    className="text-decoration-none "
+                    style={{ color: "#3b4093" }}
+                  >
+                    Check Email
+                  </a>
+                ) : (
+                  <a
+                    className="text-decoration-none"
+                    style={{ color: "#3b4093", cursor: "pointer" }}
+                    onClick={ResendOtp}
+                  >
+                    Resend OTP
+                  </a>
+                )}
               </span>
             </div>
           </form>

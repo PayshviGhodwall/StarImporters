@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
+  const [productImage, setProductImage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [Tdisabled, setTDisabled] = useState(true);
   const [Pdisabled, setPDisabled] = useState(true);
@@ -38,6 +39,7 @@ const Cms = () => {
   const editAboutUs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editAbout`;
   const editTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`;
   const editPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`;
+  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
 
   const {
     register,
@@ -47,10 +49,17 @@ const Cms = () => {
     trigger,
     reset,
   } = useForm();
-
+  
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
     setSelectedFile(e.target.files[0]);
+    // const formData = new FormData();
+    // formData.append("productImage", e.target.files[0]);
+
+    // axios.post(uploadImage, formData).then((res) => {
+    //   console.log(res?.data.results);
+    //   setProductImage(res?.data.results?.productImage);
+    // });
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -535,7 +544,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={slideData[0]?.banner}
+                                                src={ productImage ? productImage : slideData[0]?.banner}
                                                 alt=""
                                               />
                                             </div>
@@ -612,7 +621,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={slideData[1]?.banner}
+                                                src={ productImage ? productImage : slideData[1]?.banner}
                                               />
                                             </div>
                                             <div className="p-image">
@@ -687,7 +696,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={slideData[2]?.banner}
+                                                src={productImage ? productImage : slideData[2]?.banner}
                                               />
                                             </div>
                                             <div className="p-image">
@@ -757,7 +766,7 @@ const Cms = () => {
                                 <div className="d-flex justify-content-between">
                                   <h2 className="fs-4">About Us</h2>
                                   <Link
-                                    className="edit_content_btn mt-2 "
+                                    className="edit_content_btn mt-2 text-decoration-none"
                                     href="javscript:;"
                                     onClick={onEdit}
                                   >
@@ -799,7 +808,7 @@ const Cms = () => {
                                 <div className="d-flex justify-content-between ">
                                   <h2 className="fs-4">Terms & Condition</h2>
                                   <Link
-                                    className="edit_content_btn mt-2 "
+                                    className="edit_content_btn mt-2 text-decoration-none"
                                     href="javscript:;"
                                     onClick={onTermEdit}
                                   >
@@ -839,8 +848,7 @@ const Cms = () => {
                                 <div className="d-flex justify-content-between">
                                   <h2 className="fs-4">Privacy Policies</h2>
                                   <Link
-                                    className="edit_content_btn mt-2 "
-                                    href="javscript:;"
+                                    className="edit_content_btn mt-2 text-decoration-none"
                                     onClick={onPrivacyEdit}
                                   >
                                     <i className="far fa-edit me-2" />

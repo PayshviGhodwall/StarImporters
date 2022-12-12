@@ -127,7 +127,7 @@ const Navbar = ({ NState,GetChange }) => {
   const LogOut = () => {
     setUserAuth(localStorage.removeItem("token-user"));
     setUserAuth(localStorage.removeItem("UserData"));
-    navigate("/");
+    navigate("/app/home");
     window.location.reload();
   };
   const handleScroll = () => {
@@ -139,11 +139,11 @@ const Navbar = ({ NState,GetChange }) => {
     }
   };
   return (
-    <div className="header_main Zindex-9" style={{ overflow: "visible" }}>
+    <div className="header_main " >
       <header className="">
         <div className="row header_top py-3 px-4 align-items-center justify-content-between">
           <div className="col-auto">
-            <Link className="header_logo" to="/">
+            <Link className="header_logo" to="/app/home">
               <img src={Starlogo} alt="" />
             </Link>
           </div>
@@ -169,7 +169,7 @@ const Navbar = ({ NState,GetChange }) => {
           </div>
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
-              <Link to="/Cart">
+              <Link to="/app/Cart">
                 <i className="fa fa-cart-arrow-down" />
 
                 <span className="count">{cartNum}</span>
@@ -206,7 +206,7 @@ const Navbar = ({ NState,GetChange }) => {
               <div className="d-flex mt-2">
                 <Link
                   to=""
-                  className="login_btns mt-2"
+                  className="login_btns mt-2 text-decoration-none"
                   data-bs-toggle="modal"
                   id="modal-login"
                   data-bs-target="#staticBackdrop1"
@@ -215,7 +215,7 @@ const Navbar = ({ NState,GetChange }) => {
                 >
                   Login
                 </Link>
-                <Link to="/Register" style={{ textDecoration: "none" }}>
+                <Link to="/app/register" style={{ textDecoration: "none" }}>
                   <div className="btn-group ">
                     <button className="signup_btns">SignUp</button>
                   </div>
@@ -228,7 +228,7 @@ const Navbar = ({ NState,GetChange }) => {
           <div className="col-12">
             <ul className="header_menus mb-0 ps-0">
               <li>
-                <Link className="text-decoration-none" to="/">
+                <Link className="text-decoration-none" to="/app/home">
                   Home
                 </Link>
               </li>
@@ -312,7 +312,7 @@ const Navbar = ({ NState,GetChange }) => {
         </div>
       </div>
       <div
-        className="modal  comman_modal_form forms_modal"
+        className="modal  login_modal forms_modal fade"
         id="staticBackdrop2"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -321,7 +321,7 @@ const Navbar = ({ NState,GetChange }) => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content border-0 rounded-0">
+          <div className="modal-content">
             <div className="modal-body">
               <button
                 type="button"
@@ -336,7 +336,7 @@ const Navbar = ({ NState,GetChange }) => {
       </div>
       <>
         <div
-          className="modal  comman_modal_form"
+          className="modal login_modal forms_modal fade"
           id="staticBackdrop3"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
@@ -345,7 +345,7 @@ const Navbar = ({ NState,GetChange }) => {
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border-0 rounded-0">
+            <div className="modal-content">
               <div className="modal-body">
                 <button
                   type="button"
@@ -362,7 +362,7 @@ const Navbar = ({ NState,GetChange }) => {
         {/* OTP Verification Modal  */}
         {/* Confirm Password Modal  */}
         <div
-          className="modal  comman_modal_form forms_modal"
+          className="modal  login_modal forms_modal"
           id="staticBackdrop4"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
@@ -371,7 +371,7 @@ const Navbar = ({ NState,GetChange }) => {
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border-0 rounded-0">
+            <div className="modal-content">
               <div className="modal-body">
                 <button
                   type="button"

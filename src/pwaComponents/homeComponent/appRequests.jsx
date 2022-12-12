@@ -28,7 +28,7 @@ function AppRequests() {
                 <div className="col-12 mb-3" key={index}>
                   <Link
                     to="/app/request-detail"
-                    state={{id:item?._id}}
+                    state={{id:item?.quoteId}}
                     className="my_orderbox position-relative shadow"
                   >
                     <div className="left_part">

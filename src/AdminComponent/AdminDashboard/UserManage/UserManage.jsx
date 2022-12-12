@@ -113,7 +113,10 @@ const UserManage = () => {
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(uploadUrl, formData).then((res) => {
-      setUploadError(res?.data.message);
+      if(res.error){
+        setUploadError(res?.data.message);
+
+      }
       if (res?.data.message === "Imported details") {
         setLoader(false);
         setSet(!set);

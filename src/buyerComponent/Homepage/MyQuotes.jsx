@@ -88,7 +88,7 @@ const MyQuotes = () => {
                   data-bs-target="#nav-home"
                   type="button"
                   onClick={() => {
-                    navigate("/Cart");
+                    navigate("/app/cart");
                   }}
                 >
                   <i
@@ -103,7 +103,7 @@ const MyQuotes = () => {
                   data-bs-toggle="tab"
                   style={{ width: "50%" }}
                   onClick={() => {
-                    navigate("/MyQuotes");
+                    navigate("/app/quotes");
                   }}
                 >
                   <i
@@ -639,7 +639,7 @@ const MyQuotes = () => {
                                 <button
                                   className="comman_btn2 rounded p-2"
                                   onClick={() => {
-                                    navigate("/");
+                                    navigate("/app/home");
                                   }}
                                 >
                                   Explore More

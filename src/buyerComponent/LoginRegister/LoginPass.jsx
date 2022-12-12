@@ -84,11 +84,11 @@ const LoginPass = ({otpEmail}) => {
         if (res?.data.message === "Wrong Password") {
             setLoader(false)
           Swal.fire({
-            title: "Wrong Password",
+            title: "Wrong or Invalid Password!",
             width: 600,
-            text: "Do you want to continue",
+            text: "Try again or click ‘Forgot password’ to reset it.",
             icon: "error",
-            confirmButtonText: "Cool",
+            confirmButtonText: "Try again",
           });
         }
         if (res?.data.message === "First Time Login") {
@@ -127,7 +127,7 @@ const LoginPass = ({otpEmail}) => {
                 <div className="row">
                   <div className="col-md-12 heading_forms mb-4">
                     <div className="text-center mb-3">
-                      <Link className="header_logo" to="/">
+                      <Link className="header_logo" to="/app/home">
                         <img src={Starlogo} alt="" />
                       </Link>
                     </div>

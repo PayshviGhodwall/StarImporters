@@ -865,14 +865,13 @@ const EditUser = () => {
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">
-                            Request for Quotation :
+                            Request for Quotation : {user?.quotation ? "Enabled" : "Disabled"}
                           </span>
                           <div className="col">
                             <div className="action_filter filter_check">
                               <input
                                 className="d-none"
                                 type="radio"
-                                defaultChecked
                                 id="vii"
                                 value="true"
                                 name="quotation"
@@ -887,7 +886,7 @@ const EditUser = () => {
                                 className="d-none"
                                 type="radio"
                                 id="sh"
-                                defaultValue="yes"
+
                                 value="false"
                                 name="quotation"
                                 {...register("quotation")}

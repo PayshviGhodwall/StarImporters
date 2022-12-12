@@ -83,7 +83,7 @@ const Homepage = () => {
           data-bs-ride="carousel"
           data-interval="3000"
         >
-          <div className="carousel-inner">
+          <div className="carousel-inner banner_box">
             <div className="carousel-item active ">
               <img
                 src={allSlides[0]?.banner}
@@ -98,7 +98,7 @@ const Homepage = () => {
                   {allSlides[0]?.description}
                 </p>
 
-                <Link to="/Register" className="text-decoration-none ">
+                <Link to="/app/register" className="text-decoration-none ">
                   <button
                     className={
                       allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"
@@ -121,7 +121,7 @@ const Homepage = () => {
                 </h5>
                 <p className="fs-6 bannerTxt">{allSlides[1]?.description}</p>
 
-                <Link to="/Register" className="text-decoration-none ">
+                <Link to="/app/register" className="text-decoration-none ">
                   <button
                     className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}
                   >
@@ -138,12 +138,12 @@ const Homepage = () => {
               />
               <div className="carousel-caption bannerTitle2">
                 <h5 className=" text-end  Bannertext">{allSlides[2]?.title}</h5>
-                <p className="d-flex text-end fs-6 ">
+                <p className="fs-6 bannerTxt text-end ">
                   {allSlides[2]?.description}
                 </p>
 
                 <Link
-                  to="/Register"
+                  to="/app/register"
                   className="d-flex justify-content-end text-decoration-none "
                 >
                   <button
@@ -312,17 +312,14 @@ const Homepage = () => {
               slidesPerView={5}
               spaceBetween={20}
               loop={true}
-              autoplay={{
-                delay: 1000,
-                disableOnInteraction: false,
-              }}
+              autoplay={true}
               modules={[FreeMode, Pagination, Autoplay]}
               className="mySwiper row"
             >
               {(brands || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
                   <Link
-                    to="/AllBrands"
+                    to="/app/brands"
                     state={"hisds"}
                     className="brand_box col-sm-12 p-sm-4"
                   >

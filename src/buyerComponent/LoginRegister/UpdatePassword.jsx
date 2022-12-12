@@ -44,7 +44,7 @@ const UpdatePassword = (otpEmail) => {
               focusConfirm: false,
             });
             setTimeout(() => {
-              navigate("/");
+              navigate("/app/home");
               window.location.reload(false);
             }, 1000);
           }

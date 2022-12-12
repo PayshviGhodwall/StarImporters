@@ -82,7 +82,7 @@ const ProductByCate = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-2">&#62;</span>{" "}
@@ -161,59 +161,7 @@ const ProductByCate = () => {
                         </div>
                       </div>
                     </Panel>
-                    <Panel
-                      header="Sub Categories"
-                      eventKey={3}
-                      id="panel3"
-                      defaultExpanded
-                      className="fw-bold"
-                    >
-                      <div className="accordion-body px-0 pt-3 pb-0">
-                        <div className="row">
-                          {(brands || [])
-                            ?.filter((item, idx) => idx < 5)
-                            .map((item, index) => (
-                              <div className="col-12 form-group " key={index}>
-                                <input
-                                  className=""
-                                  style={{
-                                    width: "20px",
-                                    height: "20px",
-                                    position: "relative",
-                                    top: "4px",
-                                  }}
-                                  type="checkbox"
-                                  value={item?.brandName}
-                                  id="check5"
-                                  name="check5"
-                                  onChange={(e) => {
-                                    setBrandName(e.target.value);
-                                  }}
-                                />
-                                <label
-                                  htmlFor="check5"
-                                  style={{
-                                    fontWeight: "500",
-                                    marginLeft: "13px",
-                                    fontSize: "18px",
-                                  }}
-                                >
-                                  {item?.brandName}
-                                </label>
-                              </div>
-                            ))}
-                          <div className="col-12 mt-3">
-                            <p
-                              className="more_btn text-decoration-none
-                        "
-                              href="javscript:;"
-                            >
-                              More
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Panel>
+                   
                     <Panel
                       header="Sort By"
                       eventKey={2}
@@ -271,10 +219,10 @@ const ProductByCate = () => {
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> 
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
-                  {(products || [])?.map((item, index) => (
+                  {(products || [{}])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
                         {/* <Link

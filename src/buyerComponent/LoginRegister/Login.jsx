@@ -109,7 +109,7 @@ const Login = ({getEmail}) => {
                 <div className="row">
                   <div className="col-md-12 heading_forms mb-4">
                     <div className="text-center mb-3">
-                      <Link className="header_logo" to="/">
+                      <Link className="header_logo" to="app/home">
                         <img src={Starlogo} alt="" />
                       </Link>
                     </div>
@@ -179,7 +179,7 @@ const Login = ({getEmail}) => {
                     </div> */}
                     
                     <div className="form-group mb-3 text-center">
-                      <button type="submit" className="comman_btn py-2 rounded">
+                      <button type="submit" className="comman_btn py-2 rounded" >
                         Sign In
                       </button>
                     </div>
@@ -187,7 +187,7 @@ const Login = ({getEmail}) => {
                       <span>
                         Don't have an account?{" "}
                         <Link
-                          to="/Register"
+                          onClick={()=>navigate("/app/register")}
                           data-bs-dismiss="modal"
                           className="text-decoration-none text-primary "
                         >

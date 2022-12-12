@@ -37,6 +37,7 @@ const SingleProduct = () => {
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
   let location = useLocation();
+  
   const [objectId, setObjectID] = useState();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -50,13 +51,13 @@ const SingleProduct = () => {
     setChange(data);
   };
 
-
+ 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
     
   console.log(objectId, location?.state?.id);
 
-  if (objectId !== location?.state?.id) {
+  if (objectId !== location?.state?.id ) {
     setObjectID(location?.state?.id);
   }
   useEffect(() => {
@@ -222,7 +223,7 @@ const SingleProduct = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-1 ">&#62;</span>{" "}
@@ -595,7 +596,7 @@ const SingleProduct = () => {
             <button
               className="comman_btn2 rounded mx-3"
               onClick={() => {
-                navigate("/");
+                navigate("/app/home");
               }}
             >
               Continue Shopping
@@ -624,7 +625,7 @@ const SingleProduct = () => {
             <button
               className="comman_btn2 rounded mx-3"
               onClick={() => {
-                navigate("/");
+                navigate("/app/home");
               }}
             >
               Continue Shopping

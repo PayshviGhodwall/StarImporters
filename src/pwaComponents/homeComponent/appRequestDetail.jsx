@@ -8,18 +8,19 @@ import AppHeader from "./appHeader";
 function AppRequestDetail() {
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
   const [quoteDetails, setQuoteDetails] = useState([]);
- 
 
   let location = useLocation();
   let id = location?.state?.id;
 
   useEffect(() => {
     const GetQuote = async () => {
-      await axios.post(getQuoteDetails,{
-        quoteId:id
-      }).then((res) => {
-        setQuoteDetails(res?.data.results);
-      });
+      await axios
+        .post(getQuoteDetails, {
+          quoteId: id,
+        })
+        .then((res) => {
+          setQuoteDetails(res?.data.results);
+        });
     };
     GetQuote();
   }, []);
@@ -39,7 +40,9 @@ function AppRequestDetail() {
                         <span className="data_main">Request Date :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">{}</span>
+                        <span className="data_submain">
+                          {quoteDetails?.createdAt?.slice(0, 10)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -49,7 +52,9 @@ function AppRequestDetail() {
                         <span className="data_main">Request Id :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">ASD8ASDJ8ASD</span>
+                        <span className="data_submain">
+                          {quoteDetails?.quoteId}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -59,7 +64,9 @@ function AppRequestDetail() {
                         <span className="data_main">Total Products :</span>
                       </div>
                       <div className="col-6">
-                        <span className="data_submain">200</span>
+                        <span className="data_submain">
+                          {quoteDetails?.products?.length}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -70,103 +77,51 @@ function AppRequestDetail() {
                   <div className="table-responsive card-body">
                     <table className="table mb-0">
                       <tbody>
-                        <tr>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src="../assets/img/product_1.png"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">
-                                BLVK Frznberry
-                              </Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
+                        {(quoteDetails?.products || [])?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="cart_icon">
+                                <img
+                                  className=""
+                                  src="../assets/img/product_1.png"
+                                  alt=""
+                                />
                               </div>
-                              <div className="bar_code mt-1">
-                                Price: <span>$230</span>
+                            </td>
+                            <td>
+                              <div className="order_items">
+                                <Link to="/app/product-detail">
+                                  {item?.productId?.unitName}
+                                </Link>
+                                <div className="bar_code mt-1">
+                                  Bar Code:{" "}
+                                  <span>{item?.productId?.pBarcode[0]}</span>
+                                </div>
+                                <div className="bar_code mt-1">
+                                  Price: $<span>{item?.price}</span>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value="1"
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src="../assets/img/product_4.png"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">
-                                Cherry Pineapple
-                              </Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
+                            </td>
+                            <td>
+                              <div className="quantity">
+                                <input
+                                  className="qty-text"
+                                  type="text"
+                                  value={item?.quantity}
+                                />
                               </div>
-                              <div className="bar_code mt-1">
-                                Price: <span>$230</span>
+                            </td>
+                            <td>
+                              <div className="quantity">
+                                <input
+                                  className="qty-text "
+                                  type="text"
+                                  value={"$" + item?.quantity * item?.price}
+                                />
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value="1"
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div className="cart_icon">
-                              <img
-                                className=""
-                                src="../assets/img/product_5.png"
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="order_items">
-                              <Link to="/app/product-detail">4K's Wraps</Link>
-                              <div className="bar_code mt-1">
-                                Bar Code: <span>232323</span>
-                              </div>
-                              <div className="bar_code mt-1">
-                                Price: <span>$230</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="quantity">
-                              <input
-                                className="qty-text"
-                                type="text"
-                                value="1"
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

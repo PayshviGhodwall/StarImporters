@@ -10,8 +10,9 @@ import { useEffect } from "react";
 
 const AdminSendOtp = ({ AdminEmail }) => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/verifyOtp`;
-  const sendOtp =`${process.env.REACT_APP_APIENDPOINTNEW}api/admin/forgetPassword`
-  
+  const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/forgetPassword`;
+  const [success, setSuccess] = useState("");
+
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [email, setEmail] = useState();
@@ -65,6 +66,9 @@ const AdminSendOtp = ({ AdminEmail }) => {
       })
       .then((res) => {
         console.log(res?.data.results);
+        if (!res.error) {
+          setSuccess("OTP Re-sent Successfully.");
+        }
       });
   };
   return (
@@ -105,7 +109,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                           name="number1"
                           id="number1"
                           {...register("number1", {
-                            required: "Required",
+                            required: "Please Enter OTP.",
                           })}
                           onKeyUp={(event) => {
                             moveOnMax(
@@ -115,6 +119,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                             );
                           }}
                         />
+
                         <input
                           className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
                           type="text"
@@ -122,7 +127,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                           name="number2"
                           id="number2"
                           {...register("number2", {
-                            required: "Required",
+                            required: "Please Enter OTP",
                           })}
                           onKeyUp={(event) => {
                             moveOnMax(
@@ -139,7 +144,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                           name="number3"
                           id="number3"
                           {...register("number3", {
-                            required: "Required",
+                            required: "Please Enter OTP",
                           })}
                           onKeyUp={(event) => {
                             moveOnMax(
@@ -156,17 +161,31 @@ const AdminSendOtp = ({ AdminEmail }) => {
                           name="number4"
                           id="number4"
                           {...register("number4", {
-                            required: "Required",
+                            required: "Please Enter OTP",
                           })}
                         />
                       </div>
+                      <div className="mx-3 mb-3">
+                        {errors.number1 && (
+                          <small className="errorText mx-5 fw-bold fs-6 text-center">
+                            {errors.number1?.message}
+                          </small>
+                        )}
+                      </div>
+
                       <div className="fs-6 text-danger fw-bold">{error}</div>
                       <div className="form-group mb-4 d-flex justify-content-center">
                         <button className="comman_btn2  " type="submit">
                           Submit
                         </button>
                       </div>
-                      <div className="form-group mb-0 comman_text d-flex justify-content-center">
+                      <div className="fw-bold text-center">
+                        <a className="text-decoration-none mb-3 text-success mx-5">
+                          {success}
+                        </a>
+                      </div>
+
+                      <div className="form-group mt-3 comman_text d-flex justify-content-center">
                         <span>
                           Didn't receive the OTP?{" "}
                           <Link

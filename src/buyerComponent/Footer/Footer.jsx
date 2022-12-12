@@ -71,11 +71,11 @@ const Footer = () => {
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
                     <li>
-                      <Link className="text-decoration-none" to ="/" state={"hii"}>Home </Link>
+                      <Link className="text-decoration-none" to ="/app/home" state={"hii"}>Home </Link>
                     </li>
                    
                     <li>
-                      <Link className="text-decoration-none" to ="/AllBrands"  state={"hisds"} >Brands  </Link>
+                      <Link className="text-decoration-none" to ="app/brands"  state={"hisds"} >Brands  </Link>
                     </li>
                     <li>
                       <Link className="text-decoration-none" to ="/Terms&Condition" state={"hissds"}>Terms & Conditions </Link>

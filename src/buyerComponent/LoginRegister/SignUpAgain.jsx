@@ -77,7 +77,7 @@ const SignUpAgain = () => {
             icon: "success",
             button: "Ok",
           });
-          navigate("/");
+          navigate("/app/home");
         }
       });
     };
@@ -752,7 +752,7 @@ const SignUpAgain = () => {
                   </div>
 
                   <div className="col-12 text-center mt-4">
-                    <button className="comman_btn2 mx-2">Cancel</button>
+                    <button className="comman_btn2 mx-2" onClick={()=>navigate("/app/home")}>Cancel</button>
                     <button className="comman_btn mx-2" type="submit">
                       Submit
                     </button>

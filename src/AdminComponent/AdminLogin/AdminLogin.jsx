@@ -69,7 +69,7 @@ const AdminLogin = () => {
                         alt="Brand"
                       ></img>
                     </div>
-                    <h1 className="fw-bold fs-4  LoginHead">Login for Admin Panel</h1>
+                    <h1 className="fw-bold fs-3  LoginHead">Login for Admin Panel</h1>
                     <p className="fw-bold fs-6">Please enter your email and password</p>
                   </div>
                   <div className="col-12">

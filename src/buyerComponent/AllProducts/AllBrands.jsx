@@ -31,7 +31,7 @@ const AllBrands = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-2">&#62;</span>{" "}
@@ -39,7 +39,7 @@ const AllBrands = () => {
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
-                        to=""
+                        to="/app/brands"
                         className="text-decoration-none text-white fs-6 "
                       >
                         All Brands

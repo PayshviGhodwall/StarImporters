@@ -13,7 +13,7 @@ export async function userLogin(formData) {
       await localStorage.removeItem("token-user");
       await localStorage.setItem("token-user", data.results.token);
 
-      toast.success(data.message);
+      // toast.success(data.message);
     } else toast.success(data.message);
 
     console.log(data.message);
@@ -32,9 +32,9 @@ export async function userPreLoginPassword(formData) {
     );
     console.log(data);
 
-    if (!data.error) {
-      toast.success(data.message);
-    } else toast.success(data.message);
+    // if (!data.error) {
+    //   toast.success(data.message);
+    // } else toast.success(data.message);
 
     console.log(data.message);
     return { data };

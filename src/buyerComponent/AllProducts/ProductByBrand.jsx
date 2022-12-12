@@ -78,7 +78,7 @@ const ProductByBrand = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-1">&#62;</span>{" "}
@@ -86,7 +86,7 @@ const ProductByBrand = () => {
                     </li>
                     <li className="item_nanner">
                       <Link
-                        to="/AllBrands"
+                        to="/app/brands"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Brands <span className="arrow mx-1">&#62;</span>{" "}
@@ -170,59 +170,7 @@ const ProductByBrand = () => {
                         </div>
                       </div>
                     </Panel>
-                    <Panel
-                      header="Sub Categories"
-                      eventKey={3}
-                      id="panel3"
-                      defaultExpanded
-                      className="fw-bold"
-                    >
-                      <div className="accordion-body px-0 pt-3 pb-0">
-                        <div className="row">
-                          {(brands || [])
-                            ?.filter((item, idx) => idx < 5)
-                            .map((item, index) => (
-                              <div className="col-12 form-group " key={index}>
-                                <input
-                                  className=""
-                                  style={{
-                                    width: "20px",
-                                    height: "20px",
-                                    position: "relative",
-                                    top: "4px",
-                                  }}
-                                  type="checkbox"
-                                  value={item?.brandName}
-                                  id="check5"
-                                  name="check5"
-                                  onChange={(e) => {
-                                    setBrandName(e.target.value);
-                                  }}
-                                />
-                                <label
-                                  htmlFor="check5"
-                                  style={{
-                                    fontWeight: "500",
-                                    marginLeft: "13px",
-                                    fontSize: "18px",
-                                  }}
-                                >
-                                  {item?.brandName}
-                                </label>
-                              </div>
-                            ))}
-                          <div className="col-12 mt-3">
-                            <p
-                              className="more_btn text-decoration-none
-                        "
-                              href="javscript:;"
-                            >
-                              More
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Panel>
+                    
                     <Panel
                       header="Sort By"
                       eventKey={2}

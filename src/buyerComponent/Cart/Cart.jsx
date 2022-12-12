@@ -99,7 +99,7 @@ const Cart = () => {
                     data-bs-target="#nav-home"
                     type="button"
                     onClick={() => {
-                      navigate("/Cart");
+                      navigate("/app/Cart");
                     }}
                   >
                     <i
@@ -114,7 +114,7 @@ const Cart = () => {
                     data-bs-toggle="tab"
                     style={{ width: "50%" }}
                     onClick={() => {
-                      navigate("/MyQuotes");
+                      navigate("/app/quotes");
                     }}
                   >
                     <i
@@ -285,7 +285,7 @@ const Cart = () => {
                               <div className="col-12 text-center mb-3 mt-5">
                                 <Link
                                   className="comman_btn text-decoration-none"
-                                  to="/Cart/Checkout"
+                                  to="/app/checkout"
                                 >
                                   Checkout
                                 </Link>
@@ -678,7 +678,7 @@ const Cart = () => {
                                   <button
                                     className="comman_btn2 rounded p-2"
                                     onClick={() => {
-                                      navigate("/");
+                                      navigate("/app/home");
                                     }}
                                   >
                                     Explore More

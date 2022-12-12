@@ -59,7 +59,7 @@ const SignUp = () => {
             icon: "success",
             button: "Ok",
           }); 
-          navigate("/");
+          navigate("/app/home");
         }
         if (response?.data.message === "Email is already registered") {
           setLoader(false)
@@ -680,7 +680,7 @@ const SignUp = () => {
                     </label>
                   </div>
                   <div className="col-12 text-center mt-4">
-                    <Button className="comman_btn2 mx-2 fw-bold" appearance="primary" onClick={()=>{navigate("/")}} style={{backgroundColor:"#eb3237",color:"#fff"}}>Cancel</Button>
+                    <Button className="comman_btn2 mx-2 fw-bold" appearance="primary" onClick={()=>{navigate("/app/home")}} style={{backgroundColor:"#eb3237",color:"#fff"}}>Cancel</Button>
                     <Button  loading={loader} appearance="primary" className="comman_btn mx-2 fw-bold" type="submit"  style={{backgroundColor:"#3e4093",color:"#fff"}}>
                       Submit
                     </Button>

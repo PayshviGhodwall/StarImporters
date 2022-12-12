@@ -702,7 +702,7 @@ const AddUser = () => {
                           Phone Number
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className={classNames(
                             "form-control  border border-secondary signup_fields ",
                             { "is-invalid": errors.phoneNumber }
@@ -792,7 +792,7 @@ const AddUser = () => {
                           Business Number
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className={classNames(
                             "form-control  border border-secondary signup_fields ",
                             { "is-invalid": errors.businessNumber }

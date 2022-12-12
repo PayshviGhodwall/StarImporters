@@ -38,7 +38,7 @@ const Checkout = () => {
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/OrderDetails", {
+              navigate("/app/order-detail", {
                 state: { id: res?.data.results?.order._id },
               });
             });
@@ -59,7 +59,7 @@ const Checkout = () => {
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/OrderDetails", {
+              navigate("/app/order-detail", {
                 state: { id: res?.data.results.order._id },
               });
             });
@@ -80,7 +80,7 @@ const Checkout = () => {
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/OrderDetails", {
+              navigate("/app/order-detail", {
                 state: { id: res?.data.results.order._id },
               });
             });
@@ -102,7 +102,7 @@ const Checkout = () => {
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Home <span className="arrow mx-2">&#62;</span>{" "}
@@ -110,7 +110,7 @@ const Checkout = () => {
                     </li>
                     <li className="item_nanner">
                       <Link
-                        to="/"
+                        to="/app/cart"
                         className="text-decoration-none text-white fs-6  "
                       >
                         Cart <span className="arrow mx-2">&#62;</span>{" "}
