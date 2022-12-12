@@ -272,7 +272,7 @@ const Navbar = ({ NState,GetChange }) => {
                 ))}
 
               <li>
-                <Link className="text-decoration-none" to="/AllBrands">
+                <Link className="text-decoration-none" to="/app/brands">
                   Brands
                 </Link>
               </li>

@@ -46,7 +46,7 @@ const Contact = () => {
     <div className="bg-light Contacts">
         <Navbar/>
 
-      <div className="">
+      <div className="marginTop">
         <div className="container p-5">
           <div className="row mt-4 mb-5">
             <div className="card col-lg-6 col-md-6 col-sm-12 shadow">

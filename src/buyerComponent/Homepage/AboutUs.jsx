@@ -14,7 +14,7 @@ const AboutUs = () => {
   return (
     <div>
       <Navbar/>
-    <div className=" bg-whitem-2 p-5" >
+    <div className=" bg-whitem-2 p-5" style={{marginTop:"8rem"}} >
       <>
   <h1> ABOUT US for STAR IMPORTERS</h1>
   <p>

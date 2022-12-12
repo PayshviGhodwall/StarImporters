@@ -31,7 +31,7 @@ const RequestDetails = () => {
   return (
     <div className="main_myaccount">
       <Navbar />
-      <section className="comman_banner _banner">
+      <section className="comman_banner _banner marginTop">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">

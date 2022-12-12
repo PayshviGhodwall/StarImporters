@@ -88,7 +88,7 @@ const SignUpAgain = () => {
     <div className="SignUp">
       <Navbar />
 
-      <div className="container ">
+      <div className="container marginTop">
         <div className="row justify-content-center">
           <div className="col-lg-8">
             <form

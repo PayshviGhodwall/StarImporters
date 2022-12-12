@@ -213,7 +213,7 @@ const SingleProduct = () => {
   return (
     <div className="" style={{ background: "#eef3ff" }}>
       <Navbar NState={NState} GetChange={GetChange} />
-      <section className="comman_banner _banner">
+      <section className="comman_banner _banner marginTop">
         <div className="container ">
           <div className="row">
             <div className="col-12">

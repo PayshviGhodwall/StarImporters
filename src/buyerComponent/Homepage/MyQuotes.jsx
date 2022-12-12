@@ -73,7 +73,7 @@ const MyQuotes = () => {
       <Animate>
 
       <section
-        className="cart_page py-5"
+        className="cart_page py-5 marginTop"
         style={{ backgroundColor: "#eef3ff" }}
       >
         {token ? (
