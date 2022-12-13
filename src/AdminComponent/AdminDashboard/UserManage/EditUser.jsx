@@ -74,7 +74,7 @@ const EditUser = () => {
     formData.append("salesTaxId", files?.salesTaxId);
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
-    formData.append("quotation", data?.quotation);
+    // formData.append("quotation", data?.quotation);
 
     await axios.post(apiUrl2 + "/" + objectId, formData).then((res) => {
       console.log(res);
@@ -730,19 +730,9 @@ const EditUser = () => {
                           defaultValue={user?.phoneNumber}
                           name="phoneNumber"
                           id="name"
-                          {...register("phoneNumber", {
-                            maxLength: {
-                              value: 10,
-                              message: "maximium 10 Characters",
-                            },
-                            minLength: 10,
-                          })}
+                          {...register("phoneNumber",)}
                         />
-                        {errors.phoneNumber && (
-                          <small className="errorText mx-1 fw-bold">
-                            {errors.phoneNumber?.message}
-                          </small>
-                        )}
+                        
                       </div>
                       <div className="col-md-12 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
@@ -826,13 +816,7 @@ const EditUser = () => {
                           name="businessNumber"
                           id="name"
                           defaultValue={user?.businessPhoneNumber}
-                          {...register("businessNumber", {
-                            maxLength: {
-                              value: 10,
-                              message: "maximium 10 Characters",
-                            },
-                            minLength: 10,
-                          })}
+                          {...register("businessNumber")}
                         />
                         {errors.businessNumber && (
                           <small className="errorText mx-1 fw-bold">
@@ -873,7 +857,7 @@ const EditUser = () => {
                                 className="d-none"
                                 type="radio"
                                 id="vii"
-                                value="true"
+                                value="1"
                                 name="quotation"
                                 {...register("quotation")}
                               />
@@ -886,8 +870,8 @@ const EditUser = () => {
                                 className="d-none"
                                 type="radio"
                                 id="sh"
-
-                                value="false"
+                               
+                                value="0"
                                 name="quotation"
                                 {...register("quotation")}
                               />

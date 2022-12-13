@@ -14,17 +14,20 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 import { post } from "jquery";
 import ProfileBar from "../ProfileBar";
+import ReactPaginate from "react-paginate";
+
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
   const userStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/userStatus`;
   const genCrendentials = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendUsersCredentials`;
+  const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/usersCount`;
   const [values, setValues] = useState({ from: "", to: "" });
   const [search, setSearch] = useState();
   const [statsIndex, setStatsIndex] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [impFile, setImpFile] = useState([]);
-  const [userId, setUserId] = useState();
+  const [usersTotal, setUsersTotal] = useState([]);
   const [ux, setUx] = useState(false);
   const [um, setUm] = useState(false);
   const [sideBar, setSideBar] = useState(true);
@@ -41,6 +44,11 @@ const UserManage = () => {
   const navigate = useNavigate();
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
+  const [postsPerPage] = useState(30);
+  const [offset, setOffset] = useState(1);
+  const [posts, setAllPosts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -78,7 +86,10 @@ const UserManage = () => {
     setRejectedUsers(res?.data.results);
     return res.data;
   };
-
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setOffset(selectedPage + 1);
+  };
   useEffect(() => {
     const getPendingUser = async () => {
       const res = await axios.post(apiUrl, {
@@ -91,9 +102,10 @@ const UserManage = () => {
       const res = await axios.post(apiUrl, {
         type: "APPROVED",
       });
-      setApprovedUsers(res.data.results);
-
-      return res.data;
+      let data = res?.data.results;
+      let slice = data.slice(offset - 1, offset - 1 + postsPerPage);
+      setApprovedUsers(slice);
+      setPageCount(Math.ceil(data?.length / postsPerPage));
     };
     const getRejectedUser = async () => {
       const res = await axios.post(apiUrl, {
@@ -103,19 +115,24 @@ const UserManage = () => {
 
       return res.data;
     };
+    const GetUserCount = async()=>{
+     await axios.get(totalUser).then((res)=>{
+      setUsersTotal(res?.data.results)
+     })
+    }
+    GetUserCount()
     getPendingUser();
     getApprovedUser();
     getRejectedUser();
-  }, [search]);
+  }, [search, offset]);
 
   const onUpload = async () => {
     setLoader(true);
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(uploadUrl, formData).then((res) => {
-      if(res.error){
+      if (res.error) {
         setUploadError(res?.data.message);
-
       }
       if (res?.data.message === "Imported details") {
         setLoader(false);
@@ -409,7 +426,7 @@ const UserManage = () => {
                           >
                             Pending{" "}
                             <span className="circle_count">
-                              {pendingUsers?.length}
+                            {usersTotal?.pending}
                             </span>
                           </button>
                           <button
@@ -423,9 +440,9 @@ const UserManage = () => {
                             aria-selected="false"
                           >
                             Approved{" "}
-                            <span className="circle_count">
-                              {approvedUsers?.length}
-                            </span>
+                            <button className="circle_count">
+                              {usersTotal?.approved}
+                            </button>
                           </button>
                           <button
                             className="nav-link outline-0 border-0"
@@ -439,7 +456,7 @@ const UserManage = () => {
                           >
                             Returned{" "}
                             <span className="circle_count">
-                              {rejectedUsers?.length}
+                            {usersTotal?.rejected}
                             </span>
                           </button>
                         </div>
@@ -494,7 +511,12 @@ const UserManage = () => {
                               <div className="table-responsive">
                                 <table className="table mb-0">
                                   <thead>
-                                    <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
+                                    <tr
+                                      style={{
+                                        backgroundColor: "#f2f2f2",
+                                        marginLeft: "8px",
+                                      }}
+                                    >
                                       <th>S.No.</th>
                                       <th>Date</th>
                                       <th>User Name</th>
@@ -593,7 +615,12 @@ const UserManage = () => {
                                 <div className="table-responsive">
                                   <table className="table mb-0">
                                     <thead>
-                                      <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
+                                      <tr
+                                        style={{
+                                          backgroundColor: "#f2f2f2",
+                                          marginLeft: "8px",
+                                        }}
+                                      >
                                         <th>S.No.</th>
                                         <th>Date</th>
                                         <th>User Name</th>
@@ -665,6 +692,19 @@ const UserManage = () => {
                                     </tbody>
                                   </table>
                                 </div>
+                                <div className="col-12 d-flex justify-content-center">
+                                  <ReactPaginate
+                                    previousLabel={"< previous"}
+                                    nextLabel={"next >"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={pageCount}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -716,7 +756,12 @@ const UserManage = () => {
                               <div className="table-responsive">
                                 <table className="table mb-0">
                                   <thead>
-                                    <tr style={{backgroundColor:"#f2f2f2",marginLeft:"8px"}}>
+                                    <tr
+                                      style={{
+                                        backgroundColor: "#f2f2f2",
+                                        marginLeft: "8px",
+                                      }}
+                                    >
                                       <th>S.No.</th>
                                       <th>Date</th>
                                       <th>User Name</th>

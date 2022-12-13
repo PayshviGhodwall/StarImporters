@@ -1,10 +1,15 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { verifyOTP } from "../httpServices/loginHttpService/loginHttpService";
 
 function AppOtpVerification() {
+  const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
+  const [counter, setCounter] = useState(0);
+  const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -14,6 +19,9 @@ function AppOtpVerification() {
   const location = useLocation();
 
   const navigate = useNavigate();
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
 
   const onSubmit = async (data) => {
     let otp = Object.values(data);
@@ -31,6 +39,20 @@ function AppOtpVerification() {
         state: { email: location.state.email },
       });
     }
+  };
+  const ResendOtp = async (e) => {
+    setCounter(60);
+    e.preventDefault();
+    await axios
+      .post(sendOtp, {
+        email: location.state.email,
+      })
+      .then((res) => {
+        console.log(res?.data.results);
+        if (!res.error) {
+          setError("OTP Re-sent Successfully");
+        }
+      });
   };
   const moveOnMax = (event, field, nextField) => {
     event = event || window.event;
@@ -121,6 +143,16 @@ function AppOtpVerification() {
                         {...register("otp4", { required: true })}
                       />
                     </div>
+                    <div className="form-group my-3">
+                      <div className="time_js">
+                        <span
+                          className="fw-bold fs-5"
+                          style={{ color: "#fff" }}
+                        >
+                          00:{counter}
+                        </span>
+                      </div>
+                    </div>
                     <button className="comman_btn" type="submit">
                       Verify &amp; Proceed
                     </button>
@@ -130,10 +162,23 @@ function AppOtpVerification() {
                 <div className="login-meta-data">
                   <p className="mt-3 mb-0">
                     Don't received the OTP?
-                    <span
-                      className="otp-sec mx-1 text-white"
-                      id="resendOTP"
-                    ></span>
+                  {counter ? 
+                  <span
+                  className="otp-sec mx-1 text-white"
+                  id="resendOTP"
+                  onClick={ResendOtp}
+                >
+                  Check Your Email.
+                </span> :
+                <span
+                className="otp-sec mx-1 text-white"
+                id="resendOTP"
+                onClick={ResendOtp}
+              >
+                Resent OTP
+              </span>
+                }
+                   
                   </p>
                 </div>
               </div>

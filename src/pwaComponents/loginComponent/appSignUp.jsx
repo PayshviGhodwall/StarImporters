@@ -519,7 +519,7 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="d-flex">
-                      <button className="comman_btn me-1">Cancel</button>
+                      <button className="comman_btn me-1" onClick={()=>navigate("/app/login")}>Cancel</button>
                       <button
                         className="comman_btn2 bg-white text-dark ms-1"
                         type="submit"

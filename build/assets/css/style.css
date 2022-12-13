@@ -3612,18 +3612,14 @@
   .user-management-tabs .nav-tabs {
     border: 0;
   }
-  .circle_count {
-    display: inline-flex;
+  /* .circle_count {
     align-items: center;
     justify-content: center;
     background-color: #3e4093;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
     color: #fff;
-    font-size: 13px;
+    font-size: 11px;
     margin-left: 5px;
-  }
+  } */
   .user-management-tabs .nav-tabs .nav-link.active .circle_count {
     background-color: #fff;
     color: #3e4093;
@@ -3925,10 +3921,9 @@
     align-items: center;
     justify-content: center;
     background-color: #3e4093;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
+    border-radius: 30px;
     color: #fff;
+    padding: 2px 4px;
     font-size: 13px;
     margin-left: 5px;
   }
@@ -4611,7 +4606,7 @@ background-color: #3e4093;
   .user-management-tabs .nav-tabs {
     border: 0;
   }
-  .circle_count {
+  /* .circle_count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4622,7 +4617,7 @@ background-color: #3e4093;
     color: #fff;
     font-size: 13px;
     margin-left: 5px;
-  }
+  } */
   .user-management-tabs .nav-tabs .nav-link.active .circle_count {
     background-color: #fff;
     color: #3e4093;

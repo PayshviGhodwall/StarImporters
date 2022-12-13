@@ -74,6 +74,7 @@ const Inventory = () => {
     getBrands();
     GetProducts();
   }, [change, offset]);
+
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setOffset(selectedPage + 1);
@@ -89,6 +90,7 @@ const Inventory = () => {
       setPageCount(Math.ceil(data?.length / postsPerPage));
     });
   };
+
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -105,7 +107,7 @@ const Inventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
-  console.log(formValues);
+  
 
   const addFormFields = (e) => {
     setFormValues([
