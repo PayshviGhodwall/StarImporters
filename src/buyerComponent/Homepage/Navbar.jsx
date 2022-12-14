@@ -14,11 +14,13 @@ import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 
-const Navbar = ({ NState,GetChange }) => {
+const Navbar = ({ NState, GetChange }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const searchApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeSearch`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
+  const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
+  const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
   const [SearchData, setSearchData] = useState([]);
   const [category, setCategory] = useState([]);
   const [state, setState] = useState(false);
@@ -27,43 +29,23 @@ const Navbar = ({ NState,GetChange }) => {
   const [UserAuth, setUserAuth] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [cartNum, setCartNum] = useState(0);
+  const [notifications, setNotifications] = useState();
 
-  const items = [
-    {
-      id: 0,
-      name: "Cobol",
-    },
-    {
-      id: 1,
-      name: "JavaScript",
-    },
-    {
-      id: 2,
-      name: "Basic",
-    },
-    {
-      id: 3,
-      name: "PHP",
-    },
-    {
-      id: 4,
-      name: "Java",
-    },
-  ];
   useEffect(() => {
     AllProducts();
     CartCount();
+    getNotifications();
     getCategory();
     handleScroll();
   }, [state, NState]);
 
-  const handleOnSearch = async (e,string, results) => {
-    if(e.key === 'Enter'){
+  const handleOnSearch = async (e, string, results) => {
+    if (e.key === "Enter") {
       navigate("/AllProducts/Product", {
         state: { id: results },
       });
     }
-  
+
     console.log(string, results);
   };
 
@@ -77,7 +59,6 @@ const Navbar = ({ NState,GetChange }) => {
     navigate("/AllProducts/Product", {
       state: { id: item?._id, CateName: item.categoryName },
     });
-    
   };
 
   const handleOnFocus = () => {
@@ -105,10 +86,14 @@ const Navbar = ({ NState,GetChange }) => {
       setSearchData(res?.data.results);
     });
   };
-  const handleKeyDown =()=>{
+  const handleKeyDown = () => {
     console.log("enrt");
-  }
-
+  };
+  const getNotifications = async () => {
+    await axios.get(allNotify).then((res) => {
+      setNotifications(res?.data.results?.notifications);
+    });
+  };
   useEffect(() => {
     // if (window.localStorage !== undefined) {
     const authToken = localStorage.getItem("token-user");
@@ -122,6 +107,14 @@ const Navbar = ({ NState,GetChange }) => {
 
       setCartNum(res?.data.results);
     });
+  };
+
+  const removeNotify = async (id) => {
+    await axios.post(deleteNotify + "/" + id).then((res)=>{
+      if(!res.error){
+        getNotifications()
+      }
+    })
   };
 
   const LogOut = () => {
@@ -138,12 +131,13 @@ const Navbar = ({ NState,GetChange }) => {
       setScrolled(false);
     }
   };
+  console.log(notifications);
   return (
-    <div className="header_main " >
+    <div className="header_main ">
       <header className="">
         <div className="row header_top py-3 px-4 align-items-center justify-content-between">
           <div className="col-auto">
-            <Link className="header_logo" to="/app/home">
+            <Link className="header_logo mx-2" to="/app/home">
               <img src={Starlogo} alt="" />
             </Link>
           </div>
@@ -156,14 +150,16 @@ const Navbar = ({ NState,GetChange }) => {
 
                 border: "2px solid #3e4093",
               }}
-              fuseOptions={{ keys: ["unitName", "pBarcode"] }} // Search on both fields
+              fuseOptions={{ keys: ["unitName", "pBarcode", "flavourBarcode"] }} // Search on both fields
               resultStringKeyName="unitName"
               onSearch={handleOnSearch}
               onHover={handleOnHover}
               maxResults={15}
               onSelect={handleOnSelect}
               onFocus={handleOnFocus}
-              onKeyDown = {(e)=>{handleKeyDown(e)}}
+              onKeyDown={(e) => {
+                handleKeyDown(e);
+              }}
               placeholder="Search "
             />
           </div>
@@ -174,9 +170,44 @@ const Navbar = ({ NState,GetChange }) => {
 
                 <span className="count">{cartNum}</span>
               </Link>
-              <Link to="javascript:;">
-                <i className="far fa-bell" />
-                <span className="count">0</span>
+              <Link class="dropdown-center">
+                <Link
+                  class=""
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="far fa-bell" />
+                  {notifications?.length ? (
+                    <span className="count">{notifications?.length}</span>
+                  ) : null}
+                </Link>
+
+                <ul class="dropdown-menu notification">
+                  {notifications?.length ? 
+                   <div class="notification-heading">
+                   <h4 class="menu-title fs-4 ">Notifications</h4>
+                 </div>
+                 :
+                 <div class="notification-heading">
+                 <h4 class="fs-6">No new notifications found.</h4>
+               </div>
+                }
+                  
+                  {notifications?.map((item, index) => (
+                    <li key={index} className="notification-Item">
+                      <div class="dropdown-item " href="#">
+                        <h6 className="item-title ">
+                          {item?.title} : {item?.createdAt?.slice(0, 10)}
+                          <span class="remove-Notity">
+                            <i class="fa fa-close" onClick={()=>removeNotify(item?._id)}></i>
+                          </span>
+                        </h6>
+                        <small className="s">{item?.body}</small>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </Link>
             </div>
             {UserAuth ? (
@@ -203,7 +234,7 @@ const Navbar = ({ NState,GetChange }) => {
                 </div>
               </div>
             ) : (
-              <div className="d-flex mt-2">
+              <div className="d-flex mt-2 mx-3">
                 <Link
                   to=""
                   className="login_btns mt-2 text-decoration-none"

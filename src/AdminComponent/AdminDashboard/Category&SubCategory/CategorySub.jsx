@@ -388,6 +388,7 @@ const CategorySub = () => {
                                     type="file"
                                     className="form-control shadow-none"
                                     defaultValue=""
+                                    accept="image/*"
                                     name="cateImg"
                                     id="upload_video"
                                     onChange={(e) =>
@@ -436,10 +437,10 @@ const CategorySub = () => {
 
                                               <td>
                                                 {" "}
-                                                <div className="toggle-switch">
+                                                <div className="">
+                                                <label class="switchUser" >
                                                   <input
                                                     type="checkbox"
-                                                    className="checkbox"
                                                     id={index + 1}
                                                     defaultChecked={
                                                       item?.status
@@ -448,14 +449,10 @@ const CategorySub = () => {
                                                       CategoryStatus(index);
                                                     }}
                                                   />
-                                                  <label
-                                                    className="label"
-                                                    htmlFor={index + 1}
-                                                  >
-                                                    <span className="inner" />
-                                                    <span className="switch" />
-                                                  </label>
-                                                </div>
+                                                  <span class="sliderUser round"></span>
+                                                </label>
+                                              </div>
+                                                
                                               </td>
 
                                               <td>
@@ -535,6 +532,7 @@ const CategorySub = () => {
                                     type="file"
                                     className="form-control  shadow-none"
                                     defaultValue=""
+                                    accept="image/*"
                                     name="subCateImg"
                                     id="upload_video"
                                     onChange={(e) =>

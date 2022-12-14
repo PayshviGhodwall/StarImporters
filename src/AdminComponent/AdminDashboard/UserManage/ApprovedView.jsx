@@ -597,7 +597,7 @@ const ApprovedView = () => {
                                 name="quotation"
                                 disabled
                               />
-                              <label htmlFor="vii">Yes </label>
+                              <label htmlFor="vii">Enabled</label>
                             </div>
                           </div>
                           <div className="col">
@@ -609,7 +609,7 @@ const ApprovedView = () => {
                                 name="quotation"
                                 disabled
                               />
-                              <label htmlFor="sh">No </label>
+                              <label htmlFor="sh">Disabled </label>
                             </div>
                           </div>
                         </div>

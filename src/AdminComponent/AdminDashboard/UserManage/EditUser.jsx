@@ -17,7 +17,14 @@ import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
 const EditUser = () => {
   const [loader, setLoader] = useState(false);
-  const [files, setFiles] = useState({imageProfile:"",federalTaxId:"",businessLicense:"",tobaccoLicence:"",salesTaxId:"",accountOwnerId:""});
+  const [files, setFiles] = useState({
+    imageProfile: "",
+    federalTaxId: "",
+    businessLicense: "",
+    tobaccoLicence: "",
+    salesTaxId: "",
+    accountOwnerId: "",
+  });
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
@@ -74,7 +81,7 @@ const EditUser = () => {
     formData.append("salesTaxId", files?.salesTaxId);
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
-    // formData.append("quotation", data?.quotation);
+    formData.append("quotation", data?.quotation);
 
     await axios.post(apiUrl2 + "/" + objectId, formData).then((res) => {
       console.log(res);
@@ -128,7 +135,7 @@ const EditUser = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -311,7 +318,7 @@ const EditUser = () => {
                             <div className="">
                               <img
                                 className=""
-                                width={150}
+                                style={{height:"200px"}}
                                 src={prodImg ? prodImg : user?.profileImage}
                                 alt="Please Upload Image"
                               />
@@ -367,7 +374,6 @@ const EditUser = () => {
                           )}
                           name="dba"
                           defaultValue={user?.dba}
-
                           id="DBA"
                           {...register("dba")}
                         />
@@ -384,7 +390,6 @@ const EditUser = () => {
                         <input
                           type="text"
                           defaultValue={user?.addressLine}
-
                           className={classNames(
                             "form-control  border border-secondary signup_fields"
                           )}
@@ -416,7 +421,6 @@ const EditUser = () => {
                           name="city"
                           id="name"
                           defaultValue={user?.city}
-
                           {...register("city")}
                         />
                         {errors.city && (
@@ -436,7 +440,6 @@ const EditUser = () => {
                           aria-label="Default select example"
                           name="state"
                           defaultValue={user?.state}
-
                           {...register("state")}
                         >
                           <option value="">Select a state/province...</option>
@@ -533,7 +536,6 @@ const EditUser = () => {
                           name="zipcode"
                           id="name"
                           defaultValue={user?.zipcode}
-
                           {...register("zipcode")}
                         />
                         {errors.zipcode && (
@@ -550,7 +552,6 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file1"
-
                               name="federalTaxId"
                               {...register("federalTaxId")}
                               onChange={(e) =>
@@ -714,7 +715,6 @@ const EditUser = () => {
                           name="lastName"
                           id="LastName"
                           defaultValue={user?.lastName}
-
                           {...register("lastName")}
                         />
                       </div>
@@ -730,9 +730,8 @@ const EditUser = () => {
                           defaultValue={user?.phoneNumber}
                           name="phoneNumber"
                           id="name"
-                          {...register("phoneNumber",)}
+                          {...register("phoneNumber")}
                         />
-                        
                       </div>
                       <div className="col-md-12 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
@@ -846,37 +845,22 @@ const EditUser = () => {
                           <option value="Instagram">Instagram</option>
                         </select>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">
-                            Request for Quotation : {user?.quotation ? "Enabled" : "Disabled"}
+                            Quotation :{" "}
+                            {user?.quotation ? "Enabled" : "Disabled"}
                           </span>
-                          <div className="col">
-                            <div className="action_filter filter_check">
+                          <div className="col-12 align-item-center ">
+                            <label class="switch">
                               <input
-                                className="d-none"
-                                type="radio"
-                                id="vii"
-                                value="1"
+                                type="checkbox"
                                 name="quotation"
+                                defaultChecked={user?.quotation}
                                 {...register("quotation")}
                               />
-                              <label htmlFor="vii">Yes </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="action_filter filter_check">
-                              <input
-                                className="d-none"
-                                type="radio"
-                                id="sh"
-                               
-                                value="0"
-                                name="quotation"
-                                {...register("quotation")}
-                              />
-                              <label htmlFor="sh">No </label>
-                            </div>
+                              <span class="slider round"></span>
+                            </label>
                           </div>
                         </div>
                       </div>

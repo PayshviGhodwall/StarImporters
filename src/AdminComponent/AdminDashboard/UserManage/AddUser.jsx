@@ -92,7 +92,15 @@ const AddUser = () => {
         setEmailErr("Email is already registered")
         
       }
-    });
+      if(res?.data.error){
+        setLoader(false)
+        Swal.fire({
+          title: res?.data.message,
+          icon: "error",
+          button: "Ok",
+        });
+      }
+    })
   
   };
 

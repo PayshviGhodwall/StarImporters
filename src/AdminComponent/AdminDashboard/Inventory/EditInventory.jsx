@@ -79,7 +79,7 @@ const EditInventory = () => {
     await axios.get(getProducts + "/" + id).then((res) => {
       setAllProducts([res?.data.results]);
       setFormValues(res?.data.results.type);
-      setProductBarcode(res?.data.results?.pBarcode)
+      setProductBarcode(res?.data.results?.pBarcode);
     });
   };
 
@@ -244,7 +244,7 @@ const EditInventory = () => {
         flavourImage: [],
         barcode: [],
         flavourPrice: "",
-        flavourStatus:true,
+        flavourStatus: true,
       },
     ]);
   };
@@ -529,7 +529,6 @@ const EditInventory = () => {
                       </select>
                     </div>
                     <div className="form-group col-3">
-                      
                       <div class="form-check form-switch">
                         <input
                           class="form-check-input"
@@ -537,8 +536,7 @@ const EditInventory = () => {
                           id="flexSwitchCheckChecked"
                           defaultChecked={allProducts[0]?.productPriceStatus}
                           name="productPriceStatus"
-                            {...register("productPriceStatus")}
-                          
+                          {...register("productPriceStatus")}
                         />
                         <label
                           class="form-check-label"
@@ -559,7 +557,7 @@ const EditInventory = () => {
                     <div className="form-group col-4">
                       <label htmlFor="">Barcode</label>
                       <div className="tags-input-container  border border-secondary">
-                      {(productBarcode || [])?.map((tag, ind) => (
+                        {(productBarcode || [])?.map((tag, ind) => (
                           <div className="tag-item" key={ind}>
                             <span className="tag-text">{tag}</span>
                             <span
@@ -570,9 +568,8 @@ const EditInventory = () => {
                             </span>
                           </div>
                         ))}
-                         <input
+                        <input
                           type="text"
-                          
                           className="form-control shadow-none"
                           style={{ border: "none" }}
                           name="pBarcode"
@@ -698,7 +695,7 @@ const EditInventory = () => {
                                         style={{
                                           height: "200px",
                                           width: "130px",
-                                          marginLeft:"0"
+                                          marginLeft: "0",
                                         }}
                                         src={item?.flavourImage}
                                       />
@@ -709,13 +706,18 @@ const EditInventory = () => {
                                           position: "relative",
                                           left: "5px",
                                           top: "1px",
-                                          color:"#000"
+                                          color: "#000",
                                         }}
                                         className=" fas fa-camera"
                                       />
                                       <input
                                         className=""
-                                        style={{pointer:"cursor",left:"-5px",position:"relative",opacity:"10%"}}
+                                        style={{
+                                          pointer: "cursor",
+                                          left: "-5px",
+                                          position: "relative",
+                                          opacity: "10%",
+                                        }}
                                         type="file"
                                         accept="image/*"
                                         name="flavourImage"
@@ -728,25 +730,18 @@ const EditInventory = () => {
                                 </div>
                                 <div className="form-group mb-2 mt-1 col-lg-1 col-md-1  position-relative">
                                   <label className=""> Status </label>
-
-                                  <div className="toggle-switch ">
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox"
-                                      defaultChecked={item?.flavourStatus}
-                                      onClick={() => {
-                                        TypeStatus(index);
-                                      }}
-                                    />
-                                    <label
-                                      className="label"
-                                      htmlFor="FlavourStatus"
-                                    >
-                                      <span className="inner" />
-                                      <span className="switchF" />
+                                  <div className="">
+                                    <label class="switchUser">
+                                      <input
+                                        type="checkbox"
+                                        defaultChecked={item?.flavourStatus}
+                                        onClick={() => {
+                                          TypeStatus(index);
+                                        }}
+                                      />
+                                      <span class="sliderUser round"></span>
                                     </label>
                                   </div>
-                                  
                                 </div>
                               </div>
                             </div>
@@ -754,15 +749,15 @@ const EditInventory = () => {
                         </div>
                       </form>
                     </div>
-                   
+
                     <div className="form-group mb-0 col-12 text-center mt-2">
-                    <button
-                              className="comman_btn  mx-2"
-                              type="button"
-                              onClick={() => addFormFields()}
-                            >
-                              <i className="fa fa-plus mt-1 mx-1" /> Add More Flavours
-                            </button>
+                      <button
+                        className="comman_btn  mx-2"
+                        type="button"
+                        onClick={() => addFormFields()}
+                      >
+                        <i className="fa fa-plus mt-1 mx-1" /> Add More Flavours
+                      </button>
                       <button className="comman_btn" onClick={onSubmit}>
                         Save
                       </button>

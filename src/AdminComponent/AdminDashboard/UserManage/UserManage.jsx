@@ -15,7 +15,7 @@ import { Modal } from "bootstrap";
 import { post } from "jquery";
 import ProfileBar from "../ProfileBar";
 import ReactPaginate from "react-paginate";
-
+import Pagination from "rsuite/esm/Pagination/Pagination";
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
@@ -40,12 +40,10 @@ const UserManage = () => {
   const [loader, setLoader] = useState(false);
   const [enableUser, setEnableUser] = useState();
   const importInput = document.getElementById("fileID");
-  const dropArea = document.getElementById("dropBox");
-  const navigate = useNavigate();
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
-  const [postsPerPage] = useState(30);
-  const [offset, setOffset] = useState(1);
+  const [postsPerPage] = useState(20);
+  const [activePage, setActivePage] = useState(1);
   const [posts, setAllPosts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
 
@@ -86,10 +84,10 @@ const UserManage = () => {
     setRejectedUsers(res?.data.results);
     return res.data;
   };
-  const handlePageClick = (event) => {
-    const selectedPage = event.selected;
-    setOffset(selectedPage + 1);
-  };
+  // const handlePageClick = (event) => {
+  //   const selectedPage = event.selected;
+  //   setOffset(selectedPage + 1);
+  // };
   useEffect(() => {
     const getPendingUser = async () => {
       const res = await axios.post(apiUrl, {
@@ -101,11 +99,9 @@ const UserManage = () => {
     const getApprovedUser = async () => {
       const res = await axios.post(apiUrl, {
         type: "APPROVED",
+        page: activePage,
       });
-      let data = res?.data.results;
-      let slice = data.slice(offset - 1, offset - 1 + postsPerPage);
-      setApprovedUsers(slice);
-      setPageCount(Math.ceil(data?.length / postsPerPage));
+      setApprovedUsers(res?.data.results);
     };
     const getRejectedUser = async () => {
       const res = await axios.post(apiUrl, {
@@ -115,16 +111,16 @@ const UserManage = () => {
 
       return res.data;
     };
-    const GetUserCount = async()=>{
-     await axios.get(totalUser).then((res)=>{
-      setUsersTotal(res?.data.results)
-     })
-    }
-    GetUserCount()
+    const GetUserCount = async () => {
+      await axios.get(totalUser).then((res) => {
+        setUsersTotal(res?.data.results);
+      });
+    };
+    GetUserCount();
     getPendingUser();
     getApprovedUser();
     getRejectedUser();
-  }, [search, offset]);
+  }, [search, activePage]);
 
   const onUpload = async () => {
     setLoader(true);
@@ -426,7 +422,7 @@ const UserManage = () => {
                           >
                             Pending{" "}
                             <span className="circle_count">
-                            {usersTotal?.pending}
+                              {usersTotal?.pending}
                             </span>
                           </button>
                           <button
@@ -456,7 +452,7 @@ const UserManage = () => {
                           >
                             Returned{" "}
                             <span className="circle_count">
-                            {usersTotal?.rejected}
+                              {usersTotal?.rejected}
                             </span>
                           </button>
                         </div>
@@ -656,22 +652,19 @@ const UserManage = () => {
                                             <td>{User?.phoneNumber}</td>
                                             <td>
                                               {" "}
-                                              <div className="toggle-switch">
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox"
-                                                  id={index + 1}
-                                                  defaultChecked={User?.status}
-                                                  onClick={() => {
-                                                    UserStatus(index);
-                                                  }}
-                                                />
-                                                <label
-                                                  className="label"
-                                                  htmlFor={index + 1}
-                                                >
-                                                  <span className="inner" />
-                                                  <span className="switch" />
+                                              <div className="">
+                                                <label class="switchUser">
+                                                  <input
+                                                    type="checkbox"
+                                                    name="quotation"
+                                                    defaultChecked={
+                                                      User?.status
+                                                    }
+                                                    onClick={() => {
+                                                      UserStatus(index);
+                                                    }}
+                                                  />
+                                                  <span class="sliderUser round"></span>
                                                 </label>
                                               </div>
                                             </td>
@@ -693,17 +686,36 @@ const UserManage = () => {
                                   </table>
                                 </div>
                                 <div className="col-12 d-flex justify-content-center">
-                                  <ReactPaginate
-                                    previousLabel={"< previous"}
-                                    nextLabel={"next >"}
-                                    breakLabel={"..."}
-                                    breakClassName={"break-me"}
-                                    pageCount={pageCount}
-                                    onPageChange={handlePageClick}
-                                    containerClassName={"pagination"}
-                                    subContainerClassName={"pages pagination"}
-                                    activeClassName={"active"}
-                                  />
+                                  <ul id="pagination">
+                                    <li>
+                                      <a class="" href="#" onClick={()=>setActivePage(activePage-1)}>
+                                        «
+                                      </a>
+                                    </li>
+                                   
+                                   
+                                   
+                                  
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                    <li>
+                                      <a href="#" className="active">{activePage}</a>
+                                    </li>
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                      <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                   
+                                    <li>
+                                      <a href="#" onClick={()=>setActivePage(activePage+1)}>»</a>
+                                    </li>
+                                  </ul>
                                 </div>
                               </div>
                             </div>

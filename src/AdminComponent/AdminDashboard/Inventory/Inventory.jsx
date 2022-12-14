@@ -107,7 +107,6 @@ const Inventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
-  
 
   const addFormFields = (e) => {
     setFormValues([
@@ -498,6 +497,7 @@ const Inventory = () => {
                       </label>{" "}
                       <input
                         type="file"
+                        accept="image/*"
                         className={classNames(
                           "form-control  border border-secondary",
                           { "is-invalid": errors.productImage }
@@ -833,22 +833,17 @@ const Inventory = () => {
                                 </td>
                                 <td>
                                   {" "}
-                                  <div className="toggle-switch">
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox"
-                                      id={index + 1}
-                                      defaultChecked={User?.status}
-                                      onClick={() => {
-                                        ProductStatus(index);
-                                      }}
-                                    />
-                                    <label
-                                      className="label"
-                                      htmlFor={index + 1}
-                                    >
-                                      <span className="inner" />
-                                      <span className="switch" />
+                                  <div className="">
+                                    <label class="switchUser">
+                                      <input
+                                        type="checkbox"
+                                        id={index + 1}
+                                        defaultChecked={User?.status}
+                                        onClick={() => {
+                                          ProductStatus(index);
+                                        }}
+                                      />
+                                      <span class="sliderUser round"></span>
                                     </label>
                                   </div>
                                 </td>

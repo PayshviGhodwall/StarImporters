@@ -286,6 +286,7 @@ const BrandsManage = () => {
                                   type="file"
                                   className="form-control "
                                   defaultValue=""
+                                  accept="image/*"
                                   name="brandImg"
                                   id="upload_video"
                                   onChange={(e) =>
