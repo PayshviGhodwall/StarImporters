@@ -96,6 +96,7 @@ import AppQuotes from "./pwaComponents/homeComponent/appQuotes";
 import OrderDetails from "./buyerComponent/MyAccount/OrdersDetails";
 import RequestDetails from "./buyerComponent/MyAccount/ReqDetails";
 import Welcome from "./buyerComponent/Homepage/Welcome";
+import ProductBySearch from "./buyerComponent/AllProducts/ProductBySearch";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -132,7 +133,7 @@ function App() {
           <Route path="/Favourites" element={<Favourites />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/BuyAgain" element={<BuyAgain />} />
-
+          <Route path="/ProductSearch" element={<ProductBySearch />} />
           <Route path="/AgeVerified" element={<AgeVerification />} />
           <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
           <Route path="/Terms&Condition" element={<TermsCondition />} />

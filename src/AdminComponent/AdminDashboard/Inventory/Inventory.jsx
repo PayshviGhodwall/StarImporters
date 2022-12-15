@@ -504,6 +504,7 @@ const Inventory = () => {
                         )}
                         defaultValue=""
                         name="productImage"
+                        capture
                         {...register("productImage", {
                           required: "Enter Product Name",
                         })}

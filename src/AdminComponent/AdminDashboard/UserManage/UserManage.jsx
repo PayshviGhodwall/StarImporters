@@ -197,381 +197,553 @@ const UserManage = () => {
       });
   };
   return (
-    <div className={sideBar ? "admin_main" : "expanded_main"}>
-      <div className={sideBar ? "siderbar_section" : "d-none"}>
-        <div className="siderbar_inner">
-          <div className="sidebar_logo">
-            <Link to="" className=" ">
-              <img src={Starlogo} className="" alt="Logo" />
-            </Link>
-          </div>
-          <div className="sidebar_menus">
-            <ul className="list-unstyled ps-1 m-0">
-              <li>
-                <Link
-                  className=" "
-                  to="/AdminDashboard"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "2px" }}
-                    className="fa fa-home"
-                  ></i>{" "}
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="bg-white"
-                  to="/UserManage"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    color: "#3e4093",
-                  }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-user"
-                  ></i>{" "}
-                  User Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/CategorySub"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-layer-group"
-                  ></i>{" "}
-                  Category &amp; Sub Category
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/Inventory"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "6px", top: "3px" }}
-                    class="far fa-building"
-                  ></i>{" "}
-                  Inventory Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/brandsManage"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-ship"
-                  ></i>{" "}
-                  Brands Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/OrderRequest"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-layer-group"
-                  ></i>{" "}
-                  Order request
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/Cms"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-cog"
-                  ></i>{" "}
-                  CMS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/AdminLogin"
-                  onClick={handleClick}
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-sign-out-alt"
-                  ></i>
-                  Logout
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="admin_main_inner">
-        <div className="admin_header shadow">
-          <div className="row align-items-center mx-0 justify-content-between w-100">
-            <div className="col">
-              {sideBar ? (
-                <div>
-                  <h1
-                    className="mt-2 text-white"
-                    onClick={() => {
-                      console.log("yello");
-                      setSideBar(!sideBar);
+    <div className={sideBar ? "  admin_main" : "row expanded_main"}>
+      <div className="">
+        <div className={sideBar ? " siderbar_section" : "d-none"}>
+          <div className="siderbar_inner">
+            <div className="sidebar_logo">
+              <Link to="" className=" ">
+                <img src={Starlogo} className="" alt="Logo" />
+              </Link>
+            </div>
+            <div className="sidebar_menus">
+              <ul className="list-unstyled ps-1 m-0">
+                <li>
+                  <Link
+                    className=" "
+                    to="/AdminDashboard"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
                     }}
                   >
-                    <i className="fa fa-bars"></i>
-                  </h1>
-                </div>
-              ) : (
-                <div>
-                  <h3 className="">
-                    <button
-                      onClick={(e) => {
-                        console.log(e);
+                    <i
+                      style={{ position: "relative", left: "4px", top: "2px" }}
+                      className="fa fa-home"
+                    ></i>{" "}
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="bg-white"
+                    to="/UserManage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                      color: "#3e4093",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-user"
+                    ></i>{" "}
+                    User Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/CategorySub"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Category &amp; Sub Category
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Inventory"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "6px", top: "3px" }}
+                      class="far fa-building"
+                    ></i>{" "}
+                    Inventory Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/brandsManage"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-ship"
+                    ></i>{" "}
+                    Brands Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/OrderRequest"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Order request
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Cms"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-cog"
+                    ></i>{" "}
+                    CMS
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/AdminLogin"
+                    onClick={handleClick}
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-sign-out-alt"
+                    ></i>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="admin_main_inner">
+          <div className="admin_header shadow">
+            <div className="row align-items-center mx-0 justify-content-between w-100">
+              <div className="col">
+                {sideBar ? (
+                  <div>
+                    <h1
+                      className="mt-2 text-white"
+                      onClick={() => {
+                        console.log("yello");
                         setSideBar(!sideBar);
                       }}
                     >
-                      X
-                    </button>
-                  </h3>
-                </div>
-              )}
-            </div>
-            <div className="col-auto d-flex ml-5">
-              <ProfileBar />
+                      <i className="fa fa-bars"></i>
+                    </h1>
+                  </div>
+                ) : (
+                  <div>
+                    <h3 className="">
+                      <button
+                        onClick={(e) => {
+                          console.log(e);
+                          setSideBar(!sideBar);
+                        }}
+                      >
+                        X
+                      </button>
+                    </h3>
+                  </div>
+                )}
+              </div>
+              <div className="col-auto d-flex ml-5">
+                <ProfileBar />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="admin_panel_data height_adjust">
-          <div className="row user-management justify-content-center">
-            <div className="col-12">
-              <div className="row mx-0">
-                <div className="col-12 text-end mb-4">
-                  <Link
-                    data-bs-toggle="modal"
-                    id="modal-toggle"
-                    data-bs-target="#staticBackdrop6"
-                    href="javscript:;"
-                    className="comman_btn text-decoration-none"
-                  >
-                    Import User
-                  </Link>
-                  <Link
-                    to="/UserManage/AddUser"
-                    className="comman_btn2 ms-2 text-decoration-none"
-                  >
-                    Add User
-                  </Link>
-                </div>
-                <div className="col-12 design_outter_comman recent_orders shadow">
-                  <div className="row comman_header justify-content-between">
-                    <div className="col-auto">
-                      <h2 className="main_headers">Users Management</h2>
-                    </div>
-                    <div className="col-3">
-                      <form className="form-design" action="">
-                        <div className="form-group mb-0 position-relative icons_set">
-                          <input
-                            type="text"
-                            className="form-control bg-white"
-                            placeholder="Search"
-                            name="name"
-                            id="name"
-                            onChange={(e) => {
-                              setSearchTerm(e.target.value);
-                            }}
-                          />
-                        </div>
-                      </form>
-                    </div>
+          <div className="admin_panel_data height_adjust">
+            <div className="row user-management justify-content-center">
+              <div className="col-12">
+                <div className="row mx-0">
+                  <div className="col-12 text-end mb-4">
+                    <Link
+                      data-bs-toggle="modal"
+                      id="modal-toggle"
+                      data-bs-target="#staticBackdrop6"
+                      href="javscript:;"
+                      className="comman_btn text-decoration-none"
+                    >
+                      Import User
+                    </Link>
+                    <Link
+                      to="/UserManage/AddUser"
+                      className="comman_btn2 ms-2 text-decoration-none"
+                    >
+                      Add User
+                    </Link>
                   </div>
-                  <div className="row">
-                    <div className="col-12 p-0 user-management-tabs">
-                      <nav>
-                        <div
-                          className="nav nav-tabs"
-                          id="nav-tab"
-                          role="tablist"
-                        >
-                          <button
-                            className="nav-link outline-0 active"
-                            id="nav-home-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#nav-home"
-                            type="button"
-                            role="tab"
-                            aria-controls="nav-home"
-                            aria-selected="true"
+                  <div className="col-12 design_outter_comman recent_orders shadow">
+                    <div className="row comman_header justify-content-between">
+                      <div className="col-auto">
+                        <h2 className="main_headers">Users Management</h2>
+                      </div>
+                      <div className="col-3">
+                        <form className="form-design" action="">
+                          <div className="form-group mb-0 position-relative icons_set">
+                            <input
+                              type="text"
+                              className="form-control bg-white"
+                              placeholder="Search"
+                              name="name"
+                              id="name"
+                              onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-12 p-0 user-management-tabs">
+                        <nav>
+                          <div
+                            className="nav nav-tabs"
+                            id="nav-tab"
+                            role="tablist"
                           >
-                            Pending{" "}
-                            <span className="circle_count">
-                              {usersTotal?.pending}
-                            </span>
-                          </button>
-                          <button
-                            className="nav-link outline-0"
-                            id="nav-approve-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#nav-approve"
-                            type="button"
-                            role="tab"
-                            aria-controls="nav-approve"
-                            aria-selected="false"
-                          >
-                            Approved{" "}
-                            <button className="circle_count">
-                              {usersTotal?.approved}
+                            <button
+                              className="nav-link outline-0 active"
+                              id="nav-home-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-home"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-home"
+                              aria-selected="true"
+                            >
+                              Pending{" "}
+                              <span className="circle_count">
+                                {usersTotal?.pending}
+                              </span>
                             </button>
-                          </button>
-                          <button
-                            className="nav-link outline-0 border-0"
-                            id="nav-return-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#nav-return"
-                            type="button"
-                            role="tab"
-                            aria-controls="nav-return"
-                            aria-selected="false"
-                          >
-                            Returned{" "}
-                            <span className="circle_count">
-                              {usersTotal?.rejected}
-                            </span>
-                          </button>
-                        </div>
-                      </nav>
-                      <div className="tab-content" id="nav-tabContent">
-                        <div
-                          className="tab-pane fade show active"
-                          id="nav-home"
-                          role="tabpanel"
-                          aria-aria-labelledby="nav-home-tab"
-                        >
-                          <form
-                            className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                            action=""
-                          >
-                            <div className="form-group mb-0 col-5">
-                              <label htmlFor="" className="main_headers">
-                                From
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control"
-                                name="from"
-                                value={values.from}
-                                onChange={handleDate}
-                              />
-                            </div>
-                            <div className="form-group mb-0 col-5">
-                              <label htmlFor="" className="main_headers">
-                                To
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control"
-                                name="to"
-                                value={values.to}
-                                onChange={handleDate}
-                              />
-                            </div>
-                            <div className="form-group mb-0 col-auto">
-                              <button
-                                className="comman_btn"
-                                id="Search"
-                                onClick={onPendingSearch}
-                              >
-                                Search
+                            <button
+                              className="nav-link outline-0"
+                              id="nav-approve-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-approve"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-approve"
+                              aria-selected="false"
+                            >
+                              Approved{" "}
+                              <button className="circle_count">
+                                {usersTotal?.approved}
                               </button>
-                            </div>
-                          </form>
-                          <div className="row">
-                            <div className="col-12 comman_table_design px-0">
-                              <div className="table-responsive">
-                                <table className="table mb-0">
-                                  <thead>
-                                    <tr
-                                      style={{
-                                        backgroundColor: "#f2f2f2",
-                                        marginLeft: "8px",
-                                      }}
-                                    >
-                                      <th>S.No.</th>
-                                      <th>Date</th>
-                                      <th>User Name</th>
-                                      <th>Email</th>
-                                      <th>Mobile Number</th>
-                                      <th>Status</th>
-                                      <th>Action</th>
-                                    </tr>
-                                  </thead>
+                            </button>
+                            <button
+                              className="nav-link outline-0 border-0"
+                              id="nav-return-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-return"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-return"
+                              aria-selected="false"
+                            >
+                              Returned{" "}
+                              <span className="circle_count">
+                                {usersTotal?.rejected}
+                              </span>
+                            </button>
+                          </div>
+                        </nav>
+                        <div className="tab-content" id="nav-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="nav-home"
+                            role="tabpanel"
+                            aria-aria-labelledby="nav-home-tab"
+                          >
+                            <form
+                              className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                              action=""
+                            >
+                              <div className="form-group mb-0 col-5">
+                                <label htmlFor="" className="main_headers">
+                                  From
+                                </label>
+                                <input
+                                  type="date"
+                                  className="form-control"
+                                  name="from"
+                                  value={values.from}
+                                  onChange={handleDate}
+                                />
+                              </div>
+                              <div className="form-group mb-0 col-5">
+                                <label htmlFor="" className="main_headers">
+                                  To
+                                </label>
+                                <input
+                                  type="date"
+                                  className="form-control"
+                                  name="to"
+                                  value={values.to}
+                                  onChange={handleDate}
+                                />
+                              </div>
+                              <div className="form-group mb-0 col-auto">
+                                <button
+                                  className="comman_btn"
+                                  id="Search"
+                                  onClick={onPendingSearch}
+                                >
+                                  Search
+                                </button>
+                              </div>
+                            </form>
+                            <div className="row">
+                              <div className="col-12 comman_table_design px-0">
+                                <div className="table-responsive">
+                                  <table className="table mb-0">
+                                    <thead>
+                                      <tr
+                                        style={{
+                                          backgroundColor: "#f2f2f2",
+                                          marginLeft: "8px",
+                                        }}
+                                      >
+                                        <th>S.No.</th>
+                                        <th>Date</th>
+                                        <th>User Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile Number</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
 
-                                  <tbody>
-                                    {(pendingUsers || [])
-                                      .filter((User) => {
-                                        if (searchTerm == "") {
-                                          return User;
-                                        } else if (
-                                          User?.firstName
-                                            .toLowerCase()
-                                            .includes(searchTerm.toLowerCase())
-                                        ) {
-                                          return User;
-                                        }
-                                      })
-                                      .map((User, index) => (
-                                        <tr className="" key={index}>
-                                          <td>{index + 1}</td>
-                                          <td>
-                                            {User?.createdAt.slice(0, 10)}
-                                          </td>
-                                          <td>{User?.firstName}</td>
-                                          <td>{User?.email}</td>
-                                          <td>{User?.phoneNumber}</td>
-                                          <td>{User?.isVerified}</td>
-                                          <td>
-                                            <Link
-                                              className="comman_btn2  text-decoration-none"
-                                              to="/UserManage/PendingView"
-                                              id={index}
-                                              onClick={() => {
-                                                onPendingView(index);
-                                              }}
-                                            >
-                                              View
-                                            </Link>
-                                          </td>
+                                    <tbody>
+                                      {(pendingUsers || [])
+                                        .filter((User) => {
+                                          if (searchTerm == "") {
+                                            return User;
+                                          } else if (
+                                            User?.firstName
+                                              .toLowerCase()
+                                              .includes(
+                                                searchTerm.toLowerCase()
+                                              )
+                                          ) {
+                                            return User;
+                                          }
+                                        })
+                                        .map((User, index) => (
+                                          <tr className="" key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                              {User?.createdAt.slice(0, 10)}
+                                            </td>
+                                            <td>{User?.firstName}</td>
+                                            <td>{User?.email}</td>
+                                            <td>{User?.phoneNumber}</td>
+                                            <td>{User?.isVerified}</td>
+                                            <td>
+                                              <Link
+                                                className="comman_btn2  text-decoration-none"
+                                                to="/UserManage/PendingView"
+                                                id={index}
+                                                onClick={() => {
+                                                  onPendingView(index);
+                                                }}
+                                              >
+                                                View
+                                              </Link>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tab-content" id="nav-tabContent">
+                            <div
+                              className="tab-pane fade "
+                              id="nav-approve"
+                              role="tabpanel"
+                              aria-labelledby="nav-approve-tab"
+                            >
+                              <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                action=""
+                              >
+                                <div className="form-group mb-0 col-5">
+                                  <label htmlFor="">From</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
+                                    value={values.from}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-5">
+                                  <label htmlFor="">To</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
+                                    value={values.to}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-auto">
+                                  <button
+                                    className="comman_btn"
+                                    onClick={onApprovedSearch}
+                                  >
+                                    Search
+                                  </button>
+                                </div>
+                              </form>
+                              <div className="row">
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive">
+                                    <table className="table mb-0">
+                                      <thead>
+                                        <tr
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                            marginLeft: "8px",
+                                          }}
+                                        >
+                                          <th>S.No.</th>
+                                          <th>Date</th>
+                                          <th>User Name</th>
+                                          <th>Email</th>
+                                          <th>Mobile Number</th>
+                                          <th>Status</th>
+                                          <th>Action</th>
                                         </tr>
-                                      ))}
-                                  </tbody>
-                                </table>
+                                      </thead>
+                                      <tbody>
+                                        {(approvedUsers || [])
+                                          .filter((User) => {
+                                            if (searchTerm == "") {
+                                              return User;
+                                            } else if (
+                                              User?.firstName
+                                                .toLowerCase()
+                                                .includes(
+                                                  searchTerm.toLowerCase()
+                                                )
+                                            ) {
+                                              return User;
+                                            }
+                                          })
+                                          .map((User, index) => (
+                                            <tr key={index} className="">
+                                              <td>{index + 1}.</td>
+                                              <td>
+                                                {User?.createdAt.slice(0, 10)}
+                                              </td>
+                                              <td>{User?.firstName}</td>
+                                              <td>{User?.email}</td>
+                                              <td>{User?.phoneNumber}</td>
+                                              <td>
+                                                {" "}
+                                                <div className="">
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      name="quotation"
+                                                      defaultChecked={
+                                                        User?.status
+                                                      }
+                                                      onClick={() => {
+                                                        UserStatus(index);
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <Link
+                                                  className="comman_btn2 text-decoration-none"
+                                                  to="/UserManage/ApprovedView"
+                                                  id={index}
+                                                  onClick={() => {
+                                                    onApprovedView(index);
+                                                  }}
+                                                >
+                                                  View
+                                                </Link>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div className="col-12 d-flex justify-content-center">
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class=""
+                                          href="#"
+                                          onClick={() =>
+                                            setActivePage(activePage - 1)
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          href="#"
+                                          onClick={() =>
+                                            setActivePage(activePage + 1)
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
+
                         <div className="tab-content" id="nav-tabContent">
                           <div
-                            className="tab-pane fade "
-                            id="nav-approve"
+                            className="tab-pane fade"
+                            id="nav-return"
                             role="tabpanel"
-                            aria-labelledby="nav-approve-tab"
+                            aria-labelledby="nav-return-tab"
                           >
                             <form
                               className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
@@ -600,7 +772,7 @@ const UserManage = () => {
                               <div className="form-group mb-0 col-auto">
                                 <button
                                   className="comman_btn"
-                                  onClick={onApprovedSearch}
+                                  onClick={onReturnedSearch}
                                 >
                                   Search
                                 </button>
@@ -627,7 +799,7 @@ const UserManage = () => {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {(approvedUsers || [])
+                                      {(rejectedUsers || [])
                                         .filter((User) => {
                                           if (searchTerm == "") {
                                             return User;
@@ -650,31 +822,16 @@ const UserManage = () => {
                                             <td>{User?.firstName}</td>
                                             <td>{User?.email}</td>
                                             <td>{User?.phoneNumber}</td>
-                                            <td>
-                                              {" "}
-                                              <div className="">
-                                                <label class="switchUser">
-                                                  <input
-                                                    type="checkbox"
-                                                    name="quotation"
-                                                    defaultChecked={
-                                                      User?.status
-                                                    }
-                                                    onClick={() => {
-                                                      UserStatus(index);
-                                                    }}
-                                                  />
-                                                  <span class="sliderUser round"></span>
-                                                </label>
-                                              </div>
+                                            <td className="fs-6 text-danger">
+                                              {User?.isVerified}
                                             </td>
                                             <td>
                                               <Link
-                                                className="comman_btn2 text-decoration-none"
-                                                to="/UserManage/ApprovedView"
+                                                className="comman_btn2  text-decoration-none"
+                                                to="/UserManage/ReturnedView"
                                                 id={index}
                                                 onClick={() => {
-                                                  onApprovedView(index);
+                                                  onReturnedView(index);
                                                 }}
                                               >
                                                 View
@@ -685,145 +842,6 @@ const UserManage = () => {
                                     </tbody>
                                   </table>
                                 </div>
-                                <div className="col-12 d-flex justify-content-center">
-                                  <ul id="pagination">
-                                    <li>
-                                      <a class="" href="#" onClick={()=>setActivePage(activePage-1)}>
-                                        «
-                                      </a>
-                                    </li>
-                                   
-                                   
-                                   
-                                  
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                    <li>
-                                      <a href="#" className="active">{activePage}</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                      <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                   
-                                    <li>
-                                      <a href="#" onClick={()=>setActivePage(activePage+1)}>»</a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="tab-content" id="nav-tabContent">
-                        <div
-                          className="tab-pane fade"
-                          id="nav-return"
-                          role="tabpanel"
-                          aria-labelledby="nav-return-tab"
-                        >
-                          <form
-                            className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                            action=""
-                          >
-                            <div className="form-group mb-0 col-5">
-                              <label htmlFor="">From</label>
-                              <input
-                                type="date"
-                                className="form-control"
-                                name="from"
-                                value={values.from}
-                                onChange={handleDate}
-                              />
-                            </div>
-                            <div className="form-group mb-0 col-5">
-                              <label htmlFor="">To</label>
-                              <input
-                                type="date"
-                                className="form-control"
-                                name="to"
-                                value={values.to}
-                                onChange={handleDate}
-                              />
-                            </div>
-                            <div className="form-group mb-0 col-auto">
-                              <button
-                                className="comman_btn"
-                                onClick={onReturnedSearch}
-                              >
-                                Search
-                              </button>
-                            </div>
-                          </form>
-                          <div className="row">
-                            <div className="col-12 comman_table_design px-0">
-                              <div className="table-responsive">
-                                <table className="table mb-0">
-                                  <thead>
-                                    <tr
-                                      style={{
-                                        backgroundColor: "#f2f2f2",
-                                        marginLeft: "8px",
-                                      }}
-                                    >
-                                      <th>S.No.</th>
-                                      <th>Date</th>
-                                      <th>User Name</th>
-                                      <th>Email</th>
-                                      <th>Mobile Number</th>
-                                      <th>Status</th>
-                                      <th>Action</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {(rejectedUsers || [])
-                                      .filter((User) => {
-                                        if (searchTerm == "") {
-                                          return User;
-                                        } else if (
-                                          User?.firstName
-                                            .toLowerCase()
-                                            .includes(searchTerm.toLowerCase())
-                                        ) {
-                                          return User;
-                                        }
-                                      })
-                                      .map((User, index) => (
-                                        <tr key={index} className="">
-                                          <td>{index + 1}.</td>
-                                          <td>
-                                            {User?.createdAt.slice(0, 10)}
-                                          </td>
-                                          <td>{User?.firstName}</td>
-                                          <td>{User?.email}</td>
-                                          <td>{User?.phoneNumber}</td>
-                                          <td className="fs-6 text-danger">
-                                            {User?.isVerified}
-                                          </td>
-                                          <td>
-                                            <Link
-                                              className="comman_btn2  text-decoration-none"
-                                              to="/UserManage/ReturnedView"
-                                              id={index}
-                                              onClick={() => {
-                                                onReturnedView(index);
-                                              }}
-                                            >
-                                              View
-                                            </Link>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                  </tbody>
-                                </table>
                               </div>
                             </div>
                           </div>

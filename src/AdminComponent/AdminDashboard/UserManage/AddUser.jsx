@@ -309,9 +309,7 @@ const AddUser = () => {
                                 type="file"
                                 name="imageProfile mx-2"
                                 accept="image/*"
-                                {...register("imageProfile", {
-                                  required: "Please Upload Your Profile Image",
-                                })}
+                                {...register("imageProfile")}
                                 onChange={(e) =>
                                   onFileSelection(e, "imageProfile")
                                 }

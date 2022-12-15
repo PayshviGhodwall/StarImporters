@@ -39,14 +39,10 @@ const Navbar = ({ NState, GetChange }) => {
     handleScroll();
   }, [state, NState]);
 
-  const handleOnSearch = async (e, string, results) => {
-    if (e.key === "Enter") {
-      navigate("/AllProducts/Product", {
-        state: { id: results },
-      });
+  const handleOnSearch = async (string, results) => {
+    if (string === " ") {
+      navigate("/ProductSearch");
     }
-
-    console.log(string, results);
   };
 
   const handleOnHover = (result) => {
@@ -61,9 +57,7 @@ const Navbar = ({ NState, GetChange }) => {
     });
   };
 
-  const handleOnFocus = () => {
-    console.log("Focused");
-  };
+  const handleOnFocus = () => {};
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -86,8 +80,10 @@ const Navbar = ({ NState, GetChange }) => {
       setSearchData(res?.data.results);
     });
   };
-  const handleKeyDown = () => {
-    console.log("enrt");
+  const handleKeyPress = (e) => {
+    if (e.key == "Enter") {
+      console.log("jij");
+    }
   };
   const getNotifications = async () => {
     await axios.get(allNotify).then((res) => {
@@ -110,11 +106,11 @@ const Navbar = ({ NState, GetChange }) => {
   };
 
   const removeNotify = async (id) => {
-    await axios.post(deleteNotify + "/" + id).then((res)=>{
-      if(!res.error){
-        getNotifications()
+    await axios.post(deleteNotify + "/" + id).then((res) => {
+      if (!res.error) {
+        getNotifications();
       }
-    })
+    });
   };
 
   const LogOut = () => {
@@ -150,16 +146,13 @@ const Navbar = ({ NState, GetChange }) => {
 
                 border: "2px solid #3e4093",
               }}
-              fuseOptions={{ keys: ["unitName", "pBarcode", "flavourBarcode"] }} // Search on both fields
+              fuseOptions={{ keys: ["unitName", "pBarcode"] }} // Search on both fields
               resultStringKeyName="unitName"
-              onSearch={handleOnSearch}
+              onSearch={handleKeyPress}
               onHover={handleOnHover}
               maxResults={15}
               onSelect={handleOnSelect}
               onFocus={handleOnFocus}
-              onKeyDown={(e) => {
-                handleKeyDown(e);
-              }}
               placeholder="Search "
             />
           </div>
@@ -184,23 +177,26 @@ const Navbar = ({ NState, GetChange }) => {
                 </Link>
 
                 <ul class="dropdown-menu notification">
-                  {notifications?.length ? 
-                   <div class="notification-heading">
-                   <h4 class="menu-title fs-4 ">Notifications</h4>
-                 </div>
-                 :
-                 <div class="notification-heading">
-                 <h4 class="fs-6">No new notifications found.</h4>
-               </div>
-                }
-                  
+                  {notifications?.length ? (
+                    <div class="notification-heading">
+                      <h4 class="menu-title fs-4 ">Notifications</h4>
+                    </div>
+                  ) : (
+                    <div class="notification-heading">
+                      <h4 class="fs-6">No new notifications found.</h4>
+                    </div>
+                  )}
+
                   {notifications?.map((item, index) => (
                     <li key={index} className="notification-Item">
                       <div class="dropdown-item " href="#">
                         <h6 className="item-title ">
                           {item?.title} : {item?.createdAt?.slice(0, 10)}
                           <span class="remove-Notity">
-                            <i class="fa fa-close" onClick={()=>removeNotify(item?._id)}></i>
+                            <i
+                              class="fa fa-close"
+                              onClick={() => removeNotify(item?._id)}
+                            ></i>
                           </span>
                         </h6>
                         <small className="s">{item?.body}</small>
@@ -264,7 +260,7 @@ const Navbar = ({ NState, GetChange }) => {
                 </Link>
               </li>
               {(category || [])
-                ?.filter((item, idx) => idx < 10)
+                ?.filter((item, idx) => idx < 9)
                 .map((item, index) => (
                   <li key={index + 1} className="zindex-1">
                     <Link

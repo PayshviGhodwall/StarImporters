@@ -522,24 +522,7 @@ const CategorySub = () => {
                                     }}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col choose_fileAdmin position-relative">
-                                  <span>Sub Category Image </span>{" "}
-                                  <label htmlFor="upload_video">
-                                    <i className="fa fa-camera me-1" />
-                                    Choose File
-                                  </label>{" "}
-                                  <input
-                                    type="file"
-                                    className="form-control  shadow-none"
-                                    defaultValue=""
-                                    accept="image/*"
-                                    name="subCateImg"
-                                    id="upload_video"
-                                    onChange={(e) =>
-                                      onFileSelection(e, "subCateImg")
-                                    }
-                                  />
-                                </div>
+                          
                                 <div className="form-group mb-0 col-auto">
                                   <button
                                     className="comman_btn"

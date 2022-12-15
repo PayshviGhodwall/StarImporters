@@ -639,7 +639,7 @@ const SignUp = () => {
                       htmlFor="floatingPassword11"
                       className="mx-2 fw-bolder"
                     >
-                      Business Number <span className="text-danger">*</span>
+                      Business Number
                     </label>
                   </div>
 
