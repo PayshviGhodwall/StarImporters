@@ -234,15 +234,7 @@ const ProductByBrand = () => {
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
-                        {/* <Link
-                          className="text-decoration-none"
-                          to={{
-                            pathname: "/AllProducts/Product",
-                            search: "",
-                            hash: "",
-                          }}
-                          state={{ id: item?.products?._id }}
-                        > */}
+                        
                         <div className="partsproduct_img">
                           <img
                             src={item.products?.productImage}

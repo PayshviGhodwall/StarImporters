@@ -145,7 +145,7 @@ function AppProductBySearch() {
               {search ? (
                 product.length ? (
                   <div className="row g-2">
-                    {product.map((item, index) => {
+                    {(product || [])?.map((item, index) => {
                       return (
                         <div className="col-6 col-md-4">
                           <div className="card product-card">

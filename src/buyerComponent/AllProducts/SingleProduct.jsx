@@ -26,13 +26,14 @@ const SingleProduct = () => {
   const [unitCount, setUnitCount] = useState(1);
   const [userDetail, setUserDetail] = useState([]);
   const [flavour, setFlavour] = useState();
+  const [type, setType] = useState();
   const [category, setCategory] = useState([]);
   const [simProducts, setSimProducts] = useState([]);
   const [FInd, setFInd] = useState();
   const [NState, setNState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
-  const [type, setType] = useState([]);
+  const [typeObj, setTypeObj] = useState([]);
   const [cartProduct, setCartProduct] = useState([]);
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
@@ -93,10 +94,8 @@ const SingleProduct = () => {
     getCategory();
     userInfo();
     NewProducts();
-    getSimilarProducts();
   }, [change, objectId]);
-  const getSimilarProducts = async () => {};
-
+console.log(typeObj);
   const AddtoCart = async () => {
     setLoader(true);
     console.log(objectId);
@@ -107,6 +106,7 @@ const SingleProduct = () => {
       .post(addCart, {
         productId: cartProduct[0],
         quantity: cartProduct[1],
+        flavour:typeObj
       })
       .then((res) => {
         if (res.data?.message === "Product Added") {
@@ -286,6 +286,7 @@ const SingleProduct = () => {
                             document.getElementById("productMainImg").src =
                               item?.flavourImage;
                             setFlavour(item?.flavour);
+                            setTypeObj(item)
                             setFInd(index);
                           }}
                         >
@@ -375,6 +376,7 @@ const SingleProduct = () => {
                                               "productMainImg"
                                             ).src = item?.flavourImage;
                                             setFlavour(item?.flavour);
+                                            setTypeObj(item)
                                             setFInd(ind);
                                           }}
                                         >

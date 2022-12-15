@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Starlogo from "../../assets/img/logo.png";
 import "../../assets/css/main.css";
 import { IoSearchCircle } from "react-icons/io5";
@@ -30,6 +30,7 @@ const Navbar = ({ NState, GetChange }) => {
   const [scrolled, setScrolled] = useState(false);
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
+  const [searchItem, setSearchItem] = useState();
 
   useEffect(() => {
     AllProducts();
@@ -38,11 +39,28 @@ const Navbar = ({ NState, GetChange }) => {
     getCategory();
     handleScroll();
   }, [state, NState]);
-
-  const handleOnSearch = async (string, results) => {
-    if (string === " ") {
-      navigate("/ProductSearch");
+ let searchItemRef = useRef(null)
+ searchItemRef.current = searchItem
+  useEffect(() => {
+    document.addEventListener("keyup", handleKeyPress);
+    return () => document.removeEventListener("keyup", handleKeyPress);
+  }, []);
+  const handleKeyPress = (e) => {
+    if (e.key ==="Enter" && searchItemRef?.current?.length > 0) {
+      console.log(searchItemRef?.current,"enter");
+      navigate("/ProductSearch",{
+      state: { search:searchItemRef?.current }
+      });
+      setSearchItem("")
     }
+  };
+  const handleOnSearch = async (string, results) => {
+    setSearchItem(string);
+    // if (string) {
+    //   navigate("/ProductSearch",{
+    //     state: { search:string }
+    //   });
+    // }
   };
 
   const handleOnHover = (result) => {
@@ -57,7 +75,12 @@ const Navbar = ({ NState, GetChange }) => {
     });
   };
 
-  const handleOnFocus = () => {};
+  const handleOnFocus = (e, string) => {
+    // e.preventDefault()
+    // navigate("/ProductSearch", {
+    //   state: { search: string },
+    // });
+  };
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -80,11 +103,7 @@ const Navbar = ({ NState, GetChange }) => {
       setSearchData(res?.data.results);
     });
   };
-  const handleKeyPress = (e) => {
-    if (e.key == "Enter") {
-      console.log("jij");
-    }
-  };
+
   const getNotifications = async () => {
     await axios.get(allNotify).then((res) => {
       setNotifications(res?.data.results?.notifications);
@@ -146,9 +165,9 @@ const Navbar = ({ NState, GetChange }) => {
 
                 border: "2px solid #3e4093",
               }}
-              fuseOptions={{ keys: ["unitName", "pBarcode"] }} // Search on both fields
+              fuseOptions={{ keys: ["unitName", "pBarcode", "type.barcode"] }} // Search on both fields
               resultStringKeyName="unitName"
-              onSearch={handleKeyPress}
+              onSearch={handleOnSearch}
               onHover={handleOnHover}
               maxResults={15}
               onSelect={handleOnSelect}
@@ -179,7 +198,10 @@ const Navbar = ({ NState, GetChange }) => {
                 <ul class="dropdown-menu notification">
                   {notifications?.length ? (
                     <div class="notification-heading">
-                      <h4 class="menu-title fs-4 ">Notifications</h4>
+                      <h4 class="menu-title fs-4 ">
+                        <i className="far fa-bell mx-2" />
+                        Notifications
+                      </h4>
                     </div>
                   ) : (
                     <div class="notification-heading">

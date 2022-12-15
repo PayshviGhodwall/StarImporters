@@ -2548,6 +2548,7 @@
            
         .menu-title {
             color:#3b4093;
+            font-weight: 700;
             font-size:1.5rem;
              display:inline-block;
              }
@@ -2569,7 +2570,8 @@
        .item-title {
          display: flex;
          justify-content: space-between;
-        font-size:1rem;
+         font-family: 'Unbounded', cursive !important;
+        font-size:.9rem;
         color:#000;
            
        }
@@ -2583,8 +2585,8 @@
         .remove-Notity{
           position: relative;
           top: -3px ;
-          left: 6px !important;
-          font-size: 1.1rem;
+          left: 8px !important;
+          font-size: 0.8rem;
         }
         
   .notification-Item{
@@ -2594,7 +2596,7 @@
   }
   .notification-Item .dropdown-item{
   
-    background:#ccc;
+    background:#eef3ff;
     border-radius:8px;
     color:#000;
   }

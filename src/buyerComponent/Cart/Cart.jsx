@@ -28,11 +28,10 @@ const Cart = () => {
     localStorage.getItem("token-user");
   const getCart = async () => {
     await axios.get(getCartProducts).then((res) => {
-      setProduct(res?.data.results.products);
+      setProduct(res?.data.results.getUserCart?.products);
     });
   };
 
-  console.log(product);
   useEffect(() => {
     setToken(localStorage.getItem("token-user"));
     getCart();
@@ -58,7 +57,7 @@ const Cart = () => {
       )
     );
   };
-  console.log(product[0]?.quantity);
+  console.log(product);
   const HandleDecrease = (id) => {
     setProduct((product) =>
       product.map((item, ind) =>
@@ -131,7 +130,7 @@ const Cart = () => {
                     <div className="row">
                       <div className="col-12">
                         <div className="cart_table">
-                          {product.length ? (
+                          {product?.length ? (
                             <div className="table-responsive">
                               <table className="table">
                                 <thead>
@@ -161,7 +160,11 @@ const Cart = () => {
                                             <span className="cart_product bg-white">
                                               <img
                                                 src={
-                                                  item?.productId?.productImage
+                                                  item?.flavour?._id
+                                                    ? item?.flavour
+                                                        ?.flavourImage
+                                                    : item?.productId
+                                                        ?.productImage
                                                 }
                                                 style={{ cursor: "pointer" }}
                                                 alt=""
@@ -170,26 +173,53 @@ const Cart = () => {
                                           </div>
                                           <div className="col">
                                             <div className="cart_content">
-                                              <h1
-                                                style={{ cursor: "pointer" }}
-                                                className="text-decoration-none text-dark"
-                                                onClick={() =>
-                                                  navigate(
-                                                    "/AllProducts/Product",
-                                                    {
-                                                      state: {
-                                                        id: item?.productId
-                                                          ?._id,
-                                                      },
-                                                    }
-                                                  )
-                                                }
-                                              >
-                                                {" "}
-                                                <h3 className="fs-5">
-                                                  {item?.productId?.unitName}{" "}
-                                                </h3>
-                                              </h1>
+                                              {item?.flavour?._id ? (
+                                                <h1
+                                                  style={{ cursor: "pointer" }}
+                                                  className="text-decoration-none text-dark"
+                                                  onClick={() =>
+                                                    navigate(
+                                                      "/AllProducts/Product",
+                                                      {
+                                                        state: {
+                                                          id: item?.productId
+                                                            ?._id,
+                                                        },
+                                                      }
+                                                    )
+                                                  }
+                                                >
+                                                  {" "}
+                                                  <h3 className="fs-5">
+                                                    {item?.productId?.unitName +
+                                                      "-" +
+                                                      item?.flavour
+                                                        ?.flavour}{" "}
+                                                  </h3>
+                                                </h1>
+                                              ) : (
+                                                <h1
+                                                  style={{ cursor: "pointer" }}
+                                                  className="text-decoration-none text-dark"
+                                                  onClick={() =>
+                                                    navigate(
+                                                      "/AllProducts/Product",
+                                                      {
+                                                        state: {
+                                                          id: item?.productId
+                                                            ?._id,
+                                                        },
+                                                      }
+                                                    )
+                                                  }
+                                                >
+                                                  {" "}
+                                                  <h3 className="fs-5">
+                                                    {item?.productId?.unitName}{" "}
+                                                  </h3>
+                                                </h1>
+                                              )}
+
                                               <p>
                                                 Lorem ipsum dolor sit, amet
                                                 consectetur adipisicing elit.

@@ -291,7 +291,7 @@ const OrderReq = () => {
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-5">
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">From</label>
                                   <input
                                     type="date"
@@ -301,7 +301,7 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-5">
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">To</label>
                                   <input
                                     type="date"
@@ -311,12 +311,18 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-auto">
+                                <div className="form-group mb-0 col-2">
                                   <button
                                     className="comman_btn"
                                     onClick={onOrderSearch}
                                   >
                                     Search
+                                  </button>
+                                  
+                                </div>
+                                <div className="col-2 text-end">
+                                  <button className="comman_btn2">
+                                    Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
                               </form>
@@ -387,20 +393,38 @@ const OrderReq = () => {
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-5">
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">From</label>
-                                  <input type="date" className="form-control" name="from"
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
                                     value={values.from}
-                                    onChange={handleDate} />
+                                    onChange={handleDate}
+                                  />
                                 </div>
-                                <div className="form-group mb-0 col-5">
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">To</label>
-                                  <input type="date" className="form-control"  name="to"
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
                                     value={values.to}
-                                    onChange={handleDate} />
+                                    onChange={handleDate}
+                                  />
                                 </div>
-                                <div className="form-group mb-0 col-auto">
-                                  <button className="comman_btn" onClick={onQuoteSearch}>Search</button>
+                                <div className="form-group mb-0 col-2 text-start">
+                                  <button
+                                    className="comman_btn"
+                                    onClick={onQuoteSearch}
+                                  >
+                                    Search
+                                  </button>
+                                </div>
+                                <div className="col-2 text-end">
+                                  <button className="comman_btn2">
+                                    Export <i class="fa fa-download"></i>
+                                  </button>
                                 </div>
                               </form>
                               <div className="row">
