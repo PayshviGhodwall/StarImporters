@@ -24,6 +24,7 @@ function AppProductDetail() {
   const [userDetail, setUserDetail] = useState([]);
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [typeObj, setTypeObj] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [flavour, setFlavour] = useState({
     flavour: "",
@@ -61,6 +62,8 @@ function AppProductDetail() {
     const formData = {
       productId: id,
       quantity: quantity,
+      flavour:typeObj,
+
     };
     console.log(formData);
     const { data } = await addToCart(formData);
@@ -72,6 +75,8 @@ function AppProductDetail() {
     const formData = {
       productId: id,
       quantity: quantity,
+      flavour:typeObj,
+
     };
     console.log(formData);
     const { data } = await addToQuote(formData);
@@ -82,6 +87,7 @@ function AppProductDetail() {
   const getFlavour = (index) => {
     const flavourData = productDetail?.type.map((option) => option);
     console.log(flavourData);
+    setTypeObj(flavourData[index])
     if (flavour.flavour === flavourData[0].flavour) {
       setFlavour({
         flavour: "",

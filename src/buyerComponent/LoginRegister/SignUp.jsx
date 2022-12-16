@@ -7,13 +7,19 @@ import axios from "axios";
 import classNames from "classnames";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
-
+import {
+  RecoilRoot,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import { textState } from "../../atom.js"
 const SignUp = () => {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const[loader,setLoader]=useState(false)
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/register`;
-
+  const [text, setText] = useRecoilState(textState);
   const {
     register,
     handleSubmit,
@@ -59,6 +65,7 @@ const SignUp = () => {
             icon: "success",
             button: "Ok",
           }); 
+          setText("done")
           navigate("/app/home");
         }
         if (response?.data.message === "Email is already registered") {

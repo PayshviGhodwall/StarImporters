@@ -6,7 +6,8 @@ import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppRequests() {
-  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`;
+  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`
+
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ function AppRequests() {
                       <h2>Items :</h2>
                       {(item?.products || []).map((item, ind) => (
                         <ul className="list-unstyled mb-0">
-                          <li key={ind}>{item?.productId?.unitName}</li>
+                          <li key={ind}>{item?.flavour?._id ? item?.productId?.unitName + "-" + item?.flavour?.flavour :  item?.productId?.unitName}</li>
                          
                         </ul>
                       ))}

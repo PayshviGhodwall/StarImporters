@@ -326,7 +326,7 @@ const ViewQuoteReq = () => {
                                       <div className="col-auto">
                                         <span className="cart_product">
                                           <img
-                                            src={item?.productId?.productImage}
+                                            src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
                                             alt=""
                                           />
                                         </span>
@@ -334,11 +334,11 @@ const ViewQuoteReq = () => {
                                       <div className="col">
                                         <div className="cart_content ">
                                           <h3 className="fs-5">
-                                            {item?.productId?.unitName}
+                                            {item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName}
                                           </h3>
                                           <p>
                                             Barcode :{" "}
-                                            {item?.productId?.pBarcode[0]}
+                                            {item?.flavour?._id ? item?.flavour?.barcode : item?.productId?.pBarcode[0]}
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             <label className=" mb-2 fw-bold">

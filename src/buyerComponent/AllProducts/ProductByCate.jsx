@@ -45,13 +45,16 @@ const ProductByCate = () => {
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
-      .post(getProduct + "?sortBy=1", {
+      .post(getProduct, {
         category: location.state?.name,
+        brand:brandName,
+        sortBy:"1"
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
+  
   const clearFilters = () => {};
   const addToFav = async (index) => {
     await axios.post(addFav, {

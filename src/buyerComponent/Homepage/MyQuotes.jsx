@@ -15,6 +15,7 @@ const MyQuotes = () => {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const [product, setProduct] = useState([]);
   const [token, setToken] = useState();
+  
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
@@ -142,7 +143,11 @@ const MyQuotes = () => {
                                       <div className="col-auto">
                                         <span className="cart_product bg-white">
                                           <img
-                                            src={item?.productId?.productImage}
+                                            src={item?.flavour?._id
+                                              ? item?.flavour
+                                                  ?.flavourImage
+                                              : item?.productId
+                                                  ?.productImage}
                                             alt=""
                                           />
                                         </span>
@@ -150,10 +155,53 @@ const MyQuotes = () => {
                                       <div className="col">
                                         <div className="cart_content">
                                           <Link className="text-decoration-none text-dark">
-                                            {" "}
-                                            <h3 className="fs-5">
-                                              {item?.productId?.unitName}{" "}
-                                            </h3>
+                                          {item?.flavour?._id ? (
+                                                <h1
+                                                  style={{ cursor: "pointer" }}
+                                                  className="text-decoration-none text-dark"
+                                                  onClick={() =>
+                                                    navigate(
+                                                      "/AllProducts/Product",
+                                                      {
+                                                        state: {
+                                                          id: item?.productId
+                                                            ?._id,
+                                                        },
+                                                      }
+                                                    )
+                                                  }
+                                                >
+                                                  {" "}
+                                                  <h3 className="fs-5">
+                                                    {item?.productId?.unitName +
+                                                      "-" +
+                                                      item?.flavour
+                                                        ?.flavour}{" "}
+                                                  </h3>
+                                                </h1>
+                                              ) : (
+                                                <h1
+                                                  style={{ cursor: "pointer" }}
+                                                  className="text-decoration-none text-dark"
+                                                  onClick={() =>
+                                                    navigate(
+                                                      "/AllProducts/Product",
+                                                      {
+                                                        state: {
+                                                          id: item?.productId
+                                                            ?._id,
+                                                        },
+                                                      }
+                                                    )
+                                                  }
+                                                >
+                                                  {" "}
+                                                  <h3 className="fs-5">
+                                                    {item?.productId?.unitName}{" "}
+                                                  </h3>
+                                                </h1>
+                                              )}
+                                         
                                           </Link>
                                           <p>
                                             Lorem ipsum dolor sit, amet

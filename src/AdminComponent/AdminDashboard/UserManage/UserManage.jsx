@@ -16,6 +16,16 @@ import { post } from "jquery";
 import ProfileBar from "../ProfileBar";
 import ReactPaginate from "react-paginate";
 import Pagination from "rsuite/esm/Pagination/Pagination";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+import {charCountState} from "../../../selecter.js"
+import Swal from "sweetalert2";
+// 
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
@@ -36,17 +46,14 @@ const UserManage = () => {
   const [approvedUsers, setApprovedUsers] = useState([]);
   const [rejectedUsers, setRejectedUsers] = useState([]);
   const [set, setSet] = useState(true);
-  const [msg, setMsg] = "";
   const [loader, setLoader] = useState(false);
-  const [enableUser, setEnableUser] = useState();
   const importInput = document.getElementById("fileID");
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
-  const [postsPerPage] = useState(20);
   const [activePage, setActivePage] = useState(1);
-  const [posts, setAllPosts] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
+  const [text,setText] = useRecoilState(charCountState)
 
+console.log(text,"hihi");
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -121,7 +128,7 @@ const UserManage = () => {
     getApprovedUser();
     getRejectedUser();
   }, [search, activePage]);
-
+ 
   const onUpload = async () => {
     setLoader(true);
     const formData = new FormData();
@@ -192,7 +199,6 @@ const UserManage = () => {
         console.log(res);
         if (res?.data.message === "Credentials Sent Successfully") {
           document.getElementById("modal-toggle87").click();
-          setMsg("Credentials Sent Successfully");
         }
       });
   };

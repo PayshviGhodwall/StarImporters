@@ -13,7 +13,13 @@ import SendOtp from "../LoginRegister/SendOtp";
 import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
-
+import {
+  RecoilRoot,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import { textState } from "../../atom.js"
 const Navbar = ({ NState, GetChange }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
@@ -31,7 +37,9 @@ const Navbar = ({ NState, GetChange }) => {
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
   const [searchItem, setSearchItem] = useState();
+  const [text, setText] = useRecoilState(textState);
 
+console.log(text);
   useEffect(() => {
     AllProducts();
     CartCount();
@@ -56,6 +64,7 @@ const Navbar = ({ NState, GetChange }) => {
   };
   const handleOnSearch = async (string, results) => {
     setSearchItem(string);
+    setText(string)
     // if (string) {
     //   navigate("/ProductSearch",{
     //     state: { search:string }
@@ -221,7 +230,7 @@ const Navbar = ({ NState, GetChange }) => {
                             ></i>
                           </span>
                         </h6>
-                        <small className="s">{item?.body}</small>
+                        <small className="noti-body">{item?.body}</small>
                       </div>
                     </li>
                   ))}

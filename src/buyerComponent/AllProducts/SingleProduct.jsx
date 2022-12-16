@@ -164,6 +164,8 @@ console.log(typeObj);
       .post(addQuote, {
         productId: cartProduct[0],
         quantity: cartProduct[1],
+        flavour:typeObj,
+
       })
       .then((res) => {
         if (res.data?.message === "Quote is Added") {

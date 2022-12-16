@@ -243,15 +243,15 @@ const RequestDetails = () => {
                                                   <div className="col-auto">
                                                     <span className="cart_product">
                                                       <img
-                                                        src={item?.productId?.productImage}
+                                                        src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
                                                         alt=""
                                                       />
                                                     </span>
                                                   </div>
                                                   <div className="col">
                                                     <div className="cart_content">
-                                                      <h3>{item?.productId?.unitName}</h3>
-                                                      <p>Bar Code: {item?.productId?.pBarcode[0]}</p>
+                                                      <h3>{item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName}</h3>
+                                                      <p>Bar Code: {item?.flavour?._id ? item?.flavour?.barcode : item?.productId?.pBarcode[0]}</p>
                                                       <span className="ordertext my-2 d-block ">
                                                          Price : ${item?.price} 
                                                       </span>

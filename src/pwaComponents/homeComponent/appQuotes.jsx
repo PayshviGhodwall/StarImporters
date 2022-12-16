@@ -161,17 +161,31 @@ function AppQuotes() {
                               <div className="cart_icon">
                                 <img
                                   className=""
-                                  src={item?.productId?.productImage}
+                                  src={item?.flavour?._id
+                                    ? item?.flavour
+                                        ?.flavourImage
+                                    : item?.productId
+                                        ?.productImage}
                                   alt=""
                                 />
                               </div>
                             </td>
                             <td>
-                              <Link
-                                to={`/app/product-detail/${item?.productId?._id}`}
-                              >
-                                {item?.productId?.unitName}
-                              </Link>
+                            {item?.flavour?._id ? (
+                                <Link
+                                  to={`/app/product-detail/${item?.productId?._id}`}
+                                >
+                                  {item?.productId?.unitName +
+                                    "-" +
+                                    item?.flavour?.flavour}
+                                </Link>
+                              ) : (
+                                <Link
+                                  to={`/app/product-detail/${item?.productId?._id}`}
+                                >
+                                  {item?.productId?.unitName}
+                                </Link>
+                              )}
                             </td>
                             <td>
                             <div className="quantity d-flex">
@@ -228,7 +242,7 @@ function AppQuotes() {
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <h5 className="total-price mb-0"></h5>
                   {quotes ? <Link className="comman_btn" to="/app/my-request">
-                    MyQuotes
+                    Send Request
                   </Link> 
                   :
                   <Link className="comman_btn" to="/app/home">

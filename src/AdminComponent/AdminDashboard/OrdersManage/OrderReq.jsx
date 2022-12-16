@@ -20,12 +20,12 @@ const OrderReq = () => {
   }, []);
   const OrderRequest = async () => {
     await axios.post(orderList).then((res) => {
-      setOrders(res?.data.results);
+      setOrders(res?.data.results?.orders);
     });
   };
   const QuoteRequest = async () => {
     await axios.post(quoteList).then((res) => {
-      setQuoteReq(res?.data.results);
+      setQuoteReq(res?.data.results?.orders);
     });
   };
 
@@ -45,7 +45,7 @@ const OrderReq = () => {
         to: values.to,
       })
       .then((res) => {
-        setQuoteReq(res?.data.results);
+        setQuoteReq(res?.data.results?.orders);
       });
   };
   const onQuoteSearch = async (e) => {
@@ -56,14 +56,22 @@ const OrderReq = () => {
         to: values.to,
       })
       .then((res) => {
-        setQuoteReq(res?.data.results);
+        setQuoteReq(res?.data.results?.orders);
       });
   };
+  const exportOrder = ()=>{
+    
+  }
+  const exporQuotation = ()=>{
+    
+  }
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -321,7 +329,7 @@ const OrderReq = () => {
                                   
                                 </div>
                                 <div className="col-2 text-end">
-                                  <button className="comman_btn2">
+                                  <button className="comman_btn2" onClick={exportOrder}>
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -422,7 +430,7 @@ const OrderReq = () => {
                                   </button>
                                 </div>
                                 <div className="col-2 text-end">
-                                  <button className="comman_btn2">
+                                  <button className="comman_btn2" onClick={exporQuotation}>
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>

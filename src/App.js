@@ -97,6 +97,13 @@ import OrderDetails from "./buyerComponent/MyAccount/OrdersDetails";
 import RequestDetails from "./buyerComponent/MyAccount/ReqDetails";
 import Welcome from "./buyerComponent/Homepage/Welcome";
 import ProductBySearch from "./buyerComponent/AllProducts/ProductBySearch";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -111,6 +118,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <ToastContainer />
       <Router>
         <ScrollToTop />

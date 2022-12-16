@@ -2533,7 +2533,7 @@
     
   }
   .notification-heading, .notification-footer  {
-    padding:2px 10px;
+    padding:0px 5px;
         }
       
         
@@ -2542,7 +2542,7 @@
          }
          
          .notifications-wrapper {
-            overflow:auto;
+            overflow:scroll;
              max-height:250px;
            }
            
@@ -2559,7 +2559,7 @@
          
           
         .notification-heading, .notification-footer  {
-          padding:2px 10px;
+          padding:0px 10px;
               }
              
                
@@ -2570,9 +2570,9 @@
        .item-title {
          display: flex;
          justify-content: space-between;
-         font-family: 'Unbounded', cursive !important;
-        font-size:.9rem;
-        color:#000;
+         margin-bottom: 2px;
+        font-size:.8rem;
+        font-weight: bold;
            
        }
        
@@ -2590,20 +2590,20 @@
         }
         
   .notification-Item{
-    padding:8px;
-    margin:5px;
-    border-radius:4px;
+    padding:4px;
+    margin:3px;
   }
   .notification-Item .dropdown-item{
   
     background:#eef3ff;
-    border-radius:8px;
-    color:#000;
+  }
+  .notification-Item .dropdown-item .noti-body{
+    
+    font-size: 0.7rem;
   }
   .notification-Item .dropdown-item:hover{
   
     background:#e22f35;
-    border-radius:8px;
     color:#fff;
   }
   .header_bottom .dropdown-toggle::after {

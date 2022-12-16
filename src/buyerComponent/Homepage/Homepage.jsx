@@ -17,7 +17,8 @@ import { useEffect } from "react";
 import TermsCondition from "./Terms&Condition";
 import axios from "axios";
 import { useState } from "react";
-
+import {useRecoilValue,useRecoilState} from 'recoil'
+import {charCountState} from '../../selecter.js'
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
   const slidesApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getSlides`;
@@ -31,9 +32,10 @@ const Homepage = () => {
   const ModalClose = document.getElementById("age_close");
   const modalCloseTerms = document.getElementById("terms_close");
   const navigate = useNavigate();
-
+  const [text,setText] = useRecoilState(charCountState)
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+    console.log(text);
   useEffect(() => {
     let x = document.cookie;
     let token = localStorage.getItem("token-user");
@@ -185,6 +187,9 @@ const Homepage = () => {
       </section>
 
       <section className="featured_category mx-5 shadow pt-3 mb-5">
+      <div className="col-12 comman_head mb-5  mt-2 text-center">
+            <h2>Top Categories</h2>
+          </div>
         <Swiper
           slidesPerView={5}
           spaceBetween={30}
