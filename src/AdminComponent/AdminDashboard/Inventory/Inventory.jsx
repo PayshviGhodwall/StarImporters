@@ -254,9 +254,25 @@ const Inventory = () => {
     formData.append("csvFilePath", impFile);
     await axios.post(importInvent, formData).then((res) => {
       console.log(res);
-      setUploadError(res?.data.message);
+      // setUploadError(res?.data.message);
       if (res?.data.message === "Imported Successfully") {
         window.location.reload(false);
+      }
+      if (res?.data.message === "Error in File") {
+        Swal.fire({
+          title: "Item Number or Product Name Error in CSV",
+          text: res?.data.results?.catError.map((item) => item),
+          icon: "error",
+          focusConfirm: false,
+        });
+      }
+      if (res?.data.message === "Error in File") {
+        Swal.fire({
+          title: "Item Number or Product Name Error in CSV",
+          text: res?.data.results?.itemNumErr.map((item) => item),
+          icon: "error",
+          focusConfirm: false,
+        });
       }
     });
     document.getElementById("reUpload").hidden = false;

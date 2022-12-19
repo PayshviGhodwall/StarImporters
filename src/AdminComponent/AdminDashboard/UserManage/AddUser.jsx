@@ -379,7 +379,7 @@ const AddUser = () => {
                           name="addressLine1"
                           id="address"
                           {...register("addressLine1", {
-                            required: "Company Adrress Line1 is Required*",
+                            required: "Company Address Line1 is Required*",
                           })}
                         />
                         {errors.addressLine1 && (

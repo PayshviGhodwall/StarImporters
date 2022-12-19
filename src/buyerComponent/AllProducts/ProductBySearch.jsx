@@ -44,7 +44,7 @@ const ProductBySearch = () => {
                         
                         <div className="partsproduct_img">
                           <img
-                            src={item?.type?.flavourImage}
+                            src={ item?.type.flavour ? item?.type?.flavourImage : item?.productImage}
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -67,7 +67,7 @@ const ProductBySearch = () => {
                                 });
                               }}
                             >
-                              {item?.unitName +"-"+ item?.type?.flavour}
+                              {item?.type.flavour ? item?.unitName +"-"+ item?.type?.flavour : item?.unitName}
                             </h1>
                          
                           </div>

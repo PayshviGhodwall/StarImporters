@@ -1,9 +1,21 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppNotifications() {
+  const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
+  const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
+  const [notifications, setNotifications] = useState();
+  useEffect(() => {
+    getNotifications();
+  }, []);
+  const getNotifications = async () => {
+    await axios.get(allNotify).then((res) => {
+      setNotifications(res?.data.results?.notifications);
+    });
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -19,19 +31,25 @@ function AppNotifications() {
 
             <div className="notification-area pb-2">
               <div className="list-group">
-                <Link
-                  className="list-group-item d-flex align-items-center border-0"
-                  to="/app/notification-detail"
-                >
-                  <span className="noti-icon">
-                    <i className="fa-solid fa-bell"></i>
-                  </span>
-                  <div className="noti-info">
-                    <h6 className="mb-0">Suha just uploaded a new product!</h6>
-                    <span>12 min ago</span>
-                  </div>
-                </Link>
-                <Link
+                {notifications?.map((item, index) => (
+                  <Link
+                    className="list-group-item d-flex align-items-center border-0"
+                    to="/app/notification-detail"
+                    key={index}
+                  >
+                    <span className="noti-icon">
+                      <i className="fa-solid fa-bell"></i>
+                    </span>
+                    <div className="noti-info">
+                      <h6 className="mb-0">
+                        {item?.title}
+                      </h6>
+                      <span>12 min ago</span>
+                    </div>
+                  </Link>
+                ))}
+
+                {/* <Link
                   className="list-group-item d-flex align-items-center border-0"
                   to="/app/notification-detail"
                 >
@@ -152,7 +170,7 @@ function AppNotifications() {
                     <h6 className="mb-0">Use 30% Discount Code</h6>
                     <span>3 days ago</span>
                   </div>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

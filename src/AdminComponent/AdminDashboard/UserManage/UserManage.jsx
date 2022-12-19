@@ -23,15 +23,16 @@ import {
   useRecoilState,
   useRecoilValue,
 } from "recoil";
-import {charCountState} from "../../../selecter.js"
+import { charCountState } from "../../../selecter.js";
 import Swal from "sweetalert2";
-// 
+//
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
   const userStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/userStatus`;
   const genCrendentials = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendUsersCredentials`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/usersCount`;
+  const searchUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
   const [values, setValues] = useState({ from: "", to: "" });
   const [search, setSearch] = useState();
   const [statsIndex, setStatsIndex] = useState();
@@ -51,9 +52,8 @@ const UserManage = () => {
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const [text,setText] = useRecoilState(charCountState)
+  const [text, setText] = useRecoilState(charCountState);
 
-console.log(text,"hihi");
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -61,6 +61,22 @@ console.log(text,"hihi");
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+
+  const userSearch = async (e) => {
+    let string = e.target.value;
+    string !== ""
+      ? await axios
+          .post(searchUser, {
+            type: "APPROVED",
+            search: e.target.value,
+          })
+          .then((res) => {
+            if (!res.error) {
+              setApprovedUsers(res?.data.results);
+            }
+          })
+      : getApprovedUser();
+  };
   const onPendingSearch = async (e) => {
     e.preventDefault();
     const res = await axios.post(apiUrl, {
@@ -96,39 +112,38 @@ console.log(text,"hihi");
   //   setOffset(selectedPage + 1);
   // };
   useEffect(() => {
-    const getPendingUser = async () => {
-      const res = await axios.post(apiUrl, {
-        type: "PENDING",
-      });
-      setPendingUsers(res.data.results);
-      return res.data;
-    };
-    const getApprovedUser = async () => {
-      const res = await axios.post(apiUrl, {
-        type: "APPROVED",
-        page: activePage,
-      });
-      setApprovedUsers(res?.data.results);
-    };
-    const getRejectedUser = async () => {
-      const res = await axios.post(apiUrl, {
-        type: "REJECTED",
-      });
-      setRejectedUsers(res.data.results);
-
-      return res.data;
-    };
-    const GetUserCount = async () => {
-      await axios.get(totalUser).then((res) => {
-        setUsersTotal(res?.data.results);
-      });
-    };
     GetUserCount();
     getPendingUser();
     getApprovedUser();
     getRejectedUser();
   }, [search, activePage]);
- 
+  const getPendingUser = async () => {
+    const res = await axios.post(apiUrl, {
+      type: "PENDING",
+    });
+    setPendingUsers(res.data.results);
+    return res.data;
+  };
+  const getApprovedUser = async () => {
+    const res = await axios.post(apiUrl, {
+      type: "APPROVED",
+      page: activePage,
+    });
+    setApprovedUsers(res?.data.results);
+  };
+  const getRejectedUser = async () => {
+    const res = await axios.post(apiUrl, {
+      type: "REJECTED",
+    });
+    setRejectedUsers(res.data.results);
+
+    return res.data;
+  };
+  const GetUserCount = async () => {
+    await axios.get(totalUser).then((res) => {
+      setUsersTotal(res?.data.results);
+    });
+  };
   const onUpload = async () => {
     setLoader(true);
     const formData = new FormData();
@@ -147,7 +162,6 @@ console.log(text,"hihi");
         setLoader(false);
         setUm(true);
         setErrorEmails(res?.data.results);
-        console.log(errEmails);
       }
     });
     document.getElementById("reUpload").hidden = false;
@@ -402,7 +416,7 @@ console.log(text,"hihi");
                               name="name"
                               id="name"
                               onChange={(e) => {
-                                setSearchTerm(e.target.value);
+                                userSearch(e);
                               }}
                             />
                           </div>
@@ -418,7 +432,7 @@ console.log(text,"hihi");
                             role="tablist"
                           >
                             <button
-                              className="nav-link outline-0 active"
+                              className="nav-link outline-0 "
                               id="nav-home-tab"
                               data-bs-toggle="tab"
                               data-bs-target="#nav-home"
@@ -433,9 +447,11 @@ console.log(text,"hihi");
                               </span>
                             </button>
                             <button
-                              className="nav-link outline-0"
+                              className="nav-link outline-0 active
+                              "
                               id="nav-approve-tab"
                               data-bs-toggle="tab"
+
                               data-bs-target="#nav-approve"
                               type="button"
                               role="tab"
@@ -466,7 +482,7 @@ console.log(text,"hihi");
                         </nav>
                         <div className="tab-content" id="nav-tabContent">
                           <div
-                            className="tab-pane fade show active"
+                            className="tab-pane fade "
                             id="nav-home"
                             role="tabpanel"
                             aria-aria-labelledby="nav-home-tab"
@@ -577,7 +593,7 @@ console.log(text,"hihi");
                           </div>
                           <div className="tab-content" id="nav-tabContent">
                             <div
-                              className="tab-pane fade "
+                              className="tab-pane fade show active"
                               id="nav-approve"
                               role="tabpanel"
                               aria-labelledby="nav-approve-tab"
@@ -636,21 +652,8 @@ console.log(text,"hihi");
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(approvedUsers || [])
-                                          .filter((User) => {
-                                            if (searchTerm == "") {
-                                              return User;
-                                            } else if (
-                                              User?.firstName
-                                                .toLowerCase()
-                                                .includes(
-                                                  searchTerm.toLowerCase()
-                                                )
-                                            ) {
-                                              return User;
-                                            }
-                                          })
-                                          .map((User, index) => (
+                                        {(approvedUsers || []).map(
+                                          ( User, index) => (
                                             <tr key={index} className="">
                                               <td>{index + 1}.</td>
                                               <td>
@@ -659,7 +662,7 @@ console.log(text,"hihi");
                                               <td>{User?.firstName}</td>
                                               <td>{User?.email}</td>
                                               <td>{User?.phoneNumber}</td>
-                                              <td>
+                                              <td key={User.status}>
                                                 {" "}
                                                 <div className="">
                                                   <label class="switchUser">
@@ -667,7 +670,7 @@ console.log(text,"hihi");
                                                       type="checkbox"
                                                       name="quotation"
                                                       defaultChecked={
-                                                        User?.status
+                                                        User.status
                                                       }
                                                       onClick={() => {
                                                         UserStatus(index);
@@ -690,7 +693,8 @@ console.log(text,"hihi");
                                                 </Link>
                                               </td>
                                             </tr>
-                                          ))}
+                                          )
+                                        )}
                                       </tbody>
                                     </table>
                                   </div>
@@ -890,7 +894,7 @@ console.log(text,"hihi");
                         <header>
                           <h4>Choose File here</h4>
                         </header>
-                        <p>Files Supported: CSV,EXCEL</p>
+                        <p>Files Supported: CSV</p>
                         <p className="text-dark bg-light p-2">
                           {impFile?.name}{" "}
                           <button
@@ -910,6 +914,7 @@ console.log(text,"hihi");
                         <input
                           type="file"
                           id="fileID"
+                          accept=".csv"
                           style={{ display: "none" }}
                           onChange={onFileSelection}
                         />

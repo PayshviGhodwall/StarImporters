@@ -467,7 +467,7 @@ const EditInventory = () => {
                             }
                           />
                         </div>
-                        <div className="p-image">
+                        <div className="p-image " style={{right:"-13px",borderRadius:"50px" , }}>
                           <i className="  fas fa-camera" />
                           <input
                             className="file-uploadIN"

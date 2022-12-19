@@ -13,13 +13,8 @@ import SendOtp from "../LoginRegister/SendOtp";
 import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
-import {
-  RecoilRoot,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import { textState } from "../../atom.js"
+import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
+import { textState } from "../../atom.js";
 const Navbar = ({ NState, GetChange }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
@@ -39,7 +34,7 @@ const Navbar = ({ NState, GetChange }) => {
   const [searchItem, setSearchItem] = useState();
   const [text, setText] = useRecoilState(textState);
 
-console.log(text);
+  console.log(text);
   useEffect(() => {
     AllProducts();
     CartCount();
@@ -47,24 +42,24 @@ console.log(text);
     getCategory();
     handleScroll();
   }, [state, NState]);
- let searchItemRef = useRef(null)
- searchItemRef.current = searchItem
+  let searchItemRef = useRef(null);
+  searchItemRef.current = searchItem;
   useEffect(() => {
     document.addEventListener("keyup", handleKeyPress);
     return () => document.removeEventListener("keyup", handleKeyPress);
   }, []);
   const handleKeyPress = (e) => {
-    if (e.key ==="Enter" && searchItemRef?.current?.length > 0) {
-      console.log(searchItemRef?.current,"enter");
-      navigate("/ProductSearch",{
-      state: { search:searchItemRef?.current }
+    if (e.key === "Enter" && searchItemRef?.current?.length > 0) {
+      console.log(searchItemRef?.current, "enter");
+      navigate("/ProductSearch", {
+        state: { search: searchItemRef?.current },
       });
-      setSearchItem("")
+      setSearchItem("");
     }
   };
   const handleOnSearch = async (string, results) => {
     setSearchItem(string);
-    setText(string)
+    setText(string);
     // if (string) {
     //   navigate("/ProductSearch",{
     //     state: { search:string }
@@ -108,7 +103,6 @@ console.log(text);
   };
   const AllProducts = async () => {
     await axios.post(allProd).then((res) => {
-      console.log(res);
       setSearchData(res?.data.results);
     });
   };
@@ -174,7 +168,7 @@ console.log(text);
 
                 border: "2px solid #3e4093",
               }}
-              fuseOptions={{ keys: ["unitName", "pBarcode", "type.barcode"] }} // Search on both fields
+              fuseOptions={{ keys: ["unitName", "pBarcode", "type.barcode","type.flavour"] }} // Search on both fields
               resultStringKeyName="unitName"
               onSearch={handleOnSearch}
               onHover={handleOnHover}

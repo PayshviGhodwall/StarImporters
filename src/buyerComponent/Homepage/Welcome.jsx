@@ -49,8 +49,8 @@ const Welcome = () => {
     <div className="welcome">
       <>
         <nav className="navbar navbar-expand-lg navbar-light">
-          <div className="container-fluid">
-            <a className="navbar-brand ml-5">
+          <div className="container-fluid ">
+            <a className="navbar-brand sidebar_logo p-4">
               <img src={require("../../assets/img/logo.png")} />
             </a>
             <button
