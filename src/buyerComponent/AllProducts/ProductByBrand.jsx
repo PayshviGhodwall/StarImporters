@@ -12,9 +12,9 @@ const ProductByBrand = () => {
   const navigate = useNavigate();
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByBrands`;
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState({});
   const [brands, setBrands] = useState([]);
   const [brandName, setBrandName] = useState();
+  const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -24,9 +24,9 @@ const ProductByBrand = () => {
   const [subCategoryName, setSubCategoryName] = useState();
 
   useEffect(() => {
-    GetBrands()
+    GetBrands();
     getProducts();
-  }, [location,heart]);
+  }, [location, heart]);
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -44,14 +44,19 @@ const ProductByBrand = () => {
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
-      .post(ProductFilter, {
-        brand: brandName,
-        sortBt: 1,
+      .post(getProduct, {
+        brand: location.state?.name,
+        sortBy: sortValue,
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
+  const clearFilters = (e) => {
+    e.preventDefault();
+    window.location.reload(false);
+  };
+
   const addToFav = async (index) => {
     await axios.post(addFav, {
       productId: products[index]?.products?._id,
@@ -64,7 +69,7 @@ const ProductByBrand = () => {
     });
     setHeart(!heart);
   };
-  const clearFilters = () => {};
+
   return (
     <div>
       <Navbar />
@@ -114,63 +119,8 @@ const ProductByBrand = () => {
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
                   <PanelGroup accordion bordered className="">
-                    <Panel
-                      header=" Product Brands "
-                      eventKey={1}
-                      id="panel1"
-                      defaultExpanded
-                      className="fw-bold"
-                    >
-                      <div className="accordion-body px-0 pt-3 pb-0">
-                        <div className="row">
-                          {(brands || [])
-                            ?.filter((item, idx) => idx < 5)
-                            .map((item, index) => (
-                              <div className="col-12 form-group " key={index}>
-                                <input
-                                  className=""
-                                  style={{
-                                    width: "20px",
-                                    height: "20px",
-                                    position: "relative",
-                                    top: "4px",
-                                  }}
-                                  type="checkbox"
-                                  value={item?.brandName}
-                                  id="check5"
-                                  name="check5"
-                                  onChange={(e) => {
-                                    setBrandName(e.target.value);
-                                  }}
-                                />
-                                <label
-                                  htmlFor="check5"
-                                  style={{
-                                    fontWeight: "500",
-                                    marginLeft: "13px",
-                                    fontSize: "18px",
-                                  }}
-                                >
-                                  {item?.brandName}
-                                </label>
-                              </div>
-                            ))}
-                          <div className="col-12 mt-3">
-                            <p
-                              className="more_btn text-decoration-none
-                        "
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                navigate("/AllBrands");
-                              }}
-                            >
-                              More
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Panel>
                     
+
                     <Panel
                       header="Sort By"
                       eventKey={2}
@@ -186,6 +136,9 @@ const ProductByBrand = () => {
                               type="radio"
                               id="radio3"
                               name="radio1"
+                              value="1"
+                              onChange={(e)=>setSortValue(e.target.value)}
+
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -198,6 +151,9 @@ const ProductByBrand = () => {
                               type="radio"
                               id="radio4"
                               name="radio1"
+                              value="0"
+                              onChange={(e)=>setSortValue(e.target.value)}
+
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -234,7 +190,6 @@ const ProductByBrand = () => {
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
                       <div className="product_parts_box">
-                        
                         <div className="partsproduct_img">
                           <img
                             src={item.products?.productImage}

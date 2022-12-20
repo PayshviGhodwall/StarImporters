@@ -103,12 +103,26 @@ import {
   selector,
   useRecoilState,
   useRecoilValue,
-} from 'recoil';
-
+} from "recoil";
+import axios from "axios";
+import { notifyCount } from "./atom";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
-
+  const [notification, setNotifications] = useState();
+  const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
+  const [count, setCount] = useRecoilState(notifyCount);
+  useEffect(() => {
+    getNotifications();
+   
+  },[]);
+  const getNotifications = async () => {
+    await axios.get(allNotify).then((res) => {
+      let data = res?.data.results?.notifications;
+      setNotifications(res?.data.results?.notifications);
+      setCount(data?.length);
+    });
+  };
   const GetData = (data) => {
     console.log(data);
     setCateName(data);
@@ -118,12 +132,11 @@ function App() {
 
   return (
     <div className="App">
-      
       <ToastContainer />
       <Router>
         <ScrollToTop />
         <Routes>
-        <Route path="/" element={<Welcome/>} />
+          <Route path="/" element={<Welcome />} />
           {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
           {/* <Route path="/app/register" element={<SignUp />} /> */}
           <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
@@ -244,7 +257,10 @@ function App() {
             path="/app/cart"
             element={width < 999 ? <AppCart /> : <Cart />}
           />
-          <Route path="/app/quotes"  element={width < 999 ? <AppQuotes /> : <MyQuotes />} />
+          <Route
+            path="/app/quotes"
+            element={width < 999 ? <AppQuotes /> : <MyQuotes />}
+          />
           <Route
             path="/app/settings"
             element={width < 999 ? <AppSettings /> : <MyAccount />}
@@ -273,43 +289,75 @@ function App() {
             path="/app/edit-profile"
             element={width < 999 ? <AppEditProfile /> : <Account />}
           />
-          <Route path="/app/my-order" element={width < 999 ? <AppMyOrder /> : <MyAccount />}/>
-          <Route path="/app/my-request" element={ width < 999 ? <AppRequests  /> : <RequestOrders/> } />
+          <Route
+            path="/app/my-order"
+            element={width < 999 ? <AppMyOrder /> : <MyAccount />}
+          />
+          <Route
+            path="/app/my-request"
+            element={width < 999 ? <AppRequests /> : <RequestOrders />}
+          />
           <Route path="/app/notifications" element={<AppNotifications />} />
-          <Route path="/app/brands" element={width < 999 ? <AppBrands /> : <AllBrands/>} />
-          <Route path="/app/Categories" element={width < 999 ? <AppCategories /> : <Homepage/> } />
-          <Route path="/app/wishlist" element={width < 999 ? <AppWishlist /> : <Favourites/>} />
+          <Route
+            path="/app/brands"
+            element={width < 999 ? <AppBrands /> : <AllBrands />}
+          />
+          <Route
+            path="/app/Categories"
+            element={width < 999 ? <AppCategories /> : <Homepage />}
+          />
+          <Route
+            path="/app/wishlist"
+            element={width < 999 ? <AppWishlist /> : <Favourites />}
+          />
           <Route
             path="/app/product-detail/:id"
-            element={ width < 999 ? <AppProductDetail /> : <Homepage/>}
+            element={width < 999 ? <AppProductDetail /> : <Homepage />}
           />
           <Route
             path="/app/product-by-search"
-            element={width < 999 ? <AppProductBySearch /> : <Homepage/>}
+            element={width < 999 ? <AppProductBySearch /> : <Homepage />}
           />
-          <Route path="/app/request-detail" element={ width < 999 ? <AppRequestDetail /> : <RequestDetails/>} />
+          <Route
+            path="/app/request-detail"
+            element={width < 999 ? <AppRequestDetail /> : <RequestDetails />}
+          />
           <Route
             path="/app/notification-detail"
             element={<AppNotificationDetail />}
           />
-          <Route path="/app/order-detail" element={width < 999 ? <AppOrderDetail /> : <OrderDetails/>} />
+          <Route
+            path="/app/order-detail"
+            element={width < 999 ? <AppOrderDetail /> : <OrderDetails />}
+          />
           <Route
             path="/app/product-category/:id"
             element={<AppProductCategory />}
           />
-          <Route path="/app/productBrands" element={width < 999 ? <AppProductBrands /> : <AllBrands/> } />
+          <Route
+            path="/app/productBrands"
+            element={width < 999 ? <AppProductBrands /> : <AllBrands />}
+          />
           <Route path="/app/product-list" element={<AppProductList />} />
-          <Route path="/app/checkout" element={width < 999 ? <AppCheckout /> : <Checkout/>} />
+          <Route
+            path="/app/checkout"
+            element={width < 999 ? <AppCheckout /> : <Checkout />}
+          />
           <Route path="/app/thankyou" element={<AppThankyou />} />
-          <Route path="/app/contact-us" element={width < 999 ? <AppContactUs /> : <Contact/>} />
-          <Route path="/app/logout" element={width < 999 ? <AppLogout /> :<Homepage/>} />
+          <Route
+            path="/app/contact-us"
+            element={width < 999 ? <AppContactUs /> : <Contact />}
+          />
+          <Route
+            path="/app/logout"
+            element={width < 999 ? <AppLogout /> : <Homepage />}
+          />
 
           {/*  */}
 
           {/*  */}
         </Routes>
       </Router>
-      
     </div>
   );
 }

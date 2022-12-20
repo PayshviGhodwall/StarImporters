@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import WebHeader2 from "./webHeader2";
 
 function AppProductBrands() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -24,10 +25,9 @@ function AppProductBrands() {
   const [heart, setHeart] = useState(false);
   const [brands, setBrands] = useState([]);
 
-
   let location = useLocation();
   const navigate = useNavigate();
-   let name = location.state?.name
+  let name = location.state?.name;
   useEffect(() => {
     getBrandsList();
     getProductList();
@@ -37,6 +37,13 @@ function AppProductBrands() {
     const { data } = await getBrands();
     if (!data?.error) {
       setBrands(data.results);
+    }
+  };
+
+  const sortProducts = async (e) => {
+    const { data } = await getByBrands({ brand: name, sortBy: e.target.value });
+    if (!data.error) {
+      setProduct(data.results);
     }
   };
 
@@ -97,129 +104,23 @@ function AppProductBrands() {
             </div>
 
             <div
-              class="filter-option ms-2"
+              class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
-              data-bs-target="#suhaFilterOffcanvas"
-              aria-controls="suhaFilterOffcanvas"
+              data-bs-target="#suhaOffcanvas"
+              aria-controls="suhaOffcanvas"
             >
-              <i class="fa-solid fa-sliders"></i>
-            </div>
-          </div>
-        </div>
-        <div
-          class="offcanvas offcanvas-start suha-filter-offcanvas-wrap"
-          tabindex="-1"
-          id="suhaFilterOffcanvas"
-          aria-labelledby="suhaFilterOffcanvasLabel"
-        >
-          <button
-            class="btn-close text-reset"
-            type="button"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-
-          <div class="offcanvas-body py-5">
-            <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  <div class="widget catagory mb-4">
-                    <h6 class="widget-title mb-2">Brand</h6>
-                    <div class="widget-desc">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="zara"
-                          type="checkbox"
-                          checked
-                        />
-                        <label class="form-check-label" for="zara">
-                          Vape
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Gucci"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Gucci">
-                          Smoke
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Nike"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Nike">
-                          C-Store & Novelty
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Denim"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Denim">
-                          Glass & Sillicone
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="widget catagory mb-4">
-                    <h6 class="widget-title mb-2">Sort By</h6>
-                    <div class="widget-desc">
-                      
-
-                      
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v3"
-                          name="same"
-                          type="radio"
-                        />
-                        <label class="form-check-label" for="v3">
-                          Alphabetically: A - Z
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v4"
-                          name="same"
-                          type="radio"
-                        />
-                        <label class="form-check-label" for="v4">
-                          Alphabetically: Z - A{" "}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-               
-
-                <div class="col-12">
-                  <div class="apply-filter-btn">
-                    <a class="comman_btn" href="#">
-                      Apply Filter
-                    </a>
-                  </div>
-                </div>
+              <div>
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
             </div>
           </div>
         </div>
+       <WebHeader2/>
+
+         
+
 
         <div class="page-content-wrapper">
           <div class="py-3">
@@ -231,11 +132,13 @@ function AppProductBrands() {
                       class=""
                       name="selectProductCatagory"
                       aria-label="Default select example"
+                      onChange={(e) => sortProducts(e)}
+
                     >
                       <option selected>Short by</option>
-                      <option value="1">Newest</option>
-                      <option value="2">Popular</option>
-                      <option value="3">Ratings</option>
+                      <option value="1">A to Z</option>
+                      <option value="0">Z to A</option>
+                    
                     </select>
                   </div>
                 </div>
@@ -246,7 +149,7 @@ function AppProductBrands() {
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                        <a class="wishlist-btn" href="#">
+                          <a class="wishlist-btn" href="#">
                             {item?.products?.favourities ? (
                               <i
                                 class="fa fa-heart"
@@ -265,7 +168,6 @@ function AppProductBrands() {
                               />
                             )}
                           </a>
-
 
                           <Link
                             class="product-thumbnail d-block"

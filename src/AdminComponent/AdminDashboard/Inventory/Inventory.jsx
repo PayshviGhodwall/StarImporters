@@ -32,7 +32,7 @@ const Inventory = () => {
   const [set, setSet] = useState(true);
   const [ux, setUx] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const [activePage, setActivePage] = useState(1);
   const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
     { productType: [], flavour: [], flavourImage: [], barcode: [] },
@@ -153,14 +153,15 @@ const Inventory = () => {
     await axios
       .post(addProduct, {
         productImage: productImage,
-        unitName: data?.productName,
+        unitName: data?.productName.trim(),
         category: data?.category,
         pBarcode: productBarcode,
-        productPrice: data?.productPrice,
+        productPrice: data?.productPrice.trim(),
         subCategory: data?.subCategory,
         brand: data?.brands,
         type: formValues,
-        description: data?.desc,
+        itemNumber:data?.itemNumber.trim(),
+        description: data?.desc.trim(),
       })
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
@@ -258,7 +259,7 @@ const Inventory = () => {
       if (res?.data.message === "Imported Successfully") {
         window.location.reload(false);
       }
-      if (res?.data.message === "Error in File") {
+      else if (res?.data.message === "Error in File") {
         Swal.fire({
           title: "Item Number or Product Name Error in CSV",
           text: res?.data.results?.catError.map((item) => item),
@@ -266,7 +267,7 @@ const Inventory = () => {
           focusConfirm: false,
         });
       }
-      if (res?.data.message === "Error in File") {
+      else if (res?.data.message === "Error in file") {
         Swal.fire({
           title: "Item Number or Product Name Error in CSV",
           text: res?.data.results?.itemNumErr.map((item) => item),
@@ -472,10 +473,11 @@ const Inventory = () => {
                 data-bs-toggle="modal"
                 id="modal-toggle66"
                 data-bs-target="#staticBackdrop66"
-                className="comman_btn2"
+                className="comman_btn2 text-decoration-none"
               >
                 Import Inventory
               </a>
+              
             </div>
             <div className="col-12">
               <div className="row mx-0">
@@ -572,7 +574,7 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-5">
+                    <div className="form-group col-6">
                       <label htmlFor="">Barcode</label>
                       <div className="tags-input-container border border-secondary">
                         {(productBarcode || [])?.map((tag, ind) => (
@@ -600,7 +602,7 @@ const Inventory = () => {
                       </div>
                     </div>
 
-                    <div className="form-group col-5">
+                    <div className="form-group col-6">
                       <label htmlFor="">Description</label>
                       <input
                         type="text"
@@ -615,20 +617,20 @@ const Inventory = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group col-2">
-                      <label htmlFor="">Price</label>
+                    <div className="form-group col-4">
+                      <label htmlFor="">Item Number</label>
                       <input
-                        type=""
+                        type="number"
                         className={classNames(
                           " form-control border border-secondary",
-                          { "is-invalid": errors.desc }
+                          { "is-invalid": errors.itemNumber }
                         )}
-                        name="productPrice"
-                        placeholder="Enter Product Price"
-                        {...register("productPrice")}
+                        name="itemNumber"
+                        placeholder="Enter Item Number"
+                        {...register("itemNumber")}
                       />
                     </div>
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Brands</label>
                       <select
                         className="form-select form-control"
@@ -645,6 +647,19 @@ const Inventory = () => {
                           </option>
                         ))}
                       </select>
+                    </div>
+                    <div className="form-group col-4">
+                      <label htmlFor="">Price</label>
+                      <input
+                        type=""
+                        className={classNames(
+                          " form-control border border-secondary",
+                          { "is-invalid": errors.productPrice }
+                        )}
+                        name="productPrice"
+                        placeholder="Enter Product Price"
+                        {...register("productPrice")}
+                      />
                     </div>
                     <div className="form-group col-12 mt-2">
                       <form className="">
@@ -883,18 +898,49 @@ const Inventory = () => {
                         </table>
                       </div>
                       <div className="col-12 d-flex justify-content-center">
-                        <ReactPaginate
-                          previousLabel={"< previous"}
-                          nextLabel={"next >"}
-                          breakLabel={"..."}
-                          breakClassName={"break-me"}
-                          pageCount={pageCount}
-                          onPageChange={handlePageClick}
-                          containerClassName={"pagination"}
-                          subContainerClassName={"pages pagination"}
-                          activeClassName={"active"}
-                        />
-                      </div>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class=""
+                                          href="#"
+                                          onClick={() =>
+                                            setActivePage(activePage - 1)
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          href="#"
+                                          onClick={() =>
+                                            setActivePage(activePage + 1)
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
                     </div>
                   </div>
                 </div>

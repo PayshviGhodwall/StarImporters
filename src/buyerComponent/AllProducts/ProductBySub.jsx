@@ -9,51 +9,55 @@ import { useNavigate } from "react-router-dom";
 
 const ProductBySubCate = () => {
   const location = useLocation();
-  const navigate = useNavigate()
-  console.log();
-  const [category, setCategory] = useState({});
+  const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [brandName, setBrandName] = useState();
+  const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
-  const [subCategoryName,setSubCategoryName]= useState()
-  const getProduct =  `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
+  const [subCategoryName, setSubCategoryName] = useState();
+  const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
- 
+
   useEffect(() => {
     getProducts();
-    GetBrands()
-  },[location,heart]);
+    GetBrands();
+  }, [location, heart]);
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
     });
   };
   const getProducts = async () => {
-    await axios.post(getProduct, {
-      subCategory:location.state?.name
-    }).then((res) => {
-      setSubCategoryName(res.data?.results[0]?.categoryName)
-      setProducts(res.data?.results);
-    });
+    await axios
+      .post(getProduct, {
+        subCategory: location.state?.name,
+      })
+      .then((res) => {
+        setSubCategoryName(res.data?.results[0]?.categoryName);
+        setProducts(res.data?.results);
+      });
   };
-  console.log(products);
+
   const filterProduct = async (e) => {
     e.preventDefault();
-    
     await axios
-      .post((getProduct + "?sortBy=1"),{
-      subCategory:location.state?.name
-       
+      .post(getProduct, {
+        subCategory: location.state?.name,
+        brand: brandName,
+        sortBy: sortValue,
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
-  const clearFilters = () => {};
+  const clearFilters = (e) => {
+    e.preventDefault();
+    window.location.reload(false)
+  };
 
   const addToFav = async (index) => {
     await axios.post(addFav, {
@@ -124,12 +128,12 @@ const ProductBySubCate = () => {
                                     position: "relative",
                                     top: "4px",
                                   }}
-                                  type="checkbox"
+                                  type="radio"
                                   value={item?.brandName}
                                   id="check5"
                                   name="check5"
                                   onChange={(e) => {
-                                    setBrandName(e.target.value);
+                                    setBrandName(item?._id);
                                   }}
                                 />
                                 <label
@@ -171,6 +175,7 @@ const ProductBySubCate = () => {
                               type="radio"
                               id="radio3"
                               name="radio1"
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -183,6 +188,7 @@ const ProductBySubCate = () => {
                               type="radio"
                               id="radio4"
                               name="radio1"
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -192,7 +198,6 @@ const ProductBySubCate = () => {
                         </div>
                       </div>
                     </Panel>
-                  
                   </PanelGroup>
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">
@@ -235,7 +240,10 @@ const ProductBySubCate = () => {
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
-                                state: { id: item?.products?._id,CateName:item?.categoryName},
+                                state: {
+                                  id: item?.products?._id,
+                                  CateName: item?.categoryName,
+                                },
                               });
                             }}
                           />
@@ -248,11 +256,12 @@ const ProductBySubCate = () => {
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
                                 navigate("/AllProducts/Product", {
-                                  state: { id: item?.products?._id,CateName:item?.categoryName},
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
                                 });
                               }}
-
-
                             >
                               {item?.products?.unitName}
                             </h1>
@@ -312,7 +321,7 @@ const ProductBySubCate = () => {
           </div>
         </section>
       </>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

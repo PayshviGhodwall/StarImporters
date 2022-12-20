@@ -18,8 +18,12 @@ import { toast } from "react-toastify";
 function AppProductCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const [sortValue, setSortValue] = useState("");
   const [product, setProduct] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [heart, setHeart] = useState(false);
+  const [brandName, setBrandName] = useState();
   const [category, setCategory] = useState([]);
 
   let { id } = useParams();
@@ -28,8 +32,13 @@ function AppProductCategory() {
   useEffect(() => {
     getCategoryList();
     getProductList();
+    GetBrands();
   }, []);
-
+  const GetBrands = async () => {
+    await axios.get(getBrands).then((res) => {
+      setBrands(res?.data.results);
+    });
+  };
   const getCategoryList = async () => {
     const { data } = await getSubCategories();
     if (!data.error) {
@@ -52,6 +61,24 @@ function AppProductCategory() {
     const { data } = await addToCart(formData);
     if (!data.error) {
       navigate("/app/cart");
+    }
+  };
+
+  const filterProduct = async (e) => {
+    e.preventDefault();
+    const { data } = await getByCategory({ category: id, brand: brandName });
+    if (!data.error) {
+      setProduct(data.results);
+      document.getElementById("sideClose").click();
+    }
+  };
+  const sortProducts = async (e) => {
+    const { data } = await getByCategory({
+      category: id,
+      sortBy: e.target.value,
+    });
+    if (!data.error) {
+      setProduct(data.results);
     }
   };
   const addToFav = async (index) => {
@@ -112,6 +139,7 @@ function AppProductCategory() {
           <button
             class="btn-close text-reset"
             type="button"
+            id="sideClose"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           ></button>
@@ -123,87 +151,40 @@ function AppProductCategory() {
                   <div class="widget catagory mb-4">
                     <h6 class="widget-title mb-2">Brand</h6>
                     <div class="widget-desc">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="zara"
-                          type="checkbox"
-                          checked
-                        />
-                        <label class="form-check-label" for="zara">
-                          Vape
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Gucci"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Gucci">
-                          Smoke
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Nike"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Nike">
-                          C-Store & Novelty
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="Denim"
-                          type="checkbox"
-                        />
-                        <label class="form-check-label" for="Denim">
-                          Glass & Sillicone
-                        </label>
-                      </div>
+                      {(brands || [])
+                        ?.filter((item, idx) => idx < 5)
+                        .map((item, index) => (
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="check5"
+                              onChange={() => setBrandName(item?._id)}
+                            />
+                            <label class="form-check-label" for="zara">
+                              {item?.brandName}
+                            </label>
+                          </div>
+                        ))}
                     </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="widget catagory mb-4">
-                    <h6 class="widget-title mb-2">Sort By</h6>
-                    <div class="widget-desc">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v3"
-                          name="same"
-                          type="radio"
-                        />
-                        <label class="form-check-label" for="v3">
-                          Alphabetically: A - Z
-                        </label>
-                      </div>
-
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          id="v4"
-                          name="same"
-                          type="radio"
-                        />
-                        <label class="form-check-label" for="v4">
-                          Alphabetically: Z - A{" "}
-                        </label>
-                      </div>
+                    <div className="col-12 mt-3">
+                      <p
+                        className="more_btn text-decoration-none
+                        "
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          navigate("/app/brands");
+                        }}
+                      >
+                        More
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div class="col-12">
                   <div class="apply-filter-btn">
-                    <a class="comman_btn" href="#">
+                    <a class="comman_btn" onClick={filterProduct}>
                       Apply Filter
                     </a>
                   </div>
@@ -223,11 +204,11 @@ function AppProductCategory() {
                       class=""
                       name="selectProductCatagory"
                       aria-label="Default select example"
+                      onChange={(e) => sortProducts(e)}
                     >
                       <option selected>Short by</option>
-                      <option value="1">Newest</option>
-                      <option value="2">Popular</option>
-                      <option value="3">Ratings</option>
+                      <option value="1">A to Z</option>
+                      <option value="0">Z to A</option>
                     </select>
                   </div>
                 </div>
@@ -235,7 +216,10 @@ function AppProductCategory() {
               <div class="row g-2 product_list_main">
                 {(product || [])?.map((item, index) => {
                   return (
-                    <div class="col-6 col-md-4 d-flex align-items-stretch">
+                    <div
+                      class="col-6 col-md-4 d-flex align-items-stretch"
+                      key={index}
+                    >
                       <div class="card product-card w-100">
                         <div class="card-body">
                           <a class="wishlist-btn" href="#">

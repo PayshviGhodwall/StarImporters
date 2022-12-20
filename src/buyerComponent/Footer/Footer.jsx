@@ -9,9 +9,10 @@ import { FiMapPin } from "react-icons/fi";
 import { ImMobile } from "react-icons/im";
 import { GoMail } from "react-icons/go";
 import { IconContext } from "react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   <IconContext.Provider value={{ color: "red" }}>
     <AiFillLinkedin />
     <AiFillTwitterCircle />
@@ -51,14 +52,18 @@ const Footer = () => {
       </section>
       <section className="footer_dark">
         <div className="footer_top">
-           <div className="container">
+          <div className="container">
             <div className="row">
               <div className="col-lg-4 col-md-12 text-white text-lg-start text-md-center">
                 <div className="widget">
                   <div className="footer_logo">
-                    <Link className="text-decoration-none" to ="">
-                      <img src={require("../../assets/img/logo.png")} width={100} alt="logo" />
-                     </Link>
+                    <Link className="text-decoration-none" to="">
+                      <img
+                        src={require("../../assets/img/logo.png")}
+                        width={100}
+                        alt="logo"
+                      />
+                    </Link>
                   </div>
                   <p>
                     If you are going to use of Lorem Ipsum need to be sure there
@@ -71,28 +76,62 @@ const Footer = () => {
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
                     <li>
-                      <Link className="text-decoration-none" to ="/app/home" state={"hii"}>Home </Link>
+                      <a
+                        className="text-decoration-none"
+                        onClick={() => navigate("/app/home")}
+                      >
+                        Home{" "}
+                      </a>
                     </li>
-                   
+
                     <li>
-                      <Link className="text-decoration-none" to ="app/brands"  state={"hisds"} >Brands  </Link>
+                    <a
+                        className="text-decoration-none"
+                        onClick={() => navigate("/app/brands")}
+                      >
+                        Brands{" "}
+                      </a>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="/Terms&Condition" state={"hissds"}>Terms & Conditions </Link>
+                      <Link
+                        className="text-decoration-none"
+                        to="/Terms&Condition"
+                        state={"hissds"}
+                      >
+                        Terms & Conditions{" "}
+                      </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="/PrivacyPolicies" state={"hidsds"}>Privacy Policies </Link>
+                      <Link
+                        className="text-decoration-none"
+                        to="/PrivacyPolicies"
+                        state={"hidsds"}
+                      >
+                        Privacy Policies{" "}
+                      </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="/AboutUs" state={"hisads"}>About Us </Link>
+                      <Link
+                        className="text-decoration-none"
+                        to="/AboutUs"
+                        state={"hisads"}
+                      >
+                        About Us{" "}
+                      </Link>
                     </li>
                     <li>
-                      <Link className="text-decoration-none" to ="/Contact" state={"hidss"}>Contact Us </Link>
+                      <Link
+                        className="text-decoration-none"
+                        to="/Contact"
+                        state={"hidss"}
+                      >
+                        Contact Us{" "}
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
-              
+
               <div className="col-lg-4 col-md-4 col-sm-6 text-white">
                 <div className="widget">
                   <h6 className="widget_title">Contact Info</h6>
@@ -103,7 +142,9 @@ const Footer = () => {
                     </li>
                     <li>
                       <i className="fal fa-envelope-open-text" />
-                      <Link to="mailto:info@sitename.com">info@sitename.com </Link>
+                      <Link to="mailto:info@sitename.com">
+                        info@sitename.com{" "}
+                      </Link>
                     </li>
                     <li>
                       <i className="fas fa-phone-alt" />
@@ -126,24 +167,36 @@ const Footer = () => {
               <div className="col-md-6">
                 <ul className="footer_payment text-center text-lg-end mb-0">
                   <li>
-                    <Link className="text-decoration-none" to ="/">
-                      <img src={require("../../assets/img/visa.png")} alt="visa" />
-                     </Link>
+                    <Link className="text-decoration-none" to="/">
+                      <img
+                        src={require("../../assets/img/visa.png")}
+                        alt="visa"
+                      />
+                    </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to ="/">
-                      <img src={require("../../assets/img/discover.png")} alt="discover" />
-                     </Link>
+                    <Link className="text-decoration-none" to="/">
+                      <img
+                        src={require("../../assets/img/discover.png")}
+                        alt="discover"
+                      />
+                    </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to ="/">
-                      <img src={require("../../assets/img/master_card.png")} alt="master_card" />
-                     </Link>
+                    <Link className="text-decoration-none" to="/">
+                      <img
+                        src={require("../../assets/img/master_card.png")}
+                        alt="master_card"
+                      />
+                    </Link>
                   </li>
                   <li>
                     <Link href="/">
-                      <img src={require("../../assets/img/paypal.png")} alt="paypal" />
-                     </Link>
+                      <img
+                        src={require("../../assets/img/paypal.png")}
+                        alt="paypal"
+                      />
+                    </Link>
                   </li>
                   <li>
                     <Link href="/">
@@ -151,7 +204,7 @@ const Footer = () => {
                         src={require("../../assets/img/amarican_express.png")}
                         alt="amarican_express"
                       />
-                     </Link>
+                    </Link>
                   </li>
                 </ul>
               </div>

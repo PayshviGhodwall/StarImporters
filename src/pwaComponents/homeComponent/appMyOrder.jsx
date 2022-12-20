@@ -23,38 +23,46 @@ function AppMyOrder() {
         <AppHeader />
         <div className="my_order_new">
           <div className="container">
+            {orderDetails?.length ? 
             <div className="row">
-              {(orderDetails || [])?.map((item, index) => (
-                <div className="col-12 mb-3" key={index}>
-                  <Link
-                    to="/app/order-detail"
-                    state={{id:item?._id}}
-                    className="my_orderbox position-relative shadow"
-                  >
-                    <div className="left_part">
-                      <div className="status_order d-block">
-                        Status: {item?.status}
-                      </div>
-                      <div className="order_id d-block mb-1">
-                        Order ID: <strong>{item?.orderId}</strong>
-                      </div>
-                      <div className="date_box">
-                        {item?.createdAt.slice(0, 10)}
-                      </div>
+
+            {(orderDetails || [])?.map((item, index) => (
+              <div className="col-12 mb-3" key={index}>
+                <Link
+                  to="/app/order-detail"
+                  state={{id:item?._id}}
+                  className="my_orderbox position-relative shadow"
+                >
+                  <div className="left_part">
+                    <div className="status_order d-block">
+                      Status: {item?.status}
                     </div>
-                    <div className="items_box">
-                      <h2>Items :</h2>
-                      {(item?.products || []).map((item, ind) => (
-                        <ul className="list-unstyled mb-0">
-                          <li key={ind}>{item?.productId?.unitName}</li>
-                         
-                        </ul>
-                      ))}
+                    <div className="order_id d-block mb-1">
+                      Order ID: <strong>{item?.orderId}</strong>
                     </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                    <div className="date_box">
+                      {item?.createdAt.slice(0, 10)}
+                    </div>
+                  </div>
+                  <div className="items_box">
+                    <h2>Items :</h2>
+                    {(item?.products || []).map((item, ind) => (
+                      <ul className="list-unstyled mb-0">
+                        <li key={ind}>{item?.productId?.unitName}</li>
+                       
+                      </ul>
+                    ))}
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+          :
+          <div className="text-center">
+            You have not Ordered Anything yet!
+          </div>
+          }
+            
           </div>
         </div>
 

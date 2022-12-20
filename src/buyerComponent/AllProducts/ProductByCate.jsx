@@ -8,7 +8,7 @@ import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 const ProductByCate = () => {
   const location = useLocation();
-  const [category, setCategory] = useState({});
+  const [sortValue, setSortValue] = useState("");
   const [brands, setBrands] = useState([]);
   const [message, setMessage] = useState();
   const [brandName, setBrandName] = useState();
@@ -23,7 +23,7 @@ const ProductByCate = () => {
   console.log(brandName);
   const navigate = useNavigate();
   useEffect(() => {
-    setCategory(location?.state?.name);
+  
     getProducts();
     GetBrands();
   }, [location, heart]);
@@ -48,14 +48,16 @@ const ProductByCate = () => {
       .post(getProduct, {
         category: location.state?.name,
         brand:brandName,
-        sortBy:"1"
+        sortBy:sortValue
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
   
-  const clearFilters = () => {};
+  const clearFilters = (e) => {
+    e.preventDefault()
+    window.location.reload(false)};
   const addToFav = async (index) => {
     await axios.post(addFav, {
       productId: products[index]?.products?._id,
@@ -122,19 +124,18 @@ const ProductByCate = () => {
                             .map((item, index) => (
                               <div className="col-12 form-group " key={index}>
                                 <input
-                                  className=""
                                   style={{
                                     width: "20px",
                                     height: "20px",
                                     position: "relative",
                                     top: "4px",
                                   }}
-                                  type="checkbox"
+                                  type="radio"
                                   value={item?.brandName}
                                   id="check5"
                                   name="check5"
                                   onChange={(e) => {
-                                    setBrandName(e.target.value);
+                                    setBrandName(item?._id);
                                   }}
                                 />
                                 <label
@@ -155,7 +156,7 @@ const ProductByCate = () => {
                         "
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                navigate("/AllBrands");
+                                navigate("/app/brands");
                               }}
                             >
                               More
@@ -180,6 +181,9 @@ const ProductByCate = () => {
                               type="radio"
                               id="radio3"
                               name="radio1"
+                              value="1"
+                              onChange={(e)=>setSortValue(e.target.value)}
+
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -192,6 +196,8 @@ const ProductByCate = () => {
                               type="radio"
                               id="radio4"
                               name="radio1"
+                              value="0"
+                              onChange={(e)=>setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -205,12 +211,12 @@ const ProductByCate = () => {
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">
                     <div className="col-6">
-                      <button
+                      <a
                         className="d-block comman_btn text-center"
                         onClick={clearFilters}
                       >
                         Clear All
-                      </button>
+                      </a>
                     </div>
                     <div className="col-6">
                       <button
@@ -268,7 +274,7 @@ const ProductByCate = () => {
                             >
                               {item?.products?.unitName}
                             </h1>
-                            <p style={{ right: "5px", position: "absolute" }}>
+                            <p style={{ right: "5px", position: "absolute",borderRadius:"50%" }}>
                               {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"

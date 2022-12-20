@@ -100,7 +100,7 @@ const Homepage = () => {
                   {allSlides[0]?.description}
                 </p>
 
-                <Link to="/app/register" className="text-decoration-none ">
+                <Link to="/app/register" className="text-decoration-none bannerTxt "  style={{top:"10px"}}>
                   <button
                     className={
                       allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"
@@ -117,17 +117,25 @@ const Homepage = () => {
                 className="d-block w-100 banner_slide"
                 alt="No image"
               />
-              <div className="carousel-caption banner-titles">
-                <h5 className="d-flex text-center  Bannertext">
+              <div className="carousel-caption banner-titles mx-3">
+                <h5 className=" text-center  Bannertext">
                   {allSlides[1]?.title}
                 </h5>
-                <p className="fs-6 bannerTxt">{allSlides[1]?.description}</p>
-
-                <p
-                  className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}
-                >
-                  SignUp
+               
+                <p className="d-flex text-center fs-6 bannerTxt">
+                  {allSlides[1]?.description}
                 </p>
+
+                <Link to="/app/register" className="text-decoration-none bannerTxt "  style={{top:"10px"}}>
+                  <button
+                    className={
+                      allSlides[1]?.banner ? "comman_btn22" : "d-none"
+                    }
+                  >
+                    SignUp
+                  </button>
+                </Link>
+              
               </div>
             </div>
             <div className="carousel-item ">
@@ -144,7 +152,7 @@ const Homepage = () => {
 
                 <Link
                   to="/app/register"
-                  className="d-flex justify-content-end text-decoration-none signBtnHome"
+                  className="d-flex justify-content-end text-decoration-none bannerTxt "  style={{top:"10px"}}
                 >
                   <button
                     className={allSlides[2]?.banner ? "comman_btn22" : "d-none"}

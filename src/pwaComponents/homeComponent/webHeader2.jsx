@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserProfile } from "../httpServices/homeHttpService/homeHttpService";
+import { useRecoilValue } from "recoil";
+import { notifyCount } from "../../atom";
 
 function WebHeader2() {
   const [detail, setDetail] = useState("");
-
+  let count = useRecoilValue(notifyCount);
   useEffect(() => {
     getUserDetail();
   }, []);
@@ -35,7 +37,7 @@ function WebHeader2() {
           <div className="sidenav-profile">
             <div className="user-profile-icon ms-2">
               <img
-              className="userProfile"
+                className="userProfile"
                 src={
                   detail?.profileImage
                     ? detail?.profileImage
@@ -48,7 +50,6 @@ function WebHeader2() {
               <h5 className="user-name mb-1 text-white">
                 {detail?.companyName}
               </h5>
-             
             </div>
           </div>
 
@@ -72,7 +73,7 @@ function WebHeader2() {
               <Link to="/app/notifications">
                 <i className="fa-solid fa-bell lni-tada-effect"></i>
                 Notifications
-                <span className="ms-1 badge badge-warning">3</span>
+                <span className="ms-1 badge badge-warning">{count}</span>
               </Link>
             </li>
             <li>
@@ -91,9 +92,9 @@ function WebHeader2() {
               </Link>
             </li>
             <li>
-            <Link to="/app/logout">
-                  <i className="fa-solid fa-toggle-off"></i>Sign Out
-                </Link>
+              <Link to="/app/logout">
+                <i className="fa-solid fa-toggle-off"></i>Sign Out
+              </Link>
             </li>
           </ul>
         </div>

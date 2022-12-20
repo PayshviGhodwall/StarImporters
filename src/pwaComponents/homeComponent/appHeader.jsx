@@ -4,11 +4,14 @@ import {
   countProducts,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
+import { useRecoilValue } from "recoil";
+import { notifyCount } from "../../atom";
 
 function AppHeader() {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
-
+  let counter = useRecoilValue(notifyCount);
+  
   useEffect(() => {
     getUserDetail();
     getCartCount();
@@ -126,7 +129,7 @@ function AppHeader() {
                 <Link to="/app/notifications">
                   <i className="fa-solid fa-bell lni-tada-effect"></i>
                   Notifications
-                  <span className="ms-1 badge badge-warning">3</span>
+                  <span className="ms-1 badge badge-warning">{counter}</span>
                 </Link>
               </li>
               <li>
