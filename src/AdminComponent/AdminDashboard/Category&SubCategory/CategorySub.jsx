@@ -21,7 +21,6 @@ const CategorySub = () => {
   const [change, setChange] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
   const [allSubCategories, setAllSubCategories] = useState([]);
-  console.log(allCategories);
   const [files, setFiles] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [subCategoryId, setSubCategoryId] = useState();
@@ -32,7 +31,6 @@ const CategorySub = () => {
   const [category, setCategory] = useState("");
   const [categoryIndex, setCategoryIndex] = useState();
   const [subCategoryIndex, setSubCategoryIndex] = useState();
-  console.log(categoryIndex);
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -45,7 +43,7 @@ const CategorySub = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("categoryImage", files?.cateImg);
-    formData.append("categoryName", categoryName);
+    formData.append("categoryName", categoryName.trim());
 
     await axios.post(addCategory, formData).then((res) => {
       if (res?.data.message === "Category added") {
@@ -56,6 +54,18 @@ const CategorySub = () => {
           icon: "error",
           button: "Ok",
         });
+      } else if (res?.data.message === "Please provide category name") {
+        Swal.fire({
+          title: "Please provide category name",
+          icon: "error",
+          button: "Ok",
+        });
+      } else if (res?.data.message === "Please provide category Image") {
+        Swal.fire({
+          title: "Please provide category Image",
+          icon: "error",
+          button: "Ok",
+        });
       }
     });
   };
@@ -63,8 +73,8 @@ const CategorySub = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("subCategoryImage", files?.subCateImg);
-    formData.append("subCategoryName", subCategory);
-    formData.append("categoryName", category);
+    formData.append("subCategoryName", subCategory.trim());
+    formData.append("categoryName", category.trim());
 
     await axios.post(addSubCategory, formData).then((res) => {
       console.log(res);
@@ -76,6 +86,18 @@ const CategorySub = () => {
           icon: "error",
           button: "Ok",
         });
+      } else if (res?.data.message === "Please provide category name") {
+        Swal.fire({
+          title: "Please provide category name",
+          icon: "error",
+          button: "Ok",
+        });
+      } else if (res?.data.message === "Please provide Sub category name") {
+        Swal.fire({
+          title: "Please provide Sub category name",
+          icon: "error",
+          button: "Ok",
+        });
       }
     });
   };
@@ -84,13 +106,13 @@ const CategorySub = () => {
       setAllCategories(res?.data.results);
     });
   };
+  const getSubCategories = async () => {
+    await axios.get(SubCategoryApi).then((res) => {
+      console.log(res);
+      setAllSubCategories(res?.data.results);
+    });
+  };
   useEffect(() => {
-    const getSubCategories = async () => {
-      await axios.get(SubCategoryApi).then((res) => {
-        console.log(res);
-        setAllSubCategories(res?.data.results);
-      });
-    };
     getCategories();
     getSubCategories();
   }, [change]);
@@ -107,12 +129,14 @@ const CategorySub = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("categoryImage", files?.newCategoryImg);
-    formData.append("categoryName", editCateName);
+    formData.append("categoryName", editCateName.trim());
     await axios.post(editCategory + "/" + categoryId, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Modified Successfully") {
         getCategories();
-        window.location.reload();
+        document.getElementById("cateModal").click();
+        setEditCateName("");
+        setFiles([]);
       }
     });
   };
@@ -126,7 +150,10 @@ const CategorySub = () => {
       .then((res) => {
         console.log(res);
         if (res?.data.message === "Sub Category Modified") {
-          window.location.reload();
+          setChange(!change);
+          document.getElementById("subCateModal").click();
+          setEditSubCateName("");
+          setFiles([]);
         }
       });
   };
@@ -194,9 +221,11 @@ const CategorySub = () => {
                 <Link
                   className="bg-white "
                   to="/CategorySub"
-                  style={{ textDecoration: "none", fontSize: "18px",
-                  color: "#3e4093",
-                }}
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "18px",
+                    color: "#3e4093",
+                  }}
                 >
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}
@@ -410,7 +439,9 @@ const CategorySub = () => {
                                   <div className="table-responsive">
                                     <table className="table mb-0">
                                       <thead>
-                                        <tr style={{backgroundColor:"#f2f2f2"}}>
+                                        <tr
+                                          style={{ backgroundColor: "#f2f2f2" }}
+                                        >
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>Category Name</th>
@@ -438,29 +469,27 @@ const CategorySub = () => {
                                               <td>
                                                 {" "}
                                                 <div className="">
-                                                <label class="switchUser" >
-                                                  <input
-                                                    type="checkbox"
-                                                    id={index + 1}
-                                                    defaultChecked={
-                                                      item?.status
-                                                    }
-                                                    onClick={() => {
-                                                      CategoryStatus(index);
-                                                    }}
-                                                  />
-                                                  <span class="sliderUser round"></span>
-                                                </label>
-                                              </div>
-                                                
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={index + 1}
+                                                      defaultChecked={
+                                                        item?.status
+                                                      }
+                                                      onClick={() => {
+                                                        CategoryStatus(index);
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
                                               </td>
 
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"
                                                   data-bs-target="#staticBackdrop"
-                                                  className="comman_btn2"
-                                                  href="javascript:;"
+                                                  className="comman_btn2 text-white text-decoration-none"
                                                   key={index}
                                                   onClick={() => {
                                                     EditCategory(index);
@@ -522,7 +551,7 @@ const CategorySub = () => {
                                     }}
                                   />
                                 </div>
-                          
+
                                 <div className="form-group mb-0 col-auto">
                                   <button
                                     className="comman_btn"
@@ -537,7 +566,9 @@ const CategorySub = () => {
                                   <div className="table-responsive">
                                     <table className="table mb-0">
                                       <thead>
-                                        <tr style={{backgroundColor:"#f2f2f2"}}>
+                                        <tr
+                                          style={{ backgroundColor: "#f2f2f2" }}
+                                        >
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>Category Name</th>
@@ -572,8 +603,7 @@ const CategorySub = () => {
                                                 <Link
                                                   data-bs-toggle="modal"
                                                   data-bs-target="#staticBackdrop2"
-                                                  className="comman_btn2"
-                                                  href="javascript:;"
+                                                  className="comman_btn2 text-white text-decoration-none"
                                                   key={index}
                                                   onClick={() => {
                                                     EditSubCategory(index);
@@ -622,7 +652,9 @@ const CategorySub = () => {
                   type="button"
                   className="btn-close"
                   data-bs-dismiss="modal"
+                  id="cateModal"
                   aria-label="Close"
+                  onClick={() => setChange(!change)}
                 />
               </div>
               <div className="modal-body">
@@ -633,7 +665,7 @@ const CategorySub = () => {
                   <div className="form-group col-auto">
                     <label htmlFor="">Category Image</label>
                     <div className="account_profile position-relative">
-                      <div className="circle">
+                      <div className="circle" key={categoryIndex}>
                         <img
                           className="profile-pic"
                           width={250}
@@ -652,7 +684,7 @@ const CategorySub = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-group col-12">
+                  <div className="form-group col-12" key={categoryIndex}>
                     <label htmlFor="">Category Name</label>
                     <input
                       type="text"
@@ -691,8 +723,10 @@ const CategorySub = () => {
                 <button
                   type="button"
                   className="btn-close"
+                  id="subCateModal"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  onClick={() => setChange(!change)}
                 />
               </div>
               <div className="modal-body">
@@ -700,33 +734,30 @@ const CategorySub = () => {
                   className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
                   action=""
                 >
-                  <div className="form-group col-auto">
-                    <label htmlFor="">Sub Category Image</label>
-                    <div className="account_profile position-relative">
-                      <div className="circle">
-                        <img
-                          className="profile-pic"
-                          width={150}
-                          src={
-                            allSubCategories[subCategoryIndex]?.subCategoryImage
-                          }
-                        />
-                      </div>
-                      <div className="p-image">
-                        <i className="uploadFile fas fa-camera" />
-                        <input
-                          className="file-uploads"
-                          type="file"
-                          accept="image/*"
-                          name="newSubCategoryImg"
-                          onChange={(e) =>
-                            onFileSelection(e, "newSubCategoryImg")
-                          }
-                        />
-                      </div>
-                    </div>
+                  <div className="form-group col mb-4">
+                    <label htmlFor="">Category</label>
+                    <select
+                      key={subCategoryIndex}
+                      className="form-select form-control"
+                      aria-label="Default select example"
+                      onChange={(e) => {
+                        setCategory(e.target.value);
+                      }}
+                    >
+                      <option selected="">
+                        {
+                          allSubCategories[subCategoryIndex]?.categoryName
+                            ?.categoryName
+                        }
+                      </option>
+                      {(allCategories || [])?.map((item, index) => (
+                        <option key={index} value={item?._id}>
+                          {item?.categoryName}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  <div className="form-group col-12">
+                  <div className="form-group col-12" key={subCategoryIndex}>
                     <label htmlFor="">Sub Category Name</label>
                     <input
                       type="text"

@@ -572,7 +572,7 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-4">
+                    <div className="form-group col-5">
                       <label htmlFor="">Barcode</label>
                       <div className="tags-input-container border border-secondary">
                         {(productBarcode || [])?.map((tag, ind) => (
@@ -600,7 +600,7 @@ const Inventory = () => {
                       </div>
                     </div>
 
-                    <div className="form-group col-3">
+                    <div className="form-group col-5">
                       <label htmlFor="">Description</label>
                       <input
                         type="text"
@@ -934,13 +934,14 @@ const Inventory = () => {
                         <header>
                           <h4>Choose File here</h4>
                         </header>
-                        <p>Files Supported: CSV,EXCEL</p>
+                        <p>Files Supported: CSV</p>
                         <p className="text-dark bg-light p-2">
                           {impFile?.name}{" "}
                           <button
                             hidden
                             className="btn"
                             id="reUpload"
+                            accept=".csv/*"
                             onClick={() => {
                               importInput.click();
                             }}

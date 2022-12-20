@@ -319,7 +319,7 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2">
+                                <div className="form-group mb-0 col-2 text-center">
                                   <button
                                     className="comman_btn"
                                     onClick={onOrderSearch}
@@ -328,8 +328,8 @@ const OrderReq = () => {
                                   </button>
                                   
                                 </div>
-                                <div className="col-2 text-end">
-                                  <button className="comman_btn2" onClick={exportOrder}>
+                                <div className="col-2 text-center">
+                                  <button className="comman_btn2 rounded" onClick={exportOrder}>
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -421,7 +421,7 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2 text-start">
+                                <div className="form-group mb-0 col-2 text-center">
                                   <button
                                     className="comman_btn"
                                     onClick={onQuoteSearch}
@@ -429,8 +429,8 @@ const OrderReq = () => {
                                     Search
                                   </button>
                                 </div>
-                                <div className="col-2 text-end">
-                                  <button className="comman_btn2" onClick={exporQuotation}>
+                                <div className="col-2 text-center">
+                                  <button className="comman_btn2 rounded" onClick={exporQuotation}>
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
