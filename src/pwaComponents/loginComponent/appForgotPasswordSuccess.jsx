@@ -62,7 +62,7 @@ function AppForgotPasswordSuccess() {
                 <div className="register-form mt-5">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group text-start mb-4">
-                      <span>New Password</span>
+                      <span>Create New Password</span>
                       <label for="">
                         <i className="fa-solid fa-user"></i>
                       </label>
@@ -90,13 +90,13 @@ function AppForgotPasswordSuccess() {
                       )}
                     </div>
                     <div className="form-group text-start mb-4">
-                      <span>New Password</span>
+                      <span>Confirm New Password</span>
                       <label for="">
                         <i className="fa-solid fa-user"></i>
                       </label>
 
                       <input
-                        type="password"
+                        type="text"
                         className="form-control"
                         placeholder="**********"
                         name="confirmpassword"

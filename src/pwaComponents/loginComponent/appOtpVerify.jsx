@@ -90,7 +90,12 @@ function AppOtpVerification() {
                       <input
                         className="single-otp-input form-control"
                         type="number"
-                        maxlength="1"
+                        pattern="/^-?\d+\.?\d*$/"
+                        onKeyPress={(e) => {
+                          if (e.target.value === 1) {
+                            return false; 
+                          }
+                        }}
                         name="otp1"
                         id="otp1"
                         {...register("otp1", { required: true })}
@@ -162,23 +167,23 @@ function AppOtpVerification() {
                 <div className="login-meta-data">
                   <p className="mt-3 mb-0">
                     Don't received the OTP?
-                  {counter ? 
-                  <span
-                  className="otp-sec mx-1 text-white"
-                  id="resendOTP"
-                  onClick={ResendOtp}
-                >
-                  Check Your Email.
-                </span> :
-                <span
-                className="otp-sec mx-1 text-white"
-                id="resendOTP"
-                onClick={ResendOtp}
-              >
-                Resent OTP
-              </span>
-                }
-                   
+                    {counter ? (
+                      <span
+                        className="otp-sec mx-1 text-white"
+                        id="resendOTP"
+                        onClick={ResendOtp}
+                      >
+                        Check Your Email.
+                      </span>
+                    ) : (
+                      <span
+                        className="otp-sec mx-1 text-white"
+                        id="resendOTP"
+                        onClick={ResendOtp}
+                      >
+                        Resent OTP
+                      </span>
+                    )}
                   </p>
                 </div>
               </div>

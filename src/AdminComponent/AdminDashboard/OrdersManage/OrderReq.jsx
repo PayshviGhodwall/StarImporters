@@ -1,19 +1,25 @@
 import axios from "axios";
+import { saveAs } from "file-saver";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
+  const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
+  const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const [values, setValues] = useState({ from: "", to: "" });
   const navigate = useNavigate();
-
+  const fileDownload = (url, name) => {
+    saveAs(url, name);
+  };
   useEffect(() => {
     OrderRequest();
     QuoteRequest();
@@ -59,12 +65,46 @@ const OrderReq = () => {
         setQuoteReq(res?.data.results?.orders);
       });
   };
-  const exportOrder = ()=>{
-    
-  }
-  const exporQuotation = ()=>{
-    
-  }
+  const exportOrder = async (e) => {
+    e.preventDefault();
+
+    values.from === "" || values.to === ""
+      ? Swal.fire({
+          title: "Select Date",
+          icon:"warning"
+        })
+      : e.preventDefault();
+    await axios
+      .post(exportAllOrder, {
+        from: values.from,
+        to: values.to,
+      })
+      .then((res) => {
+        if (!res?.error) {
+          fileDownload(res?.data.results?.file, "orders");
+        }
+      });
+  };
+  const exporQuotation = async (e) => {
+    e.preventDefault();
+
+    values.from === "" || values.to === ""
+      ? Swal.fire({
+          title: "Select Date",
+          icon:"warning"
+        })
+      : e.preventDefault();
+    await axios
+      .post(exportAllOrder, {
+        from: values.from,
+        to: values.to,
+      })
+      .then((res) => {
+        if (!res?.error) {
+          fileDownload(res?.data.results?.file, "orders");
+        }
+      });
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -326,10 +366,12 @@ const OrderReq = () => {
                                   >
                                     Search
                                   </button>
-                                  
                                 </div>
                                 <div className="col-2 text-center">
-                                  <button className="comman_btn2 rounded" onClick={exportOrder}>
+                                  <button
+                                    className="comman_btn2 rounded"
+                                    onClick={exportOrder}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -430,7 +472,10 @@ const OrderReq = () => {
                                   </button>
                                 </div>
                                 <div className="col-2 text-center">
-                                  <button className="comman_btn2 rounded" onClick={exporQuotation}>
+                                  <button
+                                    className="comman_btn2 rounded"
+                                    onClick={exporQuotation}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>

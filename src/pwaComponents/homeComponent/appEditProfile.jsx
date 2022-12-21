@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   editProfile,
   getUserProfile,
@@ -14,6 +14,7 @@ function AppEditProfile() {
   const [detail, setDetail] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -56,6 +57,7 @@ function AppEditProfile() {
 
     const response = await editProfile(formData);
     if (!response.data.error) {
+      navigate('/app/profile')
     }
   };
 

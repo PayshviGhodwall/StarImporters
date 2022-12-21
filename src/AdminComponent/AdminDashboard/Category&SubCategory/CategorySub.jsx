@@ -573,7 +573,6 @@ const CategorySub = () => {
                                           <th>Date</th>
                                           <th>Category Name</th>
                                           <th>Sub Category Name</th>
-                                          <th>Media</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -592,12 +591,6 @@ const CategorySub = () => {
                                                 }
                                               </td>
                                               <td>{item?.subCategoryName}</td>
-                                              <td>
-                                                <img
-                                                  width={80}
-                                                  src={item?.subCategoryImage}
-                                                ></img>
-                                              </td>
 
                                               <td>
                                                 <Link

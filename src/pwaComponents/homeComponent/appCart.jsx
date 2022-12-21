@@ -266,7 +266,7 @@ function AppCart() {
                         Checkout
                       </Link>
                     ) : (
-                      <Link className="comman_btn " to="/app/checkout">
+                      <Link className="comman_btn " to="/app/home">
                         Start Shopping
                       </Link>
                     )}
