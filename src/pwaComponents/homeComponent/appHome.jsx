@@ -9,6 +9,7 @@ import {
   getBrands,
   getCategory,
   homeBanner,
+  homeSearch,
 } from "../httpServices/homeHttpService/homeHttpService";
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
@@ -17,15 +18,27 @@ function AppHome() {
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
   const [product, setProduct] = useState([]);
+  const [search, setSearch] = useState("");
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getBanner();
     getCategoryList();
-    getProductList();
+    getTopProductList();
     getBrandList();
   }, []);
+
+  useEffect(() => {
+    getProductList();
+  }, [search]);
+
+  const getProductList = async () => {
+    const { data } = await homeSearch({ search: search.replace(".", "") });
+    if (!data.error) {
+      setProduct(data.results);
+    }
+  };
 
   const getBanner = async () => {
     const { data } = await homeBanner();
@@ -33,13 +46,15 @@ function AppHome() {
       setBanner(data.results);
     }
   };
+
   const getCategoryList = async () => {
     const { data } = await getCategory();
     if (!data.error) {
       setCategory(data.results);
     }
   };
-  const getProductList = async () => {
+
+  const getTopProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
       setProduct(data.results.slice(0, 4));
@@ -53,8 +68,8 @@ function AppHome() {
     }
   };
 
-  const searchProduct = async () => {
-    navigate("/app/product-by-search");
+  const searchProduct = async (e) => {
+    navigate("/app/product-by-search",{state:{search:search}});
   };
 
   return (
@@ -63,26 +78,25 @@ function AppHome() {
         <AppHeader />
         <div className="page-content-wrapper">
           <div className="container">
-            <div
-              className="search-form pt-3 rtl-flex-d-row-r"
-              onClick={() => searchProduct()}
-            >
-              <form action="#" method="">
+            <div className="search-form pt-3 rtl-flex-d-row-r">
+              <form action="#" method="" onSubmit={() => searchProduct()}>
                 <input
                   className="form-control"
                   type="search"
                   placeholder="Search in Star Importers"
+                onChange={(e) => setSearch(e.target.value)}
+                  
                 />
-                <button type="submit">
+                <button type="submit" >
                   <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
               </form>
 
-              <div className="alternative-search-options">
+              <div className="alternative-search-options" onClick={()=> navigate("/app/product-by-search")}>
                 <Link className="comman_btn text-white ms-1" to="">
                   <i className="fa-solid fa-microphone"></i>
                 </Link>
-                <a className="comman_btn2 ms-1" href="#">
+                <a className="comman_btn2 ms-1"  onClick={()=> navigate("/app/product-by-search")}>
                   <i className="fa fa-qrcode"></i>
                 </a>
               </div>
@@ -137,36 +151,37 @@ function AppHome() {
 
           <div className="product-catagories-wrapper py-3">
             <div className="container">
-            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-            <h6>Top Categories</h6>
-            <Link className="btn p-0" to="/app/Categories">
-              View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
-            </Link>
-          </div>
+              <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
+                <h6>Top Categories</h6>
+                <Link className="btn p-0" to="/app/Categories">
+                  View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                </Link>
+              </div>
               <div className="row g-2 rtl-flex-d-row-r">
-                {category.filter((item, idx) => idx < 6).map((item, index) => {
-                  return (
-                    <div className="col-4 d-flex align-items-stretch">
-                      <div className="card catagory-card w-100">
-                        <div className="card-body px-2">
-                          <Link
-                            to={`/app/product-category/${item.categoryName}`}
-                          >
-                            <img src={item.categoryImage} alt="" />
-                            <span>{item.categoryName}</span>
-                          </Link>
+                {category
+                  .filter((item, idx) => idx < 6)
+                  .map((item, index) => {
+                    return (
+                      <div className="col-4 d-flex align-items-stretch">
+                        <div className="card catagory-card w-100">
+                          <div className="card-body px-2">
+                            <Link
+                              to={`/app/product-category/${item.categoryName}`}
+                            >
+                              <img src={item.categoryImage} alt="" />
+                              <span>{item.categoryName}</span>
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </div>
           </div>
 
           <TopProduct />
 
-         
           <div className="flash-sale-wrapper mt-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">

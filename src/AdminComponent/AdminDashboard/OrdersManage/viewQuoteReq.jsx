@@ -65,21 +65,11 @@ const ViewQuoteReq = () => {
   };
 
   const exportQuote = async () => {
-    await axios
-      .post(QuoteExport, {
-        requestDate: quote?.createdAt?.slice(0, 10),
-        requestId: quote?.quoteId,
-        products: quote?.products?.length,
-        item: quote?.products?.map((item) => item?.productId?.unitName),
-        quantity: quote?.products?.map((item) => item?.quantity),
-        buyerName: quote?.userId?.firstName,
-        buyerEmail: quote?.userId?.email,
-      })
-      .then((res) => {
-        if (!res?.error) {
-          fileDownload(res?.data.results?.file, quote?.quoteId);
-        }
-      });
+    await axios.post(QuoteExport + "/" + id).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, quote?.quoteId);
+      }
+    });
   };
 
   const handleClick = () => {
@@ -326,7 +316,11 @@ const ViewQuoteReq = () => {
                                       <div className="col-auto">
                                         <span className="cart_product">
                                           <img
-                                            src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
+                                            src={
+                                              item?.flavour?._id
+                                                ? item?.flavour?.flavourImage
+                                                : item?.productId?.productImage
+                                            }
                                             alt=""
                                           />
                                         </span>
@@ -334,11 +328,17 @@ const ViewQuoteReq = () => {
                                       <div className="col">
                                         <div className="cart_content ">
                                           <h3 className="fs-5">
-                                            {item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName}
+                                            {item?.flavour?._id
+                                              ? item?.productId?.unitName +
+                                                "-" +
+                                                item?.flavour?.flavour
+                                              : item?.productId?.unitName}
                                           </h3>
                                           <p>
                                             Barcode :{" "}
-                                            {item?.flavour?._id ? item?.flavour?.barcode : item?.productId?.pBarcode[0]}
+                                            {item?.flavour?._id
+                                              ? item?.flavour?.barcode
+                                              : item?.productId?.pBarcode[0]}
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             <label className=" mb-2 fw-bold">

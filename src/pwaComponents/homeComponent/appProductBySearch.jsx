@@ -3,7 +3,7 @@ import AppHeader from "./appHeader";
 import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   homeSearch,
   searchByBarcode,
@@ -20,24 +20,27 @@ function AppProductBySearch() {
   const [product, setProduct] = useState([]);
   const [scan, setScan] = useState(false);
   const navigate = useNavigate();
-
+  let location = useLocation();
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
-
+  let preSearch = location?.state?.search;
   useEffect(() => {
     getProductList();
   }, [search, scan]);
 
   const getProductList = async () => {
-    const { data } = await homeSearch({ search: search.replace(".", "") });
+    const { data } = await homeSearch({
+      search: search.replace(".", "") ? search.replace(".", "") : preSearch,
+    });
     if (!data.error) {
       setProduct(data.results);
     }
   };
+  console.log(search);
 
   if (!browserSupportsSpeechRecognition) {
     return console.log("Browser doesn't support speech recognition.");
@@ -87,7 +90,7 @@ function AppProductBySearch() {
   const microphoneSearch = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
-      console.log(Dd,"hyiioioio");
+      console.log(Dd, "hyiioioio");
       if (Dd) {
         setSearch(Dd);
       }
@@ -142,49 +145,45 @@ function AppProductBySearch() {
               <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
                 {search ? <h6> Showing results for "{search}"</h6> : ""}
               </div>
-              {search ? (
-                product.length ? (
-                  <div className="row g-2">
-                    {(product || [])?.map((item, index) => {
-                      return (
-                        <div className="col-6 col-md-4">
-                          <div className="card product-card">
-                            <div className="card-body">
-                              <Link
-                                className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item._id}`}
-                              >
-                                <img
-                                  className="mb-2"
-                                  src={item.productImage}
-                                  alt=""
-                                />
-                              </Link>
-                              <Link
-                                className="product-title"
-                                to="/app/product-detail"
-                              >
-                                {item.unitName}
-                              </Link>
+              {product.length ? (
+                <div className="row g-2">
+                  {(product || [])?.map((item, index) => {
+                    return (
+                      <div className="col-6 col-md-4" key={index}>
+                        <div className="card product-card">
+                          <div className="card-body">
+                            <Link
+                              className="product-thumbnail d-block"
+                              to={`/app/product-detail/${item._id}`}
+                            >
+                              <img
+                                className="mb-2"
+                                src={item.productImage}
+                                alt=""
+                              />
+                            </Link>
+                            <Link
+                              className="product-title"
+                              to="/app/product-detail"
+                            >
+                              {item.unitName}
+                            </Link>
 
-                              <div className="product-rating">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
+                            <div className="product-rating">
+                              <i className="fa-solid fa-star"></i>
+                              <i className="fa-solid fa-star"></i>
+                              <i className="fa-solid fa-star"></i>
+                              <i className="fa-solid fa-star"></i>
+                              <i className="fa-solid fa-star"></i>
                             </div>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <img className="no-data" src="../assets/img/no-data.gif" />
-                )
+                      </div>
+                    );
+                  })}
+                </div>
               ) : (
-                ""
+                <img className="no-data" src="../assets/img/no-data.gif" />
               )}
             </div>
           </div>

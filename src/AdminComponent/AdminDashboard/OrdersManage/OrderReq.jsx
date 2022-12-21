@@ -11,7 +11,7 @@ const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
-  const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
+  const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportAllQuotes`;
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
@@ -95,13 +95,13 @@ const OrderReq = () => {
         })
       : e.preventDefault();
     await axios
-      .post(exportAllOrder, {
+      .post(exportAllQuotes, {
         from: values.from,
         to: values.to,
       })
       .then((res) => {
         if (!res?.error) {
-          fileDownload(res?.data.results?.file, "orders");
+          fileDownload(res?.data.results?.file, "request");
         }
       });
   };

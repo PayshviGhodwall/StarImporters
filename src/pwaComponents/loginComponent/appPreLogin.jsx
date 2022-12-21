@@ -187,8 +187,7 @@ function AppPreLogin() {
                 </div>
                 <div className="view-as-guest mt-2">
                   <a className="btn" to="" onClick={faceLogin}>
-                    Login with face
-                  </a>
+                    Login with face ID.                 </a>
                 </div>
               </div>
             </div>

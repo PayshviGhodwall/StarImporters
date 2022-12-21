@@ -18,8 +18,8 @@ const ViewOrder = () => {
 
   let id = location?.state?.id;
 
-  const fileDownload = (url,name) => {
-    saveAs(url,name);
+  const fileDownload = (url, name) => {
+    saveAs(url, name);
   };
 
   useEffect(() => {
@@ -33,39 +33,27 @@ const ViewOrder = () => {
   };
   const UpdateOrderStatus = async (e) => {
     e.preventDefault();
-    await axios.post(updateOrder + "/" + id, {
-      status: orderStatus,
-    }).then((res)=>{
-      if(!res?.error){
-        Swal.fire({
-          title: "Order Status Updated",
-          icon: "success",
-          button: "Ok",
-        });
-      }
-    })
+    await axios
+      .post(updateOrder + "/" + id, {
+        status: orderStatus,
+      })
+      .then((res) => {
+        if (!res?.error) {
+          Swal.fire({
+            title: "Order Status Updated",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
   };
-  const exportOrder = async()=>{
-  await axios.post(orderExport,{
-    orderDate:orders?.createdAt?.slice(0, 10),
-    orderId :orders?.orderId,
-    products:orders?.products?.length,
-    item : orders?.products?.map((item)=>(
-      item?.productId?.unitName
-    )),
-    quantity:orders?.products?.map((item)=>(
-      item?.quantity
-    )),
-     buyerName:orders?.userId?.firstName,
-     buyerEmail:orders?.userId?.email,
-     buyerMobile:orders?.userId?.phoneNumber,
-     buyerLocation:orders?.userId?.addressLine[0]
-  }).then((res)=>{
-    if(!res?.error){
-      fileDownload(res?.data.results?.file,orders?.orderId)
-    }
-  })
-  }
+  const exportOrder = async () => {
+    await axios.post(orderExport + "/" + id,).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, orders?.orderId);
+      }
+    });
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -251,7 +239,9 @@ const ViewOrder = () => {
                       <h2>Order Details</h2>
                     </div>
                     <div className="col-auto">
-                      <button className="comman_btn2" onClick={exportOrder}>Export <i class="fa fa-download"></i></button>
+                      <button className="comman_btn2" onClick={exportOrder}>
+                        Export <i class="fa fa-download"></i>
+                      </button>
                     </div>
                   </div>
                   <div className="row p-4 py-5">
@@ -308,7 +298,11 @@ const ViewOrder = () => {
                                       <div className="col-auto">
                                         <span className="cart_product">
                                           <img
-                                            src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
+                                            src={
+                                              item?.flavour?._id
+                                                ? item?.flavour?.flavourImage
+                                                : item?.productId?.productImage
+                                            }
                                             alt=""
                                           />
                                         </span>
@@ -316,9 +310,18 @@ const ViewOrder = () => {
                                       <div className="col">
                                         <div className="cart_content ">
                                           <h3 className="fs-5">
-                                           {item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName}
+                                            {item?.flavour?._id
+                                              ? item?.productId?.unitName +
+                                                "-" +
+                                                item?.flavour?.flavour
+                                              : item?.productId?.unitName}
                                           </h3>
-                                          <p>Barcode : {item?.flavour?._id ? item?.flavour?.barcode : item?.productId?.pBarcode[0]}</p>
+                                          <p>
+                                            Barcode :{" "}
+                                            {item?.flavour?._id
+                                              ? item?.flavour?.barcode
+                                              : item?.productId?.pBarcode[0]}
+                                          </p>
                                           <span className="ordertext my-2 d-block ">
                                             Ordered On:{" "}
                                             {item?.productId?.createdAt?.slice(
@@ -434,9 +437,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Type:</span>
                             <div className="col">
-                              <strong>
-                                {orders?.type}
-                              </strong>
+                              <strong>{orders?.type}</strong>
                             </div>
                           </div>
                         </div>
