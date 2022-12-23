@@ -132,14 +132,16 @@ const Homepage = () => {
                 alt="No image"
               />
               <div className="carousel-caption banner-titles mx-3">
-                <h5 className=" text-center  Bannertext">
-                  {allSlides[1]?.title}
-                </h5>
-
-                <p className="d-flex text-center fs-6 bannerTxt">
-                  {allSlides[1]?.description}
-                </p>
-
+                <h5
+                  className=" text-center  Bannertext"
+                  dangerouslySetInnerHTML={createMarkup(allSlides[1]?.title)}
+                ></h5>
+                <p
+                  className="d-flex text-center fs-6 bannerTxt"
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[1]?.description
+                  )}
+                ></p>
                 <Link
                   to="/app/register"
                   className="text-decoration-none bannerTxt "
@@ -160,10 +162,16 @@ const Homepage = () => {
                 alt="..."
               />
               <div className="carousel-caption bannerTitle2">
-                <h5 className=" text-end  Bannertext">{allSlides[2]?.title}</h5>
-                <p className="fs-6 bannerTxt text-end ">
-                  {allSlides[2]?.description}
-                </p>
+              <h5
+                  className=" text-end  Bannertext"
+                  dangerouslySetInnerHTML={createMarkup(allSlides[2]?.title)}
+                ></h5>
+                <p
+                  className="d-flex text-end fs-6 bannerTxt"
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[2]?.description
+                  )}
+                ></p>
 
                 <Link
                   to="/app/register"
