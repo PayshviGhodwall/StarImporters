@@ -19,6 +19,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { charCountState } from "../../selecter.js";
+import DOMPurify from "dompurify";
+
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
   const slidesApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getSlides`;
@@ -73,7 +75,11 @@ const Homepage = () => {
       setBrands(res?.data.results);
     });
   };
-
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
   return (
     <div className="home_page">
       <Navbar />
@@ -93,14 +99,22 @@ const Homepage = () => {
                 alt=""
               />
               <div className="carousel-caption ">
-                <h5 className="d-flex text-start  Bannertext">
-                  {allSlides[0]?.title}
-                </h5>
-                <p className="d-flex text-start fs-6 bannerTxt">
-                  {allSlides[0]?.description}
-                </p>
+                <h5
+                  className="d-flex text-start  Bannertext"
+                  dangerouslySetInnerHTML={createMarkup(allSlides[0]?.title)}
+                ></h5>
+                <p
+                  className="d-flex text-start fs-6 bannerTxt"
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[0]?.description
+                  )}
+                ></p>
 
-                <Link to="/app/register" className="text-decoration-none bannerTxt "  style={{top:"10px"}}>
+                <Link
+                  to="/app/register"
+                  className="text-decoration-none bannerTxt "
+                  style={{ top: "10px" }}
+                >
                   <button
                     className={
                       allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"
@@ -121,21 +135,22 @@ const Homepage = () => {
                 <h5 className=" text-center  Bannertext">
                   {allSlides[1]?.title}
                 </h5>
-               
+
                 <p className="d-flex text-center fs-6 bannerTxt">
                   {allSlides[1]?.description}
                 </p>
 
-                <Link to="/app/register" className="text-decoration-none bannerTxt "  style={{top:"10px"}}>
+                <Link
+                  to="/app/register"
+                  className="text-decoration-none bannerTxt "
+                  style={{ top: "10px" }}
+                >
                   <button
-                    className={
-                      allSlides[1]?.banner ? "comman_btn22" : "d-none"
-                    }
+                    className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}
                   >
                     SignUp
                   </button>
                 </Link>
-              
               </div>
             </div>
             <div className="carousel-item ">
@@ -152,7 +167,8 @@ const Homepage = () => {
 
                 <Link
                   to="/app/register"
-                  className="d-flex justify-content-end text-decoration-none bannerTxt "  style={{top:"10px"}}
+                  className="d-flex justify-content-end text-decoration-none bannerTxt "
+                  style={{ top: "10px" }}
                 >
                   <button
                     className={allSlides[2]?.banner ? "comman_btn22" : "d-none"}
@@ -199,13 +215,11 @@ const Homepage = () => {
         <Swiper
           slidesPerView={5}
           spaceBetween={30}
+          navigation={true}
+          autoplay={true}
           loop={true}
-          autoplay={{
-            delay: 1000,
-            disableOnInteraction: false,
-          }}
-          modules={[FreeMode, Pagination, Autoplay]}
-          className="mySwiper"
+          modules={[FreeMode, Pagination, Autoplay, Navigation]}
+          className="mySwiper px-4 py-2"
         >
           {(category || [])?.map((item, index) => (
             <SwiperSlide key={index}>
@@ -230,6 +244,9 @@ const Homepage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        <span className="viewAllBtn">
+          View All <i class="fa fa-arrow-up-right-from-square"></i>
+        </span>
       </section>
       <section className="features_products py-5 bg-white">
         <div className="container py-xl-3">
@@ -319,12 +336,13 @@ const Homepage = () => {
           </div>
           <div className="col-sm-12">
             <Swiper
-              slidesPerView={5}
+              slidesPerView={4}
               spaceBetween={20}
               loop={true}
+              navigation={true}
               autoplay={true}
-              modules={[FreeMode, Pagination, Autoplay]}
-              className="mySwiper row"
+              modules={[FreeMode, Pagination, Autoplay, Navigation]}
+              className="mySwiper row px-4 py-2"
             >
               {(brands || [])?.map((item, index) => (
                 <SwiperSlide key={index}>

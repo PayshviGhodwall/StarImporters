@@ -95,13 +95,13 @@ const SingleProduct = () => {
     userInfo();
     NewProducts();
   }, [change, objectId]);
-console.log(typeObj);
+
   const AddtoCart = async () => {
     setLoader(true);
-    console.log(objectId);
+
     cartProduct.push(objectId);
     cartProduct.push(unitCount);
-    console.log(cartProduct);
+  
     await axios
       .post(addCart, {
         productId: cartProduct[0],

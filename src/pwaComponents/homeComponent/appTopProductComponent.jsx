@@ -33,10 +33,12 @@ function TopProduct() {
     }
   };
 
-  const addToCartt = async (id) => {
+  const addToCartt = async (id,index) => {
     const formData = {
       productId: id,
       quantity: 1,
+      flavour:product[index]?.type[0]
+      
     };
     console.log(formData);
     const { data } = await addToCart(formData);
@@ -102,12 +104,12 @@ function TopProduct() {
                         class="product-thumbnail d-block"
                         to={`/app/product-detail/${item?._id}`}
                       >
-                        <img class="mb-2" src={item?.productImage} alt="" />
+                        <img class="mb-2" src={item?.type[0]?.flavourImage} alt="" />
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">
                           <a class="product-title" href="javascript:;">
-                            {item?.unitName}
+                            {item?.unitName + item?.type[0]?.flavour}
                           </a>
                           <div className="product-rating">
                             <i className="fa-solid fa-star"></i>
@@ -121,7 +123,7 @@ function TopProduct() {
                           <Link
                             class="cart_bttn"
                             to=""
-                            onClick={() => addToCartt(item?._id)}
+                            onClick={() => addToCartt(item?._id,index)}
                           >
                             <i class="fa-light fa-plus"></i>
                           </Link>

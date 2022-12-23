@@ -6,12 +6,14 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import "swiper/css/bundle";
 import { RecoilRoot } from "recoil";
+import { render } from "react-dom"; // add this
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(
+render(
   <React.StrictMode>
     <RecoilRoot>
       <App />
       </RecoilRoot>
-  </React.StrictMode>
+  </React.StrictMode>,  
+  document.getElementById("root")
 );

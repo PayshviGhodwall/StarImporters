@@ -25,18 +25,18 @@ function AppCart() {
     }
   };
 
-  const deleteProduct = async (id) => {
-    const { data } = await deleteCart({ productId: id });
+  const deleteProduct = async (id, flavour) => {
+    const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
       getCarts();
     }
   };
 
   const updateQuantity = async (e, id) => {
-    setQuantity(e);
+    setQuantity(e.target.value);
     const formData = {
       productId: id,
-      quantity: e,
+      quantity: e.target.value,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
@@ -78,6 +78,7 @@ function AppCart() {
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity,
+      flavour: cart[id]?.flavour,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
@@ -93,11 +94,13 @@ function AppCart() {
       );
     }
   };
+
   const HandleIncrease = async (id) => {
     console.log(id);
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity,
+      flavour: cart[id]?.flavour,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
@@ -220,7 +223,10 @@ function AppCart() {
                                     <i
                                       class="fa fa-trash fs-6 text-danger"
                                       onClick={() =>
-                                        deleteProduct(item?.productId._id)
+                                        deleteProduct(
+                                          item?.productId._id,
+                                          item?.flavour
+                                        )
                                       }
                                     ></i>
                                   ) : (

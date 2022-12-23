@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-
+import { Editor } from "react-draft-wysiwyg";
+import { convertToHTML, convertFromHTML } from "draft-convert";
+import { stateToHTML } from "draft-js-export-html";
+import { stateFromHTML } from "draft-js-import-html";
+import { EditorState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
-import { post } from "jquery";
 import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import DOMPurify from "dompurify";
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
@@ -40,16 +44,76 @@ const Cms = () => {
   const editTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`;
   const editPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
+  const { register, handleSubmit, reset } = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    trigger,
-    reset,
-  } = useForm();
-  
+  const [editorTitleState, setTitleEditorState] = useState(null);
+  const [editorDescState, setDescEditorState] = useState(null);
+  const [editorTitle2State, setTitle2EditorState] = useState(null);
+  const [editorDesc2State, setDesc2EditorState] = useState(null);
+  const [editorTitle3State, setTitle3EditorState] = useState(null);
+  const [editorDesc3State, setDesc3EditorState] = useState(null);
+
+  const [editorHomeCTstate, setEditorHomeCTstate] = useState(null);
+  const [editorHomeFPstate, setEditorHomeFPstate] = useState(null);
+  const [editorHomePBstate, setEditorHomePBstate] = useState(null);
+
+  const onEditorTitleStateChange = async (editorTitleState) => {
+    await setTitleEditorState(editorTitleState);
+  };
+  const onEditorDescStateChange = async (editorDescState) => {
+    await setDescEditorState(editorDescState);
+  };
+  const onEditorTitle2StateChange = async (editorTitle2State) => {
+    await setTitle2EditorState(editorTitle2State);
+  };
+  const onEditorDesc2StateChange = async (editorDesc2State) => {
+    await setDesc2EditorState(editorDesc2State);
+  };
+  const onEditorTitle3StateChange = async (editorTitle3State) => {
+    await setTitle3EditorState(editorTitle3State);
+  };
+  const onEditorDesc3StateChange = async (editorDesc3State) => {
+    await setDesc3EditorState(editorDesc3State);
+  };
+  const getSlides = async () => {
+    await axios.get(AllSlides).then((res) => {
+      console.log(res?.data.results);
+      setSlideData(res?.data.results);
+      let results = res?.data.results;
+      let defalutValues = {};
+      defalutValues.slides = results[0]?.banner;
+      defalutValues.slideTitle = results[0]?.title;
+      defalutValues.slideDesc = results[0]?.description;
+      defalutValues.slides = results[1]?.banner;
+      defalutValues.slide2Title = results[1]?.title;
+      defalutValues.slide2Desc = results[1]?.description;
+      defalutValues.slide3Title = results[2]?.title;
+      defalutValues.slide3Desc = results[2]?.description;
+
+      reset({ ...defalutValues });
+      const contentTtState = stateFromHTML(JSON.parse(results[0]?.title));
+      const contentDsState = stateFromHTML(JSON.parse(results[0]?.description));
+
+      const contentTt2State = stateFromHTML(JSON.parse(results[1]?.title));
+      const contentDs2State = stateFromHTML(
+        JSON.parse(results[1]?.description)
+      );
+
+      const contentTt3State = stateFromHTML(JSON.parse(results[2]?.title));
+      const contentDs3State = stateFromHTML(
+        JSON.parse(results[2]?.description)
+      );
+      console.log(contentTtState);
+
+      setTitleEditorState(EditorState.createWithContent(contentTtState));
+      setDescEditorState(EditorState.createWithContent(contentDsState));
+      setTitle2EditorState(EditorState.createWithContent(contentTt2State));
+      setDesc2EditorState(EditorState.createWithContent(contentDs2State));
+      setTitle3EditorState(EditorState.createWithContent(contentTt3State));
+      setDesc3EditorState(EditorState.createWithContent(contentDs3State));
+    });
+  };
+
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
     setSelectedFile(e.target.files[0]);
@@ -70,12 +134,33 @@ const Cms = () => {
     getTermsCondition();
     getPrivacyPolicy();
   }, [change]);
-  console.log(files?.slideImg);
 
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
+
+  const contentPosition = (e) => {
+    console.log(e.target.value);
+  };
+  const contentPosition2 = (e) => {
+    console.log(e.target.value);
+  };
+  const contentPosition3 = (e) => {
+    console.log(e.target.value);
+  };
   const onSubmitSecond = async (data) => {
+    let title = await JSON.stringify(
+      stateToHTML(editorTitle2State.getCurrentContent())
+    );
+    let Desc = await JSON.stringify(
+      stateToHTML(editorDesc2State.getCurrentContent())
+    );
+
     const formData = new FormData();
-    formData.append("title", data.slide2Title);
-    formData.append("description", data.slide2Desc);
+    formData.append("title", title);
+    formData.append("description", Desc);
     formData.append("banner", files?.slide2Img);
     await axios
       .post(EditSlide + "/" + slideData[1]?._id, formData)
@@ -92,9 +177,16 @@ const Cms = () => {
       });
   };
   const onSubmitThird = async (data) => {
+    let title = await JSON.stringify(
+      stateToHTML(editorTitle3State.getCurrentContent())
+    );
+    let Desc = await JSON.stringify(
+      stateToHTML(editorDesc3State.getCurrentContent())
+    );
+
     const formData = new FormData();
-    formData.append("title", data.slide3Title);
-    formData.append("description", data.slide3Desc);
+    formData.append("title", title);
+    formData.append("description", Desc);
     formData.append("banner", files?.slide3Img);
     await axios
       .post(EditSlide + "/" + slideData[2]?._id, formData)
@@ -111,16 +203,20 @@ const Cms = () => {
       });
   };
   const onSubmit = async (data) => {
+    let title = await stateToHTML(editorTitleState.getCurrentContent());
+    let Desc = await JSON.stringify(
+      stateToHTML(editorDescState.getCurrentContent())
+    );
 
     const formData = new FormData();
-    formData.append("title", data.slideTitle);
-    formData.append("description", data.slideDesc);
+    formData.append("title", title);
+    formData.append("description", Desc);
     formData.append("banner", files?.slide1Img);
     await axios
       .post(EditSlide + "/" + slideData[0]?._id, formData)
       .then((res) => {
         if (!res.error) {
-          getSlides()
+          getSlides();
           Swal.fire({
             title: "Slide Modified!",
             icon: "success",
@@ -128,26 +224,6 @@ const Cms = () => {
           });
         }
       });
-  };
-
-  const getSlides = async () => {
-    await axios.get(AllSlides).then((res) => {
-      console.log(res?.data.results);
-      setSlideData(res?.data.results);
-      let results = res?.data.results;
-      let defalutValues = {};
-      defalutValues.slides = results[0]?.banner;
-      defalutValues.slideTitle = results[0]?.title;
-      defalutValues.slideDesc = results[0]?.description;
-      defalutValues.slides = results[1]?.banner;
-      defalutValues.slide2Title = results[1]?.title;
-      defalutValues.slide2Desc = results[1]?.description;
-      defalutValues.slide3Title = results[2]?.title;
-      defalutValues.slide3Desc = results[2]?.description;
-
-      reset({ ...defalutValues });
-      return res.data;
-    });
   };
 
   const getAboutUs = async () => {
@@ -415,7 +491,19 @@ const Cms = () => {
                             aria-controls="nav-home"
                             aria-selected="true"
                           >
-                            Home Banner
+                            Home Slides
+                          </button>
+                          <button
+                            className="nav-link labels"
+                            id="nav-homeBann-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-homeBann"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-homeBann"
+                            aria-selected="true"
+                          >
+                            Home Title/Banners
                           </button>
                           <button
                             className="nav-link labels"
@@ -535,7 +623,63 @@ const Cms = () => {
                                         action=""
                                         onSubmit={handleSubmit(onSubmit)}
                                       >
-                                        <div className="form-group col-12 slide_img">
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="1"
+                                                onChange={contentPosition}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="2"
+                                                onChange={contentPosition}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="3"
+                                                onChange={contentPosition}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
                                           <label htmlFor="" className="labels">
                                             Slide Image
                                           </label>
@@ -544,7 +688,11 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={ productImage ? productImage : slideData[0]?.banner}
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[0]?.banner
+                                                }
                                                 alt=""
                                               />
                                             </div>
@@ -566,26 +714,60 @@ const Cms = () => {
                                             </div>
                                           </div>
                                         </div>
+
                                         <div className="form-group col-12">
-                                          <label htmlFor="" className="labels">
-                                            Title
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
                                           </label>
-                                          <input
-                                            type="text"
-                                            className="form-control"
-                                            name="slide1Title"
-                                            {...register("slideTitle")}
+                                          <Editor
+                                            editorState={editorTitleState}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitleStateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12">
                                           <label htmlFor="" className="labels">
                                             Paragraph
                                           </label>
-                                          <textarea
-                                            className="form-control p-3"
-                                            name="slide1Desc"
-                                            id=""
-                                            {...register("slideDesc")}
+                                          <Editor
+                                            editorState={editorDescState}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDescStateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12 text-start">
@@ -613,7 +795,63 @@ const Cms = () => {
                                         action=""
                                         onSubmit={handleSubmit(onSubmitSecond)}
                                       >
-                                        <div className="form-group col-12 slide_img">
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="1"
+                                                onChange={contentPosition2}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="2"
+                                                onChange={contentPosition2}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="3"
+                                                onChange={contentPosition2}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
                                           <label htmlFor="" className="labels">
                                             Slide Image
                                           </label>
@@ -621,7 +859,11 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={ productImage ? productImage : slideData[1]?.banner}
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[1]?.banner
+                                                }
                                               />
                                             </div>
                                             <div className="p-image">
@@ -642,25 +884,58 @@ const Cms = () => {
                                           </div>
                                         </div>
                                         <div className="form-group col-12">
-                                          <label htmlFor="" className="labels">
-                                            Title
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
                                           </label>
-                                          <input
-                                            type="text"
-                                            className="form-control"
-                                            name="slide2Title"
-                                            {...register("slide2Title")}
+                                          <Editor
+                                            editorState={editorTitle2State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitle2StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12">
                                           <label htmlFor="" className="labels">
                                             Paragraph
                                           </label>
-                                          <textarea
-                                            className="form-control"
-                                            name="slide2Desc"
-                                            id=""
-                                            {...register("slide2Desc")}
+                                          <Editor
+                                            editorState={editorDesc2State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDesc2StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12 text-start">
@@ -688,7 +963,63 @@ const Cms = () => {
                                         action=""
                                         onSubmit={handleSubmit(onSubmitThird)}
                                       >
-                                        <div className="form-group col-12 slide_img">
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="1"
+                                                onChange={contentPosition3}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="2"
+                                                onChange={contentPosition3}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="3"
+                                                onChange={contentPosition3}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
                                           <label htmlFor="" className="labels">
                                             Slide Image
                                           </label>
@@ -696,7 +1027,11 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                src={productImage ? productImage : slideData[2]?.banner}
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[2]?.banner
+                                                }
                                               />
                                             </div>
                                             <div className="p-image">
@@ -717,25 +1052,58 @@ const Cms = () => {
                                           </div>
                                         </div>
                                         <div className="form-group col-12">
-                                          <label htmlFor="" className="labels">
-                                            Title
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
                                           </label>
-                                          <input
-                                            type="text"
-                                            className="form-control"
-                                            name="slide3Title"
-                                            {...register("slide3Title")}
+                                          <Editor
+                                            editorState={editorTitle3State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitle3StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12">
                                           <label htmlFor="" className="labels">
                                             Paragraph
                                           </label>
-                                          <textarea
-                                            className="form-control"
-                                            name="slide3Desc"
-                                            id=""
-                                            {...register("slide3Desc")}
+                                          <Editor
+                                            editorState={editorDesc3State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDesc3StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                "fontSize",
+                                                "fontFamily",
+                                                "colorPicker",
+                                              ],
+                                            }}
                                           />
                                         </div>
                                         <div className="form-group col-12 text-start">
@@ -751,6 +1119,116 @@ const Cms = () => {
                                   </div>
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade"
+                          id="nav-homeBann"
+                          role="tabpanel"
+                          aria-labelledby="nav-homeBann-tab"
+                        >
+                          <div className="row py-5 px-4 mx-0">
+                            <div className="col-12">
+                              <div className="account_profile position-relative d-inline-block">
+                                <label htmlFor="" className="labels">
+                                  Background :
+                                </label>
+                                <div className="cmsSlide">
+                                  <img
+                                    className="SlideCms"
+                                    src={
+                                      productImage
+                                        ? productImage
+                                        : slideData[2]?.banner
+                                    }
+                                  />
+                                </div>
+                                <div className="p-image">
+                                  <i className="upload-button fas fa-camera" />
+                                  <input
+                                    className="file-uploads"
+                                    name="slide3Img"
+                                    type="file"
+                                    {...register("slides")}
+                                    onChange={(e) =>
+                                      onFileSelection(e, "slide3Img")
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="form-group col-12">
+                              <label htmlFor="" className="labels d-flex">
+                                CATEGORY TITLE :
+                              </label>
+                              <Editor
+                                editorState={editorHomeCTstate}
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class border"
+                                toolbarClassName="toolbar-class"
+                                onEditorStateChange={onEditorTitle3StateChange}
+                                wrapperStyle={{}}
+                                editorStyle={{}}
+                                toolbarStyle={{}}
+                                toolbar={{
+                                  options: [
+                                    "inline",
+                                    "blockType",
+                                    "fontSize",
+                                    "fontFamily",
+                                    "colorPicker",
+                                  ],
+                                }}
+                              />
+                            </div>
+                            <div className="form-group col-12">
+                              <label htmlFor="" className="labels">
+                                FEATURED TITLE :
+                              </label>
+                              <Editor
+                                editorState={editorDesc3State}
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class border"
+                                toolbarClassName="toolbar-class"
+                                onEditorStateChange={onEditorDesc3StateChange}
+                                wrapperStyle={{}}
+                                editorStyle={{}}
+                                toolbarStyle={{}}
+                                toolbar={{
+                                  options: [
+                                    "inline",
+                                    "blockType",
+                                    "fontSize",
+                                    "fontFamily",
+                                    "colorPicker",
+                                  ],
+                                }}
+                              />
+                            </div>
+                            <div className="form-group col-12">
+                              <label htmlFor="" className="labels">
+                                BRAND TITLE :
+                              </label>
+                              <Editor
+                                editorState={editorDesc3State}
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class border"
+                                toolbarClassName="toolbar-class"
+                                onEditorStateChange={onEditorDesc3StateChange}
+                                wrapperStyle={{}}
+                                editorStyle={{}}
+                                toolbarStyle={{}}
+                                toolbar={{
+                                  options: [
+                                    "inline",
+                                    "blockType",
+                                    "fontSize",
+                                    "fontFamily",
+                                    "colorPicker",
+                                  ],
+                                }}
+                              />
                             </div>
                           </div>
                         </div>

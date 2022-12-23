@@ -143,7 +143,7 @@ export async function updateCart(formData) {
 export async function updateQuote(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/updateQuote
+      `${process.env.REACT_APP_APIENDPOINT}/user/quotes/editQuotes
       `,
       formData
     );

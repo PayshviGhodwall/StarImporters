@@ -41,6 +41,7 @@ const Cart = () => {
     await axios
       .post(productRemove, {
         productId: product[index].productId?._id,
+        flavour: product[index].flavour,
       })
       .then((res) => {
         if (res.data?.message === "Product has been removed") {
@@ -49,23 +50,41 @@ const Cart = () => {
         }
       });
   };
-  const HandleIncrease = (id) => {
-    console.log(id);
-    setProduct((product) =>
-      product?.map((item, ind) =>
-        id === ind ? { ...item, quantity: item?.quantity + 1 } : item
-      )
-    );
+  const HandleIncrease = async (id) => {
+    const formData = {
+      productId: product[id]?.productId?._id,
+      quantity: product[id]?.quantity,
+      flavour: product[id]?.flavour,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      setProduct((product) =>
+        product?.map((item, ind) =>
+          id === ind ? { ...item, quantity: item?.quantity + 1 } : item
+        )
+      );
+    }
   };
   console.log(product);
-  const HandleDecrease = (id) => {
-    setProduct((product) =>
-      product.map((item, ind) =>
-        id === ind
-          ? { ...item, quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0) }
-          : item
-      )
-    );
+  const HandleDecrease = async (id) => {
+    const formData = {
+      productId: product[id]?.productId?._id,
+      quantity: product[id]?.quantity,
+      flavour: product[id]?.flavour,
+    };
+    const { data } = await updateCart(formData);
+    if (!data.error) {
+      setProduct((product) =>
+        product.map((item, ind) =>
+          id === ind
+            ? {
+                ...item,
+                quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0),
+              }
+            : item
+        )
+      );
+    }
   };
   const updateQuantity = async (e, id) => {
     setQuantity(e);

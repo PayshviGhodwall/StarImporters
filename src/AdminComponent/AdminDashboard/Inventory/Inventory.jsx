@@ -35,7 +35,7 @@ const Inventory = () => {
   const [activePage, setActivePage] = useState(1);
   const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
-    { productType: [], flavour: [], flavourImage: [], barcode: [] },
+    { productType: [], flavour: [], flavourImage: [], barcode: [],size:[],description:[] },
   ]);
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
@@ -117,6 +117,8 @@ const Inventory = () => {
         flavourImage: [],
         barcode: [],
         flavourPrice: "",
+        description:"",
+        size:""
       },
     ]);
   };
@@ -148,20 +150,17 @@ const Inventory = () => {
     });
   };
   const onSubmit = async (data) => {
-    setLoader(true);
+    // setLoader(true);
     console.log(data);
     await axios
       .post(addProduct, {
         productImage: productImage,
         unitName: data?.productName.trim(),
         category: data?.category,
-        pBarcode: productBarcode,
-        productPrice: data?.productPrice.trim(),
         subCategory: data?.subCategory,
         brand: data?.brands,
         type: formValues,
-        itemNumber:data?.itemNumber.trim(),
-        description: data?.desc.trim(),
+
       })
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
@@ -258,16 +257,14 @@ const Inventory = () => {
       // setUploadError(res?.data.message);
       if (res?.data.message === "Imported Successfully") {
         window.location.reload(false);
-      }
-      else if (res?.data.message === "Error in File") {
+      } else if (res?.data.message === "Error in File") {
         Swal.fire({
           title: "Item Number or Product Name Error in CSV",
           text: res?.data.results?.catError.map((item) => item),
           icon: "error",
           focusConfirm: false,
         });
-      }
-      else if (res?.data.message === "Error in file") {
+      } else if (res?.data.message === "Error in file") {
         Swal.fire({
           title: "Item Number or Product Name Error in CSV",
           text: res?.data.results?.itemNumErr.map((item) => item),
@@ -477,7 +474,6 @@ const Inventory = () => {
               >
                 Import Inventory
               </a>
-              
             </div>
             <div className="col-12">
               <div className="row mx-0">
@@ -492,7 +488,7 @@ const Inventory = () => {
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-group col-3">
+                    <div className="form-group col-6">
                       <label htmlFor="">Product Name</label>
                       <input
                         type="text"
@@ -507,7 +503,7 @@ const Inventory = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group col-3 choose_fileInvent position-relative">
+                    <div className="form-group col-6 choose_fileInvent position-relative">
                       <span>Product Image </span>
                       <label htmlFor="upload_video" className="inputText">
                         <i className="fa fa-camera me-1" />
@@ -529,7 +525,7 @@ const Inventory = () => {
                         onChange={(e) => productImageSelection(e)}
                       />
                     </div>
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Category</label>
                       <select
                         className={classNames(
@@ -553,7 +549,7 @@ const Inventory = () => {
                       </select>
                     </div>
 
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Sub Category</label>
                       <select
                         className={classNames(
@@ -574,7 +570,7 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-6">
+                    {/* <div className="form-group col-6">
                       <label htmlFor="">Barcode</label>
                       <div className="tags-input-container border border-secondary">
                         {(productBarcode || [])?.map((tag, ind) => (
@@ -600,9 +596,9 @@ const Inventory = () => {
                           onKeyDown={(e) => ProhandleKeyDown(e)}
                         />
                       </div>
-                    </div>
+                    </div> */}
 
-                    <div className="form-group col-6">
+                    {/* <div className="form-group col-6">
                       <label htmlFor="">Description</label>
                       <input
                         type="text"
@@ -629,7 +625,7 @@ const Inventory = () => {
                         placeholder="Enter Item Number"
                         {...register("itemNumber")}
                       />
-                    </div>
+                    </div> */}
                     <div className="form-group col-4">
                       <label htmlFor="">Brands</label>
                       <select
@@ -648,7 +644,7 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-4">
+                    {/* <div className="form-group col-4">
                       <label htmlFor="">Price</label>
                       <input
                         type=""
@@ -660,15 +656,15 @@ const Inventory = () => {
                         placeholder="Enter Product Price"
                         {...register("productPrice")}
                       />
-                    </div>
+                    </div> */}
                     <div className="form-group col-12 mt-2">
                       <form className="">
                         <div className="row flavour_box align-items-end mx-0 py-4 px-3">
                           <p className="text-danger fw-bold"> {NewMessage}</p>
                           {(formValues || [])?.map((element, index) => (
-                            <div className="form-group mb-0 col-12">
+                            <div className="form-group mb-0 col-12 border-bottom">
                               <div className="row" key={index}>
-                                <div className="form-group col-2">
+                                <div className="form-group col-3">
                                   <label htmlFor="">Type</label>
                                   <input
                                     type="text"
@@ -679,7 +675,7 @@ const Inventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">Flavour</label>
                                   <input
                                     type="text"
@@ -690,7 +686,7 @@ const Inventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">Price</label>
                                   <input
                                     type="text"
@@ -701,7 +697,37 @@ const Inventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-3">
+                                <div className="form-group col-3">
+                                  <label htmlFor="">Size</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="size"
+                                    placeholder="Enter Product Description"
+                                    value={element.size || ""}
+                                    onChange={(e) => handleChange(index, e)}
+                                  />
+                                </div>
+                                <div className="form-group mt-2 col-3  choose_fileInvent position-relative">
+                                  <span>Flavour Image </span>{" "}
+                                  <label
+                                    htmlFor="upload_video"
+                                    className="inputText"
+                                  >
+                                    <i className="fa fa-camera me-1" />
+                                    Choose File
+                                  </label>{" "}
+                                  <input
+                                    type="file"
+                                    className="form-control"
+                                    id="flavourImage"
+                                    name="flavourImage"
+                                    onChange={(e) =>
+                                      flavourImageSelection(e, index)
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">Barcode</label>
                                   <div className="tags-input-container">
                                     {(formValues[index]?.barcode || [])?.map(
@@ -731,29 +757,25 @@ const Inventory = () => {
                                     />
                                   </div>
                                 </div>
-                                <div className="form-group mb-0 col-2 mt-1 choose_fileInvent position-relative">
-                                  <span>Flavour Image </span>{" "}
-                                  <label
-                                    htmlFor="upload_video"
-                                    className="inputText"
-                                  >
-                                    <i className="fa fa-camera me-1" />
-                                    Choose File
-                                  </label>{" "}
+                                <div className="form-group col-4">
+                                  <label htmlFor="">Description</label>
                                   <input
-                                    type="file"
+                                    type="text"
                                     className="form-control"
-                                    id="flavourImage"
-                                    name="flavourImage"
-                                    onChange={(e) =>
-                                      flavourImageSelection(e, index)
-                                    }
+                                    name="description"
+                                    placeholder="Enter Product Description"
+                                    value={element.description || ""}
+                                    onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
+                             
                                 <div className="form-group col-1  rmv_btn">
                                   <button
                                     className="comman_btn "
                                     type="button"
+                                    disabled={
+                                      formValues?.length <= 1 ? true : false
+                                    }
                                     onClick={() => removeFormFields(index)}
                                   >
                                     <i className="fa fa-minus mt-1 mx-1" />
@@ -898,49 +920,45 @@ const Inventory = () => {
                         </table>
                       </div>
                       <div className="col-12 d-flex justify-content-center">
-                                    <ul id="pagination">
-                                      <li>
-                                        <a
-                                          class=""
-                                          href="#"
-                                          onClick={() =>
-                                            setActivePage(activePage - 1)
-                                          }
-                                        >
-                                          «
-                                        </a>
-                                      </li>
+                        <ul id="pagination">
+                          <li>
+                            <a
+                              class=""
+                              href="#"
+                              onClick={() => setActivePage(activePage - 1)}
+                            >
+                              «
+                            </a>
+                          </li>
 
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#" className="active">
-                                          {activePage}
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#" className="active">
+                              {activePage}
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
 
-                                      <li>
-                                        <a
-                                          href="#"
-                                          onClick={() =>
-                                            setActivePage(activePage + 1)
-                                          }
-                                        >
-                                          »
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
+                          <li>
+                            <a
+                              href="#"
+                              onClick={() => setActivePage(activePage + 1)}
+                            >
+                              »
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>

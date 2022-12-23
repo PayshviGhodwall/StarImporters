@@ -24,7 +24,7 @@ function AppProductDetail() {
   const [userDetail, setUserDetail] = useState([]);
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(0);
-  const [typeObj, setTypeObj] = useState([]);
+  const [typeObj, setTypeObj] = useState();
   const [categoryName, setCategoryName] = useState([]);
   const [flavour, setFlavour] = useState({
     flavour: "",
@@ -62,7 +62,7 @@ function AppProductDetail() {
     const formData = {
       productId: id,
       quantity: quantity,
-      flavour:typeObj,
+      flavour:typeObj ? typeObj : {},
 
     };
     console.log(formData);
@@ -75,7 +75,7 @@ function AppProductDetail() {
     const formData = {
       productId: id,
       quantity: quantity,
-      flavour:typeObj,
+      flavour:typeObj ? typeObj : {},
 
     };
     console.log(formData);

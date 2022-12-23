@@ -507,7 +507,14 @@
     text-align: center;
     padding: 15px;
   }
-  
+  .viewAllBtn{
+    font-size: 16px;
+    font-weight: bold;
+    color: #EB3237;
+    cursor: pointer;
+  position: relative;
+  left: 48%;
+  }
   .contact .php-email-form .loading:before {
     content: "";
     display: inline-block;
@@ -2528,8 +2535,10 @@
     user-select: none;
     position: relative;
     width: 20rem;
+    max-height: 30rem;
     top: 10px !important;
     box-shadow: inset;
+    overflow: scroll;
     
   }
   .notification-heading, .notification-footer  {
@@ -2953,13 +2962,10 @@
   }
 
   .Bannertext {
-    color: #fff;
     position: relative;
     z-index: 1;
-    font-weight: bolder;
-    font-size: 45px;
     top: -70px;
-    font-family: "Popins" sans-serif;
+  
   }
   .bannerTxt {
     color: #fff;
@@ -3305,6 +3311,7 @@
   .admin_panel_data {
     padding: 50px;
   }
+
   .height_adjust {
     height: calc(100vh - 70px);
     overflow-y: auto;
@@ -3989,7 +3996,7 @@
     border-radius: 4px;
   }
   .user-management-cms .nav-tabs .nav-link {
-    width: 25%;
+    width: 20%;
     border: 0;
     background-color: #f2f2f2;
     font-weight: 600;
@@ -4938,12 +4945,13 @@ background-color: #3e4093;
     font-size: 14px;
   }
   .cms_management .user-management-tabs .nav-tabs .nav-link {
-    width: 25%;
+    width: 20% !important;
     font-size: 15px;
   }
   .cms_home_banner textarea.form-control {
     height: 120px;
   }
+
   .banner_slide_img img {
     max-width: 100%;
     border-radius: 10px;
@@ -5092,6 +5100,23 @@ background-color: #3e4093;
   }
   .main_myaccount {
     background-color: #eef3ff;
+  }
+
+  .wrapper-class {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    text-decoration: none;
+
+  }
+  .editor-class {
+    padding: 0.5rem;
+        border: 1px solid #ccc;
+    text-decoration: none;
+
+  }
+  .toolbar-class {
+    border: 1px solid #ccc;
+    text-decoration: none;
   }
   /* admin Login */
 
@@ -11642,4 +11667,12 @@ a:hover {
 
 .toggle:nth-child(1) {
 	right: 0;
+}
+.swiper-button-prev {
+  color: #EB3237 !important; 
+  
+}
+
+.swiper-button-next {
+  color: #EB3237 !important; 
 }

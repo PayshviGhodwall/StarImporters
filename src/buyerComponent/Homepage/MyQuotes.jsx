@@ -8,6 +8,7 @@ import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Animate from "../../Animate";
 import Swal from "sweetalert2";
+import { updateQuote } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 
 const MyQuotes = () => {
   const getQuoteProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/getQuotes`;
@@ -35,6 +36,8 @@ const MyQuotes = () => {
     await axios
       .post(productRemove, {
         productId: product[index].productId?._id,
+        flavour: product[index].flavour,
+
       })
       .then((res) => {
         getQuotes()
@@ -53,20 +56,40 @@ const MyQuotes = () => {
     }
    })
   }
-  const HandleIncrease = (id) => {
-    console.log(id);
-    setProduct((product) =>
-      product?.map((item, ind) =>
-        id === ind ? { ...item, quantity: item?.quantity + 1 } : item
-      )
-    );
+  const HandleIncrease = async (id) => {
+    const formData = {
+      productId: product[id]?.productId?._id,
+      quantity: product[id]?.quantity,
+      flavour: product[id]?.flavour,
+    };
+    const { data } = await updateQuote(formData);
+    if (!data?.error) {
+      setProduct((product) =>
+        product?.map((item, ind) =>
+          id === ind ? { ...item, quantity: item?.quantity + 1 } : item
+        )
+      );
+    }
   };
-  const HandleDecrease = (id) => {
-    setProduct((product) =>
-      product.map((item, ind) =>
-        id === ind ? { ...item, quantity: item?.quantity - (item?.quantity > 1 ? 1:0) } : item
-      )
-    );
+  const HandleDecrease = async (id) => {
+    const formData = {
+      productId: product[id]?.productId?._id,
+      quantity: product[id]?.quantity,
+      flavour: product[id]?.flavour,
+    };
+    const { data } = await updateQuote(formData);
+    if (!data.error) {
+      setProduct((product) =>
+        product.map((item, ind) =>
+          id === ind
+            ? {
+                ...item,
+                quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0),
+              }
+            : item
+        )
+      );
+    }
   };
   return (
     <div>

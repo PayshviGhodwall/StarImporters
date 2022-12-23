@@ -64,6 +64,8 @@ function AppQuotes() {
     const formData = {
       productId: quotes[id]?.productId?._id,
       quantity: quotes[id]?.quantity,
+      flavour: quotes[id]?.flavour,
+
     };
     const { data } = await updateQuote(formData);
     if (!data.error) {
@@ -86,6 +88,8 @@ function AppQuotes() {
     const formData = {
       productId: quotes[id]?.productId?._id,
       quantity: quotes[id]?.quantity,
+      flavour: quotes[id]?.flavour,
+
     };
     const { data } = await updateQuote(formData);
     if (!data.error) {

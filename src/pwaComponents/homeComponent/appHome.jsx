@@ -69,9 +69,9 @@ function AppHome() {
   };
 
   const searchProduct = async (e) => {
-    navigate("/app/product-by-search",{state:{search:search}});
+    navigate("/app/product-by-search", { state: { search: search } });
   };
-
+ 
   return (
     <>
       <div className="star_imp_app">
@@ -84,19 +84,24 @@ function AppHome() {
                   className="form-control"
                   type="search"
                   placeholder="Search in Star Importers"
-                onChange={(e) => setSearch(e.target.value)}
-                  
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-                <button type="submit" >
+                <button type="submit">
                   <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
               </form>
 
-              <div className="alternative-search-options" onClick={()=> navigate("/app/product-by-search")}>
+              <div
+                className="alternative-search-options"
+                onClick={() => navigate("/app/product-by-search")}
+              >
                 <Link className="comman_btn text-white ms-1" to="">
                   <i className="fa-solid fa-microphone"></i>
                 </Link>
-                <a className="comman_btn2 ms-1"  onClick={()=> navigate("/app/product-by-search")}>
+                <a
+                  className="comman_btn2 ms-1"
+                  onClick={() => navigate("/app/product-by-search")}
+                >
                   <i className="fa fa-qrcode"></i>
                 </a>
               </div>

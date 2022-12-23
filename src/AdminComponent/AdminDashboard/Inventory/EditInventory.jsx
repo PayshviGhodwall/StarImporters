@@ -467,7 +467,10 @@ const EditInventory = () => {
                             }
                           />
                         </div>
-                        <div className="p-image " style={{right:"-13px",borderRadius:"50px" , }}>
+                        <div
+                          className="p-image "
+                          style={{ right: "-13px", borderRadius: "50px" }}
+                        >
                           <i className="  fas fa-camera" />
                           <input
                             className="file-uploadIN"
@@ -528,68 +531,8 @@ const EditInventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-3">
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckChecked"
-                          defaultChecked={allProducts[0]?.productPriceStatus}
-                          name="productPriceStatus"
-                          {...register("productPriceStatus")}
-                        />
-                        <label
-                          class="form-check-label"
-                          for="flexSwitchCheckChecked"
-                        >
-                          Product Price
-                        </label>
-                      </div>
-                      <input
-                        type="Number"
-                        defaultValue={allProducts[0]?.productPrice}
-                        className="form-control"
-                        name="productPrice"
-                        placeholder="Enter Product Price"
-                        {...register("productPrice")}
-                      />
-                    </div>
-                    <div className="form-group col-4">
-                      <label htmlFor="">Barcode</label>
-                      <div className="tags-input-container  border border-secondary">
-                        {(productBarcode || [])?.map((tag, ind) => (
-                          <div className="tag-item" key={ind}>
-                            <span className="tag-text">{tag}</span>
-                            <span
-                              className="close"
-                              onClick={() => proRemoveTag(ind)}
-                            >
-                              &times;
-                            </span>
-                          </div>
-                        ))}
-                        <input
-                          type="text"
-                          className="form-control shadow-none"
-                          style={{ border: "none" }}
-                          name="pBarcode"
-                          placeholder="Enter Product Barcodes"
-                          {...register("pBarcode")}
-                          onKeyDown={(e) => ProhandleKeyDown(e)}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group col-4">
-                      <label htmlFor="">Description</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        defaultValue={allProducts[0]?.description}
-                        name="desc"
-                        {...register("desc")}
-                      />
-                    </div>
-                    <div className="form-group col-4  ">
+
+                    <div className="form-group col-3  ">
                       <label htmlFor="">Brands</label>
                       <select
                         className="form-select form-control"
@@ -616,7 +559,7 @@ const EditInventory = () => {
                               key={index}
                             >
                               <div className="row">
-                                <div className="form-group col-lg-2 col-md-2">
+                                <div className="form-group col-lg-3 col-md-3">
                                   <label htmlFor="">Type</label>
                                   <input
                                     type="text"
@@ -626,7 +569,7 @@ const EditInventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-lg-2 col-md-2">
+                                <div className="form-group mb-0 col-lg-3 col-md-2">
                                   <label htmlFor="">Flavour</label>
                                   <input
                                     type="text"
@@ -636,7 +579,43 @@ const EditInventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>{" "}
-                                <div className="form-group mb-0 col-lg-3 col-md-3">
+                                <div className="form-group col-3">
+                                  <label htmlFor="">Size</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="size"
+                                    placeholder="Enter Product Description"
+                                    defaultValue={item?.size}
+                                    onChange={(e) => handleChange(index, e)}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="" className="d-flex">
+                                    Price:
+                                    <Toggle
+                                      size="sm"
+                                      className="mx-2"
+                                      color="#3e4093"
+                                      defaultChecked={item?.flavourPriceStatus}
+                                      checkedChildren="enable"
+                                      unCheckedChildren="disable"
+                                      onChange={() => {
+                                        flavourPriceStatus(index);
+                                      }}
+                                    />
+                                  </label>
+
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    name="flavourPrice"
+                                    placeholder="Enter Price"
+                                    defaultValue={item?.flavourPrice}
+                                    onChange={(e) => handleChange(index, e)}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-lg-5 col-md-5">
                                   <label htmlFor="">Barcode</label>
                                   <div className="tags-input-container">
                                     {(item?.barcode || [])?.map((tag, ind) => (
@@ -659,30 +638,14 @@ const EditInventory = () => {
                                     />
                                   </div>
                                 </div>
-                                <div className="form-group mb-0 col-2">
-                                  <label htmlFor="" className="d-flex">
-                                    Price:
-                                    <Toggle
-                                      size="sm"
-                                      className="mx-2"
-                                      color="#3e4093"
-                                      defaultChecked={toString(
-                                        item?.flavourStatus
-                                      )}
-                                      checkedChildren="enable"
-                                      unCheckedChildren="disable"
-                                      onChange={() => {
-                                        flavourPriceStatus(index);
-                                      }}
-                                    />
-                                  </label>
-
+                                <div className="form-group col-4">
+                                  <label htmlFor="">Description</label>
                                   <input
-                                    type="number"
+                                    type="text"
                                     className="form-control"
-                                    name="flavourPrice"
-                                    placeholder="Enter Price"
-                                    defaultValue={item?.flavourPrice}
+                                    name="description"
+                                    placeholder="Enter Product Description"
+                                    defaultValue={item?.description}
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
