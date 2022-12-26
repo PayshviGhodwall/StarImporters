@@ -63,6 +63,7 @@ const Cms = () => {
   const onEditorDescStateChange = async (editorDescState) => {
     await setDescEditorState(editorDescState);
   };
+
   const onEditorTitle2StateChange = async (editorTitle2State) => {
     await setTitle2EditorState(editorTitle2State);
   };
@@ -80,17 +81,16 @@ const Cms = () => {
       console.log(res?.data.results);
       setSlideData(res?.data.results);
       let results = res?.data.results;
-      let defalutValues = {};
-      defalutValues.slides = results[0]?.banner;
-      defalutValues.slideTitle = results[0]?.title;
-      defalutValues.slideDesc = results[0]?.description;
-      defalutValues.slides = results[1]?.banner;
-      defalutValues.slide2Title = results[1]?.title;
-      defalutValues.slide2Desc = results[1]?.description;
-      defalutValues.slide3Title = results[2]?.title;
-      defalutValues.slide3Desc = results[2]?.description;
+      // let defalutValues = {};
+      // defalutValues.slides = results[0]?.banner;
+      // defalutValues.slideTitle = results[0]?.title;
+      // defalutValues.slideDesc = results[0]?.description;
+      // defalutValues.slides = results[1]?.banner;
+      // defalutValues.slide2Title = results[1]?.title;
+      // defalutValues.slide2Desc = results[1]?.description;
+      // defalutValues.slide3Title = results[2]?.title;
+      // defalutValues.slide3Desc = results[2]?.description;
 
-      reset({ ...defalutValues });
       const contentTtState = stateFromHTML(JSON.parse(results[0]?.title));
       const contentDsState = stateFromHTML(JSON.parse(results[0]?.description));
 
@@ -107,8 +107,10 @@ const Cms = () => {
 
       setTitleEditorState(EditorState.createWithContent(contentTtState));
       setDescEditorState(EditorState.createWithContent(contentDsState));
+
       setTitle2EditorState(EditorState.createWithContent(contentTt2State));
       setDesc2EditorState(EditorState.createWithContent(contentDs2State));
+
       setTitle3EditorState(EditorState.createWithContent(contentTt3State));
       setDesc3EditorState(EditorState.createWithContent(contentDs3State));
     });
@@ -204,6 +206,7 @@ const Cms = () => {
   };
   const onSubmit = async (data) => {
     let title = await stateToHTML(editorTitleState.getCurrentContent());
+    console.log(title)
     let Desc = await JSON.stringify(
       stateToHTML(editorDescState.getCurrentContent())
     );

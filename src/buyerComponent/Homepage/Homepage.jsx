@@ -100,7 +100,7 @@ const Homepage = () => {
               />
               <div className="carousel-caption ">
                 <h5
-                  className="d-flex text-start  Bannertext"
+                  className="d-flex Bannertext"
                   dangerouslySetInnerHTML={createMarkup(allSlides[0]?.title)}
                 ></h5>
                 <p

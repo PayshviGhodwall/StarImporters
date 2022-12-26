@@ -35,7 +35,14 @@ const Inventory = () => {
   const [activePage, setActivePage] = useState(1);
   const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
-    { productType: [], flavour: [], flavourImage: [], barcode: [],size:[],description:[] },
+    {
+      productType: [],
+      flavour: [],
+      flavourImage: [],
+      barcode: [],
+      size: [],
+      description: [],
+    },
   ]);
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
@@ -117,8 +124,8 @@ const Inventory = () => {
         flavourImage: [],
         barcode: [],
         flavourPrice: "",
-        description:"",
-        size:""
+        description: "",
+        size: "",
       },
     ]);
   };
@@ -160,13 +167,19 @@ const Inventory = () => {
         subCategory: data?.subCategory,
         brand: data?.brands,
         type: formValues,
-
       })
       .then((res) => {
         if (res?.data.message === "Product Added Successfully") {
           setLoader(false);
           window.location.reload(false);
           scrollBy(500, 0);
+        }
+        if (res?.data.message === "Product is already in added") {
+          Swal.fire({
+            title: "Product is already in Inventory!",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
         }
       })
       .catch((err) => {
@@ -231,7 +244,7 @@ const Inventory = () => {
     ];
     e.target.value = "";
   }
-  console.log(productBarcode);
+  
   const removeTag = (ind, i) => {
     console.log(ind, i);
     let newForm = { ...formValues };
@@ -253,9 +266,12 @@ const Inventory = () => {
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios.post(importInvent, formData).then((res) => {
-      console.log(res);
-      // setUploadError(res?.data.message);
       if (res?.data.message === "Imported Successfully") {
+        Swal.fire({
+          title: "Products Imported successfully",
+          icon: "success",
+          confirmButtonText: "ok",
+        });
         window.location.reload(false);
       } else if (res?.data.message === "Error in File") {
         Swal.fire({
@@ -268,6 +284,12 @@ const Inventory = () => {
         Swal.fire({
           title: "Item Number or Product Name Error in CSV",
           text: res?.data.results?.itemNumErr.map((item) => item),
+          icon: "error",
+          focusConfirm: false,
+        });
+      } else if (res?.data.message === "Error in Importing Inventory") {
+        Swal.fire({
+          title: "Error in csv!",
           icon: "error",
           focusConfirm: false,
         });
@@ -768,7 +790,7 @@ const Inventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                             
+
                                 <div className="form-group col-1  rmv_btn">
                                   <button
                                     className="comman_btn "
