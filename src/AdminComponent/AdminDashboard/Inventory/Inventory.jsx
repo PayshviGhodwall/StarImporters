@@ -287,14 +287,16 @@ const Inventory = () => {
           icon: "error",
           focusConfirm: false,
         });
-      } else if (res?.data.message === "Error in Importing Inventory") {
+      } 
+    }).catch((err)=>{
+       if (err) {
         Swal.fire({
           title: "Error in csv!",
           icon: "error",
           focusConfirm: false,
         });
       }
-    });
+    })
     document.getElementById("reUpload").hidden = false;
   };
   const onFileSelection = (e) => {

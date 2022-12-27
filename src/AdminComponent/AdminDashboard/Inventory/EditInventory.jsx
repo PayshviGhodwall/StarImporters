@@ -136,12 +136,12 @@ const EditInventory = () => {
       })
       .then((res) => {
         if (res?.data.message == "Successfully Updated") {
+          navigate("/Inventory");
+
           Swal.fire({
             title: "Details Successfully Updated",
             icon: "success",
             button: "Ok",
-          }).then(() => {
-            navigate("/Inventory");
           });
         }
         if (
@@ -159,9 +159,23 @@ const EditInventory = () => {
       });
   };
   const flavourPriceStatus = async (index) => {
-    await axios.post(flavourPriceApi + "/" + allProducts[0]?._id, {
-      flavourId: allProducts[0].type[index]?._id,
-    });
+    await axios
+      .post(flavourPriceApi + "/" + allProducts[0]?._id, {
+        flavourId: allProducts[0].type[index]?._id,
+      })
+      .then((res) => {
+        if (
+          res?.data.message === "Flavour Price Status is changed Successfully"
+        ) {
+          navigate("/Inventory");
+
+          Swal.fire({
+            title: "Price Successfully Enabled",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
   };
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
@@ -595,7 +609,7 @@ const EditInventory = () => {
                                   <label htmlFor="" className="d-flex">
                                     Price:
                                     <Toggle
-                                    key={item?.flavourPriceStatus}
+                                      key={item?.flavourPriceStatus}
                                       size="sm"
                                       className="mx-2"
                                       color="#3e4093"
@@ -686,7 +700,7 @@ const EditInventory = () => {
                                         type="file"
                                         accept="image/*"
                                         name="flavourImage"
-                                        onChange={(e) =>
+                                        onClick={(e) =>
                                           flavourImageSelection(e, index)
                                         }
                                       />

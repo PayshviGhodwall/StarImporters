@@ -172,7 +172,7 @@ const Navbar = ({ NState, GetChange }) => {
               resultStringKeyName="unitName"
               onSearch={handleOnSearch}
               onHover={handleOnHover}
-              maxResults={15}
+              maxResults={10}
               onSelect={handleOnSelect}
               onFocus={handleOnFocus}
               placeholder="Search "
