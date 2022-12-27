@@ -106,6 +106,7 @@ import {
 } from "recoil";
 import axios from "axios";
 import { notifyCount } from "./atom";
+import AllCategories from "./buyerComponent/AllProducts/AllCategories";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -304,7 +305,7 @@ function App() {
           />
           <Route
             path="/app/Categories"
-            element={width < 999 ? <AppCategories /> : <Homepage />}
+            element={width < 999 ? <AppCategories /> : <AllCategories />}
           />
           <Route
             path="/app/wishlist"

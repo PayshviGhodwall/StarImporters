@@ -30,10 +30,11 @@ const EditInventory = () => {
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-  const flavourPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+  const flavourPriceApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourPriceStatus`;
   const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
   const productPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
 
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState([
     {
       productType: [],
@@ -139,6 +140,8 @@ const EditInventory = () => {
             title: "Details Successfully Updated",
             icon: "success",
             button: "Ok",
+          }).then(() => {
+            navigate("/Inventory");
           });
         }
         if (
@@ -155,7 +158,11 @@ const EditInventory = () => {
         setNchnge(Nchnge);
       });
   };
-
+  const flavourPriceStatus = async (index) => {
+    await axios.post(flavourPriceApi + "/" + allProducts[0]?._id, {
+      flavourId: allProducts[0].type[index]?._id,
+    });
+  };
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
     if (e.key !== "Enter") return;
@@ -228,13 +235,7 @@ const EditInventory = () => {
         console.log(res);
       });
   };
-  const flavourStatus = async (index) => {
-    await axios
-      .post(flavourPriceStatus + "/" + formValues[index]?._id)
-      .then((res) => {
-        console.log(res);
-      });
-  };
+
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
@@ -585,7 +586,7 @@ const EditInventory = () => {
                                     type="text"
                                     className="form-control"
                                     name="size"
-                                    placeholder="Enter Product Description"
+                                    placeholder="Enter size"
                                     defaultValue={item?.size}
                                     onChange={(e) => handleChange(index, e)}
                                   />
@@ -594,6 +595,7 @@ const EditInventory = () => {
                                   <label htmlFor="" className="d-flex">
                                     Price:
                                     <Toggle
+                                    key={item?.flavourPriceStatus}
                                       size="sm"
                                       className="mx-2"
                                       color="#3e4093"

@@ -5,7 +5,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertToHTML, convertFromHTML } from "draft-convert";
 import { stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
-import { EditorState } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
@@ -14,36 +14,28 @@ import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import DOMPurify from "dompurify";
+
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
   const [productImage, setProductImage] = useState();
   const [disabled, setDisabled] = useState(true);
-  const [Tdisabled, setTDisabled] = useState(true);
-  const [Pdisabled, setPDisabled] = useState(true);
-  const [aboutHidden, setAboutHidden] = useState(true);
-  const [termsHidden, setTermsHidden] = useState(true);
-  const [privacyHidden, setPrivacyHidden] = useState(true);
   const [slideData, setSlideData] = useState([]);
+  const [headersData, setHeadersData] = useState([]);
   const [files, setFiles] = useState([]);
-  const [aboutUs, setAboutUs] = useState("");
-  const [terms, setTerms] = useState("");
-  const [privacy, setPrivacy] = useState("");
-  const [editedAbout, setEditedAbout] = useState("");
-  const [editedTerms, setEditedTerms] = useState("");
-  const [editedPrivacy, setEditedPrivacy] = useState("");
-  const [selectedFile, setSelectedFile] = useState();
+  const [currentPos1, setCurrentPos1] = useState("One");
+  const [currentPos2, setCurrentPos2] = useState("Two");
+  const [currentPos3, setCurrentPos3] = useState("Three");
   const AllSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`;
+  const AllHeaders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getHeaders`;
   const EditSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`;
-  const AddSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/addSlide`;
-  const DeleteSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/deleteSlide`;
+  const EditHeaders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editHeaders`;
   const getAbout = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/aboutus`;
   const getTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/TAndC`;
   const getPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/privacyPolicy`;
   const editAboutUs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editAbout`;
   const editTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`;
   const editPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`;
-  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const { register, handleSubmit, reset } = useForm();
 
   const [editorTitleState, setTitleEditorState] = useState(null);
@@ -56,6 +48,10 @@ const Cms = () => {
   const [editorHomeCTstate, setEditorHomeCTstate] = useState(null);
   const [editorHomeFPstate, setEditorHomeFPstate] = useState(null);
   const [editorHomePBstate, setEditorHomePBstate] = useState(null);
+
+  const [editorHomeAboutState, setEditorHomeAboutState] = useState(null);
+  const [editorHomePrivacyState, setEditorHomePrivacyState] = useState(null);
+  const [editorHomeTermsState, setEditorHomeTermsState] = useState(null);
 
   const onEditorTitleStateChange = async (editorTitleState) => {
     await setTitleEditorState(editorTitleState);
@@ -76,6 +72,26 @@ const Cms = () => {
   const onEditorDesc3StateChange = async (editorDesc3State) => {
     await setDesc3EditorState(editorDesc3State);
   };
+
+  const onEditorHomeAboutStateChange = async (editorHomeAboutState) => {
+    await setEditorHomeAboutState(editorHomeAboutState);
+  };
+  const onEditorHomePrivacyStateChange = async (editorHomePrivacyState) => {
+    await setEditorHomePrivacyState(editorHomePrivacyState);
+  };
+  const onEditorHomeTermsStateChange = async (editorHomeTermsState) => {
+    await setEditorHomeTermsState(editorHomeTermsState);
+  };
+
+  const onEditorHomeCateStateChange = async (editorHomeCTstate) => {
+    await setEditorHomeCTstate(editorHomeCTstate);
+  };
+  const onEditorHomeFeatStateChange = async (editorHomeFPstate) => {
+    await setEditorHomeFPstate(editorHomeFPstate);
+  };
+  const onEditorHomeBrandStateChange = async (editorHomePBstate) => {
+    await setEditorHomePBstate(editorHomePBstate);
+  };
   const getSlides = async () => {
     await axios.get(AllSlides).then((res) => {
       console.log(res?.data.results);
@@ -91,18 +107,15 @@ const Cms = () => {
       // defalutValues.slide3Title = results[2]?.title;
       // defalutValues.slide3Desc = results[2]?.description;
 
-      const contentTtState = stateFromHTML(JSON.parse(results[0]?.title));
-      const contentDsState = stateFromHTML(JSON.parse(results[0]?.description));
+      const contentTtState = stateFromHTML(results[0]?.title);
+      const contentDsState = stateFromHTML(results[0]?.description);
 
-      const contentTt2State = stateFromHTML(JSON.parse(results[1]?.title));
-      const contentDs2State = stateFromHTML(
-        JSON.parse(results[1]?.description)
-      );
+      const contentTt2State = stateFromHTML(results[1]?.title);
+      const contentDs2State = stateFromHTML(results[1]?.description);
 
-      const contentTt3State = stateFromHTML(JSON.parse(results[2]?.title));
-      const contentDs3State = stateFromHTML(
-        JSON.parse(results[2]?.description)
-      );
+      const contentTt3State = stateFromHTML(results[2]?.title);
+      const contentDs3State = stateFromHTML(results[2]?.description);
+
       console.log(contentTtState);
 
       setTitleEditorState(EditorState.createWithContent(contentTtState));
@@ -118,52 +131,53 @@ const Cms = () => {
 
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
-    setSelectedFile(e.target.files[0]);
-    // const formData = new FormData();
-    // formData.append("productImage", e.target.files[0]);
-
-    // axios.post(uploadImage, formData).then((res) => {
-    //   console.log(res?.data.results);
-    //   setProductImage(res?.data.results?.productImage);
-    // });
   };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
   useEffect(() => {
     getSlides();
+    getHeader();
     getAboutUs();
     getTermsCondition();
     getPrivacyPolicy();
   }, [change]);
 
-  const createMarkup = (html) => {
-    return {
-      __html: DOMPurify.sanitize(html),
-    };
+  const getHeader = async () => {
+    await axios.post(AllHeaders).then((res) => {
+      setHeadersData(res?.data.results.headers[0]);
+      let results = res?.data.results.headers[0];
+
+      const contentCateState = stateFromHTML(results.categoryTitle);
+      const contentFeatState = stateFromHTML(results.featuredTitle);
+      const contentBrandState = stateFromHTML(results.brandTitle);
+
+      setEditorHomeCTstate(EditorState.createWithContent(contentCateState));
+      setEditorHomeFPstate(EditorState.createWithContent(contentFeatState));
+      setEditorHomePBstate(EditorState.createWithContent(contentBrandState));
+    });
   };
 
   const contentPosition = (e) => {
-    console.log(e.target.value);
+    setCurrentPos1(e.target.value);
   };
   const contentPosition2 = (e) => {
-    console.log(e.target.value);
+    setCurrentPos2(e.target.value);
   };
   const contentPosition3 = (e) => {
-    console.log(e.target.value);
+    setCurrentPos3(e.target.value);
   };
+
   const onSubmitSecond = async (data) => {
-    let title = await JSON.stringify(
-      stateToHTML(editorTitle2State.getCurrentContent())
-    );
-    let Desc = await JSON.stringify(
-      stateToHTML(editorDesc2State.getCurrentContent())
-    );
+    let title = await stateToHTML(editorTitle2State.getCurrentContent());
+    let Desc = await stateToHTML(editorDesc2State.getCurrentContent());
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", Desc);
     formData.append("banner", files?.slide2Img);
+    formData.append("position", currentPos2);
+
     await axios
       .post(EditSlide + "/" + slideData[1]?._id, formData)
       .then((res) => {
@@ -179,17 +193,15 @@ const Cms = () => {
       });
   };
   const onSubmitThird = async (data) => {
-    let title = await JSON.stringify(
-      stateToHTML(editorTitle3State.getCurrentContent())
-    );
-    let Desc = await JSON.stringify(
-      stateToHTML(editorDesc3State.getCurrentContent())
-    );
+    let title = await stateToHTML(editorTitle3State.getCurrentContent());
+    let Desc = await stateToHTML(editorDesc3State.getCurrentContent());
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", Desc);
     formData.append("banner", files?.slide3Img);
+    formData.append("position", currentPos3);
+
     await axios
       .post(EditSlide + "/" + slideData[2]?._id, formData)
       .then((res) => {
@@ -206,15 +218,13 @@ const Cms = () => {
   };
   const onSubmit = async (data) => {
     let title = await stateToHTML(editorTitleState.getCurrentContent());
-    console.log(title)
-    let Desc = await JSON.stringify(
-      stateToHTML(editorDescState.getCurrentContent())
-    );
+    let Desc = await stateToHTML(editorDescState.getCurrentContent());
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", Desc);
     formData.append("banner", files?.slide1Img);
+    formData.append("position", currentPos1);
     await axios
       .post(EditSlide + "/" + slideData[0]?._id, formData)
       .then((res) => {
@@ -229,19 +239,54 @@ const Cms = () => {
       });
   };
 
+  const saveHeaders = async () => {
+    let categoryTitle = await stateToHTML(
+      editorHomeCTstate.getCurrentContent()
+    );
+    let featuredTitle = await stateToHTML(
+      editorHomeFPstate.getCurrentContent()
+    );
+    let brandTitle = await stateToHTML(editorHomePBstate.getCurrentContent());
+
+    const formData = new FormData();
+    formData.append("categoryTitle", categoryTitle);
+    formData.append("brandTitle", brandTitle);
+    formData.append("featuredTitle", featuredTitle);
+    formData.append("bottomImage", files?.BannerImg);
+    await axios
+      .post(EditHeaders + "/" + headersData?._id, formData)
+      .then((res) => {
+        if (!res.error) {
+          getHeader();
+          Swal.fire({
+            title: "Content Modified!",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
+  };
+
   const getAboutUs = async () => {
     await axios.get(getAbout).then((res) => {
-      setAboutUs(res?.data.results[0].description);
+      const contentAboutState = stateFromHTML(res?.data.results[0].description);
+      setEditorHomeAboutState(EditorState.createWithContent(contentAboutState));
     });
   };
   const getPrivacyPolicy = async () => {
     await axios.get(getPrivacy).then((res) => {
-      setPrivacy(res?.data.results[0].description);
+      const contentPrivacyState = stateFromHTML(
+        res?.data.results[0].description
+      );
+      setEditorHomePrivacyState(
+        EditorState.createWithContent(contentPrivacyState)
+      );
     });
   };
   const getTermsCondition = async () => {
     await axios.get(getTerms).then((res) => {
-      setTerms(res?.data.results[0].description);
+      const contentTermState = stateFromHTML(res?.data.results[0].description);
+      setEditorHomeTermsState(EditorState.createWithContent(contentTermState));
     });
   };
   const handleClick = () => {
@@ -250,57 +295,57 @@ const Cms = () => {
     localStorage.removeItem("AdminEmail");
   };
 
-  const onEdit = (e) => {
-    e.preventDefault();
-    setDisabled(!disabled);
-    setAboutHidden(!aboutHidden);
-  };
-  const onTermEdit = (e) => {
-    e.preventDefault();
-    setTDisabled(!Tdisabled);
-    setTermsHidden(!termsHidden);
-  };
-  const onPrivacyEdit = (e) => {
-    e.preventDefault();
-    setPDisabled(!Pdisabled);
-    setPrivacyHidden(!privacyHidden);
-  };
   const onSaveAbout = async (e) => {
+    let Desc = await stateToHTML(editorHomeAboutState.getCurrentContent());
+
     await axios
       .post(editAboutUs, {
-        description: editedAbout,
+        description: Desc,
       })
       .then((res) => {
-        if ((res.data.message = '"About Us" added successfully')) {
-          console.log("okk");
-          setDisabled(true);
-          setAboutHidden(true);
+        if (res.data.message === "Modified Successfully") {
+          Swal.fire({
+            title: "Content Modified!",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
   const onSaveTerms = async (e) => {
+    let Desc = await stateToHTML(editorHomeTermsState.getCurrentContent());
+
     await axios
       .post(editTerms, {
-        description: editedTerms,
+        description: Desc,
       })
       .then((res) => {
-        if ((res.data.message = '"About Us" added successfully')) {
-          console.log("okk");
-          setTDisabled(true);
-          setTermsHidden(true);
+        if (res.data.message === "Modified Successfully") {
+          Swal.fire({
+            title: "Content Modified!",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
 
   const onSavePrivacy = async (e) => {
+    let Desc = await stateToHTML(editorHomePrivacyState.getCurrentContent());
+
     await axios
       .post(editPrivacy, {
-        description: editedPrivacy,
+        description: Desc,
       })
       .then((res) => {
-        if ((res.data.message = '"Privacy Policy" Modified Successfully')) {
-          setPDisabled(true);
-          setPrivacyHidden(true);
+        if (
+          res.data.message === '"Terms and Conditions" Modified Successfully'
+        ) {
+          Swal.fire({
+            title: "Content Modified!",
+            icon: "success",
+            button: "Ok",
+          });
         }
       });
   };
@@ -638,7 +683,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault1"
-                                                value="1"
+                                                value="One"
                                                 onChange={contentPosition}
                                                 defaultChecked
                                               />
@@ -655,7 +700,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="2"
+                                                value="Two"
                                                 onChange={contentPosition}
                                               />
                                               <label
@@ -671,7 +716,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="3"
+                                                value="Three"
                                                 onChange={contentPosition}
                                               />
                                               <label
@@ -691,6 +736,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
+                                                id="slide1"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -706,6 +752,7 @@ const Cms = () => {
                                                 type="file"
                                                 name="slide1Img"
                                                 accept="image/*"
+                                                id="slide2"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -740,9 +787,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -766,9 +813,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -810,7 +857,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault1"
-                                                value="1"
+                                                value="One"
                                                 onChange={contentPosition2}
                                                 defaultChecked
                                               />
@@ -827,7 +874,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="2"
+                                                value="Two"
                                                 onChange={contentPosition2}
                                               />
                                               <label
@@ -843,7 +890,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="3"
+                                                value="Three"
                                                 onChange={contentPosition2}
                                               />
                                               <label
@@ -908,9 +955,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -934,9 +981,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -978,9 +1025,8 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault1"
-                                                value="1"
+                                                value="One"
                                                 onChange={contentPosition3}
-                                                defaultChecked
                                               />
                                               <label
                                                 class="form-check-label"
@@ -995,7 +1041,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="2"
+                                                value="Two"
                                                 onChange={contentPosition3}
                                               />
                                               <label
@@ -1011,7 +1057,7 @@ const Cms = () => {
                                                 type="radio"
                                                 name="flexRadioDefault"
                                                 id="flexRadioDefault2"
-                                                value="3"
+                                                value="Three"
                                                 onChange={contentPosition3}
                                               />
                                               <label
@@ -1030,6 +1076,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
+                                                id="slide3"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -1076,9 +1123,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -1102,9 +1149,9 @@ const Cms = () => {
                                               options: [
                                                 "inline",
                                                 "blockType",
-                                                "fontSize",
-                                                "fontFamily",
-                                                "colorPicker",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
                                               ],
                                             }}
                                           />
@@ -1143,25 +1190,26 @@ const Cms = () => {
                                     src={
                                       productImage
                                         ? productImage
-                                        : slideData[2]?.banner
+                                        : headersData?.bottomImage
                                     }
                                   />
                                 </div>
+
                                 <div className="p-image">
                                   <i className="upload-button fas fa-camera" />
                                   <input
-                                    className="file-uploads"
-                                    name="slide3Img"
+                                    className="opacity-0"
+                                    name="BannerImg"
                                     type="file"
-                                    {...register("slides")}
                                     onChange={(e) =>
-                                      onFileSelection(e, "slide3Img")
+                                      onFileSelection(e, "BannerImg")
                                     }
                                   />
                                 </div>
                               </div>
                             </div>
-                            <div className="form-group col-12">
+
+                            <div className="form-group col-12 mb-2">
                               <label htmlFor="" className="labels d-flex">
                                 CATEGORY TITLE :
                               </label>
@@ -1170,7 +1218,9 @@ const Cms = () => {
                                 wrapperClassName="wrapper-class"
                                 editorClassName="editor-class border"
                                 toolbarClassName="toolbar-class"
-                                onEditorStateChange={onEditorTitle3StateChange}
+                                onEditorStateChange={
+                                  onEditorHomeCateStateChange
+                                }
                                 wrapperStyle={{}}
                                 editorStyle={{}}
                                 toolbarStyle={{}}
@@ -1178,23 +1228,25 @@ const Cms = () => {
                                   options: [
                                     "inline",
                                     "blockType",
-                                    "fontSize",
-                                    "fontFamily",
-                                    "colorPicker",
+                                    // "fontSize",
+                                    // "fontFamily",
+                                    // "colorPicker",
                                   ],
                                 }}
                               />
                             </div>
-                            <div className="form-group col-12">
+                            <div className="form-group col-12 mb-2">
                               <label htmlFor="" className="labels">
                                 FEATURED TITLE :
                               </label>
                               <Editor
-                                editorState={editorDesc3State}
+                                editorState={editorHomeFPstate}
                                 wrapperClassName="wrapper-class"
                                 editorClassName="editor-class border"
                                 toolbarClassName="toolbar-class"
-                                onEditorStateChange={onEditorDesc3StateChange}
+                                onEditorStateChange={
+                                  onEditorHomeFeatStateChange
+                                }
                                 wrapperStyle={{}}
                                 editorStyle={{}}
                                 toolbarStyle={{}}
@@ -1202,23 +1254,25 @@ const Cms = () => {
                                   options: [
                                     "inline",
                                     "blockType",
-                                    "fontSize",
-                                    "fontFamily",
-                                    "colorPicker",
+                                    // "fontSize",
+                                    // "fontFamily",
+                                    // "colorPicker",
                                   ],
                                 }}
                               />
                             </div>
-                            <div className="form-group col-12">
+                            <div className="form-group col-12 mb-2">
                               <label htmlFor="" className="labels">
                                 BRAND TITLE :
                               </label>
                               <Editor
-                                editorState={editorDesc3State}
+                                editorState={editorHomePBstate}
                                 wrapperClassName="wrapper-class"
                                 editorClassName="editor-class border"
                                 toolbarClassName="toolbar-class"
-                                onEditorStateChange={onEditorDesc3StateChange}
+                                onEditorStateChange={
+                                  onEditorHomeBrandStateChange
+                                }
                                 wrapperStyle={{}}
                                 editorStyle={{}}
                                 toolbarStyle={{}}
@@ -1226,12 +1280,18 @@ const Cms = () => {
                                   options: [
                                     "inline",
                                     "blockType",
-                                    "fontSize",
-                                    "fontFamily",
-                                    "colorPicker",
+                                    // "fontSize",
+                                    // "fontFamily",
+                                    // "colorPicker",
                                   ],
                                 }}
                               />
+                              <button
+                                className="comman_btn  text-decoration-none mt-3"
+                                onClick={saveHeaders}
+                              >
+                                Save
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -1246,30 +1306,33 @@ const Cms = () => {
                               <div className="  content_management_box bg-light p-3">
                                 <div className="d-flex justify-content-between">
                                   <h2 className="fs-4">About Us</h2>
-                                  <Link
-                                    className="edit_content_btn mt-2 text-decoration-none"
-                                    href="javscript:;"
-                                    onClick={onEdit}
-                                  >
-                                    <i className="far fa-edit me-2" />
-                                    Edit
-                                  </Link>
                                 </div>
-
-                                <textarea
-                                  className="textArea bg-light p-3 mt-1  w-100 pb-5 "
+                                <Editor
+                                  editorState={editorHomeAboutState}
+                                  wrapperClassName="wrapper-class"
+                                  editorClassName="editor-class border"
+                                  toolbarClassName="toolbar-class"
                                   disabled={disabled}
-                                  id="aboutField"
-                                  defaultValue={aboutUs}
-                                  onChange={(e) => {
-                                    setEditedAbout(e.target.value);
+                                  onEditorStateChange={
+                                    onEditorHomeAboutStateChange
+                                  }
+                                  wrapperStyle={{}}
+                                  editorStyle={{}}
+                                  toolbarStyle={{}}
+                                  toolbar={{
+                                    options: [
+                                      "inline",
+                                      "blockType",
+                                      // "fontSize",
+                                      // "fontFamily",
+                                      // "colorPicker",
+                                    ],
                                   }}
-                                ></textarea>
+                                ></Editor>
                                 <button
                                   className="comman_btn2 mt-4"
                                   id="saveAbout"
                                   onClick={onSaveAbout}
-                                  hidden={aboutHidden}
                                 >
                                   Save
                                 </button>
@@ -1285,35 +1348,41 @@ const Cms = () => {
                         >
                           <div className="row py-5 px-4 mx-0">
                             <div className="col-12">
-                              <div className="row content_management_box bg-light p-3">
+                              <div className="content_management_box bg-light p-3">
                                 <div className="d-flex justify-content-between ">
                                   <h2 className="fs-4">Terms & Condition</h2>
-                                  <Link
-                                    className="edit_content_btn mt-2 text-decoration-none"
-                                    href="javscript:;"
-                                    onClick={onTermEdit}
-                                  >
-                                    <i className="far fa-edit me-2" />
-                                    Edit
-                                  </Link>
                                 </div>
-                                <textarea
-                                  className="bg-light p-3 mt-1  w-100 pb-5 textArea"
-                                  disabled={Tdisabled}
-                                  defaultValue={terms}
-                                  onChange={(e) => {
-                                    setEditedTerms(e.target.value);
+                                <Editor
+                                  editorState={editorHomeTermsState}
+                                  wrapperClassName="wrapper-class"
+                                  editorClassName="editor-class border"
+                                  toolbarClassName="toolbar-class"
+                                  disabled={disabled}
+                                  onEditorStateChange={
+                                    onEditorHomeTermsStateChange
+                                  }
+                                  wrapperStyle={{}}
+                                  editorStyle={{}}
+                                  toolbarStyle={{}}
+                                  toolbar={{
+                                    options: [
+                                      "inline",
+                                      "blockType",
+                                      // "fontSize",
+                                      // "fontFamily",
+                                      // "colorPicker",
+                                    ],
                                   }}
-                                ></textarea>
+                                ></Editor>
+
+                                <button
+                                  className="comman_btn2 mt-4"
+                                  id="saveAbout"
+                                  onClick={onSaveTerms}
+                                >
+                                  Save
+                                </button>
                               </div>
-                              <button
-                                className="comman_btn2 mt-4"
-                                id="saveAbout"
-                                onClick={onSaveTerms}
-                                hidden={termsHidden}
-                              >
-                                Save
-                              </button>
                             </div>
                           </div>
                         </div>
@@ -1325,34 +1394,41 @@ const Cms = () => {
                         >
                           <div className="row py-5 px-4 mx-0">
                             <div className="col-12">
-                              <div className="row content_management_box bg-light p-3">
-                                <div className="d-flex justify-content-between">
-                                  <h2 className="fs-4">Privacy Policies</h2>
-                                  <Link
-                                    className="edit_content_btn mt-2 text-decoration-none"
-                                    onClick={onPrivacyEdit}
-                                  >
-                                    <i className="far fa-edit me-2" />
-                                    Edit
-                                  </Link>
+                              <div className="content_management_box bg-light p-3">
+                                <div className="d-flex justify-content-between ">
+                                  <h2 className="fs-4">Privacy Policy</h2>
                                 </div>
-                                <textarea
-                                  className="bg-light p-3 mt-1 w-100 pb-5 textArea"
-                                  disabled={Pdisabled}
-                                  defaultValue={privacy}
-                                  onChange={(e) => {
-                                    setEditedPrivacy(e.target.value);
+                                <Editor
+                                  editorState={editorHomePrivacyState}
+                                  wrapperClassName="wrapper-class"
+                                  editorClassName="editor-class border"
+                                  toolbarClassName="toolbar-class"
+                                  disabled={disabled}
+                                  onEditorStateChange={
+                                    onEditorHomePrivacyStateChange
+                                  }
+                                  wrapperStyle={{}}
+                                  editorStyle={{}}
+                                  toolbarStyle={{}}
+                                  toolbar={{
+                                    options: [
+                                      "inline",
+                                      "blockType",
+                                      // "fontSize",
+                                      // "fontFamily",
+                                      // "colorPicker",
+                                    ],
                                   }}
-                                ></textarea>
+                                ></Editor>
+
+                                <button
+                                  className="comman_btn2 mt-4"
+                                  id="saveAbout"
+                                  onClick={onSaveTerms}
+                                >
+                                  Save
+                                </button>
                               </div>
-                              <button
-                                className="comman_btn2 mt-4"
-                                id="saveAbout"
-                                onClick={onSavePrivacy}
-                                hidden={privacyHidden}
-                              >
-                                Save
-                              </button>
                             </div>
                           </div>
                         </div>

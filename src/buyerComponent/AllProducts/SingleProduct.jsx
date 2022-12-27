@@ -38,7 +38,7 @@ const SingleProduct = () => {
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
   let location = useLocation();
-  
+
   const [objectId, setObjectID] = useState();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -52,21 +52,20 @@ const SingleProduct = () => {
     setChange(data);
   };
 
- 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-    
+
   console.log(objectId, location?.state?.id);
 
-  if (objectId !== location?.state?.id ) {
+  if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
   }
   useEffect(() => {
-    const userInfo =async()=>{
-     await axios.get(userData).then((res)=>{
-      setUserDetail(res?.data?.results)
-     })
-    }
+    const userInfo = async () => {
+      await axios.get(userData).then((res) => {
+        setUserDetail(res?.data?.results);
+      });
+    };
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
@@ -101,12 +100,12 @@ const SingleProduct = () => {
 
     cartProduct.push(objectId);
     cartProduct.push(unitCount);
-  
+
     await axios
       .post(addCart, {
         productId: cartProduct[0],
         quantity: cartProduct[1],
-        flavour:typeObj
+        flavour: typeObj,
       })
       .then((res) => {
         if (res.data?.message === "Product Added") {
@@ -164,8 +163,7 @@ const SingleProduct = () => {
       .post(addQuote, {
         productId: cartProduct[0],
         quantity: cartProduct[1],
-        flavour:typeObj,
-
+        flavour: typeObj,
       })
       .then((res) => {
         if (res.data?.message === "Quote is Added") {
@@ -263,40 +261,41 @@ const SingleProduct = () => {
                 <div className="product_show">
                   <div
                     id="carouselExampleIndicators"
-                    className="carousel"
+                    className="carousel "
                     data-bs-touch="false"
                     data-bs-interval="false"
                     data-bs-ride="carousel"
                   >
-                    <div className="carousel-indicators">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          document.getElementById("productMainImg").src =
-                            product?.productImage;
-
-                          setFlavour();
-                        }}
-                      >
-                        <img src={product?.productImage} alt="" />
-                      </button>
-                      {(product?.type || []).map((item, index) => (
+                    <div className="carousel-slider">
+                      <div className="carousel-indicators ">
                         <button
-                          key={index}
                           type="button"
                           onClick={() => {
                             document.getElementById("productMainImg").src =
-                              item?.flavourImage;
-                            setFlavour(item?.flavour);
-                            setTypeObj(item)
-                            setFInd(index);
+                              product?.productImage;
+
+                            setFlavour();
                           }}
                         >
-                          <img src={item?.flavourImage} alt="" />
+                          <img src={product?.productImage} alt="" />
                         </button>
-                      ))}
+                        {(product?.type || []).map((item, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => {
+                              document.getElementById("productMainImg").src =
+                                item?.flavourImage;
+                              setFlavour(item?.flavour);
+                              setTypeObj(item);
+                              setFInd(index);
+                            }}
+                          >
+                            <img src={item?.flavourImage} alt="" />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-
                     <div className="carousel-inner">
                       <div className="carousel-item active">
                         <div className="productimg_show">
@@ -378,7 +377,7 @@ const SingleProduct = () => {
                                               "productMainImg"
                                             ).src = item?.flavourImage;
                                             setFlavour(item?.flavour);
-                                            setTypeObj(item)
+                                            setTypeObj(item);
                                             setFInd(ind);
                                           }}
                                         >
@@ -391,15 +390,16 @@ const SingleProduct = () => {
                               </div>
                             </div>
                           </div>
-                          {product?.productPriceStatus ? (
+                          {flavour ? (
                             <div className="col-12">
                               <p className="fw-bold">
-                                {flavour
-                                  ? "Price : $"
-                                  : "Price : $" + product?.productPrice}
-                                {flavour
-                                  ? type[FInd]?.flavourPrice
+                                {product?.type[FInd]?.flavourPriceStatus
+                                  ? "Price : $" +
+                                    product?.type[FInd].flavourPrice
                                   : null}
+                                {console.log(
+                                  product?.type[FInd].flavourPriceStatus
+                                )}
                               </p>
                             </div>
                           ) : null}
@@ -444,25 +444,21 @@ const SingleProduct = () => {
                             >
                               Add To Cart
                             </Button>
-                            {userDetail?.quotation === true ? 
-                            <Button
-                            className="comman_btn2"
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#3e4093",
-                              color: "#fff",
-                              fontSize: "16px",
-                              fontWeight: "500px",
-                            }}
-                            onClick={AddtoQuote}
-                          >
-                            Request Quotation
-                          </Button>
-                          :
-                          null
-                            
-                          }
-                            
+                            {userDetail?.quotation === true ? (
+                              <Button
+                                className="comman_btn2"
+                                style={{
+                                  cursor: "pointer",
+                                  backgroundColor: "#3e4093",
+                                  color: "#fff",
+                                  fontSize: "16px",
+                                  fontWeight: "500px",
+                                }}
+                                onClick={AddtoQuote}
+                              >
+                                Request Quotation
+                              </Button>
+                            ) : null}
                           </div>
                         </div>
                       </div>
@@ -487,7 +483,7 @@ const SingleProduct = () => {
                   className="row p-5 text-secondary bg-white mb-5 shadow"
                   style={{ background: "#eef3ff", fontSize: "20px" }}
                 >
-                  <p>{product?.description}</p>
+                  <p>{product?.unitName}</p>
                 </div>
               </div>
             </div>

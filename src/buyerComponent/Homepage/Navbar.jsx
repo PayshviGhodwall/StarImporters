@@ -286,7 +286,7 @@ const Navbar = ({ NState, GetChange }) => {
                 </Link>
               </li>
               {(category || [])
-                ?.filter((item, idx) => idx < 9)
+                ?.filter((item, idx) => idx < 7)
                 .map((item, index) => (
                   <li key={index + 1} className="zindex-1">
                     <Link

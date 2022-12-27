@@ -23,7 +23,9 @@ import DOMPurify from "dompurify";
 
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
+  const [allHeaders, setAllHeaders] = useState([]);
   const slidesApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getSlides`;
+  const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const brandApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
@@ -37,7 +39,6 @@ const Homepage = () => {
   const [text, setText] = useRecoilState(charCountState);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-  console.log(text);
   useEffect(() => {
     let x = document.cookie;
     let token = localStorage.getItem("token-user");
@@ -51,6 +52,7 @@ const Homepage = () => {
     }
     getSlides();
     getCategory();
+    getHeaders();
     getBrands();
     AllProducts();
   }, []);
@@ -63,6 +65,14 @@ const Homepage = () => {
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
       setAllSlides(res?.data.results);
+    });
+  };
+  const getHeaders = async () => {
+    await axios.get(HeadersApi).then((res) => {
+      setAllHeaders(res?.data.results.headers[0]);
+      let image = res?.data.results?.headers[0].bottomImage;
+      console.log(image);
+      document.getElementById("bottom-image").style.backgroundImage = `url(${image})`
     });
   };
   const getCategory = async () => {
@@ -98,13 +108,35 @@ const Homepage = () => {
                 className="d-block w-100 banner_slide"
                 alt=""
               />
-              <div className="carousel-caption ">
+              <div
+                className={
+                  (allSlides[0]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[0]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[0]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
                 <h5
-                  className="d-flex Bannertext"
+                  className={
+                    (allSlides[0]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[0]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[0]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(allSlides[0]?.title)}
                 ></h5>
                 <p
-                  className="d-flex text-start fs-6 bannerTxt"
+                  className={
+                    (allSlides[0]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[0]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[0]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[0]?.description
                   )}
@@ -112,12 +144,19 @@ const Homepage = () => {
 
                 <Link
                   to="/app/register"
-                  className="text-decoration-none bannerTxt "
+                  className={
+                    (allSlides[0]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[0]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[0]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
                   style={{ top: "10px" }}
                 >
                   <button
                     className={
-                      allSlides[0]?.banner ? "comman_btn22 d-flex" : "d-none"
+                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
                     }
                   >
                     SignUp
@@ -131,24 +170,56 @@ const Homepage = () => {
                 className="d-block w-100 banner_slide"
                 alt="No image"
               />
-              <div className="carousel-caption banner-titles mx-3">
+              <div
+                className={
+                  (allSlides[1]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[1]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[1]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
                 <h5
-                  className=" text-center  Bannertext"
+                  className={
+                    (allSlides[1]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[1]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[1]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(allSlides[1]?.title)}
                 ></h5>
                 <p
-                  className="d-flex text-center fs-6 bannerTxt"
+                  className={
+                    (allSlides[1]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[1]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[1]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[1]?.description
                   )}
                 ></p>
+
                 <Link
                   to="/app/register"
-                  className="text-decoration-none bannerTxt "
+                  className={
+                    (allSlides[1]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[1]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[1]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
                   style={{ top: "10px" }}
                 >
                   <button
-                    className={allSlides[1]?.banner ? "comman_btn22" : "d-none"}
+                    className={
+                      allSlides[1]?.banner ? "comman_btn22 " : "d-none"
+                    }
                   >
                     SignUp
                   </button>
@@ -161,13 +232,35 @@ const Homepage = () => {
                 className="d-block w-100 banner_slide"
                 alt="..."
               />
-              <div className="carousel-caption bannerTitle2">
-              <h5
-                  className=" text-end  Bannertext"
+              <div
+                className={
+                  (allSlides[2]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[2]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[2]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[2]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[2]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[2]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(allSlides[2]?.title)}
                 ></h5>
                 <p
-                  className="d-flex text-end fs-6 bannerTxt"
+                  className={
+                    (allSlides[2]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[2]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[2]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[2]?.description
                   )}
@@ -175,11 +268,20 @@ const Homepage = () => {
 
                 <Link
                   to="/app/register"
-                  className="d-flex justify-content-end text-decoration-none bannerTxt "
+                  className={
+                    (allSlides[2]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[2]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[2]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
                   style={{ top: "10px" }}
                 >
                   <button
-                    className={allSlides[2]?.banner ? "comman_btn22" : "d-none"}
+                    className={
+                      allSlides[2]?.banner ? "comman_btn22 " : "d-none"
+                    }
                   >
                     SignUp
                   </button>
@@ -218,7 +320,12 @@ const Homepage = () => {
 
       <section className="featured_category mx-5 shadow pt-3 mb-5">
         <div className="col-12 comman_head mb-5  mt-2 text-center">
-          <h2>Top Categories</h2>
+          <h2
+            dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
+          ></h2>
+          <span className="viewAllBtn" onClick={()=>navigate("/app/Categories" ,{state:"hii"})}>
+          View All <i class="fa fa-arrow-right"></i>
+        </span>
         </div>
         <Swiper
           slidesPerView={5}
@@ -252,14 +359,15 @@ const Homepage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <span className="viewAllBtn">
-          View All <i class="fa fa-arrow-up-right-from-square"></i>
-        </span>
+        
       </section>
       <section className="features_products py-5 bg-white">
         <div className="container py-xl-3">
           <div className="col-12 comman_head mb-4 text-center">
-            <h2>Featured Products</h2>
+            <h2
+              dangerouslySetInnerHTML={createMarkup(allHeaders?.featuredTitle)}
+            ></h2>
+            
           </div>
           <div className="row">
             {(featured || [])
@@ -320,7 +428,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="product_show_home">
+      <section className="product_show_home" id="bottom-image">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -340,7 +448,12 @@ const Homepage = () => {
       <div className="features_brands py-5 bg-white border-top">
         <div className="container-fluid px-0">
           <div className="col-lg-12 col-sm-12 comman_head mb-4 text-center">
-            <h2>Popular Brands</h2>
+            <h2
+              dangerouslySetInnerHTML={createMarkup(allHeaders?.brandTitle)}
+            ></h2>
+             <span className="viewAllBtn" onClick={()=>navigate("/app/brands",{state:"hii"})}>
+          View All <i class="fa fa-arrow-right"></i>
+        </span>
           </div>
           <div className="col-sm-12">
             <Swiper
