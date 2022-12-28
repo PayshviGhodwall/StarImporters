@@ -320,7 +320,7 @@ const EditUser = () => {
                                 className=""
                                 style={{height:"200px"}}
                                 src={prodImg ? prodImg : user?.profileImage}
-                                alt="Please Upload Image"
+                                alt="Upload Image ........"
                               />
                             </div>
 
