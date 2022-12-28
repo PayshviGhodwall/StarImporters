@@ -7,11 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 const UpdatePassword = (otpEmail) => {
   const navigate = useNavigate();
-  const[state,setState]=useState(false)
+  const [state, setState] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/updatePassword`;
   let email = otpEmail?.otpEmail;
   const [error, setError] = useState();
-
 
   const {
     register,
@@ -51,7 +50,22 @@ const UpdatePassword = (otpEmail) => {
         });
     }
   };
-
+  const togglePassword2 = (e) => {
+    let x = document.getElementById("passwordInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  };
+  const togglePassword = (e) => {
+    let x = document.getElementById("passwordInput2");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  };
   return (
     <div>
       <div className="row align-items-center justify-content-center text-center">
@@ -67,9 +81,9 @@ const UpdatePassword = (otpEmail) => {
           >
             <div className="form-floating mb-4">
               <input
-                type="text"
+                type="password"
                 className="form-control shadow-none border border-secondary"
-                id="floatingPassword"
+                id="passwordInput"
                 placeholder="New Password"
                 name="Npassword"
                 {...register("Npassword", {
@@ -78,25 +92,29 @@ const UpdatePassword = (otpEmail) => {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     message:
-                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters #,^,$",
+                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters. Please Avoid #,^,$",
                   },
                 })}
+              />
+              <span
+                onClick={() => togglePassword2()}
+                className="fa fa-fw fa-eye field-icon toggle-password"
               />
               {errors.Npassword && (
                 <small className="errorText mx-1 fw-bold">
                   {errors.Npassword?.message}
                 </small>
               )}
-              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">
+              <label htmlFor="Password-Input" className=" fw-bolder">
                 New Password
               </label>
             </div>
             <div className="form-floating mb-4">
               <input
-                type="text"
+                type="password"
                 className="form-control shadow-none border border-secondary"
-                id="floatingPassword"
                 placeholder="New Password"
+                id="passwordInput2"
                 name="password"
                 {...register("password", {
                   required: "Enter Your Password",
@@ -108,12 +126,16 @@ const UpdatePassword = (otpEmail) => {
                   },
                 })}
               />
+              <span
+                onClick={() => togglePassword()}
+                className="fa fa-fw fa-eye field-icon toggle-password"
+              />
               {errors.password && (
                 <small className="errorText mx-1 fw-bold">
                   {errors.password?.message}
                 </small>
               )}
-              <label htmlFor="floatingPassword" className="mx-2 fw-bolder">
+              <label htmlFor="floatingPassword" className=" fw-bolder">
                 Confirm New Password
               </label>
             </div>

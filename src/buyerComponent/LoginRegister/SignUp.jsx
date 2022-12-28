@@ -7,17 +7,12 @@ import axios from "axios";
 import classNames from "classnames";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
-import {
-  RecoilRoot,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import { textState } from "../../atom.js"
+import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
+import { textState } from "../../atom.js";
 const SignUp = () => {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  const[loader,setLoader]=useState(false)
+  const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/register`;
   const [text, setText] = useRecoilState(textState);
   const {
@@ -35,7 +30,7 @@ const SignUp = () => {
   console.log(files);
 
   const onSubmit = (data) => {
-    setLoader(true)
+    // setLoader(true);
     const SignUpData = async (e) => {
       const formData = new FormData();
       formData.append("companyName", data?.companyName);
@@ -50,26 +45,28 @@ const SignUp = () => {
       formData.append("wholesaleConfirmation", data?.wholeSale);
       formData.append("newsLetter", data?.subscribe);
       formData.append("phoneNumber", data?.phoneNumber);
+      formData.append("businessPhoneNumber", data?.businessPhoneNumber);
       formData.append("federalTaxId", files?.federalTaxId);
       formData.append("businessLicense", files?.businessLicense);
       formData.append("tobaccoLicence", files?.tobaccoLicence);
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
+      formData.append("heardAboutUs", data?.heardAboutUs);
 
-     await axios.post(apiUrl, formData).then((response) => {
+      await axios.post(apiUrl, formData).then((response) => {
         if (response?.data.message === "Registered Successfully") {
-          setLoader(false)
+          setLoader(false);
           Swal.fire({
             title: "Thanks You! Your Account Is Under Review.",
             text: "We will be reviewing your account.Please check your registered email.",
             icon: "success",
             button: "Ok",
-          }); 
-          setText("done")
+          });
+          setText("done");
           navigate("/app/home");
         }
         if (response?.data.message === "Email is already registered") {
-          setLoader(false)
+          setLoader(false);
 
           Swal.fire({
             title: "Email is Already registered!",
@@ -79,7 +76,7 @@ const SignUp = () => {
           });
         }
         if (response?.data.message === "Phone is already registered") {
-          setLoader(false)
+          setLoader(false);
 
           Swal.fire({
             title: "This Phone Number is Already Registered ",
@@ -89,7 +86,7 @@ const SignUp = () => {
           });
         }
         if (response?.data.message == "Wrong input") {
-          setLoader(false)
+          setLoader(false);
 
           console.log();
           Swal.fire({
@@ -99,9 +96,9 @@ const SignUp = () => {
             button: "Ok",
           });
         }
-      })
+      });
     };
-    
+
     SignUpData();
   };
   return (
@@ -488,6 +485,7 @@ const SignUp = () => {
                       defaultValue=""
                       name="federalTaxId"
                       id="upload1"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       {...register("federalTaxId")}
                       onChange={(e) => onFileSelection(e, "federalTaxId")}
                     />
@@ -512,6 +510,7 @@ const SignUp = () => {
                       defaultValue=""
                       name="tobaccoLicence"
                       id="upload2"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       {...register("tobaccoLicence")}
                       onChange={(e) => onFileSelection(e, "tobaccoLicence")}
                     />
@@ -536,6 +535,7 @@ const SignUp = () => {
                       defaultValue=""
                       name="salesTaxId"
                       id="upload3"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       {...register("salesTaxId")}
                       onChange={(e) => onFileSelection(e, "salesTaxId")}
                     />
@@ -560,6 +560,7 @@ const SignUp = () => {
                       defaultValue=""
                       name="businessLicense"
                       id="upload4"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       {...register("businessLicense")}
                       onChange={(e) => onFileSelection(e, "businessLicense")}
                     />
@@ -583,6 +584,7 @@ const SignUp = () => {
                       )}
                       defaultValue=""
                       name="accountOwnerId"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       id="upload5"
                       {...register("accountOwnerId")}
                       onChange={(e) => onFileSelection(e, "accountOwnerId")}
@@ -603,9 +605,7 @@ const SignUp = () => {
                       id="floatingSelect2"
                       aria-label="Floating label select example"
                       name="heardAboutUs"
-                      {...register("heardAboutUs", {
-                        required: "Email is Required*",
-                      })}
+                      {...register("heardAboutUs")}
                     >
                       <option value="Email Flyer">Email Flyer</option>
                       <option value="Search Engine (Google, Yahoo, Bing, Etc.)">
@@ -624,12 +624,12 @@ const SignUp = () => {
                       type="number"
                       className={classNames(
                         "form-control  border border-secondary signup_fields ",
-                        { "is-invalid": errors.businessNumber }
+                        { "is-invalid": errors.businessPhoneNumber }
                       )}
                       id="floatingPassword11"
                       placeholder="Password"
-                      name="businessNumber"
-                      {...register("businessNumber", {
+                      name="businessPhoneNumber"
+                      {...register("businessPhoneNumber", {
                         maxLength: {
                           value: 10,
                           message: "maximium 10 Charcarters",
@@ -637,9 +637,9 @@ const SignUp = () => {
                         minLength: 10,
                       })}
                     />
-                    {errors.businessNumber && (
+                    {errors.businessPhoneNumber && (
                       <small className="errorText mx-1 fw-bold">
-                        {errors.businessNumber?.message}
+                        {errors.businessPhoneNumber?.message}
                       </small>
                     )}
                     <label
@@ -687,13 +687,37 @@ const SignUp = () => {
                     </label>
                   </div>
                   <div className="col-12 text-center mt-4">
-                    <Button className="comman_btn2 mx-2 fw-bold" appearance="primary" onClick={()=>{navigate("/app/home")}} style={{backgroundColor:"#eb3237",color:"#fff"}}>Cancel</Button>
-                    <Button  loading={loader} appearance="primary" className="comman_btn mx-2 fw-bold" type="submit"  style={{backgroundColor:"#3e4093",color:"#fff"}}>
+                    <Button
+                      className="comman_btn2 mx-2 fw-bold"
+                      appearance="primary"
+                      onClick={() => {
+                        navigate("/app/home");
+                      }}
+                      style={{ backgroundColor: "#eb3237", color: "#fff" }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      loading={loader}
+                      appearance="primary"
+                      className="comman_btn mx-2 fw-bold"
+                      type="submit"
+                      style={{ backgroundColor: "#3e4093", color: "#fff" }}
+                    >
                       Submit
                     </Button>
                   </div>
-                  <p className="fs-6 text-center mt-3 text-secondary"> *By signing up, you agree to our <Link to="/Terms&Condition" state={"jiij"} className="text-decoration-none">Terms and Conditions.</Link></p>
-
+                  <p className="fs-6 text-center mt-3 text-secondary">
+                    {" "}
+                    *By signing up, you agree to our{" "}
+                    <Link
+                      to="/Terms&Condition"
+                      state={"jiij"}
+                      className="text-decoration-none"
+                    >
+                      Terms and Conditions.
+                    </Link>
+                  </p>
                 </>
               </div>
             </form>

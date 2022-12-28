@@ -234,7 +234,7 @@ const Checkout = () => {
               </div>
               <div className="col-12 text-start">
                 <button className="comman_btn" onClick={createOrder}>
-                  Proceed
+                  Place Order
                 </button>
               </div>
             </div>

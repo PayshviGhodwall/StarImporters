@@ -14,6 +14,7 @@ const Dashboard = () => {
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalUsers`;
   const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalOrders`;
   const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
+  const [values, setValues] = useState({ from: "", to: "" });
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
   const [totalUsers, setTotalUsers] = useState();
@@ -26,7 +27,7 @@ const Dashboard = () => {
     GetAllUsers();
     GetAllRequest();
     OrderRequest();
-  }); 
+  },[]); 
 
   const OrderRequest = async () => {
     await axios.post(orderList).then((res) => {
@@ -47,6 +48,18 @@ const Dashboard = () => {
     await axios.get(totalReq).then((res) => {
       setTotalRequest(res?.data.results);
     });
+  };
+  
+  const onOrderSearch = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(orderList, {
+        from: values.from,
+        to: values.to,
+      })
+      .then((res) => {
+        setOrders(res?.data.results?.orders);
+      });
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");

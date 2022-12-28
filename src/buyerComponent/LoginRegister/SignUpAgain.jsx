@@ -525,6 +525,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
+                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.federalTaxId
                           ? classNames(
@@ -560,6 +561,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
+                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.tobaccoLicence
                           ? classNames(
@@ -596,6 +598,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
+                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.salesTaxId
                           ? classNames(
@@ -632,6 +635,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
+                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.businessLicense
                           ? classNames(
@@ -668,6 +672,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
+                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.accountOwnerId
                           ? classNames(

@@ -14,3 +14,7 @@ export const notifyCount = atom({
   key: 'notifyCount', // unique ID (with respect to other atoms/selectors)
   default: "", // default value (aka initial value)
 });
+export const CartCount = atom({
+  key: 'CartCount', // unique ID (with respect to other atoms/selectors)
+  default: "", // default value (aka initial value)
+});

@@ -557,6 +557,7 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file1"
+                             accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="federalTaxId"
                               {...register("federalTaxId")}
                               onChange={(e) =>
@@ -585,6 +586,7 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file2"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="tobaccoLicence"
                               {...register("tobaccoLicence")}
                               onChange={(e) =>
@@ -614,6 +616,7 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file3"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="salesTaxId"
                               {...register("salesTaxId")}
                               onChange={(e) => onFileSelection(e, "salesTaxId")}
@@ -642,6 +645,7 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file4"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="businessLicense"
                               {...register("businessLicense")}
                               onChange={(e) =>
@@ -744,6 +748,7 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file5"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="accountOwnerId"
                               {...register("accountOwnerId")}
                               onChange={(e) =>

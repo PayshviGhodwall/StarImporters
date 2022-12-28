@@ -1974,7 +1974,12 @@
   }
   .offers_box_main {
     border: 1.5px dashed #dbdbdb;
-    margin: 0;
+    margin-left: -12px;
+    
+  }
+  .offers_box_main_afterSelect {
+    border: 1.7px dashed #eb3237;
+    margin-left: -12px;
   }
   .quantity_box .number input {
     height: 44px;
@@ -3568,7 +3573,7 @@
     max-width: 150px;
     padding: 15px;
     background-color: #fff;
-    border-radius: 35px;
+    border-radius: 30px;
   }
 
   .sidebar_logo {

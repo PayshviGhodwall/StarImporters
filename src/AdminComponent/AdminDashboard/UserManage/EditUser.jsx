@@ -315,7 +315,7 @@ const EditUser = () => {
                       <div className="col-12 text-center mb-4">
                         <div className="form-group col-auto">
                           <div className="account_profile position-relative d-inline-block">
-                            <div className="">
+                            <div className="mb-2">
                               <img
                                 className=""
                                 style={{height:"200px"}}
@@ -553,6 +553,7 @@ const EditUser = () => {
                               type="file"
                               id="file1"
                               name="federalTaxId"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("federalTaxId")}
                               onChange={(e) =>
                                 onFileSelection(e, "federalTaxId")
@@ -590,6 +591,7 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file2"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="file"
                               {...register("tobaccoLicence")}
                               onChange={(e) =>
@@ -630,6 +632,7 @@ const EditUser = () => {
                               type="file"
                               id="file3"
                               name="salesTaxId"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("salesTaxId")}
                               onChange={(e) => onFileSelection(e, "salesTaxId")}
                             />
@@ -662,6 +665,7 @@ const EditUser = () => {
                               type="file"
                               id="file4"
                               name="businessLicense"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("businessLicense")}
                               onChange={(e) =>
                                 onFileSelection(e, "businessLicense")
@@ -743,6 +747,7 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file5"
+                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                               name="accountOwnerId"
                               {...register("accountOwnerId")}
                               onChange={(e) =>
@@ -834,7 +839,10 @@ const EditUser = () => {
                           name="heardAboutUs"
                           {...register("heardAboutUs")}
                         >
-                          <option selected="" value="Email Flyer">
+                          <option selected="">
+                            Select
+                          </option>
+                          <option s value="Email Flyer">
                             Email Flyer
                           </option>
                           <option value="Search Engine (Google, Yahoo, Bing, Etc.)">

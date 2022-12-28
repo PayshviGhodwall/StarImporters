@@ -15,6 +15,7 @@ import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
 import { textState } from "../../atom.js";
+import Animate from "../../Animate";
 const Navbar = ({ NState, GetChange }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
@@ -32,12 +33,10 @@ const Navbar = ({ NState, GetChange }) => {
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
   const [searchItem, setSearchItem] = useState();
-  const [text, setText] = useRecoilState(textState);
 
-  console.log(text);
   useEffect(() => {
     AllProducts();
-    CartCount();
+    CartCounts();
     getNotifications();
     getCategory();
     handleScroll();
@@ -59,7 +58,6 @@ const Navbar = ({ NState, GetChange }) => {
   };
   const handleOnSearch = async (string, results) => {
     setSearchItem(string);
-    setText(string);
     // if (string) {
     //   navigate("/ProductSearch",{
     //     state: { search:string }
@@ -119,7 +117,7 @@ const Navbar = ({ NState, GetChange }) => {
     // }
   }, [UserAuth]);
 
-  const CartCount = async () => {
+  const CartCounts = async () => {
     await axios.get(cart).then((res) => {
       console.log(res);
 
@@ -168,7 +166,9 @@ const Navbar = ({ NState, GetChange }) => {
 
                 border: "2px solid #3e4093",
               }}
-              fuseOptions={{ keys: ["unitName", "pBarcode", "type.barcode","type.flavour"] }} // Search on both fields
+              fuseOptions={{
+                keys: ["unitName", "pBarcode", "type.barcode", "type.flavour"],
+              }} // Search on both fields
               resultStringKeyName="unitName"
               onSearch={handleOnSearch}
               onHover={handleOnHover}
@@ -180,11 +180,22 @@ const Navbar = ({ NState, GetChange }) => {
           </div>
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
-              <Link to="/app/Cart">
-                <i className="fa fa-cart-arrow-down" />
+              {NState ? (
+                <Animate>
+                  <Link to="/app/Cart">
+                    <i className="fa fa-cart-arrow-down" />
 
-                <span className="count">{cartNum}</span>
-              </Link>
+                    <span className="count">{cartNum}</span>
+                  </Link>
+                </Animate>
+              ) : (
+                <Link to="/app/Cart">
+                  <i className="fa fa-cart-arrow-down" />
+
+                  <span className="count">{cartNum}</span>
+                </Link>
+              )}
+
               <Link class="dropdown-center">
                 <Link
                   class=""
@@ -197,7 +208,6 @@ const Navbar = ({ NState, GetChange }) => {
                     <span className="count">{notifications?.length}</span>
                   ) : null}
                 </Link>
-
 
                 <ul class="dropdown-menu notification">
                   {notifications?.length ? (

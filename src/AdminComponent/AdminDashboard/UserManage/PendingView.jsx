@@ -586,7 +586,7 @@ const PendingView = () => {
                             How did you hear about us?:
                           </span>
                           <div className="col">
-                            <strong>{}</strong>
+                            <strong>{user?.heardAboutUs}</strong>
                           </div>
                         </div>
                       </div>

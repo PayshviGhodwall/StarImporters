@@ -22,6 +22,8 @@ const Cart = () => {
   const [NState, setNState] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [unitCount, setUnitCount] = useState(1);
+  const [userDetail, setUserDetail] = useState([]);
+  const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
 
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
@@ -33,6 +35,12 @@ const Cart = () => {
   };
 
   useEffect(() => {
+    const userInfo = async () => {
+      await axios.get(userData).then((res) => {
+        setUserDetail(res?.data?.results);
+      });
+    };
+    userInfo()
     setToken(localStorage.getItem("token-user"));
     getCart();
   }, []);
@@ -111,7 +119,7 @@ const Cart = () => {
                 <div className="nav nav-tabs  " id="nav-tab" role="tablist">
                   <button
                     className="nav-link active"
-                    style={{ width: "50%" }}
+                    style={userDetail?.quotation === true ? { width: "50%" } : { width: "100%" } }
                     id="nav-home-tab"
                     data-bs-toggle="tab"
                     data-bs-target="#nav-home"
@@ -126,21 +134,24 @@ const Cart = () => {
                     />
                     MY CART
                   </button>
-                  <button
-                    className="nav-link "
-                    id="nav-profile-tab"
-                    data-bs-toggle="tab"
-                    style={{ width: "50%" }}
-                    onClick={() => {
-                      navigate("/app/quotes");
-                    }}
-                  >
-                    <i
-                      className="fa fa-clipboard-list"
-                      style={{ fontSize: "15px" }}
-                    />
-                    MY QUOTATIONS
-                  </button>
+
+                  {userDetail?.quotation === true ? (
+                    <button
+                      className="nav-link "
+                      id="nav-profile-tab"
+                      data-bs-toggle="tab"
+                      style={{ width: "50%" }}
+                      onClick={() => {
+                        navigate("/app/quotes");
+                      }}
+                    >
+                      <i
+                        className="fa fa-clipboard-list"
+                        style={{ fontSize: "15px" }}
+                      />
+                      MY QUOTATIONS
+                    </button>
+                  ) : null}
                 </div>
               </nav>
               <div className="container bg-white ">

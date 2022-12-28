@@ -468,11 +468,11 @@ const ReturnedView = () => {
                             How did you hear about us?:
                           </span>
                           <div className="col">
-                            <strong>{}</strong>
+                            <strong>{user?.heardAboutUs}</strong>
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 text-center">
+                      {/* <div className="col-12 text-center">
                         <Link
                           href="javascript:;"
                           className="comman_btn text-decoration-none"
@@ -487,7 +487,7 @@ const ReturnedView = () => {
                         >
                           Delete
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

@@ -451,7 +451,6 @@ const UserManage = () => {
                               "
                               id="nav-approve-tab"
                               data-bs-toggle="tab"
-
                               data-bs-target="#nav-approve"
                               type="button"
                               role="tab"
@@ -653,7 +652,7 @@ const UserManage = () => {
                                       </thead>
                                       <tbody>
                                         {(approvedUsers || []).map(
-                                          ( User, index) => (
+                                          (User, index) => (
                                             <tr key={index} className="">
                                               <td>{index + 1}.</td>
                                               <td>
@@ -705,7 +704,9 @@ const UserManage = () => {
                                           class=""
                                           href="#"
                                           onClick={() =>
-                                            setActivePage(activePage - 1)
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
                                           }
                                         >
                                           «

@@ -31,7 +31,7 @@ const OrderReq = () => {
   };
   const QuoteRequest = async () => {
     await axios.post(quoteList).then((res) => {
-      setQuoteReq(res?.data.results?.orders);
+      setQuoteReq(res?.data.results);
     });
   };
 
@@ -62,18 +62,11 @@ const OrderReq = () => {
         to: values.to,
       })
       .then((res) => {
-        setQuoteReq(res?.data.results?.orders);
+        setQuoteReq(res?.data.results);
       });
   };
   const exportOrder = async (e) => {
     e.preventDefault();
-
-    values.from === "" || values.to === ""
-      ? Swal.fire({
-          title: "Select Date",
-          icon:"warning"
-        })
-      : e.preventDefault();
     await axios
       .post(exportAllOrder, {
         from: values.from,
@@ -87,13 +80,6 @@ const OrderReq = () => {
   };
   const exporQuotation = async (e) => {
     e.preventDefault();
-
-    values.from === "" || values.to === ""
-      ? Swal.fire({
-          title: "Select Date",
-          icon:"warning"
-        })
-      : e.preventDefault();
     await axios
       .post(exportAllQuotes, {
         from: values.from,
@@ -388,6 +374,7 @@ const OrderReq = () => {
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
+                                          <th>Order ID</th>
                                           <th>Status</th>
                                           <th>Order Details</th>
                                         </tr>
@@ -403,6 +390,7 @@ const OrderReq = () => {
                                             </td>
                                             <td>{item?.userId?.phoneNumber}</td>
                                             <td>{item?.userId?.email}</td>
+                                            <td>{item?.orderId}</td>
                                             <td>{item?.status}</td>
                                             <td>
                                               <button
@@ -492,6 +480,7 @@ const OrderReq = () => {
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
+                                          <th>Request Id</th>
                                           <th>Status</th>
                                           <th>QUOTATION REQUEST</th>
                                         </tr>
@@ -510,6 +499,8 @@ const OrderReq = () => {
                                                 {item?.userId?.phoneNumber}
                                               </td>
                                               <td>{item?.userId?.email}</td>
+                                              <td>{item?.quoteId}</td>
+
                                               <td>{item?.status}</td>
                                               <td>
                                                 <button

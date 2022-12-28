@@ -11,7 +11,7 @@ const ViewOrder = () => {
   let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
-  const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
+  const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
@@ -317,10 +317,12 @@ const ViewOrder = () => {
                                               : item?.productId?.unitName}
                                           </h3>
                                           <p>
-                                            Barcode :{" "}
-                                            {item?.flavour?._id
-                                              ? item?.flavour?.barcode
-                                              : item?.productId?.pBarcode[0]}
+                                            Barcodes:{" "}
+                                            {
+                                              item?.flavour?.barcode.map((item)=>(
+                                                <li>{item}</li>
+                                              ))
+                                              }
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             Ordered On:{" "}

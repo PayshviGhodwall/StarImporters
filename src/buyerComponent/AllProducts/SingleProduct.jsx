@@ -12,7 +12,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
-import { set } from "rsuite/esm/utils/dateUtils";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
@@ -38,7 +37,7 @@ const SingleProduct = () => {
   const [succesMsg, setSuccesMsg] = useState("");
   const [change, setChange] = useState(false);
   let location = useLocation();
-
+  const [errMsg, setErrMsg] = useState();
   const [objectId, setObjectID] = useState();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -54,7 +53,7 @@ const SingleProduct = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-
+  let token = localStorage.getItem("token-user");
   console.log(objectId, location?.state?.id);
 
   if (objectId !== location?.state?.id) {
@@ -96,118 +95,130 @@ const SingleProduct = () => {
   }, [change, objectId]);
 
   const AddtoCart = async () => {
-    setLoader(true);
+    if (flavour) {
+      setLoader(true);
+      cartProduct.push(objectId);
+      cartProduct.push(unitCount);
 
-    cartProduct.push(objectId);
-    cartProduct.push(unitCount);
+      await axios
+        .post(addCart, {
+          productId: cartProduct[0],
+          quantity: cartProduct[1],
+          flavour: typeObj,
+        })
+        .then((res) => {
+          if (res.data?.message === "Product Added") {
+            setLoader(false);
+            setSuccesMsg("Product added to Cart!");
 
-    await axios
-      .post(addCart, {
-        productId: cartProduct[0],
-        quantity: cartProduct[1],
-        flavour: typeObj,
-      })
-      .then((res) => {
-        if (res.data?.message === "Product Added") {
-          setLoader(false);
-          setSuccesMsg("Product added to Cart!");
-          document.getElementById("req-modal2").click();
+            setNState(true);
+          }
+          if (res.data?.message === "Product modified") {
+            setLoader(false);
+            setSuccesMsg("Product added to Cart!");
+            // document.getElementById("req-modal2").click();
 
-          setNState(true);
-        }
-        if (res.data?.message === "Product modified") {
-          setLoader(false);
-          setSuccesMsg("Product added to Cart!");
-          document.getElementById("req-modal2").click();
-
-          setNState(true);
-        }
-      })
-      .catch((err) => {
-        if (
-          err.response?.data?.message === "Access Denied. No token provided."
-        ) {
-          setLoader(false);
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-        if (err.response?.data?.message === "You are not Authenticated Yet") {
-          setLoader(false);
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-        if (err.response?.data.message === "") {
-          setLoader(false);
-          Swal.fire({
-            title: "Product is already in Cart!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-      });
-    setTimeout(() => {
-      setLoader(false);
-    }, 8000);
+            setNState(true);
+          }
+        })
+        .catch((err) => {
+          if (
+            err.response?.data?.message === "Access Denied. No token provided."
+          ) {
+            setLoader(false);
+            Swal.fire({
+              title: "Please Login to your Account!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+          if (err.response?.data?.message === "You are not Authenticated Yet") {
+            setLoader(false);
+            Swal.fire({
+              title: "Please Login to your Account!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+          if (err.response?.data.message === "") {
+            setLoader(false);
+            Swal.fire({
+              title: "Product is already in Cart!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+        });
+      setTimeout(() => {
+        setLoader(false);
+        setSuccesMsg();
+      }, 3000);
+    } else {
+      document.getElementById("flavour_box").className =
+        "offers_box_main_afterSelect ";
+      setErrMsg("Please Select a Flavour.");
+    }
   };
   const AddtoQuote = async () => {
-    setLoader2(true);
-    cartProduct.push(objectId);
-    cartProduct.push(unitCount);
-    await axios
-      .post(addQuote, {
-        productId: cartProduct[0],
-        quantity: cartProduct[1],
-        flavour: typeObj,
-      })
-      .then((res) => {
-        if (res.data?.message === "Quote is Added") {
-          setLoader(false);
-          setSuccesMsg("Product added to Quote!");
-          document.getElementById("req-modal").click();
-        }
-        if (res.data?.message === "Quote is already in Cart") {
-          setLoader(false);
-          setSuccesMsg("Product added to Cart!");
-          document.getElementById("req-modal").click();
-        }
-      })
-      .catch((err) => {
-        if (
-          err.response?.data?.message === "Access Denied. No token provided."
-        ) {
-          setLoader(false);
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-        if (err.response?.data?.message === "You are not Authenticated Yet") {
-          setLoader(false);
-          Swal.fire({
-            title: "Please Login to your Account!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-        if (err.response?.data.message === "") {
-          setLoader(false);
-          Swal.fire({
-            title: "Product is already in Cart!",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-      });
-    setTimeout(() => {
-      setLoader(false);
-    }, 8000);
+    if (flavour) {
+      setLoader2(true);
+      cartProduct.push(objectId);
+      cartProduct.push(unitCount);
+      await axios
+        .post(addQuote, {
+          productId: cartProduct[0],
+          quantity: cartProduct[1],
+          flavour: typeObj,
+        })
+        .then((res) => {
+          if (res.data?.message === "Quote is Added") {
+            setLoader(false);
+            setSuccesMsg("Product added to Quote!");
+            // document.getElementById("req-modal").click();
+          }
+          if (res.data?.message === "Quote is already in Cart") {
+            setLoader(false);
+            setSuccesMsg("Product added to Cart!");
+            // document.getElementById("req-modal").click();
+          }
+        })
+        .catch((err) => {
+          if (
+            err.response?.data?.message === "Access Denied. No token provided."
+          ) {
+            setLoader(false);
+            Swal.fire({
+              title: "Please Login to your Account!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+          if (err.response?.data?.message === "You are not Authenticated Yet") {
+            setLoader(false);
+            Swal.fire({
+              title: "Please Login to your Account!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+          if (err.response?.data.message === "") {
+            setLoader(false);
+            Swal.fire({
+              title: "Product is already in Cart!",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+        });
+      setTimeout(() => {
+        setLoader(false);
+        setSuccesMsg();
+      }, 3000);
+    } else {
+      document.getElementById("flavour_box").className =
+        "offers_box_main_afterSelect ";
+      setErrMsg("Please Select a Flavour.");
+    }
   };
 
   return (
@@ -343,14 +354,29 @@ const SingleProduct = () => {
                           </div>
                           <div className="col-12">
                             <div className="row offers_box pt-3 pb-3 border-0">
-                              <div className="col-12 offers_head ">
-                                <strong>Flavor : {flavour}</strong>
+                              <div
+                                className={
+                                  errMsg
+                                    ? "col-12 offers_head text-danger"
+                                    : "col-12 offers_head "
+                                }
+                              >
+                                <strong>
+                                  Flavor :{" "}
+                                  {errMsg ? (
+                                    <i className="fa fa-warning mx-2"></i>
+                                  ) : null}
+                                  {errMsg ? errMsg : flavour}{" "}
+                                </strong>
                               </div>
                               <div
                                 className="col-lg-11"
                                 style={{ marginLeft: "12px" }}
                               >
-                                <div className="row offers_box_main">
+                                <div
+                                  className="row offers_box_main "
+                                  id="flavour_box"
+                                >
                                   <div
                                     className="col-lg-12 flavour_box p-2"
                                     style={{ border: "none" }}
@@ -377,8 +403,12 @@ const SingleProduct = () => {
                                               "productMainImg"
                                             ).src = item?.flavourImage;
                                             setFlavour(item?.flavour);
+                                            setErrMsg();
                                             setTypeObj(item);
                                             setFInd(ind);
+                                            document.getElementById(
+                                              "flavour_box"
+                                            ).className = "offers_box_main ";
                                           }}
                                         >
                                           {item.flavour}
@@ -430,20 +460,30 @@ const SingleProduct = () => {
                           </div>
                           <p className="text-success fw-bold">{succesMsg}</p>
                           <div className="col-12 mt-3 ">
-                            <Button
-                              className="comman_btn me-2 rounded mb-1"
-                              loading={loader}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#eb3237",
-                                color: "#fff",
-                                fontSize: "16px",
-                                fontWeight: "500px",
-                              }}
-                              onClick={AddtoCart}
-                            >
-                              Add To Cart
-                            </Button>
+                            {token ? (
+                              <Button
+                                className="comman_btn me-2 rounded mb-1"
+                                loading={loader}
+                                style={{
+                                  cursor: "pointer",
+                                  backgroundColor: "#eb3237",
+                                  color: "#fff",
+                                  fontSize: "16px",
+                                  fontWeight: "500px",
+                                }}
+                                onClick={AddtoCart}
+                              >
+                                Add To Cart
+                              </Button>
+                            ) : (
+                              <div
+                                className="fw-bold fs-5"
+                                style={{ color: "#3b4093" }}
+                              >
+                                Please Login to add to cart!
+                              </div>
+                            )}
+
                             {userDetail?.quotation === true ? (
                               <Button
                                 className="comman_btn2"
@@ -483,7 +523,11 @@ const SingleProduct = () => {
                   className="row p-5 text-secondary bg-white mb-5 shadow"
                   style={{ background: "#eef3ff", fontSize: "20px" }}
                 >
-                  <p>{product?.unitName}</p>
+                  <p>
+                    {flavour
+                      ? product?.type[FInd]?.description
+                      : product?.type?.description}
+                  </p>
                 </div>
               </div>
             </div>
