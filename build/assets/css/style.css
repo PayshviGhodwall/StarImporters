@@ -977,6 +977,7 @@
     transform: scale(1.1);
     transition: 0.2s ease;
   }
+
   .forms_modal_content .form-group label a {
     font-weight: 600;
   }
@@ -1433,7 +1434,7 @@
   .product_content a {
     color: #3e4093;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
   }
   .rating_box a {
     font-size: 14px;
@@ -1896,7 +1897,6 @@
   .product_show .carousel-indicators button {
     width: 90px !important;
     height: 90px;
-    text-indent: 0;
     overflow: hidden;
     display: block;
     margin: 0 0 15px;
@@ -3205,9 +3205,10 @@
   }
   .product_parts_box {
     width: 100%;
+    height: 23rem !important;
     padding: 14px 14px 20px;
-    border: 2px solid #f1f1f1;
-    border-radius: 10px;
+    border: 2px solid #e2e0e0;
+    border-radius: 8px;
     margin: 12px 0;
     background-color: #fff;
     cursor: pointer;
@@ -3218,7 +3219,7 @@
   }
   .partsproduct_img img {
     width: 100%;
-    height: 140px;
+    height: 150px;
     object-fit: contain;
   }
   .product_show_home {
@@ -11598,7 +11599,7 @@ background-color: #3e4093;
     z-index: 99999999;
   }
   .modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    /* background-color: rgba(0, 0, 0, 0.5) !important; */
   }
 
   .d-none {

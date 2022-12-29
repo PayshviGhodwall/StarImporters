@@ -43,6 +43,7 @@ const CategorySub = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("categoryImage", files?.cateImg);
+    formData.append("background", files?.background);
     formData.append("categoryName", categoryName.trim());
 
     await axios.post(addCategory, formData).then((res) => {
@@ -396,7 +397,7 @@ const CategorySub = () => {
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-5">
+                                <div className="form-group mb-0 col-4">
                                   <label htmlFor="">Category Name</label>
                                   <input
                                     type="text"
@@ -425,6 +426,24 @@ const CategorySub = () => {
                                     }
                                   />
                                 </div>
+                                <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                                  <span>Category Background </span>{" "}
+                                  <label htmlFor="upload_video">
+                                    <i class="fa fa-camera me-1"></i>
+                                    Choose File
+                                  </label>{" "}
+                                  <input
+                                    type="file"
+                                    className="form-control shadow-none"
+                                    defaultValue=""
+                                    accept="image/*"
+                                    name="background"
+                                    id="upload_video"
+                                    onChange={(e) =>
+                                      onFileSelection(e, "background")
+                                    }
+                                  />
+                                </div>
                                 <div className="form-group mb-0 col-auto">
                                   <button
                                     className="comman_btn"
@@ -445,7 +464,8 @@ const CategorySub = () => {
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>Category Name</th>
-                                          <th>Media</th>
+                                          <th>Category Image</th>
+                                          <th>Background Image</th>
                                           <th>Status</th>
                                           <th>Action</th>
                                         </tr>
@@ -459,13 +479,19 @@ const CategorySub = () => {
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
                                               <td>{item?.categoryName}</td>
+
                                               <td>
                                                 <img
                                                   width={80}
                                                   src={item?.categoryImage}
                                                 ></img>
                                               </td>
-
+                                              <td>
+                                                <img
+                                                  width={80}
+                                                  src={item?.background}
+                                                ></img>
+                                              </td>
                                               <td>
                                                 {" "}
                                                 <div className="">

@@ -325,7 +325,7 @@ const OrderReq = () => {
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-4">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
                                     type="date"
@@ -335,7 +335,7 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-4">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">To</label>
                                   <input
                                     type="date"
@@ -345,9 +345,9 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2 text-center">
+                                <div className="form-group mb-0 col-1 text-center">
                                   <button
-                                    className="comman_btn"
+                                    className="comman_btn rounded"
                                     onClick={onOrderSearch}
                                   >
                                     Search
@@ -360,6 +360,23 @@ const OrderReq = () => {
                                   >
                                     Export <i class="fa fa-download"></i>
                                   </button>
+                                </div>
+                                <div className=" d -flex col-3">
+                                  <form className="form-design" action="">
+                                    <div className="form-group mb-0 position-relative icons_set">
+                                      <input
+                                        type="text"
+                                        className="form-control bg-white "
+                                        placeholder="Search by Order ID/Customer Name"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => {
+                                          // OnSearching(e);
+                                          // setSearchTerm(e.target.value);
+                                        }}
+                                      />
+                                    </div>
+                                  </form>
                                 </div>
                               </form>
                               <div className="row">
@@ -427,11 +444,11 @@ const OrderReq = () => {
                         >
                           <div className="row mx-0">
                             <div className="col-12">
-                              <form
+                            <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-4">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
                                     type="date"
@@ -441,7 +458,7 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-4">
+                                <div className="form-group mb-0 col-3">
                                   <label htmlFor="">To</label>
                                   <input
                                     type="date"
@@ -451,10 +468,10 @@ const OrderReq = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-2 text-center">
+                                <div className="form-group mb-0 col-1 text-center">
                                   <button
-                                    className="comman_btn"
-                                    onClick={onQuoteSearch}
+                                    className="comman_btn rounded"
+                                    onClick={onOrderSearch}
                                   >
                                     Search
                                   </button>
@@ -462,10 +479,28 @@ const OrderReq = () => {
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exporQuotation}
+                                    onClick={exportOrder}
                                   >
                                     Export <i class="fa fa-download"></i>
                                   </button>
+                                </div>
+                                <div className=" d -flex col-3">
+                                  <form className="form-design" action="">
+                                    <div className="form-group mb-0 position-relative icons_set">
+                                      <input
+                                        type="text"
+                                        className="form-control bg-white "
+                                        placeholder="Search by Quote
+                                         ID/Customer Name"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => {
+                                          // OnSearching(e);
+                                          // setSearchTerm(e.target.value);
+                                        }}
+                                      />
+                                    </div>
+                                  </form>
                                 </div>
                               </form>
                               <div className="row">

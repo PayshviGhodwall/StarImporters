@@ -16,7 +16,7 @@ import LoginPass from "../LoginRegister/LoginPass";
 import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
 import { textState } from "../../atom.js";
 import Animate from "../../Animate";
-const Navbar = ({ NState, GetChange }) => {
+const Navbar = ({ NState, GetChange, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
   const searchApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeSearch`;
@@ -41,6 +41,13 @@ const Navbar = ({ NState, GetChange }) => {
     getCategory();
     handleScroll();
   }, [state, NState]);
+
+  useEffect(() => {
+    if (LoginState) {
+      document.getElementById("modal-login").click();
+    }
+  }, [LoginState]);
+  console.log(GetChange);
   let searchItemRef = useRef(null);
   searchItemRef.current = searchItem;
   useEffect(() => {

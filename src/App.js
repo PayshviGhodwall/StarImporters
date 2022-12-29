@@ -107,6 +107,7 @@ import {
 import axios from "axios";
 import { notifyCount } from "./atom";
 import AllCategories from "./buyerComponent/AllProducts/AllCategories";
+import FeaturedProducts from "./buyerComponent/AllProducts/FeaturedProducts";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -340,6 +341,7 @@ function App() {
             element={width < 999 ? <AppProductBrands /> : <AllBrands />}
           />
           <Route path="/app/product-list" element={<AppProductList />} />
+          <Route path="/app/featured-products" element={<FeaturedProducts />} />
           <Route
             path="/app/checkout"
             element={width < 999 ? <AppCheckout /> : <Checkout />}

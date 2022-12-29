@@ -23,7 +23,9 @@ const ProductByCate = () => {
   console.log(brandName);
   const navigate = useNavigate();
   useEffect(() => {
-  
+    // document.getElementById(
+    //   "commonSection"
+    // ).style.backgroundImage = `url(${location?.state.image})`;
     getProducts();
     GetBrands();
   }, [location, heart]);
@@ -47,17 +49,18 @@ const ProductByCate = () => {
     await axios
       .post(getProduct, {
         category: location.state?.name,
-        brand:brandName,
-        sortBy:sortValue
+        brand: brandName,
+        sortBy: sortValue,
       })
       .then((res) => {
         setProducts(res.data?.results);
       });
   };
-  
+
   const clearFilters = (e) => {
-    e.preventDefault()
-    window.location.reload(false)};
+    e.preventDefault();
+    window.location.reload(false);
+  };
   const addToFav = async (index) => {
     await axios.post(addFav, {
       productId: products[index]?.products?._id,
@@ -77,7 +80,7 @@ const ProductByCate = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTop">
+      <section className="comman_banner _banner marginTop" style={{backgroundImage:`url(${location?.state.image})`}}>
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -165,7 +168,7 @@ const ProductByCate = () => {
                         </div>
                       </div>
                     </Panel>
-                   
+
                     <Panel
                       header="Sort By"
                       eventKey={2}
@@ -182,13 +185,13 @@ const ProductByCate = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e)=>setSortValue(e.target.value)}
-
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio3">
                               {" "}
                               Alphabetically: A - Z
                             </label>
+                            ``
                           </div>
                           <div className="col-12 form-group checkbox_design radio_design">
                             <input
@@ -197,7 +200,7 @@ const ProductByCate = () => {
                               id="radio4"
                               name="radio1"
                               value="0"
-                              onChange={(e)=>setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -228,7 +231,7 @@ const ProductByCate = () => {
                     </div>
                   </div>
                 </form>
-              </div> 
+              </div>
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
                   {(products || [{}])?.map((item, index) => (
@@ -274,7 +277,13 @@ const ProductByCate = () => {
                             >
                               {item?.products?.unitName}
                             </h1>
-                            <p style={{ right: "5px", position: "absolute",borderRadius:"50%" }}>
+                            <p
+                              style={{
+                                right: "5px",
+                                position: "absolute",
+                                borderRadius: "50%",
+                              }}
+                            >
                               {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"

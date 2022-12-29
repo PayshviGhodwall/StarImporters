@@ -25,7 +25,7 @@ const AllCategories = () => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>ALL BRANDS</h1>
+              <h1>POPULAR CATEGORIES</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb mb-0">

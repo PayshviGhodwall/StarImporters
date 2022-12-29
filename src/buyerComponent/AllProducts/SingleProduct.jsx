@@ -30,6 +30,7 @@ const SingleProduct = () => {
   const [simProducts, setSimProducts] = useState([]);
   const [FInd, setFInd] = useState();
   const [NState, setNState] = useState(false);
+  const [LoginState, setLoginState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
   const [typeObj, setTypeObj] = useState([]);
@@ -50,7 +51,7 @@ const SingleProduct = () => {
   const GetChange = (data) => {
     setChange(data);
   };
-
+ 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
   let token = localStorage.getItem("token-user");
@@ -223,7 +224,7 @@ const SingleProduct = () => {
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
-      <Navbar NState={NState} GetChange={GetChange} />
+      <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
       <section className="comman_banner _banner marginTop">
         <div className="container ">
           <div className="row">
@@ -473,12 +474,15 @@ const SingleProduct = () => {
                                 }}
                                 onClick={AddtoCart}
                               >
-                                Add To Cart
+                                Add Cart to Order
                               </Button>
                             ) : (
                               <div
                                 className="fw-bold fs-5"
-                                style={{ color: "#3b4093" }}
+                                style={{ color: "#3b4093",cursor:"pointer" }}
+                              onClick={()=>{
+                                setLoginState(!LoginState)
+                              }}
                               >
                                 Please Login to add to cart!
                               </div>
@@ -496,7 +500,7 @@ const SingleProduct = () => {
                                 }}
                                 onClick={AddtoQuote}
                               >
-                                Request Quotation
+                                Add Request to Quote
                               </Button>
                             ) : null}
                           </div>
@@ -526,7 +530,7 @@ const SingleProduct = () => {
                   <p>
                     {flavour
                       ? product?.type[FInd]?.description
-                      : product?.type?.description}
+                      : product?.unitName}
                   </p>
                 </div>
               </div>

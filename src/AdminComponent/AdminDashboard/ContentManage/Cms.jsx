@@ -44,6 +44,12 @@ const Cms = () => {
   const [editorDesc2State, setDesc2EditorState] = useState(null);
   const [editorTitle3State, setTitle3EditorState] = useState(null);
   const [editorDesc3State, setDesc3EditorState] = useState(null);
+  const [editorTitle4State, setTitle4EditorState] = useState(null);
+  const [editorDesc4State, setDesc4EditorState] = useState(null);
+  const [editorTitle5State, setTitle5EditorState] = useState(null);
+  const [editorDesc5State, setDesc5EditorState] = useState(null);
+  const [editorTitle6State, setTitle6EditorState] = useState(null);
+  const [editorDesc6State, setDesc6EditorState] = useState(null);
 
   const [editorHomeCTstate, setEditorHomeCTstate] = useState(null);
   const [editorHomeFPstate, setEditorHomeFPstate] = useState(null);
@@ -72,6 +78,24 @@ const Cms = () => {
   const onEditorDesc3StateChange = async (editorDesc3State) => {
     await setDesc3EditorState(editorDesc3State);
   };
+  const onEditorTitle4StateChange = async (editorTitle4State) => {
+    await setTitle4EditorState(editorTitle4State);
+  };
+  const onEditorDesc4StateChange = async (editorDesc4State) => {
+    await setDesc4EditorState(editorDesc4State);
+  };
+  const onEditorTitle5StateChange = async (editorTitle5State) => {
+    await setTitle5EditorState(editorTitle5State);
+  };
+  const onEditorDesc5StateChange = async (editorDesc5State) => {
+    await setDesc5EditorState(editorDesc5State);
+  };
+  const onEditorTitle6StateChange = async (editorTitle6State) => {
+    await setTitle6EditorState(editorTitle6State);
+  };
+  const onEditorDesc6StateChange = async (editorDesc6State) => {
+    await setDesc6EditorState(editorDesc6State);
+  };
 
   const onEditorHomeAboutStateChange = async (editorHomeAboutState) => {
     await setEditorHomeAboutState(editorHomeAboutState);
@@ -97,15 +121,6 @@ const Cms = () => {
       console.log(res?.data.results);
       setSlideData(res?.data.results);
       let results = res?.data.results;
-      // let defalutValues = {};
-      // defalutValues.slides = results[0]?.banner;
-      // defalutValues.slideTitle = results[0]?.title;
-      // defalutValues.slideDesc = results[0]?.description;
-      // defalutValues.slides = results[1]?.banner;
-      // defalutValues.slide2Title = results[1]?.title;
-      // defalutValues.slide2Desc = results[1]?.description;
-      // defalutValues.slide3Title = results[2]?.title;
-      // defalutValues.slide3Desc = results[2]?.description;
 
       const contentTtState = stateFromHTML(results[0]?.title);
       const contentDsState = stateFromHTML(results[0]?.description);
@@ -116,7 +131,14 @@ const Cms = () => {
       const contentTt3State = stateFromHTML(results[2]?.title);
       const contentDs3State = stateFromHTML(results[2]?.description);
 
-      console.log(contentTtState);
+      const contentTt4State = stateFromHTML(results[3]?.title);
+      const contentDs4State = stateFromHTML(results[3]?.description);
+
+      const contentTt5State = stateFromHTML(results[4]?.title);
+      const contentDs5State = stateFromHTML(results[4]?.description);
+
+      const contentTt6State = stateFromHTML(results[5]?.title);
+      const contentDs6State = stateFromHTML(results[5]?.description);
 
       setTitleEditorState(EditorState.createWithContent(contentTtState));
       setDescEditorState(EditorState.createWithContent(contentDsState));
@@ -126,6 +148,15 @@ const Cms = () => {
 
       setTitle3EditorState(EditorState.createWithContent(contentTt3State));
       setDesc3EditorState(EditorState.createWithContent(contentDs3State));
+
+      setTitle4EditorState(EditorState.createWithContent(contentTt4State));
+      setDesc4EditorState(EditorState.createWithContent(contentDs4State));
+
+      setTitle5EditorState(EditorState.createWithContent(contentTt5State));
+      setDesc5EditorState(EditorState.createWithContent(contentDs5State));
+
+      setTitle6EditorState(EditorState.createWithContent(contentTt6State));
+      setDesc6EditorState(EditorState.createWithContent(contentDs6State));
     });
   };
 
@@ -167,7 +198,37 @@ const Cms = () => {
   const contentPosition3 = (e) => {
     setCurrentPos3(e.target.value);
   };
+  const contentPosition4 = (e) => {
+    setCurrentPos3(e.target.value);
+  };
+  const contentPosition5 = (e) => {
+    setCurrentPos3(e.target.value);
+  };
+  const contentPosition6 = (e) => {
+    setCurrentPos3(e.target.value);
+  };
+  const onSubmit = async (data) => {
+    let title = await stateToHTML(editorTitleState.getCurrentContent());
+    let Desc = await stateToHTML(editorDescState.getCurrentContent());
 
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", Desc);
+    formData.append("banner", files?.slide1Img);
+    formData.append("position", currentPos1);
+    await axios
+      .post(EditSlide + "/" + slideData[0]?._id, formData)
+      .then((res) => {
+        if (!res.error) {
+          getSlides();
+          Swal.fire({
+            title: "Slide Modified!",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
+  };
   const onSubmitSecond = async (data) => {
     let title = await stateToHTML(editorTitle2State.getCurrentContent());
     let Desc = await stateToHTML(editorDesc2State.getCurrentContent());
@@ -216,29 +277,79 @@ const Cms = () => {
         }
       });
   };
-  const onSubmit = async (data) => {
-    let title = await stateToHTML(editorTitleState.getCurrentContent());
-    let Desc = await stateToHTML(editorDescState.getCurrentContent());
+
+  const onSubmitFourth = async (data) => {
+    let title = await stateToHTML(editorTitle4State.getCurrentContent());
+    let Desc = await stateToHTML(editorDesc4State.getCurrentContent());
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", Desc);
-    formData.append("banner", files?.slide1Img);
-    formData.append("position", currentPos1);
+    formData.append("banner", files?.slide4Img);
+    formData.append("position", currentPos3);
+
     await axios
-      .post(EditSlide + "/" + slideData[0]?._id, formData)
+      .post(EditSlide + "/" + slideData[3]?._id, formData)
       .then((res) => {
-        if (!res.error) {
+        console.log(res);
+        if (res?.data.message === "Slide Modified Successfully") {
           getSlides();
           Swal.fire({
-            title: "Slide Modified!",
+            title: "Slide Modified",
             icon: "success",
             button: "Ok",
           });
         }
       });
   };
+  const onSubmitFifth = async (data) => {
+    let title = await stateToHTML(editorTitle5State.getCurrentContent());
+    let Desc = await stateToHTML(editorDesc5State.getCurrentContent());
 
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", Desc);
+    formData.append("banner", files?.slide5Img);
+    formData.append("position", currentPos3);
+
+    await axios
+      .post(EditSlide + "/" + slideData[4]?._id, formData)
+      .then((res) => {
+        console.log(res);
+        if (res?.data.message === "Slide Modified Successfully") {
+          getSlides();
+          Swal.fire({
+            title: "Slide Modified",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
+  };
+  const onSubmitSixth = async (data) => {
+    let title = await stateToHTML(editorTitle6State.getCurrentContent());
+    let Desc = await stateToHTML(editorDesc6State.getCurrentContent());
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", Desc);
+    formData.append("banner", files?.slide6Img);
+    formData.append("position", currentPos3);
+
+    await axios
+      .post(EditSlide + "/" + slideData[5]?._id, formData)
+      .then((res) => {
+        console.log(res);
+        if (res?.data.message === "Slide Modified Successfully") {
+          getSlides();
+          Swal.fire({
+            title: "Slide Modified",
+            icon: "success",
+            button: "Ok",
+          });
+        }
+      });
+  };
   const saveHeaders = async () => {
     let categoryTitle = await stateToHTML(
       editorHomeCTstate.getCurrentContent()
@@ -253,6 +364,7 @@ const Cms = () => {
     formData.append("brandTitle", brandTitle);
     formData.append("featuredTitle", featuredTitle);
     formData.append("bottomImage", files?.BannerImg);
+    formData.append("foreground", files?.foreground);
     await axios
       .post(EditHeaders + "/" + headersData?._id, formData)
       .then((res) => {
@@ -611,12 +723,12 @@ const Cms = () => {
                                 >
                                   <button
                                     className="nav-link active labels"
-                                    id="home-tab"
+                                    id="SlideOne-tab"
                                     data-bs-toggle="tab"
-                                    data-bs-target="#home"
+                                    data-bs-target="#SlideOne"
                                     type="button"
                                     role="tab"
-                                    aria-controls="home"
+                                    aria-controls="SlideOne"
                                     aria-selected="true"
                                   >
                                     {slideData[0]?.slide}
@@ -628,12 +740,12 @@ const Cms = () => {
                                 >
                                   <button
                                     className="nav-link labels"
-                                    id="profile-tab"
+                                    id="SlideTwo-tab"
                                     data-bs-toggle="tab"
-                                    data-bs-target="#profile"
+                                    data-bs-target="#SlideTwo"
                                     type="button"
                                     role="tab"
-                                    aria-controls="profile"
+                                    aria-controls="SlideTwo"
                                     aria-selected="false"
                                   >
                                     {slideData[1]?.slide}
@@ -645,24 +757,75 @@ const Cms = () => {
                                 >
                                   <button
                                     className="nav-link labels"
-                                    id="contact-tab"
+                                    id="SlideThree-tab"
                                     data-bs-toggle="tab"
-                                    data-bs-target="#contact"
+                                    data-bs-target="#SlideThree"
                                     type="button"
                                     role="tab"
-                                    aria-controls="contact"
+                                    aria-controls="SlideThree"
                                     aria-selected="false"
                                   >
                                     {slideData[2]?.slide}
+                                  </button>
+                                </li>
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation"
+                                >
+                                  <button
+                                    className="nav-link labels"
+                                    id="SlideFour-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideFour"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideFour"
+                                    aria-selected="false"
+                                  >
+                                    {slideData[3]?.slide}
+                                  </button>
+                                </li>
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation"
+                                >
+                                  <button
+                                    className="nav-link labels"
+                                    id="SlideFive-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideFive"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideFive"
+                                    aria-selected="false"
+                                  >
+                                    {slideData[4]?.slide}
+                                  </button>
+                                </li>
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation"
+                                >
+                                  <button
+                                    className="nav-link labels"
+                                    id="SlideSix-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideSix"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideSix"
+                                    aria-selected="false"
+                                  >
+                                    {slideData[5]?.slide}
                                   </button>
                                 </li>
                               </ul>
                               <div className="tab-content" id="myTabContent">
                                 <div
                                   className="tab-pane fade show active"
-                                  id="home"
+                                  id="SlideOne"
                                   role="tabpanel"
-                                  aria-labelledby="home-tab"
+                                  aria-labelledby="SlideOne-tab"
                                 >
                                   <div className="row mx-0 border rounded py-3 px-1">
                                     <div className="col-12">
@@ -834,9 +997,9 @@ const Cms = () => {
                                 </div>
                                 <div
                                   className="tab-pane fade"
-                                  id="profile"
+                                  id="SlideTwo"
                                   role="tabpanel"
-                                  aria-labelledby="profile-tab"
+                                  aria-labelledby="SlideTwo-tab"
                                 >
                                   <div className="row mx-0 border rounded py-3 px-1">
                                     <div className="col-12">
@@ -1002,9 +1165,9 @@ const Cms = () => {
                                 </div>
                                 <div
                                   className="tab-pane fade"
-                                  id="contact"
+                                  id="SlideThree"
                                   role="tabpanel"
-                                  aria-labelledby="contact-tab"
+                                  aria-labelledby="SlideThree-tab"
                                 >
                                   <div className="row mx-0 border rounded py-3 px-1">
                                     <div className="col-12">
@@ -1168,6 +1331,528 @@ const Cms = () => {
                                     </div>
                                   </div>
                                 </div>
+                                <div
+                                  className="tab-pane fade "
+                                  id="SlideFour"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideFour-tab"
+                                >
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="col-12">
+                                      <form
+                                        className="form-design row"
+                                        action=""
+                                        onSubmit={handleSubmit(onSubmitFourth)}
+                                      >
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="One"
+                                                onChange={contentPosition4}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Two"
+                                                onChange={contentPosition4}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Three"
+                                                onChange={contentPosition4}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
+                                          <label htmlFor="" className="labels">
+                                            Slide Image
+                                          </label>
+
+                                          <div className="account_profile position-relative d-inline-block">
+                                            <div className="cmsSlide">
+                                              <img
+                                                className="SlideCms"
+                                                id="slide1"
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[3]?.banner
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div className="p-image">
+                                              <i className="upload-button fas fa-camera" />
+                                              <input
+                                                className="file-uploads"
+                                                type="file"
+                                                name="slide4Img"
+                                                accept="image/*"
+                                                id="slide2"
+                                                {...register("slides")}
+                                                onChange={(e) =>
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide4Img"
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div className="form-group col-12">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
+                                          </label>
+                                          <Editor
+                                            editorState={editorTitle4State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitle4StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12">
+                                          <label htmlFor="" className="labels">
+                                            Paragraph
+                                          </label>
+                                          <Editor
+                                            editorState={editorDesc4State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDesc4StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12 text-start">
+                                          <button
+                                            className="comman_btn"
+                                            type="submit"
+                                          >
+                                            Save
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className="tab-pane fade "
+                                  id="SlideFive"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideFive-tab"
+                                >
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="col-12">
+                                      <form
+                                        className="form-design row"
+                                        action=""
+                                        onSubmit={handleSubmit(onSubmitFifth)}
+                                      >
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="One"
+                                                onChange={contentPosition5}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Two"
+                                                onChange={contentPosition5}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Three"
+                                                onChange={contentPosition5}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
+                                          <label htmlFor="" className="labels">
+                                            Slide Image
+                                          </label>
+
+                                          <div className="account_profile position-relative d-inline-block">
+                                            <div className="cmsSlide">
+                                              <img
+                                                className="SlideCms"
+                                                id="slide1"
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[4]?.banner
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div className="p-image">
+                                              <i className="upload-button fas fa-camera" />
+                                              <input
+                                                className="file-uploads"
+                                                type="file"
+                                                name="slide5Img"
+                                                accept="image/*"
+                                                id="slide2"
+                                                {...register("slides")}
+                                                onChange={(e) =>
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide5Img"
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div className="form-group col-12">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
+                                          </label>
+                                          <Editor
+                                            editorState={editorTitle5State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitle5StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12">
+                                          <label htmlFor="" className="labels">
+                                            Paragraph
+                                          </label>
+                                          <Editor
+                                            editorState={editorDesc5State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDesc5StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12 text-start">
+                                          <button
+                                            className="comman_btn"
+                                            type="submit"
+                                          >
+                                            Save
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className="tab-pane fade"
+                                  id="SlideSix"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideSix-tab"
+                                >
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="col-12">
+                                      <form
+                                        className="form-design row"
+                                        action=""
+                                        onSubmit={handleSubmit(onSubmitSixth)}
+                                      >
+                                        <div className="form-group col-12 ">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            Content Position :{" "}
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault1"
+                                                value="One"
+                                                onChange={contentPosition6}
+                                                defaultChecked
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault1"
+                                              >
+                                                Align Left
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Two"
+                                                onChange={contentPosition6}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Center
+                                              </label>
+                                            </div>
+                                            <div class="form-check mx-2 fs-6 mt-1">
+                                              <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id="flexRadioDefault2"
+                                                value="Three"
+                                                onChange={contentPosition6}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for="flexRadioDefault2"
+                                              >
+                                                Align Right
+                                              </label>
+                                            </div>
+                                          </label>
+
+                                          <label htmlFor="" className="labels">
+                                            Slide Image
+                                          </label>
+
+                                          <div className="account_profile position-relative d-inline-block">
+                                            <div className="cmsSlide">
+                                              <img
+                                                className="SlideCms"
+                                                id="slide1"
+                                                src={
+                                                  productImage
+                                                    ? productImage
+                                                    : slideData[5]?.banner
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div className="p-image">
+                                              <i className="upload-button fas fa-camera" />
+                                              <input
+                                                className="file-uploads"
+                                                type="file"
+                                                name="slide6Img"
+                                                accept="image/*"
+                                                id="slide2"
+                                                {...register("slides")}
+                                                onChange={(e) =>
+                                                  onFileSelection(
+                                                    e,
+                                                    "slide6Img"
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div className="form-group col-12">
+                                          <label
+                                            htmlFor=""
+                                            className="labels d-flex"
+                                          >
+                                            TITLE :
+                                          </label>
+                                          <Editor
+                                            editorState={editorTitle6State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorTitle6StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12">
+                                          <label htmlFor="" className="labels">
+                                            Paragraph
+                                          </label>
+                                          <Editor
+                                            editorState={editorDesc6State}
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class border"
+                                            toolbarClassName="toolbar-class"
+                                            onEditorStateChange={
+                                              onEditorDesc6StateChange
+                                            }
+                                            wrapperStyle={{}}
+                                            editorStyle={{}}
+                                            toolbarStyle={{}}
+                                            toolbar={{
+                                              options: [
+                                                "inline",
+                                                "blockType",
+                                                // "fontSize",
+                                                // "fontFamily",
+                                                // "colorPicker",
+                                              ],
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="form-group col-12 text-start">
+                                          <button
+                                            className="comman_btn"
+                                            type="submit"
+                                          >
+                                            Save
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1179,7 +1864,7 @@ const Cms = () => {
                           aria-labelledby="nav-homeBann-tab"
                         >
                           <div className="row py-5 px-4 mx-0">
-                            <div className="col-12">
+                            <div className="col-6">
                               <div className="account_profile position-relative d-inline-block">
                                 <label htmlFor="" className="labels">
                                   Background :
@@ -1208,7 +1893,35 @@ const Cms = () => {
                                 </div>
                               </div>
                             </div>
+                            <div className="col-6">
+                              <div className="account_profile position-relative d-inline-block">
+                                <label htmlFor="" className="labels">
+                                  Foreground Image:
+                                </label>
+                                <div className="cmsSlide">
+                                  <img
+                                    className="SlideCms"
+                                    src={
+                                      productImage
+                                        ? productImage
+                                        : headersData?.foreground
+                                    }
+                                  />
+                                </div>
 
+                                <div className="p-image">
+                                  <i className="upload-button fas fa-camera" />
+                                  <input
+                                    className="opacity-0"
+                                    name="foreground"
+                                    type="file"
+                                    onChange={(e) =>
+                                      onFileSelection(e, "foreground")
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
                             <div className="form-group col-12 mb-2">
                               <label htmlFor="" className="labels d-flex">
                                 CATEGORY TITLE :

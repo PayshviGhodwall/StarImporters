@@ -6,11 +6,12 @@ import { BsFillStarFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
+import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/grid";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
 import { useEffect } from "react";
@@ -72,7 +73,9 @@ const Homepage = () => {
       setAllHeaders(res?.data.results.headers[0]);
       let image = res?.data.results?.headers[0].bottomImage;
       console.log(image);
-      document.getElementById("bottom-image").style.backgroundImage = `url(${image})`
+      document.getElementById(
+        "bottom-image"
+      ).style.backgroundImage = `url(${image})`;
     });
   };
   const getCategory = async () => {
@@ -288,6 +291,192 @@ const Homepage = () => {
                 </Link>
               </div>
             </div>
+            <div className="carousel-item ">
+              <img
+                src={allSlides[3]?.banner}
+                className="d-block w-100 banner_slide"
+                alt="No image"
+              />
+              <div
+                className={
+                  (allSlides[3]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[3]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[3]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[3]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[3]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[3]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[3]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[3]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[3]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[3]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[3]?.description
+                  )}
+                ></p>
+
+                <Link
+                  to="/app/register"
+                  className={
+                    (allSlides[3]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[3]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[3]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
+                  style={{ top: "10px" }}
+                >
+                  <button
+                    className={
+                      allSlides[3]?.banner ? "comman_btn22 " : "d-none"
+                    }
+                  >
+                    SignUp
+                  </button>
+                </Link>
+              </div>
+            </div>
+            <div className="carousel-item ">
+              <img
+                src={allSlides[4]?.banner}
+                className="d-block w-100 banner_slide"
+                alt="No image"
+              />
+              <div
+                className={
+                  (allSlides[4]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[4]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[4]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[4]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[4]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[4]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[4]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[4]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[4]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[4]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[4]?.description
+                  )}
+                ></p>
+
+                <Link
+                  to="/app/register"
+                  className={
+                    (allSlides[4]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[4]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[4]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
+                  style={{ top: "10px" }}
+                >
+                  <button
+                    className={
+                      allSlides[4]?.banner ? "comman_btn22 " : "d-none"
+                    }
+                  >
+                    SignUp
+                  </button>
+                </Link>
+              </div>
+            </div>
+            <div className="carousel-item ">
+              <img
+                src={allSlides[5]?.banner}
+                className="d-block w-100 banner_slide"
+                alt="No image"
+              />
+              <div
+                className={
+                  (allSlides[5]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[5]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5") ||
+                  (allSlides[5]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[5]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[5]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[5]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[5]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[5]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[5]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[5]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[5]?.description
+                  )}
+                ></p>
+
+                <Link
+                  to="/app/register"
+                  className={
+                    (allSlides[5]?.position === "One" &&
+                      "d-flex text-start text-decoration-none bannerTxt") ||
+                    (allSlides[5]?.position === "Two" &&
+                      " text-center text-decoration-none bannerTxt") ||
+                    (allSlides[5]?.position === "Three" &&
+                      " d-flex justify-content-end text-decoration-none bannerTxt")
+                  }
+                  style={{ top: "10px" }}
+                >
+                  <button
+                    className={
+                      allSlides[5]?.banner ? "comman_btn22 " : "d-none"
+                    }
+                  >
+                    SignUp
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
           <button
             className="carousel-control-prev "
@@ -300,6 +489,7 @@ const Homepage = () => {
               className="carousel-control-prev-icon p-4 slideBtn "
               aria-hidden="true"
             ></button>
+
             <span className="visually-hidden">Previous</span>
           </button>
           <button
@@ -323,10 +513,15 @@ const Homepage = () => {
           <h2
             dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
           ></h2>
-          <span className="viewAllBtn" onClick={()=>navigate("/app/Categories" ,{state:"hii"})}>
-          View All <i class="fa fa-arrow-right"></i>
-        </span>
+
+          <span
+            className="viewAllBtn"
+            onClick={() => navigate("/app/Categories", { state: "hii" })}
+          >
+            View All <i class="fa fa-arrow-right"></i>
+          </span>
         </div>
+
         <Swiper
           slidesPerView={5}
           spaceBetween={30}
@@ -346,7 +541,7 @@ const Homepage = () => {
                       search: "?sort=name",
                       hash: "#the-hash",
                     }}
-                    state={{ name: item?.categoryName }}
+                    state={{ name: item?.categoryName ,image:item?.background }}
                     className="featured__box text-center mt-5  text-decoration-none"
                   >
                     <img src={item?.categoryImage} className="" alt="lorem" />
@@ -359,72 +554,88 @@ const Homepage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        
       </section>
-      <section className="features_products py-5 bg-white">
-        <div className="container py-xl-3">
-          <div className="col-12 comman_head mb-4 text-center">
+      <section className="features_products py-1 bg-white shadow">
+        
+        <div className="container-fluid  mb-4">
+          <div className="col-12 comman_head mb-2 mt-3 text-center">
             <h2
               dangerouslySetInnerHTML={createMarkup(allHeaders?.featuredTitle)}
             ></h2>
-            
+             <span
+            className="viewAllBtn"
+            onClick={() => navigate("/app/featured-products", { state: "hii" })}
+          >
+            View All <i class="fa fa-arrow-right"></i>
+          </span>
           </div>
+
           <div className="row">
-            {(featured || [])
-              ?.filter((item, idx) => idx < 8)
-              .map((item, index) => (
-                <div className="col-lg-3 col-md-4 col-sm-4" key={index}>
-                  <div
-                    className="product_parts_box shadow"
-                    onClick={() =>
-                      navigate("/AllProducts/Product", {
-                        state: {
-                          id: item?._id,
-                        },
-                      })
-                    }
-                  >
-                    <div className="partsproduct_img ">
-                      <img
-                        src={item?.productImage}
-                        className="mt-3 mb-3"
-                        alt="Product"
-                      />
-                    </div>
-                    <div className="product_content mt-3 text-center">
-                      <FontAwesomeIcon />
-                      <Link
-                        to=""
-                        style={{
-                          textDecoration: "none",
-                          color: "#3e4093",
-                          fontWeight: "600",
-                          fontFamily: "poppins",
-                        }}
-                      >
-                        {item?.unitName}
-                      </Link>
-                      <div className="rating_box mt-2 mb-1">
-                        <Link className="mx-1">
-                          <BsFillStarFill color=" #FFCC00  " />
+            <Swiper
+              slidesPerView={5}
+              spaceBetween={30}
+              navigation={true}
+              autoplay={true}
+              loop={true}
+              style={{padding:"36px"}}
+              modules={[FreeMode, Pagination, Autoplay, Navigation]}
+              className="mySwiper  py-2 featuredSwiper"
+            >
+              {(featured || []).map((item, index) => (
+                <SwiperSlide key={index} className="col-lg-3 col-md-4 col-sm-4">
+                    <div
+                      className="product_parts_box "
+                      onClick={() =>
+                        navigate("/AllProducts/Product", {
+                          state: {
+                            id: item?._id,
+                          },
+                        })
+                      }
+                    >
+                      <div className="partsproduct_img ">
+                        <img
+                          src={item?.productImage}
+                          className="mt-3 mb-3"
+                          alt="Product"
+                        />
+                      </div>
+                      <div className="product_content mt-3 text-center">
+                        <FontAwesomeIcon />
+                        <Link
+                          to=""
+                          style={{
+                            textDecoration: "none",
+                            color: "#3e4093",
+                            fontWeight: "600",
+                            
+                            fontFamily: "poppins",
+                          }}
+                        >
+                          {item?.unitName}
                         </Link>
-                        <Link className="mx-1">
-                          <BsFillStarFill color=" #FFCC00  " />
-                        </Link>
-                        <Link className="mx-1">
-                          <BsFillStarFill color=" #FFCC00  " />
-                        </Link>
-                        <Link className="mx-1">
-                          <BsFillStarFill color=" #FFCC00  " />
-                        </Link>
-                        <Link className="mx-1">
-                          <BsFillStarFill color=" #CACACA" />
-                        </Link>
+                        <div className="rating_box mt-2 mb-1">
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #FFCC00  " />
+                          </Link>
+                          <Link className="mx-1">
+                            <BsFillStarFill color=" #CACACA" />
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                </SwiperSlide>
               ))}
+            </Swiper>
           </div>
         </div>
       </section>
@@ -433,7 +644,7 @@ const Homepage = () => {
           <div className="row">
             <div className="col-12">
               <div className="w-100 mb-5">
-                <img src={require("../../assets/img/cigars_img.png")} alt="" />
+                <img src={allHeaders?.foreground} alt="" />
               </div>
               <Link
                 className="comman_btn2 text-decoration-none"
@@ -451,9 +662,12 @@ const Homepage = () => {
             <h2
               dangerouslySetInnerHTML={createMarkup(allHeaders?.brandTitle)}
             ></h2>
-             <span className="viewAllBtn" onClick={()=>navigate("/app/brands",{state:"hii"})}>
-          View All <i class="fa fa-arrow-right"></i>
-        </span>
+            <span
+              className="viewAllBtn"
+              onClick={() => navigate("/app/brands", { state: "hii" })}
+            >
+              View All <i class="fa fa-arrow-right"></i>
+            </span>
           </div>
           <div className="col-sm-12">
             <Swiper

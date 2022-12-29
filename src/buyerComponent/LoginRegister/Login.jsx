@@ -23,7 +23,7 @@ const Login = ({getEmail}) => {
 
   }, [state]);
   const handleRefresh = () => {
-    setState(true);
+    window.location.reload(false)
   };
   const {
     register,

@@ -177,6 +177,7 @@ const EditInventory = () => {
         }
       });
   };
+  
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
     if (e.key !== "Enter") return;

@@ -92,7 +92,7 @@ const RequestOrders = () => {
                     >
                       <h4 className="">
                         <i className="fas fa-file mt-1" />
-                        <span className="fs-6 mx-2">REQUEST ORDER</span>
+                        <span className="fs-6 mx-2">MY QUOTATIONS</span>
                       </h4>
                     </div>
                   </Link>
