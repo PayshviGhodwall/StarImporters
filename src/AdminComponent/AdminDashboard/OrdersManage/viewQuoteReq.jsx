@@ -350,6 +350,7 @@ const ViewQuoteReq = () => {
                                             <input
                                               type="number"
                                               name="price"
+                                              defaultValue={item?.price}
                                               className="form-control fs-6"
                                               style={{ width: "80px" }}
                                               onChange={(e) => {

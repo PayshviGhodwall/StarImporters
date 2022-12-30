@@ -638,7 +638,7 @@ const UserManage = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePendingPage <= maxPenPage
+                                            activePendingPage === maxPenPage
                                               ? setActivePendingPage(maxPenPage)
                                               : setActivePendingPage(
                                                   activePendingPage + 1
@@ -771,7 +771,7 @@ const UserManage = () => {
                                           class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activeApprovePage <= 1
+                                            activeApprovePage === 1
                                               ? setActiveApprovePage(1)
                                               : setActiveApprovePage(
                                                   activeApprovePage - 1
@@ -805,7 +805,7 @@ const UserManage = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activeApprovePage <= maxAppPage
+                                            activeApprovePage === maxAppPage
                                               ? setActiveApprovePage(maxAppPage)
                                               : setActiveApprovePage(
                                                   activeApprovePage + 1
