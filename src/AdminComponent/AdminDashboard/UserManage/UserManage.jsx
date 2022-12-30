@@ -51,7 +51,12 @@ const UserManage = () => {
   const importInput = document.getElementById("fileID");
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
-  const [activePage, setActivePage] = useState(1);
+  const [activeApprovePage, setActiveApprovePage] = useState(1);
+  const [activePendingPage, setActivePendingPage] = useState(1);
+  const [activeReturnedPage, setActiveReturnedPage] = useState(1);
+  const [maxAppPage, setMaxAppPage] = useState(1);
+  const [maxPenPage, setMaxPenPage] = useState(1);
+  const [maxRetPage, setMaxRetPage] = useState(1);
   const [text, setText] = useRecoilState(charCountState);
 
   const onFileSelection = (e) => {
@@ -116,26 +121,29 @@ const UserManage = () => {
     getPendingUser();
     getApprovedUser();
     getRejectedUser();
-  }, [search, activePage]);
+  }, [search, activeApprovePage, activePendingPage, activeReturnedPage]);
   const getPendingUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "PENDING",
+      page: activePendingPage,
     });
-    setPendingUsers(res.data.results);
+    setPendingUsers(res.data.results.usersList);
     return res.data;
   };
   const getApprovedUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "APPROVED",
-      page: activePage,
+      page: activeApprovePage,
     });
-    setApprovedUsers(res?.data.results);
+    setApprovedUsers(res?.data.results.usersList);
+    setMaxAppPage(res?.data.results.totalPages);
   };
   const getRejectedUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "REJECTED",
+      page: activePendingPage,
     });
-    setRejectedUsers(res.data.results);
+    setRejectedUsers(res.data.results.usersList);
 
     return res.data;
   };
@@ -586,6 +594,62 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
+                                  <div className="col-11 d-flex justify-content-center py-2 ">
+                                    <span className="totalPage">
+                                      Total Pages : {maxPenPage}
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePendingPage <= 1
+                                              ? setActivePendingPage(1)
+                                              : setActivePendingPage(
+                                                  activePendingPage - 1
+                                                )
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePendingPage}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePendingPage <= maxPenPage
+                                              ? setActivePendingPage(maxPenPage)
+                                              : setActivePendingPage(
+                                                  activePendingPage + 1
+                                                )
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -697,16 +761,21 @@ const UserManage = () => {
                                       </tbody>
                                     </table>
                                   </div>
-                                  <div className="col-12 d-flex justify-content-center">
+                                  <div className="col-11 d-flex justify-content-center py-2 ">
+                                    <span className="totalPage">
+                                      Total Pages : {maxAppPage}
+                                    </span>
                                     <ul id="pagination">
                                       <li>
                                         <a
-                                          class=""
+                                          class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
+                                            activeApprovePage <= 1
+                                              ? setActiveApprovePage(1)
+                                              : setActiveApprovePage(
+                                                  activeApprovePage - 1
+                                                )
                                           }
                                         >
                                           «
@@ -721,7 +790,7 @@ const UserManage = () => {
                                       </li>
                                       <li>
                                         <a href="#" className="active">
-                                          {activePage}
+                                          {activeApprovePage}
                                         </a>
                                       </li>
                                       <li>
@@ -733,9 +802,14 @@ const UserManage = () => {
 
                                       <li>
                                         <a
+                                          className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            setActivePage(activePage + 1)
+                                            activeApprovePage <= maxAppPage
+                                              ? setActiveApprovePage(maxAppPage)
+                                              : setActiveApprovePage(
+                                                  activeApprovePage + 1
+                                                )
                                           }
                                         >
                                           »

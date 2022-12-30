@@ -52,6 +52,7 @@ const Inventory = () => {
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
   const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
+  const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
   const [NN, setNN] = useState(Math.random());
   const [NewMessage, setNewMessage] = useState("");
   const scrollBy = useScrollBy();
@@ -59,6 +60,8 @@ const Inventory = () => {
   const [offset, setOffset] = useState(1);
   const [posts, setAllPosts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
+  const [maxPage, setMaxPage] = useState(1);
+
   const {
     register,
     handleSubmit,
@@ -80,7 +83,7 @@ const Inventory = () => {
 
     getBrands();
     GetProducts();
-  }, [change, offset]);
+  }, [change, activePage]);
 
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
@@ -90,14 +93,17 @@ const Inventory = () => {
     localStorage.getItem("AdminLogToken");
 
   const GetProducts = async () => {
-    await axios.post(getProducts).then((res) => {
-      let data = res?.data.results;
-      let slice = data.slice(offset - 1, offset - 1 + postsPerPage);
-      setAllProducts(slice);
-      setPageCount(Math.ceil(data?.length / postsPerPage));
-    });
+    await axios
+      .post(getProducts, {
+        page: activePage,
+      })
+      .then((res) => {
+        let data = res?.data.results.products;
+        setAllProducts(data);
+        setMaxPage(res?.data.results.allPages);
+      });
   };
-
+  console.log(maxPage);
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -114,7 +120,20 @@ const Inventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
-
+  const InventSearch = async (e) => {
+    let string = e.target.value;
+    string !== ""
+      ? await axios
+          .post(inventorySearch, {
+            search: e.target.value,
+          })
+          .then((res) => {
+            if (!res.error) {
+              setAllProducts(res?.data.results.results);
+            }
+          })
+      : GetProducts();
+  };
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
@@ -244,7 +263,7 @@ const Inventory = () => {
     ];
     e.target.value = "";
   }
-  
+
   const removeTag = (ind, i) => {
     console.log(ind, i);
     let newForm = { ...formValues };
@@ -265,38 +284,41 @@ const Inventory = () => {
   const onUpload = async () => {
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
-    await axios.post(importInvent, formData).then((res) => {
-      if (res?.data.message === "Imported Successfully") {
-        Swal.fire({
-          title: "Products Imported successfully",
-          icon: "success",
-          confirmButtonText: "ok",
-        });
-        window.location.reload(false);
-      } else if (res?.data.message === "Error in File") {
-        Swal.fire({
-          title: "Item Number or Product Name Error in CSV",
-          text: res?.data.results?.catError.map((item) => item),
-          icon: "error",
-          focusConfirm: false,
-        });
-      } else if (res?.data.message === "Error in file") {
-        Swal.fire({
-          title: "Item Number or Product Name Error in CSV",
-          text: res?.data.results?.itemNumErr.map((item) => item),
-          icon: "error",
-          focusConfirm: false,
-        });
-      } 
-    }).catch((err)=>{
-       if (err) {
-        Swal.fire({
-          title: "Error in csv!",
-          icon: "error",
-          focusConfirm: false,
-        });
-      }
-    })
+    await axios
+      .post(importInvent, formData)
+      .then((res) => {
+        if (res?.data.message === "Imported Successfully") {
+          Swal.fire({
+            title: "Products Imported successfully",
+            icon: "success",
+            confirmButtonText: "ok",
+          });
+          window.location.reload(false);
+        } else if (res?.data.message === "Error in File") {
+          Swal.fire({
+            title: "Item Number or Product Name Error in CSV",
+            text: res?.data.results?.catError.map((item) => item),
+            icon: "error",
+            focusConfirm: false,
+          });
+        } else if (res?.data.message === "Error in file") {
+          Swal.fire({
+            title: "Item Number or Product Name Error in CSV",
+            text: res?.data.results?.itemNumErr.map((item) => item),
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Error in csv!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      });
     document.getElementById("reUpload").hidden = false;
   };
   const onFileSelection = (e) => {
@@ -727,7 +749,7 @@ const Inventory = () => {
                                     type="text"
                                     className="form-control"
                                     name="size"
-                                    placeholder="Enter Product Description"
+                                    placeholder="Enter Size"
                                     value={element.size || ""}
                                     onChange={(e) => handleChange(index, e)}
                                   />
@@ -847,8 +869,7 @@ const Inventory = () => {
                             name="name"
                             id="name"
                             onChange={(e) => {
-                              OnSearching(e);
-                              setSearchTerm(e.target.value);
+                              InventSearch(e);
                             }}
                           />
                           <i className="far fa-search" />
@@ -947,9 +968,13 @@ const Inventory = () => {
                         <ul id="pagination">
                           <li>
                             <a
-                              class=""
+                              class="fs-5"
                               href="#"
-                              onClick={() => setActivePage(activePage - 1)}
+                              onClick={() =>
+                                activePage <= 1
+                                  ? setActivePage(1)
+                                  : setActivePage(activePage - 1)
+                              }
                             >
                               «
                             </a>
@@ -975,8 +1000,13 @@ const Inventory = () => {
 
                           <li>
                             <a
+                              className="fs-5"
                               href="#"
-                              onClick={() => setActivePage(activePage + 1)}
+                              onClick={() =>
+                                activePage === maxPage
+                                  ? setActivePage(maxPage)
+                                  : setActivePage(activePage + 1)
+                              }
                             >
                               »
                             </a>

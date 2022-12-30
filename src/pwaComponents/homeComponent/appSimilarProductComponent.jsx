@@ -21,10 +21,7 @@ function SimlarProduct({ categoryName }) {
   useEffect(() => {
     getProductList();
   }, [categoryName]);
-  
   console.log(categoryName?.categoryName);
-
-
   const getProductList = async () => {
   await  axios.post(similarProduct, {
       category: categoryName?.categoryName,

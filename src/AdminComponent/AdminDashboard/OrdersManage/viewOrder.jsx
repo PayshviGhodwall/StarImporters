@@ -320,7 +320,7 @@ const ViewOrder = () => {
                                             Barcodes:{" "}
                                             {
                                               item?.flavour?.barcode.map((item)=>(
-                                                <li>{item}</li>
+                                                <li>{item},</li>
                                               ))
                                               }
                                           </p>

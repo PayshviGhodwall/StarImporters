@@ -310,7 +310,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                       to={{
                         pathname: "/CategoryProducts",
                       }}
-                      state={{ name: item?.categoryName }}
+                      state={{ name: item?.categoryName , image:item?.background }}
                       className="dropdown-toggle text-decoration-none"
                       href="Javascript:;"
                     >

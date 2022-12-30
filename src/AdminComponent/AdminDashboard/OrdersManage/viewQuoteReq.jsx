@@ -335,10 +335,13 @@ const ViewQuoteReq = () => {
                                               : item?.productId?.unitName}
                                           </h3>
                                           <p>
-                                            Barcode :{" "}
-                                            {item?.flavour?._id
-                                              ? item?.flavour?.barcode
-                                              : item?.productId?.pBarcode[0]}
+                                            Barcode :
+                                          {
+                                              item?.flavour?.barcode.map((item)=>(
+                                                <li>{item}</li>
+                                              ))
+                                              }
+                                          
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             <label className=" mb-2 fw-bold">

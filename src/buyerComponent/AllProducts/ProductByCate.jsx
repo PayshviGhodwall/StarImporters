@@ -254,7 +254,8 @@ const ProductByCate = () => {
                               navigate("/AllProducts/Product", {
                                 state: {
                                   id: item?.products?._id,
-                                  CateName: item?.categoryName,
+                                  image:item?.background
+                                  ,
                                 },
                               });
                             }}

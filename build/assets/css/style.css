@@ -1975,7 +1975,6 @@
   .offers_box_main {
     border: 1.5px dashed #dbdbdb;
     margin-left: -12px;
-    
   }
   .offers_box_main_afterSelect {
     border: 1.7px dashed #eb3237;
@@ -3364,6 +3363,15 @@
   }
   .comman_banner {
     background-image: url(../img/banner_2.png);
+  }
+  .totalPage {
+    position: relative;
+    right: 420px;
+    font-weight: 600;
+    padding: 2px;
+    top: 6px;
+    border-radius: 8px;
+    color: #234476;
   }
   ._banner {
     height: 230px;

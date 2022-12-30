@@ -259,7 +259,9 @@ const OrderDetails = () => {
                                                   <div className="col">
                                                     <div className="cart_content">
                                                       <h3>{item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName }</h3>
-                                                      <p>Bar Code: {item?.flavour?._id ? item?.flavour?.barcode : item?.productId?.pBarcode[0]}</p>
+                                                      <p>Bar Code: { item?.flavour?.barcode.map((item)=>(
+                                                        <li>{item}</li>
+                                                      ))}</p>
                                                       <span className="ordertext my-2 d-block ">
                                                         Ordered On: {item?.productId?.createdAt?.slice(0,10)}
                                                       </span>

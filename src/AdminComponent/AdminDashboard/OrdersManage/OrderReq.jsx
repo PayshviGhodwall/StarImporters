@@ -12,6 +12,8 @@ const OrderReq = () => {
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
   const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportAllQuotes`;
+  const searchOrder= `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/searchOrders`;
+  const quoteOrder= `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/searchQuotes`;
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
@@ -46,12 +48,12 @@ const OrderReq = () => {
   const onOrderSearch = async (e) => {
     e.preventDefault();
     await axios
-      .post(quoteList, {
+      .post(orderList, {
         from: values.from,
         to: values.to,
       })
       .then((res) => {
-        setQuoteReq(res?.data.results?.orders);
+        setOrders(res?.data.results?.orders);
       });
   };
   const onQuoteSearch = async (e) => {
@@ -74,7 +76,7 @@ const OrderReq = () => {
       })
       .then((res) => {
         if (!res?.error) {
-          fileDownload(res?.data.results?.file, "orders");
+          fileDownload(res?.data.results?.file);
         }
       });
   };
@@ -91,7 +93,34 @@ const OrderReq = () => {
         }
       });
   };
-
+  const OrderSearch = async (e) => {
+    let string = e.target.value;
+    string !== ""
+      ? await axios
+          .post(searchOrder, {
+            search: e.target.value,
+          })
+          .then((res) => {
+            if (!res.error) {
+              setOrders(res?.data.results.order);
+            }
+          })
+      : OrderRequest()
+  };
+  const QuoteSearch = async (e) => {
+    let string = e.target.value;
+    string !== ""
+      ? await axios
+          .post(quoteOrder, {
+            search: e.target.value,
+          })
+          .then((res) => {
+            if (!res.error) {
+              setQuoteReq(res?.data.results);
+            }
+          })
+      : QuoteRequest()
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -173,6 +202,7 @@ const OrderReq = () => {
                   to="/brandsManage"
                   style={{ textDecoration: "none", fontSize: "18px" }}
                 >
+                  
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}
                     class="fa fa-ship"
@@ -370,10 +400,9 @@ const OrderReq = () => {
                                         placeholder="Search by Order ID/Customer Name"
                                         name="name"
                                         id="name"
-                                        onChange={(e) => {
-                                          // OnSearching(e);
-                                          // setSearchTerm(e.target.value);
-                                        }}
+                                       onChange={(e) => {
+                                OrderSearch(e);
+                              }}
                                       />
                                     </div>
                                   </form>
@@ -471,7 +500,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={onOrderSearch}
+                                    onClick={onQuoteSearch}
                                   >
                                     Search
                                   </button>
@@ -479,7 +508,7 @@ const OrderReq = () => {
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exportOrder}
+                                    onClick={exporQuotation}
                                   >
                                     Export <i class="fa fa-download"></i>
                                   </button>
@@ -495,8 +524,7 @@ const OrderReq = () => {
                                         name="name"
                                         id="name"
                                         onChange={(e) => {
-                                          // OnSearching(e);
-                                          // setSearchTerm(e.target.value);
+                                          QuoteSearch(e);
                                         }}
                                       />
                                     </div>

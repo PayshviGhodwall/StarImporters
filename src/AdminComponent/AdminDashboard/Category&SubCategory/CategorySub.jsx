@@ -130,6 +130,7 @@ const CategorySub = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("categoryImage", files?.newCategoryImg);
+    formData.append("background", files?.background);
     formData.append("categoryName", editCateName.trim());
     await axios.post(editCategory + "/" + categoryId, formData).then((res) => {
       console.log(res);
@@ -681,8 +682,8 @@ const CategorySub = () => {
                   className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
                   action=""
                 >
-                  <div className="form-group col-auto">
-                    <label htmlFor="">Category Image</label>
+                  <div className="form-group col-6 p-3">
+                    <label htmlFor="" className="mx-3">Category Image</label>
                     <div className="account_profile position-relative">
                       <div className="circle" key={categoryIndex}>
                         <img
@@ -699,6 +700,28 @@ const CategorySub = () => {
                           accept="image/*"
                           name="newCategoryImg"
                           onChange={(e) => onFileSelection(e, "newCategoryImg")}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group col-6 p-3">
+                    <label htmlFor="" className="mx-3">Background Image</label>
+                    <div className="account_profile position-relative ">
+                      <div className="circle " key={categoryIndex} >
+                        <img
+                          className="profile-pic"
+                          width={250}
+                          src={allCategories[categoryIndex]?.background}
+                        />
+                      </div>
+                      <div className="p-image">
+                        <i className="uploadFile fa fa-camera" />
+                        <input
+                          className="file-uploads"
+                          type="file"
+                          accept="image/*"
+                          name="background"
+                          onChange={(e) => onFileSelection(e, "background")}
                         />
                       </div>
                     </div>

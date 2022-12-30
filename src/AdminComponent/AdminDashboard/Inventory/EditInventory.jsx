@@ -701,7 +701,7 @@ const EditInventory = () => {
                                         type="file"
                                         accept="image/*"
                                         name="flavourImage"
-                                        onClick={(e) =>
+                                        onChange={(e) =>
                                           flavourImageSelection(e, index)
                                         }
                                       />

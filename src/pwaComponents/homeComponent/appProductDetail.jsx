@@ -23,7 +23,7 @@ function AppProductDetail() {
   const [heart, setHeart] = useState(false);
   const [userDetail, setUserDetail] = useState([]);
   const [productDetail, setProductDetail] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [typeObj, setTypeObj] = useState();
   const [categoryName, setCategoryName] = useState([]);
   const [flavour, setFlavour] = useState({
@@ -299,7 +299,7 @@ function AppProductDetail() {
                     to=""
                     onClick={() => addToCartt()}
                   >
-                    Add To Cart
+                    Add Cart to Order
                   </Link>
                   {userDetail?.quotation === true ? (
                     <button
@@ -307,7 +307,7 @@ function AppProductDetail() {
                       type="submit"
                       onClick={() => AddtoQuotess()}
                     >
-                      Request Quotation
+                     Add Request to Quotation
                     </button>
                   ) : null}
                 </div>

@@ -13,6 +13,7 @@ import {
 } from "../httpServices/homeHttpService/homeHttpService";
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -71,7 +72,11 @@ function AppHome() {
   const searchProduct = async (e) => {
     navigate("/app/product-by-search", { state: { search: search } });
   };
- 
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -125,7 +130,7 @@ function AppHome() {
                   {banner.map((item, index) => {
                     return (
                       <div className="single-hero-slide item">
-                        <img src={item.banner}></img>
+                        <img src={item?.banner}></img>
                         <div className="slide-content h-100 d-flex align-items-center">
                           <div className="slide-text">
                             <h4
@@ -133,14 +138,18 @@ function AppHome() {
                               data-animation="fadeInUp"
                               data-delay="100ms"
                               data-duration="1000ms"
+                              dangerouslySetInnerHTML={createMarkup(item?.title)}
                             >
-                              {item.title}
+                              
                             </h4>
                             <p
                               className="text-white"
+                              style={{fontSize:"4px"}}
                               data-animation="fadeInUp"
                               data-delay="400ms"
                               data-duration="1000ms"
+                              // dangerouslySetInnerHTML={createMarkup(item?.description)}
+
                             >
                               {/* {item.description} */}
                             </p>

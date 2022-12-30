@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../assets/vendor/bootstrap-icons/bootstrap-icons.css";
 const Welcome = () => {
   const [countdownDate, setCountdownDate] = useState(
-    new Date("12/30/2022").getTime()
+    new Date("01/10/2023").getTime()
   );
   const [state, setState] = useState({
     days: 0,

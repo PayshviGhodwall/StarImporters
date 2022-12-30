@@ -138,10 +138,10 @@ const Footer = () => {
                   <ul className="contact_info contact_info_light">
                     <li>
                       <i className="fas fa-map-signs" />
-                      <p>123 Street, Old Trafford, New South London , UK</p>
+                      <p> 2166 Mountain Industrial Blvd, Tucker, GA 30084, United States</p>
                     </li>
                     <li>
-                      <i className="fal fa-envelope-open-text" />
+                      <i className="fa fa-envelope-open-text" />
                       <Link to="mailto:info@sitename.com">
                         info@sitename.com{" "}
                       </Link>

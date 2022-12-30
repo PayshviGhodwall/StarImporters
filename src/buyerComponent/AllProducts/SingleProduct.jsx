@@ -225,7 +225,7 @@ const SingleProduct = () => {
   return (
     <div className="" style={{ background: "#eef3ff" }}>
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
-      <section className="comman_banner _banner marginTop">
+      <section className="comman_banner _banner marginTop" style={{backgroundImage:`url(${location?.state.image})`}}>
         <div className="container ">
           <div className="row">
             <div className="col-12">
