@@ -12,8 +12,8 @@ const OrderReq = () => {
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
   const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportAllQuotes`;
-  const searchOrder= `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/searchOrders`;
-  const quoteOrder= `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/searchQuotes`;
+  const searchOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/searchOrders`;
+  const quoteOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/searchQuotes`;
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
@@ -105,7 +105,7 @@ const OrderReq = () => {
               setOrders(res?.data.results.order);
             }
           })
-      : OrderRequest()
+      : OrderRequest();
   };
   const QuoteSearch = async (e) => {
     let string = e.target.value;
@@ -116,10 +116,10 @@ const OrderReq = () => {
           })
           .then((res) => {
             if (!res.error) {
-              setQuoteReq(res?.data.results);
+              setQuoteReq(res?.data.results.quotes);
             }
           })
-      : QuoteRequest()
+      : QuoteRequest();
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -202,7 +202,6 @@ const OrderReq = () => {
                   to="/brandsManage"
                   style={{ textDecoration: "none", fontSize: "18px" }}
                 >
-                  
                   <i
                     style={{ position: "relative", left: "4px", top: "3px" }}
                     class="fa fa-ship"
@@ -400,9 +399,9 @@ const OrderReq = () => {
                                         placeholder="Search by Order ID/Customer Name"
                                         name="name"
                                         id="name"
-                                       onChange={(e) => {
-                                OrderSearch(e);
-                              }}
+                                        onChange={(e) => {
+                                          OrderSearch(e);
+                                        }}
                                       />
                                     </div>
                                   </form>
@@ -430,12 +429,17 @@ const OrderReq = () => {
                                           <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>
-                                              {item?.userId?.firstName +
-                                                " " +
-                                                item?.userId?.lastName}
+                                              {item?.userId?.firstName ||
+                                                item?.user?.firstName}
                                             </td>
-                                            <td>{item?.userId?.phoneNumber}</td>
-                                            <td>{item?.userId?.email}</td>
+                                            <td>
+                                              {item?.userId?.phoneNumber ||
+                                                item?.user?.phoneNumber}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.email ||
+                                                item?.user?.email}
+                                            </td>
                                             <td>{item?.orderId}</td>
                                             <td>{item?.status}</td>
                                             <td>
@@ -473,7 +477,7 @@ const OrderReq = () => {
                         >
                           <div className="row mx-0">
                             <div className="col-12">
-                            <form
+                              <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
@@ -554,14 +558,12 @@ const OrderReq = () => {
                                             <tr key={index}>
                                               <td>{index + 1}</td>
                                               <td>
-                                                {item?.userId?.firstName +
-                                                  " " +
-                                                  item?.userId?.lastName}
+                                                {item?.userId?.firstName || item?.user?.firstName}
                                               </td>
                                               <td>
-                                                {item?.userId?.phoneNumber}
+                                                {item?.userId?.phoneNumber || item?.user?.phoneNumber }
                                               </td>
-                                              <td>{item?.userId?.email}</td>
+                                              <td>{item?.userId?.email || item?.user?.email}</td>
                                               <td>{item?.quoteId}</td>
 
                                               <td>{item?.status}</td>

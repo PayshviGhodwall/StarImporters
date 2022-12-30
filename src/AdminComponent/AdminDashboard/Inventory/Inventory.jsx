@@ -222,7 +222,7 @@ const Inventory = () => {
       from: values.from,
       to: values.to,
     });
-    setAllProducts(res?.data.results);
+    setAllProducts(res?.data.results.products);
     return res.data;
   };
 

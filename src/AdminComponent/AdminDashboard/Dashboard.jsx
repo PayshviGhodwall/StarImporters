@@ -300,6 +300,7 @@ const Dashboard = () => {
                             placeholder="Search Recent Orders"
                             name="name"
                             id="name"
+                          
                           />
                           <i className="far fa-search" />
                         </div>

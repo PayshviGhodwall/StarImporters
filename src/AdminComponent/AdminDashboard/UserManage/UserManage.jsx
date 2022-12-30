@@ -89,7 +89,7 @@ const UserManage = () => {
       to: values.to,
       type: "PENDING",
     });
-    setPendingUsers(res?.data.results);
+    setPendingUsers(res.data.results.usersList);
     return res.data;
   };
   const onApprovedSearch = async (e) => {
@@ -99,7 +99,7 @@ const UserManage = () => {
       to: values.to,
       type: "APPROVED",
     });
-    setApprovedUsers(res?.data.results);
+    setApprovedUsers(res?.data.results.usersList);
     return res.data;
   };
   const onReturnedSearch = async (e) => {
@@ -109,7 +109,7 @@ const UserManage = () => {
       to: values.to,
       type: "REJECTED",
     });
-    setRejectedUsers(res?.data.results);
+    setRejectedUsers(res?.data.results.usersList);
     return res.data;
   };
   // const handlePageClick = (event) => {
