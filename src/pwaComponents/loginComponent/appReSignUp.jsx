@@ -467,6 +467,8 @@ function AppReSignUp() {
                         }
                         id="p-1"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 1)}
                       />
@@ -482,6 +484,8 @@ function AppReSignUp() {
                         }
                         id="p-2"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 2)}
                       />
@@ -497,6 +501,8 @@ function AppReSignUp() {
                         }
                         id="p-3"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 3)}
                       />
@@ -512,6 +518,8 @@ function AppReSignUp() {
                         }
                         id="p-4"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 4)}
                       />
@@ -536,6 +544,8 @@ function AppReSignUp() {
                         }
                         id="p-5"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 5)}
                       />

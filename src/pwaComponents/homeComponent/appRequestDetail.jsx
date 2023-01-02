@@ -95,7 +95,11 @@ function AppRequestDetail() {
                                 </Link>
                                 <div className="bar_code mt-1">
                                   Bar Code:{" "}
-                                  <span>{item?.productId?.pBarcode[0]}</span>
+                                  <span>
+                                    {item?.flavour.barcode.map((item) => (
+                                      <li>{item}</li>
+                                    ))}
+                                  </span>
                                 </div>
                                 <div className="bar_code mt-1">
                                   Price: $<span>{item?.price}</span>

@@ -761,9 +761,9 @@ const UserManage = () => {
                                       </tbody>
                                     </table>
                                   </div>
-                                  <div className="col-11 d-flex justify-content-center py-2 ">
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
                                     <span className="totalPage">
-                                      Total Pages : {maxAppPage}
+                                      ( Total Pages : {maxAppPage} )
                                     </span>
                                     <ul id="pagination">
                                       <li>

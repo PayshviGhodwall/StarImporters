@@ -15,6 +15,7 @@ import WebHeader2 from "./webHeader2";
 import SimlarProduct from "./appSimilarProductComponent";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function AppProductDetail() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -59,35 +60,49 @@ function AppProductDetail() {
   };
 
   const addToCartt = async () => {
-    const formData = {
-      productId: id,
-      quantity: quantity,
-      flavour:typeObj ? typeObj : {},
-
-    };
-    console.log(formData);
-    const { data } = await addToCart(formData);
-    if (!data.error) {
-      navigate("/app/cart");
+    if (flavour.flavour) {
+      const formData = {
+        productId: id,
+        quantity: quantity,
+        flavour: typeObj ? typeObj : {},
+      };
+      console.log(formData);
+      const { data } = await addToCart(formData);
+      if (!data.error) {
+        navigate("/app/cart");
+      }
+    } else {
+      Swal.fire({
+        title: "Select Any Flavour/Packsize!",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
   const AddtoQuotess = async () => {
-    const formData = {
-      productId: id,
-      quantity: quantity,
-      flavour:typeObj ? typeObj : {},
-
-    };
-    console.log(formData);
-    const { data } = await addToQuote(formData);
-    if (!data.error) {
-      navigate("/app/quotes");
+    if (flavour.flavour) {
+      const formData = {
+        productId: id,
+        quantity: quantity,
+        flavour: typeObj ? typeObj : {},
+      };
+      console.log(formData);
+      const { data } = await addToQuote(formData);
+      if (!data.error) {
+        navigate("/app/quotes");
+      }
+    } else {
+      Swal.fire({
+        title: "Select Any Flavour/Packsize!",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
   const getFlavour = (index) => {
     const flavourData = productDetail?.type.map((option) => option);
     console.log(flavourData);
-    setTypeObj(flavourData[index])
+    setTypeObj(flavourData[index]);
     if (flavour.flavour === flavourData[0].flavour) {
       setFlavour({
         flavour: "",
@@ -307,15 +322,25 @@ function AppProductDetail() {
                       type="submit"
                       onClick={() => AddtoQuotess()}
                     >
-                     Add Request to Quotation
+                      Add Request to Quotation
                     </button>
                   ) : null}
                 </div>
               </div>
             </div>
-
+            <div className="selection-panel bg-white mb-3 py-3">
+              <div className="container">
+                <div className="choose-color-wrapper">
+                  <p className="mb-1 font-weight-bold">Product Description :</p>
+                  <div className="row offers_box_main">
+                    <div className="col-12 flavour_box py-2">
+                      <p>{typeObj ? typeObj.description : "Please select any flavour to see details"}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="pb-3"></div>
-            {console.log(productDetail?.category?.categoryName)}
             <SimlarProduct categoryName={categoryName} />
           </div>
         </div>

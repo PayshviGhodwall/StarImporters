@@ -7,6 +7,7 @@ import AppHeader from "./appHeader";
 function AppNotifications() {
   const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
   const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
+  const deleteAllNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeAll`;
   const [notifications, setNotifications] = useState();
   useEffect(() => {
     getNotifications();
@@ -16,6 +17,14 @@ function AppNotifications() {
       setNotifications(res?.data.results?.notifications);
     });
   };
+  const RemoveAll = async () => {
+    await axios.post(deleteAllNotify).then((res) => {
+      if (!res.err) {
+        getNotifications();
+      }
+    });
+  };
+
   return (
     <>
       <div className="star_imp_app">
@@ -24,7 +33,10 @@ function AppNotifications() {
           <div className="container">
             <div className="section-heading d-flex align-items-center pt-3 justify-content-between rtl-flex-d-row-r">
               <h6>Notification(s)</h6>
-              <a className="notification-clear-all text-secondary" href="#">
+              <a
+                className="notification-clear-all text-secondary"
+                onClick={RemoveAll}
+              >
                 Clear All
               </a>
             </div>
@@ -41,9 +53,7 @@ function AppNotifications() {
                       <i className="fa-solid fa-bell"></i>
                     </span>
                     <div className="noti-info">
-                      <h6 className="mb-0">
-                        {item?.title}
-                      </h6>
+                      <h6 className="mb-0">{item?.title}</h6>
                       <span>12 min ago</span>
                     </div>
                   </Link>

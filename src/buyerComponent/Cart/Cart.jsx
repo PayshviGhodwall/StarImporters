@@ -94,6 +94,7 @@ const Cart = () => {
       );
     }
   };
+  
   const updateQuantity = async (e, id) => {
     setQuantity(e);
     const formData = {
@@ -105,6 +106,7 @@ const Cart = () => {
       getCart();
     }
   };
+
   return (
     <div>
       <Navbar NState={NState} />

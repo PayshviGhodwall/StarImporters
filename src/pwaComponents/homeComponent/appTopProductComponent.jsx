@@ -108,9 +108,9 @@ function TopProduct() {
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">
-                          <a class="product-title" href="javascript:;">
+                          <Link class="product-title"  to={`/app/product-detail/${item?._id}`}>
                             {item?.unitName + item?.type[0]?.flavour}
-                          </a>
+                          </Link>
                           <div className="product-rating">
                             <i className="fa-solid fa-star"></i>
                             <i className="fa-solid fa-star"></i>

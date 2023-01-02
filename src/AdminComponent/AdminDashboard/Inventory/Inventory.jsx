@@ -964,7 +964,10 @@ const Inventory = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="col-12 d-flex justify-content-center">
+                      <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                        <span className="totalPage">
+                          ( Total Pages : {maxPage} )
+                        </span>
                         <ul id="pagination">
                           <li>
                             <a

@@ -86,14 +86,17 @@ function AppOrderDetail() {
                             <td>
                               <div className="order_items">
                                 <Link to="/app/product-detail">
-                                  {item?.productId?.unitName}
+                                  {item?.productId?.unitName +
+                                    "-" +
+                                    item?.flavour.flavour}
                                 </Link>
-                                <div className="bar_code mt-1">
+                                {/* <div className="bar_code mt-1">
                                   Bar Code:{" "}
-                                  <span>{item?.productId?.pBarcode[0]}</span>
-                                </div>
+                                  <span>{item?.flavour.barcode.map((item)=>(
+                                    <li>{item}</li>
+                                  ))}</span>
+                                </div> */}
                                 <div className="bar_code mt-1">
-                                  Ordered On:{" "}
                                   <span>
                                     {item?.productId?.createdAt?.slice(0, 10)}
                                   </span>
@@ -193,7 +196,13 @@ function AppOrderDetail() {
                       </div>
                     </div>
 
-                    <div className={ orders?.status === "DELIVERED" ? "single-order-status active" : "single-order-status" }>
+                    <div
+                      className={
+                        orders?.status === "DELIVERED"
+                          ? "single-order-status active"
+                          : "single-order-status"
+                      }
+                    >
                       <div className="order-icon">
                         <i className="fa-solid fa-store"></i>
                       </div>
@@ -233,23 +242,21 @@ function AppOrderDetail() {
                   <span className="small_header">Shipment Details:</span>
                   <div className="col-12 mb-1">
                     <div className="row">
-                      <div className="col-6">
+                      <div className="col-12 d-flex">
                         <span className="data_main">Buyer Name :</span>
-                      </div>
-                      <div className="col-6">
-                        <span className="data_submain">
+                        <span className="data_submain mx-2">
+
                           {orders?.userId?.firstName}
                         </span>
                       </div>
+                      
                     </div>
                   </div>
                   <div className="col-12 mb-1">
                     <div className="row">
-                      <div className="col-6">
-                        <span className="data_main">Email:</span>
-                      </div>
-                      <div className="col-6">
-                        <span className="data_submain">
+                      <div className="col-12 d-flex">
+                        <span className="data_main">Email: </span>
+                        <span className="data_submain mx-2">
                           {orders?.userId?.email}
                         </span>
                       </div>
@@ -257,11 +264,9 @@ function AppOrderDetail() {
                   </div>
                   <div className="col-12 mb-1">
                     <div className="row">
-                      <div className="col-6">
+                      <div className="col-12 d-flex">
                         <span className="data_main">Mobile Number:</span>
-                      </div>
-                      <div className="col-6">
-                        <span className="data_submain">
+                        <span className="data_submain mx-2  ">
                           {orders?.userId?.phoneNumber}
                         </span>
                       </div>
@@ -269,14 +274,13 @@ function AppOrderDetail() {
                   </div>
                   <div className="col-12 mb-1">
                     <div className="row">
-                      <div className="col-6">
+                      <div className="col-12 d-flex">
                         <span className="data_main">Shipment Location:</span>
-                      </div>
-                      <div className="col-6">
-                        <span className="data_submain">
+                        <span className="data_submain mx-2">
                           {orders?.userId?.addressLine[0]}
                         </span>
                       </div>
+                      
                     </div>
                   </div>
                 </div>

@@ -223,7 +223,7 @@ function AppCheckout() {
                 </div>
                
                 <Link class="comman_btn mt-3" to="/app/thankyou" onClick={createOrder}  >
-                  Procced
+                  Place Order
                 </Link>
               </div>
             </div>

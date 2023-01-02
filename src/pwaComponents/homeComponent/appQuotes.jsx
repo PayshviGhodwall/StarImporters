@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
   deleteCart,
   deleteQuote,
@@ -13,9 +15,10 @@ import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppQuotes() {
+  const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const [quotes, setQuotes] = useState([]);
   const [quantity, setQuantity] = useState(0);
- const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     getAllQuotes();
   }, []);
@@ -26,29 +29,30 @@ function AppQuotes() {
       setQuotes(data?.results[0]?.products);
     }
   };
-
-  const deleteProduct = async (id) => {
-    const { data } = await deleteQuote({ productId: id });
+  const addtoQuotes = async () => {
+    await axios.post(addQuotes).then((res) => {
+      if (!res?.error) {
+        Swal.fire({
+          title: "Your Quotation Request Has Submitted!",
+          text: "Check Status here",
+          icon: "success",
+          button: "Ok",
+        });
+        navigate("/app/my-request");
+      }
+    });
+  };
+  const deleteProduct = async (id, flavour) => {
+    const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
       getAllQuotes();
     }
   };
 
-  const updateQuantity = async (e, id) => {
-    setQuantity(e);
-    const formData = {
-      productId: id,
-      quantity: e,
-    };
-    const { data } = await updateCart(formData);
-    if (!data.error) {
-      getQuotes();
-    }
-  };
   // var toggle = document.getElementById('container');
   // var toggleContainer = document.getElementById('toggle-container');
   // var toggleNumber;
-  
+
   // toggle.addEventListener('click', function() {
   //   toggleNumber = !toggleNumber;
   //   if (toggleNumber) {
@@ -60,12 +64,11 @@ function AppQuotes() {
   //   }
   //   console.log(toggleNumber)
   // });
-   const HandleDecrease = async (id) => {
+  const HandleDecrease = async (id) => {
     const formData = {
       productId: quotes[id]?.productId?._id,
-      quantity: quotes[id]?.quantity,
+      quantity: quotes[id]?.quantity - 1,
       flavour: quotes[id]?.flavour,
-
     };
     const { data } = await updateQuote(formData);
     if (!data.error) {
@@ -74,7 +77,7 @@ function AppQuotes() {
           id === ind
             ? {
                 ...item,
-                quantity: item?.quantity - (item[0]?.quantity > 1 ? 1 : 0),
+                quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0),
               }
             : item
         )
@@ -82,25 +85,22 @@ function AppQuotes() {
     }
   };
 
-
   const HandleIncrease = async (id) => {
     console.log(id);
     const formData = {
       productId: quotes[id]?.productId?._id,
-      quantity: quotes[id]?.quantity,
+      quantity: quotes[id]?.quantity + 1,
       flavour: quotes[id]?.flavour,
-
     };
     const { data } = await updateQuote(formData);
     if (!data.error) {
       setQuotes((quotes) =>
         quotes?.map((item, ind) =>
-          id === ind ? { ...item, quantity: item[0]?.quantity + 1 } : item
+          id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
     }
   };
-
 
   return (
     <>
@@ -115,14 +115,24 @@ function AppQuotes() {
 
             <div id="container">
               <div class="inner-container">
-                <div class="toggle" style={{backgroundColor:"#eb3237"}} onClick={()=>{navigate("/app/quotes")}}>
-                  <p  className="text-white fw-bold">Quotes</p>
+                <div
+                  class="toggle"
+                  style={{ backgroundColor: "#eb3237" }}
+                  onClick={() => {
+                    navigate("/app/quotes");
+                  }}
+                >
+                  <p className="text-white fw-bold">Quotes</p>
                 </div>
-                <div class="toggle"   onClick={()=>{navigate("/app/cart")}} >
+                <div
+                  class="toggle"
+                  onClick={() => {
+                    navigate("/app/cart");
+                  }}
+                >
                   <p className="text-dark fw-bold">Cart</p>
                 </div>
               </div>
-            
             </div>
             <div
               class="suha-navbar-toggler ms-2"
@@ -144,100 +154,109 @@ function AppQuotes() {
             <div className="cart-wrapper-area py-3">
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body">
-                  
                   <table className="table mb-0">
-                    <tbody>
-                      {(quotes || []).map((item, index) => {
-                        return (
-                          <tr>
-                            <th scope="row">
-                              <Link
-                                className="remove-product"
-                                to=""
-                                onClick={() =>
-                                  deleteProduct(item?.productId._id)
-                                }
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </Link>
-                            </th>
-                            <td>
-                              <div className="cart_icon">
-                                <img
-                                  className=""
-                                  src={item?.flavour?._id
-                                    ? item?.flavour
-                                        ?.flavourImage
-                                    : item?.productId
-                                        ?.productImage}
-                                  alt=""
-                                />
-                              </div>
-                            </td>
-                            <td>
-                            {item?.flavour?._id ? (
+                    {quotes.length ? (
+                      <tbody>
+                        {(quotes || []).map((item, index) => {
+                          return (
+                            <tr>
+                              <th scope="row">
                                 <Link
-                                  to={`/app/product-detail/${item?.productId?._id}`}
-                                >
-                                  {item?.productId?.unitName +
-                                    "-" +
-                                    item?.flavour?.flavour}
-                                </Link>
-                              ) : (
-                                <Link
-                                  to={`/app/product-detail/${item?.productId?._id}`}
-                                >
-                                  {item?.productId?.unitName}
-                                </Link>
-                              )}
-                            </td>
-                            <td>
-                            <div className="quantity d-flex">
-                                <span
-                                  className="minus fs-5 fw-bold ms-5"
-                                  style={{ userSelect: "none" }}
-                                  onClick={() => {
-                                    HandleDecrease(index);
-                                  }}
-                                >
-                                  {item?.quantity <= 1 ? (
-                                    <i
-                                      class="fa fa-trash fs-6 text-danger"
-                                      onClick={() =>
-                                        deleteProduct(item?.productId._id)
-                                      }
-                                    ></i>
-                                  ) : (
-                                    "-"
-                                  )}
-                                </span>
-                                <input
-                                  className="qty-text mx-2"
-                                  type="text"
-                                  id={`quantity${index}`}
-                                  value={item?.quantity}
-                                  onChange={(e) =>
-                                    updateQuantity(
-                                      e.target.value,
-                                      item?.productId?._id
+                                  className="remove-product"
+                                  to=""
+                                  onClick={() =>
+                                    deleteProduct(
+                                      item?.productId._id,
+                                      item?.flavour
                                     )
                                   }
-                                />
-                                <span
-                                  className="plus fs-5 fw-bold"
-                                  style={{ userSelect: "none" }}
-                                  onClick={() => {
-                                    HandleIncrease(index);
-                                  }}
                                 >
-                                  +
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                                  <i className="fa-solid fa-xmark"></i>
+                                </Link>
+                              </th>
+                              <td>
+                                <div className="cart_icon">
+                                  <img
+                                    className=""
+                                    src={
+                                      item?.flavour?._id
+                                        ? item?.flavour?.flavourImage
+                                        : item?.productId?.productImage
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                {item?.flavour?._id ? (
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName +
+                                      "-" +
+                                      item?.flavour?.flavour}
+                                  </Link>
+                                ) : (
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName}
+                                  </Link>
+                                )}
+
+                                <div className="quantity d-flex mt-1">
+                                  <span
+                                    className="minus fs-5 fw-bold"
+                                    style={{ userSelect: "none" }}
+                                    onClick={() => {
+                                      HandleDecrease(index);
+                                    }}
+                                  >
+                                    {item?.quantity <= 1 ? (
+                                      <i
+                                        class="fa fa-trash fs-6 text-danger"
+                                        onClick={() =>
+                                          deleteProduct(
+                                            item?.productId._id,
+                                            item?.flavour
+                                          )
+                                        }
+                                      ></i>
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </span>
+                                  <input
+                                    className="qty-text mx-2"
+                                    type="text"
+                                    id={`quantity${index}`}
+                                    value={item?.quantity}
+                                    disabled
+                                  />
+                                  <span
+                                    className="plus fs-5 fw-bold"
+                                    style={{ userSelect: "none" }}
+                                    onClick={() => {
+                                      HandleIncrease(index);
+                                    }}
+                                  >
+                                    +
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    ) : (
+                      <tbody>
+                        <tr>
+                          <td className="text-center">
+                            Ahh! Your Quotes Bag is Empty <span>&#128577;</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    )}
                   </table>
                 </div>
               </div>
@@ -245,14 +264,15 @@ function AppQuotes() {
               <div className="card cart-amount-area">
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <h5 className="total-price mb-0"></h5>
-                  {quotes ? <Link className="comman_btn" to="/app/my-request">
-                    Send Request
-                  </Link> 
-                  :
-                  <Link className="comman_btn" to="/app/home">
-                  Start Shopping
-                </Link>
-                  }
+                  {quotes.length ? (
+                    <Link className="comman_btn" onClick={addtoQuotes}>
+                      Send Request
+                    </Link>
+                  ) : (
+                    <Link className="comman_btn" to="/app/home">
+                      Start Shopping
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

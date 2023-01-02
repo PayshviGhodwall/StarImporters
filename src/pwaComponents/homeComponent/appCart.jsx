@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
@@ -14,9 +15,19 @@ function AppCart() {
   const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
+  const [userDetail, setUserDetail] = useState([]);
+  const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+
   useEffect(() => {
     getCarts();
+    userInfo();
   }, []);
+
+  const userInfo = async () => {
+    await axios.get(userData).then((res) => {
+      setUserDetail(res?.data?.results);
+    });
+  };
 
   const getCarts = async () => {
     const { data } = await getCart();
@@ -32,11 +43,12 @@ function AppCart() {
     }
   };
 
-  const updateQuantity = async (e, id) => {
+  const updateQuantity = async (e, id, flavour) => {
     setQuantity(e.target.value);
     const formData = {
       productId: id,
       quantity: e.target.value,
+      flavour: flavour,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
@@ -77,7 +89,7 @@ function AppCart() {
   const HandleDecrease = async (id) => {
     const formData = {
       productId: cart[id]?.productId?._id,
-      quantity: cart[id]?.quantity,
+      quantity: cart[id]?.quantity - 1,
       flavour: cart[id]?.flavour,
     };
     const { data } = await updateCart(formData);
@@ -99,7 +111,7 @@ function AppCart() {
     console.log(id);
     const formData = {
       productId: cart[id]?.productId?._id,
-      quantity: cart[id]?.quantity,
+      quantity: cart[id]?.quantity + 1,
       flavour: cart[id]?.flavour,
     };
     const { data } = await updateCart(formData);
@@ -123,17 +135,29 @@ function AppCart() {
             </div>
 
             <div id="container">
-              <div class="inner-container">
-                <div
-                  class="toggle"
-                  onClick={() => {
-                    navigate("/app/quotes");
-                  }}
-                >
-                  <p className="text-dark fw-bold">Quotes</p>
+              {userDetail?.quotation === true ? (
+                <div class="inner-container">
+                  <div
+                    class="toggle"
+                    onClick={() => {
+                      navigate("/app/quotes");
+                    }}
+                  >
+                    <p className="text-dark fw-bold">Quotes</p>
+                  </div>
+                  <div
+                    class="toggle"
+                    style={{ backgroundColor: "#eb3237" }}
+                    onClick={() => {
+                      navigate("/app/cart");
+                    }}
+                  >
+                    <p className="text-white fw-bold">Cart</p>
+                  </div>
                 </div>
+              ) : (
                 <div
-                  class="toggle"
+                  class="toggle w-100"
                   style={{ backgroundColor: "#eb3237" }}
                   onClick={() => {
                     navigate("/app/cart");
@@ -141,7 +165,7 @@ function AppCart() {
                 >
                   <p className="text-white fw-bold">Cart</p>
                 </div>
-              </div>
+              )}
             </div>
 
             <div
@@ -165,101 +189,114 @@ function AppCart() {
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body p-1">
                   <table className="table mb-0">
-                    <tbody>
-                      {(cart || [])?.map((item, index) => {
-                        return (
-                          <tr>
-                            <th scope="">
-                              <Link
-                                className="remove-product"
-                                to=""
-                                onClick={() =>
-                                  deleteProduct(item?.productId._id)
-                                }
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </Link>
-                            </th>
-                            <td>
-                              <div className="cart_icon">
-                                <img
-                                  className=""
-                                  src={
-                                    item?.flavour?._id
-                                      ? item?.flavour?.flavourImage
-                                      : item?.productId?.productImage
-                                  }
-                                  alt=""
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              {item?.flavour?._id ? (
+                    {cart.length ? (
+                      <tbody>
+                        {(cart || [])?.map((item, index) => {
+                          return (
+                            <tr>
+                              <th scope="">
                                 <Link
-                                  to={`/app/product-detail/${item?.productId?._id}`}
-                                >
-                                  {item?.productId?.unitName +
-                                    "-" +
-                                    item?.flavour?.flavour}
-                                </Link>
-                              ) : (
-                                <Link
-                                  to={`/app/product-detail/${item?.productId?._id}`}
-                                >
-                                  {item?.productId?.unitName}
-                                </Link>
-                              )}
-                            </td>
-                            <td>
-                              <div className="quantity d-flex">
-                                <span
-                                  className="minus fs-5 fw-bold ms-5"
-                                  style={{ userSelect: "none" }}
-                                  onClick={() => {
-                                    HandleDecrease(index);
-                                  }}
-                                >
-                                  {item?.quantity <= 1 ? (
-                                    <i
-                                      class="fa fa-trash fs-6 text-danger"
-                                      onClick={() =>
-                                        deleteProduct(
-                                          item?.productId._id,
-                                          item?.flavour
-                                        )
-                                      }
-                                    ></i>
-                                  ) : (
-                                    "-"
-                                  )}
-                                </span>
-                                <input
-                                  className="qty-text mx-2"
-                                  type="text"
-                                  id={`quantity${index}`}
-                                  value={item?.quantity}
-                                  onChange={(e) =>
-                                    updateQuantity(
-                                      e.target.value,
-                                      item?.productId?._id
+                                  className="remove-product"
+                                  to=""
+                                  onClick={() =>
+                                    deleteProduct(
+                                      item?.productId._id,
+                                      item?.flavour
                                     )
                                   }
-                                />
-                                <span
-                                  className="plus fs-5 fw-bold"
-                                  style={{ userSelect: "none" }}
-                                  onClick={() => {
-                                    HandleIncrease(index);
-                                  }}
                                 >
-                                  +
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                                  <i className="fa-solid fa-xmark"></i>
+                                </Link>
+                              </th>
+                              <td>
+                                <div className="cart_icon">
+                                  <img
+                                    className=""
+                                    src={
+                                      item?.flavour?._id
+                                        ? item?.flavour?.flavourImage
+                                        : item?.productId?.productImage
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                {item?.flavour?._id ? (
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName +
+                                      "-" +
+                                      item?.flavour?.flavour}
+                                  </Link>
+                                ) : (
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName}
+                                  </Link>
+                                )}
+
+                                <div className="quantity d-flex mt-1">
+                                  <span
+                                    className="minus fs-5 fw-bold"
+                                    style={{ userSelect: "none" }}
+                                    onClick={() => {
+                                      HandleDecrease(index);
+                                    }}
+                                  >
+                                    {item?.quantity <= 1 ? (
+                                      <i
+                                        class="fa fa-trash fs-6 text-danger"
+                                        onClick={() =>
+                                          deleteProduct(
+                                            item?.productId._id,
+                                            item?.flavour
+                                          )
+                                        }
+                                      ></i>
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </span>
+                                  <input
+                                    className="qty-text mx-2"
+                                    type="text"
+                                    id={`quantity${index}`}
+                                    value={item?.quantity}
+                                    disabled
+                                    onChange={(e) =>
+                                      updateQuantity(
+                                        e.target.value,
+                                        item?.productId?._id
+                                      )
+                                    }
+                                  />
+                                  <span
+                                    className="plus fs-5 fw-bold"
+                                    style={{ userSelect: "none" }}
+                                    onClick={() => {
+                                      HandleIncrease(index);
+                                    }}
+                                  >
+                                    +
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    ) : (
+                      <tbody>
+                        <tr>
+                          <td className="text-center">
+                            Ahh! Your Cart is Empty <span>&#128577;</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    )}
                   </table>
                 </div>
               </div>

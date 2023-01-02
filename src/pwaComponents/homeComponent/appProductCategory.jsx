@@ -52,12 +52,12 @@ function AppProductCategory() {
       setProduct(data.results);
     }
   };
-  const addToCartt = async (id) => {
+  const addToCartt = async (id, index) => {
     const formData = {
       productId: id,
       quantity: 1,
+      flavour: product[index]?.products.type[0],
     };
-    console.log(formData);
     const { data } = await addToCart(formData);
     if (!data.error) {
       navigate("/app/cart");
@@ -265,7 +265,7 @@ function AppProductCategory() {
                                 <i className="fa-solid fa-star"></i>
                               </div>
                             </div>
-                            <div class="col-auto">
+                            {/* <div class="col-auto">
                               <Link
                                 class="cart_bttn"
                                 to=""
@@ -273,7 +273,7 @@ function AppProductCategory() {
                               >
                                 <i class="fa-light fa-plus"></i>
                               </Link>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

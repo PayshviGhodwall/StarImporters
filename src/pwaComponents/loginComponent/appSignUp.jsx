@@ -391,6 +391,7 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-1"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 1)}
@@ -404,6 +405,8 @@ function AppSignUp() {
                         id="p-2"
                         type="file"
                         placeholder=""
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         onChange={(e) => onFileSelection(e.target.files, 2)}
                       />
                     </div>
@@ -413,6 +416,8 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-3"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 3)}
@@ -424,6 +429,8 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-4"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 4)}
@@ -445,6 +452,8 @@ function AppSignUp() {
                         className="form-control"
                         id="p-5"
                         type="file"
+                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 5)}
                       />

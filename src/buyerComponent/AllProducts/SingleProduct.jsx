@@ -530,7 +530,7 @@ const SingleProduct = () => {
                   <p>
                     {flavour
                       ? product?.type[FInd]?.description
-                      : product?.unitName}
+                      : "Please Select Any Flavour/Type to see details."}
                   </p>
                 </div>
               </div>
