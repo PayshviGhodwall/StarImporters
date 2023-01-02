@@ -16,6 +16,7 @@ import WebHeader2 from "./webHeader2";
 
 function AppQuotes() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
+  const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/removeQuoteProducts`;
   const [quotes, setQuotes] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
@@ -42,11 +43,15 @@ function AppQuotes() {
       }
     });
   };
-  const deleteProduct = async (id, flavour) => {
-    const { data } = await deleteCart({ productId: id, flavour: flavour });
-    if (!data?.error) {
-      getAllQuotes();
-    }
+  const deleteProduct = async (index) => {
+    await axios
+      .post(productRemove, {
+        productId: quotes[index].productId?._id,
+        flavour: quotes[index].flavour,
+      })
+      .then((res) => {
+        getAllQuotes();
+      });
   };
 
   // var toggle = document.getElementById('container');
@@ -164,12 +169,7 @@ function AppQuotes() {
                                 <Link
                                   className="remove-product"
                                   to=""
-                                  onClick={() =>
-                                    deleteProduct(
-                                      item?.productId._id,
-                                      item?.flavour
-                                    )
-                                  }
+                                  onClick={() => deleteProduct(index)}
                                 >
                                   <i className="fa-solid fa-xmark"></i>
                                 </Link>
@@ -215,12 +215,7 @@ function AppQuotes() {
                                     {item?.quantity <= 1 ? (
                                       <i
                                         class="fa fa-trash fs-6 text-danger"
-                                        onClick={() =>
-                                          deleteProduct(
-                                            item?.productId._id,
-                                            item?.flavour
-                                          )
-                                        }
+                                        onClick={() => deleteProduct(index)}
                                       ></i>
                                     ) : (
                                       "-"

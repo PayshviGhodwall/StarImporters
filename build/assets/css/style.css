@@ -981,10 +981,10 @@
   .forms_modal_content .form-group label a {
     font-weight: 600;
   }
-  .modal-backdrop {
+  /* .modal-backdrop {
     background-color: #00000045;
     backdrop-filter: blur(120px);
-  }
+  } */
   .modal-open {
     position: relative;
   }

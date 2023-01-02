@@ -424,6 +424,73 @@ const Cms = () => {
         }
       });
   };
+
+  document.getElementById("slideOneUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide1")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("slideTwoUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide2")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("slideThreeUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide3")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("slideFourUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide4")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("slideFiveUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide1")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("slideSixUrl")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slide6")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
   const onSaveTerms = async (e) => {
     let Desc = await stateToHTML(editorHomeTermsState.getCurrentContent());
 
@@ -915,7 +982,7 @@ const Cms = () => {
                                                 type="file"
                                                 name="slide1Img"
                                                 accept="image/*"
-                                                id="slide2"
+                                                id="slideOneUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -1072,6 +1139,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
+                                                id="slide2"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -1085,6 +1153,7 @@ const Cms = () => {
                                                 className="file-uploads"
                                                 name="slide2Img"
                                                 type="file"
+                                                id="slideTwoUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -1253,6 +1322,7 @@ const Cms = () => {
                                                 className="file-uploads"
                                                 name="slide3Img"
                                                 type="file"
+                                                id="slideThreeUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -1409,7 +1479,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                id="slide1"
+                                                id="slide4"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -1425,7 +1495,7 @@ const Cms = () => {
                                                 type="file"
                                                 name="slide4Img"
                                                 accept="image/*"
-                                                id="slide2"
+                                                id="slideFourUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -1583,7 +1653,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                id="slide1"
+                                                id="slide5"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -1599,7 +1669,7 @@ const Cms = () => {
                                                 type="file"
                                                 name="slide5Img"
                                                 accept="image/*"
-                                                id="slide2"
+                                                id="slideFiveUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(
@@ -1757,7 +1827,7 @@ const Cms = () => {
                                             <div className="cmsSlide">
                                               <img
                                                 className="SlideCms"
-                                                id="slide1"
+                                                id="slide6"
                                                 src={
                                                   productImage
                                                     ? productImage
@@ -1773,7 +1843,7 @@ const Cms = () => {
                                                 type="file"
                                                 name="slide6Img"
                                                 accept="image/*"
-                                                id="slide2"
+                                                id="slideSixUrl"
                                                 {...register("slides")}
                                                 onChange={(e) =>
                                                   onFileSelection(

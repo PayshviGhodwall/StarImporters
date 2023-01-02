@@ -6,13 +6,6 @@ import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import Starlogo from "../../assets/img/logo.png";
 
 
-function previewFile(file, callback) {
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    callback(reader.result);
-  };
-  reader.readAsDataURL(file);
-}
 
 const Profile = () => {
   const toaster = useToaster();
@@ -37,13 +30,23 @@ const Profile = () => {
    getUser()
 
   }, [change]);
- 
+  document.getElementById("profileImg")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("profile")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
 
 
   console.log(files);
   const changeProfile = async (e, key) => {
     const formData = new FormData();
-    formData.append("profileImage", fileInfo);
+    formData.append("profileImage", e.target.files[0]);
     await axios.post(editImage, formData).then((res) => {
       if (res.data?.message === "Profile updated Successfully") {
         console.log("HIi");
@@ -59,7 +62,7 @@ const Profile = () => {
           <div className="col-auto">
             <div className="account_profile">
               <div className="">
-                <img className="profileImage"  src={users?.profileImage ? users?.profileImage : Starlogo } />
+                <img className="profileImage" id="profile" src={users?.profileImage ? users?.profileImage : Starlogo } />
               </div>
               <div className="">
                 <img
@@ -71,6 +74,7 @@ const Profile = () => {
               <input
                 className="file-uploadsNew"
                 name="ImageProfile"
+                id="profileImg"
                 type="file"
                 onChange={(e) => changeProfile(e, "ImageProfile")}
               />

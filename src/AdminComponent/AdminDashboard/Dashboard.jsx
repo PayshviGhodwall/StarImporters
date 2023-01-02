@@ -12,7 +12,7 @@ import axios from "axios";
 const Dashboard = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalUsers`;
-  const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalOrders`;
+  const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/totalOrders`;
   const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
   const [values, setValues] = useState({ from: "", to: "" });
   const [orders, setOrders] = useState([]);
