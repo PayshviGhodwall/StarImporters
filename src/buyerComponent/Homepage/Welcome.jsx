@@ -1,7 +1,12 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../assets/vendor/bootstrap-icons/bootstrap-icons.css";
 const Welcome = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [nt, setNt] = useState(true);
+  const getNotified = `${process.env.REACT_APP_APIENDPOINTNEW}user/addNotify`;
   const [countdownDate, setCountdownDate] = useState(
     new Date("01/10/2023").getTime()
   );
@@ -16,6 +21,19 @@ const Welcome = () => {
     setInterval(() => setNewTime(), 1000);
   }, []);
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(getNotified, {
+        name: name,
+        email: email,
+      })
+      .then((res) => {
+        if (!res.error) {
+          setNt(!nt);
+        }
+      });
+  };
   const setNewTime = () => {
     if (countdownDate) {
       const currentTime = new Date().getTime();
@@ -105,6 +123,40 @@ const Welcome = () => {
               <a href="#" className="instagram">
                 <i className="bi bi-instagram" />
               </a>
+            </div>
+            <div className="mt-5">
+              {
+
+                nt ?
+                <form className="form-design d-flex ">
+                <input
+                  type="text"
+                  required=""
+                  className="form-control rounded-0 shadow-none bg-white"
+                  placeholder="Enter Your Name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                  type="email"
+                  required=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="form-control rounded-0 shadow-none mx-4 bg-white"
+                  placeholder="Enter Email Address"
+                />
+                <button
+                  className="btn btn-dark rounded-0 w-100 border"
+                  name="submit"
+                  onClick={onSubmit}
+                >
+                  Get Notified
+                </button>
+              </form>
+              :
+              <div className="text-center text-success fw-bold">
+               <i class="fa-solid fa-circle-check"></i> Your email has been submitted!
+                </div>
+              }
+             
             </div>
           </div>
         </header>

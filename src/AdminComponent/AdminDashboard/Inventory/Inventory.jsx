@@ -346,6 +346,9 @@ const Inventory = () => {
       setAllProducts(filter);
     });
   };
+  var today = new Date().toISOString().split("T")[0];
+  document.getElementsByName("to")[0]?.setAttribute("max", today);
+  document.getElementsByName("from")[0]?.setAttribute("max", today);
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>

@@ -10,10 +10,12 @@ import ProfileBar from "./ProfileBar";
 import axios from "axios";
 
 const Dashboard = () => {
-  const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
+  const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/recentOrders`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalUsers`;
   const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/totalOrders`;
   const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
+  const recentSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/searchOrder`;
+  
   const [values, setValues] = useState({ from: "", to: "" });
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
@@ -30,7 +32,7 @@ const Dashboard = () => {
   },[]); 
 
   const OrderRequest = async () => {
-    await axios.post(orderList).then((res) => {
+    await axios.get(orderList).then((res) => {
       setOrders(res?.data.results?.orders);
     });
   };
@@ -49,7 +51,20 @@ const Dashboard = () => {
       setTotalRequest(res?.data.results);
     });
   };
-  
+  const SearchBy = async (e) => {
+    let string = e.target.value;
+    string !== ""
+      ? await axios
+          .post(recentSearch, {
+            search: e.target.value,
+          })
+          .then((res) => {
+            if (!res.error) {
+              setOrders(res?.data.results);
+            }
+          })
+      : OrderRequest();
+  };
   const onOrderSearch = async (e) => {
     e.preventDefault();
     await axios
@@ -299,6 +314,9 @@ const Dashboard = () => {
                             className="form-control bg-white"
                             placeholder="Search Recent Orders"
                             name="name"
+                            onChange={(e) => {
+                              SearchBy(e);
+                            }}
                             id="name"
                           
                           />
@@ -327,11 +345,10 @@ const Dashboard = () => {
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
-                                  {item?.userId?.firstName +
-                                    " " +
-                                    item?.userId?.lastName}
+                                {item?.userId?.firstName || item?.users?.firstName}
+
                                 </td>
-                                <td>{item?.userId?.phoneNumber}</td>
+                                <td>{item?.userId?.phoneNumber || item?.users?.phoneNumber }</td>
                                 <td>{item?.createdAt?.slice(0, 10)}</td>
                                 <td>{item?.orderId}</td>
                                 <td>

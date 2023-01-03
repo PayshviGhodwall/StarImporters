@@ -360,7 +360,8 @@ const OrderReq = () => {
                                     type="date"
                                     className="form-control"
                                     name="from"
-                                    value={values.from}
+                                    id="orderFrom"
+                                      value={values.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -370,6 +371,7 @@ const OrderReq = () => {
                                     type="date"
                                     className="form-control"
                                     name="to"
+                                    id="orderTo"
                                     value={values.to}
                                     onChange={handleDate}
                                   />
@@ -487,6 +489,7 @@ const OrderReq = () => {
                                     type="date"
                                     className="form-control"
                                     name="from"
+                                    id="reqFrom"
                                     value={values.from}
                                     onChange={handleDate}
                                   />
@@ -497,6 +500,8 @@ const OrderReq = () => {
                                     type="date"
                                     className="form-control"
                                     name="to"
+                                    id="reqTo"
+
                                     value={values.to}
                                     onChange={handleDate}
                                   />

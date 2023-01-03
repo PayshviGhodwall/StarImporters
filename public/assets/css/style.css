@@ -8858,9 +8858,13 @@ background-color: #3e4093;
     border: 0;
     height: 40px;
   }
+  .notifyBtn{
+   border: 4px seashell;
+  }
   .cart-table .qty-text {
     width: 2.5rem;
     text-align: center;
+    color: #000;
     height: 1.8rem;
     border-radius: 0.25rem;
     -webkit-transition-duration: 300ms;

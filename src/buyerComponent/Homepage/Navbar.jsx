@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Starlogo from "../../assets/img/logo.png";
 import "../../assets/css/main.css";
-import { IoSearchCircle } from "react-icons/io5";
-import { AiOutlineBell } from "react-icons/ai";
-import { BsCart3 } from "react-icons/bs";
-import { TbMinusVertical } from "react-icons/tb";
 import Login from "../LoginRegister/Login";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Link, useNavigate } from "react-router-dom";

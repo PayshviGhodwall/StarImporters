@@ -224,6 +224,13 @@ const UserManage = () => {
         }
       });
   };
+  var today = new Date().toISOString().split("T")[0];
+  document.getElementById("appTo")?.setAttribute("max", today);
+  document.getElementById("appFrom")?.setAttribute("max", today);
+  document.getElementById("penFrom")?.setAttribute("max", today);
+  document.getElementById("penTo")?.setAttribute("max", today);
+  document.getElementById("rejFrom")?.setAttribute("max", today);
+  document.getElementById("rejTo")?.setAttribute("max", today);
   return (
     <div className={sideBar ? "  admin_main" : "row expanded_main"}>
       <div className="">
@@ -506,6 +513,7 @@ const UserManage = () => {
                                   type="date"
                                   className="form-control"
                                   name="from"
+                                  id="penFrom"
                                   value={values.from}
                                   onChange={handleDate}
                                 />
@@ -518,6 +526,7 @@ const UserManage = () => {
                                   type="date"
                                   className="form-control"
                                   name="to"
+                                  id="penTo"
                                   value={values.to}
                                   onChange={handleDate}
                                 />
@@ -671,6 +680,7 @@ const UserManage = () => {
                                     type="date"
                                     className="form-control"
                                     name="from"
+                                    id="appFrom"
                                     value={values.from}
                                     onChange={handleDate}
                                   />
@@ -681,6 +691,7 @@ const UserManage = () => {
                                     type="date"
                                     className="form-control"
                                     name="to"
+                                    id="appTo"
                                     value={values.to}
                                     onChange={handleDate}
                                   />
@@ -840,6 +851,7 @@ const UserManage = () => {
                                   type="date"
                                   className="form-control"
                                   name="from"
+                                  id="rejFrom"
                                   value={values.from}
                                   onChange={handleDate}
                                 />
@@ -850,6 +862,7 @@ const UserManage = () => {
                                   type="date"
                                   className="form-control"
                                   name="to"
+                                  id="rejTo"
                                   value={values.to}
                                   onChange={handleDate}
                                 />

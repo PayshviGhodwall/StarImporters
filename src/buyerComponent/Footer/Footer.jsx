@@ -142,13 +142,13 @@ const Footer = () => {
                     </li>
                     <li>
                       <i className="fa fa-envelope-open-text" />
-                      <Link to="mailto:info@sitename.com">
-                        info@sitename.com{" "}
+                      <Link to="/app/login">
+                      http://starimporters.com
                       </Link>
                     </li>
                     <li>
                       <i className="fas fa-phone-alt" />
-                      <p>+ 457 789 789 65</p>
+                      <p>+1 770-908-0404</p>
                     </li>
                   </ul>
                 </div>
