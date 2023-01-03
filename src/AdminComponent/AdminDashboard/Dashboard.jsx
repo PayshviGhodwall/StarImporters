@@ -307,22 +307,7 @@ const Dashboard = () => {
                       </form>
                     </div>
                   </div>
-                  <form
-                    className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                    action=""
-                  >
-                    <div className="form-group mb-0 col-5">
-                      <label htmlFor="">From</label>
-                      <input type="date" className="form-control" />
-                    </div>
-                    <div className="form-group mb-0 col-5">
-                      <label htmlFor="">To</label>
-                      <input type="date" className="form-control" />
-                    </div>
-                    <div className="form-group mb-0 col-auto">
-                      <button className="comman_btn">Search</button>
-                    </div>
-                  </form>
+               
                   <div className="row">
                     <div className="col-12 comman_table_design px-0">
                       <div className="table-responsive">

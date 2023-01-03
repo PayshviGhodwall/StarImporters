@@ -425,72 +425,84 @@ const Cms = () => {
       });
   };
 
-  document.getElementById("slideOneUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide1")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-  document.getElementById("slideTwoUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide2")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-  document.getElementById("slideThreeUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide3")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-  document.getElementById("slideFourUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide4")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-  document.getElementById("slideFiveUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide1")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-  document.getElementById("slideSixUrl")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("slide6")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
+  document
+    .getElementById("slideOneUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide1")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
+  document
+    .getElementById("slideTwoUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide2")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
+  document
+    .getElementById("slideThreeUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide3")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
+  document
+    .getElementById("slideFourUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide4")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
+  document
+    .getElementById("slideFiveUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide1")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
+  document
+    .getElementById("slideSixUrl")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("slide6")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
   const onSaveTerms = async (e) => {
     let Desc = await stateToHTML(editorHomeTermsState.getCurrentContent());
 
@@ -1148,7 +1160,7 @@ const Cms = () => {
                                               />
                                             </div>
                                             <div className="p-image">
-                                              <i className=" fas fa-camera" />
+                                              <i className=" fas fa-camera me-3" />
                                               <input
                                                 className="file-uploads"
                                                 name="slide2Img"
@@ -1934,7 +1946,7 @@ const Cms = () => {
                           aria-labelledby="nav-homeBann-tab"
                         >
                           <div className="row py-5 px-4 mx-0">
-                            <div className="col-6">
+                            <div className="col-lg-10 col-md-10  col-sm-10">
                               <div className="account_profile position-relative d-inline-block">
                                 <label htmlFor="" className="labels">
                                   Background :
@@ -1963,8 +1975,8 @@ const Cms = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="col-6">
-                              <div className="account_profile position-relative d-inline-block">
+                            <div className="col-lg-6 col-md-10 col-sm-11">
+                              <div className="account_profile d-inline-block">
                                 <label htmlFor="" className="labels">
                                   Foreground Image:
                                 </label>

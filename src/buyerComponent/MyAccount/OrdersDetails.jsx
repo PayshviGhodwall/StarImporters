@@ -283,10 +283,20 @@ const OrderDetails = () => {
                                 </div>
                               </div>
                               <div className="col-12 mt-3 mb-5">
-                                <div className="row mx-0 border rounded pt-5 p-3 position-relative">
+                                <div className="row mx-0 border  rounded pt-5 p-3 position-relative">
                                   <span className="small_header">
                                     Track Your Order
                                   </span>
+                                  {
+                                    orderDetails?.status === "CANCEL" ?
+
+                                    <ul className="track_order list-unstyled mb-0">
+                                    <li className="fs-4 text-danger">
+                                      YOUR ORDER HAS BEEN CANCELED!
+                                    </li>
+                                    </ul>
+                                    :
+
                                   <ul className="track_order list-unstyled mb-0">
                                     <li className={orderDetails?.status === "DISPATCHED" || orderDetails?.status === "SHIPPED" || orderDetails?.status === "DELIVERED" ? "active" : "" }>
                                       <span className="track_circle" />
@@ -305,6 +315,7 @@ const OrderDetails = () => {
                                       Delivered
                                     </li>
                                   </ul>
+}
                                 </div>
                               </div>
                               <div className="col-12 mb-4">

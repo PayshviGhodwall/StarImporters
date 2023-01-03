@@ -447,7 +447,7 @@ const SingleProduct = () => {
                               >
                                 -
                               </span>
-                              <input type="text" value={unitCount} />
+                              <input type="text" className="p-1" disabled value={unitCount} />
                               <span
                                 className="plus"
                                 style={{ userSelect: "none" }}

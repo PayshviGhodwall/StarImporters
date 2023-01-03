@@ -996,15 +996,14 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #000;
-    opacity: 0.8;
   }
   .modal-backdrop.show {
     display: none;
   }
   .forms_modal .modal-content {
     border: 0;
-    border-radius: 14px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 18px;
+    border-radius: 16px;
   }
   .forms_modal_content .form-group {
     margin-bottom: 15px;
