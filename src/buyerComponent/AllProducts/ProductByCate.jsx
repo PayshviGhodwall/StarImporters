@@ -260,28 +260,11 @@ const ProductByCate = () => {
                               });
                             }}
                           />
-                        </div>
-                        {/* </Link> */}
-                        <div className="product_content mt-3 text-center">
-                          <div className="d-flex justify-content-center">
-                            <h1
-                              className="text-center fs-4 fw-bolder "
-                              style={{ position: "relative", left: "0px" }}
-                              onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.products?._id,
-                                    CateName: item?.categoryName,
-                                  },
-                                });
-                              }}
-                            >
-                              {item?.products?.unitName}
-                            </h1>
-                            <p
+                           <p
                               style={{
                                 right: "5px",
-                                position: "absolute",
+                                top:"-80px",
+                                position: "relative",
                                 borderRadius: "50%",
                               }}
                             >
@@ -303,6 +286,25 @@ const ProductByCate = () => {
                                 />
                               )}
                             </p>
+                        </div>
+                        {/* </Link> */}
+                        <div className="product_content mt-3 text-center">
+                          <div className="d-flex justify-content-center">
+                            <h1
+                              className="text-center fs-5 fw-bolder "
+                              style={{ position: "relative", left: "0px" }}
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
+                                });
+                              }}
+                            >
+                              {item?.products?.unitName}
+                            </h1>
+                           
                           </div>
                           <div className="rating_box mt-2 mb-1">
                             <i

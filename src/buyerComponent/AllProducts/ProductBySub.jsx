@@ -175,6 +175,8 @@ const ProductBySubCate = () => {
                               type="radio"
                               id="radio3"
                               name="radio1"
+                              value="1"
+
                               onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio3">
@@ -188,6 +190,8 @@ const ProductBySubCate = () => {
                               type="radio"
                               id="radio4"
                               name="radio1"
+                              value="2"
+
                               onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
@@ -247,25 +251,14 @@ const ProductBySubCate = () => {
                               });
                             }}
                           />
-                        </div>
-                        {/* </Link> */}
-                        <div className="product_content mt-3 text-center">
-                          <div className="d-flex justify-content-center">
-                            <h1
-                              className="text-center fs-4 fw-bolder "
-                              style={{ position: "relative", left: "0px" }}
-                              onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.products?._id,
-                                    CateName: item?.categoryName,
-                                  },
-                                });
+                           <p
+                              style={{
+                                right: "5px",
+                                top:"-80px",
+                                position: "relative",
+                                borderRadius: "50%",
                               }}
                             >
-                              {item?.products?.unitName}
-                            </h1>
-                            <p style={{ right: "5px", position: "absolute" }}>
                               {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"
@@ -284,6 +277,25 @@ const ProductBySubCate = () => {
                                 />
                               )}
                             </p>
+                        </div>
+                        {/* </Link> */}
+                        <div className="product_content mt-3 text-center">
+                          <div className="d-flex justify-content-center">
+                            <h1
+                              className="text-center fs-5 fw-bolder "
+                              style={{ position: "relative", left: "0px" }}
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
+                                });
+                              }}
+                            >
+                              {item?.products?.unitName}
+                            </h1>
+                          
                           </div>
                           <div className="rating_box mt-2 mb-1">
                             <i

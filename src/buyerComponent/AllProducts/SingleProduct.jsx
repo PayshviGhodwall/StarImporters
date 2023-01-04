@@ -478,8 +478,8 @@ const SingleProduct = () => {
                               </Button>
                             ) : (
                               <div
-                                className="fw-bold fs-5"
-                                style={{ color: "#3b4093",cursor:"pointer" }}
+                                className="btn  me-2 rounded noHover"
+                                style={{ color: "#FFF",cursor:"pointer",backgroundColor:"#eb3237" }}
                               onClick={()=>{
                                 setLoginState(!LoginState)
                               }}

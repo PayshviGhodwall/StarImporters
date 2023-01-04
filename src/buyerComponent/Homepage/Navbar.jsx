@@ -320,8 +320,8 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
             )}
           </div>
         </div>
-        <div className="row header_bottom px-0">
-          <div className="col-12">
+        <div className="row  justify-content-center ">
+          <div className="col-12 header_bottom">
             <ul className="header_menus mb-0 ps-0">
               <li>
                 <Link className="text-decoration-none" to="/app/home">

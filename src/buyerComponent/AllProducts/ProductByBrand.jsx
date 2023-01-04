@@ -203,22 +203,14 @@ const ProductByBrand = () => {
                               });
                             }}
                           />
-                        </div>
-                        {/* </Link> */}
-                        <div className="product_content mt-3 text-center">
-                          <div className="d-flex justify-content-center">
-                            <h1
-                              className="text-center fs-4 fw-bolder "
-                              style={{ position: "relative", left: "0px" }}
-                              onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: { id: item?.products?._id },
-                                });
+                           <p
+                              style={{
+                                right: "5px",
+                                top:"-80px",
+                                position: "relative",
+                                borderRadius: "50%",
                               }}
                             >
-                              {item?.products?.unitName}
-                            </h1>
-                            <p style={{ right: "5px", position: "absolute" }}>
                               {item?.products?.favourities ? (
                                 <i
                                   class="fa fa-heart"
@@ -237,8 +229,24 @@ const ProductByBrand = () => {
                                 />
                               )}
                             </p>
+                        </div>
+                        {/* </Link> */}
+                        <div className="product_content mt-3 text-center">
+                          <div className="d-flex justify-content-center">
+                            <h1
+                              className="text-center fs-5 fw-bolder "
+                              style={{ position: "relative", left: "0px" }}
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: { id: item?.products?._id },
+                                });
+                              }}
+                            >
+                              {item?.products?.unitName}
+                            </h1>
+                            
                           </div>
-                          <div className="rating_box mt-2 mb-1">
+                          <div className="rating_box mt-2">
                             <i
                               className="fa fa-star"
                               style={{ color: "#FFCA33" }}

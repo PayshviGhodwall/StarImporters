@@ -100,10 +100,19 @@ const Homepage = () => {
       <section className="home">
         <div
           id="carouselExampleControls"
-          className="carousel slide auto"
+          
+          className="carousel slide auto carousel-fade"
           data-bs-ride="carousel"
-          data-interval="3000"
+          data-interval="2000"
         >
+            <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="5" aria-label="Slide 6"></button>
+  </div>
           <div className="carousel-inner banner_box">
             <div className="carousel-item active ">
               <img

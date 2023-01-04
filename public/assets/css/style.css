@@ -787,11 +787,11 @@
   }
 
   .header_bottom {
+    padding-left: 40px;
     background-color: #3e4093;
     height: 54px;
     display: flex;
-    align-items: center;
-  }
+   }
   .container-fluid {
     max-width: 96%;
   }
