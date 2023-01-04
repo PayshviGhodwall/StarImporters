@@ -10,6 +10,7 @@ import {
   getCategory,
   homeBanner,
   homeSearch,
+  searchByBarcode,
 } from "../httpServices/homeHttpService/homeHttpService";
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +35,7 @@ function AppHome() {
     getProductList();
   }, [search]);
 
+  let token = localStorage.getItem("token-user");
   const getProductList = async () => {
     const { data } = await homeSearch({ search: search.replace(".", "") });
     if (!data.error) {
@@ -72,6 +74,33 @@ function AppHome() {
   const searchProduct = async (e) => {
     navigate("/app/product-by-search", { state: { search: search } });
   };
+
+  const cameraScan = async () => {
+    if (window.flutter_inappwebview) {
+      let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
+      if (Dd) {
+        const { data } = await searchByBarcode({
+          barcode: Dd,
+        });
+        if (!data.error) {
+          if (data.results.length)
+            navigate(`/app/product-detail/${data.results[0]._id}`);
+          console.log(data);
+          // navigate(`/app/product-by-search/${data.results[0]._id}`)
+          window.location.reload();
+        }
+      }
+    }
+  };
+  const microphoneSearch = async () => {
+    if (window.flutter_inappwebview) {
+      let Dd = await window.flutter_inappwebview.callHandler("micSearch");
+      console.log(Dd, "hyiioioio");
+      if (Dd) {
+        navigate("/app/product-by-search", { state: { search: Dd } });
+      }
+    }
+  };
   const createMarkup = (html) => {
     return {
       __html: DOMPurify.sanitize(html),
@@ -91,22 +120,20 @@ function AppHome() {
                   placeholder="Search in Star Importers"
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <button type="submit">
+                <button type="submit" className="me-5">
                   <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
               </form>
 
-              <div
-                className="alternative-search-options"
-                onClick={() => navigate("/app/product-by-search")}
-              >
-                <Link className="comman_btn text-white ms-1" to="">
+              <div className="alternative-search-options">
+                <Link
+                  className="comman_btn text-white ms-1"
+                  to=""
+                  onClick={microphoneSearch}
+                >
                   <i className="fa-solid fa-microphone"></i>
                 </Link>
-                <a
-                  className="comman_btn2 ms-1"
-                  onClick={() => navigate("/app/product-by-search")}
-                >
+                <a className="comman_btn2 ms-1" onClick={() => cameraScan()}>
                   <i className="fa fa-qrcode"></i>
                 </a>
               </div>
@@ -138,18 +165,17 @@ function AppHome() {
                               data-animation="fadeInUp"
                               data-delay="100ms"
                               data-duration="1000ms"
-                              dangerouslySetInnerHTML={createMarkup(item?.title)}
-                            >
-                              
-                            </h4>
+                              dangerouslySetInnerHTML={createMarkup(
+                                item?.title
+                              )}
+                            ></h4>
                             <p
                               className="text-white"
-                              style={{fontSize:"4px"}}
+                              style={{ fontSize: "4px" }}
                               data-animation="fadeInUp"
                               data-delay="400ms"
                               data-duration="1000ms"
                               // dangerouslySetInnerHTML={createMarkup(item?.description)}
-
                             >
                               {/* {item.description} */}
                             </p>

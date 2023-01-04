@@ -90,17 +90,17 @@ function AppRequestDetail() {
                             </td>
                             <td>
                               <div className="order_items">
-                                <Link to="/app/product-detail">
+                                <Link  to={`/app/product-detail/${item?.productId?._id}`}>
                                   {item?.productId?.unitName}
                                 </Link>
-                                <div className="bar_code mt-1">
+                                {/* <div className="bar_code mt-1">
                                   Bar Code:{" "}
                                   <span>
                                     {item?.flavour.barcode.map((item) => (
                                       <li>{item}</li>
                                     ))}
                                   </span>
-                                </div>
+                                </div> */}
                                 <div className="bar_code mt-1">
                                   Price: $<span>{item?.price}</span>
                                 </div>
@@ -118,7 +118,7 @@ function AppRequestDetail() {
                             <td>
                               <div className="quantity">
                                 <input
-                                  className="qty-text "
+                                  className="qty-text w-100 "
                                   type="text"
                                   value={"$" + item?.quantity * item?.price}
                                 />

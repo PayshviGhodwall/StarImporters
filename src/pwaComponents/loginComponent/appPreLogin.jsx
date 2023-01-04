@@ -139,13 +139,17 @@ function AppPreLogin() {
                   />
                 </div>
                 <div className="text-center rtl-text-right mt-4">
-                  <h5 className="mb-1 text-white">Welcome to StarImporters</h5>
+                  <h5 className="mb-1 text-white fs-4">Welcome to StarImporters</h5>
+                  <p className="mt-3 text-white ">
+                    Please Login To Continue.
+                   
+                  </p>
                 </div>
 
                 <div className="register-form mt-5">
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete="email">
                     <div className="form-group text-start mb-4">
-                      <span>Username</span>
+                      <span>Email Address</span>
                       <label for="username">
                         <i className="fa-solid fa-user"></i>
                       </label>
@@ -157,6 +161,7 @@ function AppPreLogin() {
                         name="email"
                         id="email"
                         autoComplete="nope"
+                        autoFocus
                         {...register("email", { required: true })}
                       />
 
@@ -187,7 +192,7 @@ function AppPreLogin() {
                 </div>
                 <div className="view-as-guest mt-2">
                   <a className="btn" to="" onClick={faceLogin}>
-                    Login with face ID.                 </a>
+                    Login with Finger/Face ID.                 </a>
                 </div>
               </div>
             </div>

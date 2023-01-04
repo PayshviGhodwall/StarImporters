@@ -6,10 +6,11 @@ import { notifyCount } from "../../atom";
 
 function WebHeader2() {
   const [detail, setDetail] = useState("");
-  let count = useRecoilValue(notifyCount);
+  let counter = useRecoilValue(notifyCount);
   useEffect(() => {
     getUserDetail();
   }, []);
+  let token = localStorage.getItem("token-user");
 
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
@@ -54,49 +55,49 @@ function WebHeader2() {
           </div>
 
           <ul className="sidenav-nav ps-0">
-            <li>
-              <Link to="/app/profile">
-                <i className="fa-solid fa-user"></i>My Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/my-order">
-                <i className="fa-solid fa-bag-shopping"></i>My Order
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/my-request">
-                <i className="fa-solid fa-users"></i>My Request
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/notifications">
-                <i className="fa-solid fa-bell lni-tada-effect"></i>
-                Notifications
-                <span className="ms-1 badge badge-warning">{count}</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/brands">
-                <i className="fa-solid fa-ribbon"></i>Brands
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/wishlist">
-                <i className="fa-solid fa-heart"></i>My Wishlist
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/settings">
-                <i className="fa-solid fa-sliders"></i>Settings
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/logout">
-                <i className="fa-solid fa-toggle-off"></i>Sign Out
-              </Link>
-            </li>
-          </ul>
+              <li>
+                <Link to={token ? "/app/profile" :"/app/login"}>
+                  <i className="fa-solid fa-user"></i>My Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/app/my-order">
+                  <i className="fa-solid fa-bag-shopping"></i>My Order
+                </Link>
+              </li>
+              <li>
+                <Link to="/app/my-request">
+                  <i className="fa-solid fa-users"></i>My Request
+                </Link>
+              </li>
+              <li>
+                <Link to="/app/notifications">
+                  <i className="fa-solid fa-bell lni-tada-effect"></i>
+                  Notifications
+                  <span className="ms-1 badge badge-warning">{counter}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/app/brands">
+                  <i className="fa-solid fa-ribbon"></i>Brands
+                </Link>
+              </li>
+              <li>
+                <Link to={token ? "/app/wishlist" :"/app/login"}>
+                  <i className="fa-solid fa-heart"></i>My Wishlist
+                </Link>
+              </li>
+              <li>
+                <Link to={token ? "/app/settings" :"/app/login"}>
+                  <i className="fa-solid fa-sliders"></i>Settings
+                </Link>
+              </li>
+              <li>
+                <Link to="/app/logout">
+                  <i className="fa-solid fa-toggle-off"></i> {token ? "Sign Out" : "Log In"}
+                </Link>
+              </li>
+            </ul>
         </div>
       </div>
     </>

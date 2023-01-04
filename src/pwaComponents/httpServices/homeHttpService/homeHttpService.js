@@ -1,5 +1,6 @@
 import appHttpService from "../appHttpService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export async function privacyPolicy(formData) {
   try {
@@ -356,6 +357,11 @@ export async function addToCart(formData) {
     return { data };
   } catch (error) {
     if (error.response) console.log(error.response.data.message);
+    Swal.fire({
+      title: "Please Login To Continue",
+      icon: "error",
+      button: "ok",
+    });
     return { error };
   }
 }

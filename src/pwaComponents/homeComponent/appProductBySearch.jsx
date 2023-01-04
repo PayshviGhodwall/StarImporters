@@ -159,7 +159,7 @@ function AppProductBySearch() {
                             >
                               <img
                                 className="mb-2"
-                                src={item.productImage}
+                                src={ item?.type.flavourImage ? item?.type.flavourImage : item.productImage}
                                 alt=""
                               />
                             </Link>
@@ -167,7 +167,7 @@ function AppProductBySearch() {
                               className="product-title"
                               to="/app/product-detail"
                             >
-                              {item.unitName}
+                              {item.unitName + "-" + item?.type.flavour}
                             </Link>
 
                             <div className="product-rating">

@@ -85,7 +85,7 @@ function AppOrderDetail() {
                             </td>
                             <td>
                               <div className="order_items">
-                                <Link to="/app/product-detail">
+                                <Link  to={`/app/product-detail/${item?.productId?._id}`}>
                                   {item?.productId?.unitName +
                                     "-" +
                                     item?.flavour.flavour}

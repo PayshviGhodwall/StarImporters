@@ -49,10 +49,10 @@ function AppCategories() {
         <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="brands_section pt-3">
-            <div className="row mx-0">
+            <div className="row mx-0 justify-content-center">
               {categories.map((item, index) => {
                 return (
-                  <div className="col-5 mb-2 p-1 m-3 brands_box shadow">
+                  <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-3 brands_box shadow">
                     <Link className="text-center mt-4"  to={`/app/product-category/${item?.categoryName}`} >
                         <div>
                         <img src={item?.categoryImage} alt="" />

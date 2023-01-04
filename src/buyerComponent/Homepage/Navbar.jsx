@@ -12,6 +12,7 @@ import LoginPass from "../LoginRegister/LoginPass";
 import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
 import { textState } from "../../atom.js";
 import Animate from "../../Animate";
+import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 const Navbar = ({ NState, GetChange, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
@@ -23,6 +24,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   const [category, setCategory] = useState([]);
   const [state, setState] = useState(false);
   const navigate = useNavigate();
+  const [product, setProduct] = useState([]);
   const [otpEmail, setOtpEmail] = useState();
   const [UserAuth, setUserAuth] = useState("");
   const [scrolled, setScrolled] = useState(false);
@@ -43,6 +45,18 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
       document.getElementById("modal-login").click();
     }
   }, [LoginState]);
+
+  const getProductList = async (e) => {
+    let search = e.target.value;
+    search === "" && setProduct([]);
+    const { data } = await homeSearch({
+      search: search.replace(".", ""),
+    });
+    if (!data.error) {
+      setProduct(data.results);
+    }
+  };
+
   console.log(GetChange);
   let searchItemRef = useRef(null);
   searchItemRef.current = searchItem;
@@ -166,11 +180,10 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
               styling={{
                 zIndex: "9",
                 borderRadius: "10px",
-
                 border: "2px solid #3e4093",
               }}
               fuseOptions={{
-                keys: ["unitName", "pBarcode", "type.barcode", "type.flavour"],
+                keys: ["unitName"],
               }} // Search on both fields
               resultStringKeyName="unitName"
               onSearch={handleOnSearch}
@@ -180,6 +193,23 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
               onFocus={handleOnFocus}
               placeholder="Search "
             />
+            {/* <div className="searchModule">
+              <input
+                onChange={getProductList}
+                type="text"
+                className="form-control"
+                placeholder="Search ..."
+              />
+              <ul className="">
+                {product.map((item, index) => {
+                  return (
+                    <li className="search_drop" key={index}>
+                      {item.unitName}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div> */}
           </div>
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
@@ -306,7 +336,10 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                       to={{
                         pathname: "/CategoryProducts",
                       }}
-                      state={{ name: item?.categoryName , image:item?.background }}
+                      state={{
+                        name: item?.categoryName,
+                        image: item?.background,
+                      }}
                       className="dropdown-toggle text-decoration-none"
                       href="Javascript:;"
                     >

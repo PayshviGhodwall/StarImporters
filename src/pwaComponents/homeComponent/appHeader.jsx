@@ -16,6 +16,7 @@ function AppHeader() {
     getUserDetail();
     getCartCount();
   }, []);
+  let token = localStorage.getItem("token-user");
 
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
@@ -40,15 +41,19 @@ function AppHeader() {
               </Link>
             </div>
             <div className="navbar-logo-container d-flex align-items-center">
+              {
+                token ?
+
               <div className="cart-icon-wrap">
-                <Link to="/app/cart">
+                <Link to="/app/cart" >
                   <i className="fa-solid fa-bag-shopping"></i>
                   <span>{count}</span>
                 </Link>
               </div>
-
+             : null
+            }
               <div className="user-profile ms-2">
-                <Link to="/app/profile">
+                <Link>
                   <img
                   className="headerProfile"
                     src={
@@ -60,6 +65,8 @@ function AppHeader() {
                   />
                 </Link>
               </div>
+              
+               
               <div
                 className="suha-navbar-toggler ms-2"
                 data-bs-toggle="offcanvas"
@@ -111,7 +118,7 @@ function AppHeader() {
 
             <ul className="sidenav-nav ps-0">
               <li>
-                <Link to="/app/profile">
+                <Link to={token ? "/app/profile" :"/app/login"}>
                   <i className="fa-solid fa-user"></i>My Profile
                 </Link>
               </li>
@@ -138,18 +145,18 @@ function AppHeader() {
                 </Link>
               </li>
               <li>
-                <Link to="/app/wishlist">
+                <Link to={token ? "/app/wishlist" :"/app/login"}>
                   <i className="fa-solid fa-heart"></i>My Wishlist
                 </Link>
               </li>
               <li>
-                <Link to="/app/settings">
+                <Link to={token ? "/app/settings" :"/app/login"}>
                   <i className="fa-solid fa-sliders"></i>Settings
                 </Link>
               </li>
               <li>
                 <Link to="/app/logout">
-                  <i className="fa-solid fa-toggle-off"></i>Sign Out
+                  <i className="fa-solid fa-toggle-off"></i> {token ? "Sign Out" : "Log In"}
                 </Link>
               </li>
             </ul>

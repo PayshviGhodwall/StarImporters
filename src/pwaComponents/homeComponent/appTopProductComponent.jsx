@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function TopProduct() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -25,6 +26,7 @@ function TopProduct() {
   useEffect(() => {
     getProductList();
   }, []);
+  let token = localStorage.getItem("token-user");
 
   const getProductList = async () => {
     const { data } = await getAllProducts();
@@ -33,35 +35,47 @@ function TopProduct() {
     }
   };
 
-  const addToCartt = async (id,index) => {
+  const addToCartt = async (id, index) => {
     const formData = {
       productId: id,
       quantity: 1,
-      flavour:product[index]?.type[0]
-      
+      flavour: product[index]?.type[0],
     };
     console.log(formData);
     const { data } = await addToCart(formData);
     if (!data.error) {
       navigate("/app/cart");
     }
+   
   };
   const addToFav = async (index) => {
-    await axios.post(addFav, {
-      productId: product[index]?._id,
-    }).then((res)=>{
-      // toast.success(res?.data?.message);
-    })
-    getProductList()
+    await axios
+      .post(addFav, {
+        productId: product[index]?._id,
+      })
+      .catch((err) => {
+        // toast.success(res?.data?.message);
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue",
+            icon: "error",
+            button: "ok",
+          });
+        }
+      });
+
+    getProductList();
     setHeart(!heart);
   };
   const rmvFromFav = async (index) => {
-    await axios.post(rmvFav, {
-      productId: product[index]?._id,
-    }).then((res)=>{
-      // toast.error(res?.data?.message);
-    })
-    getProductList()
+    await axios
+      .post(rmvFav, {
+        productId: product[index]?._id,
+      })
+      .then((res) => {
+        // toast.error(res?.data?.message);
+      });
+    getProductList();
     setHeart(!heart);
   };
   return (
@@ -104,11 +118,18 @@ function TopProduct() {
                         class="product-thumbnail d-block"
                         to={`/app/product-detail/${item?._id}`}
                       >
-                        <img class="mb-2" src={item?.type[0]?.flavourImage} alt="" />
+                        <img
+                          class="mb-2"
+                          src={item?.type[0]?.flavourImage}
+                          alt=""
+                        />
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">
-                          <Link class="product-title"  to={`/app/product-detail/${item?._id}`}>
+                          <Link
+                            class="product-title"
+                            to={`/app/product-detail/${item?._id}`}
+                          >
                             {item?.unitName + item?.type[0]?.flavour}
                           </Link>
                           <div className="product-rating">
@@ -123,7 +144,7 @@ function TopProduct() {
                           <Link
                             class="cart_bttn"
                             to=""
-                            onClick={() => addToCartt(item?._id,index)}
+                            onClick={() => addToCartt(item?._id, index)}
                           >
                             <i class="fa-light fa-plus"></i>
                           </Link>

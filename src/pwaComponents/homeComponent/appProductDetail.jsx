@@ -26,7 +26,7 @@ function AppProductDetail() {
   const [productDetail, setProductDetail] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [typeObj, setTypeObj] = useState();
-  const [categoryName, setCategoryName] = useState([]);
+  const [categoryName, setCategoryName] = useState();
   const [flavour, setFlavour] = useState({
     flavour: "",
     flavourImage: "",
@@ -35,10 +35,13 @@ function AppProductDetail() {
   let { id } = useParams();
   const navigate = useNavigate();
 
+  let token = localStorage.getItem("token-user");
+
   useEffect(() => {
     getProductDetail();
     userInfo();
   }, [flavour, id]);
+
   const userInfo = async () => {
     await axios.get(userData).then((res) => {
       setUserDetail(res?.data?.results);
@@ -60,7 +63,7 @@ function AppProductDetail() {
   };
 
   const addToCartt = async () => {
-    if (flavour.flavour) {
+    if (flavour) {
       const formData = {
         productId: id,
         quantity: quantity,
@@ -183,34 +186,20 @@ function AppProductDetail() {
               >
                 <div className="single-product-slide item">
                   <img
-                    src={
-                      flavour?.flavourImage
-                        ? flavour?.flavourImage
-                        : productDetail?.productImage
-                    }
+                    src={productDetail?.productImage}
+                    id="productMainImg"
                     alt=""
                   />
                 </div>
-                <div className="single-product-slide item">
-                  <img
-                    src={
-                      flavour?.flavourImage
-                        ? flavour?.flavourImage
-                        : productDetail?.productImage
-                    }
-                    alt=""
-                  />
-                </div>
-                <div className="single-product-slide item">
-                  <img
-                    src={
-                      flavour?.flavourImage
-                        ? flavour?.flavourImage
-                        : productDetail?.productImage
-                    }
-                    alt=""
-                  />
-                </div>
+                {productDetail?.type.map((item) => (
+                  <div className="single-product-slide item">
+                    <img
+                      src={item?.flavourImage ? item?.flavourImage : null}
+                      alt=""
+                    />
+                  </div>
+                ))}
+
               </OwlCarousel>
             ) : (
               ""
@@ -296,7 +285,12 @@ function AppProductDetail() {
                         <Link
                           className=""
                           to=""
-                          onClick={() => getFlavour(index)}
+                          onClick={() => {
+                            document.getElementById("productMainImg").src =
+                              item?.flavourImage;
+                            setFlavour(item?.flavour);
+                            setTypeObj(item);
+                          }}
                         >
                           {item?.flavour}
                         </Link>
@@ -309,13 +303,24 @@ function AppProductDetail() {
             <div className="cart-form-wrapper bg-white mb-3 py-3">
               <div className="container">
                 <div className="">
-                  <Link
-                    className="comman_btn mb-2"
-                    to=""
-                    onClick={() => addToCartt()}
-                  >
-                    Add Cart to Order
-                  </Link>
+                  {token ?
+                   <Link
+                   className="comman_btn mb-2"
+                   to=""
+                   onClick={() => addToCartt()}
+                 >
+                   Add Cart to Order
+                 </Link>
+                 :
+                 <Link
+                 className="comman_btn mb-2"
+                 to="/app/login"
+                 
+               >
+                 Please Login to see price.
+               </Link>
+                  }
+                 
                   {userDetail?.quotation === true ? (
                     <button
                       className="comman_btn2"
@@ -334,14 +339,19 @@ function AppProductDetail() {
                   <p className="mb-1 font-weight-bold">Product Description :</p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      <p>{typeObj ? typeObj.description : "Please select any flavour to see details"}</p>
+                      <p>
+                        {typeObj
+                          ? typeObj.description
+                          : "Please select any flavour to see details"}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="pb-3"></div>
-            <SimlarProduct categoryName={categoryName} />
+            <div className="pb-3">
+              <SimlarProduct categoryName={categoryName} />
+            </div>
           </div>
         </div>
 

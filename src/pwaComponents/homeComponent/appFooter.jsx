@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function AppFooter() {
+  let token = localStorage.getItem("token-user");
+
   return (
     <>
       <div className="star_imp_app">
@@ -14,12 +16,12 @@ function AppFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/app/cart">
+                <Link to={token ? "/app/cart" : "/app/login"}>
                   <i className="fa-solid fa-bag-shopping"></i>Basket
                 </Link>
               </li>
               <li>
-                <Link to="/app/settings">
+                <Link to={token ? "/app/settings" : "/app/login"}>
                   <i className="fa-solid fa-gear"></i>Settings
                 </Link>
               </li>

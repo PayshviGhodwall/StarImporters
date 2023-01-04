@@ -192,7 +192,7 @@ function AppProductBrands() {
                                 <i className="fa-solid fa-star"></i>
                               </div>
                             </div>
-                            <div class="col-auto">
+                            {/* <div class="col-auto">
                               <Link
                                 class="cart_bttn"
                                 to=""
@@ -200,7 +200,7 @@ function AppProductBrands() {
                               >
                                 <i class="fa-light fa-plus"></i>
                               </Link>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
