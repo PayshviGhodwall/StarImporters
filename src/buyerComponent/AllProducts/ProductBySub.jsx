@@ -152,7 +152,10 @@ const ProductBySubCate = () => {
                             <p
                               className="more_btn text-decoration-none
                         "
-                              href="javscript:;"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          navigate("/app/brands");
+                        }}
                             >
                               More
                             </p>
