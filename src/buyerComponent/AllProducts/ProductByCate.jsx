@@ -115,7 +115,7 @@ const ProductByCate = () => {
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
-                  <PanelGroup accordion bordered className="">
+                  <PanelGroup  bordered className="">
                     <Panel
                       header=" Product Brands "
                       eventKey={1}

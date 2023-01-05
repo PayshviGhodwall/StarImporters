@@ -56,7 +56,7 @@ const ProductBySubCate = () => {
   };
   const clearFilters = (e) => {
     e.preventDefault();
-    window.location.reload(false)
+    window.location.reload(false);
   };
 
   const addToFav = async (index) => {
@@ -106,7 +106,7 @@ const ProductBySubCate = () => {
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
-                  <PanelGroup accordion bordered className="">
+                  <PanelGroup  bordered className="">
                     <Panel
                       header=" Product Brands "
                       eventKey={1}
@@ -152,10 +152,10 @@ const ProductBySubCate = () => {
                             <p
                               className="more_btn text-decoration-none
                         "
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          navigate("/app/brands");
-                        }}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                navigate("/app/brands");
+                              }}
                             >
                               More
                             </p>
@@ -179,7 +179,6 @@ const ProductBySubCate = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-
                               onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio3">
@@ -194,7 +193,6 @@ const ProductBySubCate = () => {
                               id="radio4"
                               name="radio1"
                               value="2"
-
                               onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
@@ -254,32 +252,32 @@ const ProductBySubCate = () => {
                               });
                             }}
                           />
-                           <p
-                              style={{
-                                right: "5px",
-                                top:"-80px",
-                                position: "relative",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              {item?.products?.favourities ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </p>
+                          <p
+                            style={{
+                              right: "5px",
+                              top: "-80px",
+                              position: "relative",
+                              borderRadius: "50%",
+                            }}
+                          >
+                            {item?.products?.favourities ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
+                          </p>
                         </div>
                         {/* </Link> */}
                         <div className="product_content mt-3 text-center">
@@ -298,7 +296,6 @@ const ProductBySubCate = () => {
                             >
                               {item?.products?.unitName}
                             </h1>
-                          
                           </div>
                           <div className="rating_box mt-2 mb-1">
                             <i
