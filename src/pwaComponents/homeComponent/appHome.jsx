@@ -133,7 +133,7 @@ function AppHome() {
             <div className="search-form pt-3 rtl-flex-d-row-r">
               <form action="#" method="" onSubmit={() => searchProduct()}>
                 <input
-                  className="form-control"
+                  className="form-control "
                   type="search"
                   placeholder="Search in Star Importers"
                   onChange={(e) => {
