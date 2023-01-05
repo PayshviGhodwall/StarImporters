@@ -115,9 +115,10 @@ function AppProductBySearch() {
               <input
                 className="form-control"
                 type="search"
-                value={search}
+                defaultValue={preSearch}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}
+                autoFocus
               />
               <button>
                 <i className="fa-solid fa-magnifying-glass"></i>
@@ -144,7 +145,7 @@ function AppProductBySearch() {
           <div className="top-products-area py-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                {search ? <h6> Showing results for "{search}"</h6> : ""}
+                 <h6> Showing results for "{search ? search : preSearch }"</h6>
               </div>
               {product.length ? (
                 <div className="row g-2">
@@ -165,7 +166,7 @@ function AppProductBySearch() {
                             </Link>
                             <Link
                               className="product-title"
-                              to="/app/product-detail"
+                              to={`/app/product-detail/${item._id}`}
                             >
                               {item.unitName + "-" + item?.type.flavour}
                             </Link>
@@ -184,7 +185,10 @@ function AppProductBySearch() {
                   })}
                 </div>
               ) : (
+                <div>
                 <img className="no-data" src="../assets/img/no-data.gif" />
+                <h1 className="text-center"> No Results</h1>
+                </div>
               )}
             </div>
           </div>

@@ -192,7 +192,7 @@ function AppPreLogin() {
                 </div>
                 <div className="view-as-guest mt-2">
                   <a className="btn" to="" onClick={faceLogin}>
-                    Login with Finger/Face ID.                 </a>
+                    Login with Finger Print/Face ID.                 </a>
                 </div>
               </div>
             </div>

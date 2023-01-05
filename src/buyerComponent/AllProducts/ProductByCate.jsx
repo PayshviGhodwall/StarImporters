@@ -80,7 +80,10 @@ const ProductByCate = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTop" style={{backgroundImage:`url(${location?.state.image})`}}>
+      <section
+        className="comman_banner _banner marginTop"
+        style={{ backgroundImage: `url(${location?.state.image})` }}
+      >
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -254,38 +257,37 @@ const ProductByCate = () => {
                               navigate("/AllProducts/Product", {
                                 state: {
                                   id: item?.products?._id,
-                                  image:item?.background
-                                  ,
+                                  image: item?.background,
                                 },
                               });
                             }}
                           />
-                           <p
-                              style={{
-                                right: "5px",
-                                top:"-80px",
-                                position: "relative",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              {item?.products?.favourities ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </p>
+                          <p
+                            style={{
+                              right: "5px",
+                              top: "-80px",
+                              position: "relative",
+                              borderRadius: "50%",
+                            }}
+                          >
+                            {item?.products?.favourities ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
+                          </p>
                         </div>
                         {/* </Link> */}
                         <div className="product_content mt-3 text-center">
@@ -304,7 +306,6 @@ const ProductByCate = () => {
                             >
                               {item?.products?.unitName}
                             </h1>
-                           
                           </div>
                           <div className="rating_box mt-2 mb-1">
                             <i

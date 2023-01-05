@@ -46,9 +46,9 @@ function TopProduct() {
     if (!data.error) {
       navigate("/app/cart");
     }
-   
   };
-  const addToFav = async (index) => {
+  const addToFav = async (e, index) => {
+    e.preventDefault();
     await axios
       .post(addFav, {
         productId: product[index]?._id,

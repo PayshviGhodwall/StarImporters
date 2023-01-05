@@ -15,14 +15,17 @@ import {
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import axios from "axios";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
+  const [allHeaders, setAllHeaders] = useState([]);
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
+  const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
 
   useEffect(() => {
     getBanner();
@@ -33,6 +36,7 @@ function AppHome() {
 
   useEffect(() => {
     getProductList();
+    getHeaders()
   }, [search]);
 
   let token = localStorage.getItem("token-user");
@@ -56,7 +60,11 @@ function AppHome() {
       setCategory(data.results);
     }
   };
-
+  const getHeaders = async () => {
+    await axios.get(HeadersApi).then((res) => {
+      setAllHeaders(res?.data.results.headers[0]);
+    });
+  };
   const getTopProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
@@ -75,6 +83,11 @@ function AppHome() {
     navigate("/app/product-by-search", { state: { search: search } });
   };
 
+  // const onSearch = () => {
+  //   if (search?.length >= 5) {
+  //     navigate("/app/product-by-search", { state: { search: search } });
+  //   }
+  // };
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
@@ -84,7 +97,11 @@ function AppHome() {
         });
         if (!data.error) {
           if (data.results.length)
-            navigate(`/app/product-detail/${data.results[0]._id}`);
+            navigate(`/app/product-detail/${data.results[0]._id}`,{
+              state: {
+                flavour:data.results[0]?.type
+              },
+            });
           console.log(data);
           // navigate(`/app/product-by-search/${data.results[0]._id}`)
           window.location.reload();
@@ -92,6 +109,7 @@ function AppHome() {
       }
     }
   };
+
   const microphoneSearch = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
@@ -118,7 +136,9 @@ function AppHome() {
                   className="form-control"
                   type="search"
                   placeholder="Search in Star Importers"
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
                 />
                 <button type="submit" className="me-5">
                   <i className="fa-solid fa-magnifying-glass"></i>
@@ -192,7 +212,10 @@ function AppHome() {
           <div className="product-catagories-wrapper py-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                <h6>Top Categories</h6>
+                <h6 className="fs-6"
+            // dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
+                
+                >Top Categories</h6>
                 <Link className="btn p-0" to="/app/Categories">
                   View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
                 </Link>

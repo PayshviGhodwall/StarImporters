@@ -117,26 +117,26 @@ function AppHeader() {
             </div>
 
             <ul className="sidenav-nav ps-0">
-              <li>
+            <li>
                 <Link to={token ? "/app/profile" :"/app/login"}>
                   <i className="fa-solid fa-user"></i>My Profile
                 </Link>
               </li>
               <li>
-                <Link to="/app/my-order">
+                <Link to= {token ? "/app/my-order" :"/app/login"}>
                   <i className="fa-solid fa-bag-shopping"></i>My Order
                 </Link>
               </li>
               <li>
-                <Link to="/app/my-request">
+                <Link to={token ? "/app/my-request" :"/app/login"}>
                   <i className="fa-solid fa-users"></i>My Request
                 </Link>
               </li>
               <li>
-                <Link to="/app/notifications">
+                <Link to={token ? "/app/notifications" :"/app/login"}>
                   <i className="fa-solid fa-bell lni-tada-effect"></i>
                   Notifications
-                  <span className="ms-1 badge badge-warning">{counter}</span>
+                  <span className="ms-1 badge badge-warning">{token ? counter : null}</span>
                 </Link>
               </li>
               <li>

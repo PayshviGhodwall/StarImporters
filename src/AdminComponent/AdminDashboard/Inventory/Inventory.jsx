@@ -738,7 +738,7 @@ const Inventory = () => {
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">Price</label>
                                   <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
                                     name="flavourPrice"
                                     placeholder="Enter Price"

@@ -100,19 +100,50 @@ const Homepage = () => {
       <section className="home">
         <div
           id="carouselExampleControls"
-          
           className="carousel slide auto carousel-fade"
           data-bs-ride="carousel"
           data-interval="2000"
         >
-            <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="3" aria-label="Slide 4"></button>
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="4" aria-label="Slide 5"></button>
-    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="5" aria-label="Slide 6"></button>
-  </div>
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="3"
+              aria-label="Slide 4"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="4"
+              aria-label="Slide 5"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide-to="5"
+              aria-label="Slide 6"
+            ></button>
+          </div>
           <div className="carousel-inner banner_box">
             <div className="carousel-item active ">
               <img
@@ -550,7 +581,10 @@ const Homepage = () => {
                       search: "?sort=name",
                       hash: "#the-hash",
                     }}
-                    state={{ name: item?.categoryName ,image:item?.background }}
+                    state={{
+                      name: item?.categoryName,
+                      image: item?.background,
+                    }}
                     className="featured__box text-center mt-5  text-decoration-none"
                   >
                     <img src={item?.categoryImage} className="" alt="lorem" />
@@ -565,18 +599,19 @@ const Homepage = () => {
         </Swiper>
       </section>
       <section className="features_products py-1 bg-white shadow">
-        
         <div className="container-fluid  mb-4">
           <div className="col-12 comman_head mb-2 mt-3 text-center">
             <h2
               dangerouslySetInnerHTML={createMarkup(allHeaders?.featuredTitle)}
             ></h2>
-             <span
-            className="viewAllBtn"
-            onClick={() => navigate("/app/featured-products", { state: "hii" })}
-          >
-            View All <i class="fa fa-arrow-right"></i>
-          </span>
+            <span
+              className="viewAllBtn"
+              onClick={() =>
+                navigate("/app/featured-products", { state: "hii" })
+              }
+            >
+              View All <i class="fa fa-arrow-right"></i>
+            </span>
           </div>
 
           <div className="row">
@@ -586,62 +621,62 @@ const Homepage = () => {
               navigation={true}
               autoplay={true}
               loop={true}
-              style={{padding:"36px"}}
+              style={{ padding: "36px" }}
               modules={[FreeMode, Pagination, Autoplay, Navigation]}
               className="mySwiper  py-2 featuredSwiper"
             >
               {(featured || []).map((item, index) => (
                 <SwiperSlide key={index} className="col-lg-3 col-md-4 col-sm-4">
-                    <div
-                      className="product_parts_box "
-                      onClick={() =>
-                        navigate("/AllProducts/Product", {
-                          state: {
-                            id: item?._id,
-                          },
-                        })
-                      }
-                    >
-                      <div className="partsproduct_img ">
-                        <img
-                          src={item?.productImage}
-                          className="mt-3 mb-3"
-                          alt="Product"
-                        />
-                      </div>
-                      <div className="product_content mt-3 text-center">
-                        <FontAwesomeIcon />
-                        <Link
-                          to=""
-                          style={{
-                            textDecoration: "none",
-                            color: "#3e4093",
-                            fontWeight: "600",
-                            
-                            fontFamily: "poppins",
-                          }}
-                        >
-                          {item?.unitName}
+                  <div
+                    className="product_parts_box "
+                    onClick={() =>
+                      navigate("/AllProducts/Product", {
+                        state: {
+                          id: item?._id,
+                        },
+                      })
+                    }
+                  >
+                    <div className="partsproduct_img ">
+                      <img
+                        src={item?.productImage}
+                        className="mt-3 mb-3"
+                        alt="Product"
+                      />
+                    </div>
+                    <div className="product_content mt-3 text-center">
+                      <FontAwesomeIcon />
+                      <Link
+                        to=""
+                        style={{
+                          textDecoration: "none",
+                          color: "#3e4093",
+                          fontWeight: "600",
+
+                          fontFamily: "poppins",
+                        }}
+                      >
+                        {item?.unitName}
+                      </Link>
+                      <div className="rating_box mt-2 mb-1">
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
                         </Link>
-                        <div className="rating_box mt-2 mb-1">
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #FFCC00  " />
-                          </Link>
-                          <Link className="mx-1">
-                            <BsFillStarFill color=" #CACACA" />
-                          </Link>
-                        </div>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #FFCC00  " />
+                        </Link>
+                        <Link className="mx-1">
+                          <BsFillStarFill color=" #CACACA" />
+                        </Link>
                       </div>
                     </div>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>

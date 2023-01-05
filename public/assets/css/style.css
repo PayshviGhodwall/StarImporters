@@ -6750,15 +6750,16 @@ background-color: #3e4093;
     border-radius: 0.4rem;
   }
   .search-form form button {
-    background-color: transparent;
+    background-color: #3b4093;
     position: absolute;
     top: 0px;
-    left: 9px;
-    width: 18px;
-    height: 40px;
+    left: -1px;
+    margin-left: 2px;
+    height: 38px;
     border: 0;
+    border-radius: 0.4rem 0 0 0.4rem;
     z-index: 100;
-    color: #747794;
+    color: #fff;
   }
   .search-form form button:focus {
     outline: none;

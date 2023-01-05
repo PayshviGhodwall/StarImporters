@@ -154,7 +154,11 @@ function AppOtpVerification() {
                           className="fw-bold fs-5"
                           style={{ color: "#fff" }}
                         >
-                          00:{counter}
+                          {counter ?
+
+                         <p> 00:{counter}</p>
+                           : null
+}
                         </span>
                       </div>
                     </div>

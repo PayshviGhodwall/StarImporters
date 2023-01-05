@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import OwlCarousel from "react-owl-carousel";
@@ -27,16 +27,13 @@ function AppProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [typeObj, setTypeObj] = useState();
   const [categoryName, setCategoryName] = useState();
-  const [flavour, setFlavour] = useState({
-    flavour: "",
-    flavourImage: "",
-    flavourPrice: "",
-  });
+  const [flavour, setFlavour] = useState();
   let { id } = useParams();
   const navigate = useNavigate();
 
   let token = localStorage.getItem("token-user");
-
+  let location = useLocation();
+  console.log(location);
   useEffect(() => {
     getProductDetail();
     userInfo();
@@ -285,9 +282,11 @@ function AppProductDetail() {
                         <Link
                           className=""
                           to=""
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault()
+                            
                             document.getElementById("productMainImg").src =
-                              item?.flavourImage;
+                              item?.flavourImage ?  item?.flavourImage : item?.productImage
                             setFlavour(item?.flavour);
                             setTypeObj(item);
                           }}
