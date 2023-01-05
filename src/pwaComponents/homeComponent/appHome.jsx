@@ -83,11 +83,11 @@ function AppHome() {
     navigate("/app/product-by-search", { state: { search: search } });
   };
 
-  // const onSearch = () => {
-  //   if (search?.length >= 5) {
-  //     navigate("/app/product-by-search", { state: { search: search } });
-  //   }
-  // };
+  const onSearch = () => {
+    if (search?.length >= 3) {
+      navigate("/app/product-by-search", { state: { search: search } });
+    }
+  };
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
@@ -138,6 +138,7 @@ function AppHome() {
                   placeholder="Search in Star Importers"
                   onChange={(e) => {
                     setSearch(e.target.value);
+                    onSearch()
                   }}
                 />
                 <button type="submit" className="me-5">

@@ -121,6 +121,12 @@ const OrderReq = () => {
           })
       : QuoteRequest();
   };
+  var today = new Date().toISOString().split("T")[0];
+  document.getElementById("toOrder")?.setAttribute("max", today);
+  document.getElementById("fromOrder")?.setAttribute("max", today);
+  document.getElementById("toExport")?.setAttribute("max", today);
+  document.getElementById("fromExport")?.setAttribute("max", today);
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");

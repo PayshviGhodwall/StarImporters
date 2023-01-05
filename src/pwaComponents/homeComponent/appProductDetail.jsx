@@ -24,6 +24,7 @@ function AppProductDetail() {
   const [heart, setHeart] = useState(false);
   const [userDetail, setUserDetail] = useState([]);
   const [productDetail, setProductDetail] = useState("");
+  const [FInd, setFInd] = useState();
   const [quantity, setQuantity] = useState(1);
   const [typeObj, setTypeObj] = useState();
   const [categoryName, setCategoryName] = useState();
@@ -38,7 +39,9 @@ function AppProductDetail() {
     getProductDetail();
     userInfo();
   }, [flavour, id]);
-
+  useEffect(() => {
+    setTypeObj();
+  }, [id]);
   const userInfo = async () => {
     await axios.get(userData).then((res) => {
       setUserDetail(res?.data?.results);
@@ -80,7 +83,7 @@ function AppProductDetail() {
     }
   };
   const AddtoQuotess = async () => {
-    if (flavour.flavour) {
+    if (flavour) {
       const formData = {
         productId: id,
         quantity: quantity,
@@ -169,12 +172,12 @@ function AppProductDetail() {
 
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper">
-            {productDetail?.productImage ? (
+            {productDetail ? (
               <OwlCarousel
                 className=" product-slides "
                 autoplay={true}
                 autoplayHoverPause={false}
-                autoplayTimeout={5000}
+                autoplayTimeout={7000}
                 dots={false}
                 loop={true}
                 nav={false}
@@ -183,8 +186,11 @@ function AppProductDetail() {
               >
                 <div className="single-product-slide item">
                   <img
-                    src={productDetail?.productImage}
-                    id="productMainImg"
+                    src={
+                      productDetail?.type[FInd]?.flavourImage
+                        ? productDetail?.type[FInd]?.flavourImage
+                        : productDetail?.productImage
+                    }
                     alt=""
                   />
                 </div>
@@ -196,17 +202,16 @@ function AppProductDetail() {
                     />
                   </div>
                 ))}
-
               </OwlCarousel>
             ) : (
               ""
             )}
           </div>
           <div className="product-description pb-3">
-            <div className="product-title-meta-data bg-white mb-3 py-3">
+            <div className="product-title-meta-data bg-white mb-2 py-3">
               <div className="container d-flex justify-content-between rtl-flex-d-row-r">
                 <div className="p-title-price">
-                  <h5 className="mb-1">{productDetail?.unitName}</h5>
+                  <h5 className="">{productDetail?.unitName}</h5>
                 </div>
                 <div className="p-wishlist-share">
                   <Link>
@@ -230,9 +235,9 @@ function AppProductDetail() {
                   </Link>
                 </div>
               </div>
-              <div className="product-ratings">
+              <div className="product-ratings ">
                 <div className="container d-flex flex-wrap align-items-center justify-content-between rtl-flex-d-row-r">
-                  <div className="ratings">
+                  <div className="ratings mb-2">
                     <i className="fa-solid fa-star"></i>
                     <i className="fa-solid fa-star"></i>
                     <i className="fa-solid fa-star"></i>
@@ -244,7 +249,16 @@ function AppProductDetail() {
                     <span>5.0</span>
                     <span>Very Good</span>
                   </div>
-                  <form className="cart-form mt-3 w-100" action="#" method="">
+                  {flavour ? (
+                    <div className="col-12 mt-3">
+                      <p className="fw-bold">
+                        {productDetail?.type[FInd]?.flavourPriceStatus
+                          ? "Price : $" + productDetail?.type[FInd].flavourPrice
+                          : null}
+                      </p>
+                    </div>
+                  ) : null}
+                  <form className="cart-form w-100" action="#" method="">
                     <div className="order-plus-minus d-flex align-items-center">
                       <div
                         className="quantity-button-handler"
@@ -281,14 +295,11 @@ function AppProductDetail() {
                       {productDetail?.type?.map((item, index) => (
                         <Link
                           className=""
-                          to=""
                           onClick={(e) => {
-                            e.preventDefault()
-                            
-                            document.getElementById("productMainImg").src =
-                              item?.flavourImage ?  item?.flavourImage : item?.productImage
+                            e.preventDefault();
                             setFlavour(item?.flavour);
                             setTypeObj(item);
+                            setFInd(index);
                           }}
                         >
                           {item?.flavour}
@@ -302,24 +313,20 @@ function AppProductDetail() {
             <div className="cart-form-wrapper bg-white mb-3 py-3">
               <div className="container">
                 <div className="">
-                  {token ?
-                   <Link
-                   className="comman_btn mb-2"
-                   to=""
-                   onClick={() => addToCartt()}
-                 >
-                   Add Cart to Order
-                 </Link>
-                 :
-                 <Link
-                 className="comman_btn mb-2"
-                 to="/app/login"
-                 
-               >
-                 Please Login to see price.
-               </Link>
-                  }
-                 
+                  {token ? (
+                    <Link
+                      className="comman_btn mb-2"
+                      to=""
+                      onClick={() => addToCartt()}
+                    >
+                      Add Cart to Order
+                    </Link>
+                  ) : (
+                    <Link className="comman_btn mb-2" to="/app/login">
+                      Please Login to see price.
+                    </Link>
+                  )}
+
                   {userDetail?.quotation === true ? (
                     <button
                       className="comman_btn2"

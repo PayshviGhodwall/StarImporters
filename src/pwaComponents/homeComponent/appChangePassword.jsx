@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import {
   changePassword,
   getUserProfile,
@@ -25,7 +26,12 @@ function AppChangePassword() {
     if (data.newPassword === data.confirmPassword) {
       const response = await changePassword(data);
       if (!response.data.error) {
-        navigate("/app/logout");
+        navigate("/app/home");
+        Swal.fire({
+          title:"Password Updated Sucessfully!",
+          icon:"success",
+          button:"ok"
+        })
       }
     } else {
       toast.error("New password should be equal to Confirm password");
@@ -102,7 +108,7 @@ function AppChangePassword() {
                           <span>Old Password</span>
                         </div>
                         <input
-                          type="password"
+                          type="text"
                           className="form-control form-control2"
                           name="oldPassword"
                           id="oldPassword"
@@ -125,10 +131,10 @@ function AppChangePassword() {
                       <div className="mb-3">
                         <div className="title mb-2">
                           <i className="fa-solid fa-key"></i>
-                          <span>New Password</span>
+                          <span>New Password <span className="text-secondary">(example:StarLovers123@)</span></span>
                         </div>
                         <input
-                          type="password"
+                          type="text"
                           className="form-control form-control2"
                           name="newPassword"
                           id="newPassword"
@@ -136,9 +142,9 @@ function AppChangePassword() {
                             required: "This field is required",
                             pattern: {
                               value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
                               message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                                "Password must be 6 characters including one uppercase letter, one special character and alphanumeric characters",
                             },
                           })}
                         />
@@ -151,7 +157,7 @@ function AppChangePassword() {
                       <div className="mb-3">
                         <div className="title mb-2">
                           <i className="fa-solid fa-key"></i>
-                          <span>Repeat New Password</span>
+                          <span>Repeat New Password </span>
                         </div>
                         <input
                           type="password"
@@ -162,9 +168,9 @@ function AppChangePassword() {
                             required: "This field is required",
                             pattern: {
                               value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
                               message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                                "Password must be 6 characters including one uppercase letter, one special character and alphanumeric characters",
                             },
                           })}
                         />

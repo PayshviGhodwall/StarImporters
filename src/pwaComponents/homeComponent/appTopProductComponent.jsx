@@ -47,8 +47,7 @@ function TopProduct() {
       navigate("/app/cart");
     }
   };
-  const addToFav = async (e, index) => {
-    e.preventDefault();
+  const addToFav = async (index) => {
     await axios
       .post(addFav, {
         productId: product[index]?._id,
@@ -94,7 +93,7 @@ function TopProduct() {
                 <div class="col-6 col-md-4 d-flex align-items-stretch">
                   <div class="card product-card w-100">
                     <div class="card-body">
-                      <a class="wishlist-btn" href="#">
+                      <a class="wishlist-btn">
                         {item?.favourities ? (
                           <i
                             class="fa fa-heart"

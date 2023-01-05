@@ -83,7 +83,7 @@ function AppRequestDetail() {
                               <div className="cart_icon">
                                 <img
                                   className=""
-                                  src="../assets/img/product_1.png"
+                                  src={item?.flavour?.flavourImage}
                                   alt=""
                                 />
                               </div>
@@ -101,7 +101,7 @@ function AppRequestDetail() {
                                     ))}
                                   </span>
                                 </div> */}
-                                <div className="bar_code mt-1">
+                                <div className="bar_code mt-1 d-flex">
                                   Price: $<span>{item?.price}</span>
                                 </div>
                               </div>
@@ -112,14 +112,16 @@ function AppRequestDetail() {
                                   className="qty-text"
                                   type="text"
                                   value={item?.quantity}
+                                  disabled
                                 />
                               </div>
                             </td>
                             <td>
                               <div className="quantity">
                                 <input
-                                  className="qty-text w-100 "
+                                  className="qty-text2"
                                   type="text"
+                                  disabled
                                   value={"$" + item?.quantity * item?.price}
                                 />
                               </div>

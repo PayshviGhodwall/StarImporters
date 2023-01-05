@@ -168,7 +168,11 @@ const SendOtp = (otpEmail) => {
             <div className="form-group my-3">
               <div className="time_js">
                 <span className="fw-bold fs-5" style={{ color: "#3b4093" }}>
-                  00:{counter}
+                  {
+                    counter ?
+                 <p>00:{counter}</p>  : null
+                     
+                  }
                 </span>
               </div>
             </div>

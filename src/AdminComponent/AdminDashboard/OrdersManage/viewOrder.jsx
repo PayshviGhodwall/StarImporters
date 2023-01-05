@@ -12,6 +12,7 @@ const ViewOrder = () => {
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
+  const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
@@ -47,8 +48,18 @@ const ViewOrder = () => {
         }
       });
   };
-  const exportOrder = async () => {
-    await axios.post(orderExport + "/" + id,).then((res) => {
+  const exportOrder = async (e) => {
+    e.preventDefault();
+
+    await axios.post(orderExport + "/" + id).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, orders?.orderId);
+      }
+    });
+  };
+  const exportOrderXls = async (e) => {
+    e.preventDefault();
+    await axios.post(orderExportXls + "/" + id).then((res) => {
       if (!res?.error) {
         fileDownload(res?.data.results?.file, orders?.orderId);
       }
@@ -239,9 +250,36 @@ const ViewOrder = () => {
                       <h2>Order Details</h2>
                     </div>
                     <div className="col-auto">
-                      <button className="comman_btn2" onClick={exportOrder}>
+                      <button
+                        className="comman_btn2"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
                         Export <i class="fa fa-download"></i>
                       </button>
+                      <ul
+                        className="dropdown-menu mt-1"
+                        aria-labelledby="dropdownMenuButton1"
+                      >
+                        <li>
+                          <Link
+                            className="text-decoration-none text-dark dropdown-item"
+                            onClick={exportOrder}
+                          >
+                            Export .csv
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="text-decoration-none text-dark dropdown-item"
+                            onClick={exportOrderXls}
+                          >
+                            Export .xls
+                          </Link>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                   <div className="row p-4 py-5">
@@ -318,11 +356,11 @@ const ViewOrder = () => {
                                           </h3>
                                           <p>
                                             Barcodes:{" "}
-                                            {
-                                              item?.flavour?.barcode.map((item)=>(
+                                            {item?.flavour?.barcode.map(
+                                              (item) => (
                                                 <li>{item},</li>
-                                              ))
-                                              }
+                                              )
+                                            )}
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             Ordered On:{" "}

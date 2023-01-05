@@ -8914,7 +8914,18 @@ background-color: #3e4093;
     border: 0 !important;
     background-color: #c2d4f8;
   }
-
+  .cart-table .qty-text2 {
+    width: 4rem;
+    text-align: center;
+    color: #000;
+    height: 1.8rem;
+    border-radius: 0.25rem;
+    -webkit-transition-duration: 300ms;
+    -o-transition-duration: 300ms;
+    transition-duration: 300ms;
+    border: 0 !important;
+    background-color: #c2d4f8;
+  }
   .coupon-card .card-body {
     padding: 1.25rem;
   }

@@ -23,7 +23,7 @@ const ForgotPassword = ({ getEmail }) => {
 
  
   const onSubmit = (data) => {
-    getEmail(data.email);
+    data.length ? 
     axios
       .post(apiUrl, {
         email: data.email,
@@ -48,6 +48,12 @@ const ForgotPassword = ({ getEmail }) => {
              
           document.getElementById("modal-toggler").click();
         }
+      })
+      :
+      Swal.fire({
+        title: "ENTER EMAIL/PHONE",
+        icon: "error",
+        confirmButtonText: "ok",
       });
   };
 
@@ -81,7 +87,6 @@ const ForgotPassword = ({ getEmail }) => {
                 {...register("email")}
                 onChange={(e) => {
                   let volue = e.target.value;
-                  console.log(volue.length);
                   if (volue.length == 1) {
                     setPassDis(true);
                   } else if (volue == 0) {

@@ -78,7 +78,7 @@ function AppOrderDetail() {
                               <div className="cart_icon">
                                 <img
                                   className=""
-                                  src={item?.productId?.productImage}
+                                  src={item?.flavour?.flavourImage}
                                   alt=""
                                 />
                               </div>
@@ -108,6 +108,8 @@ function AppOrderDetail() {
                                 <input
                                   className="qty-text"
                                   type="text"
+                                  disabled
+
                                   value={item?.quantity}
                                 />
                               </div>
@@ -128,13 +130,35 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Order placed</h6>
-                        <span>2 Feb 2022 - 12:38 PM</span>
+                        <span>{orders?.createdAt?.slice(0,10)}</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
                       </div>
                     </div>
 
+                    <div
+                      className={
+                        orders?.status === "CANCEL"
+                          ? "single-order-status active"
+                          : "d-none"
+                      }
+                    >
+                      <div className="order-icon text-dark">
+                      <i className="fa-solid fa-bag-shopping"></i>
+                      
+                    
+
+                      </div>
+                      <div className="order-text ">
+                        <h6 className="text-danger fw-bold">Order Canceled</h6>
+                        <span className="text-danger ">{orders?.createdAt?.slice(0,10)}</span>
+
+                      </div>
+                      <div className="order-status">
+                        <i className="fa-solid fa-circle-check text-danger "></i>
+                      </div>
+                    </div>
                     <div
                       className={
                         orders?.status === "DISPATCHED" ||
@@ -149,7 +173,6 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Product packaging</h6>
-                        <span>3 Feb 2022</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
@@ -169,7 +192,6 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Ready for shipment</h6>
-                        <span>3 Feb 2022</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
@@ -189,7 +211,6 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>On the way</h6>
-                        <span>Estimate: 4 Feb 2022</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
@@ -208,7 +229,6 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Dropped in the delivery station</h6>
-                        <span>Estimate: 6 Feb 2022</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
