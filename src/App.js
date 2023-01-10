@@ -108,6 +108,8 @@ import axios from "axios";
 import { notifyCount } from "./atom";
 import AllCategories from "./buyerComponent/AllProducts/AllCategories";
 import FeaturedProducts from "./buyerComponent/AllProducts/FeaturedProducts";
+import SubCategories from "./buyerComponent/AllProducts/AllSubCategories";
+import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -156,7 +158,7 @@ function App() {
           <Route path="/Favourites" element={<Favourites />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/BuyAgain" element={<BuyAgain />} />
-          <Route path="/ProductSearch" element={<ProductBySearch />} />
+          <Route path="/app/ProductSearch" element={<ProductBySearch />} />
           <Route path="/AgeVerified" element={<AgeVerification />} />
           <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
           <Route path="/Terms&Condition" element={<TermsCondition />} />
@@ -209,6 +211,8 @@ function App() {
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
+          <Route path="/app/subCategories" element={<SubCategories />} />
+          <Route path="/app/product-details" element={<SingleProdBySearch />} />
 
           {/* App Routes */}
           <Route

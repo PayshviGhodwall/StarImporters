@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { Toggle } from "rsuite";
 import CheckIcon from "@rsuite/icons/Check";
 import CloseIcon from "@rsuite/icons/Close";
+import { get } from "jquery";
 
 const EditInventory = () => {
   const [files, setFiles] = useState([]);
@@ -33,6 +34,8 @@ const EditInventory = () => {
   const flavourPriceApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourPriceStatus`;
   const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
   const productPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
+  const deleteImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteImage`;
+  const deleteFlavourImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteImg`;
 
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState([
@@ -177,7 +180,7 @@ const EditInventory = () => {
         }
       });
   };
-  
+
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
     if (e.key !== "Enter") return;
@@ -222,24 +225,7 @@ const EditInventory = () => {
     e.target.value = "";
   }
 
-  function ProhandleKeyDown(e) {
-    if (e.key !== "Tab") return;
-    const value = e.target.value;
-    if (!value.trim()) return;
-    setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
-    let newBarcode = { ...productBarcode };
-    newBarcode[e.target.name] = [
-      ...(productBarcode || []),
-      value.replace(/(\r\n|\n|\r)/gm, ""),
-    ];
-    e.target.value = "";
-  }
 
-  const proRemoveTag = (ind) => {
-    console.log(ind, "jiji");
-    (productBarcode || []).splice(ind, 1);
-    setChange(!change);
-  };
   const TypeStatus = async (index) => {
     console.log("fdsfd");
     await axios
@@ -263,6 +249,24 @@ const EditInventory = () => {
         flavourStatus: true,
       },
     ]);
+  };
+  const deleteImage = async () => {
+    await axios
+      .post(deleteImg + "/" + id, {
+        productImage: true,
+      })
+      .then((res) => {
+        GetProducts();
+      });
+  };
+  const deleteFlavourImage = async (flavourId) => {
+    await axios
+      .post(deleteImg + "/" + id, {
+        flavourId: flavourId,
+      })
+      .then((res) => {
+        GetProducts();
+      });
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -471,6 +475,14 @@ const EditInventory = () => {
                       <label htmlFor="" className="text-center">
                         Product Image
                       </label>
+                      {allProducts[0]?.productImage ? (
+                        <i
+                          class="fa fa-trash mx-2 text-danger "
+                          aria-hidden="true"
+                          onClick={deleteImage}
+                        ></i>
+                      ) : null}
+
                       <div className="account_profile position-relative d-inline-block">
                         <div className=" d-inline-flex">
                           <img
@@ -667,9 +679,20 @@ const EditInventory = () => {
                                   />
                                 </div>
                                 <div className="form-group mb-2  col-lg-2 col-md-2 mt-1 ">
-                                  <label className="">Flavour Image </label>
+                                  <label className="mx-2">Flavour Image</label>
+
                                   <div className="flavourImage position-relative d-inline-block">
                                     <div className="imageSection d-inline-flex">
+                                      {item?.flavourImage ? (
+                                        <i
+                                          class="fa fa-trash  text-danger "
+                                          aria-hidden="true"
+                                          onClick={() =>
+                                            deleteFlavourImage(item?._id)
+                                          }
+                                        ></i>
+                                      ) : null}
+
                                       <img
                                         className="flavour-pic"
                                         style={{
@@ -690,6 +713,7 @@ const EditInventory = () => {
                                         }}
                                         className=" fas fa-camera"
                                       />
+
                                       <input
                                         className=""
                                         style={{

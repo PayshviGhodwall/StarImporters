@@ -13,6 +13,7 @@ import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
 import { textState } from "../../atom.js";
 import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
+import ProductBySearch from "../AllProducts/ProductBySearch";
 const Navbar = ({ NState, GetChange, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
@@ -21,6 +22,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
   const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
   const [SearchData, setSearchData] = useState([]);
+  const [search, setSearch] = useState();
   const [category, setCategory] = useState([]);
   const [state, setState] = useState(false);
   const navigate = useNavigate();
@@ -31,7 +33,8 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
   const [searchItem, setSearchItem] = useState();
-
+  const [products, setProducts] = useState([]);
+  const ref = useRef(null);
   useEffect(() => {
     AllProducts();
     CartCounts();
@@ -47,59 +50,66 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   }, [LoginState]);
 
   const getProductList = async (e) => {
-    let search = e.target.value;
-    search === "" && setProduct([]);
-    const { data } = await homeSearch({
-      search: search.replace(".", ""),
-    });
+    let Search = e.target.value;
+    const { data } = await homeSearch({ search: Search?.replace(".", "") });
     if (!data.error) {
-      setProduct(data.results);
+      setProducts(data.results.slice(0, 6));
     }
   };
 
-  console.log(GetChange);
-  let searchItemRef = useRef(null);
-  searchItemRef.current = searchItem;
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setSearch();
+    }
+  };
+
+  // console.log(GetChange);
+  // let searchItemRef = useRef(null);
+  // searchItemRef.current = searchItem;
   useEffect(() => {
-    document.addEventListener("keyup", handleKeyPress);
-    return () => document.removeEventListener("keyup", handleKeyPress);
+    // document.addEventListener("keyup", handleKeyPress);
+    // return () => document.removeEventListener("keyup", handleKeyPress);
+
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
   }, []);
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && searchItemRef?.current?.length > 0) {
-      console.log(searchItemRef?.current, "enter");
-      navigate("/ProductSearch", {
-        state: { search: searchItemRef?.current },
-      });
-      setSearchItem("");
-    }
-  };
-  const handleOnSearch = async (string, results) => {
-    setSearchItem(string);
-    // if (string) {
-    //   navigate("/ProductSearch",{
-    //     state: { search:string }
-    //   });
-    // }
-  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter" && searchItemRef?.current?.length > 0) {
+  //     console.log(searchItemRef?.current, "enter");
+  //     navigate("/ProductSearch", {
+  //       state: { search: searchItemRef?.current },
+  //     });
+  //     setSearchItem("");
+  //   }
+  // };
+  // const handleOnSearch = async (string, results) => {
+  //   setSearchItem(string);
+  //   // if (string) {
+  //   //   navigate("/ProductSearch",{
+  //   //     state: { search:string }
+  //   //   });
+  //   // }
+  // };
 
-  const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result);
-  };
+  // const handleOnHover = (result) => {
+  //   // the item hovered
+  //   console.log(result);
+  // };
 
-  const handleOnSelect = (item) => {
-    console.log(item);
-    navigate("/AllProducts/Product", {
-      state: { id: item?._id, CateName: item.categoryName },
-    });
-  };
+  // const handleOnSelect = (item) => {
+  //   console.log(item);
+  //   navigate("/AllProducts/Product", {
+  //     state: { id: item?._id, CateName: item.categoryName },
+  //   });
+  // };
 
-  const handleOnFocus = (e, string) => {
-    // e.preventDefault()
-    // navigate("/ProductSearch", {
-    //   state: { search: string },
-    // });
-  };
+  // const handleOnFocus = (e, string) => {
+  //   // e.preventDefault()
+  //   // navigate("/ProductSearch", {
+  //   //   state: { search: string },
+  //   // });
+  // };
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -174,43 +184,28 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
               <img src={Starlogo} alt="" />
             </Link>
           </div>
-          <div className="col-lg-6 col-md-5 align-items-center">
-            <ReactSearchAutocomplete
-              items={SearchData}
-              styling={{
-                zIndex: "9",
-                borderRadius: "10px",
-                border: "2px solid #3e4093",
-              }}
-              fuseOptions={{
-                keys: ["unitName"],
-              }} // Search on both fields
-              resultStringKeyName="unitName"
-              onSearch={handleOnSearch}
-              onHover={handleOnHover}
-              maxResults={10}
-              onSelect={handleOnSelect}
-              onFocus={handleOnFocus}
-              placeholder="Search "
-            />
-            {/* <div className="searchModule">
-              <input
-                onChange={getProductList}
-                type="text"
-                className="form-control"
-                placeholder="Search ..."
-              />
-              <ul className="">
-                {product.map((item, index) => {
-                  return (
-                    <li className="search_drop" key={index}>
-                      {item.unitName}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div> */}
+          <div class="col-lg-6 col-md-5 d-flex align-items-center">
+            <div class="header_search">
+              <form class="row justify-content-center" action="">
+                <div class="col pe-0">
+                  <div class="form-group">
+                    <input
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        getProductList(e);
+                      }}
+                      type="search"
+                      id="search"
+                      name="search"
+                      class="form-control shadow-none"
+                      placeholder="Search in Star Importers"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
+
           <div className="col-auto d-flex align-items-center">
             <div className="social_icon d-flex">
               {NState ? (
@@ -228,52 +223,6 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                   <span className="count">{cartNum}</span>
                 </Link>
               )}
-
-              <Link class="dropdown-center">
-                <Link
-                  class=""
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="far fa-bell" />
-                  {notifications?.length ? (
-                    <span className="count">{notifications?.length}</span>
-                  ) : null}
-                </Link>
-
-                <ul class="dropdown-menu notification">
-                  {notifications?.length ? (
-                    <div class="notification-heading">
-                      <h4 class="menu-title fs-4 ">
-                        <i className="far fa-bell mx-2" />
-                        Notifications
-                      </h4>
-                    </div>
-                  ) : (
-                    <div class="notification-heading">
-                      <h4 class="fs-6">No new notifications found.</h4>
-                    </div>
-                  )}
-
-                  {notifications?.map((item, index) => (
-                    <li key={index} className="notification-Item">
-                      <div class="dropdown-item " href="#">
-                        <h6 className="item-title ">
-                          {item?.title} : {item?.createdAt?.slice(0, 10)}
-                          <span class="remove-Notity">
-                            <i
-                              class="fa fa-close"
-                              onClick={() => removeNotify(item?._id)}
-                            ></i>
-                          </span>
-                        </h6>
-                        <small className="noti-body">{item?.body}</small>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Link>
             </div>
             {UserAuth ? (
               <div className="d-flex mt-2 ">
@@ -321,7 +270,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
           </div>
         </div>
         <div className="row  justify-content-center ">
-          <div className="col-12 header_bottom">
+          <div className="col-12 header_bottom ">
             <ul className="header_menus mb-0 ps-0">
               <li>
                 <Link className="text-decoration-none" to="/app/home">
@@ -329,7 +278,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                 </Link>
               </li>
               {(category || [])
-                ?.filter((item, idx) => idx < 7)
+                ?.filter((item, idx) => idx < 10)
                 .map((item, index) => (
                   <li key={index + 1} className="zindex-1">
                     <Link
@@ -345,25 +294,46 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                     >
                       {item?.categoryName}
                     </Link>
-                    <div className="dropdown-menu maga_drop_down py-lg-4 py-md-3 shadow">
-                      <div className="container-fluid px-0">
-                        <div className="row w-100 mx-5">
-                          {(item?.subcategories || []).map((item, index) => (
-                            <div className="col-lg-2 col-md-6" key={index}>
-                              <div className="maga_drop__menus">
-                                <Link
-                                  to={{
-                                    pathname: "/SubCategory/Products",
-                                  }}
-                                  state={{ name: item?.subCategoryName }}
-                                >
-                                  <h3 className="dropdown_heading fs-6">
-                                    {item?.subCategoryName}
-                                  </h3>
-                                </Link>
+                    <div className="dropdown-menu maga_drop_down py-lg-3 py-md-3 shadow mb-0">
+                      <div className="container-fluid px-0 ">
+                        <div className="row w-100 mx-1">
+                          {(item?.subcategories || [])
+                            ?.filter((item, idx) => idx < 24)
+                            .map((item, index) => (
+                              <div
+                                className="mega_dropp col-lg-auto col-md-6"
+                                key={index}
+                              >
+                                <div className="maga_drop__menus">
+                                  <Link
+                                    className="text-decoration-none"
+                                    to={{
+                                      pathname: "/SubCategory/Products",
+                                    }}
+                                    state={{ name: item?.subCategoryName }}
+                                  >
+                                    <h3 className="dropdown_heading">
+                                      {item?.subCategoryName}
+                                    </h3>
+                                  </Link>
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          <div className="col-lg-12 d-flex text-center mt-1 mb-0">
+                            <p
+                              className=" dropViewAll"
+                              onClick={() =>
+                                navigate("/app/subCategories", {
+                                  state: {
+                                    id: item?._id,
+                                    name: item?.categoryName,
+                                  },
+                                })
+                              }
+                            >
+                              View all
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -379,6 +349,97 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
           </div>
         </div>
       </header>
+      {search?.length ? (
+        <section className="brands_page p-2 shadow" ref={ref}>
+          {products?.length ? (
+            <div>
+              <div className="col w-100">
+                <div className="product_single_right row p-4">
+                  {(products || [])?.map((item, index) => (
+                    <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
+                      <div className="product_parts_box ">
+                        <div className="partsproduct_img">
+                          <img
+                            src={
+                              item?.type.flavour
+                                ? item?.type?.flavourImage
+                                : item?.productImage
+                            }
+                            alt="Product"
+                            onClick={() => {
+                              navigate("/app/product-details", {
+                                state: {
+                                  id: item?._id,
+                                  type: item?.type,
+                                },
+                              });
+                              setSearch();
+                            }}
+                          />
+                        </div>
+                        {/* </Link> */}
+                        <div className="product_content mt-3 text-center">
+                          <div className="d-flex justify-content-center">
+                            <h1
+                              className="text-center fs-6 fw-bolder "
+                              style={{ position: "relative", left: "0px" }}
+                              onClick={() => {
+                                navigate("/app/product-details", {
+                                  state: {
+                                    id: item?._id,
+                                    type: item?.type,
+                                  },
+                                });
+
+                                setSearch();
+                              }}
+                            >
+                              {item?.type.flavour
+                                ? item?.unitName + "-" + item?.type?.flavour
+                                : item?.unitName}
+                            </h1>
+                          </div>
+                          <div>
+                            <small
+                              className="fst-italic  "
+                              style={{ fontSize: "12px" }}
+                            >
+                              {item?.type.description?.slice(0, 60) }........
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="col-lg-12 d-flex text-center mt-1 mb-0">
+                  <p
+                    className=" dropViewAll"
+                    onClick={() =>
+                      navigate("/app/ProductSearch", {
+                        state: {
+                          search: search,
+                        },
+                      })
+                    }
+                  >
+                    View all results
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="row justify-content-center">
+              <img
+                className="no-data"
+                src="../assets/img/no-data.gif"
+                style={{ width: "600px" }}
+              />
+              <h5 className="text-center">NO RESULTS...</h5>
+            </div>
+          )}
+        </section>
+      ) : null}
 
       <div
         className="modal  login_modal forms_modal"

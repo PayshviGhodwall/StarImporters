@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
@@ -27,7 +27,9 @@ function AppProductBrands() {
 
   let location = useLocation();
   const navigate = useNavigate();
+  let ref = useRef()
   let name = location.state?.name;
+  
   useEffect(() => {
     getBrandsList();
     getProductList();
@@ -88,10 +90,21 @@ function AppProductBrands() {
 
     setHeart(!heart);
   };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
               <Link to="/app/home">

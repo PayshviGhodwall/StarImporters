@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -20,6 +20,7 @@ function AppQuotes() {
   const [quotes, setQuotes] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
+  let ref = useRef()
   useEffect(() => {
     getAllQuotes();
   }, []);
@@ -54,21 +55,6 @@ function AppQuotes() {
       });
   };
 
-  // var toggle = document.getElementById('container');
-  // var toggleContainer = document.getElementById('toggle-container');
-  // var toggleNumber;
-
-  // toggle.addEventListener('click', function() {
-  //   toggleNumber = !toggleNumber;
-  //   if (toggleNumber) {
-  //     toggleContainer.style.clipPath = 'inset(0 0 0 50%)';
-  //     toggleContainer.style.backgroundColor = '#D74046';
-  //   } else {
-  //     toggleContainer.style.clipPath = 'inset(0 50% 0 0)';
-  //     toggleContainer.style.backgroundColor = 'dodgerblue';
-  //   }
-  //   console.log(toggleNumber)
-  // });
   const HandleDecrease = async (id) => {
     const formData = {
       productId: quotes[id]?.productId?._id,
@@ -107,10 +93,21 @@ function AppQuotes() {
     }
   };
 
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">

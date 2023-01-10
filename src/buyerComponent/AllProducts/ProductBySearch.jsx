@@ -34,6 +34,7 @@ const ProductBySearch = () => {
      
       <>
         <section className="brands_page p-5 marginTop">
+          <h4>Search Results For : "{search}"</h4>
           {products?.length ? 
           <div>
                <div className="col w-100">
@@ -47,9 +48,11 @@ const ProductBySearch = () => {
                             src={ item?.type.flavour ? item?.type?.flavourImage : item?.productImage}
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate("/app/product-details", {
                                 state: {
                                   id: item?._id,
+                                  type: item?.type,
+                                
                                 },
                               });
                             }}
@@ -59,11 +62,12 @@ const ProductBySearch = () => {
                         <div className="product_content mt-3 text-center">
                           <div className="d-flex justify-content-center">
                             <h1
-                              className="text-center fs-4 fw-bolder "
+                              className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: { id: item?._id },
+                                navigate("/app/product-details", {
+                                  state: { id: item?._id, type: item?.type,
+                                     },
                                 });
                               }}
                             >

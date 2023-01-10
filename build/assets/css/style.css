@@ -788,10 +788,15 @@
 
   .header_bottom {
     padding-left: 40px;
-    background-color: #3e4093;
-    height: 54px;
+    position: relative;
     display: flex;
-   }
+    font-family: 'Unbounded',  !important;
+    font-weight: 600;
+    font-size:0.7rem;
+    justify-content: center;
+    background-color: #3e4093;
+    height: 50px;
+  }
   .container-fluid {
     max-width: 96%;
   }
@@ -898,7 +903,7 @@
   }
   .header_search .Btn-design {
     background-color: #3e4093;
-    height: 35px;
+    height: 40px !important;
     width: 48px;
     display: flex;
     justify-content: center;
@@ -1979,7 +1984,7 @@
     border: 1.7px dashed #eb3237;
     margin-left: -12px;
   }
-  
+
   .quantity_box .number input {
     height: 44px;
     font-size: 22px;
@@ -2664,7 +2669,7 @@
     width: 100%;
     left: 0;
     right: 0;
-    top: 153px;
+    top: 50px;
     min-width: 100% !important;
     max-width: 100%;
     overflow: hidden;
@@ -2682,13 +2687,78 @@
   }
   .maga_drop__menus .dropdown_heading {
     color: #202325;
-    font-size: 20px;
+    font-size: 15px;
+    position: relative;
+    text-decoration: none;
     display: block;
     margin-bottom: 14px;
     font-weight: 600;
+    background: fixed;
     border-left: 4px solid #3e4093;
-    padding: 3px 0 3px 12px;
+    padding: 3px 6px 3px 12px;
   }
+  .maga_drop__menus .dropdown_heading::before {
+
+  background: #eb3237;
+  color: #fff !important;
+  text-decoration: none;
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1;
+  }
+  .dropdown_heading:hover:before {
+    transform: scaleX(1);
+  transform-origin: left;
+   color: #fff;
+
+
+    }
+  
+    .dropdown_heading:hover {
+   
+     color: #fff !important;
+    text-decoration: none;
+    
+  
+      }
+
+      .mega_dropp{
+        width: 10%;
+      }
+     
+      
+.dropViewAll {
+  position: relative;
+  left: 43%;
+  top: 10px;
+    --b: 0.2em;   /* the thickness of the line */
+    --c: #3b4093; /* the color */
+    width: 10rem;
+    color: #0000;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center !important;
+    padding-block: var(--b);
+    background: 
+      linear-gradient(var(--c) 50%,#000 0) 0% calc(100% - var(--_p,0%))/100% 200%,
+      linear-gradient(var(--c) 0 0) 0% var(--_p,0%)/var(--_p,0%) var(--b) no-repeat;
+    -webkit-background-clip: text,padding-box;
+            background-clip: text,padding-box;
+    transition: .3s var(--_s,0s) linear,background-size .3s calc(.3s - var(--_s,0s));
+  }
+  .dropViewAll:hover {
+    --_p: 100%;
+    --_s: .3s;
+  }
+
+
+.brands_page{
+  background-color: #eef3ff;
+}
   .maga_drop__menus ul {
     padding: 0 0 0 36px;
     list-style: circle;
@@ -2700,7 +2770,7 @@
     transition: 0.5s all;
   }
   .maga_drop__menus {
-    padding: 10px 10px 10px;
+    padding: 10px 10px 5px;
   }
   .maga_drop__menus ul li {
     margin: 0;
@@ -2826,6 +2896,9 @@
   .brands_ul li {
     width: 25%;
   }
+  .brands_ul li :hover h5 {
+    background-color: #000;
+  }
   .brands_ul li a {
     display: flex;
     align-items: center;
@@ -2842,7 +2915,7 @@
   }
   .brands_ul li a:hover img {
     filter: unset;
-    transform: scale(1.1);
+    transform: scale(1.3);
   }
   .brands_ul li:nth-child(0n + 4) a {
     border-right: 0;
@@ -3875,7 +3948,25 @@
     font-size: 14px;
     margin-top: 4px;
   }
-
+.preview_icon{
+  font-size: 14px !important;
+  position: relative;
+  left: -45% !important;
+}
+.preview_icon2{
+  font-size: 14px !important;
+  position: relative;
+  top: 0px;
+}
+.preview_image{
+  width:100% ;
+  height: 100vh;
+}
+.deleteBtnCat{
+  position: relative;
+  top: 25px !important;
+  left: 20px !important;
+}
   .flavour {
     display: block;
     font-weight: 500;
@@ -5068,7 +5159,6 @@ background-color: #3e4093;
   .data_submain {
     font-weight: 600;
     font-size: 14px;
-  
   }
   .cart_table tr td:first-child {
     width: 800px;
@@ -6277,10 +6367,11 @@ background-color: #3e4093;
     -webkit-animation: fade-left 1.5s infinite linear;
     animation: fade-left 1.5s infinite linear;
   }
- 
+
   .searchModule {
     width: 500px;
     color: #252a32;
+    position: relative;
     overflow: hidden;
   }
   .searchModule input {
@@ -6293,10 +6384,10 @@ background-color: #3e4093;
     border: 1px solid transparent;
     background-color: #ffffff;
   }
-  .searchModule input:focus {
+  /* .searchModule input:focus {
     border: 1px solid rgb(47, 110, 245);
-  }
-  .searchModule ul {
+  } */
+  /* .searchModule ul {
     padding: 0;
     overflow: hidden;
     overflow-y: auto;
@@ -6305,18 +6396,29 @@ background-color: #3e4093;
     border-radius: 3px;
     max-height: 310px;
     background-color: #ffffff;
-  }
-  .searchModule ul li {
+  } */
+  /* .searchModule ul li {
     padding: 15px;
     background: white;
     border-bottom: 1px solid #c7c0c0;
     margin-top: 0.5px;
+  } */
+  .searchListMain {
+    position: absolute !important;
+    background-color: #fff !important;
+    width: 100% !important;
+    left: 0;
+    right: 0;
+    list-style: none;
+    top: 40px;
+    padding: 20px 20px;
+    z-index: 9999 !important;
   }
-  .searchModule li:hover {
+  /* .searchModule li:hover {
     color: rgb(241, 249, 249);
     border-color: rgb(47, 110, 245);
     background-color: rgb(47, 110, 245);
-  }
+  } */
 
   .lni-fade-right-effect,
   .lni-fade-right-effect-hover:hover {
@@ -8899,8 +9001,8 @@ background-color: #3e4093;
     border: 0;
     height: 40px;
   }
-  .notifyBtn{
-   border: 4px seashell;
+  .notifyBtn {
+    border: 4px seashell;
   }
   .cart-table .qty-text {
     width: 2.5rem;

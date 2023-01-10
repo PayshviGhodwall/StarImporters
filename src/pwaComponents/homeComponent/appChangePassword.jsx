@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ import WebHeader2 from "./webHeader2";
 
 function AppChangePassword() {
   const [detail, setDetail] = useState("");
+  let ref = useRef();
   const {
     register,
     handleSubmit,
@@ -28,10 +29,10 @@ function AppChangePassword() {
       if (!response.data.error) {
         navigate("/app/home");
         Swal.fire({
-          title:"Password Updated Sucessfully!",
-          icon:"success",
-          button:"ok"
-        })
+          title: "Password Updated Sucessfully!",
+          icon: "success",
+          button: "ok",
+        });
       }
     } else {
       toast.error("New password should be equal to Confirm password");
@@ -48,11 +49,20 @@ function AppChangePassword() {
       setDetail(data.results);
     }
   };
-
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/settings">
@@ -131,7 +141,12 @@ function AppChangePassword() {
                       <div className="mb-3">
                         <div className="title mb-2">
                           <i className="fa-solid fa-key"></i>
-                          <span>New Password <span className="text-secondary">(example:StarLovers123@)</span></span>
+                          <span>
+                            New Password{" "}
+                            <span className="text-secondary">
+                              (example:StarLovers123@)
+                            </span>
+                          </span>
                         </div>
                         <input
                           type="text"

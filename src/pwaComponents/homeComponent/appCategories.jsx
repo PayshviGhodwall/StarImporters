@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getBrands, getCategory } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
@@ -7,7 +7,7 @@ import WebHeader2 from "./webHeader2";
 
 function AppCategories() {
   const [categories, setCategories] = useState([]);
-
+  let ref = useRef()
   useEffect(() => {
     getCategoryList();
   }, []);
@@ -18,11 +18,20 @@ function AppCategories() {
       setCategories(data.results);
     }
   };
-
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">

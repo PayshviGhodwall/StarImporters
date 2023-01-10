@@ -31,18 +31,6 @@ function AppConditions() {
             <div class="page-heading">
               <h6 class="mb-0">Term & Condition</h6>
             </div>
-            <div
-              class="suha-navbar-toggler ms-2"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas"
-            >
-              <div>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
           </div>
         </div>
         <WebHeader2 />

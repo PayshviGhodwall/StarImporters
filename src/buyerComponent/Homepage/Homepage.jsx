@@ -403,7 +403,7 @@ const Homepage = () => {
                 className={
                   (allSlides[4]?.position === "One" && "carousel-caption ") ||
                   (allSlides[4]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
+                    "carousel-caption banner-titles mx-4") ||
                   (allSlides[4]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }

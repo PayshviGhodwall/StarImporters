@@ -30,21 +30,21 @@ const SignUp = () => {
   console.log(files);
 
   const onSubmit = (data) => {
-    // setLoader(true);
+    setLoader(true);
     const SignUpData = async (e) => {
       const formData = new FormData();
-      formData.append("companyName", data?.companyName);
-      formData.append("dba", data?.dba);
-      formData.append("addressLine", data?.addressLine);
-      formData.append("city", data?.city);
+      formData.append("companyName", data?.companyName?.trim());
+      formData.append("dba", data?.dba?.trim());
+      formData.append("addressLine", data?.addressLine?.trim());
+      formData.append("city", data?.city?.trim());
       formData.append("state", data?.state);
-      formData.append("zipcode", data?.zipcode);
-      formData.append("firstName", data?.firstName);
-      formData.append("lastName", data?.lastName);
-      formData.append("email", data?.email);
+      formData.append("zipcode", data?.zipcode?.trim());
+      formData.append("firstName", data?.firstName?.trim());
+      formData.append("lastName", data?.lastName?.trim());
+      formData.append("email", data?.email?.trim());
       formData.append("wholesaleConfirmation", data?.wholeSale);
       formData.append("newsLetter", data?.subscribe);
-      formData.append("phoneNumber", data?.phoneNumber);
+      formData.append("phoneNumber", data?.phoneNumber?.trim());
       formData.append("businessPhoneNumber", data?.businessPhoneNumber);
       formData.append("federalTaxId", files?.federalTaxId);
       formData.append("businessLicense", files?.businessLicense);
@@ -55,7 +55,7 @@ const SignUp = () => {
 
       await axios.post(apiUrl, formData).then((response) => {
         if (response?.data.message === "Registered Successfully") {
-          setLoader(false);
+          setLoader(false)
           Swal.fire({
             title: "Thanks You! Your Account Is Under Review.",
             text: "We will be reviewing your account.Please check your registered email.",
@@ -71,6 +71,15 @@ const SignUp = () => {
           Swal.fire({
             title: "Email is Already registered!",
             text: "Please Login to your Account",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+        if (response?.data.message === "Please enter valid name") {
+          setLoader(false);
+
+          Swal.fire({
+            title: "First/Last Name cannot contain spaces/numbers/special characters!",
             icon: "error",
             button: "Ok",
           });
@@ -368,6 +377,7 @@ const SignUp = () => {
                   <div className="form-floating col-6 mb-4 mt-4">
                     <input
                       type="text"
+                      accept=""
                       className={classNames(
                         "form-control  border border-secondary signup_fields",
                         { "is-invalid": errors.firstName }

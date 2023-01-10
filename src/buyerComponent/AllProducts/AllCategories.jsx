@@ -60,7 +60,10 @@ const AllCategories = () => {
                 <ul class="brands_ul list-unstyled mb-0">
                   {(categories || [])?.map((item, index) => (
                     <li key={index}>
+                      <h5 className="text-center mt-3">{item?.categoryName}</h5>
+
                       <Link
+                      className="text-decoration-none mt-0"
                         to={{
                           pathname: "/CategoryProducts",
                           search: "?sort=name",
@@ -70,6 +73,7 @@ const AllCategories = () => {
                       >
                         <img src={item?.categoryImage} alt="" />
                       </Link>
+
                     </li>
                   ))}
                 </ul>

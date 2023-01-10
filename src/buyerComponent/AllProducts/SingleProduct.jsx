@@ -51,7 +51,7 @@ const SingleProduct = () => {
   const GetChange = (data) => {
     setChange(data);
   };
- 
+
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
   let token = localStorage.getItem("token-user");
@@ -59,7 +59,10 @@ const SingleProduct = () => {
 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
+    setFlavour(location?.state?.type);
+
   }
+  
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -77,8 +80,8 @@ const SingleProduct = () => {
             setSimProducts(res?.data.results);
           });
 
-        setProduct(res.data.results);
-        setType(res.data.results?.type);
+        setProduct(res?.data.results);
+        setFlavour(res?.data.results.type[0])
         setProductImages(res.data.results?.productImage);
         setProductImages({ ...productImages }, res.data.results?.type);
       });
@@ -95,6 +98,7 @@ const SingleProduct = () => {
     NewProducts();
   }, [change, objectId]);
 
+  console.log(typeObj);
   const AddtoCart = async () => {
     if (flavour) {
       setLoader(true);
@@ -105,7 +109,7 @@ const SingleProduct = () => {
         .post(addCart, {
           productId: cartProduct[0],
           quantity: cartProduct[1],
-          flavour: typeObj,
+          flavour: flavour,
         })
         .then((res) => {
           if (res.data?.message === "Product Added") {
@@ -169,7 +173,7 @@ const SingleProduct = () => {
         .post(addQuote, {
           productId: cartProduct[0],
           quantity: cartProduct[1],
-          flavour: typeObj,
+          flavour: flavour,
         })
         .then((res) => {
           if (res.data?.message === "Quote is Added") {
@@ -225,7 +229,10 @@ const SingleProduct = () => {
   return (
     <div className="" style={{ background: "#eef3ff" }}>
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
-      <section className="comman_banner _banner marginTop" style={{backgroundImage:`url(${location?.state.image})`}}>
+      <section
+        className="comman_banner _banner marginTop"
+        style={{ backgroundImage: `url(${location?.state.image})` }}
+      >
         <div className="container ">
           <div className="row">
             <div className="col-12">
@@ -298,8 +305,7 @@ const SingleProduct = () => {
                             onClick={() => {
                               document.getElementById("productMainImg").src =
                                 item?.flavourImage;
-                              setFlavour(item?.flavour);
-                              setTypeObj(item);
+                              setFlavour(item);
                               setFInd(index);
                             }}
                           >
@@ -312,7 +318,7 @@ const SingleProduct = () => {
                       <div className="carousel-item active">
                         <div className="productimg_show">
                           <img
-                            src={product?.productImage}
+                            src={flavour?.flavour ? flavour?.flavourImage: product?.productImage}
                             id="productMainImg"
                             className="d-block"
                             alt="..."
@@ -367,7 +373,7 @@ const SingleProduct = () => {
                                   {errMsg ? (
                                     <i className="fa fa-warning mx-2"></i>
                                   ) : null}
-                                  {errMsg ? errMsg : flavour}{" "}
+                                  {errMsg ? errMsg : flavour?.flavour}{" "}
                                 </strong>
                               </div>
                               <div
@@ -383,7 +389,7 @@ const SingleProduct = () => {
                                     style={{ border: "none" }}
                                   >
                                     {(product?.type || []).map((item, ind) => {
-                                      return flavour === item?.flavour ? (
+                                      return flavour?.flavour === item?.flavour ? (
                                         <a
                                           className=" text-decoration-none text-white"
                                           key={ind}
@@ -392,7 +398,7 @@ const SingleProduct = () => {
                                             backgroundColor: "#3e4093",
                                           }}
                                         >
-                                          {item.flavour}
+                                          {flavour?.flavour}
                                         </a>
                                       ) : (
                                         <a
@@ -403,10 +409,10 @@ const SingleProduct = () => {
                                             document.getElementById(
                                               "productMainImg"
                                             ).src = item?.flavourImage;
-                                            setFlavour(item?.flavour);
+                                          
                                             setErrMsg();
-                                            setTypeObj(item);
-                                            setFInd(ind);
+                                            setTypeObj();
+                                             setFlavour(item)
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
@@ -424,13 +430,9 @@ const SingleProduct = () => {
                           {flavour ? (
                             <div className="col-12">
                               <p className="fw-bold">
-                                {product?.type[FInd]?.flavourPriceStatus
-                                  ? "Price : $" +
-                                    product?.type[FInd].flavourPrice
+                                {flavour?.flavourPriceStatus
+                                  ? "Price : $" + flavour?.flavourPrice
                                   : null}
-                                {console.log(
-                                  product?.type[FInd].flavourPriceStatus
-                                )}
                               </p>
                             </div>
                           ) : null}
@@ -447,7 +449,12 @@ const SingleProduct = () => {
                               >
                                 -
                               </span>
-                              <input type="text" className="p-1" disabled value={unitCount} />
+                              <input
+                                type="text"
+                                className="p-1"
+                                disabled
+                                value={unitCount}
+                              />
                               <span
                                 className="plus"
                                 style={{ userSelect: "none" }}
@@ -479,10 +486,14 @@ const SingleProduct = () => {
                             ) : (
                               <div
                                 className="btn  me-2 rounded noHover"
-                                style={{ color: "#FFF",cursor:"pointer",backgroundColor:"#eb3237" }}
-                              onClick={()=>{
-                                setLoginState(!LoginState)
-                              }}
+                                style={{
+                                  color: "#FFF",
+                                  cursor: "pointer",
+                                  backgroundColor: "#eb3237",
+                                }}
+                                onClick={() => {
+                                  setLoginState(!LoginState);
+                                }}
                               >
                                 Please Login to add to cart!
                               </div>
@@ -529,7 +540,7 @@ const SingleProduct = () => {
                 >
                   <p>
                     {flavour
-                      ? product?.type[FInd]?.description
+                      ? flavour?.description
                       : "Please Select Any Flavour/Type to see details."}
                   </p>
                 </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   deleteCart,
@@ -17,7 +17,7 @@ function AppCart() {
   const navigate = useNavigate();
   const [userDetail, setUserDetail] = useState([]);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-
+let ref = useRef()
   useEffect(() => {
     getCarts();
     userInfo();
@@ -123,10 +123,20 @@ function AppCart() {
       );
     }
   };
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">

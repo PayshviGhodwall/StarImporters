@@ -16,7 +16,7 @@ import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
 
 const PendingView = () => {
-  const[loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
@@ -74,7 +74,7 @@ const PendingView = () => {
     saveAs(url);
   };
   const approveUser = async () => {
-    setLoader(true)
+    setLoader(true);
     const res = await axios.post(approveUrl + "/" + objectId);
     console.log(res, "hii");
     if (res?.data.message === "User approved Successfully") {
@@ -82,6 +82,10 @@ const PendingView = () => {
     }
   };
 
+  const preview = (id) => {
+    document.getElementById("preview_modal").click()
+    document.getElementById("preview_images").src = id;
+  };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -98,7 +102,7 @@ const PendingView = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -355,6 +359,13 @@ const PendingView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
+                                {user?.federalTaxId ? (
+                                  <i
+                                    class="fa fa-eye preview_icon"
+                                    onClick={()=>preview(user?.federalTaxId)}
+                                  ></i>
+                                ) : null}
+
                                 <Link
                                   to=""
                                   className="text-decoration-none"
@@ -368,7 +379,7 @@ const PendingView = () => {
                                     <FaFileUpload size={25} color="red" />
                                   )}
                                   <p className="" style={{ fontSize: "9px" }}>
-                                    {user?.federalTaxId}
+                                    {user?.federalTaxId?.slice(0, 60)}
                                   </p>
                                 </Link>
                               </div>
@@ -395,6 +406,13 @@ const PendingView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
+                              {user?.tobaccoLicence ? (
+                                  <i
+                                    class="fa fa-eye preview_icon"
+                                    onClick={()=>preview(user?.tobaccoLicence)}
+                                  ></i>
+                                ) : null}
+
                                 <Link
                                   to=""
                                   className="text-decoration-none"
@@ -408,7 +426,7 @@ const PendingView = () => {
                                     <FaFileUpload size={25} color="red" />
                                   )}
                                   <p className="" style={{ fontSize: "9px" }}>
-                                    {user?.tobaccoLicence}
+                                    {user?.tobaccoLicence?.slice(0, 60)}
                                   </p>
                                 </Link>
                               </div>
@@ -420,8 +438,6 @@ const PendingView = () => {
                         <div
                           className={
                             user?.salesTaxId
-
-                            
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
                           }
@@ -437,6 +453,13 @@ const PendingView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
+                              {user?.salesTaxId ? (
+                                  <i
+                                    class="fa fa-eye preview_icon"
+                                    onClick={()=>preview(user?.salesTaxId)}
+                                  ></i>
+                                ) : null}
+
                                 <Link
                                   to=""
                                   className="text-decoration-none"
@@ -450,7 +473,7 @@ const PendingView = () => {
                                     <FaFileUpload size={25} color="red" />
                                   )}
                                   <p className="" style={{ fontSize: "9px" }}>
-                                    {user?.salesTaxId}
+                                    {user?.salesTaxId?.slice(0, 60)}
                                   </p>
                                 </Link>
                               </div>
@@ -477,6 +500,12 @@ const PendingView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
+                              {user?.businessLicense ? (
+                                  <i
+                                    class="fa fa-eye preview_icon"
+                                    onClick={()=>preview(user?.businessLicense)}
+                                  ></i>
+                                ) : null}
                                 <Link
                                   to=""
                                   className="text-decoration-none"
@@ -490,7 +519,7 @@ const PendingView = () => {
                                     <FaFileUpload size={25} color="red" />
                                   )}
                                   <p className="" style={{ fontSize: "9px" }}>
-                                    {user?.businessLicense}
+                                    {user?.businessLicense?.slice(0, 60)}
                                   </p>
                                 </Link>
                               </div>
@@ -506,7 +535,7 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
-                    
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact Last name:</span>
@@ -542,6 +571,13 @@ const PendingView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
+                              {user?.accountOwnerId ? (
+                                  <i
+                                    class="fa fa-eye preview_icon2"
+                                    onClick={()=>preview(user?.accountOwnerId)}
+                                  ></i>
+                                ) : null}
+
                                 <Link
                                   to=""
                                   className="text-decoration-none"
@@ -594,15 +630,24 @@ const PendingView = () => {
                         <Button
                           href="javascript:;"
                           loading={loader}
-                          style={{backgroundColor:"#eb3237",color:"#fff",fontWeight:"500",borderRadius:"30px",}}
+                          style={{
+                            backgroundColor: "#eb3237",
+                            color: "#fff",
+                            fontWeight: "500",
+                            borderRadius: "30px",
+                          }}
                           className="comman_btn text-decoration-none"
                           onClick={approveUser}
                         >
-                         Approve
+                          Approve
                         </Button>
                         <Button
-                          style={{backgroundColor:"#3e4093",color:"#fff",fontWeight:"500",borderRadius:"30px"}}
-
+                          style={{
+                            backgroundColor: "#3e4093",
+                            color: "#fff",
+                            fontWeight: "500",
+                            borderRadius: "30px",
+                          }}
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop21"
                           className="comman_btn2 ms-2 text-decoration-none"
@@ -879,6 +924,49 @@ const PendingView = () => {
                   </form>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary d-none"
+        id="preview_modal"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Launch demo modal
+      </button>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header comman_modal">
+              <h5 class="modal-title">Preview</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <img src={user?.federalTaxId} className="preview_image" id="preview_images"></img>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              
             </div>
           </div>
         </div>

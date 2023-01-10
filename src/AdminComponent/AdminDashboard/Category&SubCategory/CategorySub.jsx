@@ -17,6 +17,9 @@ const CategorySub = () => {
   const editCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/editCategory`;
   const editSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/editSubCategory`;
   const disableCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/categoryStatus`;
+  const deleteSubImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/deleteSubCatImage`;
+  const deleteCatImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
+  const deleteBackImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
@@ -132,6 +135,7 @@ const CategorySub = () => {
     formData.append("categoryImage", files?.newCategoryImg);
     formData.append("background", files?.background);
     formData.append("categoryName", editCateName.trim());
+
     await axios.post(editCategory + "/" + categoryId, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Modified Successfully") {
@@ -147,6 +151,7 @@ const CategorySub = () => {
     const formData = new FormData();
     formData.append("subCategoryImage", files?.newSubCategoryImg);
     formData.append("subCategoryName", editSubCateName);
+    formData.append("categoryName", category);
     await axios
       .post(editSubCategory + "/" + subCategoryId, formData)
       .then((res) => {
@@ -172,13 +177,54 @@ const CategorySub = () => {
         setChange(!change);
       });
   };
-  const subCategoryStatus = async (index) => {
-    // await axios
-    //   .post(userStatus + "/" + approvedUsers[index]?._id)
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
+
+  const deleteSubImage = async (id) => {
+    await axios
+    .post(deleteSubImg + "/" + id,)
+    .then((res) => {
+      getSubCategories()
+    });
   };
+  const deleteCatImage = async () => {
+    await axios
+    .post(deleteCatImg + "/" +allCategories[categoryIndex]?._id,{
+      categoryImage:true
+    })
+    .then((res) => {
+      getCategories()
+    });
+  };
+  const deleteBackImage = async (id) => {
+    await axios
+    .post(deleteBackImg + "/" + id,{
+      background:true
+    })
+    .then((res) => {
+      getCategories()
+    });
+  };
+  document.getElementById("catUpImg")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("catImg")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+  document.getElementById("backUpImg")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("backImg")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -578,7 +624,24 @@ const CategorySub = () => {
                                     }}
                                   />
                                 </div>
-
+                                <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                                  <span>Sub Category Image </span>{" "}
+                                  <label htmlFor="upload_video">
+                                    <i class="fa fa-camera me-1"></i>
+                                    Choose File
+                                  </label>
+                                  <input
+                                    type="file"
+                                    className="form-control shadow-none"
+                                    defaultValue=""
+                                    accept="image/*"
+                                    name="subCateImg"
+                                    id="upload_video"
+                                    onChange={(e) =>
+                                      onFileSelection(e, "subCateImg")
+                                    }
+                                  />
+                                </div>
                                 <div className="form-group mb-0 col-auto">
                                   <button
                                     className="comman_btn"
@@ -600,6 +663,7 @@ const CategorySub = () => {
                                           <th>Date</th>
                                           <th>Category Name</th>
                                           <th>Sub Category Name</th>
+                                          <th>Sub Category Image</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -618,7 +682,12 @@ const CategorySub = () => {
                                                 }
                                               </td>
                                               <td>{item?.subCategoryName}</td>
-
+                                              <td>
+                                                <img
+                                                  width={80}
+                                                  src={item?.subCategoryImage}
+                                                ></img>
+                                              </td>
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"
@@ -677,17 +746,22 @@ const CategorySub = () => {
                   onClick={() => setChange(!change)}
                 />
               </div>
-              <div className="modal-body">
+              <div className="modal-body shadow">
                 <form
-                  className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
+                  className="form-design px- py-2 help-support-form row align-items-end justify-content-center"
                   action=""
                 >
                   <div className="form-group col-6 p-3">
-                    <label htmlFor="" className="mx-3">Category Image</label>
+                  
+                    <label htmlFor="" className="mx-3">
+                      Category Image 
+                    </label>
+                   
                     <div className="account_profile position-relative">
                       <div className="circle" key={categoryIndex}>
                         <img
                           className="profile-pic"
+                          id="catImg"
                           width={250}
                           src={allCategories[categoryIndex]?.categoryImage}
                         />
@@ -697,19 +771,32 @@ const CategorySub = () => {
                         <input
                           className="file-uploads"
                           type="file"
+                          id="catUpImg"
                           accept="image/*"
                           name="newCategoryImg"
                           onChange={(e) => onFileSelection(e, "newCategoryImg")}
                         />
                       </div>
                     </div>
+                    {allCategories[categoryIndex]?.categoryImage ? (
+                      <i
+                        class="fa fa-trash mx-2 text-danger deleteBtnCat"
+                        aria-hidden="true"
+                        onClick={ deleteCatImage}
+                      ></i>
+                    ) : null}
                   </div>
+
                   <div className="form-group col-6 p-3">
-                    <label htmlFor="" className="mx-3">Background Image</label>
+                    <label htmlFor="" className="mx-3">
+                      Background Image
+                    </label>
+                   
                     <div className="account_profile position-relative ">
-                      <div className="circle " key={categoryIndex} >
+                      <div className="circle " key={categoryIndex}>
                         <img
                           className="profile-pic"
+                          id="backImg"
                           width={250}
                           src={allCategories[categoryIndex]?.background}
                         />
@@ -719,12 +806,20 @@ const CategorySub = () => {
                         <input
                           className="file-uploads"
                           type="file"
+                          id="backUpImg"
                           accept="image/*"
                           name="background"
                           onChange={(e) => onFileSelection(e, "background")}
                         />
                       </div>
                     </div>
+                    {allCategories[categoryIndex]?.categoryImage ? (
+                      <i
+                        class="fa fa-trash mx-2 text-danger deleteBtnCat"
+                        aria-hidden="true"
+                        onClick={()=> deleteBackImage(allCategories[categoryIndex]?._id)}
+                      ></i>
+                    ) : null}
                   </div>
                   <div className="form-group col-12" key={categoryIndex}>
                     <label htmlFor="">Category Name</label>
@@ -737,6 +832,7 @@ const CategorySub = () => {
                       }}
                     />
                   </div>
+
                   <div className="form-group mb-0 col-auto mt-3">
                     <button className="comman_btn" onClick={onEditSaveCategory}>
                       Save
@@ -771,12 +867,48 @@ const CategorySub = () => {
                   onClick={() => setChange(!change)}
                 />
               </div>
-              <div className="modal-body">
+              <div className="modal-body shadow">
                 <form
                   className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
                   action=""
                 >
-                  <div className="form-group col mb-4">
+                  <div className="form-group col-12 p-3">
+                    <label htmlFor="" className="">
+                      Sub Category Image
+                    </label>
+
+                    <div className="account_profile position-relative border">
+                      {allSubCategories[subCategoryIndex]?.subCategoryImage ? (
+                        <i
+                          class="fa fa-trash mx-2 text-danger "
+                          aria-hidden="true"
+                          onClick={()=>deleteSubImage(allSubCategories[subCategoryIndex]?._id)}
+                        ></i>
+                      ) : null}
+                      <div className="circle" key={subCategoryIndex}>
+                        <img
+                          className="profile-pic"
+                          width={250}
+                          src={
+                            allSubCategories[subCategoryIndex]?.subCategoryImage
+                          }
+                        />
+                      </div>
+                      <div className="p-image">
+                        <i className="uploadFile fa fa-camera" />
+                        <input
+                          className="file-uploads"
+                          type="file"
+                          accept="image/*"
+                          name="newSubCategoryImg"
+                          onChange={(e) =>
+                            onFileSelection(e, "newSubCategoryImg")
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group col-6 mb-4">
                     <label htmlFor="">Category</label>
                     <select
                       key={subCategoryIndex}
@@ -799,7 +931,7 @@ const CategorySub = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-12" key={subCategoryIndex}>
+                  <div className="form-group col-6" key={subCategoryIndex}>
                     <label htmlFor="">Sub Category Name</label>
                     <input
                       type="text"
@@ -812,6 +944,7 @@ const CategorySub = () => {
                       }}
                     />
                   </div>
+
                   <div className="form-group mb-0 col-auto mt-3">
                     <button
                       className="comman_btn"
