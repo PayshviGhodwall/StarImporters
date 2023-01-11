@@ -104,6 +104,7 @@ let ref = useRef()
             : item
         )
       );
+      getCarts()
     }
   };
 
@@ -121,6 +122,7 @@ let ref = useRef()
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
+      getCarts()
     }
   };
   useEffect(() => {

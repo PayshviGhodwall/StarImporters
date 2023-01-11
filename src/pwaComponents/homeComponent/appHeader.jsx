@@ -7,7 +7,7 @@ import {
 import { useRecoilValue } from "recoil";
 import { notifyCount } from "../../atom";
 
-function AppHeader() {
+function AppHeader({cartCount}) {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
   let counter = useRecoilValue(notifyCount);
@@ -16,7 +16,7 @@ function AppHeader() {
   useEffect(() => {
     getUserDetail();
     getCartCount();
-  }, []);
+  }, [cartCount]);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);

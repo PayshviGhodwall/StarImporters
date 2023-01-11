@@ -1,14 +1,15 @@
-import React  from "react";
+import React from "react";
 import "../../assets/css/adminMain.css";
 import Starlogo from "../../assets/img/logo.png";
 import classNames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const AdminResetPassword = () => {
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/updatePassword`
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/updatePassword`;
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [email, setEmail] = useState();
@@ -25,14 +26,23 @@ const AdminResetPassword = () => {
     trigger,
   } = useForm();
   const onSubmit = (data) => {
-    if (data.Npassword !== data.password) {
-      setError("Password Does'nt Match");
+    console.log(data);
+    if (
+      data?.Npassword !== data?.password ||
+      data?.password !== data?.Npassword
+    ) {
+      setError("Passwords does not match!")
+      Swal.fire({
+        title:"New Password and Confirm Password does not matched!",
+        icon:"error"
+
+      })
     } else if (data.Npassword === data.password) {
       setError("");
       axios
         .post(apiUrl, {
           email,
-          newPassword:data.password,
+          newPassword: data.password,
         })
         .then((res) => {
           if (res?.data.message === "Password Updated Sucessfully") {
@@ -60,7 +70,7 @@ const AdminResetPassword = () => {
                       ></img>
                     </div>
                     <h1 className="fw-bold fs-4  LoginHead">Reset Password</h1>
-                    <p className="fw-bold fs-6">Enter New Password</p>
+                    <p className="fw-lighter fs-6 text-danger">{error + "!"}</p>
                   </div>
                   <div className="col-12">
                     <form

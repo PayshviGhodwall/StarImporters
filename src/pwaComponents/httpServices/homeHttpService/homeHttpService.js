@@ -357,11 +357,14 @@ export async function addToCart(formData) {
     return { data };
   } catch (error) {
     if (error.response) console.log(error.response.data.message);
+
     Swal.fire({
       title: "Please Login To Continue",
       icon: "error",
       button: "ok",
-    });
+    }).then((res)=>{
+      window.location.reload(false)
+    })
     return { error };
   }
 }

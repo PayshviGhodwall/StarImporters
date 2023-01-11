@@ -73,6 +73,7 @@ function AppQuotes() {
             : item
         )
       );
+      getAllQuotes()
     }
   };
 
@@ -90,6 +91,7 @@ function AppQuotes() {
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
+      getAllQuotes()
     }
   };
 

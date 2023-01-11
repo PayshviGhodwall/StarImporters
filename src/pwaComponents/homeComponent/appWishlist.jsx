@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { addToCart } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
@@ -10,7 +11,8 @@ function AppWishlist() {
   const allFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/allFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [products, setProducts] = useState();
- const navigate = useNavigate()
+  const [cartCount, setCartCount] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     getFavourites();
   }, []);
@@ -22,34 +24,44 @@ function AppWishlist() {
     });
   };
   const rmvFromFav = async (index) => {
-    await axios.post(rmvFav, {
-      productId: products[index]?.productId?._id,
-    }).then((res)=>{
-      toast.error(res?.data?.message);
-    })
-    getFavourites()
-  
+    await axios
+      .post(rmvFav, {
+        productId: products[index]?.productId?._id,
+      })
+      .then((res) => {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "error",
+          button: "ok",
+        });
+      });
+    getFavourites();
   };
-  const addToCartt = async (id) => {
+  const addToCartt = async (id, index) => {
     const formData = {
       productId: id,
       quantity: 1,
+      flavour: products[index]?.productId.type[0],
     };
     console.log(formData);
     const { data } = await addToCart(formData);
     if (!data.error) {
-      await axios.post(rmvFav, {
-        productId: id,
-      }).then((res)=>{
-    getFavourites()
-        
-      })
+      await axios
+        .post(rmvFav, {
+          productId: id,
+        })
+        .then((res) => {
+          if (!res.error) {
+            setCartCount(!cartCount);
+            getFavourites();
+          }
+        });
     }
   };
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <AppHeader cartCount={cartCount} />
         <div className="page-content-wrapper">
           <div className="py-3">
             <div className="container">
@@ -64,20 +76,25 @@ function AppWishlist() {
                         <div className="product-thumbnail-side">
                           <Link
                             className="product-thumbnail shadow-sm d-block"
-                            to="/app/product-detail"
+                            to={`/app/product-detail/${item?._id}`}
                           >
                             <img src={item?.productId?.productImage} alt="" />
                           </Link>
                         </div>
                         <div className="product-description">
-                          <a className="delete-btn" onClick={()=> rmvFromFav(index)}>
+                          <a
+                            className="delete-btn"
+                            onClick={() => rmvFromFav(index)}
+                          >
                             <i className="fa-solid fa-trash-can"></i>
                           </a>
                           <Link
                             className="product-title d-block fs-5 mb-2"
-                            to="/app/product-detail"
+                            to={`/app/product-detail/${item?._id}`}
                           >
-                            {item?.productId?.unitName}
+                            {item?.productId?.unitName +
+                              "-" +
+                              item?.productId?.type[0]?.flavour}
                           </Link>
                           <div className="product-rating mt-2 mb-2">
                             <i className="fa-solid fa-star"></i>
@@ -87,17 +104,17 @@ function AppWishlist() {
                             <i className="fa-solid fa-star"></i>
                           </div>
                           <div className="col-auto mt-3">
-                          <Link
-                            class="cart_bttn"
-                            to=""
-                            onClick={() => addToCartt(item?.productId?._id)}
-                          >
-                            <i class="fa-light fa-plus"></i>
-                          </Link>
+                            <Link
+                              class="cart_bttn"
+                              to=""
+                              onClick={() =>
+                                addToCartt(item?.productId?._id, index)
+                              }
+                            >
+                              <i class="fa-light fa-plus"></i>
+                            </Link>
                           </div>
-                          <div class="col-auto">
-                         
-                        </div>
+                          <div class="col-auto"></div>
                         </div>
                       </div>
                     </div>

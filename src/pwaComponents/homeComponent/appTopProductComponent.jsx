@@ -41,12 +41,12 @@ function TopProduct() {
       quantity: 1,
       flavour: product[index]?.type[0],
     };
-    console.log(formData);
     const { data } = await addToCart(formData);
     if (!data.error) {
       navigate("/app/cart");
     }
   };
+
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
@@ -141,11 +141,11 @@ function TopProduct() {
                         </div>
                         <div class="col-auto">
                           <Link
-                            class="cart_bttn"
+                            class="cart_bttn text-decoration-none"
                             to=""
                             onClick={() => addToCartt(item?._id, index)}
                           >
-                            <i class="fa-light fa-plus"></i>
+                            <i class="fa-light fa-plus "></i>
                           </Link>
                         </div>
                       </div>

@@ -159,6 +159,13 @@ function AppOrderDetail() {
                         <i className="fa-solid fa-circle-check text-danger "></i>
                       </div>
                     </div>
+                    {
+                      orders?.status === "CANCEL"
+                      ? 
+                      null
+                      :
+                    
+                      <div>
                     <div
                       className={
                         orders?.status === "DISPATCHED" ||
@@ -247,12 +254,13 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Delivered</h6>
-                        <span>Estimate: 7 Feb 2022</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
                       </div>
                     </div>
+                    </div>
+}
                   </div>
                 </div>
               </div>

@@ -36,7 +36,7 @@ function AppHome() {
 
   useEffect(() => {
     getProductList();
-    getHeaders()
+    getHeaders();
   }, [search]);
 
   let token = localStorage.getItem("token-user");
@@ -97,9 +97,9 @@ function AppHome() {
         });
         if (!data.error) {
           if (data.results.length)
-            navigate(`/app/product-detail/${data.results[0]._id}`,{
+            navigate(`/app/product-detail/${data.results[0]._id}`, {
               state: {
-                flavour:data.results[0]?.type
+                flavour: data.results[0]?.type,
               },
             });
           console.log(data);
@@ -138,7 +138,7 @@ function AppHome() {
                   placeholder="Search in Star Importers"
                   onChange={(e) => {
                     setSearch(e.target.value);
-                    onSearch()
+                    onSearch();
                   }}
                 />
                 <button type="submit" className="me-5">
@@ -213,10 +213,12 @@ function AppHome() {
           <div className="product-catagories-wrapper py-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                <h6 className="fs-6"
-            // dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
-                
-                >Top Categories</h6>
+                <h6
+                  className="fs-6"
+                  // dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
+                >
+                  Top Categories
+                </h6>
                 <Link className="btn p-0" to="/app/Categories">
                   View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
                 </Link>

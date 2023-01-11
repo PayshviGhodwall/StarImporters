@@ -225,7 +225,6 @@ const EditInventory = () => {
     e.target.value = "";
   }
 
-
   const TypeStatus = async (index) => {
     console.log("fdsfd");
     await axios
@@ -233,7 +232,14 @@ const EditInventory = () => {
         flavourId: allProducts[0]?.type[index]?._id,
       })
       .then((res) => {
-        console.log(res);
+        if (res.data.message === "Flavour is changed Successfully") {
+          navigate("/Inventory");
+          Swal.fire({
+            title: "Flavour Status Changed!",
+            icon: "success",
+            button: "Ok",
+          });
+        }
       });
   };
 
@@ -683,7 +689,7 @@ const EditInventory = () => {
 
                                   <div className="flavourImage position-relative d-inline-block">
                                     <div className="imageSection d-inline-flex">
-                                      {item?.flavourImage ? (
+                                      {item?.flavourImage?.length ? (
                                         <i
                                           class="fa fa-trash  text-danger "
                                           aria-hidden="true"

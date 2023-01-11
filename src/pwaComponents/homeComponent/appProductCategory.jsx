@@ -87,11 +87,11 @@ function AppProductCategory() {
         productId: product[index]?.products?._id,
       })
       .then((res) => {
-        toast.success(res?.data?.message);
+        if(!res.error){
+        setHeart(!heart);
+        getProductList();
+        }
       });
-    getProductList();
-
-    setHeart(!heart);
   };
   const rmvFromFav = async (index) => {
     await axios
@@ -99,11 +99,11 @@ function AppProductCategory() {
         productId: product[index]?.products?._id,
       })
       .then((res) => {
-        toast.error(res?.data?.message);
+        if(!res.error){
+          setHeart(!heart);
+          getProductList();
+          }
       });
-    getProductList();
-
-    setHeart(!heart);
   };
   return (
     <>
@@ -222,7 +222,7 @@ function AppProductCategory() {
                     >
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          <a class="wishlist-btn" href="#">
+                          <a class="wishlist-btn">
                             {item?.products?.favourities ? (
                               <i
                                 class="fa fa-heart"
