@@ -139,6 +139,7 @@ function AppProductDetail() {
     await axios
       .post(rmvFav, {
         productId: productDetail._id,
+        flavour: flavour?._id,
       })
       .then((res) => {
         Swal.fire({

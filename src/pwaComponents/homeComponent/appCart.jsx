@@ -211,7 +211,7 @@ function AppCart() {
                       <tbody>
                         {(cart || [])?.map((item, index) => {
                           return (
-                            <tr>
+                            <tr key={index}>
                               <th scope="">
                                 <Link
                                   className="remove-product"

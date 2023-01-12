@@ -176,7 +176,7 @@ function AppChangePassword() {
                       <div className="mb-3">
                         <div className="title mb-2">
                           <i className="fa-solid fa-key"></i>
-                          <span>Repeat New Password </span>
+                          <span>Confirm Password </span>
                         </div>
                         <input
                           type="password"
