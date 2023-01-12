@@ -103,6 +103,13 @@ const EditInventory = () => {
     formData.append("productImage", e.target.files[0]);
 
     axios.post(uploadImage, formData).then((res) => {
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+      }
       console.log(res?.data.results);
       setProductImage(res?.data.results.productImage);
     });
@@ -202,6 +209,13 @@ const EditInventory = () => {
     formData.append("flavourImage", e.target.files[0]);
 
     await axios.post(uploadImage, formData).then((res) => {
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+      }
       let data = res.data?.results;
       let newFormValues = [...formValues];
       newFormValues[index][e.target.name] = data?.flavourImage;

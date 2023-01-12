@@ -122,10 +122,10 @@ const OrderReq = () => {
       : QuoteRequest();
   };
   var today = new Date().toISOString().split("T")[0];
-  document.getElementById("toOrder")?.setAttribute("max", today);
-  document.getElementById("fromOrder")?.setAttribute("max", today);
-  document.getElementById("toExport")?.setAttribute("max", today);
-  document.getElementById("fromExport")?.setAttribute("max", today);
+  document.getElementById("orderTo")?.setAttribute("max", today);
+  document.getElementById("orderFrom")?.setAttribute("max", today);
+  document.getElementById("reqFrom")?.setAttribute("max", today);
+  document.getElementById("reqTo")?.setAttribute("max", today);
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");

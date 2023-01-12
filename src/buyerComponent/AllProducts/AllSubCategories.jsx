@@ -69,14 +69,15 @@ const SubCategories = () => {
                 <ul class="brands_ul list-unstyled mb-0">
                   {(categories || [])?.map((item, index) => (
                     <li key={index}>
+                      
                       <Link
+                        className="text-decoration-none"
                         to={{
-                          pathname: "/CategoryProducts",
-                          search: "?sort=name",
-                          hash: "#the-hash",
+                          pathname: "/SubCategory/Products",
                         }}
-                        state={{ name: item?.categoryName }}
+                        state={{ name: item?.subCategoryName }}
                       >
+                        <p> {item?.subCategoryName}</p>
                         <img src={item?.subCategoryImage} alt="" />
                       </Link>
                     </li>

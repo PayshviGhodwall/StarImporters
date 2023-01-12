@@ -6,7 +6,11 @@ import { Navigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 import Animate from "../../Animate";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 import { updateCart } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 const Cart = () => {
   const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
@@ -63,7 +67,7 @@ const Cart = () => {
     const { data } = await updateCart(formData);
     if (!data.error) {
       getCart()
-  
+     
     }
   };
   console.log(product);
@@ -75,15 +79,24 @@ const Cart = () => {
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
-    getCart()
+      setProduct((product) =>
+        product.map((item, ind) =>
+          id === ind
+            ? {
+                ...item,
+                quantity: item?.quantity - (item?.quantity > 1 ? 1 : 0),
+              }
+            : item
+        )
+      );
+      getCart()
     }
   };
   
   const updateQuantity = async (e, id) => {
     setQuantity(e);
     const formData = {
-      productId: product[id]?.productId?._id,
-      flavour: product[id]?.flavour,
+      productId: id,
       quantity: e,
     };
     const { data } = await updateCart(formData);
@@ -305,12 +318,12 @@ const Cart = () => {
                                             )}
                                           </span>
                                           <input
-                                          loader
-                                            defaultValue={item?.quantity}
+                                            type="text"
+                                            value={item?.quantity}
                                             onChange={(e) =>
                                               updateQuantity(
                                                 e.target.value,
-                                                index
+                                                item?.productId?._id
                                               )
                                             }
                                           />

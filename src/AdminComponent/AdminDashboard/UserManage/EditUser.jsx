@@ -15,6 +15,7 @@ import { Button } from "rsuite";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
+import { get } from "jquery";
 const EditUser = () => {
   const [loader, setLoader] = useState(false);
   const [files, setFiles] = useState({
@@ -60,6 +61,7 @@ const EditUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
+    setLoader(true)
     console.log(data, "hii");
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
@@ -88,6 +90,17 @@ const EditUser = () => {
       if (res?.data.message === "User Deatils Updated Successfully") {
         setLoader(false);
         navigate("/UserManage/ApprovedView");
+      }
+      if (res?.data.message === "Invalid file format") {
+        setLoader(false);
+        Swal.fire({
+          title: "Invalid File Format!",
+          text:"Only images/pdf/docs are allowed.",
+          icon: "error",
+          button: "Ok",
+        });
+        setFiles(null)
+        getUser()
       }
       if (res?.data.message === "Email is already registered") {
         setLoader(false);

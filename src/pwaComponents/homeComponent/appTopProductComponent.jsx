@@ -27,7 +27,7 @@ function TopProduct() {
     getProductList();
   }, []);
   let token = localStorage.getItem("token-user");
-
+ console.log(token);
   const getProductList = async () => {
     const { data } = await getAllProducts();
     if (!data?.error) {
@@ -93,7 +93,9 @@ function TopProduct() {
                 <div class="col-6 col-md-4 d-flex align-items-stretch">
                   <div class="card product-card w-100">
                     <div class="card-body">
-                      <a class="wishlist-btn">
+                      {
+                        token?.length ?
+                        <a class="wishlist-btn">
                         {item?.favourities ? (
                           <i
                             class="fa fa-heart"
@@ -112,6 +114,10 @@ function TopProduct() {
                           />
                         )}
                       </a>
+                      : 
+                      null
+                      }
+                     
 
                       <Link
                         class="product-thumbnail d-block"

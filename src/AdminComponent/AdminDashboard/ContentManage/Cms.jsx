@@ -212,8 +212,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDescState.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide1Img);
     formData.append("position", currentPos1);
     await axios
@@ -227,6 +227,13 @@ const Cms = () => {
             button: "Ok",
           });
         }
+        if (res?.data.message === "Invalid Image format") {
+          Swal.fire({
+            title: "Invalid Image format!",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+        }
       });
   };
   const onSubmitSecond = async (data) => {
@@ -234,8 +241,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDesc2State.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide2Img);
     formData.append("position", currentPos2);
 
@@ -258,8 +265,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDesc3State.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide3Img);
     formData.append("position", currentPos3);
 
@@ -283,8 +290,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDesc4State.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide4Img);
     formData.append("position", currentPos3);
 
@@ -307,8 +314,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDesc5State.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide5Img);
     formData.append("position", currentPos3);
 
@@ -331,8 +338,8 @@ const Cms = () => {
     let Desc = await stateToHTML(editorDesc6State.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", Desc);
+    formData.append("title", title?.trim());
+    formData.append("description", Desc?.trim());
     formData.append("banner", files?.slide6Img);
     formData.append("position", currentPos3);
 
@@ -360,9 +367,9 @@ const Cms = () => {
     let brandTitle = await stateToHTML(editorHomePBstate.getCurrentContent());
 
     const formData = new FormData();
-    formData.append("categoryTitle", categoryTitle);
-    formData.append("brandTitle", brandTitle);
-    formData.append("featuredTitle", featuredTitle);
+    formData.append("categoryTitle", categoryTitle?.trim());
+    formData.append("brandTitle", brandTitle?.trim());
+    formData.append("featuredTitle", featuredTitle?.trim());
     formData.append("bottomImage", files?.BannerImg);
     formData.append("foreground", files?.foreground);
     await axios
@@ -412,7 +419,7 @@ const Cms = () => {
 
     await axios
       .post(editAboutUs, {
-        description: Desc,
+        description: Desc?.trim(),
       })
       .then((res) => {
         if (res.data.message === "Modified Successfully") {

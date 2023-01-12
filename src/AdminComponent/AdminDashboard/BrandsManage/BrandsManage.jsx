@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import { Button } from "rsuite";
 
 const BrandsManage = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
@@ -21,6 +22,7 @@ const BrandsManage = () => {
   const [files, setFiles] = useState([]);
   const [editBrandName, setEditBrandsName] = useState();
   const [sideBar, setSideBar] = useState(true);
+  const [loader, setLoader] = useState(false);
 
   const [Index, setIndex] = useState();
   axios.defaults.headers.common["x-auth-token-admin"] =
@@ -62,10 +64,19 @@ const BrandsManage = () => {
     await axios.post(addBrands, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Brand Added Successfully") {
-        console.log("brand added");
+        document.getElementById("resetBrand").click();
         setChange(!change);
       }
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        document.getElementById("resetSubCat").click();
+      }
       if (res?.data.message === "Please provide brand name") {
+        setLoader(false);
         Swal.fire({
           title: "Please provide brand name",
           icon: "error",
@@ -73,13 +84,22 @@ const BrandsManage = () => {
         });
       }
       if (res?.data.message === "Error in adding brand") {
+        setLoader(false)
         Swal.fire({
           title: "Error in adding brand",
           icon: "error",
           focusConfirm: false,
         });
       }
-    });
+    }).catch((error)=>{
+      if(error){
+        Swal.fire({
+          title: "Error in adding brand",
+          icon: "error",
+          focusConfirm: false,
+        });
+      }
+    })
   };
 
   const EditBrands = (index) => {
@@ -94,6 +114,7 @@ const BrandsManage = () => {
   console.log(files?.newBrandImg, editBrandName);
 
   const onSubmit = async (data) => {
+    setLoader(true)
     const formData = new FormData();
     formData.append("brandImage", files?.newBrandImg);
     formData.append("brandName", data.BrandName);
@@ -102,9 +123,30 @@ const BrandsManage = () => {
       if (res?.data.message === "Modified Successfullt") {
         window.location.reload();
         setChange(!change);
+        setLoader(false)
+      }
+      if (res?.data.message === "Invalid Image format") {
+        setLoader(false);
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        document.getElementById("resetSubCat").click();
       }
     });
   };
+  document.getElementById("brandUp")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("brandImg")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -338,11 +380,26 @@ const BrandsManage = () => {
                                 />
                               </div>
                               <div className="form-group mb-0 col-auto">
-                                <button
+                                <Button
+                                  loading={loader}
+                                  appearance="primary"
+                                  style={{
+                                    backgroundColor: "#eb3237",
+                                    fontSize: "20px",
+                                    position: "relative",
+                                    top: "-2px",
+                                  }}
                                   className="comman_btn"
                                   onClick={saveBrands}
                                 >
                                   Save
+                                </Button>
+                                <button
+                                  className="comman_btn d-none"
+                                  id="resetBrand"
+                                  type="reset"
+                                >
+                                  Reset
                                 </button>
                               </div>
                             </form>
@@ -398,7 +455,6 @@ const BrandsManage = () => {
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#staticBackdrop "
                                                 className="comman_btn2 text-white text-decoration-none"
-                                                
                                                 key={index}
                                                 onClick={() => {
                                                   EditBrands(index);
@@ -459,6 +515,7 @@ const BrandsManage = () => {
                     <div className="circle">
                       <img
                         className="profile-pic"
+                        id="brandImg"
                         width={250}
                         src={allBrands[Index]?.brandImage}
                       />
@@ -468,6 +525,7 @@ const BrandsManage = () => {
                       <input
                         className="file-uploads"
                         type="file"
+                        id="brandUp"
                         accept="image/*"
                         name="newBrandImg"
                         {...register("newBrandImg")}
@@ -486,9 +544,18 @@ const BrandsManage = () => {
                   />
                 </div>
                 <div className="form-group mb-0 col-auto mt-3">
-                  <button className="comman_btn" type="submit">
+                  <Button
+                   loading={loader}
+                   appearance="primary"
+                   style={{
+                     backgroundColor: "#eb3237",
+                     fontSize: "20px",
+                     position: "relative",
+                     top: "-2px",
+                   }}
+                  className="comman_btn" type="submit">
                     Save
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>

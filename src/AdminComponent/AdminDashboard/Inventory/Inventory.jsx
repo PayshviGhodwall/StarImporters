@@ -56,12 +56,7 @@ const Inventory = () => {
   const [NN, setNN] = useState(Math.random());
   const [NewMessage, setNewMessage] = useState("");
   const scrollBy = useScrollBy();
-  const [postsPerPage] = useState(30);
-  const [offset, setOffset] = useState(1);
-  const [posts, setAllPosts] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
   const [maxPage, setMaxPage] = useState(1);
-
   const {
     register,
     handleSubmit,
@@ -85,10 +80,6 @@ const Inventory = () => {
     GetProducts();
   }, [change, activePage]);
 
-  const handlePageClick = (event) => {
-    const selectedPage = event.selected;
-    setOffset(selectedPage + 1);
-  };
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
@@ -103,7 +94,6 @@ const Inventory = () => {
         setMaxPage(res?.data.results.allPages);
       });
   };
-  console.log(maxPage);
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -114,7 +104,6 @@ const Inventory = () => {
         setSubCategories(res?.data.results);
       });
   };
-
   let handleChange = (i, e) => {
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
@@ -160,6 +149,15 @@ const Inventory = () => {
     formData.append("productImage", e.target.files[0]);
 
     axios.post(uploadImage, formData).then((res) => {
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        e.target.value = null;
+        setProductImage("");
+      }
       console.log(res?.data.results);
       setProductImage(res?.data.results.productImage);
     });
@@ -169,6 +167,14 @@ const Inventory = () => {
     formData.append("flavourImage", e.target.files[0]);
 
     await axios.post(uploadImage, formData).then((res) => {
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+      }
+      e.target.value = null;
       let data = res.data?.results;
       let newFormValues = [...formValues];
       newFormValues[index][e.target.name] = data?.flavourImage;
@@ -196,6 +202,13 @@ const Inventory = () => {
         if (res?.data.message === "Product is already in added") {
           Swal.fire({
             title: "Product is already in Inventory!",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+        }
+        if (res?.data.message === "Please enter unit name") {
+          Swal.fire({
+            title: "Please Enter Valid Name",
             icon: "warning",
             confirmButtonText: "ok",
           });
@@ -771,6 +784,7 @@ const Inventory = () => {
                                     className="form-control"
                                     id="flavourImage"
                                     name="flavourImage"
+                                    accept="image/*"
                                     onChange={(e) =>
                                       flavourImageSelection(e, index)
                                     }

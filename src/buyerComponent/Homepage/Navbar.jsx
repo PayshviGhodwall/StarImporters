@@ -296,7 +296,7 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                     </Link>
                     <div className="dropdown-menu maga_drop_down py-lg-3 py-md-3 shadow mb-0">
                       <div className="container-fluid px-0 ">
-                        <div className="row w-100 mx-1 justify-content-center">
+                        <div className="row w-100 justify-content-center">
                           {(item?.subcategories || [])
                             ?.filter((item, idx) => idx < 24)
                             .map((item, index) => (

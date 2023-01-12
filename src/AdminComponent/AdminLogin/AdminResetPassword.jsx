@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 const AdminResetPassword = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/updatePassword`;
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [error, setError] = useState(" Please use example format");
   const [email, setEmail] = useState();
   useEffect(() => {
     const AdminEmail = localStorage.getItem("AdminEmail");
@@ -70,7 +70,7 @@ const AdminResetPassword = () => {
                       ></img>
                     </div>
                     <h1 className="fw-bold fs-4  LoginHead">Reset Password</h1>
-                    <p className="fw-lighter fs-6 text-danger">{error + "!"}</p>
+                    <p className="fw-lighter fs-6 text-danger">{error?.length ? error : null}</p>
                   </div>
                   <div className="col-12">
                     <form
@@ -92,12 +92,12 @@ const AdminResetPassword = () => {
                               value:
                                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                               message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
                             },
                           })}
                         />
                         {errors.Npassword && (
-                          <small className="errorText mx-1 fw-bold">
+                          <small className="errorText mx-1  fw-bold">
                             {errors.Npassword?.message}
                           </small>
                         )}
@@ -121,7 +121,7 @@ const AdminResetPassword = () => {
                               value:
                                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                               message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
                             },
                           })}
                         />

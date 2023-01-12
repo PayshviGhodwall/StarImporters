@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
-import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import { Button } from "rsuite";
 
 const CategorySub = () => {
   const addCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/addCategory`;
@@ -34,6 +33,7 @@ const CategorySub = () => {
   const [category, setCategory] = useState("");
   const [categoryIndex, setCategoryIndex] = useState();
   const [subCategoryIndex, setSubCategoryIndex] = useState();
+  const [loader, setLoader] = useState(false);
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -43,6 +43,7 @@ const CategorySub = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const saveCategory = async (e) => {
+    setLoader(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("categoryImage", files?.cateImg);
@@ -50,21 +51,41 @@ const CategorySub = () => {
     formData.append("categoryName", categoryName.trim());
 
     await axios.post(addCategory, formData).then((res) => {
-      if (res?.data.message === "Category added") {
+      if (!res.error) {
         setChange(!change);
-      } else if (res?.data.message === "Category is already added") {
+        setLoader(false);
+        document.getElementById("resetCat").click();
+      }
+      if (res?.data.message === "Invalid Image format") {
+        setLoader(false);
+        Swal.fire({
+          title: "Invalid Image format!",
+          text: "Only Images are allowed",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        document.getElementById("resetCat").click();
+      }
+      if (res?.data.message === "Category is already added") {
+        setLoader(false);
         Swal.fire({
           title: "Category is already added!",
           icon: "error",
           button: "Ok",
         });
-      } else if (res?.data.message === "Please provide category name") {
+      }
+      if (res?.data.message === "Please provide category name") {
+        setLoader(false);
+
         Swal.fire({
           title: "Please provide category name",
           icon: "error",
           button: "Ok",
         });
-      } else if (res?.data.message === "Please provide category Image") {
+      }
+      if (res?.data.message === "Please provide category Image") {
+        setLoader(false);
+
         Swal.fire({
           title: "Please provide category Image",
           icon: "error",
@@ -74,6 +95,7 @@ const CategorySub = () => {
     });
   };
   const saveSubCategory = async (e) => {
+    setLoader(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("subCategoryImage", files?.subCateImg);
@@ -83,20 +105,41 @@ const CategorySub = () => {
     await axios.post(addSubCategory, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
+        setLoader(false);
         setChange(!change);
-      } else if (res?.data.message === "Sub Category is already exist") {
+        document.getElementById("resetSubCat").click();
+      }
+      if (res?.data.message === "Invalid Image format") {
+        setLoader(false);
+
+        Swal.fire({
+          title: "Invalid Image format!",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        document.getElementById("resetSubCat").click();
+      }
+      if (res?.data.message === "Sub Category is already exist") {
+        setLoader(false);
+
         Swal.fire({
           title: "Sub Category is already added!",
           icon: "error",
           button: "Ok",
         });
-      } else if (res?.data.message === "Please provide category name") {
+      }
+      if (res?.data.message === "Please provide category name") {
+        setLoader(false);
+
         Swal.fire({
           title: "Please provide category name",
           icon: "error",
           button: "Ok",
         });
-      } else if (res?.data.message === "Please provide Sub category name") {
+      }
+      if (res?.data.message === "Please provide Sub category name") {
+        setLoader(false);
+
         Swal.fire({
           title: "Please provide Sub category name",
           icon: "error",
@@ -144,6 +187,16 @@ const CategorySub = () => {
         setEditCateName("");
         setFiles([]);
       }
+      if (res?.data.message === "Invalid Image format") {
+        setLoader(false);
+        Swal.fire({
+          title: "Invalid Image format!",
+          text: "Only Images are allowed",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        document.getElementById("resetCat").click();
+      }
     });
   };
   const onEditSaveSubCategory = async (e) => {
@@ -162,6 +215,16 @@ const CategorySub = () => {
           setEditSubCateName("");
           setFiles([]);
         }
+        if (res?.data.message === "Invalid Image format") {
+          setLoader(false);
+          Swal.fire({
+            title: "Invalid Image format!",
+            text: "Only Images are allowed",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+          document.getElementById("resetCat").click();
+        }
       });
   };
 
@@ -179,29 +242,27 @@ const CategorySub = () => {
   };
 
   const deleteSubImage = async (id) => {
-    await axios
-    .post(deleteSubImg + "/" + id,)
-    .then((res) => {
-      getSubCategories()
+    await axios.post(deleteSubImg + "/" + id).then((res) => {
+      getSubCategories();
     });
   };
   const deleteCatImage = async () => {
     await axios
-    .post(deleteCatImg + "/" +allCategories[categoryIndex]?._id,{
-      categoryImage:true
-    })
-    .then((res) => {
-      getCategories()
-    });
+      .post(deleteCatImg + "/" + allCategories[categoryIndex]?._id, {
+        categoryImage: true,
+      })
+      .then((res) => {
+        getCategories();
+      });
   };
   const deleteBackImage = async (id) => {
     await axios
-    .post(deleteBackImg + "/" + id,{
-      background:true
-    })
-    .then((res) => {
-      getCategories()
-    });
+      .post(deleteBackImg + "/" + id, {
+        background: true,
+      })
+      .then((res) => {
+        getCategories();
+      });
   };
   document.getElementById("catUpImg")?.addEventListener("change", function () {
     if (this.files[0]) {
@@ -444,7 +505,10 @@ const CategorySub = () => {
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action=""
                               >
-                                <div className="form-group mb-0 col-4">
+                                <div
+                                  className="form-group mb-0 col-4"
+                                  key={category}
+                                >
                                   <label htmlFor="">Category Name</label>
                                   <input
                                     type="text"
@@ -455,7 +519,10 @@ const CategorySub = () => {
                                     }}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                                <div
+                                  className="form-group mb-0 col choose_fileAdmin position-relative"
+                                  key={files?.cateImg}
+                                >
                                   <span>Category Image </span>{" "}
                                   <label htmlFor="upload_video">
                                     <i class="fa fa-camera me-1"></i>
@@ -492,11 +559,26 @@ const CategorySub = () => {
                                   />
                                 </div>
                                 <div className="form-group mb-0 col-auto">
-                                  <button
+                                <Button
+                                    loading={loader}
+                                    appearance="primary"
+                                    style={{
+                                      backgroundColor: "#eb3237",
+                                      fontSize: "20px",
+                                      position: "relative",
+                                      top: "-2px",
+                                    }}
                                     className="comman_btn"
                                     onClick={saveCategory}
                                   >
                                     Save
+                                  </Button>
+                                  <button
+                                    className="comman_btn d-none"
+                                    id="resetCat"
+                                    type="reset"
+                                  >
+                                    Reset
                                   </button>
                                 </div>
                               </form>
@@ -617,7 +699,7 @@ const CategorySub = () => {
                                   <label htmlFor="">Sub Category Name</label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-select form-control"
                                     name="subCategory"
                                     onChange={(e) => {
                                       setSubCategory(e.target.value);
@@ -643,11 +725,26 @@ const CategorySub = () => {
                                   />
                                 </div>
                                 <div className="form-group mb-0 col-auto">
-                                  <button
+                                  <Button
+                                    loading={loader}
+                                    appearance="primary"
+                                    style={{
+                                      backgroundColor: "#eb3237",
+                                      fontSize: "20px",
+                                      position: "relative",
+                                      top: "-2px",
+                                    }}
                                     className="comman_btn"
                                     onClick={saveSubCategory}
                                   >
                                     Save
+                                  </Button>
+                                  <button
+                                    className="comman_btn d-none"
+                                    id="resetSubCat"
+                                    type="reset"
+                                  >
+                                    Reset
                                   </button>
                                 </div>
                               </form>
@@ -752,11 +849,10 @@ const CategorySub = () => {
                   action=""
                 >
                   <div className="form-group col-6 p-3">
-                  
                     <label htmlFor="" className="mx-3">
-                      Category Image 
+                      Category Image
                     </label>
-                   
+
                     <div className="account_profile position-relative">
                       <div className="circle" key={categoryIndex}>
                         <img
@@ -782,7 +878,7 @@ const CategorySub = () => {
                       <i
                         class="fa fa-trash mx-2 text-danger deleteBtnCat"
                         aria-hidden="true"
-                        onClick={ deleteCatImage}
+                        onClick={deleteCatImage}
                       ></i>
                     ) : null}
                   </div>
@@ -791,7 +887,7 @@ const CategorySub = () => {
                     <label htmlFor="" className="mx-3">
                       Background Image
                     </label>
-                   
+
                     <div className="account_profile position-relative ">
                       <div className="circle " key={categoryIndex}>
                         <img
@@ -817,7 +913,9 @@ const CategorySub = () => {
                       <i
                         class="fa fa-trash mx-2 text-danger deleteBtnCat"
                         aria-hidden="true"
-                        onClick={()=> deleteBackImage(allCategories[categoryIndex]?._id)}
+                        onClick={() =>
+                          deleteBackImage(allCategories[categoryIndex]?._id)
+                        }
                       ></i>
                     ) : null}
                   </div>
@@ -882,7 +980,11 @@ const CategorySub = () => {
                         <i
                           class="fa fa-trash mx-2 text-danger "
                           aria-hidden="true"
-                          onClick={()=>deleteSubImage(allSubCategories[subCategoryIndex]?._id)}
+                          onClick={() =>
+                            deleteSubImage(
+                              allSubCategories[subCategoryIndex]?._id
+                            )
+                          }
                         ></i>
                       ) : null}
                       <div className="circle" key={subCategoryIndex}>

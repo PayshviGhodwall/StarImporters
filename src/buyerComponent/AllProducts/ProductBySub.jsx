@@ -26,6 +26,7 @@ const ProductBySubCate = () => {
     getProducts();
     GetBrands();
   }, [location, heart]);
+
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);

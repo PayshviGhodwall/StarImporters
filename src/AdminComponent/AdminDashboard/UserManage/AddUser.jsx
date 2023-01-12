@@ -66,6 +66,16 @@ const AddUser = () => {
         setLoader(false)
         navigate("/UserManage");
       }
+      if (res?.data.message === "Invalid file format") {
+        setLoader(false);
+        Swal.fire({
+          title: "Invalid File Format!",
+          text:"Only images/pdf/docs are allowed.",
+          icon: "error",
+          button: "Ok",
+        });
+        
+      }
       if (res?.data.message === "Email is already registered") {
         setLoader(false)
         Swal.fire({
@@ -337,8 +347,10 @@ const AddUser = () => {
                           id="name"
                           {...register("companyName", {
                             required: "Company Name is Required*",
+                            pattern:"^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$",
                             minLength: {
                               value: 5,
+    
                               message:
                                 "Minimium 4 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
                             },
