@@ -7,6 +7,7 @@ import { userRegister } from "../httpServices/loginHttpService/loginHttpService"
 import { RotatingLines } from "react-loader-spinner";
 import $ from "jquery";
 import Swal from "sweetalert2";
+import { useTimeout } from "rsuite/esm/utils";
 
 function AppSignUp() {
   const [selectedFile1, setSelectedFile1] = useState(null);
@@ -26,15 +27,12 @@ function AppSignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    setLoader(true);
-    console.log(data);
-
     data.addressLine = [data.addressLine, data.addressLine1];
     delete data.addressLine1;
 
     const formData = new FormData();
     for (const item in data) {
-      formData.append(item, data[item]);
+      formData.append(item, data[item?.trim()]);
       console.log(data[item]);
     }
 
@@ -58,9 +56,12 @@ function AppSignUp() {
 
     if (response?.data.message === "Registered Successfully") {
       if (window.flutter_inappwebview) {
-        window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,"xyzz" );
-  
-     }
+        window.flutter_inappwebview.callHandler(
+          "saveDetails",
+          data?.email,
+          "xyzz"
+        );
+      }
       setLoader(false);
       Swal.fire({
         title: "Thanks You! Your account is under review.",
@@ -79,6 +80,15 @@ function AppSignUp() {
         button: "Ok",
       });
     }
+    if (response?.data.message === "Invalid Image format") {
+      Swal.fire({
+        title: "Invalid Image format!",
+        text: "Only Images are allowed",
+        icon: "warning",
+        confirmButtonText: "ok",
+      });
+      setLoader(false);
+    }
     if (response?.data.message === "Phone is already registered") {
       setLoader(false);
 
@@ -90,7 +100,9 @@ function AppSignUp() {
       });
     }
   };
-
+  useTimeout(() => {
+    setLoader(false);
+  }, [9000]);
   const onFileSelection = (event, index) => {
     let file = event[0];
 
@@ -139,7 +151,13 @@ function AppSignUp() {
                         placeholder=""
                         name="companyName"
                         id="companyName"
-                        {...register("companyName", { required: true })}
+                        {...register("companyName", {
+                          required: true,
+                          pattern: {
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            message: "Special Character not allowed",
+                          },
+                        })}
                       />
 
                       {errors?.companyName && (
@@ -223,7 +241,13 @@ function AppSignUp() {
                         placeholder=""
                         name="city"
                         id="city"
-                        {...register("city", { required: true })}
+                        {...register("city", {
+                          required: true,
+                          pattern: {
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            message: "Special Character not allowed",
+                          },
+                        })}
                       />
                       {errors?.city && (
                         <p className="form-error mt-1">
@@ -266,7 +290,10 @@ function AppSignUp() {
                         placeholder=""
                         name="zipcode"
                         id="zipcode"
-                        {...register("zipcode", { required: true })}
+                        {...register("zipcode", {
+                          required: false,
+                          maxLength: 6,
+                        })}
                       />
 
                       {errors?.zipcode && (
@@ -288,7 +315,13 @@ function AppSignUp() {
                         placeholder=""
                         name="firstName"
                         id="firstName"
-                        {...register("firstName", { required: true })}
+                        {...register("firstName", {
+                          required: true,
+                          pattern: {
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            message: "Special Character not allowed",
+                          },
+                        })}
                       />
 
                       {errors?.firstName && (
@@ -310,7 +343,13 @@ function AppSignUp() {
                         placeholder=""
                         name="lastName"
                         id="lastName"
-                        {...register("lastName", { required: true })}
+                        {...register("lastName", {
+                          required: true,
+                          pattern: {
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            message: "Special Character not allowed",
+                          },
+                        })}
                       />
 
                       {errors?.lastName && (
@@ -361,7 +400,7 @@ function AppSignUp() {
                         name="phoneNumber"
                         {...register("phoneNumber", {
                           required: true,
-                          maxLength: 10,
+                          // maxLength: 10,
                           minLength: 10,
                         })}
                       />
@@ -391,7 +430,7 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-1"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 1)}
@@ -405,8 +444,7 @@ function AppSignUp() {
                         id="p-2"
                         type="file"
                         placeholder=""
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         onChange={(e) => onFileSelection(e.target.files, 2)}
                       />
                     </div>
@@ -416,8 +454,7 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-3"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 3)}
@@ -429,8 +466,7 @@ function AppSignUp() {
                       <input
                         className="form-control"
                         id="p-4"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         type="file"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 4)}
@@ -452,8 +488,7 @@ function AppSignUp() {
                         className="form-control"
                         id="p-5"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 5)}
                       />
@@ -528,7 +563,12 @@ function AppSignUp() {
                       )}
                     </div>
                     <div className="d-flex">
-                      <button className="comman_btn me-1" onClick={()=>navigate("/app/login")}>Cancel</button>
+                      <button
+                        className="comman_btn me-1"
+                        onClick={() => navigate("/app/login")}
+                      >
+                        Cancel
+                      </button>
                       <button
                         className="comman_btn2 bg-white text-dark ms-1"
                         type="submit"

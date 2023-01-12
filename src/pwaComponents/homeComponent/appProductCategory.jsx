@@ -248,7 +248,7 @@ function AppProductCategory() {
                           >
                             <img
                               class="mb-2"
-                              src={item?.products?.productImage}
+                              src={item?.products?.productImage ? item?.products?.productImage :require("../../assets/img/product.jpg")  }
                               alt=""
                             />
                           </Link>

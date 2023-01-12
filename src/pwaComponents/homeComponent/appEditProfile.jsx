@@ -9,13 +9,15 @@ import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 import { toast } from "react-toastify";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import Swal from "sweetalert2";
 
 function AppEditProfile() {
   const [detail, setDetail] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const navigate = useNavigate()
-  let ref = useRef()
+  const navigate = useNavigate();
+  let ref = useRef();
   const {
     register,
     handleSubmit,
@@ -58,7 +60,12 @@ function AppEditProfile() {
 
     const response = await editProfile(formData);
     if (!response.data.error) {
-      navigate('/app/profile')
+      Swal.fire({
+        title: "Profile updated successfully!",
+        icon: "success",
+        button: "ok",
+      });
+      navigate("/app/profile");
     }
   };
 
@@ -125,11 +132,7 @@ function AppEditProfile() {
                   <div className="card-body p-4 d-flex align-items-center">
                     <div className="user-profile me-3">
                       <img
-                        src={
-                          imageFile
-                            ? imageFile
-                            : "../assets/img/logo.png"
-                        }
+                        src={imageFile ? imageFile : "../assets/img/logo.png"}
                         alt=""
                       />
                       <div className="change-user-thumb">

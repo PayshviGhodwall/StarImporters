@@ -163,7 +163,7 @@ function AppProductList() {
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item._id}`}
                           >
-                            <img class="mb-2" src={item.productImage} alt="" />
+                            <img class="mb-2" src={item.productImage ? item.productImage : require("../../assets/img/product.jpg") } />
                           </Link>
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col">

@@ -60,7 +60,6 @@ const SingleProduct = () => {
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
-
   }
   
   useEffect(() => {

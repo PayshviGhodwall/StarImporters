@@ -110,6 +110,15 @@ function AppReSignUp() {
       });
       navigate("/app/pre-login");
     }
+    if (response?.data.message === "Invalid Image format") {
+      setLoader(false);
+      Swal.fire({
+        title: "Invalid Image format!",
+        text: "Only Images are allowed",
+        icon: "warning",
+        confirmButtonText: "ok",
+      });
+    }
   };
 
   const onFileSelection = (event, index) => {

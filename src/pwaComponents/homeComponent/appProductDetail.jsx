@@ -31,18 +31,20 @@ function AppProductDetail() {
   const [flavour, setFlavour] = useState();
   let { id } = useParams();
   const navigate = useNavigate();
+  const [objectId, setObjectID] = useState();
 
   let token = localStorage.getItem("token-user");
   let location = useLocation();
-  let ref = useRef()
-  console.log(location);
+  let ref = useRef();
+  if (objectId !== id) {
+    setObjectID(id)
+    setFlavour(location?.state?.type);
+  }
   useEffect(() => {
     getProductDetail();
     userInfo();
   }, [flavour, id]);
-  useEffect(() => {
-    setTypeObj();
-  }, [id]);
+
   const userInfo = async () => {
     await axios.get(userData).then((res) => {
       setUserDetail(res?.data?.results);
@@ -197,8 +199,8 @@ function AppProductDetail() {
                 <div className="single-product-slide item">
                   <img
                     src={
-                      productDetail?.type[FInd]?.flavourImage
-                        ? productDetail?.type[FInd]?.flavourImage
+                      flavour?.flavourImage
+                        ? flavour?.flavourImage
                         : productDetail?.productImage
                     }
                     alt=""
@@ -259,11 +261,11 @@ function AppProductDetail() {
                     <span>5.0</span>
                     <span>Very Good</span>
                   </div>
-                  {flavour ? (
+                  {flavour?.flavour ? (
                     <div className="col-12 mt-3">
                       <p className="fw-bold">
-                        {productDetail?.type[FInd]?.flavourPriceStatus
-                          ? "Price : $" + productDetail?.type[FInd].flavourPrice
+                        {flavour?.flavourPriceStatus
+                          ? "Price : $" + flavour?.flavourPrice
                           : null}
                       </p>
                     </div>
@@ -302,19 +304,35 @@ function AppProductDetail() {
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      {productDetail?.type?.map((item, index) => (
-                        <Link
-                          className=""
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setFlavour(item?.flavour);
-                            setTypeObj(item);
-                            setFInd(index);
-                          }}
-                        >
-                          {item?.flavour}
-                        </Link>
-                      ))}
+                      {productDetail?.type?.map((item, index) =>
+                        flavour?.flavour === item?.flavour ? (
+                          <Link
+                            className="text-white"
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#3e4093",
+                            }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setFlavour(item);
+                              setFInd(index);
+                            }}
+                          >
+                            {item?.flavour}
+                          </Link>
+                        ) : (
+                          <Link
+                            className=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setFlavour(item);
+                              setFInd(index);
+                            }}
+                          >
+                            {item?.flavour}
+                          </Link>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -356,8 +374,8 @@ function AppProductDetail() {
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
                       <p>
-                        {typeObj
-                          ? typeObj.description
+                        {flavour?.flavour
+                          ? flavour?.description
                           : "Please select any flavour to see details"}
                       </p>
                     </div>

@@ -160,7 +160,7 @@ function AppProductBySearch() {
                             >
                               <img
                                 className="mb-2"
-                                src={ item?.type.flavourImage ? item?.type.flavourImage : item.productImage}
+                                src={ item?.type.flavourImage ? item?.type.flavourImage :  require("../../assets/img/product.jpg") }
                                 alt=""
                               />
                             </Link>

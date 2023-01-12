@@ -56,7 +56,7 @@ function AppWishlist() {
             getFavourites();
           }
         });
-    }
+    } 
   };
   return (
     <>

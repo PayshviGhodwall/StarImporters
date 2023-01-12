@@ -122,11 +122,13 @@ function TopProduct() {
                       <Link
                         class="product-thumbnail d-block"
                         to={`/app/product-detail/${item?._id}`}
+                        state={{ type: item?.type[0] }} 
+
                       >
                         <img
                           class="mb-2"
-                          src={item?.type[0]?.flavourImage}
-                          alt=""
+                          src={item.type[0]?.flavourImage ? item.type[0]?.flavourImage  : require("../../assets/img/product.jpg") }
+                          alt="Product Image not updated"
                         />
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
@@ -134,8 +136,10 @@ function TopProduct() {
                           <Link
                             class="product-title"
                             to={`/app/product-detail/${item?._id}`}
+                            state={{ type: item?.type[0] }} 
+
                           >
-                            {item?.unitName + item?.type[0]?.flavour}
+                            {item?.unitName + "-" + item.type[0]?.flavour}
                           </Link>
                           <div className="product-rating">
                             <i className="fa-solid fa-star"></i>
