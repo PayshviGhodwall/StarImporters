@@ -20,13 +20,14 @@ function AppWishlist() {
   const getFavourites = async () => {
     await axios.get(allFav).then((res) => {
       console.log(res);
-      setProducts(res?.data?.results?.products);
+      setProducts(res?.data?.results);
     });
   };
   const rmvFromFav = async (index) => {
     await axios
       .post(rmvFav, {
         productId: products[index]?.productId?._id,
+        flavour: products[index]?.flavour,
       })
       .then((res) => {
         Swal.fire({
@@ -56,7 +57,7 @@ function AppWishlist() {
             getFavourites();
           }
         });
-    } 
+    }
   };
   return (
     <>
@@ -76,9 +77,17 @@ function AppWishlist() {
                         <div className="product-thumbnail-side">
                           <Link
                             className="product-thumbnail shadow-sm d-block"
-                            to={`/app/product-detail/${item?._id}`}
+                            to={`/app/product-detail/${item?.productId?._id}`}
+                            state={{ type: item?.flavour }}
                           >
-                            <img src={item?.productId?.productImage} alt="" />
+                            <img
+                              src={
+                                item?.flavour?.flavourImage
+                                  ? item?.flavour?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
                           </Link>
                         </div>
                         <div className="product-description">
@@ -90,11 +99,12 @@ function AppWishlist() {
                           </a>
                           <Link
                             className="product-title d-block fs-5 mb-2"
-                            to={`/app/product-detail/${item?._id}`}
+                            to={`/app/product-detail/${item?.productId?._id}`}
+                            state={{ type: item?.flavour }}
                           >
                             {item?.productId?.unitName +
                               "-" +
-                              item?.productId?.type[0]?.flavour}
+                              item?.flavour?.flavour}
                           </Link>
                           <div className="product-rating mt-2 mb-2">
                             <i className="fa-solid fa-star"></i>

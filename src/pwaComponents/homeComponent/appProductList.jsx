@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
@@ -23,8 +23,10 @@ function AppProductList() {
   const [brandName, setBrandName] = useState();
   const [heart, setHeart] = useState(false);
   const navigate = useNavigate();
-
+  let ref = useRef()
   let { id } = useParams();
+ 
+  let token = localStorage.getItem("token-user");
 
   useEffect(() => {
     getProductList();
@@ -65,28 +67,38 @@ function AppProductList() {
     await axios
       .post(addFav, {
         productId: product[index]?._id,
+        flavour: product[index]?.type[0],
       })
       .then((res) => {
-        toast.success(res?.data?.message);
+        setHeart(!heart);
       });
     getProductList();
-    setHeart(!heart);
   };
   const rmvFromFav = async (index) => {
     await axios
       .post(rmvFav, {
         productId: product[index]?._id,
+        flavour: product[index]?.type[0],
       })
       .then((res) => {
-        toast.error(res?.data?.message);
+        setHeart(!heart);
       });
     getProductList();
-    setHeart(!heart);
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("closeModal").click();
+    }
   };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
               <Link to="/app/home">
@@ -139,8 +151,10 @@ function AppProductList() {
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          <a class="wishlist-btn" href="#">
-                            {item?.favourities ? (
+                      {  token?.length ?
+
+                          <a class="wishlist-btn">
+                            {item?.favourite ? (
                               <i
                                 class="fa fa-heart"
                                 onClick={() => {
@@ -158,17 +172,25 @@ function AppProductList() {
                               />
                             )}
                           </a>
-
+ : null }
                           <Link
                             class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item._id}`}
+                            to={`/app/product-detail/${item?._id}`}
+                            state={{ type: item?.type[0] }}
                           >
-                            <img class="mb-2" src={item.productImage ? item.productImage : require("../../assets/img/product.jpg") } />
+                            <img
+                              class="mb-2"
+                              src={
+                                item.type[0]?.flavourImage
+                                  ? item.type[0]?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                            />
                           </Link>
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col">
-                              <a class="product-title" href="javascript:;">
-                                {item.unitName}
+                              <a class="product-title">
+                                {item?.unitName + "-" + item.type[0]?.flavour}
                               </a>
                             </div>
                             {/* <div class="col-auto">

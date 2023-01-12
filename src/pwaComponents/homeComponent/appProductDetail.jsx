@@ -37,7 +37,7 @@ function AppProductDetail() {
   let location = useLocation();
   let ref = useRef();
   if (objectId !== id) {
-    setObjectID(id)
+    setObjectID(id);
     setFlavour(location?.state?.type);
   }
   useEffect(() => {
@@ -54,7 +54,7 @@ function AppProductDetail() {
     const { data } = await getProductDetaill(id);
     if (!data.error) {
       setProductDetail(data.results);
-      setCategoryName(data?.results?.category);
+      setCategoryName(data?.results?.category?.categoryName);
     }
   };
   const getQuantity = (type) => {
@@ -124,9 +124,13 @@ function AppProductDetail() {
     await axios
       .post(addFav, {
         productId: productDetail?._id,
+        flavour: flavour?._id,
       })
       .then((res) => {
-        toast.success(res?.data?.message);
+        Swal.fire({
+          title: res?.data.message,
+          button: "ok",
+        });
       });
     getProductDetail();
     setHeart(!heart);
@@ -137,7 +141,10 @@ function AppProductDetail() {
         productId: productDetail._id,
       })
       .then((res) => {
-        toast.error(res?.data?.message);
+        Swal.fire({
+          title: res?.data.message,
+          button: "ok",
+        });
       });
     getProductDetail();
     setHeart(!heart);
@@ -225,27 +232,29 @@ function AppProductDetail() {
                 <div className="p-title-price">
                   <h5 className="">{productDetail?.unitName}</h5>
                 </div>
-                <div className="p-wishlist-share">
-                  <Link>
-                    {productDetail?.favourities ? (
-                      <i
-                        class="fa fa-heart"
-                        onClick={() => {
-                          rmvFromFav();
-                        }}
-                        style={{ color: "#3e4093 " }}
-                      />
-                    ) : (
-                      <i
-                        class="fa fa-heart"
-                        onClick={() => {
-                          addToFav();
-                        }}
-                        style={{ color: "#E1E1E1 " }}
-                      />
-                    )}
-                  </Link>
-                </div>
+                {token?.length ? (
+                  <div className="p-wishlist-share">
+                    <Link>
+                      {productDetail?.favourite ? (
+                        <i
+                          class="fa fa-heart"
+                          onClick={() => {
+                            rmvFromFav();
+                          }}
+                          style={{ color: "#3e4093 " }}
+                        />
+                      ) : (
+                        <i
+                          class="fa fa-heart"
+                          onClick={() => {
+                            addToFav();
+                          }}
+                          style={{ color: "#E1E1E1 " }}
+                        />
+                      )}
+                    </Link>
+                  </div>
+                ) : null}
               </div>
               <div className="product-ratings ">
                 <div className="container d-flex flex-wrap align-items-center justify-content-between rtl-flex-d-row-r">

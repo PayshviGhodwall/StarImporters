@@ -51,6 +51,7 @@ function TopProduct() {
     await axios
       .post(addFav, {
         productId: product[index]?._id,
+        flavour:product[index]?.type[0]
       })
       .catch((err) => {
         // toast.success(res?.data?.message);
@@ -70,12 +71,16 @@ function TopProduct() {
     await axios
       .post(rmvFav, {
         productId: product[index]?._id,
+        flavour:product[index]?.type[0]
+
       })
       .then((res) => {
-        // toast.error(res?.data?.message);
+        if(!res.error){
+          setHeart(!heart);
+
+        }
       });
     getProductList();
-    setHeart(!heart);
   };
   return (
     <>
@@ -96,7 +101,7 @@ function TopProduct() {
                       {
                         token?.length ?
                         <a class="wishlist-btn">
-                        {item?.favourities ? (
+                        {item?.favourite ? (
                           <i
                             class="fa fa-heart"
                             onClick={() => {

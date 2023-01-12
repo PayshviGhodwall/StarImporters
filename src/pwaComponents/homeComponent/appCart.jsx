@@ -16,8 +16,10 @@ function AppCart() {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [userDetail, setUserDetail] = useState([]);
+  const [Down, setDown] = useState(true);
+  const [Up, setUp] = useState(true);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-let ref = useRef()
+  let ref = useRef();
   useEffect(() => {
     getCarts();
     userInfo();
@@ -87,6 +89,7 @@ let ref = useRef()
   //   console.log(toggleNumber)
   // });
   const HandleDecrease = async (id) => {
+    setDown(false);
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity - 1,
@@ -94,6 +97,7 @@ let ref = useRef()
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
+      setDown(true);
       setCart((cart) =>
         cart?.map((item, ind) =>
           id === ind
@@ -104,11 +108,12 @@ let ref = useRef()
             : item
         )
       );
-      getCarts()
+      getCarts();
     }
   };
 
   const HandleIncrease = async (id) => {
+    setUp(false);
     console.log(id);
     const formData = {
       productId: cart[id]?.productId?._id,
@@ -117,12 +122,13 @@ let ref = useRef()
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
+      setUp(true);
       setCart((cart) =>
         cart?.map((item, ind) =>
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
-      getCarts()
+      getCarts();
     }
   };
   useEffect(() => {
@@ -201,7 +207,7 @@ let ref = useRef()
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body p-1">
                   <table className="table mb-0">
-                    {cart.length ? (
+                    {cart?.length ? (
                       <tbody>
                         {(cart || [])?.map((item, index) => {
                           return (
@@ -252,7 +258,9 @@ let ref = useRef()
 
                                 <div className="quantity d-flex mt-1">
                                   <span
-                                    className="minus fs-5 fw-bold"
+                                    className={
+                                      Down ? " minus fs-5 fw-bold" : "d-none "
+                                    }
                                     style={{ userSelect: "none" }}
                                     onClick={() => {
                                       HandleDecrease(index);
@@ -261,12 +269,13 @@ let ref = useRef()
                                     {item?.quantity <= 1 ? (
                                       <i
                                         class="fa fa-trash fs-6 text-danger"
-                                        onClick={() =>
+                                        onClick={() => {
+                                          setDown(!Down);
                                           deleteProduct(
                                             item?.productId._id,
                                             item?.flavour
-                                          )
-                                        }
+                                          );
+                                        }}
                                       ></i>
                                     ) : (
                                       "-"
@@ -286,7 +295,9 @@ let ref = useRef()
                                     }
                                   />
                                   <span
-                                    className="plus fs-5 fw-bold"
+                                    className={
+                                      Up ? "plus fs-5 fw-bold" : "d-none"
+                                    }
                                     style={{ userSelect: "none" }}
                                     onClick={() => {
                                       HandleIncrease(index);

@@ -35,7 +35,11 @@ function AppChangePassword() {
         });
       }
     } else {
-      toast.error("New password should be equal to Confirm password");
+      Swal.fire({
+        title: "New password should be equal to Confirm password",
+        icon: "error",
+        button: "ok",
+      });
     }
   };
 

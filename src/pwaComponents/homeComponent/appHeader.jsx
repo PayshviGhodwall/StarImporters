@@ -146,15 +146,15 @@ function AppHeader({cartCount}) {
                   <i className="fa-solid fa-users"></i>My Request
                 </Link>
               </li>
-              <li>
-                <Link to={token ? "/app/notifications" : "/app/login"}>
-                  <i className="fa-solid fa-bell lni-tada-effect"></i>
-                  Notifications
-                  <span className="ms-1 badge badge-warning">
-                    {token ? counter : null}
-                  </span>
-                </Link>
-              </li>
+                {/* <li>
+                  <Link to={token ? "/app/notifications" : "/app/login"}>
+                    <i className="fa-solid fa-bell lni-tada-effect"></i>
+                    Notifications
+                    <span className="ms-1 badge badge-warning">
+                      {token ? counter : null}
+                    </span>
+                  </Link>
+                </li> */}
               <li>
                 <Link to="/app/brands">
                   <i className="fa-solid fa-ribbon"></i>Brands

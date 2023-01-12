@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import WebHeader2 from "./webHeader2";
+import Swal from "sweetalert2";
 
 function AppProductBrands() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -27,9 +28,10 @@ function AppProductBrands() {
 
   let location = useLocation();
   const navigate = useNavigate();
-  let ref = useRef()
+  let ref = useRef();
   let name = location.state?.name;
-  
+  let token = localStorage.getItem("token-user");
+
   useEffect(() => {
     getBrandsList();
     getProductList();
@@ -70,9 +72,13 @@ function AppProductBrands() {
     await axios
       .post(addFav, {
         productId: product[index]?.products?._id,
+        flavour: product[index]?.type[0],
       })
       .then((res) => {
-        toast.success(res?.data?.message);
+        Swal.fire({
+          title: res?.data.message,
+          button: "ok",
+        });
       });
     getProductList();
 
@@ -82,9 +88,13 @@ function AppProductBrands() {
     await axios
       .post(rmvFav, {
         productId: product[index]?.products?._id,
+        flavour: product[index]?.type[0],
       })
       .then((res) => {
-        toast.error(res?.data?.message);
+        Swal.fire({
+          title: res?.data.message,
+          button: "ok",
+        });
       });
     getProductList();
 
@@ -130,10 +140,7 @@ function AppProductBrands() {
             </div>
           </div>
         </div>
-       <WebHeader2/>
-
-         
-
+        <WebHeader2 />
 
         <div class="page-content-wrapper">
           <div class="py-3">
@@ -146,12 +153,10 @@ function AppProductBrands() {
                       name="selectProductCatagory"
                       aria-label="Default select example"
                       onChange={(e) => sortProducts(e)}
-
                     >
                       <option selected>Short by</option>
                       <option value="1">A to Z</option>
                       <option value="0">Z to A</option>
-                    
                     </select>
                   </div>
                 </div>
@@ -162,33 +167,38 @@ function AppProductBrands() {
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          <a class="wishlist-btn" href="#">
-                            {item?.products?.favourities ? (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  rmvFromFav(index);
-                                }}
-                                style={{ color: "#3e4093 " }}
-                              />
-                            ) : (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  addToFav(index);
-                                }}
-                                style={{ color: "#E1E1E1 " }}
-                              />
-                            )}
-                          </a>
-
+                          {token?.length ? (
+                            <a class="wishlist-btn" href="#">
+                              {item?.products?.favourities ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(index);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(index);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                            </a>
+                          ) : null}
                           <Link
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?.products?._id}`}
                           >
                             <img
                               class="mb-2"
-                              src={item?.products?.productImage ? item?.products?.productImage  : require("../../assets/img/product.jpg") }
+                              src={
+                                item?.products?.productImage
+                                  ? item?.products?.productImage
+                                  : require("../../assets/img/product.jpg")
+                              }
                               alt=""
                             />
                           </Link>

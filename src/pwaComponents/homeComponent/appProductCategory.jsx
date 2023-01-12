@@ -28,6 +28,7 @@ function AppProductCategory() {
 
   let { id } = useParams();
   const navigate = useNavigate();
+  let token = localStorage.getItem("token-user");
 
   useEffect(() => {
     getCategoryList();
@@ -85,11 +86,12 @@ function AppProductCategory() {
     await axios
       .post(addFav, {
         productId: product[index]?.products?._id,
+        flavour: product[index]?.products?.type[0],
       })
       .then((res) => {
-        if(!res.error){
-        setHeart(!heart);
-        getProductList();
+        if (!res.error) {
+          setHeart(!heart);
+          getProductList();
         }
       });
   };
@@ -97,12 +99,13 @@ function AppProductCategory() {
     await axios
       .post(rmvFav, {
         productId: product[index]?.products?._id,
+        flavour: product[index]?.products?.type[0],
       })
       .then((res) => {
-        if(!res.error){
+        if (!res.error) {
           setHeart(!heart);
           getProductList();
-          }
+        }
       });
   };
   return (
@@ -222,40 +225,48 @@ function AppProductCategory() {
                     >
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          <a class="wishlist-btn">
-                            {item?.products?.favourities ? (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  rmvFromFav(index);
-                                }}
-                                style={{ color: "#3e4093 " }}
-                              />
-                            ) : (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  addToFav(index);
-                                }}
-                                style={{ color: "#E1E1E1 " }}
-                              />
-                            )}
-                          </a>
-
+                          {token?.length ? (
+                            <a class="wishlist-btn">
+                              {item?.products?.favourite ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(index);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(index);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                            </a>
+                          ) : null}
                           <Link
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?.products?._id}`}
+                            state={{ type: item?.products?.type[0] }}
                           >
                             <img
                               class="mb-2"
-                              src={item?.products?.productImage ? item?.products?.productImage :require("../../assets/img/product.jpg")  }
+                              src={
+                                item?.products?.type[0]?.flavourImage
+                                  ? item?.products?.type[0]?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
                               alt=""
                             />
                           </Link>
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col">
                               <a class="product-title" href="javascript:;">
-                                {item?.products?.unitName}
+                                {item?.products?.unitName +
+                                  "-" +
+                                  item?.products?.type[0]?.flavour}
                               </a>
                               <div className="product-rating">
                                 <i className="fa-solid fa-star"></i>

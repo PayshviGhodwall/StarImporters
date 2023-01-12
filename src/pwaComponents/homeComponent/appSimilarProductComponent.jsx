@@ -23,11 +23,13 @@ function SimlarProduct({ categoryName }) {
   }, [categoryName]);
   console.log(categoryName?.categoryName);
   const getProductList = async () => {
-  await  axios.post(similarProduct, {
-      category: categoryName?.categoryName,
-    }).then((res)=>{
-      setProduct(res?.data?.results)
-    })
+    await axios
+      .post(similarProduct, {
+        category: categoryName?.categoryName,
+      })
+      .then((res) => {
+        setProduct(res?.data?.results);
+      });
   };
 
   const addToCartt = async (id) => {
@@ -42,7 +44,6 @@ function SimlarProduct({ categoryName }) {
     }
   };
 
-  
   return (
     <>
       <div className="related-product-wrapper bg-white py-3 mb-3">
@@ -54,42 +55,50 @@ function SimlarProduct({ categoryName }) {
             </Link>
           </div>
           <OwlCarousel
-                className="flash-sale-slide"
-                autoplay={true}
-                autoplayHoverPause={false}
-                autoplayTimeout={5000}
-                dots={false}
-                loop={true}
-                nav={false}
-                fade={false}
-                items={3}
-                margin={10}
-              >
-                {(product || []).map((item, index) => {
-                  return (
-                    <div className="card flash-sale-card item" key={index}>
-                      <div className="card-body">
-                        <Link 
-                        to={`/app/product-detail/${item?._id}`}
+            className="flash-sale-slide"
+            autoplay={true}
+            autoplayHoverPause={false}
+            autoplayTimeout={5000}
+            dots={false}
+            loop={true}
+            nav={false}
+            fade={false}
+            items={3}
+            margin={10}
+          >
+            {(product || []).map((item, index) => {
+              return (
+                <div className="card flash-sale-card item" key={index}>
+                  <div className="card-body">
+                    <Link
+                      to={`/app/product-detail/${item?._id}`}
+                      state={{ type: item?.type[0] }}
+                    >
+                      <img
+                        src={
+                          item.type[0]?.flavourImage
+                            ? item.type[0]?.flavourImage
+                            : require("../../assets/img/product.jpg")
+                        }
+                        alt=""
+                      />
+                    </Link>
+                    <div class="row d-flex align-items-center justify-content-between">
+                      <div class="col">
+                        <Link
+                          class="product-title text-center"
+                          to={`/app/product-detail/${item?._id}`}
+                          state={{ type: item?.type[0] }}
                         >
-                          <img src={item?.productImage} alt="" />
+                          {item?.unitName + "-" + item.type[0]?.flavour}
                         </Link>
-                        <div class="row d-flex align-items-center justify-content-between">
-                        <div class="col">
-                          <a class="product-title text-center" href="javascript:;">
-                            {item?.unitName}
-                          </a>
-                         
-                        </div>
-                       
-                        </div>
                       </div>
-                      
                     </div>
-                  );
-                })}
-              </OwlCarousel>
-         
+                  </div>
+                </div>
+              );
+            })}
+          </OwlCarousel>
         </div>
       </div>
     </>
