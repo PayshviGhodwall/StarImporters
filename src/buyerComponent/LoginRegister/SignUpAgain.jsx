@@ -79,6 +79,14 @@ const SignUpAgain = () => {
           });
           navigate("/app/home");
         }
+        if (res?.data.message === "Invalid file format") {
+          Swal.fire({
+            title: "Invalid file format!",
+            text: "Only Images/docs/pdf are allowed",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+        }
       });
     };
 

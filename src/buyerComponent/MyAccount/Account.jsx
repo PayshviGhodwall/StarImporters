@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import axios from "axios";
 import SendOtp from "../LoginRegister/SendOtp";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 const Account = () => {
   const editProfile = `${process.env.REACT_APP_APIENDPOINTNEW}user/editProfile`;
   const [users, setUsers] = useState([]);
@@ -13,14 +14,14 @@ const Account = () => {
     name: "",
     phone: "",
     email: "",
-    password: "", 
+    password: "",
   });
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-
+  const [counter, setCounter] = useState(0);
   const [error, setError] = useState("");
-  const [change,setChange] = useState(false)
+  const [change, setChange] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,15 +34,17 @@ const Account = () => {
     localStorage.getItem("loginToken");
 
   useEffect(() => {
-    const getUser =async()=>{
-      await axios.get(userApi).then((res)=>{
+    const getUser = async () => {
+      await axios.get(userApi).then((res) => {
         console.log(res);
-        setUsers(res?.data.results)
-      })
-     }
-     getUser()
+        setUsers(res?.data.results);
+      });
+    };
+    getUser();
   }, [change]);
-
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
   const UpdatedData = (e) => {
     const value = e.target.value;
     setFormValues({
@@ -51,20 +54,26 @@ const Account = () => {
   };
   console.log(formValues);
   const SaveProfile = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const formData = new FormData();
     formData.append("firstName", formValues?.name);
     formData.append("phoneNumber", formValues?.phone);
     formData.append("email", formValues?.email);
     formData.append("password", formValues?.password);
-    
 
     await axios.post(editProfile, formData).then((res) => {
       if (res.data.message === "Profile updated Successfully") {
-        setChange(!change)
-       let Modal = document.getElementById("close-modal11")
-       window.location.reload()
-          Modal.click()
+        setChange(!change);
+        let Modal = document.getElementById("close-modal11");
+        window.location.reload();
+        Modal.click();
+      }
+      if (res?.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "error",
+          button: "ok",
+        });
       }
     });
   };
@@ -72,9 +81,9 @@ const Account = () => {
 
   let email = users?.email;
   const onSubmit = async (data) => {
-    const tempOtp = data.number1 + data.number2 + data.number3 + data.number4;
+    data?.number1?.length === "" && setError("Enter Otp")
+    const tempOtp = data?.number1 + data?.number2 + data?.number3 + data?.number4;
     const otp = parseInt(tempOtp);
-    console.log(tempOtp);
     const VerifyUser = () => {
       axios
         .post(apiUrl, {
@@ -101,6 +110,7 @@ const Account = () => {
       .then((res) => {});
   };
   const ResendOtp = async (e) => {
+    setCounter(60);
     e.preventDefault();
     await axios
       .post(sendOtp, {
@@ -125,6 +135,15 @@ const Account = () => {
     } else {
       y.type = "password";
     }
+    // if (x.type === "password") {
+    //   x.type = "text";
+    // } else {
+    //   x.type = "password";
+    // }
+  };
+
+  const togglePassword2 = () => {
+    let x = document.getElementById("password-input");
     if (x.type === "password") {
       x.type = "text";
     } else {
@@ -291,7 +310,7 @@ const Account = () => {
                           className="form-control shadow-none"
                           defaultValue={users?.firstName}
                           id="floatingInput"
-                         disabled
+                          disabled
                         />
                         <label htmlFor="floatingInput">Name</label>
                       </div>
@@ -332,9 +351,7 @@ const Account = () => {
                           className="fa fa-fw fa-eye field-icon toggle-password"
                         />
                       </div>
-                      <div className="col-12 text-center">
-      
-                      </div>
+                      <div className="col-12 text-center"></div>
                     </form>
                   </div>
                 </div>
@@ -353,9 +370,9 @@ const Account = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered ">
           <div className="modal-content border-0 rounded-0  rounded-top">
-            <div className="modal-body">
+            <div className="modal-body shadow">
               <button
                 type="button"
                 className="btn-close"
@@ -416,7 +433,7 @@ const Account = () => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0">
-            <div className="modal-body">
+            <div className="modal-body shadow">
               <button
                 type="button"
                 className="btn-close"
@@ -437,64 +454,70 @@ const Account = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     autocomplete="off"
                   >
+                    {error}
                     <div className="form-group mb-3 d-flex justify-content-center">
                       <input
                         className="form-control shadow-none border border-secondary text-center mx-1 otp_input "
-                        type="text"
+                        type="number"
                         maxLength={1}
                         name="number1"
-                        id="number1"
+                        id="numberOne"
                         {...register("number1", {
                           required: "Required",
+                          maxLength: {
+                            value: 1,
+                            message: "maximium 1 Charcarters",
+                          },
+
                         })}
                         onKeyUp={(event) => {
                           moveOnMax(
                             event,
-                            document.getElementById("number1"),
-                            document.getElementById("number2")
+                            document.getElementById("numberOne"),
+                            document.getElementById("numberTwo")
                           );
                         }}
                       />
                       <input
                         className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                        type="text"
+                        type="number"
                         maxLength={1}
                         name="number2"
-                        id="number2"
+                        id="numberTwo"
                         {...register("number2", {
                           required: "Required",
                         })}
                         onKeyUp={(event) => {
                           moveOnMax(
                             event,
-                            document.getElementById("number2"),
-                            document.getElementById("number3")
+                            document.getElementById("numberTwo"),
+                            document.getElementById("numberThree")
                           );
                         }}
                       />
                       <input
                         className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                        type="text"
+                        type="number"
                         maxLength={1}
                         name="number3"
-                        id="number3"
+                        id="numberThree"
                         {...register("number3", {
                           required: "Required",
                         })}
                         onKeyUp={(event) => {
                           moveOnMax(
                             event,
-                            document.getElementById("number3"),
-                            document.getElementById("number4")
+                            document.getElementById("numberThree"),
+                            document.getElementById("numberFour")
                           );
                         }}
                       />
                       <input
                         className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                        type="text"
+                        type="number"
                         maxLength={1}
                         name="number4"
-                        id="number4"
+                        id="numberFour"
                         {...register("number4", {
                           required: "Required",
                         })}
@@ -503,7 +526,9 @@ const Account = () => {
                     <div className="fs-6 text-danger fw-bold">{error}</div>
                     <div className="form-group my-3">
                       <div className="time_js">
-                        <span className="fw-bold fs-5 text-info">01:34</span>
+                        <span className="fw-bold fs-5 text-info">
+                          {counter ? <p>00:{counter}</p> : null}
+                        </span>
                       </div>
                     </div>
                     <div className="form-group mb-4">
@@ -559,7 +584,7 @@ const Account = () => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0">
-            <div className="modal-body">
+            <div className="modal-body shadow">
               <button
                 type="button"
                 className="btn-close"
@@ -636,7 +661,7 @@ const Account = () => {
                       />
                       <label htmlFor="password-field">New Password</label>
                       <span
-                        onClick={togglePassword}
+                        onClick={togglePassword2}
                         className="fa fa-fw fa-eye field-icon toggle-password"
                       />
                     </div>

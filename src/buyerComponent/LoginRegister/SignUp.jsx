@@ -75,6 +75,15 @@ const SignUp = () => {
             button: "Ok",
           });
         }
+        if (response?.data.message === "Invalid file format") {
+          Swal.fire({
+            title: "Invalid file format!",
+            text: "Only Images/docs/pdf are allowed",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+          setLoader(false);
+        }
         if (response?.data.message === "Please enter valid name") {
           setLoader(false);
 
@@ -147,6 +156,10 @@ const SignUp = () => {
                     placeholder="name@example.com"
                     {...register("companyName", {
                       required: "Company Name is Required*",
+                      pattern: {
+                        value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
+                        message: "Special Character not allowed",
+                      },
                       minLength: {
                         value: 4,
                         message: "Minimium 4 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
@@ -239,6 +252,10 @@ const SignUp = () => {
                     name="city"
                     {...register("city", {
                       required: "City is Required*",
+                      pattern: {
+                        value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
+                        message: "Special Character not allowed",
+                      },
                     })}
                   />
                   {errors.city && (
@@ -352,7 +369,7 @@ const SignUp = () => {
                   </div>
                   <div className="form-floating col-4 mb-4">
                     <input
-                      type="text"
+                      type="numer"
                       className={classNames(
                         "form-control  border border-secondary signup_fields",
                         { "is-invalid": errors.zipcode }
@@ -362,6 +379,14 @@ const SignUp = () => {
                       name="zipcode"
                       {...register("zipcode", {
                         required: "Pincode is Required*",
+                        pattern: {
+                          value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
+                          message: "Special Character not allowed",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "maximium 10 Charcarters",
+                        },
                       })}
                     />
                     {errors.zipcode && (
@@ -387,6 +412,10 @@ const SignUp = () => {
                       name="firstName"
                       {...register("firstName", {
                         required: "Enter Your First Name*",
+                        pattern: {
+                          value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
+                          message: "Special Character not allowed",
+                        },
                       })}
                     />
                     {errors.firstName && (
@@ -410,6 +439,10 @@ const SignUp = () => {
                       name="lastName"
                       {...register("lastName", {
                         required: "Enter Your Last Name*",
+                        pattern: {
+                          value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
+                          message: "Special Character not allowed",
+                        },
                       })}
                     />
                     {errors.lastName && (

@@ -23,7 +23,7 @@ const ForgotPassword = ({ getEmail }) => {
 
  
   const onSubmit = (data) => {
-    data.length ? 
+    data ? 
     axios
       .post(apiUrl, {
         email: data.email,
