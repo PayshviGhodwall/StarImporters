@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/main.css";
 import axios from "axios";
-import { Uploader, Message, Loader, useToaster } from 'rsuite';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import { Uploader, Message, Loader, useToaster } from "rsuite";
+import AvatarIcon from "@rsuite/icons/legacy/Avatar";
 import Starlogo from "../../assets/img/logo.png";
-
-
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const toaster = useToaster();
@@ -17,31 +16,31 @@ const Profile = () => {
 
   const editImage = `${process.env.REACT_APP_APIENDPOINTNEW}user/editProfile`;
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
- console.log(fileInfo);
+  console.log(fileInfo);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
   useEffect(() => {
-   const getUser =async()=>{
-    await axios.get(userApi).then((res)=>{
-      console.log(res);
-      setUsers(res?.data.results)
-    })
-   }
-   getUser()
-
+    getUser();
   }, [change]);
-  document.getElementById("profileImg")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("profile")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
-
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      console.log(res);
+      setUsers(res?.data.results);
+    });
+  };
+  document
+    .getElementById("profileImg")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("profile")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
 
   console.log(files);
   const changeProfile = async (e, key) => {
@@ -51,6 +50,15 @@ const Profile = () => {
       if (res.data?.message === "Profile updated Successfully") {
         console.log("HIi");
         setChange(!change);
+      }
+      if (res?.data.message === "Invalid Image format") {
+        Swal.fire({
+          title: "Invalid Image format!",
+          text: "Only Images are allowed",
+          icon: "warning",
+          confirmButtonText: "ok",
+        });
+        window.location.reload(false);
       }
     });
   };
@@ -62,7 +70,11 @@ const Profile = () => {
           <div className="col-auto">
             <div className="account_profile">
               <div className="">
-                <img className="profileImage" id="profile" src={users?.profileImage ? users?.profileImage : Starlogo } />
+                <img
+                  className="profileImage"
+                  id="profile"
+                  src={users?.profileImage ? users?.profileImage : Starlogo}
+                />
               </div>
               <div className="">
                 <img

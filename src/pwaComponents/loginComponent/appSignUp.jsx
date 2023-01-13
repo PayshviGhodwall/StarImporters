@@ -152,7 +152,7 @@ function AppSignUp() {
                         name="companyName"
                         id="companyName"
                         {...register("companyName", {
-                          required: true,
+                          required: "Required",
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed",
@@ -162,7 +162,7 @@ function AppSignUp() {
 
                       {errors?.companyName && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.companyName?.message}
                         </p>
                       )}
                     </div>
@@ -199,12 +199,12 @@ function AppSignUp() {
                         placeholder=""
                         name="addressLine"
                         id="addressLine"
-                        {...register("addressLine", { required: true })}
+                        {...register("addressLine", { required: "Required" })}
                       />
 
                       {errors?.addressLine && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.addressLine?.message}
                         </p>
                       )}
                     </div>
@@ -242,7 +242,7 @@ function AppSignUp() {
                         name="city"
                         id="city"
                         {...register("city", {
-                          required: true,
+                          required: "Required",
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed",
@@ -251,7 +251,7 @@ function AppSignUp() {
                       />
                       {errors?.city && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.city?.message}
                         </p>
                       )}{" "}
                     </div>
@@ -268,12 +268,12 @@ function AppSignUp() {
                         placeholder=""
                         name="state"
                         id="state"
-                        {...register("state", { required: true })}
+                        {...register("state", { required: "Required" })}
                       />
 
                       {errors?.state && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.state?.message}
                         </p>
                       )}
                     </div>
@@ -291,14 +291,14 @@ function AppSignUp() {
                         name="zipcode"
                         id="zipcode"
                         {...register("zipcode", {
-                          required: false,
-                          maxLength: 6,
+                          required: "Required and max-length is 10",
+                          maxLength: 10,
                         })}
                       />
 
                       {errors?.zipcode && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.zipcode?.message}
                         </p>
                       )}
                     </div>
@@ -316,7 +316,7 @@ function AppSignUp() {
                         name="firstName"
                         id="firstName"
                         {...register("firstName", {
-                          required: true,
+                          required: "Required",
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed",
@@ -326,7 +326,7 @@ function AppSignUp() {
 
                       {errors?.firstName && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.firstName?.message}
                         </p>
                       )}
                     </div>
@@ -344,7 +344,7 @@ function AppSignUp() {
                         name="lastName"
                         id="lastName"
                         {...register("lastName", {
-                          required: true,
+                          required: "Required",
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed",
@@ -354,7 +354,7 @@ function AppSignUp() {
 
                       {errors?.lastName && (
                         <p className="form-error mt-1">
-                          This field is required
+                          {errors.lastName?.message}
                         </p>
                       )}
                     </div>

@@ -203,7 +203,7 @@ const ProductByBrand = () => {
                               });
                             }}
                           />
-                           <p
+                           {/* <p
                               style={{
                                 right: "5px",
                                 top:"-80px",
@@ -211,7 +211,7 @@ const ProductByBrand = () => {
                                 borderRadius: "50%",
                               }}
                             >
-                              {item?.products?.favourities ? (
+                              {item?.favourite ? (
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {
@@ -228,7 +228,7 @@ const ProductByBrand = () => {
                                   style={{ color: "#E1E1E1 " }}
                                 />
                               )}
-                            </p>
+                            </p> */}
                         </div>
                         {/* </Link> */}
                         <div className="product_content mt-3 text-center">

@@ -6842,13 +6842,12 @@ background-color: #3e4093;
   }
   .search-form form .form-control {
     width: 100%;
-    background-color: #c2d4f8;
     height: 39px;
     font-size: 13px;
     padding: 10px 14px;
     padding-left: 48px;
     border: 1px solid #c2d4f8;
-    color: #747794;
+    color:#000000 !important;
     border-radius: 0.4rem;
   }
   .search-form form button {

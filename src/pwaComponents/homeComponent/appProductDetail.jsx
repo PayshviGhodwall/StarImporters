@@ -56,8 +56,10 @@ function AppProductDetail() {
       setProductDetail(data.results);
       setCategoryName(data?.results?.category?.categoryName);
     }
-  };
+  };  
+  console.log(categoryName);
   const getQuantity = (type) => {
+    
     if (type === "add") {
       setQuantity(quantity + 1);
     } else {

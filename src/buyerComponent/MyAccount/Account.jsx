@@ -81,8 +81,9 @@ const Account = () => {
 
   let email = users?.email;
   const onSubmit = async (data) => {
-    data?.number1?.length === "" && setError("Enter Otp")
-    const tempOtp = data?.number1 + data?.number2 + data?.number3 + data?.number4;
+    data?.number1?.length === "" && setError("Enter Otp");
+    const tempOtp =
+      data?.number1 + data?.number2 + data?.number3 + data?.number4;
     const otp = parseInt(tempOtp);
     const VerifyUser = () => {
       axios
@@ -438,6 +439,7 @@ const Account = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
+                onClick={() => window.location.reload(false)}
                 aria-label="Close"
               />
 
@@ -468,7 +470,6 @@ const Account = () => {
                             value: 1,
                             message: "maximium 1 Charcarters",
                           },
-
                         })}
                         onKeyUp={(event) => {
                           moveOnMax(
@@ -539,13 +540,22 @@ const Account = () => {
                     <div className="form-group mb-0 comman_text">
                       <span>
                         Didn't receive the OTP?{" "}
-                        <a
-                          href="javascript:;"
-                          className="text-decoration-none text-info"
-                          onClick={ResendOtp}
-                        >
-                          Resend OTP
-                        </a>
+                        {counter ? (
+                          <a
+                            className="text-decoration-none "
+                            style={{ color: "#3b4093" }}
+                          >
+                            Check Email
+                          </a>
+                        ) : (
+                          <a
+                            className="text-decoration-none"
+                            style={{ color: "#3b4093", cursor: "pointer" }}
+                            onClick={ResendOtp}
+                          >
+                            Resend OTP
+                          </a>
+                        )}
                       </span>
                     </div>
                   </form>
@@ -590,6 +600,7 @@ const Account = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => window.location.reload(false)}
                 id="close-modal11"
               />
 

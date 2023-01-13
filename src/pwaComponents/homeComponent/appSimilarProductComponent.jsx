@@ -21,11 +21,11 @@ function SimlarProduct({ categoryName }) {
   useEffect(() => {
     getProductList();
   }, [categoryName]);
-  console.log(categoryName?.categoryName);
+  console.log(categoryName);
   const getProductList = async () => {
     await axios
       .post(similarProduct, {
-        category: categoryName?.categoryName,
+        category: categoryName,
       })
       .then((res) => {
         setProduct(res?.data?.results);
@@ -54,51 +54,53 @@ function SimlarProduct({ categoryName }) {
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
-          <OwlCarousel
-            className="flash-sale-slide"
-            autoplay={true}
-            autoplayHoverPause={false}
-            autoplayTimeout={5000}
-            dots={false}
-            loop={true}
-            nav={false}
-            fade={false}
-            items={3}
-            margin={10}
-          >
-            {(product || []).map((item, index) => {
-              return (
-                <div className="card flash-sale-card item" key={index}>
-                  <div className="card-body">
-                    <Link
-                      to={`/app/product-detail/${item?._id}`}
-                      state={{ type: item?.type[0] }}
-                    >
-                      <img
-                        src={
-                          item.type[0]?.flavourImage
-                            ? item.type[0]?.flavourImage
-                            : require("../../assets/img/product.jpg")
-                        }
-                        alt=""
-                      />
-                    </Link>
-                    <div class="row d-flex align-items-center justify-content-between">
-                      <div class="col">
-                        <Link
-                          class="product-title text-center"
-                          to={`/app/product-detail/${item?._id}`}
-                          state={{ type: item?.type[0] }}
-                        >
-                          {item?.unitName + "-" + item.type[0]?.flavour}
-                        </Link>
+          {product.length ? (
+            <OwlCarousel
+              className="flash-sale-slide"
+              autoplay={true}
+              autoplayHoverPause={false}
+              autoplayTimeout={5000}
+              dots={false}
+              loop={true}
+              nav={false}
+              fade={false}
+              items={3}
+              margin={10}
+            >
+              {(product || []).map((item, index) => {
+                return (
+                  <div className="card flash-sale-card item" key={index}>
+                    <div className="card-body">
+                      <Link
+                        to={`/app/product-detail/${item?._id}`}
+                        state={{ type: item?.type[0] }}
+                      >
+                        <img
+                          src={
+                            item.type[0]?.flavourImage
+                              ? item.type[0]?.flavourImage
+                              : require("../../assets/img/product.jpg")
+                          }
+                          alt=""
+                        />
+                      </Link>
+                      <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col">
+                          <Link
+                            class="product-title text-center"
+                            to={`/app/product-detail/${item?._id}`}
+                            state={{ type: item?.type[0] }}
+                          >
+                            {item?.unitName + "-" + item.type[0]?.flavour}
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </OwlCarousel>
+                );
+              })}
+            </OwlCarousel>
+          ) : null}
         </div>
       </div>
     </>

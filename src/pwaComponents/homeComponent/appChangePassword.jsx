@@ -34,9 +34,17 @@ function AppChangePassword() {
           button: "ok",
         });
       }
+
+      if (response?.data.message === "Invalid old Password") {
+        Swal.fire({
+          title: "Incorrect Old Password",
+          icon: "error",
+          button: "ok",
+        });
+      }
     } else {
       Swal.fire({
-        title: "New password should be equal to Confirm password",
+        title: " Confirm password should be same as new password.",
         icon: "error",
         button: "ok",
       });
@@ -51,6 +59,17 @@ function AppChangePassword() {
     const { data } = await getUserProfile();
     if (!data.error) {
       setDetail(data.results);
+    }
+  };
+  const togglePassword = () => {
+    let x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+      setTimeout(() => {
+        x.type = "password";
+      }, [2000]);
+    } else {
+      x.type = "password";
     }
   };
   useEffect(() => {
@@ -182,7 +201,7 @@ function AppChangePassword() {
                           type="password"
                           className="form-control form-control2"
                           name="confirmPassword"
-                          id="confirmPassword"
+                          id="password"
                           {...register("confirmPassword", {
                             required: "This field is required",
                             pattern: {
@@ -193,6 +212,15 @@ function AppChangePassword() {
                             },
                           })}
                         />
+                         <span
+                        style={{
+                          position: "relative",
+                          left: "300px",
+                          top: "-28px",
+                        }}
+                        onClick={togglePassword}
+                        className="fa fa-fw fa-eye field-icon toggle-password"
+                      />
                         {errors?.confirmPassword && (
                           <p className="form-error mt-1">
                             {errors?.confirmPassword?.message}

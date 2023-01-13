@@ -27,7 +27,7 @@ function TopProduct() {
     getProductList();
   }, []);
   let token = localStorage.getItem("token-user");
- console.log(token);
+  console.log(token);
   const getProductList = async () => {
     const { data } = await getAllProducts();
     if (!data?.error) {
@@ -45,13 +45,16 @@ function TopProduct() {
     if (!data.error) {
       navigate("/app/cart");
     }
+    if (data?.error) {
+      navigate("/app/login");
+    }
   };
 
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
         productId: product[index]?._id,
-        flavour:product[index]?.type[0]
+        flavour: product[index]?.type[0],
       })
       .catch((err) => {
         // toast.success(res?.data?.message);
@@ -71,13 +74,11 @@ function TopProduct() {
     await axios
       .post(rmvFav, {
         productId: product[index]?._id,
-        flavour:product[index]?.type[0]
-
+        flavour: product[index]?.type[0],
       })
       .then((res) => {
-        if(!res.error){
+        if (!res.error) {
           setHeart(!heart);
-
         }
       });
     getProductList();
@@ -98,41 +99,40 @@ function TopProduct() {
                 <div class="col-6 col-md-4 d-flex align-items-stretch">
                   <div class="card product-card w-100">
                     <div class="card-body">
-                      {
-                        token?.length ?
+                      {token?.length ? (
                         <a class="wishlist-btn">
-                        {item?.favourite ? (
-                          <i
-                            class="fa fa-heart"
-                            onClick={() => {
-                              rmvFromFav(index);
-                            }}
-                            style={{ color: "#3e4093 " }}
-                          />
-                        ) : (
-                          <i
-                            class="fa fa-heart"
-                            onClick={() => {
-                              addToFav(index);
-                            }}
-                            style={{ color: "#E1E1E1 " }}
-                          />
-                        )}
-                      </a>
-                      : 
-                      null
-                      }
-                     
+                          {item?.favourite ? (
+                            <i
+                              class="fa fa-heart"
+                              onClick={() => {
+                                rmvFromFav(index);
+                              }}
+                              style={{ color: "#3e4093 " }}
+                            />
+                          ) : (
+                            <i
+                              class="fa fa-heart"
+                              onClick={() => {
+                                addToFav(index);
+                              }}
+                              style={{ color: "#E1E1E1 " }}
+                            />
+                          )}
+                        </a>
+                      ) : null}
 
                       <Link
                         class="product-thumbnail d-block"
                         to={`/app/product-detail/${item?._id}`}
-                        state={{ type: item?.type[0] }} 
-
+                        state={{ type: item?.type[0] }}
                       >
                         <img
                           class="mb-2"
-                          src={item.type[0]?.flavourImage ? item.type[0]?.flavourImage  : require("../../assets/img/product.jpg") }
+                          src={
+                            item.type[0]?.flavourImage
+                              ? item.type[0]?.flavourImage
+                              : require("../../assets/img/product.jpg")
+                          }
                           alt="Product Image not updated"
                         />
                       </Link>
@@ -141,8 +141,7 @@ function TopProduct() {
                           <Link
                             class="product-title"
                             to={`/app/product-detail/${item?._id}`}
-                            state={{ type: item?.type[0] }} 
-
+                            state={{ type: item?.type[0] }}
                           >
                             {item?.unitName + "-" + item.type[0]?.flavour}
                           </Link>

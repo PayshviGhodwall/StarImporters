@@ -261,7 +261,7 @@ const ProductBySubCate = () => {
                               borderRadius: "50%",
                             }}
                           >
-                            {item?.products?.favourities ? (
+                            {item?.favourite ? (
                               <i
                                 class="fa fa-heart"
                                 onClick={() => {

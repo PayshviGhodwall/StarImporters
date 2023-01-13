@@ -258,9 +258,7 @@ function AppCart() {
 
                                 <div className="quantity d-flex mt-1">
                                   <span
-                                    className={
-                                      Down ? " minus fs-5 fw-bold" : "d-none "
-                                    }
+                                    className=" minus fs-5 fw-bold"
                                     style={{ userSelect: "none" }}
                                     onClick={() => {
                                       HandleDecrease(index);
@@ -295,9 +293,7 @@ function AppCart() {
                                     }
                                   />
                                   <span
-                                    className={
-                                      Up ? "plus fs-5 fw-bold" : "d-none"
-                                    }
+                                    className="plus fs-5 fw-bold"
                                     style={{ userSelect: "none" }}
                                     onClick={() => {
                                       HandleIncrease(index);

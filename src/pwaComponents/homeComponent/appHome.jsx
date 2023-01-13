@@ -80,6 +80,7 @@ function AppHome() {
   };
 
   const searchProduct = async (e) => {
+    e.preventDefault()
     navigate("/app/product-by-search", { state: { search: search } });
   };
 

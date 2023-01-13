@@ -101,7 +101,7 @@ function AppPreLoginPassword() {
                       <span
                         style={{
                           position: "relative",
-                          left: "330px",
+                          left: "310px",
                           top: "-25px",
                         }}
                         onClick={togglePassword}

@@ -363,7 +363,7 @@ export async function addToCart(formData) {
       icon: "error",
       button: "ok",
     }).then((res)=>{
-      window.location.reload(false)
+      window.location.replace("/app/login");
     })
     return { error };
   }
