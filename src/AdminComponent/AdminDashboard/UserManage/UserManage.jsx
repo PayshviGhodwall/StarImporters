@@ -141,7 +141,7 @@ const UserManage = () => {
   const getRejectedUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "REJECTED",
-      page: activePendingPage,
+      page: activeReturnedPage,
     });
     setRejectedUsers(res.data.results.usersList);
 
@@ -579,7 +579,10 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr className="" key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>
+                                              {(activePendingPage - 1) * 15 +
+                                                (index + 1)}
+                                            </td>
                                             <td>
                                               {User?.createdAt.slice(0, 10)}
                                             </td>
@@ -603,7 +606,7 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
-                                  <div className="col-11 d-flex justify-content-center py-2 ">
+                                  <div className="col-11 d-flex justify-content-between py-2  mx-5">
                                     <span className="totalPage">
                                       Total Pages : {maxPenPage}
                                     </span>
@@ -729,7 +732,11 @@ const UserManage = () => {
                                         {(approvedUsers || []).map(
                                           (User, index) => (
                                             <tr key={index} className="">
-                                              <td>{index + 1}.</td>
+                                              <td>
+                                                {(activeApprovePage - 1) * 15 +
+                                                  (index + 1)}
+                                                .
+                                              </td>
                                               <td>
                                                 {User?.createdAt.slice(0, 10)}
                                               </td>
@@ -913,7 +920,8 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr key={index} className="">
-                                            <td>{index + 1}.</td>
+                                            <td> {(activeReturnedPage - 1) * 15 +
+                                                (index + 1)}.</td>
                                             <td>
                                               {User?.createdAt.slice(0, 10)}
                                             </td>
@@ -939,6 +947,62 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
+                                </div>
+                                <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                  <span className="totalPage">
+                                    Total Pages : {maxRetPage}
+                                  </span>
+                                  <ul id="pagination">
+                                    <li>
+                                      <a
+                                        class="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activeReturnedPage <= 1
+                                            ? setActiveReturnedPage(1)
+                                            : setActiveReturnedPage(
+                                                activeReturnedPage - 1
+                                              )
+                                        }
+                                      >
+                                        «
+                                      </a>
+                                    </li>
+
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                    <li>
+                                      <a href="#" className="active">
+                                        {activeReturnedPage}
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+                                    <li>
+                                      <a href="#">.</a>
+                                    </li>
+
+                                    <li>
+                                      <a
+                                        className="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activeReturnedPage === maxRetPage
+                                            ? setActiveReturnedPage(maxRetPage)
+                                            : setActiveReturnedPage(
+                                                activeReturnedPage + 1
+                                              )
+                                        }
+                                      >
+                                        »
+                                      </a>
+                                    </li>
+                                  </ul>
                                 </div>
                               </div>
                             </div>

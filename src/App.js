@@ -110,6 +110,7 @@ import AllCategories from "./buyerComponent/AllProducts/AllCategories";
 import FeaturedProducts from "./buyerComponent/AllProducts/FeaturedProducts";
 import SubCategories from "./buyerComponent/AllProducts/AllSubCategories";
 import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch";
+import AppWelcome from "./pwaComponents/homeComponent/appWelcome";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -140,7 +141,6 @@ function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Welcome />} />
           {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
           {/* <Route path="/app/register" element={<SignUp />} /> */}
           <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
@@ -215,6 +215,8 @@ function App() {
           <Route path="/app/product-details" element={<SingleProdBySearch />} />
 
           {/* App Routes */}
+          <Route path="/" element={width < 999 ? <AppWelcome /> :<Welcome />} />
+
           <Route
             path="/app/pre-login"
             element={width < 999 ? <AppPreLogin /> : <Homepage />}

@@ -941,7 +941,7 @@ const Inventory = () => {
                           <tbody>
                             {(allProducts || [])?.map((User, index) => (
                               <tr key={index} className="">
-                                <td>{index + 1}.</td>
+                                <td>{(activePage - 1) * 20 + (index + 1)}.</td>
                                 <td>{User?.createdAt.slice(0, 10)}</td>
                                 <td>{User?.unitName}</td>
                                 <td>

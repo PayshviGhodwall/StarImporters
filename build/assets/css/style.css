@@ -7036,10 +7036,14 @@ background-color: #3e4093;
 
   /* Register CSS */
   .login-wrapper {
+    
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: #3e4093;
+     color: #fff;
+    background: url("../img/bg.jpg") top center no-repeat;
+    background-size: cover;
+    position: relative;
     z-index: 10;
     overflow-y: auto;
     padding-top: 2rem;
@@ -7527,6 +7531,15 @@ background-color: #3e4093;
   }
   .big-logo {
     max-width: 160px;
+  }
+  .welcomeForm2{
+    background-color: #fff;
+    width: 50% !important;
+    margin-right: 1rem;
+  }
+  .welcomeForm{
+    background-color: #fff;
+    width: 50% !important;
   }
   .get-started-btn {
     position: fixed;
