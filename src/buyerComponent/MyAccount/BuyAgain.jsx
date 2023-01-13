@@ -122,7 +122,7 @@ const BuyAgain = () => {
                       </h4>
                     </div>
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/MainMenu"
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
@@ -133,7 +133,7 @@ const BuyAgain = () => {
                         <span className="fs-6 mx-2">MAIN MENU</span>
                       </h4>
                     </div>
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/BuyAgain"
                     style={{ textDecoration: "none", fontSize: "15px" }}
@@ -154,7 +154,9 @@ const BuyAgain = () => {
               <div className="bg-white p-4 ">
                 <div className="row">
                   <div className="col-12">
-                    <div className="row myfavourites">
+
+                    PURCHASE HISTORY IS NOT AVAILABLE.....
+                    {/* <div className="row myfavourites">
                       <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
                         <div className="product_parts_box">
                           <div className="partsproduct_img">
@@ -312,7 +314,7 @@ const BuyAgain = () => {
                         </div>
                       </div>
                      
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

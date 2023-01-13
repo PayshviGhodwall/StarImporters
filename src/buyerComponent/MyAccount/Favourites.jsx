@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import axios from "axios";
 
 const Favourites = () => {
   const [users, setUsers] = useState();
   const allFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/allFav`;
-  const [products, setProducts] = useState();
-
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
@@ -134,7 +134,7 @@ const Favourites = () => {
                       </h4>
                     </div>
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/MainMenu"
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
@@ -145,7 +145,7 @@ const Favourites = () => {
                         <span className="fs-6 mx-2">MAIN MENU</span>
                       </h4>
                     </div>
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/BuyAgain"
                     style={{ textDecoration: "none", fontSize: "15px" }}
@@ -167,19 +167,37 @@ const Favourites = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="row myfavourites">
-                      {(products?.products || [])?.map((item, index) => (
+                      {(products || [])?.map((item, index) => (
                         <div
-                          className="col-lg-3 col-md-4 mb-lg-4 mb-md-2"
+                          className="col-lg-3 col-md-4 mb-lg-4 mb-md-2 "
                           key={index}
                         >
-                          <div className="product_parts_box">
-                            <div className="partsproduct_img">
+                          <div className="border br-2 p-2 shadow">
+                            <div
+                              className="partsproduct_img"
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: {
+                                    id: item?.productId?._id,
+                                  },
+                                });
+                              }}
+                            >
                               <img
                                 src={item?.productId?.productImage}
                                 alt="Product"
                               />
                             </div>
-                            <div className="product_content mt-2 text-center">
+                            <div
+                              className="product_content mt-2 text-center"
+                              onClick={() => {
+                                navigate("/AllProducts/Product", {
+                                  state: {
+                                    id: item?.productId?._id,
+                                  },
+                                });
+                              }}
+                            >
                               <Link to="" className="text-decoration-none">
                                 {item?.productId?.unitName}
                               </Link>

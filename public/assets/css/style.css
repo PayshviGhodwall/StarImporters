@@ -1407,7 +1407,7 @@
     *===================================*/
   .product_parts_box {
     width: 100%;
-    padding: 14px 14px 20px;
+    padding: 14px 14px 15px;
     border: 2px solid #f1f1f1;
     border-radius: 10px;
     margin: 12px 0;
@@ -2514,11 +2514,10 @@
   }
   .myfavourites .partsproduct_img img {
     max-width: 100%;
-    height: 110px;
     object-fit: contain;
   }
   .myfavourites .partsproduct_img {
-    height: 150px;
+    height: 170px;
     position: relative;
   }
   .myfavourites .product_content a {
@@ -2528,7 +2527,8 @@
     position: unset;
   }
   .myfavourites .product_parts_box {
-    padding: 10px 10px 15px;
+    padding: 5px !important;
+    padding-bottom: 3px !important;
   }
   .main_menudata .accordion-button {
     background-color: #eb3237;
@@ -3277,8 +3277,8 @@
   }
   .product_parts_box {
     width: 100%;
-    height: 23rem !important;
-    padding: 14px 14px 20px;
+    height: 23rem;
+    padding: 14px 14px 15px;
     border: 2px solid #e2e0e0;
     border-radius: 8px;
     margin: 12px 0;

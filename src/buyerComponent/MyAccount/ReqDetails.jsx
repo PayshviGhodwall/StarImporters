@@ -137,7 +137,7 @@ const RequestDetails = () => {
                     </div>
                   </Link>
 
-                  <Link
+                  {/* <Link
                     to="/MainMenu"
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
@@ -148,7 +148,7 @@ const RequestDetails = () => {
                         <span className="fs-6 mx-2">MAIN MENU</span>
                       </h4>
                     </div>
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/BuyAgain"
                     style={{ textDecoration: "none", fontSize: "15px" }}

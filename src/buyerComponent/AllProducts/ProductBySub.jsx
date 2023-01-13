@@ -6,6 +6,7 @@ import axios from "axios";
 import Footer from "../Footer/Footer";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProductBySubCate = () => {
   const location = useLocation();
@@ -63,7 +64,15 @@ const ProductBySubCate = () => {
   const addToFav = async (index) => {
     await axios.post(addFav, {
       productId: products[index]?.products?._id,
-    });
+    }).catch((err)=>{
+      if(err){
+       Swal.fire({
+         title:"Please Login To Continue!",
+         icon:"warning",
+         button:"cool"
+       })
+      }
+   })
     setHeart(!heart);
   };
   const rmvFromFav = async (index) => {
