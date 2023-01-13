@@ -64,7 +64,7 @@ function AppWelcome() {
   };
   return (
     <div className="star_imp_app">
-      <div class="login-wrapper d-flex align-items-center justify-content-center text-center">
+      <div class="login-wrapperWelcome d-flex align-items-center justify-content-center text-center">
         <div class="background-shape"></div>
         <div class="container">
           <div class="row justify-content-center">

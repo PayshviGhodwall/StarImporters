@@ -7041,6 +7041,20 @@ background-color: #3e4093;
     width: 100%;
     min-height: 100vh;
      color: #fff;
+    background-color: #3e4093;
+    position: relative;
+    z-index: 10;
+    overflow-y: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    overflow-x: hidden;
+  }
+  .login-wrapperWelcome {
+    
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+     color: #fff;
     background: url("../img/bg.jpg") top center no-repeat;
     background-size: cover;
     position: relative;
@@ -7050,6 +7064,7 @@ background-color: #3e4093;
     padding-bottom: 2rem;
     overflow-x: hidden;
   }
+  
   .login-wrapper .success-check {
     color: #ffffff;
     margin: 0 auto;
