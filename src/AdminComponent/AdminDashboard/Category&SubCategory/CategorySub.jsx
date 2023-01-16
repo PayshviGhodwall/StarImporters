@@ -288,7 +288,7 @@ const CategorySub = () => {
       });
     }
   });
-  
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -615,13 +615,21 @@ const CategorySub = () => {
                                               <td>
                                                 <img
                                                   width={80}
-                                                  src={item?.categoryImage}
+                                                  src={
+                                                    item?.categoryImage
+                                                      ? item?.categoryImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }
                                                 ></img>
                                               </td>
                                               <td>
                                                 <img
                                                   width={80}
-                                                  src={item?.background}
+                                                  src={
+                                                    item?.background
+                                                      ? item?.categoryImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }
                                                 ></img>
                                               </td>
                                               <td>
@@ -785,7 +793,9 @@ const CategorySub = () => {
                                               <td>
                                                 <img
                                                   width={80}
-                                                  src={item?.subCategoryImage}
+                                                  src={item?.subCategoryImage ? item?.subCategoryImage : 
+                                                    require("../../../assets/img/product.jpg")
+                                                  }
                                                 ></img>
                                               </td>
                                               <td>
@@ -862,7 +872,11 @@ const CategorySub = () => {
                           className="profile-pic"
                           id="catImg"
                           width={250}
-                          src={allCategories[categoryIndex]?.categoryImage}
+                          src={
+                            allCategories[categoryIndex]?.categoryImage
+                              ? allCategories[categoryIndex]?.categoryImage
+                              : require("../../../assets/img/product.jpg")
+                          }
                         />
                       </div>
                       <div className="p-image">
@@ -897,7 +911,11 @@ const CategorySub = () => {
                           className="profile-pic"
                           id="backImg"
                           width={250}
-                          src={allCategories[categoryIndex]?.background}
+                          src={
+                            allCategories[categoryIndex]?.background
+                              ? allCategories[categoryIndex]?.background
+                              : require("../../../assets/img/product.jpg")
+                          }
                         />
                       </div>
                       <div className="p-image">
@@ -970,10 +988,10 @@ const CategorySub = () => {
               </div>
               <div className="modal-body shadow">
                 <form
-                  className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
+                  className="form-design px-3  help-support-form row align-items-end justify-content-center"
                   action=""
                 >
-                  <div className="form-group col-12 p-3">
+                  <div className="form-group col-12 p-1">
                     <label htmlFor="" className="">
                       Sub Category Image
                     </label>
@@ -990,12 +1008,15 @@ const CategorySub = () => {
                           }
                         ></i>
                       ) : null}
-                      <div className="circle" key={subCategoryIndex}>
+                      <div className="circles" key={subCategoryIndex}>
                         <img
                           className="profile-pic"
                           width={250}
                           src={
                             allSubCategories[subCategoryIndex]?.subCategoryImage
+                              ? allSubCategories[subCategoryIndex]
+                                  ?.subCategoryImage
+                              : require("../../../assets/img/product.jpg")
                           }
                         />
                       </div>

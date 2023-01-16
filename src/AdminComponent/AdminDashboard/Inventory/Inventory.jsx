@@ -939,7 +939,14 @@ const Inventory = () => {
                                 <td>{User?.createdAt.slice(0, 10)}</td>
                                 <td>{User?.unitName}</td>
                                 <td>
-                                  <img width={40} src={User?.productImage} />
+                                  <img
+                                    width={60}
+                                    src={
+                                      User?.productImage
+                                        ? User?.productImage
+                                        : require("../../../assets/img/product.jpg")
+                                    }
+                                  />
                                 </td>
                                 <td>
                                   {" "}

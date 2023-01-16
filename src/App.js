@@ -47,7 +47,6 @@ import TermsCondition from "./buyerComponent/Homepage/Terms&Condition";
 import AboutUs from "./buyerComponent/Homepage/AboutUs";
 import EditInventory from "./AdminComponent/AdminDashboard/Inventory/EditInventory";
 import SingleProduct from "./buyerComponent/AllProducts/SingleProduct";
-import AppLogin from "./pwaComponents/loginComponent/appLogin";
 import AppSignUp from "./pwaComponents/loginComponent/appSignUp";
 import AppForgotPassword from "./pwaComponents/loginComponent/appForgotPassword";
 import AppOtp from "./pwaComponents/loginComponent/appOtp";

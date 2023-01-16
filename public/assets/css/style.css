@@ -4081,10 +4081,19 @@
     display: block;
     margin-bottom: 8px;
   }
-  .account_profile .circle .profile-pic {
+  .circles  {
+    width: 100px !important;
+    position: relative;
+    left: 28%;
+    max-height: 100px !important;
+
+  }
+  .account_profile .circles .profile-pic {
     width: 180px !important;
-    height: 130px;
+    max-height: 130px !important;
     object-fit: cover;
+    border: 2px solid #0000 !important;
+    
   }
   .flavourImage {
     width: 160px !important;
