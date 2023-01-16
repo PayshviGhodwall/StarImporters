@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../assets/css/adminMain.css";
 import Starlogo from "../../assets/img/logo.png";
 import classNames from "classnames";
@@ -19,6 +19,9 @@ const AdminForgotPassword = (AdminForgotPassword) => {
     formState: { errors },
     trigger,
   } = useForm();
+
+
+
   const onSubmit = async (data) => {
   
     let response = await axios

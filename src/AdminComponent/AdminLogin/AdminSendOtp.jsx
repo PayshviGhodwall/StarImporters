@@ -11,6 +11,7 @@ import { useEffect } from "react";
 const AdminSendOtp = ({ AdminEmail }) => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/forgetPassword`;
+  const [counter, setCounter] = useState(0);
   const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
@@ -21,6 +22,9 @@ const AdminSendOtp = ({ AdminEmail }) => {
     const AdminEmail = localStorage.getItem("AdminEmail");
     setEmail(AdminEmail);
   }, []);
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
   const {
     register,
     handleSubmit,
@@ -59,6 +63,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
     }
   };
   const ResendOtp = async (e) => {
+    setCounter(60);
     e.preventDefault();
     await axios
       .post(sendOtp, {
@@ -104,7 +109,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                       <div className="form-group mb-3 d-flex justify-content-center">
                         <input
                           className="form-control shadow-none border border-secondary text-center mx-1 otp_input "
-                          type="text"
+                          type="number"
                           maxLength={1}
                           name="number1"
                           id="number1"
@@ -122,7 +127,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
 
                         <input
                           className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                          type="text"
+                          type="number"
                           maxLength={1}
                           name="number2"
                           id="number2"
@@ -139,7 +144,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                         />
                         <input
                           className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                          type="text"
+                          type="number"
                           maxLength={1}
                           name="number3"
                           id="number3"
@@ -156,7 +161,7 @@ const AdminSendOtp = ({ AdminEmail }) => {
                         />
                         <input
                           className="form-control shadow-none border border-secondary text-center mx-1 otp_input"
-                          type="text"
+                          type="number"
                           maxLength={1}
                           name="number4"
                           id="number4"
@@ -172,7 +177,16 @@ const AdminSendOtp = ({ AdminEmail }) => {
                           </small>
                         )}
                       </div>
-
+                      <div className="form-group my-3 text-center">
+                        <div className="time_js">
+                          <span
+                            className="fw-bold fs-5"
+                            style={{ color: "#e3b4093" }}
+                          >
+                            {counter ? <p> 00:{counter}</p> : null}
+                          </span>
+                        </div>
+                      </div>
                       <div className="fs-6 text-danger fw-bold">{error}</div>
                       <div className="form-group mb-4 d-flex justify-content-center">
                         <button className="comman_btn2  " type="submit">
@@ -185,17 +199,26 @@ const AdminSendOtp = ({ AdminEmail }) => {
                         </a>
                       </div>
 
-                      <div className="form-group mt-3 comman_text d-flex justify-content-center">
-                        <span>
-                          Didn't receive the OTP?{" "}
-                          <Link
-                            href="javascript:;"
-                            className="text-decoration-none fw-bold "
+                      <div className="form-group mt-3 comman_text d-flex justify-content-center ">
+                        Didn't receive the OTP?{" "}
+                        {counter ? (
+                          <span
+                            className="otp-sec mx-1 fs-6 text-dark"
+                            id="resendOTP"
+                            style={{pointer:"cursor"}}
+                          >
+                            Check Your Email.
+                          </span>
+                        ) : (
+                          <span
+                            className="otp-sec mx-1 fs-6 text-dark"
+                            id="resendOTP"
+                            style={{pointer:"cursor"}}
                             onClick={ResendOtp}
                           >
-                            Request Again
-                          </Link>
-                        </span>
+                            Resent OTP
+                          </span>
+                        )}
                       </div>
                     </form>
                   </div>

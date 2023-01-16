@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "../../assets/vendor/bootstrap-icons/bootstrap-icons.css";
 const Welcome = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

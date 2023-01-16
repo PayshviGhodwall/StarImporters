@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Animate from "../../Animate";
 import {
   deleteCart,
   deleteQuote,
@@ -20,7 +21,7 @@ function AppQuotes() {
   const [quotes, setQuotes] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
-  let ref = useRef()
+  let ref = useRef();
   useEffect(() => {
     getAllQuotes();
   }, []);
@@ -73,7 +74,7 @@ function AppQuotes() {
             : item
         )
       );
-      getAllQuotes()
+      getAllQuotes();
     }
   };
 
@@ -91,7 +92,7 @@ function AppQuotes() {
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
-      getAllQuotes()
+      getAllQuotes();
     }
   };
 
@@ -244,11 +245,14 @@ function AppQuotes() {
                       </tbody>
                     ) : (
                       <tbody>
-                        <tr>
-                          <td className="text-center">
-                            Ahh! Your Quotes Bag is Empty <span>&#128577;</span>
-                          </td>
-                        </tr>
+                        <Animate>
+                          <tr>
+                            <td className="text-center">
+                              Ahh! Your Quotes Bag is Empty{" "}
+                              <span>&#128577;</span>
+                            </td>
+                          </tr>
+                        </Animate>
                       </tbody>
                     )}
                   </table>

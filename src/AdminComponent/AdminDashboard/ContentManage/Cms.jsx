@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { Editor } from "react-draft-wysiwyg";
-import { convertToHTML, convertFromHTML } from "draft-convert";
 import { stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
-import { EditorState, ContentState } from "draft-js";
+import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
@@ -13,7 +12,6 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
-import DOMPurify from "dompurify";
 
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -37,7 +35,6 @@ const Cms = () => {
   const editTerms = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editTnC`;
   const editPrivacy = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//cms/editPrivacyPolicy`;
   const { register, handleSubmit, reset } = useForm();
-
   const [editorTitleState, setTitleEditorState] = useState(null);
   const [editorDescState, setDescEditorState] = useState(null);
   const [editorTitle2State, setTitle2EditorState] = useState(null);
@@ -50,14 +47,23 @@ const Cms = () => {
   const [editorDesc5State, setDesc5EditorState] = useState(null);
   const [editorTitle6State, setTitle6EditorState] = useState(null);
   const [editorDesc6State, setDesc6EditorState] = useState(null);
-
   const [editorHomeCTstate, setEditorHomeCTstate] = useState(null);
   const [editorHomeFPstate, setEditorHomeFPstate] = useState(null);
   const [editorHomePBstate, setEditorHomePBstate] = useState(null);
-
   const [editorHomeAboutState, setEditorHomeAboutState] = useState(null);
   const [editorHomePrivacyState, setEditorHomePrivacyState] = useState(null);
   const [editorHomeTermsState, setEditorHomeTermsState] = useState(null);
+
+  axios.defaults.headers.common["x-auth-token-admin"] =
+    localStorage.getItem("AdminLogToken");
+
+  useEffect(() => {
+    getSlides();
+    getHeader();
+    getAboutUs();
+    getTermsCondition();
+    getPrivacyPolicy();
+  }, [change]);
 
   const onEditorTitleStateChange = async (editorTitleState) => {
     await setTitleEditorState(editorTitleState);
@@ -65,7 +71,6 @@ const Cms = () => {
   const onEditorDescStateChange = async (editorDescState) => {
     await setDescEditorState(editorDescState);
   };
-
   const onEditorTitle2StateChange = async (editorTitle2State) => {
     await setTitle2EditorState(editorTitle2State);
   };
@@ -116,12 +121,11 @@ const Cms = () => {
   const onEditorHomeBrandStateChange = async (editorHomePBstate) => {
     await setEditorHomePBstate(editorHomePBstate);
   };
+
   const getSlides = async () => {
     await axios.get(AllSlides).then((res) => {
-      console.log(res?.data.results);
       setSlideData(res?.data.results);
       let results = res?.data.results;
-
       const contentTtState = stateFromHTML(results[0]?.title);
       const contentDsState = stateFromHTML(results[0]?.description);
 
@@ -163,16 +167,6 @@ const Cms = () => {
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
-  axios.defaults.headers.common["x-auth-token-admin"] =
-    localStorage.getItem("AdminLogToken");
-
-  useEffect(() => {
-    getSlides();
-    getHeader();
-    getAboutUs();
-    getTermsCondition();
-    getPrivacyPolicy();
-  }, [change]);
 
   const getHeader = async () => {
     await axios.post(AllHeaders).then((res) => {
@@ -249,7 +243,6 @@ const Cms = () => {
     await axios
       .post(EditSlide + "/" + slideData[1]?._id, formData)
       .then((res) => {
-        console.log(res);
         if (res?.data.message === "Slide Modified Successfully") {
           getSlides();
           Swal.fire({
@@ -273,7 +266,6 @@ const Cms = () => {
     await axios
       .post(EditSlide + "/" + slideData[2]?._id, formData)
       .then((res) => {
-        console.log(res);
         if (res?.data.message === "Slide Modified Successfully") {
           getSlides();
           Swal.fire({
@@ -346,7 +338,6 @@ const Cms = () => {
     await axios
       .post(EditSlide + "/" + slideData[5]?._id, formData)
       .then((res) => {
-        console.log(res);
         if (res?.data.message === "Slide Modified Successfully") {
           getSlides();
           Swal.fire({
@@ -357,6 +348,7 @@ const Cms = () => {
         }
       });
   };
+
   const saveHeaders = async () => {
     let categoryTitle = await stateToHTML(
       editorHomeCTstate.getCurrentContent()
@@ -365,7 +357,6 @@ const Cms = () => {
       editorHomeFPstate.getCurrentContent()
     );
     let brandTitle = await stateToHTML(editorHomePBstate.getCurrentContent());
-
     const formData = new FormData();
     formData.append("categoryTitle", categoryTitle?.trim());
     formData.append("brandTitle", brandTitle?.trim());
@@ -416,7 +407,6 @@ const Cms = () => {
 
   const onSaveAbout = async (e) => {
     let Desc = await stateToHTML(editorHomeAboutState.getCurrentContent());
-
     await axios
       .post(editAboutUs, {
         description: Desc?.trim(),
@@ -528,25 +518,25 @@ const Cms = () => {
       });
   };
 
-  const onSavePrivacy = async (e) => {
-    let Desc = await stateToHTML(editorHomePrivacyState.getCurrentContent());
+  // const onSavePrivacy = async (e) => {
+  //   let Desc = await stateToHTML(editorHomePrivacyState.getCurrentContent());
 
-    await axios
-      .post(editPrivacy, {
-        description: Desc,
-      })
-      .then((res) => {
-        if (
-          res.data.message === '"Terms and Conditions" Modified Successfully'
-        ) {
-          Swal.fire({
-            title: "Content Modified!",
-            icon: "success",
-            button: "Ok",
-          });
-        }
-      });
-  };
+  //   await axios
+  //     .post(editPrivacy, {
+  //       description: Desc,
+  //     })
+  //     .then((res) => {
+  //       if (
+  //         res.data.message === '"Terms and Conditions" Modified Successfully'
+  //       ) {
+  //         Swal.fire({
+  //           title: "Content Modified!",
+  //           icon: "success",
+  //           button: "Ok",
+  //         });  
+  //       }
+  //     });
+  // };
 
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
@@ -1167,7 +1157,7 @@ const Cms = () => {
                                               />
                                             </div>
                                             <div className="p-image">
-                                              <i className=" fas fa-camera me-3" />
+                                              <i className="upload-button fas fa-camera " />
                                               <input
                                                 className="file-uploads"
                                                 name="slide2Img"
@@ -1972,7 +1962,7 @@ const Cms = () => {
                                 <div className="p-image">
                                   <i className="upload-button fas fa-camera" />
                                   <input
-                                    className="opacity-0"
+                                    className="file-uploads"
                                     name="BannerImg"
                                     type="file"
                                     onChange={(e) =>
@@ -2001,7 +1991,7 @@ const Cms = () => {
                                 <div className="p-image">
                                   <i className="upload-button fas fa-camera" />
                                   <input
-                                    className="opacity-0"
+                                    className="file-uploads"
                                     name="foreground"
                                     type="file"
                                     onChange={(e) =>

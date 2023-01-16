@@ -13,11 +13,23 @@ const animations = {
         initial="initial"
         animate="animate"
         exit="exit"
+        transition={{ duration: 4 }}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+  export const Animate2 = ({ children }) => {
+    return (
+      <motion.div
+        variants={animations}
+        initial="initial"
+        animate="animate"
+        exit="exit"
         transition={{ duration: 2 }}
       >
         {children}
       </motion.div>
     );
   };
-  
   export default Animate;

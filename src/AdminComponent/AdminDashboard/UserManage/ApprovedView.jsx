@@ -26,7 +26,7 @@ const ApprovedView = () => {
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
-  const[loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -45,10 +45,10 @@ const ApprovedView = () => {
     saveAs(url);
   };
   const genPassword = async () => {
-    setLoader(true)
+    setLoader(true);
     await axios.post(generatePass + "/" + objectId).then((res) => {
       if (res?.data.message === "password Generated") {
-        setLoader(false)
+        setLoader(false);
         setMsg("Password Generated Successfully");
         Swal.fire({
           title: "Password Generated Successfully",
@@ -60,7 +60,7 @@ const ApprovedView = () => {
     });
   };
   const preview = (id) => {
-    document.getElementById("preview_modal").click()
+    document.getElementById("preview_modal").click();
     document.getElementById("preview_images").src = id;
   };
 
@@ -79,7 +79,7 @@ const ApprovedView = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -254,7 +254,9 @@ const ApprovedView = () => {
                       <div className="col-12 text-center mb-4">
                         <div className="Pending-view_img">
                           <img
-                            src={user?.profileImage ? user?.profileImage : Starlogo }
+                            src={
+                              user?.profileImage ? user?.profileImage : Starlogo
+                            }
                             alt="Image not Uploaded"
                           />
                         </div>
@@ -339,10 +341,10 @@ const ApprovedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                              {user?.federalTaxId ? (
+                                {user?.federalTaxId ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={()=>preview(user?.federalTaxId)}
+                                    onClick={() => preview(user?.federalTaxId)}
                                   ></i>
                                 ) : null}
                                 <Link
@@ -388,10 +390,12 @@ const ApprovedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                              {user?.tobaccoLicence ? (
+                                {user?.tobaccoLicence ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={()=>preview(user?.tobaccoLicence)}
+                                    onClick={() =>
+                                      preview(user?.tobaccoLicence)
+                                    }
                                   ></i>
                                 ) : null}
                                 <Link
@@ -437,10 +441,10 @@ const ApprovedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                              {user?.salesTaxId ? (
+                                {user?.salesTaxId ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={()=>preview(user?.salesTaxId)}
+                                    onClick={() => preview(user?.salesTaxId)}
                                   ></i>
                                 ) : null}
                                 <Link
@@ -485,12 +489,13 @@ const ApprovedView = () => {
                               disabled
                             />
                             <label htmlFor="file1">
-                              
                               <div className="">
-                              {user?.businessLicense ? (
+                                {user?.businessLicense ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={()=>preview(user?.businessLicense)}
+                                    onClick={() =>
+                                      preview(user?.businessLicense)
+                                    }
                                   ></i>
                                 ) : null}
                                 <Link
@@ -525,7 +530,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                    
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact Last name:</span>
@@ -561,10 +566,12 @@ const ApprovedView = () => {
                             />
                             <label htmlFor="file1">
                               <div className="">
-                              {user?.accountOwnerId ? (
+                                {user?.accountOwnerId ? (
                                   <i
                                     class="fa fa-eye preview_icon2"
-                                    onClick={()=>preview(user?.accountOwnerId)}
+                                    onClick={() =>
+                                      preview(user?.accountOwnerId)
+                                    }
                                   ></i>
                                 ) : null}
                                 <Link
@@ -658,9 +665,14 @@ const ApprovedView = () => {
                           {editText}
                         </Link>
                         <Button
-                        loading={loader}
-                        style ={{backgroundColor:"#eb3237",fontSize:"20px",position:"relative",top:"-2px"}}
-                        appearance="primary"
+                          loading={loader}
+                          style={{
+                            backgroundColor: "#eb3237",
+                            fontSize: "20px",
+                            position: "relative",
+                            top: "-2px",
+                          }}
+                          appearance="primary"
                           className="comman_btn2 mx-2"
                           onClick={genPassword}
                         >
@@ -703,7 +715,12 @@ const ApprovedView = () => {
               ></button>
             </div>
             <div class="modal-body">
-              <img src={user?.federalTaxId} type="application/pdf" className="preview_image" id="preview_images"></img>
+              <img
+                src={user?.federalTaxId}
+                type="application/pdf"
+                className="preview_image"
+                id="preview_images"
+              ></img>
             </div>
             <div class="modal-footer">
               <button
@@ -713,7 +730,6 @@ const ApprovedView = () => {
               >
                 Close
               </button>
-              
             </div>
           </div>
         </div>

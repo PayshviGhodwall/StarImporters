@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 const AdminResetPassword = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/updatePassword`;
   const navigate = useNavigate();
-  const [error, setError] = useState(" Please use example format");
+  const [error, setError] = useState("(ex:Starlove123@)");
   const [email, setEmail] = useState();
   useEffect(() => {
     const AdminEmail = localStorage.getItem("AdminEmail");
@@ -33,7 +33,7 @@ const AdminResetPassword = () => {
     ) {
       setError("Passwords does not match!")
       Swal.fire({
-        title:"New Password and Confirm Password does not matched!",
+        title:"Confirm password should same as New password!",
         icon:"error"
 
       })

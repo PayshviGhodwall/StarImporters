@@ -2512,6 +2512,12 @@
     top: 28px;
     font-size: 14px;
   }
+  .toggle-password3 {
+    position: relative;
+    left: 94%;
+    top: -34px;
+    font-size: 15px;
+  }
   .myfavourites .partsproduct_img img {
     max-width: 100%;
     object-fit: contain;
@@ -4381,7 +4387,8 @@
   .account_profile .p-image i {
     position: relative;
     object-fit: cover;
-    left: 12px;
+    left: 5px;
+    top: 3px;
     font-size: 20px;
     color: #081424;
     width: 30px;

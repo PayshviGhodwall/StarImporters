@@ -3,20 +3,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
 import classNames from "classnames";
 import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
-// Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
-import { get } from "jquery";
 const EditUser = () => {
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
+  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
+  const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
   const [loader, setLoader] = useState(false);
   const [files, setFiles] = useState({
     imageProfile: "",
@@ -26,9 +25,6 @@ const EditUser = () => {
     salesTaxId: "",
     accountOwnerId: "",
   });
-  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
-  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-  const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [prodImg, setProdImg] = useState();
@@ -36,15 +32,12 @@ const EditUser = () => {
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
-    reset,
   } = useForm();
+  
   const onProfileSelection = async (e, key) => {
     console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
@@ -52,28 +45,25 @@ const EditUser = () => {
     formData.append("productImage", e.target.files[0]);
 
     await axios.post(uploadImage, formData).then((res) => {
-      console.log(res.data?.results);
       setProdImg(res.data?.results?.productImage);
     });
   };
   const onFileSelection = async (e, key) => {
-    console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
-    setLoader(true)
-    console.log(data, "hii");
+    setLoader(true);
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
-    formData.append("companyName", data?.companyName);
-    formData.append("dba", data?.dba);
-    formData.append("addressLine", data?.addressLine);
-    formData.append("city", data?.city);
+    formData.append("companyName", data?.companyName?.trim());
+    formData.append("dba", data?.dba?.trim());
+    formData.append("addressLine", data?.addressLine?.trim());
+    formData.append("city", data?.city?.trim());
     formData.append("state", data?.state);
     formData.append("zipcode", data?.zipcode);
-    formData.append("firstName", data?.firstName);
-    formData.append("lastName", data?.lastName);
-    formData.append("email", data?.email);
+    formData.append("firstName", data?.firstName?.trim());
+    formData.append("lastName", data?.lastName?.trim());
+    formData.append("email", data?.email?.trim());
     formData.append("phoneNumber", data?.phoneNumber);
     formData.append("businessPhoneNumber", data?.businessNumber);
     formData.append("businessNumber", data?.businessNumber);
@@ -95,12 +85,12 @@ const EditUser = () => {
         setLoader(false);
         Swal.fire({
           title: "Invalid File Format!",
-          text:"Only images/pdf/docs are allowed.",
+          text: "Only images/pdf/docs are allowed.",
           icon: "error",
           button: "Ok",
         });
-        setFiles(null)
-        getUser()
+        setFiles(null);
+        getUser();
       }
       if (res?.data.message === "Email is already registered") {
         setLoader(false);
@@ -128,11 +118,10 @@ const EditUser = () => {
 
   const getUser = async () => {
     const res = await axios.post(apiUrl + "/" + objectId);
-    let results = res?.data.results;
     setUser(res.data.results);
-
     return res.data;
   };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -331,7 +320,7 @@ const EditUser = () => {
                             <div className="mb-2">
                               <img
                                 className=""
-                                style={{height:"200px"}}
+                                style={{ height: "200px" }}
                                 src={prodImg ? prodImg : user?.profileImage}
                                 alt="Upload Image ........"
                               />
@@ -566,7 +555,7 @@ const EditUser = () => {
                               type="file"
                               id="file1"
                               name="federalTaxId"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("federalTaxId")}
                               onChange={(e) =>
                                 onFileSelection(e, "federalTaxId")
@@ -604,7 +593,7 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file2"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="file"
                               {...register("tobaccoLicence")}
                               onChange={(e) =>
@@ -645,7 +634,7 @@ const EditUser = () => {
                               type="file"
                               id="file3"
                               name="salesTaxId"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("salesTaxId")}
                               onChange={(e) => onFileSelection(e, "salesTaxId")}
                             />
@@ -678,7 +667,7 @@ const EditUser = () => {
                               type="file"
                               id="file4"
                               name="businessLicense"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               {...register("businessLicense")}
                               onChange={(e) =>
                                 onFileSelection(e, "businessLicense")
@@ -760,7 +749,7 @@ const EditUser = () => {
                               className="d-none"
                               type="file"
                               id="file5"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="accountOwnerId"
                               {...register("accountOwnerId")}
                               onChange={(e) =>
@@ -852,9 +841,7 @@ const EditUser = () => {
                           name="heardAboutUs"
                           {...register("heardAboutUs")}
                         >
-                          <option selected="">
-                            Select
-                          </option>
+                          <option selected="">Select</option>
                           <option s value="Email Flyer">
                             Email Flyer
                           </option>

@@ -13,14 +13,10 @@ import ProfileBar from "../ProfileBar";
 const ReturnedView = () => {
   const [sideBar, setSideBar] = useState(true);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
-  const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
-  const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
   const [user, setUser] = useState([]);
-  const [approveText, setApproveText] = useState("Approve");
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -34,17 +30,6 @@ const ReturnedView = () => {
   const fileDownload = (url) => {
     saveAs(url);
   };
-  const approveUser = async () => {
-    const res = await axios.post(approveUrl + "/" + objectId, {
-      isVerified: true,
-    });
-    console.log(res, "hii");
-    if (res?.data.message === "User approved Successfully") {
-      setApproveText("Approved");
-      navigate("/UserManage");
-    }
-  };
-  const deleteUser = async () => {};
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -62,7 +47,7 @@ const ReturnedView = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -315,7 +300,7 @@ const ReturnedView = () => {
                                 <Link
                                   className="text-decoration-none"
                                   onClick={() => {
-                                    fileDownload(user?.federalTaxId)
+                                    fileDownload(user?.federalTaxId);
                                   }}
                                 >
                                   <FaFileUpload size={25} />

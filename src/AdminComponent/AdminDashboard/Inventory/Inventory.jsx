@@ -14,8 +14,19 @@ import { Button } from "rsuite";
 import ReactPaginate from "react-paginate";
 
 const Inventory = () => {
+  const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
+  const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
+  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
+  const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
+  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
+  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
+  const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
+  const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
+  const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
+  const [NewMessage, setNewMessage] = useState("");
+  const scrollBy = useScrollBy();
+  const [maxPage, setMaxPage] = useState(1);
   const [productImage, setProductImage] = useState();
-  const [flavourImages, setFlavourImages] = useState([]);
   const [barcodes, setBarcodes] = useState([]);
   const [values, setValues] = useState({ from: "", to: "" });
   const [sideBar, setSideBar] = useState(true);
@@ -25,7 +36,6 @@ const Inventory = () => {
   const [subCategories, setSubCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [change, setChange] = useState();
-  const [Index, setIndex] = useState(0);
   const importInput = document.getElementById("fileID");
   const [impFile, setImpFile] = useState([]);
   const [uploadError, setUploadError] = useState("");
@@ -44,38 +54,14 @@ const Inventory = () => {
       description: [],
     },
   ]);
-  const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
-  const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
-  const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
-  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
-  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-  const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
-  const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
-  const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
-  const [NN, setNN] = useState(Math.random());
-  const [NewMessage, setNewMessage] = useState("");
-  const scrollBy = useScrollBy();
-  const [maxPage, setMaxPage] = useState(1);
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
-    reset,
   } = useForm();
 
   useEffect(() => {
-    const getBrands = async () => {
-      await axios.get(categoryApi).then((res) => {
-        setCategories(res?.data.results);
-      });
-      await axios.get(brandsApi).then((res) => {
-        setBrands(res?.data.results);
-      });
-    };
-
     getBrands();
     GetProducts();
   }, [change, activePage]);
@@ -83,6 +69,14 @@ const Inventory = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
+  const getBrands = async () => {
+    await axios.get(categoryApi).then((res) => {
+      setCategories(res?.data.results);
+    });
+    await axios.get(brandsApi).then((res) => {
+      setBrands(res?.data.results);
+    });
+  };
   const GetProducts = async () => {
     await axios
       .post(getProducts, {
@@ -264,18 +258,18 @@ const Inventory = () => {
     e.target.value = "";
   }
 
-  function ProhandleKeyDown(e) {
-    if (e.key !== "Tab") return;
-    const value = e.target.value;
-    if (!value.trim()) return;
-    setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
-    let newBarcode = { ...productBarcode };
-    newBarcode[e.target.name] = [
-      ...(productBarcode || []),
-      value.replace(/(\r\n|\n|\r)/gm, ""),
-    ];
-    e.target.value = "";
-  }
+  // function ProhandleKeyDown(e) {
+  //   if (e.key !== "Tab") return;
+  //   const value = e.target.value;
+  //   if (!value.trim()) return;
+  //   setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
+  //   let newBarcode = { ...productBarcode };
+  //   newBarcode[e.target.name] = [
+  //     ...(productBarcode || []),
+  //     value.replace(/(\r\n|\n|\r)/gm, ""),
+  //   ];
+  //   e.target.value = "";
+  // }
 
   const removeTag = (ind, i) => {
     console.log(ind, i);
@@ -283,11 +277,11 @@ const Inventory = () => {
     newForm[i]?.barcode.splice(ind, 1);
     setChange(!change);
   };
-  const proRemoveTag = (ind) => {
-    console.log(ind, "jiji");
-    (productBarcode || []).splice(ind, 1);
-    setChange(!change);
-  };
+  // const proRemoveTag = (ind) => {
+  //   console.log(ind, "jiji");
+  //   (productBarcode || []).splice(ind, 1);
+  //   setChange(!change);
+  // };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -344,21 +338,21 @@ const Inventory = () => {
       console.log(res);
     });
   };
-  const OnSearching = async () => {
-    await axios.post(getProducts).then((res) => {
-      let data = res?.data.results;
-      let filter = data.filter((User) => {
-        if (searchTerm == "") {
-          return User;
-        } else if (
-          User?.unitName.toLowerCase().includes(searchTerm?.toLowerCase())
-        ) {
-          return User;
-        }
-      });
-      setAllProducts(filter);
-    });
-  };
+  // const OnSearching = async () => {
+  //   await axios.post(getProducts).then((res) => {
+  //     let data = res?.data.results;
+  //     let filter = data.filter((User) => {
+  //       if (searchTerm == "") {
+  //         return User;
+  //       } else if (
+  //         User?.unitName.toLowerCase().includes(searchTerm?.toLowerCase())
+  //       ) {
+  //         return User;
+  //       }
+  //     });
+  //     setAllProducts(filter);
+  //   });
+  // };
   var today = new Date().toISOString().split("T")[0];
   document.getElementsByName("to")[0]?.setAttribute("max", today);
   document.getElementsByName("from")[0]?.setAttribute("max", today);

@@ -3,7 +3,6 @@ import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const ViewOrder = () => {
@@ -18,7 +17,6 @@ const ViewOrder = () => {
   const navigate = useNavigate();
 
   let id = location?.state?.id;
-
   const fileDownload = (url, name) => {
     saveAs(url, name);
   };

@@ -1,30 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { Button } from "rsuite";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
-import { HiMenu } from "react-icons/hi";
 import { BiEdit } from "react-icons/bi";
 import { useEffect } from "react";
 import axios from "axios";
-import { Modal } from "bootstrap";
-import { post } from "jquery";
 import ProfileBar from "../ProfileBar";
-import ReactPaginate from "react-paginate";
-import Pagination from "rsuite/esm/Pagination/Pagination";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
-import { charCountState } from "../../../selecter.js";
-import Swal from "sweetalert2";
+
 //
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
@@ -35,7 +21,6 @@ const UserManage = () => {
   const searchUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
   const [values, setValues] = useState({ from: "", to: "" });
   const [search, setSearch] = useState();
-  const [statsIndex, setStatsIndex] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [impFile, setImpFile] = useState([]);
   const [usersTotal, setUsersTotal] = useState([]);
@@ -57,7 +42,13 @@ const UserManage = () => {
   const [maxAppPage, setMaxAppPage] = useState(1);
   const [maxPenPage, setMaxPenPage] = useState(1);
   const [maxRetPage, setMaxRetPage] = useState(1);
-  const [text, setText] = useRecoilState(charCountState);
+
+  useEffect(() => {
+    GetUserCount();
+    getPendingUser();
+    getApprovedUser();
+    getRejectedUser();
+  }, [search, activeApprovePage, activePendingPage, activeReturnedPage]);
 
   const onFileSelection = (e) => {
     let file = e.target.files[0];
@@ -116,12 +107,7 @@ const UserManage = () => {
   //   const selectedPage = event.selected;
   //   setOffset(selectedPage + 1);
   // };
-  useEffect(() => {
-    GetUserCount();
-    getPendingUser();
-    getApprovedUser();
-    getRejectedUser();
-  }, [search, activeApprovePage, activePendingPage, activeReturnedPage]);
+
   const getPendingUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "PENDING",
@@ -202,7 +188,7 @@ const UserManage = () => {
   };
   const onApprovedView = (index) => {
     localStorage.setItem("objectId", approvedUsers[index]?._id);
-    setStatsIndex(approvedUsers[index]?._id);
+    // setStatsIndex(approvedUsers[index]?._id);
   };
 
   const UserStatus = async (index) => {
@@ -218,7 +204,6 @@ const UserManage = () => {
         credentials: crenditials,
       })
       .then((res) => {
-        console.log(res);
         if (res?.data.message === "Credentials Sent Successfully") {
           document.getElementById("modal-toggle87").click();
         }
@@ -920,8 +905,12 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr key={index} className="">
-                                            <td> {(activeReturnedPage - 1) * 15 +
-                                                (index + 1)}.</td>
+                                            <td>
+                                              {" "}
+                                              {(activeReturnedPage - 1) * 15 +
+                                                (index + 1)}
+                                              .
+                                            </td>
                                             <td>
                                               {User?.createdAt.slice(0, 10)}
                                             </td>

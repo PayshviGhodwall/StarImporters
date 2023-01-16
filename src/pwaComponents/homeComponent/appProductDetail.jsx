@@ -56,10 +56,9 @@ function AppProductDetail() {
       setProductDetail(data.results);
       setCategoryName(data?.results?.category?.categoryName);
     }
-  };  
+  };
   console.log(categoryName);
   const getQuantity = (type) => {
-    
     if (type === "add") {
       setQuantity(quantity + 1);
     } else {
@@ -94,7 +93,6 @@ function AppProductDetail() {
         quantity: quantity,
         flavour: typeObj ? typeObj : {},
       };
-      console.log(formData);
       const { data } = await addToQuote(formData);
       if (!data.error) {
         navigate("/app/quotes");
@@ -294,6 +292,7 @@ function AppProductDetail() {
                         className="form-control cart-quantity-input"
                         type="number"
                         step="1"
+                        disabled
                         name="quantity"
                         value={quantity}
                       />
@@ -354,13 +353,13 @@ function AppProductDetail() {
               <div className="container">
                 <div className="">
                   {token ? (
-                    <Link
+                    <button
                       className="comman_btn mb-2"
-                      to=""
+                      type="submit"
                       onClick={() => addToCartt()}
                     >
                       Add Cart to Order
-                    </Link>
+                    </button>
                   ) : (
                     <Link className="comman_btn mb-2" to="/app/login">
                       Please Login to see price.

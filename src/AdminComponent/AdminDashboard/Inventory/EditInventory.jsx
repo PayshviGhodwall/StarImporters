@@ -23,8 +23,6 @@ const EditInventory = () => {
   const [change, setChange] = useState();
   const [Nchnge, setNchnge] = useState();
   const [barcodes, setBarcodes] = useState([]);
-  const [flavourPS, setFlavourPS] = useState();
-  const [priceStatus, setPriceStatus] = useState();
   const [productBarcode, setProductBarcode] = useState([]);
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
@@ -33,10 +31,8 @@ const EditInventory = () => {
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const flavourPriceApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourPriceStatus`;
   const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
-  const productPriceStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
   const deleteImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteImage`;
-  const deleteFlavourImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteImg`;
-
+  const EditProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/updateProduct`;
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState([
     {
@@ -47,16 +43,14 @@ const EditInventory = () => {
       flavourPrice: Number,
     },
   ]);
-  const EditProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/updateProduct`;
   const location = useLocation();
   let id = location.state?.id;
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
   } = useForm();
+
   useEffect(() => {
     GetProducts();
   }, [Nchnge]);
@@ -70,11 +64,8 @@ const EditInventory = () => {
         setBrands(res?.data.results);
       });
     };
-
     getBrands();
   }, [change]);
-
-  console.log(formValues, "frm");
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -110,14 +101,10 @@ const EditInventory = () => {
           confirmButtonText: "ok",
         });
       }
-      console.log(res?.data.results);
       setProductImage(res?.data.results.productImage);
     });
   };
-  const onFileSelection = (e, key) => {
-    console.log(e);
-    setFiles({ ...files, [key]: e.target.files[0] });
-  };
+
   let handleChange = (i, e) => {
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
@@ -129,7 +116,6 @@ const EditInventory = () => {
     newForm[i]?.barcode.splice(ind, 1);
     setChange(!change);
   };
-
   const onSubmit = async (data) => {
     await axios
       .post(EditProduct + "/" + id, {
@@ -164,7 +150,6 @@ const EditInventory = () => {
             button: "Ok",
           });
         }
-
         setNchnge(Nchnge);
       });
   };

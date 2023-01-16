@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 const OrderReq = () => {
@@ -367,7 +366,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="from"
                                     id="orderFrom"
-                                      value={values.from}
+                                    value={values.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -507,7 +506,6 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="to"
                                     id="reqTo"
-
                                     value={values.to}
                                     onChange={handleDate}
                                   />
@@ -569,12 +567,17 @@ const OrderReq = () => {
                                             <tr key={index}>
                                               <td>{index + 1}</td>
                                               <td>
-                                                {item?.userId?.firstName || item?.user?.firstName}
+                                                {item?.userId?.firstName ||
+                                                  item?.user?.firstName}
                                               </td>
                                               <td>
-                                                {item?.userId?.phoneNumber || item?.user?.phoneNumber }
+                                                {item?.userId?.phoneNumber ||
+                                                  item?.user?.phoneNumber}
                                               </td>
-                                              <td>{item?.userId?.email || item?.user?.email}</td>
+                                              <td>
+                                                {item?.userId?.email ||
+                                                  item?.user?.email}
+                                              </td>
                                               <td>{item?.quoteId}</td>
 
                                               <td>{item?.status}</td>

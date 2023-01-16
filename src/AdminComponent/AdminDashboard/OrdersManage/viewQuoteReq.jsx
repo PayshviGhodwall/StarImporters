@@ -13,7 +13,6 @@ const ViewQuoteReq = () => {
   const QuoteExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportQuotes`;
   // const [products,setProducts] = useState([{productId:[],quantity:[],price:[]}])
   const [quote, setQuote] = useState([]);
-
   const navigate = useNavigate();
   let id = location?.state?.id;
   useEffect(() => {
@@ -336,12 +335,11 @@ const ViewQuoteReq = () => {
                                           </h3>
                                           <p>
                                             Barcode :
-                                          {
-                                              item?.flavour?.barcode.map((item)=>(
+                                            {item?.flavour?.barcode.map(
+                                              (item) => (
                                                 <li>{item}</li>
-                                              ))
-                                              }
-                                          
+                                              )
+                                            )}
                                           </p>
                                           <span className="ordertext my-2 d-block ">
                                             <label className=" mb-2 fw-bold">

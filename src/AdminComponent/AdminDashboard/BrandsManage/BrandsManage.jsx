@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-import profile from "../../../assets/img/profile_img1.png";
 import { useForm } from "react-hook-form";
 import Starlogo from "../../../assets/img/logo.png";
 import { useState } from "react";
@@ -23,7 +22,6 @@ const BrandsManage = () => {
   const [editBrandName, setEditBrandsName] = useState();
   const [sideBar, setSideBar] = useState(true);
   const [loader, setLoader] = useState(false);
-
   const [Index, setIndex] = useState();
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
@@ -31,75 +29,69 @@ const BrandsManage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
     reset,
   } = useForm();
 
   useEffect(() => {
-    const getBrands = async () => {
-      await axios.get(brandsApi).then((res) => {
-        setAllBrands(res?.data.results);
-
-        return res.data;
-      });
-    };
-
     getBrands();
   }, [change]);
-
-  console.log(allBrands[Index]?.brandName);
+  const getBrands = async () => {
+    await axios.get(brandsApi).then((res) => {
+      setAllBrands(res?.data.results);
+      return res.data;
+    });
+  };
   const onFileSelection = (e, key) => {
-    console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
   };
-
   const saveBrands = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("brandImage", files?.brandImg);
     formData.append("brandName", brandName.trim());
 
-    await axios.post(addBrands, formData).then((res) => {
-      console.log(res);
-      if (res?.data.message === "Brand Added Successfully") {
-        document.getElementById("resetBrand").click();
-        setChange(!change);
-      }
-      if (res?.data.message === "Invalid Image format") {
-        Swal.fire({
-          title: "Invalid Image format!",
-          icon: "warning",
-          confirmButtonText: "ok",
-        });
-        document.getElementById("resetSubCat").click();
-      }
-      if (res?.data.message === "Please provide brand name") {
-        setLoader(false);
-        Swal.fire({
-          title: "Please provide brand name",
-          icon: "error",
-          focusConfirm: false,
-        });
-      }
-      if (res?.data.message === "Error in adding brand") {
-        setLoader(false)
-        Swal.fire({
-          title: "Error in adding brand",
-          icon: "error",
-          focusConfirm: false,
-        });
-      }
-    }).catch((error)=>{
-      if(error){
-        Swal.fire({
-          title: "Error in adding brand",
-          icon: "error",
-          focusConfirm: false,
-        });
-      }
-    })
+    await axios
+      .post(addBrands, formData)
+      .then((res) => {
+        if (res?.data.message === "Brand Added Successfully") {
+          document.getElementById("resetBrand").click();
+          setChange(!change);
+        }
+        if (res?.data.message === "Invalid Image format") {
+          Swal.fire({
+            title: "Invalid Image format!",
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+          document.getElementById("resetSubCat").click();
+        }
+        if (res?.data.message === "Please provide brand name") {
+          setLoader(false);
+          Swal.fire({
+            title: "Please provide brand name",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+        if (res?.data.message === "Error in adding brand") {
+          setLoader(false);
+          Swal.fire({
+            title: "Error in adding brand",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          Swal.fire({
+            title: "Error in adding brand",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      });
   };
 
   const EditBrands = (index) => {
@@ -108,22 +100,19 @@ const BrandsManage = () => {
     let defalutValues = {};
     defalutValues.BrandName = allBrands[index]?.brandName;
     defalutValues.brandImage = allBrands[index]?.brandImage;
-
     reset({ ...defalutValues });
   };
-  console.log(files?.newBrandImg, editBrandName);
 
   const onSubmit = async (data) => {
-    setLoader(true)
+    setLoader(true);
     const formData = new FormData();
     formData.append("brandImage", files?.newBrandImg);
     formData.append("brandName", data.BrandName);
     await axios.post(editBrands + "/" + brandId, formData).then((res) => {
-      console.log(res);
       if (res?.data.message === "Modified Successfullt") {
         window.location.reload();
         setChange(!change);
-        setLoader(false)
+        setLoader(false);
       }
       if (res?.data.message === "Invalid Image format") {
         setLoader(false);
@@ -545,15 +534,17 @@ const BrandsManage = () => {
                 </div>
                 <div className="form-group mb-0 col-auto mt-3">
                   <Button
-                   loading={loader}
-                   appearance="primary"
-                   style={{
-                     backgroundColor: "#eb3237",
-                     fontSize: "20px",
-                     position: "relative",
-                     top: "-2px",
-                   }}
-                  className="comman_btn" type="submit">
+                    loading={loader}
+                    appearance="primary"
+                    style={{
+                      backgroundColor: "#eb3237",
+                      fontSize: "20px",
+                      position: "relative",
+                      top: "-2px",
+                    }}
+                    className="comman_btn"
+                    type="submit"
+                  >
                     Save
                   </Button>
                 </div>

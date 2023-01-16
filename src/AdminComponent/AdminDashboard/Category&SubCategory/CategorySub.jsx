@@ -34,14 +34,18 @@ const CategorySub = () => {
   const [categoryIndex, setCategoryIndex] = useState();
   const [subCategoryIndex, setSubCategoryIndex] = useState();
   const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    getCategories();
+    getSubCategories();
+  }, [change]);
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
   const onFileSelection = (e, key) => {
-    console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
   };
+
   const saveCategory = async (e) => {
     setLoader(true);
     e.preventDefault();
@@ -76,7 +80,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Please provide category name") {
         setLoader(false);
-
         Swal.fire({
           title: "Please provide category name",
           icon: "error",
@@ -85,7 +88,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Please provide category Image") {
         setLoader(false);
-
         Swal.fire({
           title: "Please provide category Image",
           icon: "error",
@@ -94,6 +96,7 @@ const CategorySub = () => {
       }
     });
   };
+
   const saveSubCategory = async (e) => {
     setLoader(true);
     e.preventDefault();
@@ -101,7 +104,6 @@ const CategorySub = () => {
     formData.append("subCategoryImage", files?.subCateImg);
     formData.append("subCategoryName", subCategory.trim());
     formData.append("categoryName", category.trim());
-
     await axios.post(addSubCategory, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
@@ -111,7 +113,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Invalid Image format") {
         setLoader(false);
-
         Swal.fire({
           title: "Invalid Image format!",
           icon: "warning",
@@ -121,7 +122,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Sub Category is already exist") {
         setLoader(false);
-
         Swal.fire({
           title: "Sub Category is already added!",
           icon: "error",
@@ -130,7 +130,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Please provide category name") {
         setLoader(false);
-
         Swal.fire({
           title: "Please provide category name",
           icon: "error",
@@ -139,7 +138,6 @@ const CategorySub = () => {
       }
       if (res?.data.message === "Please provide Sub category name") {
         setLoader(false);
-
         Swal.fire({
           title: "Please provide Sub category name",
           icon: "error",
@@ -148,25 +146,24 @@ const CategorySub = () => {
       }
     });
   };
+
   const getCategories = async () => {
     await axios.get(categoryApi).then((res) => {
       setAllCategories(res?.data.results);
     });
   };
+
   const getSubCategories = async () => {
     await axios.get(SubCategoryApi).then((res) => {
-      console.log(res);
       setAllSubCategories(res?.data.results);
     });
   };
-  useEffect(() => {
-    getCategories();
-    getSubCategories();
-  }, [change]);
+
   const EditCategory = (index) => {
     setCategoryId(allCategories[index]?._id);
     setCategoryIndex(index);
   };
+
   const EditSubCategory = (index) => {
     setSubCategoryId(allSubCategories[index]?._id);
     setSubCategoryIndex(index);
@@ -199,6 +196,7 @@ const CategorySub = () => {
       }
     });
   };
+
   const onEditSaveSubCategory = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -233,6 +231,7 @@ const CategorySub = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   const CategoryStatus = async (index) => {
     await axios
       .post(disableCategory + "/" + allCategories[index]?._id)
@@ -246,6 +245,7 @@ const CategorySub = () => {
       getSubCategories();
     });
   };
+
   const deleteCatImage = async () => {
     await axios
       .post(deleteCatImg + "/" + allCategories[categoryIndex]?._id, {
@@ -255,6 +255,7 @@ const CategorySub = () => {
         getCategories();
       });
   };
+
   const deleteBackImage = async (id) => {
     await axios
       .post(deleteBackImg + "/" + id, {
@@ -264,6 +265,7 @@ const CategorySub = () => {
         getCategories();
       });
   };
+  // instant image preview //
   document.getElementById("catUpImg")?.addEventListener("change", function () {
     if (this.files[0]) {
       var picture = new FileReader();
@@ -286,6 +288,7 @@ const CategorySub = () => {
       });
     }
   });
+  
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -559,7 +562,7 @@ const CategorySub = () => {
                                   />
                                 </div>
                                 <div className="form-group mb-0 col-auto">
-                                <Button
+                                  <Button
                                     loading={loader}
                                     appearance="primary"
                                     style={{

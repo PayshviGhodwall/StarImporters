@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Animate from "../../Animate";
 import {
   deleteCart,
   getCart,
@@ -8,16 +9,12 @@ import {
   updateCart,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppCart() {
   const [cart, setCart] = useState([]);
-  const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [userDetail, setUserDetail] = useState([]);
-  const [Down, setDown] = useState(true);
-  const [Up, setUp] = useState(true);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   let ref = useRef();
   useEffect(() => {
@@ -46,7 +43,6 @@ function AppCart() {
   };
 
   const updateQuantity = async (e, id, flavour) => {
-    setQuantity(e.target.value);
     const formData = {
       productId: id,
       quantity: e.target.value,
@@ -89,7 +85,6 @@ function AppCart() {
   //   console.log(toggleNumber)
   // });
   const HandleDecrease = async (id) => {
-    setDown(false);
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity - 1,
@@ -97,7 +92,6 @@ function AppCart() {
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
-      setDown(true);
       setCart((cart) =>
         cart?.map((item, ind) =>
           id === ind
@@ -113,7 +107,6 @@ function AppCart() {
   };
 
   const HandleIncrease = async (id) => {
-    setUp(false);
     console.log(id);
     const formData = {
       productId: cart[id]?.productId?._id,
@@ -122,7 +115,6 @@ function AppCart() {
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
-      setUp(true);
       setCart((cart) =>
         cart?.map((item, ind) =>
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
@@ -268,7 +260,6 @@ function AppCart() {
                                       <i
                                         class="fa fa-trash fs-6 text-danger"
                                         onClick={() => {
-                                          setDown(!Down);
                                           deleteProduct(
                                             item?.productId._id,
                                             item?.flavour
@@ -308,12 +299,14 @@ function AppCart() {
                         })}
                       </tbody>
                     ) : (
-                      <tbody>
-                        <tr>
-                          <td className="text-center">
-                            Ahh! Your Cart is Empty <span>&#128577;</span>
-                          </td>
-                        </tr>
+                      <tbody className="text-center">
+                        <Animate>
+                          <tr className="">
+                            <td className="text-center">
+                              Ahh! Your Cart is Empty <span>&#128577;</span>
+                            </td>
+                          </tr>
+                        </Animate>
                       </tbody>
                     )}
                   </table>

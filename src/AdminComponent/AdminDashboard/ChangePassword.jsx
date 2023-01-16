@@ -6,26 +6,32 @@ import profile from "../../assets/img/profile_img1.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import ProfileBar from "./ProfileBar";
+import Swal from "sweetalert2";
 
 const ChangePassword = () => {
-  const [adminData, setAdminData] = useState([]);
   const [message, setMessage] = useState("");
   const changePassword = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changePassword`;
   const [sideBar, setSideBar] = useState(true);
-
+  const [error, setError] = useState();
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    await axios.post(changePassword, data).then((res) => {
-      console.log(res);
-      setMessage(res?.data.message);
-    });
+    if (
+      data?.Npassword !== data?.password ||
+      data?.password !== data?.Npassword
+    ) {
+      setError("Passwords does not match!");
+      Swal.fire({
+        title: "Confirm password should be same as New password!",
+        icon: "error",
+      });
+    } else if (data.Npassword === data.password) {
+      await axios.post(changePassword, data).then((res) => {
+        console.log(res);
+        setMessage(res?.data.message);
+      });
+    }
   };
 
   const handleClick = () => {
@@ -33,14 +39,9 @@ const ChangePassword = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   const togglePassword = () => {
-    let x = document.getElementById("password-input");
-    let y = document.getElementById("password-input2");
-    if (y.type === "password") {
-      y.type = "text";
-    } else {
-      y.type = "password";
-    }
+    let x = document.getElementById("password");
     if (x.type === "password") {
       x.type = "text";
     } else {
@@ -67,7 +68,11 @@ const ChangePassword = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
@@ -77,11 +82,15 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
+
                     color: "#3e4093",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
@@ -91,10 +100,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
@@ -104,10 +116,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
@@ -117,10 +132,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
@@ -130,10 +148,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
@@ -143,10 +164,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -157,10 +181,13 @@ const ChangePassword = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -210,6 +237,9 @@ const ChangePassword = () => {
                 <div className="col-auto">
                   <h2>Change Password</h2>
                 </div>
+                <p className="fw-lighter fs-6 text-danger">
+                  {error?.length ? error : null}
+                </p>
               </div>
               <div className="row justify-content-center">
                 <div className="col-md-6">
@@ -230,8 +260,10 @@ const ChangePassword = () => {
                         id="name"
                         {...register("oldPassword")}
                       />
+                      
                     </div>
-                    <div className="form-group col-12">
+
+                    {/* <div className="form-group col-12">
                       <label htmlFor="">New Password</label>
                       <input
                         type="text"
@@ -240,20 +272,21 @@ const ChangePassword = () => {
                         id="name"
                         placeholder="Enter Password"
                       />
-                    </div>
+                    </div> */}
                     <div className="form-group col-12">
-                      <label htmlFor="">Confirm New Password </label>
-                      
+                      <label htmlFor="">Enter New Password </label>
                       <input
-                        type="text"
+                        type="password"
                         className="form-control"
                         placeholder="Enter Password"
-                        
                         name="newPassword"
-                        id="name"
+                        id="password"
                         {...register("newPassword")}
                       />
-                    
+                       <span
+                        onClick={togglePassword}
+                        className="fa fa-fw fa-eye field-icon toggle-password3"
+                      />
                     </div>
                     <div className="form-group col-12 text-center">
                       <button className="comman_btn" type="submit">

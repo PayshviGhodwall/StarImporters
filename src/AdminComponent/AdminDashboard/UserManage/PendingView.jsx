@@ -36,7 +36,6 @@ const PendingView = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     await axios
       .post(rejectUrl + "/" + objectId, {
         companyName: data?.companyName,
@@ -64,7 +63,6 @@ const PendingView = () => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
       setUser(res.data.results);
-
       return res.data;
     };
     getUser();
@@ -76,7 +74,6 @@ const PendingView = () => {
   const approveUser = async () => {
     setLoader(true);
     const res = await axios.post(approveUrl + "/" + objectId);
-    console.log(res, "hii");
     if (res?.data.message === "User approved Successfully") {
       navigate("/UserManage");
     }
