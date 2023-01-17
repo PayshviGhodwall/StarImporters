@@ -191,6 +191,7 @@ function AppProductBrands() {
                           <Link
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?.products?._id}`}
+                            state={{ type: item?.products?.type[0] }}
                           >
                             <img
                               class="mb-2"

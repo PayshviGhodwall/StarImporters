@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
   addToCart,
   getByCategory,
   getSubCategories,
 } from "../httpServices/homeHttpService/homeHttpService";
-import TopProduct from "./appTopProductComponent";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 function AppProductCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const [sortValue, setSortValue] = useState("");
   const [product, setProduct] = useState([]);
   const [brands, setBrands] = useState([]);
   const [heart, setHeart] = useState(false);
   const [brandName, setBrandName] = useState();
   const [category, setCategory] = useState([]);
-
+  let ref = useRef();
   let { id } = useParams();
   const navigate = useNavigate();
   let token = localStorage.getItem("token-user");
@@ -35,6 +30,7 @@ function AppProductCategory() {
     getProductList();
     GetBrands();
   }, []);
+
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -53,17 +49,17 @@ function AppProductCategory() {
       setProduct(data.results);
     }
   };
-  const addToCartt = async (id, index) => {
-    const formData = {
-      productId: id,
-      quantity: 1,
-      flavour: product[index]?.products.type[0],
-    };
-    const { data } = await addToCart(formData);
-    if (!data.error) {
-      navigate("/app/cart");
-    }
-  };
+  // const addToCartt = async (id, index) => {
+  //   const formData = {
+  //     productId: id,
+  //     quantity: 1,
+  //     flavour: product[index]?.products.type[0],
+  //   };
+  //   const { data } = await addToCart(formData);
+  //   if (!data.error) {
+  //     navigate("/app/cart");
+  //   }
+  // };
 
   const filterProduct = async (e) => {
     e.preventDefault();
@@ -108,10 +104,20 @@ function AppProductCategory() {
         }
       });
   };
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      document.getElementById("sideClose").click();
+    }
+  };
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea">
+        <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
               <Link to="/app/home">
