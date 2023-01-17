@@ -7,10 +7,8 @@ import { Button } from "rsuite";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
-import fileDownload from "js-file-download";
 import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -22,7 +20,6 @@ const PendingView = () => {
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
-  const [approveText, setApproveText] = useState("Approve");
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   const objectId = localStorage.getItem("objectId");
@@ -30,9 +27,7 @@ const PendingView = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
   } = useForm();
 
   const onSubmit = async (data) => {

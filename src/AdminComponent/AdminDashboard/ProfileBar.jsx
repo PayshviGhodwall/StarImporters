@@ -10,15 +10,15 @@ const ProfileBar = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   useEffect(() => {
-    let token =  localStorage.getItem("AdminLogToken");
-    if(!token ){
+    let token = localStorage.getItem("AdminLogToken");
+    if (!token) {
       Swal.fire({
         title: "Un-Authenticated Request",
         text: "Please Login!",
         icon: "error",
         confirmButtonText: "okay",
       });
-    }  
+    }
     const GetAdminData = async () => {
       await axios.get(getAdmin).then((res) => {
         setAdminData(res?.data.results.admin);
@@ -29,16 +29,10 @@ const ProfileBar = () => {
 
   return (
     <div className="">
-       
-        <div className="dropdown  mt-1">
-          <div>
-            <button
-              className="btn btn-secondary p-0 mt-2"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+      <div className="dropdown  mt-1">
+        <div>
+          <div class="dropdownsp">
+            <button class="dropdown-btnsp">
               <img
                 className="bg-white "
                 src={adminData?.adminProfile}
@@ -46,27 +40,28 @@ const ProfileBar = () => {
                 width={50}
               />
             </button>
-            <ul className="dropdown-menu mt-1"  aria-labelledby="dropdownMenuButton1">
-              <li>
-              <Link
-            className="text-decoration-none text-dark dropdown-item"
-            to="/AdminDashboard/EditProfile"
-          >
-            Edit Profile
-          </Link>
-              </li>
-              <li>
-              <Link
-            className="text-decoration-none text-dark dropdown-item"
-            to="/AdminDashboard/changePassword"
-          >
-            Change Password
-          </Link>
-              </li>
-            </ul>
+            <div class="dropdown-contentsp">
+              <a href="#">
+                <Link
+                  className="text-decoration-none "
+                  to="/AdminDashboard/EditProfile"
+                >
+                  Edit Profile
+                </Link>
+              </a>
+              <a href="#">
+                <Link
+                  className="text-decoration-none"
+                  to="/AdminDashboard/changePassword"
+                >
+                  Change Password
+                </Link>
+              </a>
+            </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

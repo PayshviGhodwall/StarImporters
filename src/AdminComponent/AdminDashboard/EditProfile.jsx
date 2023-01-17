@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
 import Starlogo from "../../assets/img/logo.png";
-import profile from "../../assets/img/profile_img1.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import ProfileBar from "./ProfileBar";
@@ -17,6 +16,7 @@ const EditProfile = () => {
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+
   const {
     register,
     handleSubmit,
@@ -24,28 +24,25 @@ const EditProfile = () => {
     reset,
   } = useForm();
   useEffect(() => {
-    const GetAdminData =async ()=>{
-    await axios.get(getAdmin).then((res) => {
-      setAdminData(res?.data.results.admin);
-    });
-  }
-  GetAdminData()
+    const GetAdminData = async () => {
+      await axios.get(getAdmin).then((res) => {
+        setAdminData(res?.data.results.admin);
+      });
+    };
+    GetAdminData();
   }, [chnge]);
 
   const onFileSelection = (e, key) => {
-    console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("adminProfile", files?.adminProfile);
     formData.append("fullName", data?.name);
-      
+
     await axios.post(editProfile, formData).then((res) => {
-      console.log(res);
       if (res?.data.message === "Profile updated Successfully") {
-        window.location.reload()
+        window.location.reload();
       }
     });
   };
@@ -65,7 +62,7 @@ const EditProfile = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -75,7 +72,11 @@ const EditProfile = () => {
                     fontSize: "18px",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-home"></i> Dashboard
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    className="fa fa-home"
+                  ></i>{" "}
+                  Dashboard
                 </Link>
               </li>
               <li>
@@ -85,11 +86,15 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
+
                     color: "#3e4093",
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-user"></i> User Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-user"
+                  ></i>{" "}
+                  User Management
                 </Link>
               </li>
               <li>
@@ -99,10 +104,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Category &amp; Sub Category
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Category &amp; Sub Category
                 </Link>
               </li>
               <li>
@@ -112,10 +120,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="far fa-building"></i> Inventory Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="far fa-building"
+                  ></i>{" "}
+                  Inventory Management
                 </Link>
               </li>
               <li>
@@ -125,10 +136,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-ship"></i> Brands Management
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-ship"
+                  ></i>{" "}
+                  Brands Management
                 </Link>
               </li>
               <li>
@@ -138,10 +152,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-layer-group"></i> Order request
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-layer-group"
+                  ></i>{" "}
+                  Order request
                 </Link>
               </li>
               <li>
@@ -151,10 +168,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-cog"></i> CMS
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-cog"
+                  ></i>{" "}
+                  CMS
                 </Link>
               </li>
               <li>
@@ -165,10 +185,13 @@ const EditProfile = () => {
                   style={{
                     textDecoration: "none",
                     fontSize: "18px",
-                    
                   }}
                 >
-                 <i style={{position:"relative",left:"4px",top:"4px"}}  class="fa fa-sign-out-alt"></i>Logout
+                  <i
+                    style={{ position: "relative", left: "4px", top: "4px" }}
+                    class="fa fa-sign-out-alt"
+                  ></i>
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -178,7 +201,7 @@ const EditProfile = () => {
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
-          <div className="col">
+            <div className="col">
               {sideBar ? (
                 <div>
                   <h1
@@ -188,7 +211,10 @@ const EditProfile = () => {
                       setSideBar(!sideBar);
                     }}
                   >
-                   <i style={{position:"relative",left:"4px",top:"4px"}}  className="fa fa-bars"></i>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "4px" }}
+                      className="fa fa-bars"
+                    ></i>
                   </h1>
                 </div>
               ) : (
@@ -234,7 +260,14 @@ const EditProfile = () => {
                           />
                         </div>
                         <div className="p-image ">
-                         <i style={{position:"relative",left:"4px",top:"4px"}}  className="upload-icon fas fa-camera  fs-3" />
+                          <i
+                            style={{
+                              position: "relative",
+                              left: "4px",
+                              top: "4px",
+                            }}
+                            className="upload-icon fas fa-camera  fs-3"
+                          />
                           <input
                             className="Admin-upload "
                             name="adminProfile"

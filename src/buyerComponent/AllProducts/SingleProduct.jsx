@@ -21,14 +21,10 @@ const SingleProduct = () => {
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const [loader, setLoader] = useState(false);
-  const [loader1, setLoader2] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
   const [userDetail, setUserDetail] = useState([]);
   const [flavour, setFlavour] = useState();
-  const [type, setType] = useState();
-  const [category, setCategory] = useState([]);
   const [simProducts, setSimProducts] = useState([]);
-  const [FInd, setFInd] = useState();
   const [NState, setNState] = useState(false);
   const [LoginState, setLoginState] = useState(false);
   const [productImages, setProductImages] = useState([]);
@@ -40,13 +36,6 @@ const SingleProduct = () => {
   let location = useLocation();
   const [errMsg, setErrMsg] = useState();
   const [objectId, setObjectID] = useState();
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-  const [categoryName, setCategoryName] = useState();
-  const handleOpen = () => setOpen(true);
-  const handle2Open = () => setOpen2(true);
-  const handleClose = () => setOpen(false);
-  const handle2Close = () => setOpen2(false);
   const navigate = useNavigate();
   const GetChange = (data) => {
     setChange(data);
@@ -54,14 +43,14 @@ const SingleProduct = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+
   let token = localStorage.getItem("token-user");
-  console.log(objectId, location?.state?.id);
 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
   }
-  
+
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -80,24 +69,16 @@ const SingleProduct = () => {
           });
 
         setProduct(res?.data.results);
-        setFlavour(res?.data.results.type[0])
+        setFlavour(res?.data.results.type[0]);
         setProductImages(res.data.results?.productImage);
         setProductImages({ ...productImages }, res.data.results?.type);
       });
     };
-    const getCategory = async () => {
-      await axios.get(categoryApi).then((res) => {
-        setCategory(res?.data.results);
-      });
-    };
-    console.log(categoryName);
 
-    getCategory();
     userInfo();
     NewProducts();
   }, [change, objectId]);
 
-  console.log(typeObj);
   const AddtoCart = async () => {
     if (flavour) {
       setLoader(true);
@@ -165,7 +146,6 @@ const SingleProduct = () => {
   };
   const AddtoQuote = async () => {
     if (flavour) {
-      setLoader2(true);
       cartProduct.push(objectId);
       cartProduct.push(unitCount);
       await axios
@@ -176,12 +156,10 @@ const SingleProduct = () => {
         })
         .then((res) => {
           if (res.data?.message === "Quote is Added") {
-            setLoader(false);
             setSuccesMsg("Product added to Quote!");
             // document.getElementById("req-modal").click();
           }
           if (res.data?.message === "Quote is already in Cart") {
-            setLoader(false);
             setSuccesMsg("Product added to Cart!");
             // document.getElementById("req-modal").click();
           }
@@ -190,7 +168,6 @@ const SingleProduct = () => {
           if (
             err.response?.data?.message === "Access Denied. No token provided."
           ) {
-            setLoader(false);
             Swal.fire({
               title: "Please Login to your Account!",
               icon: "error",
@@ -198,7 +175,6 @@ const SingleProduct = () => {
             });
           }
           if (err.response?.data?.message === "You are not Authenticated Yet") {
-            setLoader(false);
             Swal.fire({
               title: "Please Login to your Account!",
               icon: "error",
@@ -206,7 +182,6 @@ const SingleProduct = () => {
             });
           }
           if (err.response?.data.message === "") {
-            setLoader(false);
             Swal.fire({
               title: "Product is already in Cart!",
               icon: "error",
@@ -215,7 +190,6 @@ const SingleProduct = () => {
           }
         });
       setTimeout(() => {
-        setLoader(false);
         setSuccesMsg();
       }, 3000);
     } else {
@@ -290,12 +264,21 @@ const SingleProduct = () => {
                           type="button"
                           onClick={() => {
                             document.getElementById("productMainImg").src =
-                              product?.productImage;
+                              product?.productImage
+                                ? product?.productImage
+                                : require("../../assets/img/product.jpg");
 
                             setFlavour();
                           }}
                         >
-                          <img src={product?.productImage} alt="" />
+                          <img
+                            src={
+                              product?.productImage
+                                ? product?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
+                            alt=""
+                          />
                         </button>
                         {(product?.type || []).map((item, index) => (
                           <button
@@ -303,12 +286,20 @@ const SingleProduct = () => {
                             type="button"
                             onClick={() => {
                               document.getElementById("productMainImg").src =
-                                item?.flavourImage;
+                                item?.flavourImage
+                                  ? item?.flavourImage
+                                  : require("../../assets/img/product.jpg");
                               setFlavour(item);
-                              setFInd(index);
                             }}
                           >
-                            <img src={item?.flavourImage} alt="" />
+                            <img
+                              src={
+                                item?.flavourImage
+                                  ? item?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
                           </button>
                         ))}
                       </div>
@@ -317,7 +308,13 @@ const SingleProduct = () => {
                       <div className="carousel-item active">
                         <div className="productimg_show">
                           <img
-                            src={flavour?.flavour ? flavour?.flavourImage: product?.productImage}
+                            src={
+                              flavour?.flavour
+                                ? flavour?.flavourImage ||
+                                  require("../../assets/img/product.jpg")
+                                : product?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                            }
                             id="productMainImg"
                             className="d-block"
                             alt="..."
@@ -388,7 +385,8 @@ const SingleProduct = () => {
                                     style={{ border: "none" }}
                                   >
                                     {(product?.type || []).map((item, ind) => {
-                                      return flavour?.flavour === item?.flavour ? (
+                                      return flavour?.flavour ===
+                                        item?.flavour ? (
                                         <a
                                           className=" text-decoration-none text-white"
                                           key={ind}
@@ -408,10 +406,10 @@ const SingleProduct = () => {
                                             document.getElementById(
                                               "productMainImg"
                                             ).src = item?.flavourImage;
-                                          
+
                                             setErrMsg();
                                             setTypeObj();
-                                             setFlavour(item)
+                                            setFlavour(item);
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
@@ -569,7 +567,11 @@ const SingleProduct = () => {
                       <div className="product_parts_box">
                         <div className="partsproduct_img">
                           <img
-                            src={item?.productImage}
+                            src={
+                              item?.productImage
+                                ? item?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -624,74 +626,6 @@ const SingleProduct = () => {
         </section>
       </>
       <Footer />
-      <ButtonToolbar>
-        <Button onClick={handle2Open} id="req-modal2">
-          Open
-        </Button>
-      </ButtonToolbar>
-      <ButtonToolbar>
-        <Button onClick={handleOpen} id="req-modal">
-          Open
-        </Button>
-      </ButtonToolbar>
-
-      <Modal open={open} onClose={handleClose} style={{ marginTop: "150px" }}>
-        <Modal.Header>
-          <Modal.Title className="fs-4">
-            <i class="fas fa-check-circle "></i> Quotation Added to My Quotes!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-center">
-            <button
-              className="comman_btn rounded mx-4"
-              onClick={() => {
-                navigate("/MyQuotes");
-              }}
-            >
-              View Quotes
-            </button>
-            <button
-              className="comman_btn2 rounded mx-3"
-              onClick={() => {
-                navigate("/app/home");
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-      <Modal open={open2} onClose={handle2Close} style={{ marginTop: "150px" }}>
-        <Modal.Header>
-          <Modal.Title className="fs-4">
-            {" "}
-            <i class="fas fa-check-circle"></i> Product Added to Cart!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-center">
-            <button
-              className="comman_btn rounded mx-4"
-              onClick={() => {
-                navigate("/Cart");
-              }}
-            >
-              View Cart
-            </button>
-            <button
-              className="comman_btn2 rounded mx-3"
-              onClick={() => {
-                navigate("/app/home");
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
     </div>
   );
 };

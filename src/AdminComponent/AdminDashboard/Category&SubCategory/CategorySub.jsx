@@ -627,7 +627,7 @@ const CategorySub = () => {
                                                   width={80}
                                                   src={
                                                     item?.background
-                                                      ? item?.categoryImage
+                                                      ? item?.background
                                                       : require("../../../assets/img/product.jpg")
                                                   }
                                                 ></img>

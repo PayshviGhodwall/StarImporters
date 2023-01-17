@@ -71,7 +71,7 @@ function AppProductDetail() {
       const formData = {
         productId: id,
         quantity: quantity,
-        flavour: typeObj ? typeObj : {},
+        flavour: flavour ? flavour : {},
       };
       console.log(formData);
       const { data } = await addToCart(formData);
@@ -91,7 +91,7 @@ function AppProductDetail() {
       const formData = {
         productId: id,
         quantity: quantity,
-        flavour: typeObj ? typeObj : {},
+        flavour:  flavour ? flavour  : {},
       };
       const { data } = await addToQuote(formData);
       if (!data.error) {
@@ -105,21 +105,21 @@ function AppProductDetail() {
       });
     }
   };
-  const getFlavour = (index) => {
-    const flavourData = productDetail?.type.map((option) => option);
-    console.log(flavourData);
-    setTypeObj(flavourData[index]);
-    if (flavour.flavour === flavourData[0].flavour) {
-      setFlavour({
-        flavour: "",
-        flavourImage: "",
-      });
-    } else
-      setFlavour({
-        flavour: flavourData[index].flavour,
-        flavourImage: flavourData[index].flavourImage,
-      });
-  };
+  // const getFlavour = (index) => {
+  //   const flavourData = productDetail?.type.map((option) => option);
+  //   console.log(flavourData);
+  //   setTypeObj(flavourData[index]);
+  //   if (flavour.flavour === flavourData[0].flavour) {
+  //     setFlavour({
+  //       flavour: "",
+  //       flavourImage: "",
+  //     });
+  //   } else
+  //     setFlavour({
+  //       flavour: flavourData[index].flavour,
+  //       flavourImage: flavourData[index].flavourImage,
+  //     });
+  // };
   const addToFav = async () => {
     await axios
       .post(addFav, {

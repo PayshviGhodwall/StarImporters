@@ -73,7 +73,7 @@ const FeaturedProducts = () => {
                         > */}
                         <div className="partsproduct_img">
                           <img
-                            src={item.productImage}
+                            src={item.productImage ? item.productImage : require("../../assets/img/product.jpg")}
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {

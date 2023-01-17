@@ -80,7 +80,7 @@ function AppHome() {
   };
 
   const searchProduct = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     navigate("/app/product-by-search", { state: { search: search } });
   };
 
@@ -191,8 +191,7 @@ function AppHome() {
                               <Link
                                 className="product-title"
                                 to={`/app/product-detail/${item._id}`}
-                                state={{ type: item?.type }} 
-
+                                state={{ type: item?.type }}
                               >
                                 {item.unitName + "-" + item?.type.flavour}
                               </Link>

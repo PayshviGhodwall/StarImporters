@@ -13,20 +13,21 @@ const ProductByBrand = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByBrands`;
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [brandName, setBrandName] = useState();
+  // const [brandName, setBrandName] = useState();
   const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
-  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
-  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  // const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
+  // const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  // const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
 
   const [heart, setHeart] = useState(false);
-  const [subCategoryName, setSubCategoryName] = useState();
+  // const [subCategoryName, setSubCategoryName] = useState();
 
   useEffect(() => {
     GetBrands();
     getProducts();
   }, [location, heart]);
+
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -57,18 +58,18 @@ const ProductByBrand = () => {
     window.location.reload(false);
   };
 
-  const addToFav = async (index) => {
-    await axios.post(addFav, {
-      productId: products[index]?.products?._id,
-    });
-    setHeart(!heart);
-  };
-  const rmvFromFav = async (index) => {
-    await axios.post(rmvFav, {
-      productId: products[index]?.products?._id,
-    });
-    setHeart(!heart);
-  };
+  // const addToFav = async (index) => {
+  //   await axios.post(addFav, {
+  //     productId: products[index]?.products?._id,
+  //   });
+  //   setHeart(!heart);
+  // };
+  // const rmvFromFav = async (index) => {
+  //   await axios.post(rmvFav, {
+  //     productId: products[index]?.products?._id,
+  //   });
+  //   setHeart(!heart);
+  // };
 
   return (
     <div>
@@ -119,8 +120,6 @@ const ProductByBrand = () => {
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
                   <PanelGroup accordion bordered className="">
-                    
-
                     <Panel
                       header="Sort By"
                       eventKey={2}
@@ -137,8 +136,7 @@ const ProductByBrand = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e)=>setSortValue(e.target.value)}
-
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -152,8 +150,7 @@ const ProductByBrand = () => {
                               id="radio4"
                               name="radio1"
                               value="0"
-                              onChange={(e)=>setSortValue(e.target.value)}
-
+                              onChange={(e) => setSortValue(e.target.value)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -192,7 +189,11 @@ const ProductByBrand = () => {
                       <div className="product_parts_box">
                         <div className="partsproduct_img">
                           <img
-                            src={item.products?.productImage}
+                            src={
+                              item.products?.productImage
+                                ? item?.products?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -203,7 +204,7 @@ const ProductByBrand = () => {
                               });
                             }}
                           />
-                           {/* <p
+                          {/* <p
                               style={{
                                 right: "5px",
                                 top:"-80px",
@@ -244,7 +245,6 @@ const ProductByBrand = () => {
                             >
                               {item?.products?.unitName}
                             </h1>
-                            
                           </div>
                           <div className="rating_box mt-2">
                             <i

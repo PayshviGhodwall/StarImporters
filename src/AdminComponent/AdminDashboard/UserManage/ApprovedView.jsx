@@ -5,11 +5,9 @@ import "../../../assets/css/adminMain.css";
 import { FaFileUpload, FaLessThanEqual } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
 import { FaFileDownload } from "react-icons/fa";
-import fileDownload from "js-file-download";
 import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
 // Default CSS

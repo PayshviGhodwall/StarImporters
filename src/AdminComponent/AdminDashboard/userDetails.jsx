@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
-
 import Starlogo from "../../assets/img/logo.png";
-import profile from "../../assets/img/profile_img1.png";
-import { HiMenuAlt1 } from "react-icons/hi";
-import $ from "jquery";
 import ProfileBar from "./ProfileBar";
 
 const UserDetails = () => {

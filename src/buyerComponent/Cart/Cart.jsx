@@ -187,9 +187,11 @@ const Cart = () => {
                                                 src={
                                                   item?.flavour?._id
                                                     ? item?.flavour
-                                                        ?.flavourImage
+                                                        ?.flavourImage ||
+                                                      require("../../assets/img/product.jpg")
                                                     : item?.productId
-                                                        ?.productImage
+                                                        ?.productImage ||
+                                                      require("../../assets/img/product.jpg")
                                                 }
                                                 style={{ cursor: "pointer" }}
                                                 alt=""
@@ -761,8 +763,8 @@ const Cart = () => {
             </div>
           )}
         </section>
+        <Footer />
       </Animate2>
-      <Footer />
     </div>
   );
 };

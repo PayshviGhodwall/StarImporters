@@ -39,7 +39,6 @@ const EditUser = () => {
   } = useForm();
   
   const onProfileSelection = async (e, key) => {
-    console.log(e);
     setFiles({ ...files, [key]: e.target.files[0] });
     const formData = new FormData();
     formData.append("productImage", e.target.files[0]);
@@ -76,7 +75,6 @@ const EditUser = () => {
     formData.append("quotation", data?.quotation);
 
     await axios.post(apiUrl2 + "/" + objectId, formData).then((res) => {
-      console.log(res);
       if (res?.data.message === "User Deatils Updated Successfully") {
         setLoader(false);
         navigate("/UserManage/ApprovedView");
@@ -102,7 +100,6 @@ const EditUser = () => {
       }
       if (res?.data.message === "Phone is already registered") {
         setLoader(false);
-
         Swal.fire({
           title: "Phone is already registered!",
           icon: "error",

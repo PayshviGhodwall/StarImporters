@@ -4,7 +4,7 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
-import { Panel, PanelGroup, Placeholder } from "rsuite";
+import { Panel, PanelGroup } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -15,10 +15,8 @@ const ProductBySubCate = () => {
   const [brandName, setBrandName] = useState();
   const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
-  const [subCategoryName, setSubCategoryName] = useState();
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
@@ -39,7 +37,6 @@ const ProductBySubCate = () => {
         subCategory: location.state?.name,
       })
       .then((res) => {
-        setSubCategoryName(res.data?.results[0]?.categoryName);
         setProducts(res.data?.results);
       });
   };
@@ -62,17 +59,19 @@ const ProductBySubCate = () => {
   };
 
   const addToFav = async (index) => {
-    await axios.post(addFav, {
-      productId: products[index]?.products?._id,
-    }).catch((err)=>{
-      if(err){
-       Swal.fire({
-         title:"Please Login To Continue!",
-         icon:"warning",
-         button:"cool"
-       })
-      }
-   })
+    await axios
+      .post(addFav, {
+        productId: products[index]?.products?._id,
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          });
+        }
+      });
     setHeart(!heart);
   };
   const rmvFromFav = async (index) => {
@@ -116,7 +115,7 @@ const ProductBySubCate = () => {
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
-                  <PanelGroup  bordered className="">
+                  <PanelGroup bordered className="">
                     <Panel
                       header=" Product Brands "
                       eventKey={1}
@@ -251,7 +250,11 @@ const ProductBySubCate = () => {
                         > */}
                         <div className="partsproduct_img">
                           <img
-                            src={item?.products?.productImage}
+                            src={
+                              item?.products?.productImage
+                                ? item?.products?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {

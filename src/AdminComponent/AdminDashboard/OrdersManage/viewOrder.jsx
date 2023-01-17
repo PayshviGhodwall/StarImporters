@@ -247,37 +247,33 @@ const ViewOrder = () => {
                     <div className="col-auto">
                       <h2>Order Details</h2>
                     </div>
+
                     <div className="col-auto">
-                      <button
-                        className="comman_btn2"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Export <i class="fa fa-download"></i>
-                      </button>
-                      <ul
-                        className="dropdown-menu mt-1"
-                        aria-labelledby="dropdownMenuButton1"
-                      >
-                        <li>
-                          <Link
-                            className="text-decoration-none text-dark dropdown-item"
-                            onClick={exportOrder}
-                          >
-                            Export .csv
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="text-decoration-none text-dark dropdown-item"
-                            onClick={exportOrderXls}
-                          >
-                            Export .xls
-                          </Link>
-                        </li>
-                      </ul>
+                      <div class="dropdowns">
+                        <button class="dropdown-btns comman_btn2">
+                          Export <i class="fa fa-download"></i>
+                        </button>
+                        <div class="dropdown-contents">
+                          <a href="#">
+                            <Link
+                              className="text-decoration-none"
+                              onClick={exportOrder}
+                            >
+                              Export .csv
+                            </Link>
+                          </a>
+                          <a href="#">
+                            <Link
+                              className="text-decoration-none text-dark dropdown-item"
+                              onClick={exportOrderXls}
+                            >
+                              Export .xls
+                            </Link>
+                          </a>
+                        </div>
+                      </div>
+
+                     
                     </div>
                   </div>
                   <div className="row p-4 py-5">

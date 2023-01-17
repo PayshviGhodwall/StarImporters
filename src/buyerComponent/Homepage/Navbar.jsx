@@ -2,22 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import Starlogo from "../../assets/img/logo.png";
 import "../../assets/css/main.css";
 import Login from "../LoginRegister/Login";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Link, useNavigate } from "react-router-dom";
 import ForgotPassword from "../LoginRegister/ForgotPassword";
 import SendOtp from "../LoginRegister/SendOtp";
 import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
-import { RecoilRoot, selector, useRecoilState, useRecoilValue } from "recoil";
-import { textState } from "../../atom.js";
 import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
-import ProductBySearch from "../AllProducts/ProductBySearch";
-const Navbar = ({ NState, GetChange, LoginState }) => {
+const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
-  const searchApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeSearch`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
   const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
   const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
@@ -26,13 +21,11 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   const [category, setCategory] = useState([]);
   const [state, setState] = useState(false);
   const navigate = useNavigate();
-  const [product, setProduct] = useState([]);
   const [otpEmail, setOtpEmail] = useState();
   const [UserAuth, setUserAuth] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
-  const [searchItem, setSearchItem] = useState();
   const [products, setProducts] = useState([]);
   const ref = useRef(null);
   useEffect(() => {
@@ -63,53 +56,12 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
     }
   };
 
-  // console.log(GetChange);
-  // let searchItemRef = useRef(null);
-  // searchItemRef.current = searchItem;
   useEffect(() => {
-    // document.addEventListener("keyup", handleKeyPress);
-    // return () => document.removeEventListener("keyup", handleKeyPress);
-
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
       document.removeEventListener("click", handleOutsideClick, true);
   }, []);
-  // const handleKeyPress = (e) => {
-  //   if (e.key === "Enter" && searchItemRef?.current?.length > 0) {
-  //     console.log(searchItemRef?.current, "enter");
-  //     navigate("/ProductSearch", {
-  //       state: { search: searchItemRef?.current },
-  //     });
-  //     setSearchItem("");
-  //   }
-  // };
-  // const handleOnSearch = async (string, results) => {
-  //   setSearchItem(string);
-  //   // if (string) {
-  //   //   navigate("/ProductSearch",{
-  //   //     state: { search:string }
-  //   //   });
-  //   // }
-  // };
 
-  // const handleOnHover = (result) => {
-  //   // the item hovered
-  //   console.log(result);
-  // };
-
-  // const handleOnSelect = (item) => {
-  //   console.log(item);
-  //   navigate("/AllProducts/Product", {
-  //     state: { id: item?._id, CateName: item.categoryName },
-  //   });
-  // };
-
-  // const handleOnFocus = (e, string) => {
-  //   // e.preventDefault()
-  //   // navigate("/ProductSearch", {
-  //   //   state: { search: string },
-  //   // });
-  // };
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
@@ -122,7 +74,6 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
   };
   const getCategory = async () => {
     await axios.get(categoryApi).then((res) => {
-      console.log(res);
       setCategory(res?.data.results);
     });
   };
@@ -152,20 +103,13 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
     });
   };
 
-  const removeNotify = async (id) => {
-    await axios.post(deleteNotify + "/" + id).then((res) => {
-      if (!res.error) {
-        getNotifications();
-      }
-    });
-  };
-
   const LogOut = () => {
     setUserAuth(localStorage.removeItem("token-user"));
     setUserAuth(localStorage.removeItem("UserData"));
     navigate("/app/home");
     window.location.reload();
   };
+
   const handleScroll = () => {
     const offset = window.scrollY;
     if (offset > 40) {
@@ -174,7 +118,6 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
       setScrolled(false);
     }
   };
-  console.log(notifications);
   return (
     <div className="header_main ">
       <header className="">
@@ -362,8 +305,10 @@ const Navbar = ({ NState, GetChange, LoginState }) => {
                           <img
                             src={
                               item?.type.flavour
-                                ? item?.type?.flavourImage
-                                : item?.productImage
+                                ? item?.type?.flavourImage ||
+                                  require("../../assets/img/product.jpg")
+                                : item?.productImage ||
+                                  require("../../assets/img/product.jpg")
                             }
                             alt="Product"
                             onClick={() => {

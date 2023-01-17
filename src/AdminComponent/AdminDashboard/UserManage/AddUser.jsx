@@ -4,12 +4,10 @@ import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
-import profile from "../../../assets/img/profile_img1.png";
 import { useEffect } from "react";
 import axios from "axios";
 import classNames from "classnames";
 import { FaFileUpload } from "react-icons/fa";
-import { data } from "jquery";
 import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
 import Swal from "sweetalert2";
@@ -36,7 +34,6 @@ const AddUser = () => {
   };
   const onSubmit = async (data) => {
     setLoader(true)
-    console.log(data);
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
     formData.append("companyName", data?.companyName.trim());

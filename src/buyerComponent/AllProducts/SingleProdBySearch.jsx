@@ -15,20 +15,15 @@ import Swal from "sweetalert2";
 
 const SingleProdBySearch = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const [loader, setLoader] = useState(false);
-  const [loader1, setLoader2] = useState(false);
   const [unitCount, setUnitCount] = useState(1);
   const [userDetail, setUserDetail] = useState([]);
   const [flavour, setFlavour] = useState();
-  const [type, setType] = useState();
-  const [category, setCategory] = useState([]);
   const [simProducts, setSimProducts] = useState([]);
-  const [FInd, setFInd] = useState();
   const [NState, setNState] = useState(false);
   const [LoginState, setLoginState] = useState(false);
   const [productImages, setProductImages] = useState([]);
@@ -40,13 +35,7 @@ const SingleProdBySearch = () => {
   let location = useLocation();
   const [errMsg, setErrMsg] = useState();
   const [objectId, setObjectID] = useState();
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-  const [categoryName, setCategoryName] = useState();
-  const handleOpen = () => setOpen(true);
-  const handle2Open = () => setOpen2(true);
-  const handleClose = () => setOpen(false);
-  const handle2Close = () => setOpen2(false);
+
   const navigate = useNavigate();
   const GetChange = (data) => {
     setChange(data);
@@ -54,24 +43,23 @@ const SingleProdBySearch = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+
   let token = localStorage.getItem("token-user");
-  console.log(objectId, location?.state?.id);
 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
-
   }
-  
+
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
         setUserDetail(res?.data?.results);
       });
     };
+
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
-        console.log(res);
         axios
           .post(similarProduct, {
             category: res.data?.results?.category?.categoryName,
@@ -85,19 +73,11 @@ const SingleProdBySearch = () => {
         setProductImages({ ...productImages }, res.data.results?.type);
       });
     };
-    const getCategory = async () => {
-      await axios.get(categoryApi).then((res) => {
-        setCategory(res?.data.results);
-      });
-    };
-    console.log(categoryName);
 
-    getCategory();
     userInfo();
     NewProducts();
   }, [change, objectId]);
 
-  console.log(typeObj);
   const AddtoCart = async () => {
     if (flavour) {
       setLoader(true);
@@ -165,7 +145,6 @@ const SingleProdBySearch = () => {
   };
   const AddtoQuote = async () => {
     if (flavour) {
-      setLoader2(true);
       cartProduct.push(objectId);
       cartProduct.push(unitCount);
       await axios
@@ -290,12 +269,21 @@ const SingleProdBySearch = () => {
                           type="button"
                           onClick={() => {
                             document.getElementById("productMainImg").src =
-                              product?.productImage;
+                            product?.productImage
+                                ? product?.productImage
+                                : require("../../assets/img/product.jpg");
 
                             setFlavour();
                           }}
                         >
-                          <img src={product?.productImage} alt="" />
+                          <img
+                            src={
+                              product?.productImage
+                                ? product?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
+                            alt=""
+                          />
                         </button>
                         {(product?.type || []).map((item, index) => (
                           <button
@@ -303,12 +291,20 @@ const SingleProdBySearch = () => {
                             type="button"
                             onClick={() => {
                               document.getElementById("productMainImg").src =
-                                item?.flavourImage;
+                                item?.flavourImage
+                                  ? item?.flavourImage
+                                  : require("../../assets/img/product.jpg");
                               setFlavour(item);
-                              setFInd(index);
                             }}
                           >
-                            <img src={item?.flavourImage} alt="" />
+                            <img
+                              src={
+                                item?.flavourImage
+                                  ? item?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
                           </button>
                         ))}
                       </div>
@@ -317,7 +313,13 @@ const SingleProdBySearch = () => {
                       <div className="carousel-item active">
                         <div className="productimg_show">
                           <img
-                            src={flavour?.flavour ? flavour?.flavourImage: product?.productImage}
+                            src={
+                              flavour?.flavour
+                                ? flavour?.flavourImage ||
+                                  require("../../assets/img/product.jpg")
+                                : product?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                            }
                             id="productMainImg"
                             className="d-block"
                             alt="..."
@@ -388,7 +390,8 @@ const SingleProdBySearch = () => {
                                     style={{ border: "none" }}
                                   >
                                     {(product?.type || []).map((item, ind) => {
-                                      return flavour?.flavour === item?.flavour ? (
+                                      return flavour?.flavour ===
+                                        item?.flavour ? (
                                         <a
                                           className=" text-decoration-none text-white"
                                           key={ind}
@@ -408,10 +411,10 @@ const SingleProdBySearch = () => {
                                             document.getElementById(
                                               "productMainImg"
                                             ).src = item?.flavourImage;
-                                          
+
                                             setErrMsg();
                                             setTypeObj();
-                                             setFlavour(item)
+                                            setFlavour(item);
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
@@ -569,7 +572,11 @@ const SingleProdBySearch = () => {
                       <div className="product_parts_box">
                         <div className="partsproduct_img">
                           <img
-                            src={item?.productImage}
+                            src={
+                              item?.productImage
+                                ? item?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -624,74 +631,6 @@ const SingleProdBySearch = () => {
         </section>
       </>
       <Footer />
-      <ButtonToolbar>
-        <Button onClick={handle2Open} id="req-modal2">
-          Open
-        </Button>
-      </ButtonToolbar>
-      <ButtonToolbar>
-        <Button onClick={handleOpen} id="req-modal">
-          Open
-        </Button>
-      </ButtonToolbar>
-
-      <Modal open={open} onClose={handleClose} style={{ marginTop: "150px" }}>
-        <Modal.Header>
-          <Modal.Title className="fs-4">
-            <i class="fas fa-check-circle "></i> Quotation Added to My Quotes!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-center">
-            <button
-              className="comman_btn rounded mx-4"
-              onClick={() => {
-                navigate("/MyQuotes");
-              }}
-            >
-              View Quotes
-            </button>
-            <button
-              className="comman_btn2 rounded mx-3"
-              onClick={() => {
-                navigate("/app/home");
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-      <Modal open={open2} onClose={handle2Close} style={{ marginTop: "150px" }}>
-        <Modal.Header>
-          <Modal.Title className="fs-4">
-            {" "}
-            <i class="fas fa-check-circle"></i> Product Added to Cart!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-center">
-            <button
-              className="comman_btn rounded mx-4"
-              onClick={() => {
-                navigate("/Cart");
-              }}
-            >
-              View Cart
-            </button>
-            <button
-              className="comman_btn2 rounded mx-3"
-              onClick={() => {
-                navigate("/app/home");
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
     </div>
   );
 };

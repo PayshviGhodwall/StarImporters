@@ -10,10 +10,9 @@ const SubCategories = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/subCatbyCat`;
   const [objectId, setObjectID] = useState();
   let location = useLocation();
-   
+
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
-
   }
   useEffect(() => {
     GetSubCategories();
@@ -69,7 +68,11 @@ const SubCategories = () => {
                 <ul class="brands_ul list-unstyled mb-0">
                   {(categories || [])?.map((item, index) => (
                     <li key={index}>
-                      
+                      <h5 className="text-center mt-3">
+                        {" "}
+                        {item?.subCategoryName}
+                      </h5>
+
                       <Link
                         className="text-decoration-none"
                         to={{
@@ -77,7 +80,6 @@ const SubCategories = () => {
                         }}
                         state={{ name: item?.subCategoryName }}
                       >
-                        <p> {item?.subCategoryName}</p>
                         <img src={item?.subCategoryImage} alt="" />
                       </Link>
                     </li>

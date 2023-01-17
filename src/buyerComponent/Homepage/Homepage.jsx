@@ -1,7 +1,6 @@
 import React from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
-import { useForm } from "react-hook-form";
 import { BsFillStarFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,11 +14,8 @@ import "swiper/css/grid";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
 import { useEffect } from "react";
-import TermsCondition from "./Terms&Condition";
 import axios from "axios";
 import { useState } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { charCountState } from "../../selecter.js";
 import DOMPurify from "dompurify";
 
 const Homepage = () => {
@@ -33,13 +29,12 @@ const Homepage = () => {
   const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [productsCate, setProductsCate] = useState("hello");
   const ModalClose = document.getElementById("age_close");
-  const modalCloseTerms = document.getElementById("terms_close");
   const navigate = useNavigate();
-  const [text, setText] = useRecoilState(charCountState);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+
+  let token = localStorage.getItem("token-user");
   useEffect(() => {
     let x = document.cookie;
     let token = localStorage.getItem("token-user");
@@ -197,13 +192,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -259,13 +256,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[1]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -321,13 +320,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[2]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -383,13 +384,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[3]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -445,13 +448,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[4]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -507,13 +512,15 @@ const Homepage = () => {
                   }
                   style={{ top: "10px" }}
                 >
-                  <button
-                    className={
-                      allSlides[5]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
+                  {token ? null : (
+                    <button
+                      className={
+                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
+                      }
+                    >
+                      SignUp
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -639,7 +646,11 @@ const Homepage = () => {
                   >
                     <div className="partsproduct_img ">
                       <img
-                        src={item?.productImage}
+                        src={
+                          item?.productImage
+                            ? item?.productImage
+                            : require("../../assets/img/product.jpg")
+                        }
                         className="mt-3 mb-3"
                         alt="Product"
                       />

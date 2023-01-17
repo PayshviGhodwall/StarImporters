@@ -7,7 +7,6 @@ import Footer from "../Footer/Footer";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { icon } from "@fortawesome/fontawesome-svg-core";
 const ProductByCate = () => {
   const location = useLocation();
   const [sortValue, setSortValue] = useState("");
@@ -16,21 +15,16 @@ const ProductByCate = () => {
   const [brandName, setBrandName] = useState();
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const getSubCategories = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getSubCategories`;
-  const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
-  console.log(brandName);
   const navigate = useNavigate();
   useEffect(() => {
-    // document.getElementById(
-    //   "commonSection"
-    // ).style.backgroundImage = `url(${location?.state.image})`;
     getProducts();
     GetBrands();
   }, [location, heart]);
+
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
       setBrands(res?.data.results);
@@ -64,17 +58,19 @@ const ProductByCate = () => {
     window.location.reload(false);
   };
   const addToFav = async (index) => {
-    await axios.post(addFav, {
-      productId: products[index]?.products?._id,
-    }).catch((err)=>{
-       if(err){
-        Swal.fire({
-          title:"Please Login To Continue!",
-          icon:"warning",
-          button:"cool"
-        })
-       }
-    })
+    await axios
+      .post(addFav, {
+        productId: products[index]?.products?._id,
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          });
+        }
+      });
     setMessage("Added to Favourites!");
     setHeart(!heart);
   };
@@ -125,7 +121,7 @@ const ProductByCate = () => {
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
-                  <PanelGroup  bordered className="">
+                  <PanelGroup bordered className="">
                     <Panel
                       header=" Product Brands "
                       eventKey={1}
@@ -261,7 +257,11 @@ const ProductByCate = () => {
                         > */}
                         <div className="partsproduct_img">
                           <img
-                            src={item.products?.productImage}
+                            src={
+                              item?.products?.productImage
+                                ? item?.products?.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -272,7 +272,7 @@ const ProductByCate = () => {
                               });
                             }}
                           />
-                          
+
                           <p
                             style={{
                               right: "5px",
