@@ -38,7 +38,7 @@ function AppProfile() {
                     />
                   </div>
                   <div className="user-info">
-                    <h5 className="mb-0">{detail.companyName}</h5>
+                    <h5 className="mb-0">{detail?.companyName}</h5>
                   </div>
                 </div>
               </div>
@@ -50,7 +50,7 @@ function AppProfile() {
                       <i className="fa-solid fa-at"></i>
                       <span>Username</span>
                     </div>
-                    <div className="data-content">{detail.firstName}</div>
+                    <div className="data-content">{detail?.firstName}</div>
                   </div>
                   <div className="single-profile-data d-flex align-items-center justify-content-between">
                     <div className="title d-flex align-items-center">
@@ -58,7 +58,7 @@ function AppProfile() {
                       <span>Full Name</span>
                     </div>
                     <div className="data-content">
-                      {detail.firstName + " " + detail.lastName}
+                      {detail?.firstName + " " + detail?.lastName}
                     </div>
                   </div>
                   <div className="single-profile-data d-flex align-items-center justify-content-between">
@@ -66,14 +66,14 @@ function AppProfile() {
                       <i className="fa-solid fa-phone"></i>
                       <span>Phone</span>
                     </div>
-                    <div className="data-content">{detail.phoneNumber}</div>
+                    <div className="data-content">{detail?.phoneNumber}</div>
                   </div>
                   <div className="single-profile-data d-flex align-items-center justify-content-between">
                     <div className="title d-flex align-items-center">
                       <i className="fa-solid fa-envelope"></i>
                       <span>Email</span>
                     </div>
-                    <div className="data-content">{detail.email} </div>
+                    <div className="data-content">{detail?.email} </div>
                   </div>
                   <div className="single-profile-data d-flex align-items-center justify-content-between">
                     <div className="title d-flex align-items-center">

@@ -297,11 +297,11 @@ const Navbar = ({ NState, LoginState }) => {
           {products?.length ? (
             <div>
               <div className="col w-100">
-                <div className="product_single_right row p-4">
+                <div className="product_single_right row p-2">
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
-                      <div className="product_parts_box ">
-                        <div className="partsproduct_img">
+                      <div className="product_parts_box_search ">
+                        <div className="partsproduct_img_search">
                           <img
                             src={
                               item?.type.flavour
@@ -326,8 +326,8 @@ const Navbar = ({ NState, LoginState }) => {
                         <div className="product_content mt-3 text-center">
                           <div className="d-flex justify-content-center">
                             <h1
-                              className="text-center fs-6 fw-bolder "
-                              style={{ position: "relative", left: "0px" }}
+                              className="text-center fw-bolder "
+                              style={{ position: "relative", left: "0px",fontSize:"13px" }}
                               onClick={() => {
                                 navigate("/app/product-details", {
                                   state: {
@@ -349,7 +349,7 @@ const Navbar = ({ NState, LoginState }) => {
                               className="fst-italic  "
                               style={{ fontSize: "12px" }}
                             >
-                              {item?.type.description?.slice(0, 60)}........
+                              {item?.type.description?.slice(0, 40)}........
                             </small>
                           </div>
                         </div>
@@ -360,13 +360,14 @@ const Navbar = ({ NState, LoginState }) => {
                 <div className="col-lg-12 d-flex text-center mt-1 mb-0">
                   <p
                     className=" dropViewAll"
-                    onClick={() =>
+                    onClick={() => {
+                      setSearch();
                       navigate("/app/ProductSearch", {
                         state: {
                           search: search,
                         },
-                      })
-                    }
+                      });
+                    }}
                   >
                     View all results
                   </p>

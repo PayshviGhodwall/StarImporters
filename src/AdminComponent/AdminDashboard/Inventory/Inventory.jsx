@@ -1,5 +1,5 @@
-import React, { useState, KeyboardEventHandler, useReducer } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { useForm } from "react-hook-form";
 import Starlogo from "../../../assets/img/logo.png";
@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
-import ReactPaginate from "react-paginate";
 
 const Inventory = () => {
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
@@ -30,7 +29,6 @@ const Inventory = () => {
   const [barcodes, setBarcodes] = useState([]);
   const [values, setValues] = useState({ from: "", to: "" });
   const [sideBar, setSideBar] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -43,7 +41,6 @@ const Inventory = () => {
   const [ux, setUx] = useState("");
   const [loader, setLoader] = useState(false);
   const [activePage, setActivePage] = useState(1);
-  const [productBarcode, setProductBarcode] = useState([]);
   const [formValues, setFormValues] = useState([
     {
       productType: [],
@@ -294,6 +291,13 @@ const Inventory = () => {
     await axios
       .post(importInvent, formData)
       .then((res) => {
+        if (res?.error) {
+          Swal.fire({
+            title: "Error in File",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
         if (res?.data.message === "Imported Successfully") {
           Swal.fire({
             title: "Products Imported successfully",
@@ -726,6 +730,8 @@ const Inventory = () => {
                                     type="text"
                                     className="form-control"
                                     name="productType"
+                                    pattern="[A-Za-z]{3}"
+                                    title="Three letter country code"
                                     placeholder="Enter Product Type"
                                     value={element.productType || ""}
                                     onChange={(e) => handleChange(index, e)}

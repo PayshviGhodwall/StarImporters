@@ -7,7 +7,7 @@ const Welcome = () => {
   const getNotified = `${process.env.REACT_APP_APIENDPOINTNEW}user/addNotify`;
   
   const [countdownDate, setCountdownDate] = useState(
-    new Date("01/18/2023").getTime()
+    new Date("01/25/2023").getTime()
   );
   const [state, setState] = useState({
     days: 0,

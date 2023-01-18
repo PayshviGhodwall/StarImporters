@@ -61,7 +61,6 @@ const Cart = () => {
       getCart();
     }
   };
-  console.log(product);
   const HandleDecrease = async (id) => {
     const formData = {
       productId: product[id]?.productId?._id,

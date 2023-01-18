@@ -13,15 +13,13 @@ const AdminLogin = () => {
   const[EmailError,setEmailError] = useState("")
   const[passError,setPassError] = useState("")
 
-
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
         trigger,
       } = useForm();
-      const onSubmit= async (data)=>{
+      const  onSubmit= async (data)=>{
         let response = await axios
         .post(apiUrl,{
           email: data.UserName,
@@ -120,6 +118,7 @@ const AdminLogin = () => {
                         name="password"
                         {...register("password", {
                           required: "Enter Your Password",
+                          
                         })}
                       />
                       <p className="text-danger fw-bold">{passError}</p>

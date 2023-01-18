@@ -35,7 +35,7 @@ const ProfileBar = () => {
             <button class="dropdown-btnsp">
               <img
                 className="bg-white "
-                src={adminData?.adminProfile}
+                src={adminData?.adminProfile ? adminData?.adminProfile : require("../../assets/img/product.jpg")}
                 alt=""
                 width={50}
               />

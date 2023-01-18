@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Button } from "rsuite";
 import Animate from "../../Animate";
 import {
   deleteCart,
@@ -283,7 +284,7 @@ function AppCart() {
                                       )
                                     }
                                   />
-                                  <span
+                                  <Button
                                     className="plus fs-5 fw-bold"
                                     style={{ userSelect: "none" }}
                                     onClick={() => {
@@ -291,7 +292,7 @@ function AppCart() {
                                     }}
                                   >
                                     +
-                                  </span>
+                                  </Button>
                                 </div>
                               </td>
                             </tr>

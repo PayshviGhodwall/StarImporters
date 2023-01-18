@@ -14,10 +14,10 @@ import Swal from "sweetalert2";
 
 const AddUser = () => {
   const [files, setFiles] = useState([]);
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addUser`
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addUser`;
   const navigate = useNavigate();
-  const [emailErr,setEmailErr] = useState("")
-  const [loader,setLoader] = useState("")
+  const [emailErr, setEmailErr] = useState("");
+  const [loader, setLoader] = useState("");
   const [sideBar, setSideBar] = useState(true);
 
   const {
@@ -33,7 +33,7 @@ const AddUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   const onSubmit = async (data) => {
-    setLoader(true)
+    setLoader(true);
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
     formData.append("companyName", data?.companyName.trim());
@@ -56,59 +56,53 @@ const AddUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
 
-
     await axios.post(apiUrl, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Registered Successfully") {
-        setLoader(false)
+        setLoader(false);
         navigate("/UserManage");
       }
       if (res?.data.message === "Invalid file format") {
         setLoader(false);
         Swal.fire({
           title: "Invalid File Format!",
-          text:"Only images/pdf/docs are allowed.",
+          text: "Only images/pdf/docs are allowed.",
           icon: "error",
           button: "Ok",
         });
-        
       }
       if (res?.data.message === "Email is already registered") {
-        setLoader(false)
+        setLoader(false);
         Swal.fire({
           title: "Email is Already registered!",
           icon: "error",
           button: "Ok",
         });
-        setEmailErr("Email is already registered")
-        
+        setEmailErr("Email is already registered");
       }
       if (res?.data.message === "Phone is already registered") {
-        setLoader(false)
+        setLoader(false);
 
         Swal.fire({
           title: "Phone is already registered!",
           icon: "error",
           button: "Ok",
         });
-        
       }
       if (res?.data.message === "Email is already registered") {
-        setLoader(false)
+        setLoader(false);
 
-        setEmailErr("Email is already registered")
-        
+        setEmailErr("Email is already registered");
       }
-      if(res?.data.error){
-        setLoader(false)
+      if (res?.data.error) {
+        setLoader(false);
         Swal.fire({
           title: res?.data.message,
           icon: "error",
           button: "Ok",
         });
       }
-    })
-  
+    });
   };
 
   const handleClick = () => {
@@ -117,8 +111,8 @@ const AddUser = () => {
     localStorage.removeItem("AdminEmail");
   };
   return (
-    <div className={sideBar? "admin_main" : "expanded_main"}>
-    <div className={sideBar? "siderbar_section": "d-none"}>
+    <div className={sideBar ? "admin_main" : "expanded_main"}>
+      <div className={sideBar ? "siderbar_section" : "d-none"}>
         <div className="siderbar_inner">
           <div className="sidebar_logo">
             <Link to="" className="">
@@ -126,7 +120,7 @@ const AddUser = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-          <ul className="list-unstyled ps-1 m-0">
+            <ul className="list-unstyled ps-1 m-0">
               <li>
                 <Link
                   className=" "
@@ -246,7 +240,7 @@ const AddUser = () => {
       <div className="admin_main_inner">
         <div className="admin_header shadow">
           <div className="row align-items-center mx-0 justify-content-between w-100">
-          <div className="col">
+            <div className="col">
               {sideBar ? (
                 <div>
                   <h1
@@ -255,7 +249,9 @@ const AddUser = () => {
                       console.log("yello");
                       setSideBar(!sideBar);
                     }}
-                  ><i className="fa fa-bars"></i></h1>
+                  >
+                    <i className="fa fa-bars"></i>
+                  </h1>
                 </div>
               ) : (
                 <div>
@@ -263,7 +259,7 @@ const AddUser = () => {
                     <button
                       onClick={(e) => {
                         console.log(e);
-                        setSideBar(!sideBar)
+                        setSideBar(!sideBar);
                       }}
                     >
                       X
@@ -309,10 +305,9 @@ const AddUser = () => {
                               </label>
                               <span></span>
                               <input
-                                className={classNames(
-                                  "form-control",
-                                  { "is-invalid": errors.imageProfile }
-                                )}
+                                className={classNames("form-control", {
+                                  "is-invalid": errors.imageProfile,
+                                })}
                                 type="file"
                                 name="imageProfile mx-2"
                                 accept="image/*"
@@ -344,10 +339,13 @@ const AddUser = () => {
                           id="name"
                           {...register("companyName", {
                             required: "Company Name is Required*",
-                            pattern:"^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$",
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';@@"\s*/\s*"&$]+$/,
+                              message: "Special Character not allowed",
+                            },
+
                             minLength: {
                               value: 5,
-    
                               message:
                                 "Minimium 4 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
                             },
@@ -373,7 +371,6 @@ const AddUser = () => {
                           id="DBA"
                           {...register("dba")}
                         />
-                       
                       </div>
                       <div className="form-group col-6 mb-4">
                         <label htmlFor="address" className="fw-bold fs-6">
@@ -389,6 +386,16 @@ const AddUser = () => {
                           id="address"
                           {...register("addressLine1", {
                             required: "Company Address Line1 is Required*",
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                              message: "Special Character not allowed",
+                            },
+
+                            minLength: {
+                              value: 5,
+                              message:
+                                "Minimium 4 letters Should be in Address Line", // JS only: <p>error message</p> TS only support string
+                            },
                           })}
                         />
                         {errors.addressLine1 && (
@@ -423,6 +430,10 @@ const AddUser = () => {
                           id="city"
                           {...register("city", {
                             required: "City is Required*",
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                              message: "Special Character not allowed",
+                            },
                           })}
                         />
                         {errors.city && (
@@ -538,7 +549,7 @@ const AddUser = () => {
                           Zip/Postal Code
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className={classNames(
                             "form-control  border border-secondary signup_fields",
                             { "is-invalid": errors.zipcode }
@@ -546,7 +557,8 @@ const AddUser = () => {
                           name="zipcode"
                           id="name"
                           {...register("zipcode", {
-                            required: "Postal Code is Required*",
+                            required: "Required and max-length is 10",
+                            maxLength: 10,
                           })}
                         />
                         {errors.zipcode && (
@@ -566,19 +578,20 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file1"
-                             accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="federalTaxId"
                               {...register("federalTaxId")}
                               onChange={(e) =>
                                 onFileSelection(e, "federalTaxId")
                               }
                             />
-                           
 
                             <label htmlFor="file1" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={26} />
-                                <h1 className=" fs-6 mt-2 text-secondary">{files.federalTaxId?.name}</h1>
+                                <h1 className=" fs-6 mt-2 text-secondary">
+                                  {files.federalTaxId?.name}
+                                </h1>
                               </div>
                             </label>
                           </div>
@@ -595,20 +608,20 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file2"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="tobaccoLicence"
                               {...register("tobaccoLicence")}
                               onChange={(e) =>
                                 onFileSelection(e, "tobaccoLicence")
                               }
                             />
-                            
 
                             <label htmlFor="file2" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
-                                <h1 className=" fs-6 mt-2 text-secondary">{files.tobaccoLicence?.name}</h1>
-
+                                <h1 className=" fs-6 mt-2 text-secondary">
+                                  {files.tobaccoLicence?.name}
+                                </h1>
                               </div>
                             </label>
                           </div>
@@ -625,17 +638,18 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file3"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="salesTaxId"
                               {...register("salesTaxId")}
                               onChange={(e) => onFileSelection(e, "salesTaxId")}
                             />
-                           
+
                             <label htmlFor="file3" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
-                                <h1 className=" fs-6 mt-2 text-secondary">{files.salesTaxId?.name}</h1>
-
+                                <h1 className=" fs-6 mt-2 text-secondary">
+                                  {files.salesTaxId?.name}
+                                </h1>
                               </div>
                             </label>
                           </div>
@@ -654,19 +668,20 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file4"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="businessLicense"
                               {...register("businessLicense")}
                               onChange={(e) =>
                                 onFileSelection(e, "businessLicense")
                               }
                             />
-                           
+
                             <label htmlFor="file4" className="mt-3">
                               <div className="">
                                 <FaFileUpload size={25} />
-                                <h1 className=" fs-6 mt-2 text-secondary">{files.businessLicense?.name}</h1>
-                                
+                                <h1 className=" fs-6 mt-2 text-secondary">
+                                  {files.businessLicense?.name}
+                                </h1>
                               </div>
                             </label>
                           </div>
@@ -686,6 +701,10 @@ const AddUser = () => {
                           id="name"
                           {...register("firstName", {
                             required: "Enter Your First Name*",
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';%@&$]+$/,
+                              message: "Special Character not allowed",
+                            },
                           })}
                         />
                         {errors.firstName && (
@@ -708,6 +727,10 @@ const AddUser = () => {
                           id="name"
                           {...register("lastName", {
                             required: "Enter Your Last Name*",
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';%!#@&$]+$/,
+                              message: "Special Character not allowed",
+                            },
                           })}
                         />
                         {errors.lastName && (
@@ -757,20 +780,20 @@ const AddUser = () => {
                               )}
                               type="file"
                               id="file5"
-                              accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                              accept="image/jpeg,image/png,application/pdf,image/x-eps"
                               name="accountOwnerId"
                               {...register("accountOwnerId")}
                               onChange={(e) =>
                                 onFileSelection(e, "accountOwnerId")
                               }
                             />
-                           
 
                             <label htmlFor="file5" className="mt-2">
                               <div className="">
                                 <FaFileUpload size={25} />
-                                <h1 className=" fs-6 mt-2 text-secondary">{files.accountOwnerId?.name}</h1>
-
+                                <h1 className=" fs-6 mt-2 text-secondary">
+                                  {files.accountOwnerId?.name}
+                                </h1>
                               </div>
                             </label>
                           </div>
@@ -804,8 +827,7 @@ const AddUser = () => {
                             {errors.email?.message}
                           </small>
                         )}
-                            {emailErr}
-
+                        {emailErr}
                       </div>
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
@@ -820,8 +842,6 @@ const AddUser = () => {
                           name="businessNumber"
                           id="name"
                           {...register("businessNumber", {
-                          
-
                             maxLength: {
                               value: 10,
                               message: "maximium 10 Characters",
@@ -867,7 +887,12 @@ const AddUser = () => {
                         </select>
                       </div>
                       <div className="col-12 text-center mt-4">
-                        <Button loading={loader} className="comman_btn mx-2" style={{backgroundColor:"#eb3237",color:"#FFF"}}  type="submit">
+                        <Button
+                          loading={loader}
+                          className="comman_btn mx-2"
+                          style={{ backgroundColor: "#eb3237", color: "#FFF" }}
+                          type="submit"
+                        >
                           Submit
                         </Button>
                       </div>

@@ -61,12 +61,11 @@ function AppProductCategory() {
   //   }
   // };
 
-  const filterProduct = async (e) => {
-    e.preventDefault();
-    const { data } = await getByCategory({ category: id, brand: brandName });
+  const filterProduct = async (idd) => {
+    console.log(idd);
+    const { data } = await getByCategory({ category: id, brand: idd });
     if (!data.error) {
       setProduct(data.results);
-      document.getElementById("sideClose").click();
     }
   };
   const sortProducts = async (e) => {
@@ -157,18 +156,22 @@ function AppProductCategory() {
             <div class="container">
               <div class="row">
                 <div class="col-12">
+                  <h3 class="widget-title mb-2">Filter Products</h3>
                   <div class="widget catagory mb-4">
-                    <h6 class="widget-title mb-2">Brand</h6>
+                    <p class="widget-title mb-2 ">Choose Brand</p>
                     <div class="widget-desc">
                       {(brands || [])
-                        ?.filter((item, idx) => idx < 5)
+                        ?.filter((item, idx) => idx < 8)
                         .map((item, index) => (
                           <div class="form-check">
                             <input
                               class="form-check-input"
                               type="radio"
                               name="check5"
-                              onChange={() => setBrandName(item?._id)}
+                              onChange={() => {
+                                let brandId = item?._id;
+                                filterProduct(brandId);
+                              }}
                             />
                             <label class="form-check-label" for="zara">
                               {item?.brandName}
@@ -188,14 +191,6 @@ function AppProductCategory() {
                         More
                       </p>
                     </div>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="apply-filter-btn">
-                    <a class="comman_btn" onClick={filterProduct}>
-                      Apply Filter
-                    </a>
                   </div>
                 </div>
               </div>

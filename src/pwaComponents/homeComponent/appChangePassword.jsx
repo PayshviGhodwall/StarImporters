@@ -72,6 +72,17 @@ function AppChangePassword() {
       x.type = "password";
     }
   };
+  const togglePassword2 = () => {
+    let x = document.getElementById("newPassword-input");
+    if (x.type === "password") {
+      x.type = "text";
+      setTimeout(() => {
+        x.type = "password";
+      }, [2000]);
+    } else {
+      x.type = "password";
+    }
+  };
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
@@ -128,7 +139,7 @@ function AppChangePassword() {
                       />
                     </div>
                     <div className="user-info">
-                      <h5 className="mb-0">{detail.companyName}</h5>
+                      <h5 className="mb-0">{detail?.companyName}</h5>
                     </div>
                   </div>
                 </div>
@@ -172,10 +183,10 @@ function AppChangePassword() {
                           </span>
                         </div>
                         <input
-                          type="text"
+                          type="password"
                           className="form-control form-control2"
                           name="newPassword"
-                          id="newPassword"
+                          id="newPassword-input"
                           {...register("newPassword", {
                             required: "This field is required",
                             pattern: {
@@ -186,6 +197,15 @@ function AppChangePassword() {
                             },
                           })}
                         />
+                         <span
+                        style={{
+                          position: "relative",
+                          left: "90%",
+                          top: "-28px",
+                        }}
+                        onClick={togglePassword2}
+                        className="fa fa-fw fa-eye field-icon toggle-password"
+                      />
                         {errors?.newPassword && (
                           <p className="form-error mt-1">
                             {errors?.newPassword?.message}
@@ -198,7 +218,7 @@ function AppChangePassword() {
                           <span>Confirm Password </span>
                         </div>
                         <input
-                          type="password"
+                          type="password  "
                           className="form-control form-control2"
                           name="confirmPassword"
                           id="password"
@@ -215,7 +235,7 @@ function AppChangePassword() {
                          <span
                         style={{
                           position: "relative",
-                          left: "300px",
+                          left: "90%",
                           top: "-28px",
                         }}
                         onClick={togglePassword}

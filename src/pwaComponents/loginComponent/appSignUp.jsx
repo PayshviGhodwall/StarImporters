@@ -268,7 +268,13 @@ function AppSignUp() {
                         placeholder=""
                         name="state"
                         id="state"
-                        {...register("state", { required: "Required" })}
+                        {...register("state", {
+                          required: "Required",
+                          pattern: {
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            message: "Special Character not allowed",
+                          },
+                        })}
                       />
 
                       {errors?.state && (
