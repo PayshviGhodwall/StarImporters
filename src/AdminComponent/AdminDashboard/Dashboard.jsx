@@ -15,7 +15,7 @@ const Dashboard = () => {
   const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/totalOrders`;
   const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
   const recentSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/searchOrder`;
-  
+
   const [values, setValues] = useState({ from: "", to: "" });
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
@@ -23,24 +23,27 @@ const Dashboard = () => {
   const [totalRequest, setTotalRequest] = useState();
   const [sideBar, setSideBar] = useState(true);
   const navigate = useNavigate();
+  let User = JSON.parse(localStorage.getItem("AdminData"));
 
   useEffect(() => {
     GetAllOrders();
     GetAllUsers();
     GetAllRequest();
     OrderRequest();
-  },[]); 
+  }, []);
 
   const OrderRequest = async () => {
     await axios.get(orderList).then((res) => {
       setOrders(res?.data.results?.orders);
     });
   };
+
   const GetAllOrders = async () => {
     await axios.get(totalOrder).then((res) => {
       setTotalOrders(res?.data.results);
     });
   };
+
   const GetAllUsers = async () => {
     await axios.get(totalUser).then((res) => {
       setTotalUsers(res?.data.results);
@@ -65,6 +68,7 @@ const Dashboard = () => {
           })
       : OrderRequest();
   };
+
   const onOrderSearch = async (e) => {
     e.preventDefault();
     await axios
@@ -81,6 +85,7 @@ const Dashboard = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -91,120 +96,297 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            <ul className="list-unstyled ps-1 m-0">
-              <li>
-                <Link
-                  className="bg-white"
-                  to="/AdminDashboard"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                    color: "#3e4093",
-                  }}
+            {User.type === "SubAdmin" ? (
+              <ul className="list-unstyled ps-1 m-0">
+                <li
+                  className={
+                    User?.access?.includes("Dashboard") ? "" : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "2px" }}
-                    className="fa fa-home"
-                  ></i>{" "}
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/UserManage"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "18px",
-                  }}
+                  <Link
+                    className="bg-white"
+                    to="/AdminDashboard"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                      color: "#3e4093",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "2px" }}
+                      className="fa fa-home"
+                    ></i>{" "}
+                    Dashboard
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("User Management") ? "" : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-user"
-                  ></i>{" "}
-                  User Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/CategorySub"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
+                  <Link
+                    className=""
+                    to="/UserManage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-user"
+                    ></i>{" "}
+                    User Management
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("Category Sub-Category Management")
+                      ? ""
+                      : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-layer-group"
-                  ></i>{" "}
-                  Category &amp; Sub Category
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/Inventory"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
+                  <Link
+                    className=""
+                    to="/CategorySub"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Category &amp; Sub Category
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("Inventory Management")
+                      ? ""
+                      : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "6px", top: "3px" }}
-                    class="far fa-building"
-                  ></i>{" "}
-                  Inventory Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/brandsManage"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
+                  <Link
+                    className=""
+                    to="/Inventory"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "6px", top: "3px" }}
+                      class="far fa-building"
+                    ></i>{" "}
+                    Inventory Management
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-ship"
-                  ></i>{" "}
-                  Brands Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/OrderRequest"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
+                  <Link
+                    className=""
+                    to="/brandsManage"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-ship"
+                    ></i>{" "}
+                    Brands Management
+                  </Link>
+                </li>
+                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/Admin/SubAdmin"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
+                    Sub-Admin Management
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                  }
                 >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-layer-group"
-                  ></i>{" "}
-                  Order request
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/Cms"
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-cog"
-                  ></i>{" "}
-                  CMS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className=""
-                  to="/AdminLogin"
-                  onClick={handleClick}
-                  style={{ textDecoration: "none", fontSize: "18px" }}
-                >
-                  <i
-                    style={{ position: "relative", left: "4px", top: "3px" }}
-                    class="fa fa-sign-out-alt"
-                  ></i>
-                  Logout
-                </Link>
-              </li>
-            </ul>
+                  <Link
+                    className=""
+                    to="/OrderRequest"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Order request
+                  </Link>
+                </li>
+                <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/Cms"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-cog"
+                    ></i>{" "}
+                    CMS
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/AdminLogin"
+                    onClick={handleClick}
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-sign-out-alt"
+                    ></i>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="list-unstyled ps-1 m-0">
+                <li>
+                  <Link
+                    className="bg-white"
+                    to="/AdminDashboard"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                      color: "#3e4093",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "2px" }}
+                      className="fa fa-home"
+                    ></i>{" "}
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/UserManage"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-user"
+                    ></i>{" "}
+                    User Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/CategorySub"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Category &amp; Sub Category
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Inventory"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "6px", top: "3px" }}
+                      class="far fa-building"
+                    ></i>{" "}
+                    Inventory Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/brandsManage"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-ship"
+                    ></i>{" "}
+                    Brands Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Admin/SubAdmin"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
+                    Sub-Admin Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/OrderRequest"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Order request
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Cms"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-cog"
+                    ></i>{" "}
+                    CMS
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/AdminLogin"
+                    onClick={handleClick}
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-sign-out-alt"
+                    ></i>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>
@@ -318,14 +500,13 @@ const Dashboard = () => {
                               SearchBy(e);
                             }}
                             id="name"
-                          
                           />
                           <i className="far fa-search" />
                         </div>
                       </form>
                     </div>
                   </div>
-               
+
                   <div className="row">
                     <div className="col-12 comman_table_design px-0">
                       <div className="table-responsive">
@@ -345,10 +526,13 @@ const Dashboard = () => {
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
-                                {item?.userId?.firstName || item?.users?.firstName}
-
+                                  {item?.userId?.firstName ||
+                                    item?.users?.firstName}
                                 </td>
-                                <td>{item?.userId?.phoneNumber || item?.users?.phoneNumber }</td>
+                                <td>
+                                  {item?.userId?.phoneNumber ||
+                                    item?.users?.phoneNumber}
+                                </td>
                                 <td>{item?.createdAt?.slice(0, 10)}</td>
                                 <td>{item?.orderId}</td>
                                 <td>

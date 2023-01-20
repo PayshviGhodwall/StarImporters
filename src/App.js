@@ -96,13 +96,7 @@ import OrderDetails from "./buyerComponent/MyAccount/OrdersDetails";
 import RequestDetails from "./buyerComponent/MyAccount/ReqDetails";
 import Welcome from "./buyerComponent/Homepage/Welcome";
 import ProductBySearch from "./buyerComponent/AllProducts/ProductBySearch";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { useRecoilState } from "recoil";
 import axios from "axios";
 import { notifyCount } from "./atom";
 import AllCategories from "./buyerComponent/AllProducts/AllCategories";
@@ -110,6 +104,7 @@ import FeaturedProducts from "./buyerComponent/AllProducts/FeaturedProducts";
 import SubCategories from "./buyerComponent/AllProducts/AllSubCategories";
 import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch";
 import AppWelcome from "./pwaComponents/homeComponent/appWelcome";
+import SubAdmin from "./AdminComponent/AdminDashboard/Sub-Admin/SubAdmin";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -118,8 +113,7 @@ function App() {
   const [count, setCount] = useRecoilState(notifyCount);
   useEffect(() => {
     getNotifications();
-   
-  },[]);
+  }, []);
   const getNotifications = async () => {
     await axios.get(allNotify).then((res) => {
       let data = res?.data.results?.notifications;
@@ -131,6 +125,7 @@ function App() {
     console.log(data);
     setCateName(data);
   };
+  
 
   const width = window.innerWidth;
 
@@ -167,12 +162,12 @@ function App() {
             element={<ProductByCate CateName={cateName} />}
           />
           <Route path="/SubCategory/Products" element={<ProductBySubCate />} />
+          <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
           <Route path="/Brands/Products" element={<ProductByBrand />} />
           <Route path="/AllProducts/Product" element={<SingleProduct />} />
           {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
           <Route path="/Cart" element={<Cart />} />
           <Route path="/MyQuotes" element={<MyQuotes />} />
-
           {/* admin Routes */}
           <Route path="/AdminLogin" element={<AdminLogin />} />
           <Route
@@ -214,7 +209,10 @@ function App() {
           <Route path="/app/product-details" element={<SingleProdBySearch />} />
 
           {/* App Routes */}
-          <Route path="/" element={width < 999 ? <AppWelcome /> :<Welcome />} />
+          <Route
+            path="/"
+            element={width < 999 ? <AppWelcome /> : <Welcome />}
+          />
 
           <Route
             path="/app/pre-login"

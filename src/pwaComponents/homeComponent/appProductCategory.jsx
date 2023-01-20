@@ -10,6 +10,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function AppProductCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -43,10 +44,11 @@ function AppProductCategory() {
     }
   };
 
-  const getProductList = async () => {
-    const { data } = await getByCategory({ category: id });
+  const getProductList = async (idd) => {
+    const { data } = await getByCategory({ category: id, brand: idd });
     if (!data.error) {
       setProduct(data.results);
+      document.getElementById("checkbox").checked = false;
     }
   };
   // const addToCartt = async (id, index) => {
@@ -87,6 +89,12 @@ function AppProductCategory() {
         if (!res.error) {
           setHeart(!heart);
           getProductList();
+          Swal.fire({
+            title: "Product Added to Wishlist.",
+            icon: "success",
+            text: "You can see your favourite products on My Wishlist.",
+            confirmButtonText: "Ok",
+          });
         }
       });
   };
@@ -100,6 +108,12 @@ function AppProductCategory() {
         if (!res.error) {
           setHeart(!heart);
           getProductList();
+          Swal.fire({
+            title: "Product Removed Wishlist.",
+            icon: "success",
+            text: "You can see your favourite products on My Wishlist.",
+            confirmButtonText: "Ok",
+          });
         }
       });
   };
@@ -167,10 +181,11 @@ function AppProductCategory() {
                             <input
                               class="form-check-input"
                               type="radio"
+                              id="checkbox"
                               name="check5"
                               onChange={() => {
                                 let brandId = item?._id;
-                                filterProduct(brandId);
+                                getProductList(brandId);
                               }}
                             />
                             <label class="form-check-label" for="zara">
@@ -210,7 +225,7 @@ function AppProductCategory() {
                       aria-label="Default select example"
                       onChange={(e) => sortProducts(e)}
                     >
-                      <option selected>Short by</option>
+                      <option selected>Sort by</option>
                       <option value="1">A to Z</option>
                       <option value="0">Z to A</option>
                     </select>
