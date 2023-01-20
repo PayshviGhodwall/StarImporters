@@ -129,15 +129,16 @@ const Navbar = ({ NState, LoginState }) => {
           </div>
           <div class="col-lg-6 col-md-5 d-flex align-items-center">
             <div class="header_search">
-              <form class="row justify-content-center" action="">
+              {/* <form class="row justify-content-center" action=""> */}
                 <div class="col pe-0">
                   <div class="form-group">
                     <input
                       onChange={(e) => {
+                        e.preventDefault();
                         setSearch(e.target.value);
                         getProductList(e);
                       }}
-                      type="search"
+                      // type="search"
                       id="search"
                       name="search"
                       class="form-control shadow-none"
@@ -145,7 +146,7 @@ const Navbar = ({ NState, LoginState }) => {
                     />
                   </div>
                 </div>
-              </form>
+              {/* </form> */}
             </div>
           </div>
 
@@ -327,7 +328,11 @@ const Navbar = ({ NState, LoginState }) => {
                           <div className="d-flex justify-content-center">
                             <h1
                               className="text-center fw-bolder "
-                              style={{ position: "relative", left: "0px",fontSize:"13px" }}
+                              style={{
+                                position: "relative",
+                                left: "0px",
+                                fontSize: "13px",
+                              }}
                               onClick={() => {
                                 navigate("/app/product-details", {
                                   state: {
