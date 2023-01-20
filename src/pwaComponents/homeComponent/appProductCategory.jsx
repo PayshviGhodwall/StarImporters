@@ -109,7 +109,7 @@ function AppProductCategory() {
           setHeart(!heart);
           getProductList();
           Swal.fire({
-            title: "Product Removed Wishlist.",
+            title: "Product Removed from Wishlist.",
             icon: "success",
             text: "You can see your favourite products on My Wishlist.",
             confirmButtonText: "Ok",

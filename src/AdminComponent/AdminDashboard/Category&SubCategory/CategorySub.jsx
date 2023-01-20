@@ -401,7 +401,11 @@ const CategorySub = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -795,7 +799,7 @@ const CategorySub = () => {
 
                                               <td>
                                                 <img
-                                                  width={80}
+                                                  className="subCatImages"
                                                   src={
                                                     item?.categoryImage
                                                       ? item?.categoryImage
@@ -805,7 +809,7 @@ const CategorySub = () => {
                                               </td>
                                               <td>
                                                 <img
-                                                  width={80}
+                                                  className="subCatImages"
                                                   src={
                                                     item?.background
                                                       ? item?.background
@@ -973,7 +977,7 @@ const CategorySub = () => {
                                               <td>{item?.subCategoryName}</td>
                                               <td>
                                                 <img
-                                                  width={80}
+                                                  className="subCatImages"
                                                   src={
                                                     item?.subCategoryImage
                                                       ? item?.subCategoryImage
@@ -1052,9 +1056,8 @@ const CategorySub = () => {
                     <div className="account_profile position-relative">
                       <div className="circle" key={categoryIndex}>
                         <img
-                          className="profile-pic"
+                          className="profile-pic subCatImages2"
                           id="catImg"
-                          width={250}
                           src={
                             allCategories[categoryIndex]?.categoryImage
                               ? allCategories[categoryIndex]?.categoryImage
@@ -1091,7 +1094,7 @@ const CategorySub = () => {
                     <div className="account_profile position-relative ">
                       <div className="circle " key={categoryIndex}>
                         <img
-                          className="profile-pic"
+                          className="profile-pic subCatImages2"
                           id="backImg"
                           width={250}
                           src={
@@ -1193,7 +1196,7 @@ const CategorySub = () => {
                       ) : null}
                       <div className="circles" key={subCategoryIndex}>
                         <img
-                          className="profile-pic"
+                          className="profile-pic subCatImages2"
                           width={250}
                           src={
                             allSubCategories[subCategoryIndex]?.subCategoryImage

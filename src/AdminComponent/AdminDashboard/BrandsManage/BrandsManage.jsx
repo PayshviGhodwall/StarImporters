@@ -102,7 +102,20 @@ const BrandsManage = () => {
     defalutValues.brandImage = allBrands[index]?.brandImage;
     reset({ ...defalutValues });
   };
-
+  // const brandSearch = async (e) => {
+  //   let string = e.target.value;
+  //   string !== ""
+  //     ? await axios
+  //         .post(inventorySearch, {
+  //           search: e.target.value,
+  //         })
+  //         .then((res) => {
+  //           if (!res.error) {
+  //             setAllProducts(res?.data.results.results);
+  //           }
+  //         })
+  //     : GetProducts();
+  // };
   const onSubmit = async (data) => {
     setLoader(true);
     const formData = new FormData();
@@ -252,7 +265,11 @@ const BrandsManage = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -617,7 +634,7 @@ const BrandsManage = () => {
                                             <td>{item?.brandName}</td>
                                             <td>
                                               <img
-                                                width={50}
+                                                className="subCatImages"
                                                 src={item?.brandImage}
                                               ></img>
                                             </td>
@@ -686,7 +703,7 @@ const BrandsManage = () => {
                   <div className="account_profile position-relative">
                     <div className="circle">
                       <img
-                        className="profile-pic"
+                        className="profile-pic subCatImages2"
                         id="brandImg"
                         width={250}
                         src={allBrands[Index]?.brandImage}

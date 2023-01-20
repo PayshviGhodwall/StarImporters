@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import WebHeader2 from "./webHeader2";
+import Swal from "sweetalert2";
 
 function AppProductList() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -23,9 +24,9 @@ function AppProductList() {
   const [brandName, setBrandName] = useState();
   const [heart, setHeart] = useState(false);
   const navigate = useNavigate();
-  let ref = useRef()
+  let ref = useRef();
   let { id } = useParams();
- 
+
   let token = localStorage.getItem("token-user");
 
   useEffect(() => {
@@ -71,6 +72,12 @@ function AppProductList() {
       })
       .then((res) => {
         setHeart(!heart);
+        Swal.fire({
+          title: "Product Added to Wishlist.",
+          icon: "success",
+          text: "You can see your favourite products on My Wishlist.",
+          confirmButtonText: "Ok",
+        });
       });
     getProductList();
   };
@@ -82,6 +89,12 @@ function AppProductList() {
       })
       .then((res) => {
         setHeart(!heart);
+        Swal.fire({
+          title: "Product Removed from Wishlist.",
+          icon: "success",
+          text: "You can see your favourite products on My Wishlist.",
+          confirmButtonText: "Ok",
+        });
       });
     getProductList();
   };
@@ -151,28 +164,27 @@ function AppProductList() {
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                      {  token?.length ?
-
-                          <a class="wishlist-btn">
-                            {item?.favourite ? (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  rmvFromFav(index);
-                                }}
-                                style={{ color: "#3e4093 " }}
-                              />
-                            ) : (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  addToFav(index);
-                                }}
-                                style={{ color: "#E1E1E1 " }}
-                              />
-                            )}
-                          </a>
- : null }
+                          {token?.length ? (
+                            <a class="wishlist-btn">
+                              {item?.favourite ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(index);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(index);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                            </a>
+                          ) : null}
                           <Link
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?._id}`}

@@ -10,6 +10,7 @@ import { BiEdit } from "react-icons/bi";
 import { useEffect } from "react";
 import axios from "axios";
 import ProfileBar from "../ProfileBar";
+import Swal from "sweetalert2";
 
 //
 const UserManage = () => {
@@ -140,25 +141,40 @@ const UserManage = () => {
     });
   };
   const onUpload = async () => {
-    setLoader(true);
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
-    await axios.post(uploadUrl, formData).then((res) => {
-      if (res.error) {
-        setUploadError(res?.data.message);
-      }
-      if (res?.data.message === "Imported details") {
-        setLoader(false);
-        setSet(!set);
-        setUm(true);
-        setCrenditials(res?.data.results?.userNameAndPassword);
-      }
-      if (res?.data.message === "Duplicte email OR Already Registered") {
-        setLoader(false);
-        setUm(true);
-        setErrorEmails(res?.data.results);
-      }
-    });
+    await axios
+      .post(uploadUrl, formData)
+      .then((res) => {
+        if (res.error) {
+          setUploadError(res?.data.message);
+          Swal.fire({
+            title: "Error in file",
+            text: res?.data.message,
+            icon: "error",
+            button: "ok",
+          });
+        }
+
+        if (res?.data.message === "Imported details") {
+          setSet(!set);
+          setUm(true);
+          setCrenditials(res?.data.results?.userNameAndPassword);
+        }
+        if (res?.data.message === "Duplicte email OR Already Registered") {
+          setUm(true);
+          setErrorEmails(res?.data.results);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Error in file",
+            icon: "error",
+            button: "ok",
+          });
+        }
+      });
     document.getElementById("reUpload").hidden = false;
   };
   const modalClose = () => {
