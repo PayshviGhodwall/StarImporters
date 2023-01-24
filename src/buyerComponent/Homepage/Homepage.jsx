@@ -53,7 +53,9 @@ const Homepage = () => {
     getBrands();
     AllProducts();
   }, []);
+
   const AllProducts = async () => {
+    console.log(allProd);
     await axios
       .post(allProd, {
         page: activePage,
