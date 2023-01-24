@@ -1841,14 +1841,10 @@
   }
   .width_adjust_right {
     width: 62%;
-    min-height: 103rem;
-    margin-bottom: 3rem;
   }
   .Paginate {
     display: flex;
-    width: 62% !important;
-    position: absolute;
-    top: 126rem;
+    margin-top: 1rem !important;
     justify-content: space-between;
     background-color: #f2f2f2;
   }
@@ -5668,8 +5664,6 @@ background-color: #3e4093;
   }
 
   .pagination {
-    margin-top: 45px;
-    margin-left: -40px;
     display: flex;
     list-style: none;
     outline: none;
