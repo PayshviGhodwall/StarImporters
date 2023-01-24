@@ -66,13 +66,9 @@ const Homepage = () => {
       });
   };
   const getSlides = async () => {
-    await axios
-      .get(
-        "http://ec2-3-210-230-78.compute-1.amazonaws.com:7000/user/homeBanner/getSlides"
-      )
-      .then((res) => {
-        setAllSlides(res?.data.results);
-      });
+    await axios.get(slidesApi).then((res) => {
+      setAllSlides(res?.data.results);
+    });
   };
   const getHeaders = async () => {
     await axios.get(HeadersApi).then((res) => {
