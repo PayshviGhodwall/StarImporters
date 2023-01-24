@@ -46,10 +46,12 @@ const SubAdmin = () => {
   const SubAdmin = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getSubAdmins`;
   const disableAdmin = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/disableSubAdmin`;
   const EditAdmin = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editSubAdmin`;
+  const ViewAdmin = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewSubAdmin`;
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [maxPage, setMaxPage] = useState(1);
   const [SubAdminId, setSubAdminID] = useState();
   const [Edit, setEdit] = useState({});
+  const [EditView, setEditView] = useState([]);
 
   const {
     register,
@@ -79,21 +81,20 @@ const SubAdmin = () => {
         type: "SubAdmin",
       })
       .then((res) => {
-        if (!res.error) {
+        if (res?.data?.message === "Sub admin created") {
           getSubAdmins();
           document.getElementById("resetF").click();
           setSelectOptions({ optionSelected: [] });
           Swal.fire({
             title: res?.data?.message,
-            text: "",
+            text: "Now you can Login as Sub-Admin..",
             icon: "success",
             confirmButtonText: "ok",
           });
         }
-        if (res.error) {
+        if (res?.data?.message === "please provide access") {
           Swal.fire({
-            title: res?.data?.message,
-            text: "401 Internal error!",
+            title: "Select Any Module",
             icon: "error",
             confirmButtonText: "ok",
           });
@@ -113,9 +114,8 @@ const SubAdmin = () => {
   };
   const onEditSave = async (e) => {
     e.preventDefault();
-    console.log(Edit);
     await axios
-      .post(EditAdmin + "/" + allSubAdmins[SubAdminId]?._id, {
+      .post(EditAdmin + "/" + EditView._id, {
         fullName: Edit?.name?.trim(),
         email: Edit?.email?.trim(),
         access: (selectEditOptions.optionSelected || [])?.map(
@@ -170,19 +170,20 @@ const SubAdmin = () => {
       });
     }
   };
-  const EditSubAdmin = (index) => {
-    let adminData = allSubAdmins[index];
-    console.log(adminData);
-    setSubAdminID(index);
-    setSelectEditOptions(...selectEditOptions, {
-      optionSelected: (adminData?.access || [])?.map((item) => ({
-        label: item,
-        value: item,
-      })),
+  const EditSubAdmin = async (id) => {
+    setSubAdminID(id);
+    await axios.post(ViewAdmin + "/" + id).then((res) => {
+      let adminData = res?.data.results?.subAdmin;
+      console.log(adminData);
+      setEditView(adminData);
+      setSelectEditOptions( {
+        optionSelected: adminData?.access?.map((item) => ({
+          label: item,
+          value: item,
+        })),
+      });
     });
   };
-  console.log(selectEditOptions);
-
   const togglePassword = () => {
     let x = document.getElementById("floatingPassword");
     if (x.type === "password") {
@@ -740,7 +741,7 @@ const SubAdmin = () => {
                                     className="comman_btn2 text-white text-decoration-none"
                                     key={index}
                                     onClick={() => {
-                                      EditSubAdmin(index);
+                                      EditSubAdmin(item?._id);
                                     }}
                                   >
                                     Edit
@@ -751,7 +752,6 @@ const SubAdmin = () => {
                           </tbody>
                         </table>
                       </div>
-                     
                     </div>
                   </div>
                 </div>
@@ -781,7 +781,7 @@ const SubAdmin = () => {
                 data-bs-dismiss="modal"
                 id="Modal"
                 aria-label="Close"
-                onClick={() => getSubAdmins()}
+                onClick={() => setSelectEditOptions(null)}
               />
             </div>
             <div className="modal-body shadow">
@@ -792,7 +792,7 @@ const SubAdmin = () => {
                     type="text"
                     className="form-control-sub border border-secondary"
                     name="EsubAdminName"
-                    defaultValue={allSubAdmins[SubAdminId]?.fullName}
+                    defaultValue={EditView?.fullName}
                     placeholder="Enter Name"
                     onChange={(e) => setEdit({ name: e.target.value })}
                   />
@@ -818,7 +818,7 @@ const SubAdmin = () => {
                     type="email"
                     className="form-control-sub border border-secondary"
                     name="Eemail"
-                    defaultValue={allSubAdmins[SubAdminId]?.email}
+                    defaultValue={EditView?.email}
                     placeholder="Enter Product Name"
                     onChange={(e) => setEdit({ email: e.target.value })}
                   />
@@ -829,7 +829,7 @@ const SubAdmin = () => {
                     type="password"
                     className="form-control-sub border border-secondary"
                     id="EditPass"
-                    defaultValue={allSubAdmins[SubAdminId]?.password}
+                    defaultValue={EditView?.password}
                     name="Epassword"
                     disabled
                     placeholder="********"
