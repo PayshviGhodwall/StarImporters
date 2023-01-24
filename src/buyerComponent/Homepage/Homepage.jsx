@@ -53,9 +53,9 @@ const Homepage = () => {
     getBrands();
     AllProducts();
   }, []);
+  console.log(allProd);
 
   const AllProducts = async () => {
-    console.log(allProd);
     await axios
       .post(allProd, {
         page: activePage,
@@ -66,15 +66,18 @@ const Homepage = () => {
       });
   };
   const getSlides = async () => {
-    await axios.get(slidesApi).then((res) => {
-      setAllSlides(res?.data.results);
-    });
+    await axios
+      .get(
+        "http://ec2-3-210-230-78.compute-1.amazonaws.com:7000/user/homeBanner/getSlides"
+      )
+      .then((res) => {
+        setAllSlides(res?.data.results);
+      });
   };
   const getHeaders = async () => {
     await axios.get(HeadersApi).then((res) => {
       setAllHeaders(res?.data.results?.headers[0]);
       let image = res?.data.results?.headers[0].bottomImage;
-      console.log(image);
       document.getElementById(
         "bottom-image"
       ).style.backgroundImage = `url(${image})`;
