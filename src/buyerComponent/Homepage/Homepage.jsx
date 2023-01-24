@@ -70,7 +70,7 @@ const Homepage = () => {
   };
   const getHeaders = async () => {
     await axios.get(HeadersApi).then((res) => {
-      setAllHeaders(res?.data.results.headers[0]);
+      setAllHeaders(res?.data.results?.headers[0]);
       let image = res?.data.results?.headers[0].bottomImage;
       console.log(image);
       document.getElementById(
