@@ -19,10 +19,15 @@ const CategorySub = () => {
   const deleteSubImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/deleteSubCatImage`;
   const deleteCatImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
   const deleteBackImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
+  const ViewCat = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/viewCategories`;
+  const ViewSubCat = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/viewSubCategories`;
+
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
+  const [EditCategories, setEditCategories] = useState([]);
   const [allSubCategories, setAllSubCategories] = useState([]);
+  const [EditSubCategories, setEditSubCategories] = useState([]);
   const [files, setFiles] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [subCategoryId, setSubCategoryId] = useState();
@@ -34,13 +39,16 @@ const CategorySub = () => {
   const [categoryIndex, setCategoryIndex] = useState();
   const [subCategoryIndex, setSubCategoryIndex] = useState();
   const [loader, setLoader] = useState(false);
+  const [activePage, setActivePage] = useState(1);
+  const [activePage2, setActivePage2] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [maxPage2, setMaxPage2] = useState(1);
+
   useEffect(() => {
     getCategories();
     getSubCategories();
-  }, [change]);
+  }, [change, activePage2, activePage]);
 
-  axios.defaults.headers.common["x-auth-token-admin"] =
-    localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
   const onFileSelection = (e, key) => {
@@ -149,25 +157,40 @@ const CategorySub = () => {
   };
 
   const getCategories = async () => {
-    await axios.get(categoryApi).then((res) => {
-      setAllCategories(res?.data.results);
-    });
+    await axios
+      .post(categoryApi, {
+        page: activePage,
+      })
+      .then((res) => {
+        console.log(res);
+        setAllCategories(res?.data.results?.categories);
+        setMaxPage(res?.data.results.totalPages);
+      });
   };
 
   const getSubCategories = async () => {
-    await axios.get(SubCategoryApi).then((res) => {
-      setAllSubCategories(res?.data.results);
+    await axios
+      .post(SubCategoryApi, {
+        page: activePage2,
+      })
+      .then((res) => {
+        setAllSubCategories(res?.data.results?.subCategories);
+        setMaxPage2(res?.data.results.totalPages);
+      });
+  };
+
+  const EditCategory = async (id) => {
+    await axios.post(ViewCat + "/" + id).then((res) => {
+      setEditCategories(res?.data.results.category);
+      setCategoryId(id);
     });
   };
 
-  const EditCategory = (index) => {
-    setCategoryId(allCategories[index]?._id);
-    setCategoryIndex(index);
-  };
-
-  const EditSubCategory = (index) => {
-    setSubCategoryId(allSubCategories[index]?._id);
-    setSubCategoryIndex(index);
+  const EditSubCategory = async (id) => {
+    await axios.post(ViewSubCat + "/" + id).then((res) => {
+      setEditSubCategories(res?.data.results.subCategory);
+      setSubCategoryId(id);
+    });
   };
 
   const onEditSaveCategory = async (e) => {
@@ -184,6 +207,7 @@ const CategorySub = () => {
         document.getElementById("cateModal").click();
         setEditCateName("");
         setFiles([]);
+        document.getElementById("ResetCat").click();
       }
       if (res?.data.message === "Invalid Image format") {
         setLoader(false);
@@ -212,7 +236,9 @@ const CategorySub = () => {
           setChange(!change);
           document.getElementById("subCateModal").click();
           setEditSubCateName("");
+          setCategory("");
           setFiles([]);
+          document.getElementById("ResetSub").click();
         }
         if (res?.data.message === "Invalid Image format") {
           setLoader(false);
@@ -278,6 +304,19 @@ const CategorySub = () => {
       });
     }
   });
+  document
+    .getElementById("subCatUpImg")
+    ?.addEventListener("change", function () {
+      if (this.files[0]) {
+        var picture = new FileReader();
+        picture.readAsDataURL(this.files[0]);
+        picture.addEventListener("load", function (event) {
+          document
+            .getElementById("subCatImg")
+            .setAttribute("src", event.target.result);
+        });
+      }
+    });
   document.getElementById("backUpImg")?.addEventListener("change", function () {
     if (this.files[0]) {
       var picture = new FileReader();
@@ -791,7 +830,12 @@ const CategorySub = () => {
                                         {(allCategories || []).map(
                                           (item, index) => (
                                             <tr className="" key={index}>
-                                              <td>{index + 1}</td>
+                                              <td>
+                                                {" "}
+                                                {(activePage - 1) * 15 +
+                                                  (index + 1)}
+                                                .
+                                              </td>
                                               <td>
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
@@ -843,7 +887,7 @@ const CategorySub = () => {
                                                   className="comman_btn2 text-white text-decoration-none"
                                                   key={index}
                                                   onClick={() => {
-                                                    EditCategory(index);
+                                                    EditCategory(item?._id);
                                                   }}
                                                 >
                                                   Edit
@@ -854,6 +898,46 @@ const CategorySub = () => {
                                         )}
                                       </tbody>
                                     </table>
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        ( Total Pages : {maxPage} )
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage <= 1
+                                                ? setActivePage(1)
+                                                : setActivePage(activePage - 1)
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage === maxPage
+                                                ? setActivePage(maxPage)
+                                                : setActivePage(activePage + 1)
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -964,7 +1048,11 @@ const CategorySub = () => {
                                         {(allSubCategories || []).map(
                                           (item, index) => (
                                             <tr className="" key={index}>
-                                              <td>{index + 1}</td>
+                                              <td>
+                                                {(activePage2 - 1) * 15 +
+                                                  (index + 1)}
+                                                .
+                                              </td>
                                               <td>
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
@@ -992,7 +1080,7 @@ const CategorySub = () => {
                                                   className="comman_btn2 text-white text-decoration-none"
                                                   key={index}
                                                   onClick={() => {
-                                                    EditSubCategory(index);
+                                                    EditSubCategory(item?._id);
                                                   }}
                                                 >
                                                   Edit
@@ -1003,6 +1091,50 @@ const CategorySub = () => {
                                         )}
                                       </tbody>
                                     </table>
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        ( Total Pages : {maxPage2} )
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 <= 1
+                                                ? setActivePage2(1)
+                                                : setActivePage2(
+                                                    activePage2 - 1
+                                                  )
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage2}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 === maxPage2
+                                                ? setActivePage2(maxPage)
+                                                : setActivePage2(
+                                                    activePage2 + 1
+                                                  )
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -1040,9 +1172,14 @@ const CategorySub = () => {
                   data-bs-dismiss="modal"
                   id="cateModal"
                   aria-label="Close"
-                  onClick={() => setChange(!change)}
+                  onClick={() =>
+                    document
+                      .getElementById("catImg")
+                      .setAttribute("src", EditCategories?.categoryImage)
+                  }
                 />
               </div>
+
               <div className="modal-body shadow">
                 <form
                   className="form-design px- py-2 help-support-form row align-items-end justify-content-center"
@@ -1054,13 +1191,13 @@ const CategorySub = () => {
                     </label>
 
                     <div className="account_profile position-relative">
-                      <div className="circle" key={categoryIndex}>
+                      <div className="circle">
                         <img
                           className="profile-pic subCatImages2"
                           id="catImg"
                           src={
-                            allCategories[categoryIndex]?.categoryImage
-                              ? allCategories[categoryIndex]?.categoryImage
+                            EditCategories?.categoryImage
+                              ? EditCategories?.categoryImage
                               : require("../../../assets/img/product.jpg")
                           }
                         />
@@ -1077,7 +1214,7 @@ const CategorySub = () => {
                         />
                       </div>
                     </div>
-                    {allCategories[categoryIndex]?.categoryImage ? (
+                    {EditCategories?.categoryImage ? (
                       <i
                         class="fa fa-trash mx-2 text-danger deleteBtnCat"
                         aria-hidden="true"
@@ -1092,14 +1229,13 @@ const CategorySub = () => {
                     </label>
 
                     <div className="account_profile position-relative ">
-                      <div className="circle " key={categoryIndex}>
+                      <div className="circle ">
                         <img
                           className="profile-pic subCatImages2"
                           id="backImg"
-                          width={250}
                           src={
-                            allCategories[categoryIndex]?.background
-                              ? allCategories[categoryIndex]?.background
+                            EditCategories?.background
+                              ? EditCategories?.background
                               : require("../../../assets/img/product.jpg")
                           }
                         />
@@ -1116,21 +1252,22 @@ const CategorySub = () => {
                         />
                       </div>
                     </div>
-                    {allCategories[categoryIndex]?.categoryImage ? (
+                    {EditCategories?.categoryImage ? (
                       <i
                         class="fa fa-trash mx-2 text-danger deleteBtnCat"
                         aria-hidden="true"
-                        onClick={() =>
-                          deleteBackImage(allCategories[categoryIndex]?._id)
-                        }
+                        onClick={() => deleteBackImage(EditCategories?._id)}
                       ></i>
                     ) : null}
                   </div>
-                  <div className="form-group col-12" key={categoryIndex}>
+                  <div
+                    className="form-group col-12"
+                    key={EditCategories?.categoryName}
+                  >
                     <label htmlFor="">Category Name</label>
                     <input
                       type="text"
-                      defaultValue={allCategories[categoryIndex]?.categoryName}
+                      defaultValue={EditCategories?.categoryName}
                       className="form-control"
                       onChange={(e) => {
                         setEditCateName(e.target.value);
@@ -1141,6 +1278,13 @@ const CategorySub = () => {
                   <div className="form-group mb-0 col-auto mt-3">
                     <button className="comman_btn" onClick={onEditSaveCategory}>
                       Save
+                    </button>
+                    <button
+                      className="comman_btn d-none"
+                      type="reset"
+                      id="ResetCat"
+                    >
+                      reset
                     </button>
                   </div>
                 </form>
@@ -1169,7 +1313,11 @@ const CategorySub = () => {
                   id="subCateModal"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => setChange(!change)}
+                  onClick={() =>
+                    document
+                      .getElementById("subCatImg")
+                      .setAttribute("src", EditSubCategories?.subCategoryImage)
+                  }
                 />
               </div>
               <div className="modal-body shadow">
@@ -1182,26 +1330,24 @@ const CategorySub = () => {
                       Sub Category Image
                     </label>
 
-                    <div className="account_profile position-relative border">
-                      {allSubCategories[subCategoryIndex]?.subCategoryImage ? (
+                    <div className="account_profile position-relative border h-50">
+                      {EditSubCategories?.subCategoryImage ? (
                         <i
                           class="fa fa-trash mx-2 text-danger "
                           aria-hidden="true"
-                          onClick={() =>
-                            deleteSubImage(
-                              allSubCategories[subCategoryIndex]?._id
-                            )
-                          }
+                          onClick={() => deleteSubImage(EditSubCategories?._id)}
                         ></i>
                       ) : null}
-                      <div className="circles" key={subCategoryIndex}>
+                      <div
+                        className="text-center mt-0 mb-5 "
+                        key={subCategoryIndex}
+                      >
                         <img
                           className="profile-pic subCatImages2"
-                          width={250}
+                          id="subCatImg"
                           src={
-                            allSubCategories[subCategoryIndex]?.subCategoryImage
-                              ? allSubCategories[subCategoryIndex]
-                                  ?.subCategoryImage
+                            EditSubCategories?.subCategoryImage
+                              ? EditSubCategories?.subCategoryImage
                               : require("../../../assets/img/product.jpg")
                           }
                         />
@@ -1211,6 +1357,7 @@ const CategorySub = () => {
                         <input
                           className="file-uploads"
                           type="file"
+                          id="subCatUpImg"
                           accept="image/*"
                           name="newSubCategoryImg"
                           onChange={(e) =>
@@ -1223,7 +1370,7 @@ const CategorySub = () => {
                   <div className="form-group col-6 mb-4">
                     <label htmlFor="">Category</label>
                     <select
-                      key={subCategoryIndex}
+                      key={EditSubCategories?.subCategoryName}
                       className="form-select form-control"
                       aria-label="Default select example"
                       onChange={(e) => {
@@ -1231,10 +1378,7 @@ const CategorySub = () => {
                       }}
                     >
                       <option selected="">
-                        {
-                          allSubCategories[subCategoryIndex]?.categoryName
-                            ?.categoryName
-                        }
+                        {EditSubCategories?.categoryName?.categoryName}
                       </option>
                       {(allCategories || [])?.map((item, index) => (
                         <option key={index} value={item?._id}>
@@ -1243,13 +1387,14 @@ const CategorySub = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-6" key={subCategoryIndex}>
+                  <div
+                    className="form-group col-6"
+                    key={EditSubCategories?.subCategoryName}
+                  >
                     <label htmlFor="">Sub Category Name</label>
                     <input
                       type="text"
-                      defaultValue={
-                        allSubCategories[subCategoryIndex]?.subCategoryName
-                      }
+                      defaultValue={EditSubCategories?.subCategoryName}
                       className="form-control"
                       onChange={(e) => {
                         setEditSubCateName(e.target.value);
@@ -1263,6 +1408,13 @@ const CategorySub = () => {
                       onClick={onEditSaveSubCategory}
                     >
                       Save
+                    </button>
+                    <button
+                      className="comman_btn d-none"
+                      type="reset"
+                      id="ResetSub"
+                    >
+                      reset
                     </button>
                   </div>
                 </form>

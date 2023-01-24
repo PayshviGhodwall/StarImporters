@@ -13,15 +13,20 @@ const BrandsManage = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const editBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/editBrand`;
   const addBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/addBrand`;
+  const ViewBrand = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/viewBrands`;
   const [searchTerm, setSearchTerm] = useState("");
+  const [editBrandName, setEditBrandName] = useState("");
   const [change, setChange] = useState("");
   const [allBrands, setAllBrands] = useState([]);
+  const [EditBrand, setEditBrand] = useState([]);
   const [brandName, setBrandName] = useState();
   const [brandId, setBrandId] = useState();
   const [files, setFiles] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const [loader, setLoader] = useState(false);
   const [Index, setIndex] = useState();
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -35,12 +40,18 @@ const BrandsManage = () => {
 
   useEffect(() => {
     getBrands();
-  }, [change]);
+  }, [change, activePage]);
   const getBrands = async () => {
-    await axios.get(brandsApi).then((res) => {
-      setAllBrands(res?.data.results);
-      return res.data;
-    });
+    await axios
+      .post(brandsApi, {
+        page: activePage,
+      })
+      .then((res) => {
+        setAllBrands(res?.data.results?.brands);
+        setMaxPage(res?.data.results.totalPages);
+
+        return res.data;
+      });
   };
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
@@ -94,13 +105,11 @@ const BrandsManage = () => {
       });
   };
 
-  const EditBrands = (index) => {
-    setBrandId(allBrands[index]?._id);
-    setIndex(index);
-    let defalutValues = {};
-    defalutValues.BrandName = allBrands[index]?.brandName;
-    defalutValues.brandImage = allBrands[index]?.brandImage;
-    reset({ ...defalutValues });
+  const onEditBrands = async (id) => {
+    await axios.post(ViewBrand + "/" + id).then((res) => {
+      setEditBrand(res?.data.results.brand);
+    });
+    setBrandId(id);
   };
   // const brandSearch = async (e) => {
   //   let string = e.target.value;
@@ -120,12 +129,21 @@ const BrandsManage = () => {
     setLoader(true);
     const formData = new FormData();
     formData.append("brandImage", files?.newBrandImg);
-    formData.append("brandName", data.BrandName);
+    formData.append("brandName", editBrandName);
     await axios.post(editBrands + "/" + brandId, formData).then((res) => {
       if (res?.data.message === "Modified Successfullt") {
-        window.location.reload();
+        // window.location.reload(false);
         setChange(!change);
         setLoader(false);
+        setBrandName("");
+        document.getElementById("closeModal").click();
+        document.getElementById("brandImg").setAttribute("src", null);
+        Swal.fire({
+          title: "Successfully Modilfied!",
+          icon: "success",
+          confirmButtonText: "ok",
+        });
+        setFiles(null);
       }
       if (res?.data.message === "Invalid Image format") {
         setLoader(false);
@@ -627,7 +645,12 @@ const BrandsManage = () => {
                                         })
                                         .map((item, index) => (
                                           <tr className="" key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>
+                                              {" "}
+                                              {(activePage - 1) * 15 +
+                                                (index + 1)}
+                                              .
+                                            </td>
                                             <td>
                                               {item?.updatedAt.slice(0, 10)}
                                             </td>
@@ -635,6 +658,7 @@ const BrandsManage = () => {
                                             <td>
                                               <img
                                                 className="subCatImages"
+                                                height={55}
                                                 src={item?.brandImage}
                                               ></img>
                                             </td>
@@ -646,7 +670,7 @@ const BrandsManage = () => {
                                                 className="comman_btn2 text-white text-decoration-none"
                                                 key={index}
                                                 onClick={() => {
-                                                  EditBrands(index);
+                                                  onEditBrands(item?._id);
                                                 }}
                                               >
                                                 Edit
@@ -656,6 +680,46 @@ const BrandsManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage}
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -671,7 +735,7 @@ const BrandsManage = () => {
         </div>
       </div>
       <div
-        className="modal fade comman_modal"
+        className="modal fade comman_modal "
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -680,7 +744,7 @@ const BrandsManage = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content border-0">
+          <div className="modal-content border-0 shadow">
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
                 Edit Brand
@@ -690,6 +754,11 @@ const BrandsManage = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="closeModal"
+                onClick={() => {
+                  getBrands();
+                  document.getElementById("brandImg").setAttribute("src", null);
+                }}
               />
             </div>
             <div className="modal-body">
@@ -699,14 +768,13 @@ const BrandsManage = () => {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <div className="form-group col-auto">
-                  <label htmlFor="">brand Image</label>
-                  <div className="account_profile position-relative">
+                  <label htmlFor="">Brand Image</label>
+                  <div className="account_profile position-relative border h-50">
                     <div className="circle">
                       <img
                         className="profile-pic subCatImages2"
                         id="brandImg"
-                        width={250}
-                        src={allBrands[Index]?.brandImage}
+                        src={EditBrand?.brandImage}
                       />
                     </div>
                     <div className="p-image">
@@ -723,13 +791,16 @@ const BrandsManage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="form-group col-12">
+                <div className="form-group col-12" key={EditBrand?.brandName}>
                   <label htmlFor="">Brand Name</label>
                   <input
                     type="text"
                     className="form-control"
+                    defaultValue={EditBrand?.brandName}
                     name="BrandName"
-                    {...register("BrandName")}
+                    onChange={(e) => {
+                      setEditBrandName(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="form-group mb-0 col-auto mt-3">
@@ -747,6 +818,9 @@ const BrandsManage = () => {
                   >
                     Save
                   </Button>
+                  <button type="reset" className="d-none">
+                    reset
+                  </button>
                 </div>
               </form>
             </div>

@@ -19,6 +19,7 @@ function TopProduct() {
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [product, setProduct] = useState([]);
   const [heart, setHeart] = useState(false);
+  const [activePage, setActivePage] = useState(1);
 
   let { id } = useParams();
   const navigate = useNavigate();
@@ -29,9 +30,9 @@ function TopProduct() {
   let token = localStorage.getItem("token-user");
   console.log(token);
   const getProductList = async () => {
-    const { data } = await getAllProducts();
+    const { data } = await getAllProducts(activePage);
     if (!data?.error) {
-      setProduct(data?.results.slice(0, 4));
+      setProduct(data?.results.products.slice(0, 6));
     }
   };
 

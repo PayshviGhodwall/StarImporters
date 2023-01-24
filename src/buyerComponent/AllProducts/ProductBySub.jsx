@@ -20,24 +20,31 @@ const ProductBySubCate = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
   useEffect(() => {
     getProducts();
     GetBrands();
   }, [location, heart]);
 
   const GetBrands = async () => {
-    await axios.get(getBrands).then((res) => {
-      setBrands(res?.data.results);
-    });
+    await axios
+      .get(getBrands, {
+        page: 1,
+      })
+      .then((res) => {
+        setBrands(res?.data.results);
+      });
   };
   const getProducts = async () => {
     await axios
       .post(getProduct, {
         subCategory: location.state?.name,
+        page: activePage,
       })
       .then((res) => {
-        setProducts(res.data?.results);
+        setProducts(res.data?.results.products);
+        setMaxPage(res.data?.results?.totalPages);
       });
   };
 
@@ -340,6 +347,40 @@ const ProductBySubCate = () => {
                       </div>
                     </div>
                   ))}
+                  <div className="col-10 py-2 border rounded Paginate ">
+                    <span className="totalPage">Total Pages : {maxPage}</span>
+                    <ul id="pagination" className="pagination">
+                      <li>
+                        <a
+                          class="fs-6 control"
+                          onClick={() =>
+                            activePage <= 1
+                              ? setActivePage(1)
+                              : setActivePage(activePage - 1)
+                          }
+                        >
+                          « previous
+                        </a>
+                      </li>
+
+                      <li>
+                        <a className="active">{activePage}</a>
+                      </li>
+
+                      <li>
+                        <a
+                          className="fs-6"
+                          onClick={() =>
+                            activePage === maxPage
+                              ? setActivePage(maxPage)
+                              : setActivePage(activePage + 1)
+                          }
+                        >
+                          next »
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

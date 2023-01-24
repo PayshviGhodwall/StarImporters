@@ -815,6 +815,7 @@ const UserManage = () => {
                                         <th>S.No.</th>
                                         <th>Date</th>
                                         <th>User Name</th>
+                                        <th>Company Name</th>
                                         <th>Email</th>
                                         <th>Mobile Number</th>
                                         <th>Status</th>
@@ -842,11 +843,13 @@ const UserManage = () => {
                                             <td>
                                               {(activePendingPage - 1) * 15 +
                                                 (index + 1)}
+                                              .
                                             </td>
                                             <td>
                                               {User?.createdAt.slice(0, 10)}
                                             </td>
                                             <td>{User?.firstName}</td>
+                                            <td>{User?.companyName}</td>
                                             <td>{User?.email}</td>
                                             <td>{User?.phoneNumber}</td>
                                             <td>{User?.isVerified}</td>
@@ -982,6 +985,7 @@ const UserManage = () => {
                                           <th>S.No.</th>
                                           <th>Date</th>
                                           <th>User Name</th>
+                                          <th>Company Name</th>
                                           <th>Email</th>
                                           <th>Mobile Number</th>
                                           <th>Status</th>
@@ -1001,6 +1005,7 @@ const UserManage = () => {
                                                 {User?.createdAt.slice(0, 10)}
                                               </td>
                                               <td>{User?.firstName}</td>
+                                              <td>{User?.companyName}</td>
                                               <td>{User?.email}</td>
                                               <td>{User?.phoneNumber}</td>
                                               <td key={User.status}>
@@ -1157,6 +1162,7 @@ const UserManage = () => {
                                         <th>S.No.</th>
                                         <th>Date</th>
                                         <th>User Name</th>
+                                        <th>Company Name</th>
                                         <th>Email</th>
                                         <th>Mobile Number</th>
                                         <th>Status</th>
@@ -1190,6 +1196,7 @@ const UserManage = () => {
                                               {User?.createdAt.slice(0, 10)}
                                             </td>
                                             <td>{User?.firstName}</td>
+                                            <td>{User?.companyName}</td>
                                             <td>{User?.email}</td>
                                             <td>{User?.phoneNumber}</td>
                                             <td className="fs-6 text-danger">

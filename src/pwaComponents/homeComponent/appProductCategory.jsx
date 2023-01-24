@@ -21,6 +21,9 @@ function AppProductCategory() {
   const [heart, setHeart] = useState(false);
   const [brandName, setBrandName] = useState();
   const [category, setCategory] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+
   let ref = useRef();
   let { id } = useParams();
   const navigate = useNavigate();
@@ -30,7 +33,7 @@ function AppProductCategory() {
     getCategoryList();
     getProductList();
     GetBrands();
-  }, []);
+  }, [activePage]);
 
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
@@ -45,12 +48,18 @@ function AppProductCategory() {
   };
 
   const getProductList = async (idd) => {
-    const { data } = await getByCategory({ category: id, brand: idd });
+    const { data } = await getByCategory({
+      category: id,
+      brand: idd,
+      page: activePage,
+    });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results?.products);
+      setMaxPage(data?.results.totalPages);
       document.getElementById("checkbox").checked = false;
     }
   };
+
   // const addToCartt = async (id, index) => {
   //   const formData = {
   //     productId: id,
@@ -74,9 +83,10 @@ function AppProductCategory() {
     const { data } = await getByCategory({
       category: id,
       sortBy: e.target.value,
+      page: activePage,
     });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results?.products);
     }
   };
   const addToFav = async (index) => {
@@ -216,7 +226,12 @@ function AppProductCategory() {
         <div class="page-content-wrapper">
           <div class="py-3">
             <div class="container">
-              <div class="row g-1 align-items-center justify-content-end mb-4">
+              <div class="row g-1 align-items-center justify-content-between mb-4">
+                <div className="col-auto">
+                  <button className="bg-white fw-bold border rounded-end">
+                    {activePage}
+                  </button>
+                </div>
                 <div class="col-auto">
                   <div class="custom_select_design">
                     <select
@@ -308,6 +323,44 @@ function AppProductCategory() {
                   );
                 })}
               </div>
+              {product?.length ? (
+                <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                  <div
+                    class={
+                      activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage <= 1
+                          ? setActivePage(1)
+                          : setActivePage(activePage - 1)
+                      }
+                    >
+                      <i class="fa-solid fa-arrow-left-long"></i> Previous
+                    </Link>
+                  </div>
+                  <div
+                    class={
+                      activePage === maxPage
+                        ? "d-none"
+                        : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage === maxPage
+                          ? setActivePage(maxPage)
+                          : setActivePage(activePage + 1)
+                      }
+                    >
+                      Next <i class="fa-solid fa-arrow-right-long"></i>
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

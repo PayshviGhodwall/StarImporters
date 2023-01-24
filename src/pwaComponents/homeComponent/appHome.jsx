@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AppHeader from "./appHeader";
 import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
@@ -25,8 +25,9 @@ function AppHome() {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
+  const [activePage, setActivePage] = useState(1);
   const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
-
+  const ref = useRef(null);
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -39,9 +40,14 @@ function AppHome() {
     getHeaders();
   }, [search]);
 
-  let token = localStorage.getItem("token-user");
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick, true);
+    return () =>
+      document.removeEventListener("click", handleOutsideClick, true);
+  }, []);
+
   const getProductList = async () => {
-    const { data } = await homeSearch({ search: search.replace(".", "") });
+    const { data } = await homeSearch({ search: search?.replace(".", "") });
     if (!data.error) {
       setProduct(data.results);
     }
@@ -55,9 +61,9 @@ function AppHome() {
   };
 
   const getCategoryList = async () => {
-    const { data } = await getCategory();
+    const { data } = await getCategory(activePage);
     if (!data.error) {
-      setCategory(data.results);
+      setCategory(data.results.categories);
     }
   };
   const getHeaders = async () => {
@@ -125,17 +131,27 @@ function AppHome() {
       __html: DOMPurify.sanitize(html),
     };
   };
+  const handleOutsideClick = (event) => {
+    if (ref.current.contains(event.target)) {
+      setSearch(null);
+      document.getElementById("resetBtn").click();
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
+        <div >
+          <AppHeader />
+        </div>
         <div className="page-content-wrapper">
           <div className="container">
             <div className="search-form pt-3 rtl-flex-d-row-r">
-              <form action="#" method="" onSubmit={() => searchProduct()}>
+              <form onSubmit={() => searchProduct()}>
                 <input
                   className="form-control "
                   type="search"
+                  value={search}
                   placeholder="Search in Star Importers"
                   onChange={(e) => {
                     setSearch(e.target.value);
@@ -143,6 +159,9 @@ function AppHome() {
                 />
                 <button type="submit" className="me-5">
                   <i className="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button type="reset" id="resetBtn" className="d-none">
+                  reset
                 </button>
               </form>
 
@@ -354,7 +373,9 @@ function AppHome() {
             </div>
           )}
         </div>
-        <AppFooter />
+        <div ref={ref}>
+          <AppFooter />
+        </div>
       </div>
     </>
   );

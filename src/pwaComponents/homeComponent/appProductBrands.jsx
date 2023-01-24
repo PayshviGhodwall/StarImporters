@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
   addToCart,
@@ -11,11 +9,8 @@ import {
   getByCategory,
   getSubCategories,
 } from "../httpServices/homeHttpService/homeHttpService";
-import TopProduct from "./appTopProductComponent";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import WebHeader2 from "./webHeader2";
 import Swal from "sweetalert2";
 
@@ -25,7 +20,8 @@ function AppProductBrands() {
   const [product, setProduct] = useState([]);
   const [heart, setHeart] = useState(false);
   const [brands, setBrands] = useState([]);
-
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
   let location = useLocation();
   const navigate = useNavigate();
   let ref = useRef();
@@ -45,16 +41,20 @@ function AppProductBrands() {
   };
 
   const sortProducts = async (e) => {
-    const { data } = await getByBrands({ brand: name, sortBy: e.target.value });
+    const { data } = await getByBrands({
+      brand: name,
+      sortBy: e.target.value,
+      page: activePage,
+    });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results.products);
     }
   };
 
   const getProductList = async () => {
-    const { data } = await getByBrands({ brand: name });
+    const { data } = await getByBrands({ brand: name, page: activePage });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results.products);
     }
   };
   const addToCartt = async (id) => {
@@ -232,6 +232,44 @@ function AppProductBrands() {
                   );
                 })}
               </div>
+              {product?.length ? (
+                <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                  <div
+                    class={
+                      activePage <= 1 ? "opacity-0" : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage <= 1
+                          ? setActivePage(1)
+                          : setActivePage(activePage - 1)
+                      }
+                    >
+                      <i class="fa-solid fa-arrow-left-long"></i> Previous
+                    </Link>
+                  </div>
+                  <div
+                    class={
+                      activePage === maxPage
+                        ? "d-none"
+                        : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage === maxPage
+                          ? setActivePage(maxPage)
+                          : setActivePage(activePage + 1)
+                      }
+                    >
+                      Next <i class="fa-solid fa-arrow-right-long"></i>
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

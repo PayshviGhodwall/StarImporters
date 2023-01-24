@@ -12,8 +12,7 @@ export async function privacyPolicy(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response)
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -27,8 +26,7 @@ export async function aboutUs(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -42,8 +40,7 @@ export async function tAndC(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response)
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -60,8 +57,7 @@ export async function changePassword(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -194,7 +190,7 @@ export async function deleteQuote(id) {
 
     return { data };
   } catch (error) {
-    if (error.response)  console.log(error.response.data.message);
+    if (error.response) console.log(error.response.data.message);
     return { error };
   }
 }
@@ -230,30 +226,33 @@ export async function homeBanner() {
     return { error };
   }
 }
-export async function getCategory() {
-  try {
-    const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}/user/category/getCategory`
-    );
-    console.log(data);
-
-    return { data };
-  } catch (error) {
-    if (error.response) 
-    return { error };
-  }
-}
-export async function getAllProducts() {
+export async function getCategory(activePage) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`
+      `${process.env.REACT_APP_APIENDPOINT}/user/category/getCategory`,
+      {
+        page: activePage,
+      }
     );
     console.log(data);
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
+  }
+}
+export async function getAllProducts(activePage) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`,{
+        page:activePage
+      }
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) return { error };
   }
 }
 export async function getByCategory(formData) {
@@ -261,14 +260,15 @@ export async function getByCategory(formData) {
     const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/products/getByCategory
       `,
+
       formData
+      
     );
     console.log(data);
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 export async function getByBrands(formData) {
@@ -282,22 +282,19 @@ export async function getByBrands(formData) {
 
     return { data };
   } catch (error) {
-    if (error?.response) 
-    return { error };
+    if (error?.response) return { error };
   }
 }
 export async function similarProduct() {
   try {
     const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/category/similarProduct`
-      
     );
     console.log(data);
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -310,22 +307,20 @@ export async function getBrands() {
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 
 export async function getSubCategories() {
   try {
-    const { data } = await appHttpService.get(
+    const { data } = await appHttpService.post(
       `${process.env.REACT_APP_APIENDPOINT}/user/subCategory/getSubCategories`
     );
     console.log(data);
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 export async function getProductDetaill(id) {
@@ -337,8 +332,7 @@ export async function getProductDetaill(id) {
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -362,9 +356,9 @@ export async function addToCart(formData) {
       title: "Please Login To Continue",
       icon: "error",
       button: "ok",
-    }).then((res)=>{
+    }).then((res) => {
       window.location.replace("/app/login");
-    })
+    });
     return { error };
   }
 }
@@ -397,8 +391,7 @@ export async function homeSearch(formData) {
 
     return { data };
   } catch (error) {
-    if (error.response) 
-    return { error };
+    if (error.response) return { error };
   }
 }
 

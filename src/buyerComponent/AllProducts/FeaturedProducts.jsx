@@ -8,16 +8,23 @@ import Footer from "../Footer/Footer";
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     GetProducts();
-  }, []);
+  }, [activePage]);
 
   const GetProducts = async () => {
-    await axios.post(allProd).then((res) => {
-      setProducts(res?.data.results);
-    });
+    await axios
+      .post(allProd, {
+        page: activePage,
+      })
+      .then((res) => {
+        setProducts(res?.data.results.products);
+        setMaxPage(res?.data.results?.totalPages);
+      });
   };
   return (
     <div>
@@ -57,7 +64,7 @@ const FeaturedProducts = () => {
         <section className="brands_page py-5 ">
           <div className="container">
             <div className="row">
-            <div className="col width_adjust_right">
+              <div className="col width_adjust_right">
                 <div className="product_single_right row p-2">
                   {(products || [{}])?.map((item, index) => (
                     <div className="col-xl-3 col-lg-3 col-md-3" key={index}>
@@ -73,7 +80,11 @@ const FeaturedProducts = () => {
                         > */}
                         <div className="partsproduct_img">
                           <img
-                            src={item.productImage ? item.productImage : require("../../assets/img/product.jpg")}
+                            src={
+                              item.productImage
+                                ? item.productImage
+                                : require("../../assets/img/product.jpg")
+                            }
                             alt="Product"
                             onClick={() => {
                               navigate("/AllProducts/Product", {
@@ -102,7 +113,6 @@ const FeaturedProducts = () => {
                             >
                               {item?.unitName}
                             </h1>
-                            
                           </div>
                           <div className="rating_box mt-2 mb-1">
                             <i
@@ -134,6 +144,44 @@ const FeaturedProducts = () => {
                       </div>
                     </div>
                   ))}
+                  <div className="col-12 d-flex justify-content-between py-2  bg-white border rounded-end">
+                    <span className="totalPage">Total Pages : {maxPage}</span>
+                    <ul id="pagination" className="">
+                      <li>
+                        <a
+                          class="fs-6"
+                          href="#"
+                          onClick={() =>
+                            activePage <= 1
+                              ? setActivePage(1)
+                              : setActivePage(activePage - 1)
+                          }
+                        >
+                          « previous
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#" className="active">
+                          {activePage}
+                        </a>
+                      </li>
+
+                      <li>
+                        <a
+                          className="fs-6"
+                          href="#"
+                          onClick={() =>
+                            activePage === maxPage
+                              ? setActivePage(maxPage)
+                              : setActivePage(activePage + 1)
+                          }
+                        >
+                          next »
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

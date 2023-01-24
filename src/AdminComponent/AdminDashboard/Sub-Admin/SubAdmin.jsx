@@ -34,8 +34,6 @@ export const colourOptions = [
   { value: "Inventory Management", label: "Inventory Management" },
   { value: "Orders Request", label: "Order Request" },
   { value: "CMS", label: "CMS" },
-  { value: "None", label: "None" },
-  { value: "None", label: "None" },
 ];
 
 const SubAdmin = () => {
@@ -89,6 +87,14 @@ const SubAdmin = () => {
             title: res?.data?.message,
             text: "",
             icon: "success",
+            confirmButtonText: "ok",
+          });
+        }
+        if (res.error) {
+          Swal.fire({
+            title: res?.data?.message,
+            text: "401 Internal error!",
+            icon: "error",
             confirmButtonText: "ok",
           });
         }
@@ -165,14 +171,18 @@ const SubAdmin = () => {
     }
   };
   const EditSubAdmin = (index) => {
+    let adminData = allSubAdmins[index];
+    console.log(adminData);
     setSubAdminID(index);
-    // setSelectEditOptions(...selectEditOptions, {
-    //   optionSelected: (selectEditOptions.optionSelected || [])?.map((item) => ({
-    //     label: item?.value,
-    //     value: item?.value,
-    //   })),
-    // });
+    setSelectEditOptions(...selectEditOptions, {
+      optionSelected: (adminData?.access || [])?.map((item) => ({
+        label: item,
+        value: item,
+      })),
+    });
   };
+  console.log(selectEditOptions);
+
   const togglePassword = () => {
     let x = document.getElementById("floatingPassword");
     if (x.type === "password") {
@@ -531,7 +541,7 @@ const SubAdmin = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row inventory-management justify-content-center">
             <div className="col-12">
-              <div className="row mx-0">
+              <div className="row mx-0 ">
                 <div className="col-12 design_outter_comman shadow mb-4">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
@@ -539,7 +549,7 @@ const SubAdmin = () => {
                     </div>
                   </div>
                   <form
-                    className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                    className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between "
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
@@ -571,7 +581,7 @@ const SubAdmin = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group col-4">
+                    <div className="form-group col-4 react-select">
                       <label htmlFor="">Select Module</label>
                       <ReactSelect
                         options={colourOptions}
@@ -607,7 +617,7 @@ const SubAdmin = () => {
                           }
                         )}
                         name="email"
-                        placeholder="Enter Product Name"
+                        placeholder="Enter email address"
                         {...register("email", {
                           required: "Email is required!",
                           pattern: {
@@ -671,24 +681,6 @@ const SubAdmin = () => {
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
                       <h2>Sub-Admin Management</h2>
-                    </div>
-
-                    <div className="col-3">
-                      <form className="form-design" action="">
-                        <div className="form-group mb-0 position-relative icons_set">
-                          <input
-                            type="text"
-                            className="form-control bg-white "
-                            placeholder="Search"
-                            name="name"
-                            id="name"
-                            // onChange={(e) => {
-                            //   InventSearch(e);
-                            // }}
-                          />
-                          <i className="far fa-search" />
-                        </div>
-                      </form>
                     </div>
                   </div>
 
@@ -759,58 +751,7 @@ const SubAdmin = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                        <span className="totalPage">
-                          ( Total Pages : {maxPage} )
-                        </span>
-                        <ul id="pagination">
-                          <li>
-                            <a
-                              class="fs-5"
-                              href="#"
-                              onClick={() =>
-                                activePage <= 1
-                                  ? setActivePage(1)
-                                  : setActivePage(activePage - 1)
-                              }
-                            >
-                              «
-                            </a>
-                          </li>
-
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#" className="active">
-                              {activePage}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-
-                          <li>
-                            <a
-                              className="fs-5"
-                              href="#"
-                              onClick={() =>
-                                activePage === maxPage
-                                  ? setActivePage(maxPage)
-                                  : setActivePage(activePage + 1)
-                              }
-                            >
-                              »
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                     
                     </div>
                   </div>
                 </div>

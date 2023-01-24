@@ -29,6 +29,7 @@ const Homepage = () => {
   const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [activePage, setActivePage] = useState(1);
   const ModalClose = document.getElementById("age_close");
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
@@ -53,10 +54,14 @@ const Homepage = () => {
     AllProducts();
   }, []);
   const AllProducts = async () => {
-    await axios.post(allProd).then((res) => {
-      console.log(res);
-      setFeatured(res?.data.results);
-    });
+    await axios
+      .post(allProd, {
+        page: activePage,
+      })
+      .then((res) => {
+        console.log(res);
+        setFeatured(res?.data.results.products);
+      });
   };
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
@@ -74,9 +79,13 @@ const Homepage = () => {
     });
   };
   const getCategory = async () => {
-    await axios.get(categoryApi).then((res) => {
-      setCategory(res?.data.results);
-    });
+    await axios
+      .post(categoryApi, {
+        page: 1,
+      })
+      .then((res) => {
+        setCategory(res?.data.results?.categories);
+      });
   };
   const getBrands = async () => {
     await axios.get(brandApi).then((res) => {

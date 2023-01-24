@@ -24,6 +24,9 @@ function AppProductList() {
   const [brandName, setBrandName] = useState();
   const [heart, setHeart] = useState(false);
   const navigate = useNavigate();
+  const [activePage, setActivePage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+
   let ref = useRef();
   let { id } = useParams();
 
@@ -32,7 +35,7 @@ function AppProductList() {
   useEffect(() => {
     getProductList();
     GetBrands();
-  }, []);
+  }, [activePage]);
 
   const GetBrands = async () => {
     await axios.get(getBrands).then((res) => {
@@ -48,22 +51,13 @@ function AppProductList() {
     }
   };
   const getProductList = async () => {
-    const { data } = await getAllProducts();
+    const { data } = await getAllProducts(activePage);
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results?.products);
+      setMaxPage(data?.results.totalPages);
     }
   };
-  const addToCartt = async (id) => {
-    const formData = {
-      productId: id,
-      quantity: 1,
-    };
-    console.log(formData);
-    const { data } = await addToCart(formData);
-    if (!data.error) {
-      navigate("/app/cart");
-    }
-  };
+
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
@@ -141,6 +135,10 @@ function AppProductList() {
 
         <div class="page-content-wrapper">
           <div class="py-3">
+            <button className="bg-white fw-bold border rounded-end">
+              {activePage}
+            </button>
+
             <div class="container">
               <div class="row g-1 align-items-center justify-content-end mb-4">
                 {/* <div class="col-auto">
@@ -221,6 +219,45 @@ function AppProductList() {
                   );
                 })}
               </div>
+
+              {product?.length ? (
+                <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                  <div
+                    class={
+                      activePage <= 1 ? "opacity-0" : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage <= 1
+                          ? setActivePage(1)
+                          : setActivePage(activePage - 1)
+                      }
+                    >
+                      <i class="fa-solid fa-arrow-left-long"></i> Previous
+                    </Link>
+                  </div>
+                  <div
+                    class={
+                      activePage === maxPage
+                        ? "d-none"
+                        : "back-button me-2 me-2 "
+                    }
+                  >
+                    <Link
+                      state={{ naek: "ki" }}
+                      onClick={() =>
+                        activePage === maxPage
+                          ? setActivePage(maxPage)
+                          : setActivePage(activePage + 1)
+                      }
+                    >
+                      Next <i class="fa-solid fa-arrow-right-long"></i>
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

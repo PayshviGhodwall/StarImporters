@@ -790,9 +790,9 @@
     padding-left: 40px;
     position: relative;
     display: flex;
-    font-family: 'Unbounded',  !important;
+    font-family: "Unbounded" !important;
     font-weight: 600;
-    font-size:0.7rem;
+    font-size: 0.7rem;
     justify-content: center;
     background-color: #3e4093;
     height: 50px;
@@ -1841,6 +1841,16 @@
   }
   .width_adjust_right {
     width: 62%;
+    min-height: 103rem;
+    margin-bottom: 3rem;
+  }
+  .Paginate {
+    display: flex;
+    width: 62% !important;
+    position: absolute;
+    top: 126rem;
+    justify-content: space-between;
+    background-color: #f2f2f2;
   }
   .fav_btn {
     background-image: url(../img/fav_icon.png);
@@ -2585,13 +2595,13 @@
   .product_single_left .accordion-button::after {
     display: block;
   }
-  .subCatImages{
-    max-width: 5rem;
-    max-height: 6rem;
+  .subCatImages {
+    max-width: 4.5rem;
+    max-height: 5rem;
   }
-  .subCatImages2{
-    max-width: 12rem;
-    max-height: 10rem;
+  .subCatImages2 {
+    max-width: 10rem;
+    max-height: 9rem;
   }
   .order_tabs .nav-item .nav-link {
     border: 0;
@@ -2731,44 +2741,37 @@
     padding: 3px 6px 3px 12px;
   }
   .maga_drop__menus .dropdown_heading::before {
-
-  background: #eb3237;
-  color: #fff !important;
-  text-decoration: none;
-  content: "";
-  inset: 0;
-  position: absolute;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s ease-in-out;
-  z-index: -1;
+    background: #eb3237;
+    color: #fff !important;
+    text-decoration: none;
+    content: "";
+    inset: 0;
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-in-out;
+    z-index: -1;
   }
   .dropdown_heading:hover:before {
     transform: scaleX(1);
-  transform-origin: left;
-   color: #fff;
+    transform-origin: left;
+    color: #fff;
+  }
 
-
-    }
-  
-    .dropdown_heading:hover {
-   
-     color: #fff !important;
+  .dropdown_heading:hover {
+    color: #fff !important;
     text-decoration: none;
-    
-  
-      }
+  }
 
-      .mega_dropp{
-        width: 10%;
-      }
-     
-      
-.dropViewAll {
-  position: relative;
-  left: 43%;
-  top: 10px;
-    --b: 0.2em;   /* the thickness of the line */
+  .mega_dropp {
+    width: 10%;
+  }
+
+  .dropViewAll {
+    position: relative;
+    left: 43%;
+    top: 10px;
+    --b: 0.2em; /* the thickness of the line */
     --c: #3b4093; /* the color */
     width: 10rem;
     color: #0000;
@@ -2776,22 +2779,23 @@
     cursor: pointer;
     text-align: center !important;
     padding-block: var(--b);
-    background: 
-      linear-gradient(var(--c) 50%,#000 0) 0% calc(100% - var(--_p,0%))/100% 200%,
-      linear-gradient(var(--c) 0 0) 0% var(--_p,0%)/var(--_p,0%) var(--b) no-repeat;
-    -webkit-background-clip: text,padding-box;
-            background-clip: text,padding-box;
-    transition: .3s var(--_s,0s) linear,background-size .3s calc(.3s - var(--_s,0s));
+    background: linear-gradient(var(--c) 50%, #000 0) 0%
+        calc(100% - var(--_p, 0%)) / 100% 200%,
+      linear-gradient(var(--c) 0 0) 0% var(--_p, 0%) / var(--_p, 0%) var(--b)
+        no-repeat;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    transition: 0.3s var(--_s, 0s) linear,
+      background-size 0.3s calc(0.3s - var(--_s, 0s));
   }
   .dropViewAll:hover {
     --_p: 100%;
-    --_s: .3s;
+    --_s: 0.3s;
   }
 
-
-.brands_page{
-  background-color: #eef3ff;
-}
+  .brands_page {
+    background-color: #eef3ff;
+  }
   .maga_drop__menus ul {
     padding: 0 0 0 36px;
     list-style: circle;
@@ -3543,47 +3547,49 @@
     position: relative;
     display: inline-block;
   }
-  
+
   .dropdown-btns {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
   }
-  
+
   .dropdown-contents {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
   }
-  
+
   .dropdown-contents a {
     color: black;
     padding: 5px 5px;
     text-decoration: none !important;
     display: block;
   }
-  
-  .dropdown-contents a:hover {background-color: #e5e0e0}
-  
+
+  .dropdown-contents a:hover {
+    background-color: #e5e0e0;
+  }
+
   .dropdowns:hover .dropdown-contents {
     display: block;
   }
-  
+
   .dropdowns:hover .dropdown-btns {
     background-color: #eb3237;
   }
-  
+
   .dropdownsp {
     position: relative;
     display: inline-block;
   }
-  
+
   .dropdown-btnsp {
     background-color: #3b4093;
     color: white;
@@ -3592,7 +3598,7 @@
     border: none;
     cursor: pointer;
   }
-  
+
   .dropdown-contentsp {
     display: none;
     position: absolute;
@@ -3600,24 +3606,24 @@
     margin-top: 2px;
     background-color: #f9f9f9;
     min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
   }
-  
+
   .dropdown-contentsp a {
     color: black;
     padding: 4px 4px;
     text-decoration: none !important;
     display: block;
   }
-  
-  .dropdown-contentsp a:hover {background-color: #efebeb}
-  
+
+  .dropdown-contentsp a:hover {
+    background-color: #efebeb;
+  }
+
   .dropdownsp:hover .dropdown-contentsp {
     display: block;
   }
-  
-  
 
   /* The container <div> - needed to position the dropdown content */
   .dropdown {
@@ -3870,6 +3876,7 @@
     background-color: #eb3237;
     align-items: center;
     padding: 0 15px;
+    border-radius: 10px 10px 0 0;
     height: 60px;
   }
   .comman_header h2 {
@@ -3878,8 +3885,8 @@
     margin: 0;
   }
   .design_outter_comman {
-    overflow: hidden;
-    border-radius: 6px;
+    overflow: unset;
+    border-radius: 6px !important;
     background-color: #fff;
   }
   .design_outter_comman .comman_header .form-design .form-control {
@@ -4076,25 +4083,25 @@
     font-size: 14px;
     margin-top: 4px;
   }
-.preview_icon{
-  font-size: 14px !important;
-  position: relative;
-  left: -45% !important;
-}
-.preview_icon2{
-  font-size: 14px !important;
-  position: relative;
-  top: 0px;
-}
-.preview_image{
-  width:100% ;
-  height: 100vh;
-}
-.deleteBtnCat{
-  position: relative;
-  top: 25px !important;
-  left: 20px !important;
-}
+  .preview_icon {
+    font-size: 14px !important;
+    position: relative;
+    left: -45% !important;
+  }
+  .preview_icon2 {
+    font-size: 14px !important;
+    position: relative;
+    top: 0px;
+  }
+  .preview_image {
+    width: 100%;
+    height: 100vh;
+  }
+  .deleteBtnCat {
+    position: relative;
+    top: 25px !important;
+    left: 20px !important;
+  }
   .flavour {
     display: block;
     font-weight: 500;
@@ -4203,19 +4210,17 @@
     display: block;
     margin-bottom: 8px;
   }
-  .circles  {
+  .circles {
     width: 100px !important;
     position: relative;
     left: 28%;
     max-height: 100px !important;
-
   }
   .account_profile .circles .profile-pic {
     width: 180px !important;
     max-height: 130px !important;
     object-fit: cover;
     border: 2px solid #0000 !important;
-    
   }
   .flavourImage {
     width: 160px !important;
@@ -4899,8 +4904,8 @@ background-color: #3e4093;
     margin: 0;
   }
   .design_outter_comman {
-    overflow: hidden;
-    border-radius: 6px;
+    overflow: unset;
+    border-radius: 6px !important;
     background-color: #fff;
   }
   .design_outter_comman .comman_header .form-design .form-control {
@@ -5674,6 +5679,7 @@ background-color: #3e4093;
   .pagination > .active > a {
     background-color: #3b4093;
     color: #fff;
+    cursor: pointer !important;
   }
 
   .pagination > li > a {
@@ -5687,6 +5693,7 @@ background-color: #3e4093;
     color: #000;
     background-color: #f2f2f2;
     text-decoration: none;
+    cursor: pointer !important;
   }
   .switch {
     position: relative;
@@ -6993,7 +7000,7 @@ background-color: #3e4093;
     padding: 10px 14px;
     padding-left: 48px;
     border: 1px solid #c2d4f8;
-    color:#000000 !important;
+    color: #000000 !important;
     border-radius: 0.4rem;
   }
   .search-form form button {
@@ -7182,11 +7189,10 @@ background-color: #3e4093;
 
   /* Register CSS */
   .login-wrapper {
-    
     position: relative;
     width: 100%;
     min-height: 100vh;
-     color: #fff;
+    color: #fff;
     background-color: #3e4093;
     position: relative;
     z-index: 10;
@@ -7196,11 +7202,10 @@ background-color: #3e4093;
     overflow-x: hidden;
   }
   .login-wrapperWelcome {
-    
     position: relative;
     width: 100%;
     min-height: 100vh;
-     color: #fff;
+    color: #fff;
     background: url("../img/bg.jpg") top center no-repeat;
     background-size: cover;
     position: relative;
@@ -7210,7 +7215,7 @@ background-color: #3e4093;
     padding-bottom: 2rem;
     overflow-x: hidden;
   }
-  
+
   .login-wrapper .success-check {
     color: #ffffff;
     margin: 0 auto;
@@ -7693,12 +7698,12 @@ background-color: #3e4093;
   .big-logo {
     max-width: 160px;
   }
-  .welcomeForm2{
+  .welcomeForm2 {
     background-color: #fff;
     width: 50% !important;
     margin-right: 1rem;
   }
-  .welcomeForm{
+  .welcomeForm {
     background-color: #fff;
     width: 50% !important;
   }

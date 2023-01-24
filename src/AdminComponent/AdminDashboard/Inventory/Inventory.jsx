@@ -68,11 +68,17 @@ const Inventory = () => {
     localStorage.getItem("AdminLogToken");
 
   const getBrands = async () => {
-    await axios.get(categoryApi).then((res) => {
-      setCategories(res?.data.results);
-    });
-    await axios.get(brandsApi).then((res) => {
-      setBrands(res?.data.results);
+    await axios
+      .post(categoryApi, {
+        page: 1,
+      })
+      .then((res) => {
+        setCategories(res?.data.results?.categories);
+      });
+    await axios.post(brandsApi,{
+      page:1
+    }).then((res) => {
+      setBrands(res?.data.results.brands);
     });
   };
   const GetProducts = async () => {
@@ -91,6 +97,7 @@ const Inventory = () => {
     await axios
       .post(SubCategoryApi, {
         categoryId: categoryId,
+        page: 1,
       })
       .then((res) => {
         setSubCategories(res?.data.results);
