@@ -130,22 +130,22 @@ const Navbar = ({ NState, LoginState }) => {
           <div class="col-lg-6 col-md-5 d-flex align-items-center">
             <div class="header_search">
               {/* <form class="row justify-content-center" action=""> */}
-                <div class="col pe-0">
-                  <div class="form-group">
-                    <input
-                      onChange={(e) => {
-                        e.preventDefault();
-                        setSearch(e.target.value);
-                        getProductList(e);
-                      }}
-                      // type="search"
-                      id="search"
-                      name="search"
-                      class="form-control shadow-none"
-                      placeholder="Search in Star Importers"
-                    />
-                  </div>
+              <div class="col pe-0">
+                <div class="form-group">
+                  <input
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setSearch(e.target.value);
+                      getProductList(e);
+                    }}
+                    // type="search"
+                    id="search"
+                    name="search"
+                    class="form-control shadow-none"
+                    placeholder="Search in Star Importers"
+                  />
                 </div>
+              </div>
               {/* </form> */}
             </div>
           </div>
@@ -227,9 +227,10 @@ const Navbar = ({ NState, LoginState }) => {
                   <li key={index + 1} className="zindex-1">
                     <Link
                       to={{
-                        pathname: "/CategoryProducts",
+                        pathname: "/app/subCategories",
                       }}
                       state={{
+                        id: item?._id,
                         name: item?.categoryName,
                         image: item?.background,
                       }}
@@ -285,8 +286,8 @@ const Navbar = ({ NState, LoginState }) => {
                 ))}
 
               <li>
-                <Link className="text-decoration-none" to="/app/brands">
-                  Brands
+                <Link className="text-decoration-none" to="/app/Categories">
+                  More
                 </Link>
               </li>
             </ul>

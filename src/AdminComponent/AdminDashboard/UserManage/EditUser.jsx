@@ -58,7 +58,8 @@ const EditUser = () => {
     formData.append("profileImage", files?.imageProfile);
     formData.append("companyName", data?.companyName?.trim());
     formData.append("dba", data?.dba?.trim());
-    formData.append("addressLine", data?.addressLine?.trim());
+    formData.append("addressLine1", data?.addressLine1?.trim());
+    formData.append("addressLine2", data?.addressLine2?.trim());
     formData.append("city", data?.city?.trim());
     formData.append("state", data?.state);
     formData.append("zipcode", data?.zipcode);
@@ -136,7 +137,7 @@ const EditUser = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
@@ -646,13 +647,13 @@ const EditUser = () => {
                         </label>
                         <input
                           type="text"
-                          defaultValue={user?.addressLine}
+                          defaultValue={user?.addressLine1}
                           className={classNames(
                             "form-control  border border-secondary signup_fields"
                           )}
-                          name="addressLine"
+                          name="addressLine1"
                           id="name"
-                          {...register("addressLine")}
+                          {...register("addressLine1")}
                         />
                       </div>
                       <div className="form-group col-6 mb-4">
@@ -662,8 +663,10 @@ const EditUser = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="name"
+                          name="addressLine2"
+                          defaultValue={user?.addressLine2}
                           id="addressLine2"
+                          {...register("addressLine2")}
                         />
                       </div>
                       <div className="form-group col-4 mb-4">

@@ -207,7 +207,7 @@ const SubAdmin = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={

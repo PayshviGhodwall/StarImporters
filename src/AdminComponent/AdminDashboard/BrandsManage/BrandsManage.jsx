@@ -182,7 +182,7 @@ const BrandsManage = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
@@ -546,8 +546,7 @@ const BrandsManage = () => {
               </div>
             </div>
             <div className="row category_management justify-content-center">
-              <div className="col-12">
-                <div className="row mx-0">
+            
                   <div className="col-12 design_outter_comman recent_orders shadow">
                     <div className="row">
                       <div className="col-12 user-management-tabs px-0">
@@ -724,8 +723,7 @@ const BrandsManage = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                       
                     </div>
                   </div>
                 </div>

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
-
 import Starlogo from "../../assets/img/logo.png";
-import profile from "../../assets/img/profile_img1.png";
-import { HiMenuAlt1 } from "react-icons/hi";
-import $ from "jquery";
 import ProfileBar from "./ProfileBar";
 import axios from "axios";
 
@@ -96,7 +92,7 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={

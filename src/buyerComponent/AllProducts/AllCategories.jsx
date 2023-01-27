@@ -56,14 +56,14 @@ const AllCategories = () => {
         <section className="brands_page py-5 ">
           <div className="container">
             <div className="row">
-              <div className="col-12 bg-white px-0 ">
-                <ul class="brands_ul list-unstyled mb-0">
+              <div className="col-12 bg-white px-0 border rounded">
+                <ul class="brands_ul list-unstyled mb-3 container-fluid mt-4">
                   {(categories || [])?.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} className="mb-2">
                       <h5 className="text-center mt-3">{item?.categoryName}</h5>
 
                       <Link
-                      className="text-decoration-none mt-0"
+                      className="text-decoration-none mt-0 card w-100 pb-0"
                         to={{
                           pathname: "/CategoryProducts",
                           search: "?sort=name",

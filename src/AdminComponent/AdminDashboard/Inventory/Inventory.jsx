@@ -15,7 +15,7 @@ import { Button } from "rsuite";
 const Inventory = () => {
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
+  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/categoryDropdown`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
@@ -58,7 +58,13 @@ const Inventory = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const {
+    register: register2,
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
+  } = useForm({
+    mode: "onBlur",
+  });
   useEffect(() => {
     getBrands();
     GetProducts();
@@ -75,11 +81,13 @@ const Inventory = () => {
       .then((res) => {
         setCategories(res?.data.results?.categories);
       });
-    await axios.post(brandsApi,{
-      page:1
-    }).then((res) => {
-      setBrands(res?.data.results.brands);
-    });
+    await axios
+      .post(brandsApi, {
+        page: 1,
+      })
+      .then((res) => {
+        setBrands(res?.data.results.brands);
+      });
   };
   const GetProducts = async () => {
     await axios
@@ -92,6 +100,19 @@ const Inventory = () => {
         setMaxPage(res?.data.results.allPages);
       });
   };
+  const sorting = async (i) => {
+    await axios
+      .post(getProducts, {
+        page: activePage,
+        sortBy: i,
+      })
+      .then((res) => {
+        let data = res?.data.results.products;
+        setAllProducts(data);
+        setMaxPage(res?.data.results.allPages);
+      });
+  };
+
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -228,22 +249,8 @@ const Inventory = () => {
         }
       });
   };
-  const onSearch = async (e) => {
-    e.preventDefault();
-    const res = await axios.post(getProducts, {
-      from: values.from,
-      to: values.to,
-    });
-    setAllProducts(res?.data.results.products);
-    return res.data;
-  };
-
-  const handleDate = (e) => {
-    const value = e.target.value;
-    setValues({
-      ...values,
-      [e.target.name]: value,
-    });
+  const onSearch = async (data) => {
+    console.log(data);
   };
 
   function handleKeyDown(i, e) {
@@ -378,7 +385,7 @@ const Inventory = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
@@ -755,6 +762,7 @@ const Inventory = () => {
                         })}
                       />
                     </div>
+
                     <div className="form-group col-6 choose_fileInvent position-relative">
                       <span>Product Image </span>
                       <label htmlFor="upload_video" className="inputText">
@@ -822,6 +830,7 @@ const Inventory = () => {
                         ))}
                       </select>
                     </div>
+
                     {/* <div className="form-group col-6">
                       <label htmlFor="">Barcode</label>
                       <div className="tags-input-container border border-secondary">
@@ -1068,11 +1077,11 @@ const Inventory = () => {
                     <div className="col-auto">
                       <h2>Inventory Management</h2>
                     </div>
-                    <div className="col-3">
+                    <div className="col-4 d-flex justify-content-end">
                       <form className="form-design" action="">
                         <div className="form-group mb-0 position-relative icons_set">
                           <input
-                            type="text"
+                            type="search"
                             className="form-control bg-white "
                             placeholder="Search"
                             name="name"
@@ -1081,37 +1090,109 @@ const Inventory = () => {
                               InventSearch(e);
                             }}
                           />
-                          <i className="far fa-search" />
                         </div>
                       </form>
+                      <div className="dropdown  mt-1">
+                        <div>
+                          <div class="dropdown_sort">
+                            <button class="dropdown-btn_sort">
+                              <img
+                                src={require("../../../assets/img/iconSort.png")}
+                                width={23}
+                                height={23}
+                                className="mx-3 mt-2"
+                              ></img>
+                            </button>
+                            <div class="dropdown-content_sort">
+                              <a>
+                                <Link
+                                  className="text-decoration-none "
+                                  onClick={() => sorting(1)}
+                                >
+                                  A to Z
+                                </Link>
+                              </a>
+                              <a>
+                                <Link
+                                  className="text-decoration-none"
+                                  onClick={() => sorting(-1)}
+                                >
+                                  Z to A
+                                </Link>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <form
-                    className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                    className="form-design py-3 px-4 help-support-form row align-items-end justify-content-between"
                     action=""
+                    onSubmit={handleSubmit2(onSearch)}
                   >
-                    <div className="form-group mb-0 col-5">
-                      <label htmlFor="">From</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="from"
-                        value={values.from}
-                        onChange={handleDate}
-                      />
+                    <div className="form-group col-4">
+                      <label htmlFor="">Category</label>
+                      <select
+                        className={classNames(
+                          " form-select   border border-secondary",
+                          { "is-invalid": errors2.Scategory }
+                        )}
+                        name="Scategory"
+                        {...register2("Scategory", {
+                          required: "category is Required*",
+                        })}
+                        onChange={(e) => NewSubCategory(e)}
+                      >
+                        <option value="">Select Category</option>
+
+                        {categories?.map((item, index) => (
+                          <option value={item?._id} key={index}>
+                            {item?.categoryName}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div className="form-group mb-0 col-5">
-                      <label htmlFor="">To</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="to"
-                        value={values.to}
-                        onChange={handleDate}
-                      />
+
+                    <div className="form-group col-4">
+                      <label htmlFor="">Sub Category</label>
+                      <select
+                        className={classNames(
+                          " form-select  border border-secondary",
+                          { "is-invalid": errors2.SsubCategory }
+                        )}
+                        name="SsubCategory"
+                        {...register2("SsubCategory")}
+                      >
+                        <option value="">Select Sub Category</option>
+                        {(subCategories || []).map((item, index) => (
+                          <option value={item.subcategories?._id} key={index}>
+                            {item.subcategories?.subCategoryName}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div className="form-group mb-0 col-auto">
-                      <button className="comman_btn" onClick={onSearch}>
+                    <div className="form-group col-3">
+                      <label htmlFor="">Brands</label>
+                      <select
+                        className={classNames(
+                          " form-select  border border-secondary",
+                          { "is-invalid": errors2.Sbrands }
+                        )}
+                        aria-label="Default select example"
+                        name="Sbrands"
+                        {...register2("Sbrands")}
+                      >
+                        <option value="">Select Brands</option>
+                        {(brands || [])?.map((item, index) => (
+                          <option value={item?._id} key={index}>
+                            {item?.brandName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group  col-1">
+                      <button className="comman_btn" type="submit">
                         Search
                       </button>
                     </div>
@@ -1123,8 +1204,8 @@ const Inventory = () => {
                           <thead>
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
-                              <th>Date</th>
                               <th>Product Name</th>
+                              <th>Product Brand</th>
                               <th>Product Image</th>
                               <th>Status</th>
                               <th>Action</th>
@@ -1133,10 +1214,12 @@ const Inventory = () => {
                           <tbody>
                             {(allProducts || [])?.map((User, index) => (
                               <tr key={index} className="">
-                                <td>{(activePage - 1) * 20 + (index + 1)}.</td>
-                                <td>{User?.createdAt.slice(0, 10)}</td>
-                                <td>{User?.unitName}</td>
-                                <td>
+                                <td className="border">
+                                  {(activePage - 1) * 20 + (index + 1)}.
+                                </td>
+                                <td className="border">{User?.unitName}</td>
+                                <td className="border">{User?.brand}</td>
+                                <td className="border">
                                   <img
                                     width={60}
                                     src={
@@ -1146,7 +1229,7 @@ const Inventory = () => {
                                     }
                                   />
                                 </td>
-                                <td>
+                                <td className="border">
                                   {" "}
                                   <div className="">
                                     <label class="switchUser">
@@ -1163,7 +1246,7 @@ const Inventory = () => {
                                   </div>
                                 </td>
 
-                                <td>
+                                <td className="border">
                                   <Link
                                     className="comman_btn2  text-decoration-none"
                                     to={{

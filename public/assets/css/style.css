@@ -790,7 +790,6 @@
     padding-left: 40px;
     position: relative;
     display: flex;
-    font-family: "Unbounded" !important;
     font-weight: 600;
     font-size: 0.7rem;
     justify-content: center;
@@ -3620,6 +3619,47 @@
   .dropdownsp:hover .dropdown-contentsp {
     display: block;
   }
+  /* sort */
+  .dropdown_sort {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-btn_sort {
+    background-color: #eb3237;
+    color: white;
+    width: 65px !important;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown-content_sort {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: #f9f9f9;
+    min-width: 70px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 2px;
+  }
+
+  .dropdown-content_sort a {
+    color: black;
+    padding: 4px 4px;
+    text-decoration: none !important;
+    display: block;
+  }
+
+  .dropdown-content_sort a:hover {
+    background-color: #efebeb;
+  }
+
+  .dropdown_sort:hover .dropdown-content_sort {
+    display: block;
+  }
 
   /* The container <div> - needed to position the dropdown content */
   .dropdown {
@@ -4149,9 +4189,9 @@
     font-weight: bold;
     color: #eb3237;
   }
-  .main_headers {
+  /* .main_headers {
     font-family: "Rubik", sans-serif;
-  }
+  } */
   /* pending view */
   .Pending-view .Pending-view_img {
     margin: 0 auto;
@@ -4892,6 +4932,7 @@ background-color: #3e4093;
     background-color: #eb3237;
     align-items: center;
     padding: 0 15px;
+    border-radius: 10px 10px 0 0;
     height: 60px;
   }
   .comman_header h2 {
@@ -4937,7 +4978,6 @@ background-color: #3e4093;
     color: #000;
     font-size: 14px;
     padding: 15px 20px;
-    border: 0;
     text-align: center;
     vertical-align: middle;
     border-bottom: 2px solid #f2f2f2;

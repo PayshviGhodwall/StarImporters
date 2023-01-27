@@ -273,6 +273,10 @@ const CategorySub = () => {
     });
   };
 
+  const sorting = () =>{
+    
+  }
+
   const deleteCatImage = async () => {
     await axios
       .post(deleteCatImg + "/" + allCategories[categoryIndex]?._id, {
@@ -339,7 +343,7 @@ const CategorySub = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
@@ -683,6 +687,57 @@ const CategorySub = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row category_management justify-content-center">
             <div className="col-12">
+              <div className="d-flex comman_header justify-content-between px-2">
+                <div className="col-6">
+                  <h2 className="main_headers">Categories Management</h2>
+                </div>
+                <div className="col-6  d-flex justify-content-end">
+                  <form className="form-design" action="">
+                    <div className="form-group mb-0 position-relative icons_set">
+                      <input
+                        type="search"
+                        className="form-control bg-white h-50"
+                        placeholder="Search"
+                        name="name"
+                        id="name"
+                       
+                      />
+                    </div>
+                  </form>
+                  <div className="dropdown  mt-1">
+                    <div>
+                      <div class="dropdown_sort">
+                        <button class="dropdown-btn_sort">
+                          <img
+                            src={require("../../../assets/img/iconSort.png")}
+                            width={23}
+                            height={23}
+                            className="mx-3 mt-2"
+                          ></img>
+                        </button>
+                        <div class="dropdown-content_sort">
+                          <a>
+                            <Link
+                              className="text-decoration-none "
+                              onClick={() => sorting()}
+                            >
+                              A to Z
+                            </Link>
+                          </a>
+                          <a>
+                            <Link
+                              className="text-decoration-none"
+                              onClick={() => sorting()}
+                            >
+                              Z to A
+                            </Link>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row">
@@ -811,7 +866,7 @@ const CategorySub = () => {
                               </form>
                               <div className="row">
                                 <div className="col-12 comman_table_design px-0">
-                                  <div className="table-responsive">
+                                  <div className="table-responsive border">
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
@@ -829,19 +884,22 @@ const CategorySub = () => {
                                       <tbody>
                                         {(allCategories || []).map(
                                           (item, index) => (
-                                            <tr className="" key={index}>
-                                              <td>
+                                            <tr
+                                              className=""
+                                              key={index}
+                                            >
+                                              <td className="border">
                                                 {" "}
                                                 {(activePage - 1) * 15 +
                                                   (index + 1)}
                                                 .
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
-                                              <td>{item?.categoryName}</td>
+                                              <td className="border">{item?.categoryName}</td>
 
-                                              <td>
+                                              <td className="border">
                                                 <img
                                                   className="subCatImages"
                                                   src={
@@ -851,7 +909,7 @@ const CategorySub = () => {
                                                   }
                                                 ></img>
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 <img
                                                   className="subCatImages"
                                                   src={
@@ -861,7 +919,7 @@ const CategorySub = () => {
                                                   }
                                                 ></img>
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 {" "}
                                                 <div className="">
                                                   <label class="switchUser">
@@ -1048,22 +1106,22 @@ const CategorySub = () => {
                                         {(allSubCategories || []).map(
                                           (item, index) => (
                                             <tr className="" key={index}>
-                                              <td>
+                                              <td className="border">
                                                 {(activePage2 - 1) * 15 +
                                                   (index + 1)}
                                                 .
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 {
                                                   item.categoryName
                                                     ?.categoryName
                                                 }
                                               </td>
-                                              <td>{item?.subCategoryName}</td>
-                                              <td>
+                                              <td className="border">{item?.subCategoryName}</td>
+                                              <td className="border">
                                                 <img
                                                   className="subCatImages"
                                                   src={
@@ -1073,7 +1131,7 @@ const CategorySub = () => {
                                                   }
                                                 ></img>
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 <Link
                                                   data-bs-toggle="modal"
                                                   data-bs-target="#staticBackdrop2"

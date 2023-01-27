@@ -64,23 +64,30 @@ const SubCategories = () => {
         <section className="brands_page py-5 ">
           <div className="container">
             <div className="row">
-              <div className="col-12 bg-white px-0 ">
-                <ul class="brands_ul list-unstyled mb-0">
+              <div className="col-12 bg-white px-0 mb-3">
+                <ul class="brands_ul list-unstyled mb-0 container-fluid mt-4">
                   {(categories || [])?.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} className="mb-2">
                       <h5 className="text-center mt-3">
                         {" "}
                         {item?.subCategoryName}
                       </h5>
 
                       <Link
-                        className="text-decoration-none"
+                        className="text-decoration-none card w-100 pb-0"
                         to={{
                           pathname: "/SubCategory/Products",
                         }}
                         state={{ name: item?.subCategoryName }}
                       >
-                        <img src={item?.subCategoryImage} alt="" />
+                        <img
+                          src={
+                            item?.subCategoryImage
+                              ? item?.subCategoryImage
+                              : require("./../../assets/img/product.jpg")
+                          }
+                          alt=""
+                        />
                       </Link>
                     </li>
                   ))}

@@ -37,7 +37,8 @@ const PendingView = () => {
       .post(rejectUrl + "/" + objectId, {
         companyName: data?.companyName,
         dba: data?.dba,
-        addressLine: data?.address,
+        addressLine1: data?.address1,
+        addressLine2: data?.addressLine2,
         city: data?.city,
         state: data?.state,
         zipcode: data?.zipcode,
@@ -96,7 +97,7 @@ const PendingView = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-            {User.type === "SubAdmin" ? (
+            {User?.type === "SubAdmin" ? (
               <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
@@ -222,7 +223,7 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
-                    style={{  
+                    style={{
                       textDecoration: "none",
                       fontSize: "18px",
                     }}
@@ -552,7 +553,7 @@ const PendingView = () => {
                             Company Address Line 1:
                           </span>
                           <div className="col">
-                            <strong>{user?.addressLine}</strong>
+                            <strong>{user?.addressLine1}</strong>
                           </div>
                         </div>
                       </div>
@@ -562,7 +563,7 @@ const PendingView = () => {
                             Company Address Line 2:
                           </span>
                           <div className="col">
-                            <strong>{user?.addressLine}</strong>
+                            <strong>{user?.addressLine2}</strong>
                           </div>
                         </div>
                       </div>

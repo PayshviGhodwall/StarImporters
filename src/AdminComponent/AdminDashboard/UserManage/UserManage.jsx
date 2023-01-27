@@ -75,40 +75,32 @@ const UserManage = () => {
           })
       : getApprovedUser();
   };
-  const onPendingSearch = async (e) => {
-    e.preventDefault();
-    const res = await axios.post(apiUrl, {
-      from: values.from,
-      to: values.to,
-      type: "PENDING",
-    });
-    setPendingUsers(res.data.results.usersList);
-    return res.data;
+  const sorting = async (i) => {
+    await axios
+      .post(apiUrl, {
+        type: "PENDING",
+        sortBy: i,
+      })
+      .then((res) => {
+        setPendingUsers(res.data.results.usersList);
+      });
+    await axios
+      .post(apiUrl, {
+        type: "APPROVED",
+        sortBy: i,
+      })
+      .then((res) => {
+        setApprovedUsers(res?.data.results.usersList);
+      });
+    await axios
+      .post(apiUrl, {
+        type: "RETURNED",
+        sortBy: i,
+      })
+      .then((res) => {
+        setRejectedUsers(res?.data.results.usersList);
+      });
   };
-  const onApprovedSearch = async (e) => {
-    e.preventDefault();
-    const res = await axios.post(apiUrl, {
-      from: values.from,
-      to: values.to,
-      type: "APPROVED",
-    });
-    setApprovedUsers(res?.data.results.usersList);
-    return res.data;
-  };
-  const onReturnedSearch = async (e) => {
-    e.preventDefault();
-    const res = await axios.post(apiUrl, {
-      from: values.from,
-      to: values.to,
-      type: "REJECTED",
-    });
-    setRejectedUsers(res?.data.results.usersList);
-    return res.data;
-  };
-  // const handlePageClick = (event) => {
-  //   const selectedPage = event.selected;
-  //   setOffset(selectedPage + 1);
-  // };
 
   const getPendingUser = async () => {
     const res = await axios.post(apiUrl, {
@@ -179,10 +171,6 @@ const UserManage = () => {
   };
   const modalClose = () => {
     window.location.reload(false);
-    // setErrorEmails([]);
-    // setUx(!ux);
-    // setImpFile("");
-    // setUm(false)
   };
 
   const handleClick = () => {
@@ -226,13 +214,13 @@ const UserManage = () => {
         }
       });
   };
-  var today = new Date().toISOString().split("T")[0];
-  document.getElementById("appTo")?.setAttribute("max", today);
-  document.getElementById("appFrom")?.setAttribute("max", today);
-  document.getElementById("penFrom")?.setAttribute("max", today);
-  document.getElementById("penTo")?.setAttribute("max", today);
-  document.getElementById("rejFrom")?.setAttribute("max", today);
-  document.getElementById("rejTo")?.setAttribute("max", today);
+  // var today = new Date().toISOString().split("T")[0];
+  // document.getElementById("appTo")?.setAttribute("max", today);
+  // document.getElementById("appFrom")?.setAttribute("max", today);
+  // document.getElementById("penFrom")?.setAttribute("max", today);
+  // document.getElementById("penTo")?.setAttribute("max", today);
+  // document.getElementById("rejFrom")?.setAttribute("max", today);
+  // document.getElementById("rejTo")?.setAttribute("max", today);
   return (
     <div className={sideBar ? "  admin_main" : "row expanded_main"}>
       <div className="">
@@ -244,7 +232,7 @@ const UserManage = () => {
               </Link>
             </div>
             <div className="sidebar_menus">
-              {User.type === "SubAdmin" ? (
+              {User?.type === "SubAdmin" ? (
                 <ul className="list-unstyled ps-1 m-0">
                   <li
                     className={
@@ -677,15 +665,15 @@ const UserManage = () => {
                     </Link>
                   </div>
                   <div className="col-12 design_outter_comman recent_orders shadow">
-                    <div className="row comman_header justify-content-between">
-                      <div className="col-auto">
+                    <div className="row comman_header justify-content-between px-2">
+                      <div className="col-6">
                         <h2 className="main_headers">Users Management</h2>
                       </div>
-                      <div className="col-3">
+                      <div className="col-6  d-flex justify-content-end">
                         <form className="form-design" action="">
                           <div className="form-group mb-0 position-relative icons_set">
                             <input
-                              type="text"
+                              type="search"
                               className="form-control bg-white"
                               placeholder="Search"
                               name="name"
@@ -696,6 +684,38 @@ const UserManage = () => {
                             />
                           </div>
                         </form>
+                        <div className="dropdown  mt-1">
+                          <div>
+                            <div class="dropdown_sort">
+                              <button class="dropdown-btn_sort">
+                                <img
+                                  src={require("../../../assets/img/iconSort.png")}
+                                  width={23}
+                                  height={23}
+                                  className="mx-3 mt-2"
+                                ></img>
+                              </button>
+                              <div class="dropdown-content_sort">
+                                <a>
+                                  <Link
+                                    className="text-decoration-none "
+                                    onClick={() => sorting(1)}
+                                  >
+                                    A to Z
+                                  </Link>
+                                </a>
+                                <a>
+                                  <Link
+                                    className="text-decoration-none"
+                                    onClick={() => sorting(-1)}
+                                  >
+                                    Z to A
+                                  </Link>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="row">
@@ -761,48 +781,8 @@ const UserManage = () => {
                             role="tabpanel"
                             aria-aria-labelledby="nav-home-tab"
                           >
-                            <form
-                              className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                              action=""
-                            >
-                              <div className="form-group mb-0 col-5">
-                                <label htmlFor="" className="main_headers">
-                                  From
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  name="from"
-                                  id="penFrom"
-                                  value={values.from}
-                                  onChange={handleDate}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-5">
-                                <label htmlFor="" className="main_headers">
-                                  To
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  name="to"
-                                  id="penTo"
-                                  value={values.to}
-                                  onChange={handleDate}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-auto">
-                                <button
-                                  className="comman_btn"
-                                  id="Search"
-                                  onClick={onPendingSearch}
-                                >
-                                  Search
-                                </button>
-                              </div>
-                            </form>
                             <div className="row">
-                              <div className="col-12 comman_table_design px-0">
+                              <div className="col-12 comman_table_design ">
                                 <div className="table-responsive">
                                   <table className="table mb-0">
                                     <thead>
@@ -813,11 +793,11 @@ const UserManage = () => {
                                         }}
                                       >
                                         <th>S.No.</th>
-                                        <th>Date</th>
-                                        <th>User Name</th>
                                         <th>Company Name</th>
+                                        <th>User Name</th>
+                                        <th>City</th>
+                                        <th>Address</th>
                                         <th>Email</th>
-                                        <th>Mobile Number</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                       </tr>
@@ -840,20 +820,31 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr className="" key={index}>
-                                            <td>
+                                            <td className="border">
                                               {(activePendingPage - 1) * 15 +
                                                 (index + 1)}
                                               .
                                             </td>
-                                            <td>
-                                              {User?.createdAt.slice(0, 10)}
+                                            <td className="border">
+                                              {User?.companyName}
                                             </td>
-                                            <td>{User?.firstName}</td>
-                                            <td>{User?.companyName}</td>
-                                            <td>{User?.email}</td>
-                                            <td>{User?.phoneNumber}</td>
-                                            <td>{User?.isVerified}</td>
-                                            <td>
+                                            <td className="border">
+                                              {User?.firstName}
+                                            </td>
+                                            <td className="border">
+                                              {User?.city}
+                                            </td>
+                                            <td className="border">
+                                              {User?.addressLine1?.slice(0, 10)}
+                                              ....
+                                            </td>
+                                            <td className="border">
+                                              {User?.email}
+                                            </td>
+                                            <td className="border">
+                                              {User?.isVerified}
+                                            </td>
+                                            <td className="border">
                                               <Link
                                                 className="comman_btn2  text-decoration-none"
                                                 to="/UserManage/PendingView"
@@ -869,62 +860,66 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
-                                  <div className="col-11 d-flex justify-content-between py-2  mx-5">
-                                    <span className="totalPage">
-                                      Total Pages : {maxPenPage}
-                                    </span>
-                                    <ul id="pagination">
-                                      <li>
-                                        <a
-                                          class="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePendingPage <= 1
-                                              ? setActivePendingPage(1)
-                                              : setActivePendingPage(
-                                                  activePendingPage - 1
-                                                )
-                                          }
-                                        >
-                                          «
-                                        </a>
-                                      </li>
+                                  {pendingUsers?.length ? (
+                                    <div className="col-11 d-flex justify-content-between py-2  mx-5">
+                                      <span className="totalPage">
+                                        Total Pages : {maxPenPage}
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePendingPage <= 1
+                                                ? setActivePendingPage(1)
+                                                : setActivePendingPage(
+                                                    activePendingPage - 1
+                                                  )
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
 
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#" className="active">
-                                          {activePendingPage}
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePendingPage}
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
 
-                                      <li>
-                                        <a
-                                          className="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePendingPage === maxPenPage
-                                              ? setActivePendingPage(maxPenPage)
-                                              : setActivePendingPage(
-                                                  activePendingPage + 1
-                                                )
-                                          }
-                                        >
-                                          »
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePendingPage === maxPenPage
+                                                ? setActivePendingPage(
+                                                    maxPenPage
+                                                  )
+                                                : setActivePendingPage(
+                                                    activePendingPage + 1
+                                                  )
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>
@@ -936,43 +931,8 @@ const UserManage = () => {
                               role="tabpanel"
                               aria-labelledby="nav-approve-tab"
                             >
-                              <form
-                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                action=""
-                              >
-                                <div className="form-group mb-0 col-5">
-                                  <label htmlFor="">From</label>
-                                  <input
-                                    type="date"
-                                    className="form-control"
-                                    name="from"
-                                    id="appFrom"
-                                    value={values.from}
-                                    onChange={handleDate}
-                                  />
-                                </div>
-                                <div className="form-group mb-0 col-5">
-                                  <label htmlFor="">To</label>
-                                  <input
-                                    type="date"
-                                    className="form-control"
-                                    name="to"
-                                    id="appTo"
-                                    value={values.to}
-                                    onChange={handleDate}
-                                  />
-                                </div>
-                                <div className="form-group mb-0 col-auto">
-                                  <button
-                                    className="comman_btn"
-                                    onClick={onApprovedSearch}
-                                  >
-                                    Search
-                                  </button>
-                                </div>
-                              </form>
                               <div className="row">
-                                <div className="col-12 comman_table_design px-0">
+                                <div className="col-12 comman_table_design ">
                                   <div className="table-responsive">
                                     <table className="table mb-0">
                                       <thead>
@@ -983,11 +943,14 @@ const UserManage = () => {
                                           }}
                                         >
                                           <th>S.No.</th>
-                                          <th>Date</th>
-                                          <th>User Name</th>
                                           <th>Company Name</th>
+
+                                          <th>User Name</th>
+                                          <th>City</th>
+                                          <th>Address</th>
+
                                           <th>Email</th>
-                                          <th>Mobile Number</th>
+
                                           <th>Status</th>
                                           <th>Action</th>
                                         </tr>
@@ -996,19 +959,34 @@ const UserManage = () => {
                                         {(approvedUsers || []).map(
                                           (User, index) => (
                                             <tr key={index} className="">
-                                              <td>
+                                              <td className="border">
                                                 {(activeApprovePage - 1) * 15 +
                                                   (index + 1)}
                                                 .
                                               </td>
-                                              <td>
-                                                {User?.createdAt.slice(0, 10)}
+                                              <td className="border">
+                                                {User?.companyName}
                                               </td>
-                                              <td>{User?.firstName}</td>
-                                              <td>{User?.companyName}</td>
-                                              <td>{User?.email}</td>
-                                              <td>{User?.phoneNumber}</td>
-                                              <td key={User.status}>
+                                              <td className="border">
+                                                {User?.firstName}
+                                              </td>
+                                              <td className="border">
+                                                {User?.city}
+                                              </td>
+                                              <td className="border">
+                                                {User?.addressLine1?.slice(
+                                                  0,
+                                                  10
+                                                )}
+                                                ....
+                                              </td>
+                                              <td className="border">
+                                                {User?.email}
+                                              </td>
+                                              <td
+                                                className="border"
+                                                key={User.status}
+                                              >
                                                 {" "}
                                                 <div className="">
                                                   <label class="switchUser">
@@ -1026,7 +1004,7 @@ const UserManage = () => {
                                                   </label>
                                                 </div>
                                               </td>
-                                              <td>
+                                              <td className="border">
                                                 <Link
                                                   className="comman_btn2 text-decoration-none"
                                                   to="/UserManage/ApprovedView"
@@ -1044,62 +1022,66 @@ const UserManage = () => {
                                       </tbody>
                                     </table>
                                   </div>
-                                  <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
-                                    <span className="totalPage">
-                                      ( Total Pages : {maxAppPage} )
-                                    </span>
-                                    <ul id="pagination">
-                                      <li>
-                                        <a
-                                          class="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activeApprovePage === 1
-                                              ? setActiveApprovePage(1)
-                                              : setActiveApprovePage(
-                                                  activeApprovePage - 1
-                                                )
-                                          }
-                                        >
-                                          «
-                                        </a>
-                                      </li>
+                                  {approvedUsers.length ? (
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                      <span className="totalPage">
+                                        ( Total Pages : {maxAppPage} )
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activeApprovePage === 1
+                                                ? setActiveApprovePage(1)
+                                                : setActiveApprovePage(
+                                                    activeApprovePage - 1
+                                                  )
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
 
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#" className="active">
-                                          {activeApprovePage}
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">.</a>
-                                      </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activeApprovePage}
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
+                                        <li>
+                                          <a href="#">.</a>
+                                        </li>
 
-                                      <li>
-                                        <a
-                                          className="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activeApprovePage === maxAppPage
-                                              ? setActiveApprovePage(maxAppPage)
-                                              : setActiveApprovePage(
-                                                  activeApprovePage + 1
-                                                )
-                                          }
-                                        >
-                                          »
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activeApprovePage === maxAppPage
+                                                ? setActiveApprovePage(
+                                                    maxAppPage
+                                                  )
+                                                : setActiveApprovePage(
+                                                    activeApprovePage + 1
+                                                  )
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>
@@ -1113,7 +1095,7 @@ const UserManage = () => {
                             role="tabpanel"
                             aria-labelledby="nav-return-tab"
                           >
-                            <form
+                            {/* <form
                               className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                               action=""
                             >
@@ -1147,9 +1129,9 @@ const UserManage = () => {
                                   Search
                                 </button>
                               </div>
-                            </form>
+                            </form> */}
                             <div className="row">
-                              <div className="col-12 comman_table_design px-0">
+                              <div className="col-12 comman_table_design ">
                                 <div className="table-responsive">
                                   <table className="table mb-0">
                                     <thead>
@@ -1160,11 +1142,11 @@ const UserManage = () => {
                                         }}
                                       >
                                         <th>S.No.</th>
-                                        <th>Date</th>
-                                        <th>User Name</th>
                                         <th>Company Name</th>
+                                        <th>User Name</th>
+                                        <th>City</th>
+                                        <th>Address</th>
                                         <th>Email</th>
-                                        <th>Mobile Number</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                       </tr>
@@ -1186,23 +1168,32 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr key={index} className="">
-                                            <td>
+                                            <td className="border">
                                               {" "}
                                               {(activeReturnedPage - 1) * 15 +
                                                 (index + 1)}
                                               .
                                             </td>
-                                            <td>
-                                              {User?.createdAt.slice(0, 10)}
+                                            <td className="border">
+                                              {User?.companyName}
                                             </td>
-                                            <td>{User?.firstName}</td>
-                                            <td>{User?.companyName}</td>
-                                            <td>{User?.email}</td>
-                                            <td>{User?.phoneNumber}</td>
-                                            <td className="fs-6 text-danger">
+                                            <td className="border">
+                                              {User?.firstName}
+                                            </td>
+                                            <td className="border">
+                                              {User?.city}
+                                            </td>
+                                            <td className="border">
+                                              {User?.addressLine1?.slice(0, 10)}
+                                              ....
+                                            </td>
+                                            <td className="border">
+                                              {User?.email}
+                                            </td>
+                                            <td className="fs-6 text-danger border">
                                               {User?.isVerified}
                                             </td>
-                                            <td>
+                                            <td className="border">
                                               <Link
                                                 className="comman_btn2  text-decoration-none"
                                                 to="/UserManage/ReturnedView"
@@ -1219,62 +1210,66 @@ const UserManage = () => {
                                     </tbody>
                                   </table>
                                 </div>
-                                <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
-                                  <span className="totalPage">
-                                    Total Pages : {maxRetPage}
-                                  </span>
-                                  <ul id="pagination">
-                                    <li>
-                                      <a
-                                        class="fs-5"
-                                        href="#"
-                                        onClick={() =>
-                                          activeReturnedPage <= 1
-                                            ? setActiveReturnedPage(1)
-                                            : setActiveReturnedPage(
-                                                activeReturnedPage - 1
-                                              )
-                                        }
-                                      >
-                                        «
-                                      </a>
-                                    </li>
+                                {rejectedUsers?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                    <span className="totalPage">
+                                      Total Pages : {maxRetPage}
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activeReturnedPage <= 1
+                                              ? setActiveReturnedPage(1)
+                                              : setActiveReturnedPage(
+                                                  activeReturnedPage - 1
+                                                )
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
 
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                    <li>
-                                      <a href="#" className="active">
-                                        {activeReturnedPage}
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">.</a>
-                                    </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activeReturnedPage}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
 
-                                    <li>
-                                      <a
-                                        className="fs-5"
-                                        href="#"
-                                        onClick={() =>
-                                          activeReturnedPage === maxRetPage
-                                            ? setActiveReturnedPage(maxRetPage)
-                                            : setActiveReturnedPage(
-                                                activeReturnedPage + 1
-                                              )
-                                        }
-                                      >
-                                        »
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activeReturnedPage === maxRetPage
+                                              ? setActiveReturnedPage(
+                                                  maxRetPage
+                                                )
+                                              : setActiveReturnedPage(
+                                                  activeReturnedPage + 1
+                                                )
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                           </div>

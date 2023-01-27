@@ -49,7 +49,7 @@ const ReturnedView = () => {
             </Link>
           </div>
           <div className="sidebar_menus">
-              {User.type === "SubAdmin" ? (
+              {User?.type === "SubAdmin" ? (
                 <ul className="list-unstyled ps-1 m-0">
                   <li
                     className={
@@ -503,7 +503,7 @@ const ReturnedView = () => {
                             Company Address Line 1:
                           </span>
                           <div className="col">
-                            <strong>{user?.addressLine}</strong>
+                            <strong>{user?.addressLine1}</strong>
                           </div>
                         </div>
                       </div>
@@ -513,7 +513,7 @@ const ReturnedView = () => {
                             Company Address Line 2:
                           </span>
                           <div className="col">
-                            <strong>{user?.addressLine}</strong>
+                            <strong>{user?.addressLine2}</strong>
                           </div>
                         </div>
                       </div>
