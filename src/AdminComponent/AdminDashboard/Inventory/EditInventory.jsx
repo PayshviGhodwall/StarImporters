@@ -22,7 +22,7 @@ const EditInventory = () => {
   const [barcodes, setBarcodes] = useState([]);
   const [productBarcode, setProductBarcode] = useState([]);
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/getCategories`;
+  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/categoryDropdown`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
@@ -56,12 +56,16 @@ const EditInventory = () => {
 
   useEffect(() => {
     const getBrands = async () => {
-      await axios.get(categoryApi).then((res) => {
-        setCategories(res?.data.results);
+      await axios.post(categoryApi).then((res) => {
+        setCategories(res?.data.results.categories);
       });
-      await axios.get(brandsApi).then((res) => {
-        setBrands(res?.data.results);
-      });
+      await axios
+        .post(brandsApi, {
+          page: 1,
+        })
+        .then((res) => {
+          setBrands(res?.data.results.brands);
+        });
     };
     getBrands();
   }, [change]);
@@ -389,7 +393,11 @@ const EditInventory = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -658,6 +666,7 @@ const EditInventory = () => {
                                 ? productImage
                                 : allProducts[0]?.productImage
                             }
+                            alt="Upload Image ple"
                           />
                         </div>
                         <div

@@ -51,7 +51,8 @@ const SignUpAgain = () => {
       const formData = new FormData();
       formData.append("companyName", data?.companyName);
       formData.append("dba", data?.dba);
-      formData.append("addressLine", data?.addressLine);
+      formData.append("addressLine1", data?.addressLine1);
+      formData.append("addressLine2", data?.addressLine2);
       formData.append("city", data?.city);
       formData.append("state", data?.state);
       formData.append("zipcode", data?.zipcode);
@@ -187,23 +188,23 @@ const SignUpAgain = () => {
                     type="text"
                     className={classNames(
                       "form-control  border border-secondary signup_fields",
-                      { "is-invalid": errors.addressLine }
+                      { "is-invalid": errors.addressLine1 }
                     )}
                     id="floatingAddrees1"
-                    defaultValue={userData?.addressLine}
+                    defaultValue={userData?.addressLine1}
                     placeholder="name@example.com"
-                    name="addressLine"
-                    {...register("addressLine")}
+                    name="addressLine1"
+                    {...register("addressLine1")}
                   />
-                  {errors.addressLine && (
+                  {errors.addressLine1 && (
                     <small className="errorText mx-1 fw-bold">
-                      {errors.addressLine?.message}
+                      {errors.addressLine1?.message}
                     </small>
                   )}
                   <label
                     htmlFor="floatingAddress1"
                     className={
-                      userData?.addressLine
+                      userData?.addressLine1
                         ? "mx-2 fw-bolder"
                         : "mx-2 fw-bolder text-danger"
                     }
@@ -216,7 +217,10 @@ const SignUpAgain = () => {
                     type="text"
                     className="form-control  border border-secondary signup_fields"
                     id="floatingAddress2"
-                    placeholder="dds"
+                    defaultValue={userData?.addressLine2}
+                    placeholder="name@example.com"
+                    name="addressLine2"
+                    {...register("addressLine2")}
                   />
                   <label htmlFor="floatingAddress2" className="mx-2 fw-bolder">
                     Company Address line 2
@@ -533,7 +537,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
-                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.federalTaxId
                           ? classNames(
@@ -569,7 +573,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
-                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.tobaccoLicence
                           ? classNames(
@@ -606,7 +610,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
-                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.salesTaxId
                           ? classNames(
@@ -643,7 +647,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
-                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.businessLicense
                           ? classNames(
@@ -680,7 +684,7 @@ const SignUpAgain = () => {
                     </label>
                     <input
                       type="file"
-                      accept= "image/jpeg,image/png,application/pdf,image/x-eps"
+                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       className={
                         userData?.accountOwnerId
                           ? classNames(
@@ -765,7 +769,12 @@ const SignUpAgain = () => {
                   </div>
 
                   <div className="col-12 text-center mt-4">
-                    <button className="comman_btn2 mx-2" onClick={()=>navigate("/app/home")}>Cancel</button>
+                    <button
+                      className="comman_btn2 mx-2"
+                      onClick={() => navigate("/app/home")}
+                    >
+                      Cancel
+                    </button>
                     <button className="comman_btn mx-2" type="submit">
                       Submit
                     </button>

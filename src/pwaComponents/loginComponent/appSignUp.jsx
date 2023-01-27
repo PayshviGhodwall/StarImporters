@@ -197,14 +197,14 @@ function AppSignUp() {
                         className="form-control"
                         type="text"
                         placeholder=""
-                        name="addressLine"
+                        name="addressLine1"
                         id="addressLine"
-                        {...register("addressLine", { required: "Required" })}
+                        {...register("addressLine1", { required: "Required" })}
                       />
 
-                      {errors?.addressLine && (
+                      {errors?.addressLine1 && (
                         <p className="form-error mt-1">
-                          {errors.addressLine?.message}
+                          {errors.addressLine1?.message}
                         </p>
                       )}
                     </div>
@@ -217,12 +217,12 @@ function AppSignUp() {
                         className="form-control"
                         type="text"
                         placeholder=""
-                        name="addressLine1"
+                        name="addressLine2"
                         id="addressLine1"
-                        {...register("addressLine1", { required: false })}
+                        {...register("addressLine2", { required: false })}
                       />
 
-                      {errors?.addressLine1 && (
+                      {errors?.addressLine2 && (
                         <p className="form-error mt-1">
                           This field is required
                         </p>

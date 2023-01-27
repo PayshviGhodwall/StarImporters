@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 const ProductByCate = () => {
   const location = useLocation();
-  const [sortValue, setSortValue] = useState("");
+  const [sortValue, setSortValue] = useState();
   const [brands, setBrands] = useState([]);
   const [message, setMessage] = useState();
   const [brandName, setBrandName] = useState();
@@ -51,9 +51,11 @@ const ProductByCate = () => {
         category: location.state?.name,
         brand: brandName,
         sortBy: sortValue,
+        page: activePage,
       })
       .then((res) => {
-        setProducts(res.data?.results);
+        setProducts(res.data?.results.products);
+        setMaxPage(res.data?.results.totalPages);
       });
   };
 
@@ -198,7 +200,7 @@ const ProductByCate = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(1)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -213,7 +215,7 @@ const ProductByCate = () => {
                               id="radio4"
                               name="radio1"
                               value="0"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(-1)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -227,12 +229,13 @@ const ProductByCate = () => {
 
                   <div className="row mx-0 pt-4 pb-5 bg-white d-lg-flex d-md-none">
                     <div className="col-6">
-                      <a
+                      <button
                         className="d-block comman_btn text-center"
-                        onClick={clearFilters}
+                        type="reset"
+                        onClick={getProducts}
                       >
                         Clear All
-                      </a>
+                      </button>
                     </div>
                     <div className="col-6">
                       <button
@@ -387,8 +390,7 @@ const ProductByCate = () => {
                         </li>
                       </ul>
                     </div>
-                  ) : null
-                  }
+                  ) : null}
                 </div>
               </div>
             </div>

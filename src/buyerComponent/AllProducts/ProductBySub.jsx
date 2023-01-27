@@ -13,7 +13,7 @@ const ProductBySubCate = () => {
   const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [brandName, setBrandName] = useState();
-  const [sortValue, setSortValue] = useState("");
+  const [sortValue, setSortValue] = useState();
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
@@ -55,9 +55,11 @@ const ProductBySubCate = () => {
         subCategory: location.state?.name,
         brand: brandName,
         sortBy: sortValue,
+        page: activePage,
       })
       .then((res) => {
-        setProducts(res.data?.results);
+        setProducts(res.data?.results.products);
+        setMaxPage(res.data?.results?.totalPages);
       });
   };
   const clearFilters = (e) => {
@@ -195,7 +197,7 @@ const ProductBySubCate = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(1)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -209,7 +211,7 @@ const ProductBySubCate = () => {
                               id="radio4"
                               name="radio1"
                               value="2"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(-1)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -225,7 +227,8 @@ const ProductBySubCate = () => {
                     <div className="col-6">
                       <button
                         className="d-block comman_btn text-center"
-                        onClick={clearFilters}
+                        type="reset"
+                        // onClick={clearFilters}
                       >
                         Clear All
                       </button>

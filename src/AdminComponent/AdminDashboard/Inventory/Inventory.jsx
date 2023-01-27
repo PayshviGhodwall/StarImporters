@@ -22,6 +22,7 @@ const Inventory = () => {
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
   const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
+  const inventorySort = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/sortProducts`;
   const [NewMessage, setNewMessage] = useState("");
   const scrollBy = useScrollBy();
   const [maxPage, setMaxPage] = useState(1);
@@ -31,7 +32,7 @@ const Inventory = () => {
   const [sideBar, setSideBar] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState();
   const [brands, setBrands] = useState([]);
   const [change, setChange] = useState();
   const importInput = document.getElementById("fileID");
@@ -251,6 +252,16 @@ const Inventory = () => {
   };
   const onSearch = async (data) => {
     console.log(data);
+    await axios
+      .post(inventorySort, {
+        category: data?.Scategory,
+        subCategory: data?.SsubCategory,
+        brands: data?.Sbrands,
+      })
+      .then((res) => {
+        let data = res?.data.results.products;
+        setAllProducts(data);
+      });
   };
 
   function handleKeyDown(i, e) {
@@ -823,7 +834,7 @@ const Inventory = () => {
                         })}
                       >
                         <option value="">Select Sub Category</option>
-                        {(subCategories || []).map((item, index) => (
+                        {(subCategories || [])?.map((item, index) => (
                           <option value={item.subcategories?._id} key={index}>
                             {item.subcategories?.subCategoryName}
                           </option>
@@ -1085,7 +1096,7 @@ const Inventory = () => {
                             className="form-control bg-white "
                             placeholder="Search"
                             name="name"
-                            id="name"
+                            id="search"
                             onChange={(e) => {
                               InventSearch(e);
                             }}
@@ -1139,9 +1150,7 @@ const Inventory = () => {
                           { "is-invalid": errors2.Scategory }
                         )}
                         name="Scategory"
-                        {...register2("Scategory", {
-                          required: "category is Required*",
-                        })}
+                        {...register2("Scategory")}
                         onChange={(e) => NewSubCategory(e)}
                       >
                         <option value="">Select Category</option>
@@ -1165,7 +1174,7 @@ const Inventory = () => {
                         {...register2("SsubCategory")}
                       >
                         <option value="">Select Sub Category</option>
-                        {(subCategories || []).map((item, index) => (
+                        {(subCategories || [])?.map((item, index) => (
                           <option value={item.subcategories?._id} key={index}>
                             {item.subcategories?.subCategoryName}
                           </option>
@@ -1181,7 +1190,9 @@ const Inventory = () => {
                         )}
                         aria-label="Default select example"
                         name="Sbrands"
-                        {...register2("Sbrands")}
+                        {...register2("Sbrands", {
+                          required: "Brands is Required*",
+                        })}
                       >
                         <option value="">Select Brands</option>
                         {(brands || [])?.map((item, index) => (
@@ -1206,6 +1217,7 @@ const Inventory = () => {
                               <th>S.No.</th>
                               <th>Product Name</th>
                               <th>Product Brand</th>
+                              <th>Product Category</th>
                               <th>Product Image</th>
                               <th>Status</th>
                               <th>Action</th>
@@ -1218,7 +1230,12 @@ const Inventory = () => {
                                   {(activePage - 1) * 20 + (index + 1)}.
                                 </td>
                                 <td className="border">{User?.unitName}</td>
-                                <td className="border">{User?.brand}</td>
+                                <td className="border">
+                                  {User?.brand?.brandName}
+                                </td>
+                                <td className="border">
+                                  {User?.category?.categoryName}
+                                </td>
                                 <td className="border">
                                   <img
                                     width={60}

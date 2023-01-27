@@ -21,7 +21,8 @@ const CategorySub = () => {
   const deleteBackImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
   const ViewCat = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/viewCategories`;
   const ViewSubCat = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/viewSubCategories`;
-
+  const catSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/searchCategory`;
+  const subCatSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/searchSubCategory`;
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
@@ -178,7 +179,28 @@ const CategorySub = () => {
         setMaxPage2(res?.data.results.totalPages);
       });
   };
-
+  const sorting = async (i) => {
+    await axios
+      .post(categoryApi, {
+        page: activePage,
+        sortBy: i,
+      })
+      .then((res) => {
+        let data = res?.data.results.categories;
+        setAllCategories(data);
+        setMaxPage(res?.data.results.allPages);
+      });
+    await axios
+      .post(SubCategoryApi, {
+        page: activePage,
+        sortBy: i,
+      })
+      .then((res) => {
+        let data = res?.data.results.subCategories;
+        setAllSubCategories(data);
+        setMaxPage(res?.data.results.allPages);
+      });
+  };
   const EditCategory = async (id) => {
     await axios.post(ViewCat + "/" + id).then((res) => {
       setEditCategories(res?.data.results.category);
@@ -273,9 +295,32 @@ const CategorySub = () => {
     });
   };
 
-  const sorting = () =>{
-    
-  }
+  const CategorySearch = async (e) => {
+    let string = e.target.value;
+    if (string !== "") {
+      await axios
+        .post(catSearch, {
+          search: e.target.value,
+        })
+        .then((res) => {
+          if (!res.error) {
+            setAllCategories(res?.data.results.categories);
+          }
+        });
+      await axios
+        .post(subCatSearch, {
+          search: e.target.value,
+        })
+        .then((res) => {
+          if (!res.error) {
+            setAllSubCategories(res?.data.results.subCategories);
+          }
+        });
+    } else {
+      getCategories();
+      getSubCategories();
+    }
+  };
 
   const deleteCatImage = async () => {
     await axios
@@ -699,8 +744,10 @@ const CategorySub = () => {
                         className="form-control bg-white h-50"
                         placeholder="Search"
                         name="name"
-                        id="name"
-                       
+                        id="Search"
+                        onChange={(e) => {
+                          CategorySearch(e);
+                        }}
                       />
                     </div>
                   </form>
@@ -719,7 +766,7 @@ const CategorySub = () => {
                           <a>
                             <Link
                               className="text-decoration-none "
-                              onClick={() => sorting()}
+                              onClick={() => sorting(1)}
                             >
                               A to Z
                             </Link>
@@ -727,7 +774,7 @@ const CategorySub = () => {
                           <a>
                             <Link
                               className="text-decoration-none"
-                              onClick={() => sorting()}
+                              onClick={() => sorting(-1)}
                             >
                               Z to A
                             </Link>
@@ -757,6 +804,10 @@ const CategorySub = () => {
                             role="tab"
                             aria-controls="nav-home"
                             aria-selected="true"
+                            onClick={() => {
+                              document.getElementById("Search").value = "";
+                              getCategories();
+                            }}
                           >
                             Category
                           </button>
@@ -769,6 +820,10 @@ const CategorySub = () => {
                             role="tab"
                             aria-controls="nav-profile"
                             aria-selected="false"
+                            onClick={() => {
+                              document.getElementById("Search").value = "";
+                              getSubCategories();
+                            }}
                           >
                             Sub Category
                           </button>
@@ -884,10 +939,7 @@ const CategorySub = () => {
                                       <tbody>
                                         {(allCategories || []).map(
                                           (item, index) => (
-                                            <tr
-                                              className=""
-                                              key={index}
-                                            >
+                                            <tr className="" key={index}>
                                               <td className="border">
                                                 {" "}
                                                 {(activePage - 1) * 15 +
@@ -897,7 +949,9 @@ const CategorySub = () => {
                                               <td className="border">
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
-                                              <td className="border">{item?.categoryName}</td>
+                                              <td className="border">
+                                                {item?.categoryName}
+                                              </td>
 
                                               <td className="border">
                                                 <img
@@ -1120,7 +1174,9 @@ const CategorySub = () => {
                                                     ?.categoryName
                                                 }
                                               </td>
-                                              <td className="border">{item?.subCategoryName}</td>
+                                              <td className="border">
+                                                {item?.subCategoryName}
+                                              </td>
                                               <td className="border">
                                                 <img
                                                   className="subCatImages"

@@ -35,7 +35,8 @@ const SignUp = () => {
       const formData = new FormData();
       formData.append("companyName", data?.companyName?.trim());
       formData.append("dba", data?.dba?.trim());
-      formData.append("addressLine", data?.addressLine?.trim());
+      formData.append("addressLine1", data?.addressLine1?.trim());
+      formData.append("addressLine2", data?.addressLine2?.trim());
       formData.append("city", data?.city?.trim());
       formData.append("state", data?.state);
       formData.append("zipcode", data?.zipcode?.trim());
@@ -55,7 +56,7 @@ const SignUp = () => {
 
       await axios.post(apiUrl, formData).then((response) => {
         if (response?.data.message === "Registered Successfully") {
-          setLoader(false)
+          setLoader(false);
           Swal.fire({
             title: "Thanks You! Your Account Is Under Review.",
             text: "We will be reviewing your account.Please check your registered email.",
@@ -88,7 +89,8 @@ const SignUp = () => {
           setLoader(false);
 
           Swal.fire({
-            title: "First/Last Name cannot contain spaces/numbers/special characters!",
+            title:
+              "First/Last Name cannot contain spaces/numbers/special characters!",
             icon: "error",
             button: "Ok",
           });
@@ -199,18 +201,18 @@ const SignUp = () => {
                     type="text"
                     className={classNames(
                       "form-control  border border-secondary signup_fields",
-                      { "is-invalid": errors.addressLine }
+                      { "is-invalid": errors.addressLine1 }
                     )}
                     id="floatingAddrees1"
                     placeholder="name@example.com"
-                    name="addressLine"
-                    {...register("addressLine", {
+                    name="addressLine1"
+                    {...register("addressLine1", {
                       required: "Company Adrress Line1 is Required*",
                     })}
                   />
-                  {errors.addressLine && (
+                  {errors.addressLine1 && (
                     <small className="errorText mx-1 fw-bold">
-                      {errors.addressLine?.message}
+                      {errors.addressLine1?.message}
                     </small>
                   )}
                   <label htmlFor="floatingAddress1" className="mx-2 fw-bolder">
@@ -222,7 +224,8 @@ const SignUp = () => {
                     type="text"
                     className="form-control  border border-secondary signup_fields"
                     id="floatingAddress2"
-                    placeholder="dds"
+                    name="addressLine2"
+                    {...register("addressLine2")}
                   />
                   <label htmlFor="floatingAddress2" className="mx-2 fw-bolder">
                     Company Address line 2

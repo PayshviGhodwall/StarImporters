@@ -24,7 +24,7 @@ function AppCheckout() {
     if(delevryChoice == "Shipment"){
       await axios.post(newOrder,{
         type:"Shipment",
-        address:users?.addressLine[0] + users?.addressLine[1]
+        address:users?.addressLine1 + users?.addressLine2
         
        }).then((res)=>{
         if (!res.error) {
@@ -35,7 +35,7 @@ function AppCheckout() {
     else if(delevryChoice == "Delivery") {
       await axios.post(newOrder,{
         type:"Delivery",
-        address:users?.addressLine[0] + users?.addressLine[1]
+        address:users?.addressLine1 + users?.addressLine2
         
 
        }).then((res)=>{
@@ -47,7 +47,7 @@ function AppCheckout() {
     else if(delevryChoice == "In-Store Pickup") {
       await axios.post(newOrder,{
         type:"In-Store Pickup",
-        address:users?.addressLine[0] + users?.addressLine[1]
+        address:users?.addressLine1 + users?.addressLine2
 
        }).then((res)=>{
         if (!res.error) {
@@ -109,7 +109,7 @@ function AppCheckout() {
                         <span className="mt-0">Shipping Address</span>
                       </div>
                       <div class="data-content">
-                        {users?.addressLine +
+                        {users?.addressLine1 +
                           "," +
                           users?.state +
                           "-" +

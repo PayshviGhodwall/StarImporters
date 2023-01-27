@@ -56,15 +56,14 @@ const ProductByBrand = () => {
       .post(getProduct, {
         brand: location.state?.name,
         sortBy: sortValue,
+        page: activePage,
       })
       .then((res) => {
-        setProducts(res.data?.results);
+        setProducts(res.data?.results.products);
+        setMaxPage(res.data?.results.totalPages);
       });
   };
-  const clearFilters = (e) => {
-    e.preventDefault();
-    window.location.reload(false);
-  };
+
 
   // const addToFav = async (index) => {
   //   await axios.post(addFav, {
@@ -144,7 +143,7 @@ const ProductByBrand = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(1)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -158,7 +157,7 @@ const ProductByBrand = () => {
                               id="radio4"
                               name="radio1"
                               value="0"
-                              onChange={(e) => setSortValue(e.target.value)}
+                              onChange={(e) => setSortValue(-1)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -174,7 +173,8 @@ const ProductByBrand = () => {
                     <div className="col-6">
                       <button
                         className="d-block comman_btn text-center"
-                        onClick={clearFilters}
+                        type="reset"
+                        onClick={getProducts()}
                       >
                         Clear All
                       </button>

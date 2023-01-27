@@ -4,7 +4,6 @@ import Navbar from "../Homepage/Navbar";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
 
-
 const Address = () => {
   const [users, setUsers] = useState();
   useEffect(() => {
@@ -52,7 +51,7 @@ const Address = () => {
 
       <div className="myaccount mb-4 ">
         <div className="container-lg position-relative">
-         <Profile/>
+          <Profile />
         </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
@@ -80,10 +79,7 @@ const Address = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div
-                      className="nav px-3 py-2 border   "
-                      role="tablist"
-                    >
+                    <div className="nav px-3 py-2 border   " role="tablist">
                       <h4 className="">
                         <i className="fas fa-file mt-1" />
                         <span className="fs-6 mx-2">MY QUOTATIONS</span>
@@ -95,7 +91,10 @@ const Address = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div className="nav-active  text-white px-3 py-2 border" role="tablist">
+                    <div
+                      className="nav-active  text-white px-3 py-2 border"
+                      role="tablist"
+                    >
                       <h4 className="">
                         <i className="fa fa-map-signs" />
                         <span className="fs-6 mx-2">ADDRESS BOOK</span>
@@ -162,7 +161,9 @@ const Address = () => {
                       <span>Address :</span>
                       <h2>{users?.firstName}</h2>
                       <p className="mb-0">
-                      {users?.addressLine}
+                        {users?.addressLine1}
+                        <br />
+                        {users?.addressLine2}
                       </p>
                     </div>
                   </div>
@@ -172,7 +173,7 @@ const Address = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

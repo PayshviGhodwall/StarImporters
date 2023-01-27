@@ -28,7 +28,7 @@ const Checkout = () => {
       await axios
         .post(newOrder, {
           type: "Shipment",
-          address: users?.addressLine[0] + users?.addressLine[1],
+          address: users?.addressLine1 + users?.addressLine2,
         })
         .then((res) => {
           if (!res.error) {
@@ -48,7 +48,7 @@ const Checkout = () => {
       await axios
         .post(newOrder, {
           type: "Delivery",
-          address: users?.addressLine[0] + users?.addressLine[1],
+          address: users?.addressLine1 + users?.addressLine2,
         })
         .then((res) => {
           if (!res.error) {
@@ -69,7 +69,7 @@ const Checkout = () => {
       await axios
         .post(newOrder, {
           type: "In-Store Pickup",
-          address: users?.addressLine[0] + users?.addressLine[1],
+          address: users?.addressLine1 + users?.addressLine2,
         })
         .then((res) => {
           if (!res.error) {
@@ -211,7 +211,7 @@ const Checkout = () => {
                     <span>Address :</span>
                     <h2>{users?.firstName}</h2>
                     <p className="mb-0">
-                      {users?.addressLine[0] +
+                      {users?.addressLine1 +
                         "," +
                         users?.city +
                         "," +

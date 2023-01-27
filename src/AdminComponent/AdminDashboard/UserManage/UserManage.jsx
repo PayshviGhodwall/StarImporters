@@ -677,7 +677,7 @@ const UserManage = () => {
                               className="form-control bg-white"
                               placeholder="Search"
                               name="name"
-                              id="name"
+                              id="Search"
                               onChange={(e) => {
                                 userSearch(e);
                               }}
@@ -735,6 +735,10 @@ const UserManage = () => {
                               role="tab"
                               aria-controls="nav-home"
                               aria-selected="true"
+                              onClick={() => {
+                                getPendingUser();
+                                document.getElementById("Search").value = "";
+                              }}
                             >
                               Pending{" "}
                               <span className="circle_count">
@@ -751,6 +755,11 @@ const UserManage = () => {
                               role="tab"
                               aria-controls="nav-approve"
                               aria-selected="false"
+                              onClick={() => {
+                                document.getElementById("Search").value = "";
+
+                                getApprovedUser();
+                              }}
                             >
                               Approved{" "}
                               <button className="circle_count">
@@ -766,6 +775,10 @@ const UserManage = () => {
                               role="tab"
                               aria-controls="nav-return"
                               aria-selected="false"
+                              onClick={() => {
+                                getRejectedUser();
+                                document.getElementById("Search").value = "";
+                              }}
                             >
                               Returned{" "}
                               <span className="circle_count">

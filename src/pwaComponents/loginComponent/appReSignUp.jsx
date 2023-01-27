@@ -47,8 +47,8 @@ function AppReSignUp() {
       defaultValues.email = data.results.email;
       defaultValues.companyName = data.results.companyName;
       defaultValues.dba = data.results.dba;
-      defaultValues.addressLine = data.results.addressLine;
       defaultValues.addressLine1 = data.results.addressLine1;
+      defaultValues.addressLine2 = data.results.addressLine2;
       defaultValues.city = data.results.city;
       defaultValues.state = data.results.state;
       defaultValues.zipcode = data.results.zipcode;
@@ -220,18 +220,18 @@ function AppReSignUp() {
                       </label>
                       <input
                         className={
-                          reData.addressLine
+                          reData.addressLine1
                             ? "form-control"
                             : "form-control error-bottom"
                         }
                         type="text"
                         placeholder=""
-                        name="addressLine"
+                        name="addressLine1"
                         id="addressLine"
-                        {...register("addressLine", { required: true })}
+                        {...register("addressLine1", { required: true })}
                       />
 
-                      {errors?.addressLine && (
+                      {errors?.addressLine1 && (
                         <p className="form-error mt-1">
                           This field is required
                         </p>
@@ -244,18 +244,18 @@ function AppReSignUp() {
                       </label>
                       <input
                         className={
-                          reData.addressLine1
+                          reData.addressLine2
                             ? "form-control"
                             : "form-control error-bottom"
                         }
                         type="text"
                         placeholder=""
-                        name="addressLine1"
+                        name="addressLine2"
                         id="addressLine1"
-                        {...register("addressLine1", { required: false })}
+                        {...register("addressLine2", { required: false })}
                       />
 
-                      {errors?.addressLine1 && (
+                      {errors?.addressLine2 && (
                         <p className="form-error mt-1">
                           This field is required
                         </p>
@@ -476,8 +476,7 @@ function AppReSignUp() {
                         }
                         id="p-1"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 1)}
                       />
@@ -493,8 +492,7 @@ function AppReSignUp() {
                         }
                         id="p-2"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 2)}
                       />
@@ -510,8 +508,7 @@ function AppReSignUp() {
                         }
                         id="p-3"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 3)}
                       />
@@ -527,8 +524,7 @@ function AppReSignUp() {
                         }
                         id="p-4"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 4)}
                       />
@@ -553,8 +549,7 @@ function AppReSignUp() {
                         }
                         id="p-5"
                         type="file"
-                        accept= "image/jpeg,image/png,application/pdf,image/x-eps"
-
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         placeholder=""
                         onChange={(e) => onFileSelection(e.target.files, 5)}
                       />

@@ -69,15 +69,6 @@ const FeaturedProducts = () => {
                   {(products || [{}])?.map((item, index) => (
                     <div className="col-xl-3 col-lg-3 col-md-3" key={index}>
                       <div className="product_parts_box">
-                        {/* <Link
-                          className="text-decoration-none"
-                          to={{
-                            pathname: "/AllProducts/Product",
-                            search: "",
-                            hash: "",
-                          }}
-                          state={{ id: item?.products?._id }}
-                        > */}
                         <div className="partsproduct_img">
                           <img
                             src={

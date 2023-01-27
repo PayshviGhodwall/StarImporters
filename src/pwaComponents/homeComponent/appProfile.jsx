@@ -81,7 +81,8 @@ function AppProfile() {
                       <span>Shipping Address</span>
                     </div>
                     <div className="data-content">
-                      {detail?.addressLine?.join(" ")}
+                      {detail?.addressLine1}
+                      {detail?.addressLine2}
                     </div>
                   </div>
                   <div className="single-profile-data d-flex align-items-center justify-content-between">
