@@ -30,7 +30,7 @@ export const colourOptions = [
     value: "Category Sub-Category Management",
     label: "Category & Sub Category",
   },
-  { value: "Brands Maanagement", label: "Brands Management" },
+  { value: "Brands Management", label: "Brands Management" },
   { value: "Inventory Management", label: "Inventory Management" },
   { value: "Orders Request", label: "Order Request" },
   { value: "CMS", label: "CMS" },
@@ -92,9 +92,9 @@ const SubAdmin = () => {
             confirmButtonText: "ok",
           });
         }
-        if (res?.data?.message === "please provide access") {
+        if (res?.data?.error) {
           Swal.fire({
-            title: "Select Any Module",
+            title: res?.data.message,
             icon: "error",
             confirmButtonText: "ok",
           });
@@ -102,7 +102,6 @@ const SubAdmin = () => {
       })
       .catch((err) => {
         if (err) {
-          console.log(err);
           Swal.fire({
             title: err.response?.data?.message,
             text: "",
@@ -164,7 +163,7 @@ const SubAdmin = () => {
     if (!data?.error) {
       getSubAdmins();
       Swal.fire({
-        title: " Buyer Status Changed!",
+        title: " Admin Status Changed!",
         icon: "success",
         confirmButtonText: "Ok",
       });
@@ -176,7 +175,7 @@ const SubAdmin = () => {
       let adminData = res?.data.results?.subAdmin;
       console.log(adminData);
       setEditView(adminData);
-      setSelectEditOptions( {
+      setSelectEditOptions({
         optionSelected: adminData?.access?.map((item) => ({
           label: item,
           value: item,
@@ -717,7 +716,7 @@ const SubAdmin = () => {
                                   </ol>
                                 </td>
 
-                                <td className=" border">
+                                <td className=" border" key={item?.status}>
                                   {" "}
                                   <div className="">
                                     <label class="switchUser">
@@ -784,7 +783,7 @@ const SubAdmin = () => {
                 onClick={() => setSelectEditOptions(null)}
               />
             </div>
-            <div className="modal-body shadow">
+            <div className="modal-body shadow" key={EditView?.fullName}>
               <form className="form-design row p-2" action="">
                 <div className="form-group col-6 w-50 ">
                   <label htmlFor="">Sub-Admin Name </label>

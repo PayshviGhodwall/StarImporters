@@ -608,11 +608,11 @@ const AddUser = () => {
                             },
                           })}
                         />
-                        {errors.companyName && (
-                          <small className="errorText mx-1 fw-bold">
-                            {errors.companyName?.message}
-                          </small>
-                        )}
+                          {errors.companyName && (
+                            <small className="errorText mx-1 fw-bold">
+                              {errors.companyName?.message}
+                            </small>
+                          )}
                       </div>
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="DBA" className="fw-bold fs-6">

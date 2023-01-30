@@ -257,7 +257,7 @@ const Inventory = () => {
         .post(inventorySort, {
           category: data?.Scategory,
           subCategory: data?.SsubCategory,
-          brands: data?.Sbrands,
+          brand: data?.Sbrands,
         })
         .then((res) => {
           let data = res?.data.results.products;
@@ -841,9 +841,9 @@ const Inventory = () => {
                         })}
                       >
                         <option value="">Select Sub Category</option>
-                        {(subCategories || [])?.map((item, index) => (
-                          <option value={item.subcategories?._id} key={index}>
-                            {item.subcategories?.subCategoryName}
+                        {subCategories?.map((item, index) => (
+                          <option value={item?.subcategories?._id} key={index}>
+                            {item?.subcategories?.subCategoryName}
                           </option>
                         ))}
                       </select>
@@ -1290,58 +1290,60 @@ const Inventory = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                        <span className="totalPage">
-                          ( Total Pages : {maxPage} )
-                        </span>
-                        <ul id="pagination">
-                          <li>
-                            <a
-                              class="fs-5"
-                              href="#"
-                              onClick={() =>
-                                activePage <= 1
-                                  ? setActivePage(1)
-                                  : setActivePage(activePage - 1)
-                              }
-                            >
-                              «
-                            </a>
-                          </li>
+                      {allProducts?.length ? (
+                        <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                          <span className="totalPage">
+                            ( Total Pages : {maxPage} )
+                          </span>
+                          <ul id="pagination">
+                            <li>
+                              <a
+                                class="fs-5"
+                                href="#"
+                                onClick={() =>
+                                  activePage <= 1
+                                    ? setActivePage(1)
+                                    : setActivePage(activePage - 1)
+                                }
+                              >
+                                «
+                              </a>
+                            </li>
 
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#" className="active">
-                              {activePage}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
-                          <li>
-                            <a href="#">.</a>
-                          </li>
+                            <li>
+                              <a href="#">.</a>
+                            </li>
+                            <li>
+                              <a href="#">.</a>
+                            </li>
+                            <li>
+                              <a href="#" className="active">
+                                {activePage}
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">.</a>
+                            </li>
+                            <li>
+                              <a href="#">.</a>
+                            </li>
 
-                          <li>
-                            <a
-                              className="fs-5"
-                              href="#"
-                              onClick={() =>
-                                activePage === maxPage
-                                  ? setActivePage(maxPage)
-                                  : setActivePage(activePage + 1)
-                              }
-                            >
-                              »
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                            <li>
+                              <a
+                                className="fs-5"
+                                href="#"
+                                onClick={() =>
+                                  activePage === maxPage
+                                    ? setActivePage(maxPage)
+                                    : setActivePage(activePage + 1)
+                                }
+                              >
+                                »
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>

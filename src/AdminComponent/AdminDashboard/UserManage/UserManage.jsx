@@ -848,7 +848,7 @@ const UserManage = () => {
                                               {User?.city}
                                             </td>
                                             <td className="border">
-                                              {User?.addressLine1?.slice(0, 10)}
+                                              {User?.addressLine1?.slice(0, 15)}
                                               ....
                                             </td>
                                             <td className="border">
@@ -989,7 +989,7 @@ const UserManage = () => {
                                               <td className="border">
                                                 {User?.addressLine1?.slice(
                                                   0,
-                                                  10
+                                                  15
                                                 )}
                                                 ....
                                               </td>
@@ -1197,7 +1197,7 @@ const UserManage = () => {
                                               {User?.city}
                                             </td>
                                             <td className="border">
-                                              {User?.addressLine1?.slice(0, 10)}
+                                              {User?.addressLine1?.slice(0, 15)}
                                               ....
                                             </td>
                                             <td className="border">
