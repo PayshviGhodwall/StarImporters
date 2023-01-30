@@ -251,17 +251,24 @@ const Inventory = () => {
       });
   };
   const onSearch = async (data) => {
-    console.log(data);
-    await axios
-      .post(inventorySort, {
-        category: data?.Scategory,
-        subCategory: data?.SsubCategory,
-        brands: data?.Sbrands,
-      })
-      .then((res) => {
-        let data = res?.data.results.products;
-        setAllProducts(data);
+    if (data?.Scategory || data?.Sbrands || data?.SsubCategory) {
+      console.log(data);
+      await axios
+        .post(inventorySort, {
+          category: data?.Scategory,
+          subCategory: data?.SsubCategory,
+          brands: data?.Sbrands,
+        })
+        .then((res) => {
+          let data = res?.data.results.products;
+          setAllProducts(data);
+        });
+    } else {
+      Swal.fire({
+        title: "Please Select search keys.",
+        icon: "warning",
       });
+    }
   };
 
   function handleKeyDown(i, e) {
@@ -1190,9 +1197,7 @@ const Inventory = () => {
                         )}
                         aria-label="Default select example"
                         name="Sbrands"
-                        {...register2("Sbrands", {
-                          required: "Brands is Required*",
-                        })}
+                        {...register2("Sbrands")}
                       >
                         <option value="">Select Brands</option>
                         {(brands || [])?.map((item, index) => (
@@ -1218,11 +1223,13 @@ const Inventory = () => {
                               <th>Product Name</th>
                               <th>Product Brand</th>
                               <th>Product Category</th>
+                              <th>Product Sub-Category</th>
                               <th>Product Image</th>
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
+
                           <tbody>
                             {(allProducts || [])?.map((User, index) => (
                               <tr key={index} className="">
@@ -1235,6 +1242,9 @@ const Inventory = () => {
                                 </td>
                                 <td className="border">
                                   {User?.category?.categoryName}
+                                </td>
+                                <td className="border">
+                                  {User?.subCategory?.subCategoryName}
                                 </td>
                                 <td className="border">
                                   <img
