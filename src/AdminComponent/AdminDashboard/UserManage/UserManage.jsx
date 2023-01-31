@@ -70,11 +70,12 @@ const UserManage = () => {
           })
           .then((res) => {
             if (!res.error) {
-              setApprovedUsers(res?.data.results);
+              setApprovedUsers(res?.data.results.users);
             }
           })
       : getApprovedUser();
   };
+
   const sorting = async (i) => {
     await axios
       .post(apiUrl, {
