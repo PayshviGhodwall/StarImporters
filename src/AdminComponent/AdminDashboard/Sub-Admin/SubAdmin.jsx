@@ -705,7 +705,7 @@ const SubAdmin = () => {
                                   {(activePage - 1) * 20 + (index + 1)}.
                                 </td>
                                 <td className="border">
-                                  {item?.createdAt?.slice(1, 10)}
+                                  {item?.createdAt?.slice(0, 10)}
                                 </td>
                                 <td className="border">{item?.fullName}</td>
                                 <td className=" border ">
