@@ -32,7 +32,7 @@ const Inventory = () => {
   const [sideBar, setSideBar] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState();
+  const [subCategories, setSubCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [change, setChange] = useState();
   const importInput = document.getElementById("fileID");
@@ -101,6 +101,7 @@ const Inventory = () => {
         setMaxPage(res?.data.results.allPages);
       });
   };
+  console.log(subCategories);
   const sorting = async (i) => {
     await axios
       .post(getProducts, {
@@ -841,7 +842,7 @@ const Inventory = () => {
                         })}
                       >
                         <option value="">Select Sub Category</option>
-                        {subCategories?.map((item, index) => (
+                        {(subCategories || [])?.map((item, index) => (
                           <option value={item?.subcategories?._id} key={index}>
                             {item?.subcategories?.subCategoryName}
                           </option>
@@ -1160,7 +1161,7 @@ const Inventory = () => {
                         {...register2("Scategory")}
                         onChange={(e) => NewSubCategory(e)}
                       >
-                        <option value="">Select Category</option>
+                        <option >Select Category</option>
 
                         {categories?.map((item, index) => (
                           <option value={item?._id} key={index}>
