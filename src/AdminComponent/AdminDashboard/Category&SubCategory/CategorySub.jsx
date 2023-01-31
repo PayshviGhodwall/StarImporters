@@ -1169,10 +1169,10 @@ const CategorySub = () => {
                                                 {item?.updatedAt?.slice(0, 10)}
                                               </td>
                                               <td className="border">
-                                                {
-                                                  item.categoryName
-                                                    ?.categoryName
-                                                }
+                                                {item?.category?.categoryName
+                                                  ? item?.category?.categoryName
+                                                  : item?.categoryName
+                                                      ?.categoryName}
                                               </td>
                                               <td className="border">
                                                 {item?.subCategoryName}

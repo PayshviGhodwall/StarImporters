@@ -1222,9 +1222,9 @@ const Inventory = () => {
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
                               <th>Product Name</th>
-                              <th>Product Brand</th>
-                              <th>Product Category</th>
-                              <th>Product Sub-Category</th>
+                              <th>Brand</th>
+                              <th>Category</th>
+                              <th>Sub-Category</th>
                               <th>Product Image</th>
                               <th>Status</th>
                               <th>Action</th>
