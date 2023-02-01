@@ -142,11 +142,13 @@ const FeaturedProducts = () => {
                         <li>
                           <a
                             class="fs-6 control"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
                               activePage <= 1
                                 ? setActivePage(1)
-                                : setActivePage(activePage - 1)
-                            }
+                                : setActivePage(activePage - 1);
+                            }}
                           >
                             « previous
                           </a>
@@ -159,11 +161,13 @@ const FeaturedProducts = () => {
                         <li>
                           <a
                             className="fs-6"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
                               activePage === maxPage
                                 ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1)
-                            }
+                                : setActivePage(activePage + 1);
+                            }}
                           >
                             next »
                           </a>

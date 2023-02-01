@@ -1715,7 +1715,7 @@
     opacity: 0.6;
   }
   .width_adjust {
-    width: 28%;
+    width: 20%;
     margin-top: 38px !important;
   }
   .filter_design {
@@ -1839,7 +1839,7 @@
     opacity: 0;
   }
   .width_adjust_right {
-    width: 62%;
+    width: 70%;
   }
   .Paginate {
     display: flex;
@@ -3510,9 +3510,7 @@
     margin: 0;
   }
 
-  .width_adjust {
-    width: 28%;
-  }
+  
   .breadcrumb li {
     font-weight: 500;
     display: flex;

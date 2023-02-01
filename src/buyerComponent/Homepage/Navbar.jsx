@@ -49,7 +49,7 @@ const Navbar = ({ NState, LoginState }) => {
       setProducts(data.results.slice(0, 6));
     }
   };
-
+  console.log(products);
   const handleOutsideClick = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setSearch();
@@ -140,6 +140,7 @@ const Navbar = ({ NState, LoginState }) => {
                     }}
                     // type="search"
                     id="search"
+                    type="search"
                     name="search"
                     class="form-control shadow-none"
                     placeholder="Search in Star Importers"

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const ProductByBrand = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByBrands`;
+  const getProductData = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByBrands`;
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   // const [brandName, setBrandName] = useState();
@@ -18,18 +18,11 @@ const ProductByBrand = () => {
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  // const ProductFilter = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getAllProducts`;
-  // const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
-  // const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-
-  const [heart, setHeart] = useState(false);
-  // const [subCategoryName, setSubCategoryName] = useState();
-
+  const [chnge, setChnge] = useState(false);
   useEffect(() => {
     GetBrands();
     getProducts();
-  }, [location, heart]);
-
+  }, [chnge]);
   const GetBrands = async () => {
     await axios
       .get(getBrands, {
@@ -41,7 +34,7 @@ const ProductByBrand = () => {
   };
   const getProducts = async () => {
     await axios
-      .post(getProduct, {
+      .post(getProductData, {
         brand: location.state?.name,
         page: activePage,
       })
@@ -53,7 +46,7 @@ const ProductByBrand = () => {
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
-      .post(getProduct, {
+      .post(getProductData, {
         brand: location.state?.name,
         sortBy: sortValue,
         page: activePage,
@@ -63,7 +56,6 @@ const ProductByBrand = () => {
         setMaxPage(res.data?.results.totalPages);
       });
   };
-
 
   // const addToFav = async (index) => {
   //   await axios.post(addFav, {
@@ -122,7 +114,7 @@ const ProductByBrand = () => {
       </section>
       <>
         <section className="product_single py-5 ">
-          <div className="container bg-white">
+          <div className="container bg-white border shadow">
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
                 <form className="product_single_left h-100 ">
@@ -174,17 +166,17 @@ const ProductByBrand = () => {
                       <button
                         className="d-block comman_btn text-center"
                         type="reset"
-                        onClick={getProducts()}
+                        onClick={() => setChnge(!chnge)}
                       >
                         Clear All
                       </button>
                     </div>
                     <div className="col-6">
                       <button
-                        onClick={filterProduct}
+                        onClick={() => filterProduct()}
                         className="d-block comman_btn2 text-center"
                       >
-                        Apply
+                        Apply Filter
                       </button>
                     </div>
                   </div>
@@ -193,8 +185,8 @@ const ProductByBrand = () => {
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
                   {(products || [])?.map((item, index) => (
-                    <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
-                      <div className="product_parts_box">
+                    <div className="col-xl-4 col-lg-6 col-md-6 " key={index}>
+                      <div className="product_parts_box ">
                         <div className="partsproduct_img">
                           <img
                             src={
@@ -291,11 +283,13 @@ const ProductByBrand = () => {
                         <li>
                           <a
                             class="fs-6 control"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              setChnge(!chnge);
                               activePage <= 1
                                 ? setActivePage(1)
-                                : setActivePage(activePage - 1)
-                            }
+                                : setActivePage(activePage - 1);
+                            }}
                           >
                             « previous
                           </a>
@@ -308,11 +302,13 @@ const ProductByBrand = () => {
                         <li>
                           <a
                             className="fs-6"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              setChnge(!chnge);
                               activePage === maxPage
                                 ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1)
-                            }
+                                : setActivePage(activePage + 1);
+                            }}
                           >
                             next »
                           </a>

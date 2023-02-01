@@ -6,9 +6,10 @@ const AgeVerification = ({ ModalClose }) => {
   const [err, setErr] = useState(false);
 
   const handleClick = (e) => {
-    var expires = new Date(Date.now() + 86400 * 4000).toUTCString();
+    var expires = new Date(Date.now() + 86400 * 50000).toUTCString();
+    console.log(expires);
     e.preventDefault();
-    document.cookie = "cookie=store; expires =" + expires + ";";
+    document.cookie = "cookie=NewUser; expires =" + expires + ";";
     ModalClose.click();
   };
 
@@ -35,9 +36,7 @@ const AgeVerification = ({ ModalClose }) => {
                 </button>
                 <a
                   className="comman_btn2 shadow mx-2"
-                  onClick={() => {
-                    window.close();
-                  }}
+                  href="https://www.google.co.in/"
                 >
                   Exit
                 </a>

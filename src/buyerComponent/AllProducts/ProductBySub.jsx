@@ -25,7 +25,11 @@ const ProductBySubCate = () => {
   useEffect(() => {
     getProducts();
     GetBrands();
-  }, [location, heart]);
+  }, [location, heart, activePage]);
+
+  useEffect(() => {
+    setActivePage(1);
+  }, [location]);
 
   const GetBrands = async () => {
     await axios
@@ -109,7 +113,7 @@ const ProductBySubCate = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      {location.state.name}
+                      {location?.state.name}
                     </li>
                   </ol>
                 </nav>
@@ -120,10 +124,10 @@ const ProductBySubCate = () => {
       </section>
       <>
         <section className="product_single py-5 ">
-          <div className="container bg-white">
+          <div className="container bg-white border border-top shadow">
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
-                <form className="product_single_left h-100 ">
+                <form className="product_single_left h-100 border rounded">
                   <PanelGroup bordered className="">
                     <Panel
                       header=" Product Brands "
@@ -238,7 +242,7 @@ const ProductBySubCate = () => {
                         onClick={filterProduct}
                         className="d-block comman_btn2 text-center"
                       >
-                        Apply
+                        Apply Filter
                       </button>
                     </div>
                   </div>
@@ -247,8 +251,8 @@ const ProductBySubCate = () => {
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-4">
                   {(products || [])?.map((item, index) => (
-                    <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
-                      <div className="product_parts_box">
+                    <div className="col-xl-4 col-lg-6 col-md-6 " key={index}>
+                      <div className="product_parts_box border rounded-top">
                         {/* <Link
                           className="text-decoration-none"
                           to={{
@@ -357,11 +361,13 @@ const ProductBySubCate = () => {
                         <li>
                           <a
                             class="fs-6 control"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
                               activePage <= 1
                                 ? setActivePage(1)
-                                : setActivePage(activePage - 1)
-                            }
+                                : setActivePage(activePage - 1);
+                            }}
                           >
                             « previous
                           </a>
@@ -374,11 +380,12 @@ const ProductBySubCate = () => {
                         <li>
                           <a
                             className="fs-6"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage === maxPage
                                 ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1)
-                            }
+                                : setActivePage(activePage + 1);
+                            }}
                           >
                             next »
                           </a>

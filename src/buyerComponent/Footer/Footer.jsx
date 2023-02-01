@@ -1,13 +1,7 @@
 import React from "react";
 import "../../assets/css/main.css";
-import { BsFacebook } from "react-icons/bs";
 import { AiFillTwitterCircle } from "react-icons/ai";
-import { FaInstagramSquare } from "react-icons/fa";
 import { AiFillLinkedin } from "react-icons/ai";
-import { BsFillRssFill } from "react-icons/bs";
-import { FiMapPin } from "react-icons/fi";
-import { ImMobile } from "react-icons/im";
-import { GoMail } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -167,7 +161,7 @@ const Footer = () => {
               <div className="col-md-6">
                 <ul className="footer_payment text-center text-lg-end mb-0">
                   <li>
-                    <Link className="text-decoration-none" to="/">
+                    <Link className="text-decoration-none">
                       <img
                         src={require("../../assets/img/visa.png")}
                         alt="visa"
@@ -175,7 +169,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to="/">
+                    <Link className="text-decoration-none">
                       <img
                         src={require("../../assets/img/discover.png")}
                         alt="discover"
@@ -183,7 +177,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="text-decoration-none" to="/">
+                    <Link className="text-decoration-none">
                       <img
                         src={require("../../assets/img/master_card.png")}
                         alt="master_card"
@@ -191,7 +185,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/">
+                    <Link >
                       <img
                         src={require("../../assets/img/paypal.png")}
                         alt="paypal"
@@ -199,7 +193,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/">
+                    <Link>
                       <img
                         src={require("../../assets/img/amarican_express.png")}
                         alt="amarican_express"

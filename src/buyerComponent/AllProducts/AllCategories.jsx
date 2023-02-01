@@ -71,7 +71,7 @@ const AllCategories = () => {
                         }}
                         state={{ name: item?.categoryName }}
                       >
-                        <img src={item?.categoryImage} alt="" />
+                        <img src={item?.categoryImage} width={150} alt="" />
                       </Link>
 
                     </li>

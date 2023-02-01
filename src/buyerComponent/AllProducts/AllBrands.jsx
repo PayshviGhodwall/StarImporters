@@ -7,7 +7,7 @@ import Footer from "../Footer/Footer";
 
 const AllBrands = () => {
   const [brands, setBrands] = useState([]);
-  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`
+  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
 
   useEffect(() => {
     GetBrands();
@@ -60,19 +60,15 @@ const AllBrands = () => {
                 <ul class="brands_ul list-unstyled mb-0">
                   {(brands || [])?.map((item, index) => (
                     <li key={index}>
-                      <Link 
-                      to={{
-                        pathname: "/Brands/Products",
-                        search: "",
-                        hash: "",
-                      }}
-                      state={{name:item?.brandName}}
-                      
+                      <Link
+                        to={{
+                          pathname: "/Brands/Products",
+                          search: "",
+                          hash: "",
+                        }}
+                        state={{ name: item?.brandName }}
                       >
-                        <img
-                          src={item?.brandImage}
-                          alt=""
-                        />
+                        <img src={item?.brandImage} alt="" width={150} />
                       </Link>
                     </li>
                   ))}
@@ -82,7 +78,7 @@ const AllBrands = () => {
           </div>
         </section>
       </>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

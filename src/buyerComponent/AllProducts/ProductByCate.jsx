@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import backGround from "../../assets/img/banner_img2.jpg";
 const ProductByCate = () => {
   const location = useLocation();
   const [sortValue, setSortValue] = useState();
@@ -94,7 +95,11 @@ const ProductByCate = () => {
       <Navbar />
       <section
         className="comman_banner _banner marginTop"
-        style={{ backgroundImage: `url(${location?.state.image})` }}
+        style={{
+          backgroundImage: `url(${
+            location?.state.image ? location?.state.image : backGround
+          })`,
+        }}
       >
         <div className="container">
           <div className="row">
@@ -123,10 +128,10 @@ const ProductByCate = () => {
       </section>
       <>
         <section className="product_single py-5 ">
-          <div className="container bg-white">
+          <div className="container bg-white border border-top shadow">
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
-                <form className="product_single_left h-100 ">
+                <form className="product_single_left h-100 border rounded">
                   <PanelGroup bordered className="">
                     <Panel
                       header=" Product Brands "
@@ -362,11 +367,12 @@ const ProductByCate = () => {
                         <li>
                           <a
                             class="fs-6 control"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top:0, behavior: "smooth" });
                               activePage <= 1
                                 ? setActivePage(1)
-                                : setActivePage(activePage - 1)
-                            }
+                                : setActivePage(activePage - 1);
+                            }}
                           >
                             « previous
                           </a>
@@ -379,11 +385,12 @@ const ProductByCate = () => {
                         <li>
                           <a
                             className="fs-6"
-                            onClick={() =>
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage === maxPage
                                 ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1)
-                            }
+                                : setActivePage(activePage + 1);
+                            }}
                           >
                             next »
                           </a>

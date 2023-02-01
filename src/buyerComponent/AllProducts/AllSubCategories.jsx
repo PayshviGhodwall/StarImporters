@@ -87,6 +87,7 @@ const SubCategories = () => {
                               : require("./../../assets/img/product.jpg")
                           }
                           alt=""
+                          width={150}
                         />
                       </Link>
                     </li>
