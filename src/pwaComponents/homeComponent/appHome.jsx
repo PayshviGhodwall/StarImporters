@@ -121,7 +121,7 @@ function AppHome() {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
-      if (Dd) {
+      if (Dd?.length) {
         navigate("/app/product-by-search", { state: { search: Dd } });
       }
     }
@@ -141,13 +141,13 @@ function AppHome() {
   return (
     <>
       <div className="star_imp_app">
-        <div >
+        <div>
           <AppHeader />
         </div>
         <div className="page-content-wrapper">
           <div className="container">
             <div className="search-form pt-3 rtl-flex-d-row-r">
-              <form onSubmit={() => searchProduct()}>
+              <form>
                 <input
                   className="form-control "
                   type="search"
@@ -157,7 +157,7 @@ function AppHome() {
                     setSearch(e.target.value);
                   }}
                 />
-                <button type="submit" className="me-5">
+                <button onClick={searchProduct} className="me-5">
                   <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <button type="reset" id="resetBtn" className="d-none">
