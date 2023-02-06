@@ -332,7 +332,7 @@ const UserManage = () => {
                   </li>
                   <li
                     className={
-                      User?.access?.includes("Brands Maanagement")
+                      User?.access?.includes("Brands Management")
                         ? ""
                         : "d-none"
                     }

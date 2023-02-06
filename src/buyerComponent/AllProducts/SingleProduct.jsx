@@ -222,21 +222,15 @@ const SingleProduct = () => {
                       </Link>
                     </li>
                     <li className="item_nanner">
-                      <Link
-                        to="/app/subCategories"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                      <a className="text-decoration-none text-white fs-6  ">
                         {product?.category?.categoryName}{" "}
                         <span className="arrow mx-1">&#62;</span>{" "}
-                      </Link>
+                      </a>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
-                      >
+                      <a className="text-decoration-none text-white fs-6 mx-2">
                         {product?.unitName}
-                      </Link>
+                      </a>
                     </li>
                   </ol>
                 </nav>

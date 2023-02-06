@@ -46,12 +46,9 @@ const SubCategories = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to="/app/Categories"
-                        className="text-decoration-none text-white fs-6 "
-                      >
-                        All Sub-Categories{" "}
-                      </Link>
+                      <a className="text-decoration-none text-white fs-6 ">
+                        All Sub-Categories
+                      </a>
                     </li>
                   </ol>
                 </nav>

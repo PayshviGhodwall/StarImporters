@@ -264,7 +264,7 @@ const BrandsManage = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -546,184 +546,174 @@ const BrandsManage = () => {
               </div>
             </div>
             <div className="row category_management justify-content-center">
-            
-                  <div className="col-12 design_outter_comman recent_orders shadow">
-                    <div className="row">
-                      <div className="col-12 user-management-tabs px-0">
-                        <div className="row mx-0">
-                          <div className="col-12">
-                            <form
-                              className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                              action=""
+              <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="row">
+                  <div className="col-12 user-management-tabs px-0">
+                    <div className="row mx-0">
+                      <div className="col-12">
+                        <form
+                          className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                          action=""
+                        >
+                          <div className="form-group mb-0 col-5">
+                            <label htmlFor="">Brand Name</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="Brand"
+                              onChange={(e) => {
+                                setBrandName(e.target.value);
+                              }}
+                            />
+                          </div>
+                          <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                            <span>Brand Image </span>{" "}
+                            <label htmlFor="upload_video">
+                              <i class="fa fa-camera me-1"></i>
+                              Choose File
+                            </label>{" "}
+                            <input
+                              type="file"
+                              className="form-control "
+                              defaultValue=""
+                              accept="image/*"
+                              name="brandImg"
+                              id="upload_video"
+                              onChange={(e) => onFileSelection(e, "brandImg")}
+                            />
+                          </div>
+                          <div className="form-group mb-0 col-auto">
+                            <Button
+                              loading={loader}
+                              appearance="primary"
+                              style={{
+                                backgroundColor: "#eb3237",
+                                fontSize: "20px",
+                                position: "relative",
+                                top: "-2px",
+                              }}
+                              className="comman_btn"
+                              onClick={saveBrands}
                             >
-                              <div className="form-group mb-0 col-5">
-                                <label htmlFor="">Brand Name</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="Brand"
-                                  onChange={(e) => {
-                                    setBrandName(e.target.value);
-                                  }}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col choose_fileAdmin position-relative">
-                                <span>Brand Image </span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>{" "}
-                                <input
-                                  type="file"
-                                  className="form-control "
-                                  defaultValue=""
-                                  accept="image/*"
-                                  name="brandImg"
-                                  id="upload_video"
-                                  onChange={(e) =>
-                                    onFileSelection(e, "brandImg")
-                                  }
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-auto">
-                                <Button
-                                  loading={loader}
-                                  appearance="primary"
-                                  style={{
-                                    backgroundColor: "#eb3237",
-                                    fontSize: "20px",
-                                    position: "relative",
-                                    top: "-2px",
-                                  }}
-                                  className="comman_btn"
-                                  onClick={saveBrands}
-                                >
-                                  Save
-                                </Button>
-                                <button
-                                  className="comman_btn d-none"
-                                  id="resetBrand"
-                                  type="reset"
-                                >
-                                  Reset
-                                </button>
-                              </div>
-                            </form>
-                            <div className="row">
-                              <div className="col-12 comman_table_design px-0 ">
-                                <div className="table-responsive">
-                                  <table className="table mb-0">
-                                    <thead>
-                                      <tr
-                                        style={{
-                                          backgroundColor: "#f2f2f2",
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        <th>S.No.</th>
-                                        <th>Date</th>
-                                        <th>Brand Name</th>
-                                        <th>Media</th>
-                                        <th>Action</th>
+                              Save
+                            </Button>
+                            <button
+                              className="comman_btn d-none"
+                              id="resetBrand"
+                              type="reset"
+                            >
+                              Reset
+                            </button>
+                          </div>
+                        </form>
+                        <div className="row">
+                          <div className="col-12 comman_table_design px-0 ">
+                            <div className="table-responsive">
+                              <table className="table mb-0">
+                                <thead>
+                                  <tr
+                                    style={{
+                                      backgroundColor: "#f2f2f2",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    <th>S.No.</th>
+                                    <th>Date</th>
+                                    <th>Brand Name</th>
+                                    <th>Media</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {(allBrands || [])
+                                    .filter((item) => {
+                                      if (searchTerm == "") {
+                                        return item;
+                                      } else if (
+                                        item?.brandName
+                                          .toLowerCase()
+                                          .includes(searchTerm.toLowerCase())
+                                      ) {
+                                        return item;
+                                      }
+                                    })
+                                    .map((item, index) => (
+                                      <tr className="" key={index}>
+                                        <td>
+                                          {" "}
+                                          {(activePage - 1) * 15 + (index + 1)}.
+                                        </td>
+                                        <td>{item?.updatedAt.slice(0, 10)}</td>
+                                        <td>{item?.brandName}</td>
+                                        <td>
+                                          <img
+                                            className="subCatImages"
+                                            height={55}
+                                            src={item?.brandImage}
+                                          ></img>
+                                        </td>
+
+                                        <td>
+                                          <Link
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop "
+                                            className="comman_btn2 text-white text-decoration-none"
+                                            key={index}
+                                            onClick={() => {
+                                              onEditBrands(item?._id);
+                                            }}
+                                          >
+                                            Edit
+                                          </Link>
+                                        </td>
                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                      {(allBrands || [])
-                                        .filter((item) => {
-                                          if (searchTerm == "") {
-                                            return item;
-                                          } else if (
-                                            item?.brandName
-                                              .toLowerCase()
-                                              .includes(
-                                                searchTerm.toLowerCase()
-                                              )
-                                          ) {
-                                            return item;
-                                          }
-                                        })
-                                        .map((item, index) => (
-                                          <tr className="" key={index}>
-                                            <td>
-                                              {" "}
-                                              {(activePage - 1) * 15 +
-                                                (index + 1)}
-                                              .
-                                            </td>
-                                            <td>
-                                              {item?.updatedAt.slice(0, 10)}
-                                            </td>
-                                            <td>{item?.brandName}</td>
-                                            <td>
-                                              <img
-                                                className="subCatImages"
-                                                height={55}
-                                                src={item?.brandImage}
-                                              ></img>
-                                            </td>
+                                    ))}
+                                </tbody>
+                              </table>
+                              <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                <span className="totalPage">
+                                  ( Total Pages : {maxPage} )
+                                </span>
+                                <ul id="pagination">
+                                  <li>
+                                    <a
+                                      class="fs-5"
+                                      href="#"
+                                      onClick={() =>
+                                        activePage <= 1
+                                          ? setActivePage(1)
+                                          : setActivePage(activePage - 1)
+                                      }
+                                    >
+                                      «
+                                    </a>
+                                  </li>
 
-                                            <td>
-                                              <Link
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#staticBackdrop "
-                                                className="comman_btn2 text-white text-decoration-none"
-                                                key={index}
-                                                onClick={() => {
-                                                  onEditBrands(item?._id);
-                                                }}
-                                              >
-                                                Edit
-                                              </Link>
-                                            </td>
-                                          </tr>
-                                        ))}
-                                    </tbody>
-                                  </table>
-                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                                    <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
-                                    </span>
-                                    <ul id="pagination">
-                                      <li>
-                                        <a
-                                          class="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
-                                          }
-                                        >
-                                          «
-                                        </a>
-                                      </li>
+                                  <li>
+                                    <a href="#" className="active">
+                                      {activePage}
+                                    </a>
+                                  </li>
 
-                                      <li>
-                                        <a href="#" className="active">
-                                          {activePage}
-                                        </a>
-                                      </li>
-
-                                      <li>
-                                        <a
-                                          className="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
-                                          }
-                                        >
-                                          »
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
+                                  <li>
+                                    <a
+                                      className="fs-5"
+                                      href="#"
+                                      onClick={() =>
+                                        activePage === maxPage
+                                          ? setActivePage(maxPage)
+                                          : setActivePage(activePage + 1)
+                                      }
+                                    >
+                                      »
+                                    </a>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
                           </div>
-                       
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

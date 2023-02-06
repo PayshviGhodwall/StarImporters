@@ -490,7 +490,7 @@ const Inventory = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -850,62 +850,6 @@ const Inventory = () => {
                       </select>
                     </div>
 
-                    {/* <div className="form-group col-6">
-                      <label htmlFor="">Barcode</label>
-                      <div className="tags-input-container border border-secondary">
-                        {(productBarcode || [])?.map((tag, ind) => (
-                          <div className="tag-item" key={ind}>
-                            <span className="tag-text">{tag}</span>
-                            <span
-                              className="close"
-                              onClick={() => proRemoveTag(ind)}
-                            >
-                              &times;
-                            </span>
-                          </div>
-                        ))}
-                        <input
-                          type="text"
-                          className={classNames("form-control shadow-none  ", {
-                            "is-invalid": errors.pBarcode,
-                          })}
-                          style={{ border: "none" }}
-                          name="pBarcode"
-                          placeholder="Enter Product Barcodes"
-                          {...register("pBarcode")}
-                          onKeyDown={(e) => ProhandleKeyDown(e)}
-                        />
-                      </div>
-                    </div> */}
-
-                    {/* <div className="form-group col-6">
-                      <label htmlFor="">Description</label>
-                      <input
-                        type="text"
-                        className={classNames(
-                          " form-control border border-secondary",
-                          { "is-invalid": errors.desc }
-                        )}
-                        name="desc"
-                        placeholder="Enter Product Description"
-                        {...register("desc", {
-                          required: "Required*",
-                        })}
-                      />
-                    </div>
-                    <div className="form-group col-4">
-                      <label htmlFor="">Item Number</label>
-                      <input
-                        type="number"
-                        className={classNames(
-                          " form-control border border-secondary",
-                          { "is-invalid": errors.itemNumber }
-                        )}
-                        name="itemNumber"
-                        placeholder="Enter Item Number"
-                        {...register("itemNumber")}
-                      />
-                    </div> */}
                     <div className="form-group col-4">
                       <label htmlFor="">Brands</label>
                       <select
@@ -1161,7 +1105,7 @@ const Inventory = () => {
                         {...register2("Scategory")}
                         onChange={(e) => NewSubCategory(e)}
                       >
-                        <option >Select Category</option>
+                        <option>Select Category</option>
 
                         {categories?.map((item, index) => (
                           <option value={item?._id} key={index}>

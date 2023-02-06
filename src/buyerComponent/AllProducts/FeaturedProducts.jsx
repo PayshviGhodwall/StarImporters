@@ -46,12 +46,9 @@ const FeaturedProducts = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to="/app/Categories"
-                        className="text-decoration-none text-white fs-6 "
-                      >
+                      <a className="text-decoration-none text-white fs-6 ">
                         Featured Products
-                      </Link>
+                      </a>
                     </li>
                   </ol>
                 </nav>

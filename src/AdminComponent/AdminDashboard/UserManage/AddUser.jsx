@@ -220,7 +220,7 @@ const AddUser = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -608,11 +608,11 @@ const AddUser = () => {
                             },
                           })}
                         />
-                          {errors.companyName && (
-                            <small className="errorText mx-1 fw-bold">
-                              {errors.companyName?.message}
-                            </small>
-                          )}
+                        {errors.companyName && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.companyName?.message}
+                          </small>
+                        )}
                       </div>
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="DBA" className="fw-bold fs-6">

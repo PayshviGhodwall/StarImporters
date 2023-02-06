@@ -474,7 +474,7 @@ const CategorySub = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -856,10 +856,7 @@ const CategorySub = () => {
                                     }}
                                   />
                                 </div>
-                                <div
-                                  className="form-group mb-0 col choose_fileAdmin position-relative"
-                                  key={files?.cateImg}
-                                >
+                                <div className="form-group mb-0 col choose_fileAdmin position-relative">
                                   <span>Category Image </span>{" "}
                                   <label htmlFor="upload_video">
                                     <i class="fa fa-camera me-1"></i>

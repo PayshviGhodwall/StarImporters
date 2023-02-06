@@ -18,6 +18,7 @@ const AllBrands = () => {
       setBrands(res?.data.results);
     });
   };
+
   return (
     <div>
       <Navbar />

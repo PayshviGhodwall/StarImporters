@@ -90,20 +90,12 @@ const ProductByBrand = () => {
                       </Link>
                     </li>
                     <li className="item_nanner">
-                      <Link
-                        to="/app/brands"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                      <Link className="text-decoration-none text-white fs-6  ">
                         Brands <span className="arrow mx-1">&#62;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
-                      >
-                        {location.state?.name}
-                      </Link>
+                      <a>{location.state?.name}</a>
                     </li>
                   </ol>
                 </nav>

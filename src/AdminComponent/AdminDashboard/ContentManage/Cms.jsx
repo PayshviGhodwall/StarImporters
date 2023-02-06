@@ -631,7 +631,7 @@ const Cms = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link

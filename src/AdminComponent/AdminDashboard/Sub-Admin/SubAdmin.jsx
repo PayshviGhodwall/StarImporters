@@ -169,6 +169,7 @@ const SubAdmin = () => {
       });
     }
   };
+
   const EditSubAdmin = async (id) => {
     setSubAdminID(id);
     await axios.post(ViewAdmin + "/" + id).then((res) => {
@@ -183,6 +184,7 @@ const SubAdmin = () => {
       });
     });
   };
+
   const togglePassword = () => {
     let x = document.getElementById("floatingPassword");
     if (x.type === "password") {
@@ -191,6 +193,7 @@ const SubAdmin = () => {
       x.type = "password";
     }
   };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -288,7 +291,7 @@ const SubAdmin = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Brands Maanagement") ? "" : "d-none"
+                    User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
                 >
                   <Link

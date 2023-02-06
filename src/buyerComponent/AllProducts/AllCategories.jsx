@@ -38,12 +38,11 @@ const AllCategories = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to="/app/Categories"
+                      <a
                         className="text-decoration-none text-white fs-6 "
                       >
                         All Categories
-                      </Link>
+                      </a>
                     </li>
                   </ol>
                 </nav>
@@ -63,7 +62,7 @@ const AllCategories = () => {
                       <h5 className="text-center mt-3">{item?.categoryName}</h5>
 
                       <Link
-                      className="text-decoration-none mt-0 card w-100 pb-0"
+                        className="text-decoration-none mt-0 card w-100 pb-0"
                         to={{
                           pathname: "/CategoryProducts",
                           search: "?sort=name",
@@ -73,7 +72,6 @@ const AllCategories = () => {
                       >
                         <img src={item?.categoryImage} width={150} alt="" />
                       </Link>
-
                     </li>
                   ))}
                 </ul>
