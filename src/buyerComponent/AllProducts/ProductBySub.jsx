@@ -20,7 +20,7 @@ const ProductBySubCate = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useState();
   const [maxPage, setMaxPage] = useState(1);
   useEffect(() => {
     getProducts();
@@ -253,15 +253,6 @@ const ProductBySubCate = () => {
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-4 col-lg-6 col-md-6 " key={index}>
                       <div className="product_parts_box border rounded-top">
-                        {/* <Link
-                          className="text-decoration-none"
-                          to={{
-                            pathname: "/AllProducts/Product",
-                            search: "",
-                            hash: "",
-                          }}
-                          state={{ id: item?.products?._id }}
-                        > */}
                         <div className="partsproduct_img">
                           <img
                             src={
@@ -271,12 +262,15 @@ const ProductBySubCate = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
-                                state: {
-                                  id: item?.products?._id,
-                                  CateName: item?.categoryName,
-                                },
-                              });
+                              navigate(
+                                `/AllProducts/Product/${item?.products?._id}`,
+                                {
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
+                                }
+                              );
                             }}
                           />
                           <p
@@ -313,12 +307,15 @@ const ProductBySubCate = () => {
                               className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.products?._id,
-                                    CateName: item?.categoryName,
-                                  },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/${item?.products?._id}`,
+                                  {
+                                    state: {
+                                      id: item?.products?._id,
+                                      CateName: item?.categoryName,
+                                    },
+                                  }
+                                );
                               }}
                             >
                               {item?.products?.unitName}

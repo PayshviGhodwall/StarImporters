@@ -595,8 +595,6 @@ const Homepage = () => {
                   <Link
                     to={{
                       pathname: "/CategoryProducts",
-                      search: "?sort=name",
-                      hash: "#the-hash",
                     }}
                     state={{
                       name: item?.categoryName,
@@ -647,7 +645,7 @@ const Homepage = () => {
                   <div
                     className="product_parts_box "
                     onClick={() =>
-                      navigate("/AllProducts/Product", {
+                      navigate(`/AllProducts/Product/${item?._id}`, {
                         state: {
                           id: item?._id,
                         },

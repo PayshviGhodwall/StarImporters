@@ -176,11 +176,14 @@ const Favourites = () => {
                             <div
                               className="partsproduct_img"
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.productId?._id,
-                                  },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/${item?.productId?._id}`,
+                                  {
+                                    state: {
+                                      id: item?.productId?._id,
+                                    },
+                                  }
+                                );
                               }}
                             >
                               <img
@@ -191,11 +194,14 @@ const Favourites = () => {
                             <div
                               className="product_content mt-2 text-center"
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.productId?._id,
-                                  },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/${item?.productId?._id}`,
+                                  {
+                                    state: {
+                                      id: item?.productId?._id,
+                                    },
+                                  }
+                                );
                               }}
                             >
                               <Link to="" className="text-decoration-none">

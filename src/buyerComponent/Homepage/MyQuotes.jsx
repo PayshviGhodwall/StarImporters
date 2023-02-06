@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Animate, { Animate2 } from "../../Animate";
 import Swal from "sweetalert2";
 import { updateQuote } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
@@ -186,7 +186,7 @@ const MyQuotes = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        "/AllProducts/Product",
+                                                        `/AllProducts/Product/${item?.productId?._id}`,
                                                         {
                                                           state: {
                                                             id: item?.productId
@@ -213,7 +213,7 @@ const MyQuotes = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        "/AllProducts/Product",
+                                                        `/AllProducts/Product/${item?.productId?._id}`,
                                                         {
                                                           state: {
                                                             id: item?.productId

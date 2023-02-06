@@ -135,7 +135,7 @@ const ProductByBrand = () => {
                               id="radio3"
                               name="radio1"
                               value="1"
-                              onChange={(e) => setSortValue(1)}
+                              onChange={(e) => setSortValue(-1)}
                             />
                             <label htmlFor="radio3">
                               {" "}
@@ -149,7 +149,7 @@ const ProductByBrand = () => {
                               id="radio4"
                               name="radio1"
                               value="0"
-                              onChange={(e) => setSortValue(-1)}
+                              onChange={(e) => setSortValue(1)}
                             />
                             <label htmlFor="radio4">
                               {" "}
@@ -173,7 +173,7 @@ const ProductByBrand = () => {
                     </div>
                     <div className="col-6">
                       <button
-                        onClick={() => filterProduct()}
+                        onClick={filterProduct}
                         className="d-block comman_btn2 text-center"
                       >
                         Apply Filter
@@ -196,12 +196,15 @@ const ProductByBrand = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
-                                state: {
-                                  id: item?.products?._id,
-                                  CateName: item?.categoryName,
-                                },
-                              });
+                              navigate(
+                                `/AllProducts/Product/${item?.products?._id}`,
+                                {
+                                  state: {
+                                    id: item?.products?._id,
+                                    CateName: item?.categoryName,
+                                  },
+                                }
+                              );
                             }}
                           />
                           {/* <p
@@ -238,9 +241,12 @@ const ProductByBrand = () => {
                               className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: { id: item?.products?._id },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/${item?.products?._id}`,
+                                  {
+                                    state: { id: item?.products?._id },
+                                  }
+                                );
                               }}
                             >
                               {item?.products?.unitName}

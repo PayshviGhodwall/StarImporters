@@ -1,13 +1,13 @@
 import React from "react";
 import Footer from "../Footer/Footer";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import Navbar from "../Homepage/Navbar";
 import { useEffect } from "react";
-import { Modal, Toggle, Button, ButtonToolbar, Placeholder } from "rsuite";
+import { Button } from "rsuite";
 import axios from "axios";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
+import { Pagination, Navigation, FreeMode } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
-  const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
@@ -40,6 +39,7 @@ const SingleProduct = () => {
   const GetChange = (data) => {
     setChange(data);
   };
+  let { id } = useParams();
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
@@ -223,7 +223,7 @@ const SingleProduct = () => {
                     </li>
                     <li className="item_nanner">
                       <Link
-                        to="/AllBrands"
+                        to="/app/subCategories"
                         className="text-decoration-none text-white fs-6  "
                       >
                         {product?.category?.categoryName}{" "}
@@ -574,7 +574,7 @@ const SingleProduct = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate(`/AllProducts/Product/${item?._id}`, {
                                 state: { id: item?._id },
                               });
                               window.scrollTo({
@@ -587,7 +587,7 @@ const SingleProduct = () => {
                         <div className="product_content mt-3 text-center">
                           <a
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate(`/AllProducts/Product/${item?._id}`, {
                                 state: { id: item?._id },
                               });
                               window.scrollTo({

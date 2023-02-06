@@ -315,7 +315,7 @@ const Navbar = ({ NState, LoginState }) => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/app/product-details", {
+                              navigate(`/app/product-details/${item?._id}`, {
                                 state: {
                                   id: item?._id,
                                   type: item?.type,
@@ -336,7 +336,7 @@ const Navbar = ({ NState, LoginState }) => {
                                 fontSize: "13px",
                               }}
                               onClick={() => {
-                                navigate("/app/product-details", {
+                                navigate(`/app/product-details/${item?._id}`, {
                                   state: {
                                     id: item?._id,
                                     type: item?.type,

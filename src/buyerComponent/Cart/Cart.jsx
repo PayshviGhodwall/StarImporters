@@ -174,11 +174,14 @@ const Cart = () => {
                                           <div
                                             className="col-auto"
                                             onClick={() =>
-                                              navigate("/AllProducts/Product", {
-                                                state: {
-                                                  id: item?.productId?._id,
-                                                },
-                                              })
+                                              navigate(
+                                                `/AllProducts/Product/${item?.products?._id}`,
+                                                {
+                                                  state: {
+                                                    id: item?.productId?._id,
+                                                  },
+                                                }
+                                              )
                                             }
                                           >
                                             <span className="cart_product bg-white">
@@ -205,7 +208,7 @@ const Cart = () => {
                                                   className="text-decoration-none text-dark"
                                                   onClick={() =>
                                                     navigate(
-                                                      "/AllProducts/Product",
+                                                      `/AllProducts/Product/${item?.productId?._id}`,
                                                       {
                                                         state: {
                                                           id: item?.productId
@@ -229,7 +232,7 @@ const Cart = () => {
                                                   className="text-decoration-none text-dark"
                                                   onClick={() =>
                                                     navigate(
-                                                      "/AllProducts/Product",
+                                                      `/AllProducts/Product/${item?.productId?._id}`,
                                                       {
                                                         state: {
                                                           id: item?.productId

@@ -49,7 +49,7 @@ const ProductBySearch = () => {
                             }
                             alt="../../assets/img/product.jpg"
                             onClick={() => {
-                              navigate("/app/product-details", {
+                              navigate(`/app/product-details/${item?._id}`, {
                                 state: {
                                   id: item?._id,
                                   type: item?.type,
@@ -65,7 +65,7 @@ const ProductBySearch = () => {
                               className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/app/product-details", {
+                                navigate(`/app/product-details/${item?._id}`, {
                                   state: { id: item?._id, type: item?.type },
                                 });
                               }}

@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../Footer/Footer";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import Navbar from "../Homepage/Navbar";
 import { useEffect } from "react";
 import { Modal, Toggle, Button, ButtonToolbar, Placeholder } from "rsuite";
@@ -40,12 +40,14 @@ const SingleProdBySearch = () => {
   const GetChange = (data) => {
     setChange(data);
   };
+  let { id } = useParams();
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
   let token = localStorage.getItem("token-user");
 
+ 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
@@ -209,7 +211,7 @@ const SingleProdBySearch = () => {
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
       <section
         className="comman_banner _banner marginTop"
-        style={{ backgroundImage: `url(${location?.state.image})` }}
+        style={{ backgroundImage: `url(${location?.state?.image})` }}
       >
         <div className="container ">
           <div className="row">
@@ -269,7 +271,7 @@ const SingleProdBySearch = () => {
                           type="button"
                           onClick={() => {
                             document.getElementById("productMainImg").src =
-                            product?.productImage
+                              product?.productImage
                                 ? product?.productImage
                                 : require("../../assets/img/product.jpg");
 

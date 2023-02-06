@@ -164,7 +164,7 @@ function App() {
           <Route path="/SubCategory/Products" element={<ProductBySubCate />} />
           <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
           <Route path="/Brands/Products" element={<ProductByBrand />} />
-          <Route path="/AllProducts/Product" element={<SingleProduct />} />
+          <Route path="/AllProducts/Product/:id" element={<SingleProduct />} />
           {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
           <Route path="/Cart" element={<Cart />} />
           <Route path="/MyQuotes" element={<MyQuotes />} />
@@ -206,7 +206,7 @@ function App() {
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
           <Route path="/app/subCategories" element={<SubCategories />} />
-          <Route path="/app/product-details" element={<SingleProdBySearch />} />
+          <Route path="/app/product-details/:id" element={<SingleProdBySearch />} />
 
           {/* App Routes */}
           <Route

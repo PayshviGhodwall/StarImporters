@@ -78,7 +78,7 @@ const FeaturedProducts = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate(`/AllProducts/Product/${item?._id}`, {
                                 state: {
                                   id: item?._id,
                                   CateName: item?.categoryName,
@@ -94,7 +94,7 @@ const FeaturedProducts = () => {
                               className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
+                                navigate(`/AllProducts/Product/${item?._id}`, {
                                   state: {
                                     id: item?._id,
                                     CateName: item?.categoryName,

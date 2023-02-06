@@ -276,12 +276,15 @@ const ProductByCate = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
-                                state: {
-                                  id: item?.products?._id,
-                                  image: item?.background,
-                                },
-                              });
+                              navigate(
+                                `/AllProducts/Product/${item?.products?._id}`,
+                                {
+                                  state: {
+                                    id: item?.products?._id,
+                                    image: item?.background,
+                                  },
+                                }
+                              );
                             }}
                           />
 
@@ -319,12 +322,16 @@ const ProductByCate = () => {
                               className="text-center fs-5 fw-bolder "
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate("/AllProducts/Product", {
-                                  state: {
-                                    id: item?.products?._id,
-                                    CateName: item?.categoryName,
-                                  },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/${item?.products?._id}`,
+                                  {
+                                    replace: true,
+                                    state: {
+                                      id: item?.products?._id,
+                                      CateName: item?.categoryName,
+                                    },
+                                  }
+                                );
                               }}
                             >
                               {item?.products?.unitName}
@@ -368,7 +375,7 @@ const ProductByCate = () => {
                           <a
                             class="fs-6 control"
                             onClick={() => {
-                              window.scrollTo({ top:0, behavior: "smooth" });
+                              window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage <= 1
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
