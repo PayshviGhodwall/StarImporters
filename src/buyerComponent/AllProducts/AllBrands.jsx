@@ -38,13 +38,8 @@ const AllBrands = () => {
                         Home <span className="arrow mx-2">&#62;</span>{" "}
                       </Link>
                     </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to="/app/brands"
-                        className="text-decoration-none text-white fs-6 "
-                      >
-                        All Brands
-                      </Link>
+                    <li className="breadcrumb-item fs-6" aria-current="page">
+                      All Brands
                     </li>
                   </ol>
                 </nav>

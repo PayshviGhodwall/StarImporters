@@ -63,6 +63,46 @@ const FeaturedProducts = () => {
             <div className="row">
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-2">
+                  {products?.length ? (
+                    <div className="col-12 py-2 border rounded Paginate ">
+                      <span className="totalPage">Total Pages : {maxPage}</span>
+                      <ul id="pagination" className="pagination">
+                        <li>
+                          <a
+                            class="fs-6 control"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1);
+                            }}
+                          >
+                            « previous
+                          </a>
+                        </li>
+
+                        <li>
+                          <a className="active">{activePage}</a>
+                        </li>
+
+                        <li>
+                          <a
+                            className="fs-6"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1);
+                            }}
+                          >
+                            next »
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  ) : null}
                   {(products || [{}])?.map((item, index) => (
                     <div className="col-xl-3 col-lg-3 col-md-3" key={index}>
                       <div className="product_parts_box">
@@ -132,46 +172,6 @@ const FeaturedProducts = () => {
                       </div>
                     </div>
                   ))}
-                  {products?.length ? (
-                    <div className="col-12 py-2 border rounded Paginate ">
-                      <span className="totalPage">Total Pages : {maxPage}</span>
-                      <ul id="pagination" className="pagination">
-                        <li>
-                          <a
-                            class="fs-6 control"
-                            onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
-                              activePage <= 1
-                                ? setActivePage(1)
-                                : setActivePage(activePage - 1);
-                            }}
-                          >
-                            « previous
-                          </a>
-                        </li>
-
-                        <li>
-                          <a className="active">{activePage}</a>
-                        </li>
-
-                        <li>
-                          <a
-                            className="fs-6"
-                            onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
-                              activePage === maxPage
-                                ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1);
-                            }}
-                          >
-                            next »
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </div>

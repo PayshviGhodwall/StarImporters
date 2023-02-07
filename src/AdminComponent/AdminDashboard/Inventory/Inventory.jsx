@@ -289,30 +289,13 @@ const Inventory = () => {
     e.target.value = "";
   }
 
-  // function ProhandleKeyDown(e) {
-  //   if (e.key !== "Tab") return;
-  //   const value = e.target.value;
-  //   if (!value.trim()) return;
-  //   setProductBarcode([...productBarcode, value.replace(/(\r\n|\n|\r)/gm, "")]);
-  //   let newBarcode = { ...productBarcode };
-  //   newBarcode[e.target.name] = [
-  //     ...(productBarcode || []),
-  //     value.replace(/(\r\n|\n|\r)/gm, ""),
-  //   ];
-  //   e.target.value = "";
-  // }
-
   const removeTag = (ind, i) => {
     console.log(ind, i);
     let newForm = { ...formValues };
     newForm[i]?.barcode.splice(ind, 1);
     setChange(!change);
   };
-  // const proRemoveTag = (ind) => {
-  //   console.log(ind, "jiji");
-  //   (productBarcode || []).splice(ind, 1);
-  //   setChange(!change);
-  // };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");

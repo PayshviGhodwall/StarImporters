@@ -105,6 +105,7 @@ import SubCategories from "./buyerComponent/AllProducts/AllSubCategories";
 import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch";
 import AppWelcome from "./pwaComponents/homeComponent/appWelcome";
 import SubAdmin from "./AdminComponent/AdminDashboard/Sub-Admin/SubAdmin";
+import EditOrder from "./AdminComponent/AdminDashboard/OrdersManage/EditOrder";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -125,7 +126,6 @@ function App() {
     console.log(data);
     setCateName(data);
   };
-  
 
   const width = window.innerWidth;
 
@@ -198,6 +198,7 @@ function App() {
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
+          <Route path="/OrderRequest/ViewOrder/Edit" element={<EditOrder />} />
           <Route
             path="/OrderRequest/ViewQuotationRequest"
             element={<ViewQuoteReq />}
@@ -206,13 +207,13 @@ function App() {
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
           <Route path="/app/subCategories" element={<SubCategories />} />
-          <Route path="/app/product-details/:id" element={<SingleProdBySearch />} />
+          <Route
+            path="/app/product-details/:id"
+            element={<SingleProdBySearch />}
+          />
 
           {/* App Routes */}
-          <Route
-            path="/"
-            element={width < 999 ? <AppWelcome /> : <Welcome />}
-          />
+          <Route path="/" element={width < 999 ? <AppHome /> : <Homepage />} />
 
           <Route
             path="/app/pre-login"

@@ -1562,7 +1562,7 @@
   .product_show_home img {
     max-width: 450px;
   }
-  
+
   .product_parts_box:hover .partsproduct_img::after {
     opacity: 0.6;
   }
@@ -1832,7 +1832,7 @@
     display: flex;
     margin-top: 1rem !important;
     justify-content: space-between;
-    background-color: #f2f2f2;
+    background-color: #fff;
   }
   .fav_btn {
     background-image: url(../img/fav_icon.png);
@@ -2930,7 +2930,6 @@
     height: 100px;
     object-fit: contain;
     transition: 0.5s all;
-    filter: grayscale(1);
   }
   .brands_ul li a:hover img {
     filter: unset;
@@ -3102,12 +3101,27 @@
   .banner_slide {
     background: linear-gradient(to right, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0));
     background-size: cover;
-    height: 38rem;
+    height: 45rem;
     background-position: center;
     position: relative;
     display: flex;
     align-items: center;
     background-repeat: no-repeat;
+  }
+  .frame-container {
+    position: relative;
+    padding-bottom: 40%; /* 16:9 */
+    padding-top: 25px;
+    width: 300%; /* enlarge beyond browser width */
+    left: -100%; /* center */
+  }
+
+  .frame-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
   .home .carousel-item::after {
     position: absolute;
@@ -3119,7 +3133,7 @@
     width: 100%;
     height: 100%;
     background-color: #000;
-    opacity: 0.6;
+    opacity: 0.3;
   }
   .banner_slide::after {
     position: absolute;
@@ -3497,7 +3511,6 @@
     margin: 0;
   }
 
-  
   .breadcrumb li {
     font-weight: 500;
     display: flex;

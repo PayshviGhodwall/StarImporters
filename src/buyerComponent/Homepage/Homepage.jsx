@@ -105,9 +105,9 @@ const Homepage = () => {
       <section className="home">
         <div
           id="carouselExampleControls"
-          className="carousel slide auto carousel-fade"
+          className="carousel slide carousel-fade"
           data-bs-ride="carousel"
-          data-interval="2000"
+          data-interval="8000"
         >
           <div class="carousel-indicators">
             <button
@@ -151,12 +151,28 @@ const Homepage = () => {
           </div>
           <div className="carousel-inner banner_box">
             <div className="carousel-item active ">
-              <img
+              {/* <video
+                autoplay="autoplay"
+                className="d-block w-100 banner_slide"
+                muted
+                loop
+              > */}
+              <div className="frame-container ">
+                <iframe
+                  className="d-block w-100 banner_slide"
+                  src="https://www.youtube.com/embed/ZL3PN5MauWM?start=45&autoplay=1&mute=1&loop=1&playlist=ZL3PN5MauWM"
+                  frameborder="0"
+                  allow=" autoplay;"
+                  // src="https://www.youtube.com/embed/U-xjYyIOPAs?&autoplay=1&mute=1&loop=1&playlist=U-xjYyIOPAs"
+                  allowfullscreen=""
+                ></iframe>
+              </div>
+              {/* <img
                 src={allSlides[0]?.banner}
                 className="d-block w-100 banner_slide"
                 alt=""
-              />
-              <div
+              /> */}
+              {/* <div
                 className={
                   (allSlides[0]?.position === "One" && "carousel-caption ") ||
                   (allSlides[0]?.position === "Two" &&
@@ -212,7 +228,7 @@ const Homepage = () => {
                     </button>
                   )}
                 </Link>
-              </div>
+              </div> */}
             </div>
             <div className="carousel-item ">
               <img
@@ -566,7 +582,7 @@ const Homepage = () => {
       </section>
 
       <section className="featured_category mx-5 shadow pt-3 mb-5">
-        <div className="col-12 comman_head mb-5  mt-2 text-center">
+        <div className="col-12 comman_head mb-3  mt-2 text-center">
           <h2
             dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
           ></h2>

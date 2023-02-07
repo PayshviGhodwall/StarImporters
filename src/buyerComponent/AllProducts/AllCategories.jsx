@@ -38,9 +38,7 @@ const AllCategories = () => {
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
-                      <a
-                        className="text-decoration-none text-white fs-6 "
-                      >
+                      <a className="text-decoration-none text-white fs-6 ">
                         All Categories
                       </a>
                     </li>

@@ -432,10 +432,21 @@ const ViewOrder = () => {
                     <div className="col-auto">
                       <h2>Order Details</h2>
                     </div>
-
+                    <div className="col-auto">
+                      <button
+                        class="dropdown-btns comman_btn2"
+                        onClick={() =>
+                          navigate("/OrderRequest/ViewOrder/Edit", {
+                            state: { id: id },
+                          })
+                        }
+                      >
+                        Edit <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
                     <div className="col-auto">
                       <div class="dropdowns">
-                        <button class="dropdown-btns comman_btn2">
+                        <button class="dropdown-btns comman_btn2 rounded">
                           Export <i class="fa fa-download"></i>
                         </button>
                         <div class="dropdown-contents">
