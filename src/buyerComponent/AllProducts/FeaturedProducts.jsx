@@ -172,6 +172,46 @@ const FeaturedProducts = () => {
                       </div>
                     </div>
                   ))}
+                  {products?.length ? (
+                    <div className="col-12  py-2  mt-3 rounded Paginate ">
+                      <span className="totalPage">Total Pages : {maxPage}</span>
+                      <ul id="pagination" className="pagination">
+                        <li>
+                          <a
+                            class="fs-6 control"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1);
+                            }}
+                          >
+                            « previous
+                          </a>
+                        </li>
+
+                        <li>
+                          <a className="active">{activePage}</a>
+                        </li>
+
+                        <li>
+                          <a
+                            className="fs-6"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1);
+                            }}
+                          >
+                            next »
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

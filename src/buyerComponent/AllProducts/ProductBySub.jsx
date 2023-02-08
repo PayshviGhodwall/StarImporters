@@ -26,7 +26,6 @@ const ProductBySubCate = () => {
     getProducts();
     GetBrands();
   }, [location, heart, activePage]);
-
   useEffect(() => {
     setActivePage(1);
   }, [location]);
@@ -112,6 +111,12 @@ const ProductBySubCate = () => {
                         Home <span className="arrow mx-2">&#62;</span>{" "}
                       </Link>
                     </li>
+                    {/* <li className="item_nanner">
+                      <a className="text-decoration-none text-white fs-6  ">
+                        {location?.state.catName}{" "}
+                        <span className="arrow mx-2">&#62;</span>{" "}
+                      </a>
+                    </li> */}
                     <li className="breadcrumb-item fs-6" aria-current="page">
                       {location?.state.name}
                     </li>
@@ -390,6 +395,45 @@ const ProductBySubCate = () => {
                       </div>
                     </div>
                   ))}
+                  {products?.length ? (
+                    <div className="col-12 py-2  Paginate ">
+                      <span className="totalPage">Total Pages : {maxPage}</span>
+                      <ul id="pagination" className="pagination">
+                        <li>
+                          <a
+                            class="fs-6 control"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1);
+                            }}
+                          >
+                            « prev
+                          </a>
+                        </li>
+
+                        <li>
+                          <a className="active">{activePage}</a>
+                        </li>
+
+                        <li>
+                          <a
+                            className="fs-6"
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1);
+                            }}
+                          >
+                            next »
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

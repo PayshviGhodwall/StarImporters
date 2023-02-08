@@ -12,6 +12,7 @@ const ViewOrder = () => {
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
   const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
+  const orderExportPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportsPDF`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
@@ -59,6 +60,14 @@ const ViewOrder = () => {
   const exportOrderXls = async (e) => {
     e.preventDefault();
     await axios.post(orderExportXls + "/" + id).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, orders?.orderId);
+      }
+    });
+  };
+  const exportOrderPdf = async (e) => {
+    e.preventDefault();
+    await axios.post(orderExportPdf + "/" + id).then((res) => {
       if (!res?.error) {
         fileDownload(res?.data.results?.file, orders?.orderId);
       }
@@ -464,6 +473,14 @@ const ViewOrder = () => {
                               onClick={exportOrderXls}
                             >
                               Export .xls
+                            </Link>
+                          </a>
+                          <a href="#">
+                            <Link
+                              className="text-decoration-none text-dark dropdown-item"
+                              onClick={exportOrderPdf}
+                            >
+                              Export .pdf
                             </Link>
                           </a>
                         </div>

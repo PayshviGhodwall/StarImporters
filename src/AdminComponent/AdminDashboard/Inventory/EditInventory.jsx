@@ -24,7 +24,7 @@ const EditInventory = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/categoryDropdown`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
-  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
+  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/brandsDropdown`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const flavourPriceApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourPriceStatus`;
   const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
@@ -59,13 +59,9 @@ const EditInventory = () => {
       await axios.post(categoryApi).then((res) => {
         setCategories(res?.data.results.categories);
       });
-      await axios
-        .post(brandsApi, {
-          page: 1,
-        })
-        .then((res) => {
-          setBrands(res?.data.results.brands);
-        });
+      await axios.post(brandsApi).then((res) => {
+        setBrands(res?.data.results.brands);
+      });
     };
     getBrands();
   }, [change]);

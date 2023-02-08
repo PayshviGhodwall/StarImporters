@@ -187,7 +187,22 @@
   /*--------------------------------------------------------------
     # Header
     --------------------------------------------------------------*/
+.comman_btn_search{
+  background-color: #3e4093;
+  color: #fff;
+  padding: 2px 6px;
+  transition: 0.5s all;
+  border-radius: 6px 0px 0px 6px  ;
+  position: relative;
+  left: 4px;
+  z-index: 9;
 
+}
+.searchDrop{
+  background-color: #3e4093;
+  border: none;
+
+}
   .comman_btn {
     background-color: #3e4093;
     padding: 14px 32px;
@@ -12209,3 +12224,5 @@ a:hover {
 .swiper-button-next {
   color: #eb3237 !important;
 }
+
+

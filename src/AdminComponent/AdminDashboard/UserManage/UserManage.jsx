@@ -43,6 +43,7 @@ const UserManage = () => {
   const [maxAppPage, setMaxAppPage] = useState(1);
   const [maxPenPage, setMaxPenPage] = useState(1);
   const [maxRetPage, setMaxRetPage] = useState(1);
+  const [searchType, setSearchType] = useState("companyName");
 
   useEffect(() => {
     GetUserCount();
@@ -67,6 +68,7 @@ const UserManage = () => {
           .post(searchUser, {
             type: "APPROVED",
             search: e.target.value,
+            searchType: searchType,
           })
           .then((res) => {
             if (!res.error) {
@@ -671,6 +673,22 @@ const UserManage = () => {
                         <h2 className="main_headers">Users Management</h2>
                       </div>
                       <div className="col-6  d-flex justify-content-end">
+                        <button className="comman_btn_search ">
+                          <select
+                            name=""
+                            id=""
+                            className="searchDrop "
+                            onChange={(e) => setSearchType(e.target.value)}
+                          >
+                            <option selected="" value="companyName">
+                              Company
+                            </option>
+                            <option value="name">User Name</option>
+                            <option value="email">Email</option>
+                            <option value="address">Address</option>
+                            <option value="mobile">Mobile</option>
+                          </select>
+                        </button>
                         <form className="form-design" action="">
                           <div className="form-group mb-0 position-relative icons_set">
                             <input
@@ -806,12 +824,11 @@ const UserManage = () => {
                                           marginLeft: "8px",
                                         }}
                                       >
-                                        <th>S.No.</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
-                                        <th>City</th>
                                         <th>Address</th>
                                         <th>Email</th>
+                                        <th>Mobile</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                       </tr>
@@ -834,26 +851,27 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr className="" key={index}>
-                                            <td className="border">
+                                            {/* <td className="border">
                                               {(activePendingPage - 1) * 15 +
                                                 (index + 1)}
                                               .
-                                            </td>
+                                            </td> */}
                                             <td className="border">
                                               {User?.companyName}
                                             </td>
                                             <td className="border">
                                               {User?.firstName}
                                             </td>
+
                                             <td className="border">
-                                              {User?.city}
-                                            </td>
-                                            <td className="border">
-                                              {User?.addressLine1?.slice(0, 15)}
+                                              {User?.addressLine1?.slice(0, 40)}
                                               ....
                                             </td>
                                             <td className="border">
                                               {User?.email}
+                                            </td>
+                                            <td className="border">
+                                              {User?.phoneNumber}
                                             </td>
                                             <td className="border">
                                               {User?.isVerified}
@@ -956,15 +974,11 @@ const UserManage = () => {
                                             marginLeft: "8px",
                                           }}
                                         >
-                                          <th>S.No.</th>
                                           <th>Company Name</th>
-
                                           <th>User Name</th>
-                                          <th>City</th>
                                           <th>Address</th>
-
                                           <th>Email</th>
-
+                                          <th>Mobile</th>
                                           <th>Status</th>
                                           <th>Action</th>
                                         </tr>
@@ -974,28 +988,24 @@ const UserManage = () => {
                                           (User, index) => (
                                             <tr key={index} className="">
                                               <td className="border">
-                                                {(activeApprovePage - 1) * 15 +
-                                                  (index + 1)}
-                                                .
-                                              </td>
-                                              <td className="border">
                                                 {User?.companyName}
                                               </td>
                                               <td className="border">
                                                 {User?.firstName}
                                               </td>
-                                              <td className="border">
-                                                {User?.city}
-                                              </td>
+
                                               <td className="border">
                                                 {User?.addressLine1?.slice(
                                                   0,
-                                                  15
+                                                  40
                                                 )}
                                                 ....
                                               </td>
                                               <td className="border">
                                                 {User?.email}
+                                              </td>
+                                              <td className="border">
+                                                {User?.phoneNumber}
                                               </td>
                                               <td
                                                 className="border"
@@ -1155,12 +1165,11 @@ const UserManage = () => {
                                           marginLeft: "8px",
                                         }}
                                       >
-                                        <th>S.No.</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
-                                        <th>City</th>
                                         <th>Address</th>
                                         <th>Email</th>
+                                        <th>Mobile</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                       </tr>
@@ -1183,26 +1192,21 @@ const UserManage = () => {
                                         .map((User, index) => (
                                           <tr key={index} className="">
                                             <td className="border">
-                                              {" "}
-                                              {(activeReturnedPage - 1) * 15 +
-                                                (index + 1)}
-                                              .
-                                            </td>
-                                            <td className="border">
                                               {User?.companyName}
                                             </td>
                                             <td className="border">
                                               {User?.firstName}
                                             </td>
+
                                             <td className="border">
-                                              {User?.city}
-                                            </td>
-                                            <td className="border">
-                                              {User?.addressLine1?.slice(0, 15)}
+                                              {User?.addressLine1?.slice(0, 40)}
                                               ....
                                             </td>
                                             <td className="border">
                                               {User?.email}
+                                            </td>
+                                            <td className="border">
+                                              {User?.phoneNumber}
                                             </td>
                                             <td className="fs-6 text-danger border">
                                               {User?.isVerified}

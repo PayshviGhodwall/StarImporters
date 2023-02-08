@@ -252,31 +252,49 @@ function AppHome() {
                       fade={false}
                       items={1}
                     >
-                      {banner.map((item, index) => {
-                        return (
-                          <div className="single-hero-slide item">
-                            <img src={item?.banner}></img>
-                            <div className="slide-content h-100 d-flex align-items-center">
-                              <div className="slide-text">
-                                <h4
-                                  className="text-white banner_text"
-                                  data-animation="fadeInUp"
-                                  data-delay="100ms"
-                                  data-duration="1000ms"
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    item?.title
-                                  )}
-                                ></h4>
-                                <p
+                      <div className="single-hero-slide item">
+                        <img src={banner[1]?.banner}></img>
+                        <div className="slide-content h-100 d-flex align-items-center">
+                          <div className="slide-text">
+                            <h4
+                              className="text-white banner_text"
+                              data-animation="fadeInUp"
+                              data-delay="100ms"
+                              data-duration="1000ms"
+                            >
+                              {" "}
+                              𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕥𝕠 <br />
+                              <span>𝕊𝕋𝔸ℝ 𝕀𝕄ℙ𝕆ℝ𝕋𝔼ℝ𝕊</span>
+                            </h4>
+                            {/* <p
                                   className="text-white"
                                   style={{ fontSize: "4px" }}
                                   data-animation="fadeInUp"
                                   data-delay="400ms"
                                   data-duration="1000ms"
-                                  // dangerouslySetInnerHTML={createMarkup(item?.description)}
+                                  dangerouslySetInnerHTML={createMarkup(item?.description)}
                                 >
-                                  {/* {item.description} */}
-                                </p>
+                                  {item.description}
+                                </p> */}
+                          </div>
+                        </div>
+                      </div>
+                      {banner?.map((item, index) => {
+                        return (
+                          <div className="single-hero-slide item">
+                            <img src={item?.banner}></img>
+                            <div className="slide-content h-100 d-flex align-items-center">
+                              <div className="slide-text">
+                                {/* <p
+                                  className="text-white"
+                                  style={{ fontSize: "4px" }}
+                                  data-animation="fadeInUp"
+                                  data-delay="400ms"
+                                  data-duration="1000ms"
+                                  dangerouslySetInnerHTML={createMarkup(item?.description)}
+                                >
+                                  {item.description}
+                                </p> */}
                               </div>
                             </div>
                           </div>

@@ -397,7 +397,7 @@ const ProductByCate = () => {
                     </div>
                   ))}
                   {products?.length ? (
-                    <div className="col-12 py-2 border rounded Paginate ">
+                    <div className="col-12 py-2  rounded Paginate ">
                       <span className="totalPage">Total Pages : {maxPage}</span>
                       <ul id="pagination" className="pagination">
                         <li>
@@ -410,7 +410,7 @@ const ProductByCate = () => {
                                 : setActivePage(activePage - 1);
                             }}
                           >
-                            « previous
+                            « prev
                           </a>
                         </li>
 

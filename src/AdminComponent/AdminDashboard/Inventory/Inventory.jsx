@@ -17,7 +17,7 @@ const Inventory = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/categoryDropdown`;
   const SubCategoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/subCategoryList`;
-  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
+  const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/brandsDropdown`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
   const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
@@ -83,9 +83,7 @@ const Inventory = () => {
         setCategories(res?.data.results?.categories);
       });
     await axios
-      .post(brandsApi, {
-        page: 1,
-      })
+      .post(brandsApi)
       .then((res) => {
         setBrands(res?.data.results.brands);
       });

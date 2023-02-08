@@ -46,10 +46,11 @@ const Navbar = ({ NState, LoginState }) => {
     let Search = e.target.value;
     const { data } = await homeSearch({ search: Search?.replace(".", "") });
     if (!data.error) {
-      setProducts(data.results.slice(0, 6));
+      let dataList = data?.results;
+      setProducts(dataList?.slice(0, 6));
     }
   };
-  console.log(products);
+
   const handleOutsideClick = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setSearch();
@@ -129,25 +130,35 @@ const Navbar = ({ NState, LoginState }) => {
           </div>
           <div class="col-lg-6 col-md-5 d-flex align-items-center">
             <div class="header_search">
-              {/* <form class="row justify-content-center" action=""> */}
-              <div class="col pe-0">
-                <div class="form-group">
-                  <input
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setSearch(e.target.value);
-                      getProductList(e);
-                    }}
-                    // type="search"
-                    id="search"
-                    type="search"
-                    name="search"
-                    class="form-control shadow-none"
-                    placeholder="Search in Star Importers"
-                  />
+              <form
+                class="row justify-content-center"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  navigate("/app/ProductSearch", {
+                    state: {
+                      search: search,
+                    },
+                  });
+                  setSearch();
+                }}
+              >
+                <div class="col pe-0">
+                  <div class="form-group">
+                    <input
+                      onChange={(e) => {
+                        e.preventDefault();
+                        setSearch(e.target.value);
+                        getProductList(e);
+                      }}
+                      type="search"
+                      id="search"
+                      name="search"
+                      class="form-control shadow-none"
+                      placeholder="Search in Star Importers"
+                    />
+                  </div>
                 </div>
-              </div>
-              {/* </form> */}
+              </form>
             </div>
           </div>
 
@@ -256,7 +267,9 @@ const Navbar = ({ NState, LoginState }) => {
                                     to={{
                                       pathname: "/SubCategory/Products",
                                     }}
-                                    state={{ name: item?.subCategoryName }}
+                                    state={{
+                                      name: item?.subCategoryName,
+                                    }}
                                   >
                                     <h3 className="dropdown_heading">
                                       {item?.subCategoryName}

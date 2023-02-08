@@ -150,87 +150,7 @@ const Homepage = () => {
             ></button>
           </div>
           <div className="carousel-inner banner_box">
-            <div className="carousel-item active ">
-              {/* <video
-                autoplay="autoplay"
-                className="d-block w-100 banner_slide"
-                muted
-                loop
-              > */}
-              <div className="frame-container ">
-                <iframe
-                  className="d-block w-100 banner_slide"
-                  src="https://www.youtube.com/embed/ZL3PN5MauWM?start=45&autoplay=1&mute=1&loop=1&playlist=ZL3PN5MauWM"
-                  frameborder="0"
-                  allow=" autoplay;"
-                  // src="https://www.youtube.com/embed/U-xjYyIOPAs?&autoplay=1&mute=1&loop=1&playlist=U-xjYyIOPAs"
-                  allowfullscreen=""
-                ></iframe>
-              </div>
-              {/* <img
-                src={allSlides[0]?.banner}
-                className="d-block w-100 banner_slide"
-                alt=""
-              /> */}
-              {/* <div
-                className={
-                  (allSlides[0]?.position === "One" && "carousel-caption ") ||
-                  (allSlides[0]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
-                  (allSlides[0]?.position === "Three" &&
-                    "carousel-caption bannerTitle2")
-                }
-              >
-                <h5
-                  className={
-                    (allSlides[0]?.position === "One" &&
-                      "text-start bannerTxt") ||
-                    (allSlides[0]?.position === "Two" &&
-                      " text-center  Bannertext") ||
-                    (allSlides[0]?.position === "Three" &&
-                      " text-end bannerTxt")
-                  }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[0]?.title)}
-                ></h5>
-                <p
-                  className={
-                    (allSlides[0]?.position === "One" &&
-                      " text-start fs-6 bannerTxt") ||
-                    (allSlides[0]?.position === "Two" &&
-                      "d-flex text-center fs-6 bannerTxt") ||
-                    (allSlides[0]?.position === "Three" &&
-                      "d-flex text-end fs-6 bannerTxt")
-                  }
-                  dangerouslySetInnerHTML={createMarkup(
-                    allSlides[0]?.description
-                  )}
-                ></p>
-
-                <Link
-                  to="/app/register"
-                  className={
-                    (allSlides[0]?.position === "One" &&
-                      "d-flex text-start text-decoration-none bannerTxt") ||
-                    (allSlides[0]?.position === "Two" &&
-                      " text-center text-decoration-none bannerTxt") ||
-                    (allSlides[0]?.position === "Three" &&
-                      " d-flex justify-content-end text-decoration-none bannerTxt")
-                  }
-                  style={{ top: "10px" }}
-                >
-                  {token ? null : (
-                    <button
-                      className={
-                        allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                      }
-                    >
-                      SignUp
-                    </button>
-                  )}
-                </Link>
-              </div> */}
-            </div>
-            <div className="carousel-item ">
+            <div className="carousel-item active">
               <img
                 src={allSlides[1]?.banner}
                 className="d-block w-100 banner_slide"
@@ -238,9 +158,9 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[1]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[1]?.position === "One" && "carousel-caption mt-5") ||
                   (allSlides[1]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
+                    "carousel-caption banner-titles mx-5 mt-5") ||
                   (allSlides[1]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }
@@ -270,7 +190,7 @@ const Homepage = () => {
                   )}
                 ></p>
 
-                <Link
+                {/* <Link
                   to="/app/register"
                   className={
                     (allSlides[1]?.position === "One" &&
@@ -291,9 +211,21 @@ const Homepage = () => {
                       SignUp
                     </button>
                   )}
-                </Link>
+                </Link> */}
               </div>
             </div>
+            <div className="carousel-item">
+              <div className="frame-container ">
+                <iframe
+                  className="d-block w-100 banner_slide"
+                  src="https://www.youtube.com/embed/ZL3PN5MauWM?start=45&autoplay=1&mute=1&loop=1&playlist=ZL3PN5MauWM"
+                  frameborder="0"
+                  allow=" autoplay;"
+                  allowfullscreen=""
+                ></iframe>
+              </div>
+            </div>
+
             <div className="carousel-item ">
               <img
                 src={allSlides[2]?.banner}
@@ -333,7 +265,7 @@ const Homepage = () => {
                     allSlides[2]?.description
                   )}
                 ></p>
-
+{/* 
                 <Link
                   to="/app/register"
                   className={
@@ -355,7 +287,7 @@ const Homepage = () => {
                       SignUp
                     </button>
                   )}
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="carousel-item ">
@@ -398,7 +330,7 @@ const Homepage = () => {
                   )}
                 ></p>
 
-                <Link
+                {/* <Link
                   to="/app/register"
                   className={
                     (allSlides[3]?.position === "One" &&
@@ -419,7 +351,7 @@ const Homepage = () => {
                       SignUp
                     </button>
                   )}
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="carousel-item ">
@@ -430,7 +362,7 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[4]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[4]?.position === "One" && "carousel-caption mt-3") ||
                   (allSlides[4]?.position === "Two" &&
                     "carousel-caption banner-titles mx-4") ||
                   (allSlides[4]?.position === "Three" &&
@@ -462,7 +394,7 @@ const Homepage = () => {
                   )}
                 ></p>
 
-                <Link
+                {/* <Link
                   to="/app/register"
                   className={
                     (allSlides[4]?.position === "One" &&
@@ -483,7 +415,7 @@ const Homepage = () => {
                       SignUp
                     </button>
                   )}
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="carousel-item ">
@@ -494,11 +426,11 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[5]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[5]?.position === "One" && "carousel-caption mt-3") ||
                   (allSlides[5]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
+                    "carousel-caption banner-titles mx-5 mt-3") ||
                   (allSlides[5]?.position === "Three" &&
-                    "carousel-caption bannerTitle2")
+                    "carousel-caption bannerTitle2 mt-3")
                 }
               >
                 <h5
@@ -526,7 +458,7 @@ const Homepage = () => {
                   )}
                 ></p>
 
-                <Link
+                {/* <Link
                   to="/app/register"
                   className={
                     (allSlides[5]?.position === "One" &&
@@ -547,7 +479,7 @@ const Homepage = () => {
                       SignUp
                     </button>
                   )}
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

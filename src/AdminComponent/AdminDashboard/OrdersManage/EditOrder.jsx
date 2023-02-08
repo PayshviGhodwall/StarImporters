@@ -614,8 +614,7 @@ const EditOrder = () => {
                         <div className="col-md-6 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Shipment Location:</span>
-                            <div className="col">
-                              <strong></strong>
+                            <div className="col-12">
                               <input
                                 type="text"
                                 defaultValue={orders?.userId?.addressLine1}
@@ -643,7 +642,14 @@ const EditOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Type:</span>
                             <div className="col">
-                              <strong>{orders?.type}</strong>
+                              <select type="select" className="form-select">
+                                <option selected="" value="">
+                                  {orders?.type}
+                                </option>
+                                <option value="">Shipment</option>
+                                <option value="">Delivery</option>
+                                <option value="">In-Store Pickup</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -698,26 +704,19 @@ const EditOrder = () => {
                 </div>
 
                 <div className="form-group col-6">
-                  <label htmlFor="">Email Address </label>
-                  <input
-                    type="email"
-                    className="form-control-sub border border-secondary"
-                    name="Eemail"
-                    defaultValue=""
-                    placeholder="Enter Product Name"
-                  />
+                  <label htmlFor="">Select Flavour </label>
+                  <select type="select" className="form-select">
+                    <option selected="" value="">
+                      Select Any Flavour
+                    </option>
+                    <option value="">Shipment</option>
+                    <option value="">Delivery</option>
+                    <option value="">In-Store Pickup</option>
+                  </select>
                 </div>
                 <div className="form-group col-6">
-                  <label htmlFor="EditPass">Sub-Admin Password </label>
-                  <input
-                    type="password"
-                    className="form-control-sub border border-secondary"
-                    id="EditPass"
-                    defaultValue=""
-                    name="Epassword"
-                    disabled
-                    placeholder="********"
-                  />
+                  <label htmlFor="EditPass">Quantity </label>
+                  <input type="number" className="form-control-sub border" />
                 </div>
                 <div className="form-group mb-0 col-12 text-center ">
                   <button className="comman_btn2">Save</button>

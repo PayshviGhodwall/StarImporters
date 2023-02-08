@@ -221,14 +221,14 @@ const SingleProduct = () => {
                         Home <span className="arrow mx-1 ">&#62;</span>{" "}
                       </Link>
                     </li>
-                    <li className="item_nanner">
-                      <a className="text-decoration-none text-white fs-6  ">
-                        {product?.category?.categoryName}{" "}
-                        <span className="arrow mx-1">&#62;</span>{" "}
-                      </a>
-                    </li>
+                    {/* <li className="item_nanner">
+                        <a className="text-decoration-none text-white fs-6  ">
+                          {product?.category?.categoryName}{" "}
+                          <span className="arrow mx-1">&#62;</span>{" "}
+                        </a>
+                      </li> */}
                     <li className="breadcrumb-item" aria-current="page">
-                      <a className="text-decoration-none text-white fs-6 mx-2">
+                      <a className="text-decoration-none text-white fs-6  ">
                         {product?.unitName}
                       </a>
                     </li>

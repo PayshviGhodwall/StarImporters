@@ -50,18 +50,18 @@ const Footer = () => {
             <div className="row">
               <div className="col-lg-4 col-md-12 text-white text-lg-start text-md-center">
                 <div className="widget">
-                  <div className="footer_logo">
+                  <div className="mb-2">
                     <Link className="text-decoration-none" to="">
                       <img
                         src={require("../../assets/img/logo.png")}
-                        width={100}
+                        width={150}
                         alt="logo"
                       />
                     </Link>
                   </div>
                   <p>
-                    If you are going to use of Lorem Ipsum need to be sure there
-                    isn't hidden of text
+                    Thank you for visiting Star Importers. We look forward to
+                    serve you best and helping your business.
                   </p>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const Footer = () => {
                     </li>
 
                     <li>
-                    <a
+                      <a
                         className="text-decoration-none"
                         onClick={() => navigate("/app/brands")}
                       >
@@ -132,13 +132,15 @@ const Footer = () => {
                   <ul className="contact_info contact_info_light">
                     <li>
                       <i className="fas fa-map-signs" />
-                      <p> 2166 Mountain Industrial Blvd, Tucker, GA 30084, United States</p>
+                      <p>
+                        {" "}
+                        2166 Mountain Industrial Blvd, Tucker, GA 30084, United
+                        States
+                      </p>
                     </li>
                     <li>
                       <i className="fa fa-envelope-open-text" />
-                      <Link to="/app/login">
-                      http://starimporters.com
-                      </Link>
+                      <Link to="/app/login">http://starimporters.com</Link>
                     </li>
                     <li>
                       <i className="fas fa-phone-alt" />
@@ -185,7 +187,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link >
+                    <Link>
                       <img
                         src={require("../../assets/img/paypal.png")}
                         alt="paypal"

@@ -45,11 +45,13 @@ const SubCategories = () => {
                         Home <span className="arrow mx-2">&#62;</span>{" "}
                       </Link>
                     </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      <a className="text-decoration-none text-white fs-6 ">
-                        All Sub-Categories
-                      </a>
-                    </li>
+                    <a className="text-decoration-none text-white fs-6  ">
+                      {location?.state.name}{" "}
+                      <span className="arrow mx-2">&#62;</span>{" "}
+                    </a>
+                    <a className="text-decoration-none text-white fs-6  ">
+                      Sub-Categories <span className="arrow mx-2"></span>{" "}
+                    </a>
                   </ol>
                 </nav>
               </div>
@@ -75,7 +77,10 @@ const SubCategories = () => {
                         to={{
                           pathname: "/SubCategory/Products",
                         }}
-                        state={{ name: item?.subCategoryName }}
+                        state={{
+                          name: item?.subCategoryName,
+                          catName: location?.state?.name,
+                        }}
                       >
                         <img
                           src={
