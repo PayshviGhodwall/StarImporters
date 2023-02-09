@@ -82,11 +82,9 @@ const Inventory = () => {
       .then((res) => {
         setCategories(res?.data.results?.categories);
       });
-    await axios
-      .post(brandsApi)
-      .then((res) => {
-        setBrands(res?.data.results.brands);
-      });
+    await axios.post(brandsApi).then((res) => {
+      setBrands(res?.data.results.brands);
+    });
   };
   const GetProducts = async () => {
     await axios
@@ -1086,7 +1084,7 @@ const Inventory = () => {
                         {...register2("Scategory")}
                         onChange={(e) => NewSubCategory(e)}
                       >
-                        <option>Select Category</option>
+                        <option value="">Select Category</option>
 
                         {categories?.map((item, index) => (
                           <option value={item?._id} key={index}>

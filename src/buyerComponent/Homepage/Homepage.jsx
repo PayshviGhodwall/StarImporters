@@ -158,9 +158,10 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[1]?.position === "One" && "carousel-caption mt-5") ||
+                  (allSlides[1]?.position === "One" &&
+                    "carousel-caption mt-5") ||
                   (allSlides[1]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5 mt-5") ||
+                    "carousel-caption banner-titles mx-3 mt-5") ||
                   (allSlides[1]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }
@@ -236,7 +237,7 @@ const Homepage = () => {
                 className={
                   (allSlides[2]?.position === "One" && "carousel-caption ") ||
                   (allSlides[2]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
+                    "carousel-caption banner-titles mx-3") ||
                   (allSlides[2]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }
@@ -265,7 +266,7 @@ const Homepage = () => {
                     allSlides[2]?.description
                   )}
                 ></p>
-{/* 
+                {/* 
                 <Link
                   to="/app/register"
                   className={
@@ -300,7 +301,7 @@ const Homepage = () => {
                 className={
                   (allSlides[3]?.position === "One" && "carousel-caption ") ||
                   (allSlides[3]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-5") ||
+                    "carousel-caption banner-titles mx-3") ||
                   (allSlides[3]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }
@@ -362,9 +363,10 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[4]?.position === "One" && "carousel-caption mt-3") ||
+                  (allSlides[4]?.position === "One" &&
+                    "carousel-caption mt-3") ||
                   (allSlides[4]?.position === "Two" &&
-                    "carousel-caption banner-titles mx-4") ||
+                    "carousel-caption banner-titles mx-3") ||
                   (allSlides[4]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
                 }
@@ -426,7 +428,8 @@ const Homepage = () => {
               />
               <div
                 className={
-                  (allSlides[5]?.position === "One" && "carousel-caption mt-3") ||
+                  (allSlides[5]?.position === "One" &&
+                    "carousel-caption mt-3") ||
                   (allSlides[5]?.position === "Two" &&
                     "carousel-caption banner-titles mx-5 mt-3") ||
                   (allSlides[5]?.position === "Three" &&

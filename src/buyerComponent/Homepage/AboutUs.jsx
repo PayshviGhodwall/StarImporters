@@ -31,7 +31,7 @@ const AboutUs = () => {
               <div class="inner-column">
                 <div class="sec-title">
                   <span class="title">About us</span>
-                  <h2>STAR IMPORTER WHOLESALER Established Since 1994</h2>
+                  <h2>STAR IMPORTER & WHOLESALER Established Since 1994</h2>
                 </div>
                 <div class="text">
                   Star Importers & Wholesalers is a family-owned and operated
