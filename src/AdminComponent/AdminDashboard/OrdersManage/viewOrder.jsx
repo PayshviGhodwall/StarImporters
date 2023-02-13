@@ -442,8 +442,11 @@ const ViewOrder = () => {
                       <h2>Order Details</h2>
                     </div>
                     <div className="col-auto">
-                      <button
-                        class="dropdown-btns comman_btn2"
+                     
+                    </div>
+                    <div className="col-auto">
+                    <button
+                        class="dropdown-btns comman_btn2 mx-2"
                         onClick={() =>
                           navigate("/OrderRequest/ViewOrder/Edit", {
                             state: { id: id },
@@ -452,10 +455,8 @@ const ViewOrder = () => {
                       >
                         Edit <i class="fa fa-edit"></i>
                       </button>
-                    </div>
-                    <div className="col-auto">
                       <div class="dropdowns">
-                        <button class="dropdown-btns comman_btn2 rounded">
+                        <button class="dropdown-btns comman_btn2 ">
                           Export <i class="fa fa-download"></i>
                         </button>
                         <div class="dropdown-contents">
@@ -533,9 +534,9 @@ const ViewOrder = () => {
                                 <th>Quantity</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="border">
                               {(orders?.products || [])?.map((item, index) => (
-                                <tr>
+                                <tr className="border">
                                   <td>
                                     <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
                                       <div className="col-auto">
@@ -578,8 +579,8 @@ const ViewOrder = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td>
-                                    <span className="quantity_text">
+                                  <td className="border rounded">
+                                    <span className="fs-5 bg-light p-2 px-3 rounded">
                                       {item?.quantity}
                                     </span>
                                   </td>

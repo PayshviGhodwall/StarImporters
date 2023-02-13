@@ -50,6 +50,7 @@ const Cart = () => {
         }
       });
   };
+  
   const HandleIncrease = async (id) => {
     const formData = {
       productId: product[id]?.productId?._id,

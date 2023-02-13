@@ -4,24 +4,35 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import Select from "react-select";
-
+import Swal from "sweetalert2";
+import { Button, Loader } from "rsuite";
 const EditOrder = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
-  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
+  const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
+  const inventoryEdit = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/editOrder`;
+  const editQuantity = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/editOrderItem`;
+  const [editDetails, setEditDetails] = useState([]);
   const [orders, setOrders] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState([]);
+  const [product, setProducts] = useState([]);
   const [searchKey, setSearchKey] = useState("");
+  const [flavour, setFlavour] = useState();
+  const [quantity, setQuantity] = useState();
   const navigate = useNavigate();
+  const [load, setLoad] = useState(false);
+  const [loader, setLoader] = useState(false);
   let User = JSON.parse(localStorage.getItem("AdminData"));
   let id = location?.state?.id;
   const [options, setOptions] = useState([]);
 
+  console.log(flavour);
   useEffect(() => {
     OrderDetails();
   }, []);
+
   useEffect(() => {
     createOptions();
   }, [searchKey]);
@@ -40,6 +51,7 @@ const EditOrder = () => {
       .then((res) => {
         if (!res.error) {
           let data = res?.data.results.results;
+          setProducts(data);
           const optionList = data?.map((item, index) => ({
             value: item?._id,
             label: item?.unitName,
@@ -49,18 +61,91 @@ const EditOrder = () => {
       });
   };
 
-  const handleChange = (i, e) => {
-    // let newProducts = { ...quote };
-    // newProducts.products[i].price = e.target.value;
-    // setQuote(newProducts);
+  const handleChange = async (i, e) => {
+    setLoad(true);
+    let val = e.target.value;
+    console.log(orders.products[i]);
+    await axios
+      .post(editQuantity + "/" + id, {
+        itemId: orders.products[i]._id,
+        quantity: val,
+      })
+      .then((res) => {
+        console.log(res);
+        setLoad(false);
+      });
+  };
+  const deleteChange = async (i) => {
+    await axios
+      .post(editQuantity + "/" + id, {
+        deleteId: orders.products[i]._id,
+      })
+      .then((res) => {
+        console.log(res);
+        OrderDetails();
+      });
   };
   const handleChange2 = (selected) => {
     setSelectedProduct({
       usersSelected: selected,
     });
+    GetProducts(selected?.value);
   };
+  const GetProducts = async (id) => {
+    await axios.get(getProducts + "/" + id).then((res) => {
+      console.log(res);
+      setProducts(res?.data.results);
+    });
+  };
+  console.log(flavour);
   const handleInputChange = (inputValue) => {
     setSearchKey(inputValue);
+  };
+
+  const handleEditDetails = (e, key) => {
+    setEditDetails({ ...editDetails, [key]: e.target.value });
+  };
+  console.log(editDetails);
+
+  const AddProduct = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(inventoryEdit + "/" + id, {
+        productId: selectedProduct?.usersSelected?.value,
+        quantity: quantity,
+        flavour: JSON.parse(flavour),
+      })
+      .then((res) => {
+        if (!res.data.error) {
+          Swal.fire({
+            title: "New Product Added!",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
+          document.getElementById("Modal").click();
+          OrderDetails();
+        }
+      });
+  };
+
+  const saveShipment = async () => {
+    setLoader(true);
+    await axios
+      .post(editQuantity + "/" + id, {
+        type: editDetails?.orderType,
+        status: editDetails?.status,
+      })
+      .then((res) => {
+        OrderDetails();
+        setLoader(false);
+        if (!res.data.error) {
+          Swal.fire({
+            title: "Shipment Details Updated!",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
+        }
+      });
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -487,12 +572,14 @@ const EditOrder = () => {
                                     href="javscript:;"
                                   />
                                 </th>
-                                <th>Quantity</th>
+                                <th>
+                                  {load ? <Loader color="red" /> : "Quantity"}
+                                </th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="border">
                               {(orders?.products || [])?.map((item, index) => (
-                                <tr>
+                                <tr className="border">
                                   <td>
                                     <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
                                       <div className="col-auto">
@@ -535,18 +622,27 @@ const EditOrder = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td className="text-center">
-                                    <span className="mx-5">
+                                  <td className="border rounded">
+                                    <span className="fs-5 p-2 rounded">
                                       <input
-                                        type="number"
+                                        type="tel"
+                                        maxLength="4"
                                         name="price"
                                         defaultValue={item?.quantity}
-                                        className="form-control fs-6 w-50 mx-5 bg-light"
+                                        className="border text-center"
                                         onChange={(e) => {
                                           handleChange(index, e);
                                         }}
                                       ></input>
                                     </span>
+                                  </td>
+                                  <td className="border">
+                                    <button
+                                      className="mx-5 text-danger fs-6 bg-white"
+                                      onClick={() => deleteChange(index)}
+                                    >
+                                      Remove
+                                    </button>
                                   </td>
                                 </tr>
                               ))}
@@ -555,7 +651,7 @@ const EditOrder = () => {
                               <button
                                 data-bs-toggle="modal"
                                 data-bs-target="#staticBackdrop65"
-                                className="comman_btn2 mx-4 rounded"
+                                className="comman_btn2 mx-4 rounded mt-3"
                               >
                                 Add More
                               </button>
@@ -566,97 +662,173 @@ const EditOrder = () => {
                     </div>
 
                     <div className="col-12">
-                      <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                        <span className="small_header">Shipment Details</span>
-                        <div className="col-md-4 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Buyer Name:</span>
-                            <div className="col">
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.firstName}
-                                className="border p-2 rounded bg-light"
-                              />
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.lastName}
-                                className="border p-2 rounded bg-light"
-                              />
+                      <form
+                        className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                        action=""
+                        // onSubmit={handleSubmit(onSubmit)}
+                      >
+                        <div className="row mx-0 border rounded pt-4 p-3 position-relative">
+                          <span className="small_header">Shipment Details</span>
+
+                          {/* <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Buyer Name:</span>
+                              <div className="col">
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.firstName}
+                                  name="firstName"
+                                  className="border p-2 rounded bg-light"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "firstName")
+                                  }
+                                />
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.lastName}
+                                  className="border p-2 rounded bg-light"
+                                  name="lastName"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "lastName")
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-4 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Email:</span>
-                            <div className="col">
-                              <input
-                                type="email"
-                                defaultValue={orders?.userId?.email}
-                                className="border p-2 rounded bg-light"
-                                name=""
-                              />
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Email:</span>
+                              <div className="col">
+                                <input
+                                  type="email"
+                                  defaultValue={orders?.userId?.email}
+                                  className="border p-2 rounded bg-light"
+                                  name="email"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "email")
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-4 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Mobile Number:</span>
-                            <div className="col">
-                              <input
-                                type="number"
-                                defaultValue={orders?.userId?.phoneNumber}
-                                className="border p-2 rounded bg-light"
-                                name=""
-                              />
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Mobile Number:</span>
+                              <div className="col">
+                                <input
+                                  type="number"
+                                  defaultValue={orders?.userId?.phoneNumber}
+                                  className="border p-2 rounded bg-light"
+                                  name="phoneNumber"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "phoneNumber")
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div> */}
+                          {/* <div className="col-md-6 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Shipment Location:</span>
+                              <div className="col-12">
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.addressLine1}
+                                  className="border p-2 rounded bg-light"
+                                  name="addressLine"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "addressLine")
+                                  }
+                                />
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.city}
+                                  className="border p-2 rounded bg-light"
+                                  name="city"
+                                  onChange={(e) => handleEditDetails(e, "city")}
+                                />
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.state}
+                                  className="border p-2 rounded bg-light"
+                                  name="state"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "state")
+                                  }
+                                />
+                                <input
+                                  type="text"
+                                  defaultValue={orders?.userId?.zipcode}
+                                  className="border p-2 rounded bg-light"
+                                  name="zipcode"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "zipcode")
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div> */}
+                          <div className="col-md-6 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Order Type:</span>
+                              <div className="col">
+                                <select
+                                  type="select"
+                                  className="form-select"
+                                  name="orderType"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "orderType")
+                                  }
+                                >
+                                  <option selected="" value="">
+                                    {orders?.type}
+                                  </option>
+                                  <option value="Shipment">Shipment</option>
+                                  <option value="Delivery">Delivery</option>
+                                  <option value="In-Store Pickup">
+                                    In-Store Pickup
+                                  </option>
+                                </select>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Shipment Location:</span>
-                            <div className="col-12">
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.addressLine1}
-                                className="border p-2 rounded bg-light"
-                              />
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.city}
-                                className="border p-2 rounded bg-light"
-                              />
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.state}
-                                className="border p-2 rounded bg-light"
-                              />
-                              <input
-                                type="text"
-                                defaultValue={orders?.userId?.zipcode}
-                                className="border p-2 rounded bg-light"
-                              />
+                          <div className="col-md-6 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Order Status:</span>
+                              <div className="col">
+                                <select
+                                  type="select"
+                                  className="form-select"
+                                  name="orderType"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "status")
+                                  }
+                                >
+                                  <option selected="">{orders?.status}</option>
+                                  <option value="ORDER PLACED">
+                                    Order Placed
+                                  </option>
+                                  <option value="DISPATCHED">Dispatched</option>
+                                  <option value="SHIPPED">Shipped</option>
+                                  <option value="DELIVERED">Delivered</option>
+                                  <option value="CANCEL">Canceled</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Order Type:</span>
-                            <div className="col">
-                              <select type="select" className="form-select">
-                                <option selected="" value="">
-                                  {orders?.type}
-                                </option>
-                                <option value="">Shipment</option>
-                                <option value="">Delivery</option>
-                                <option value="">In-Store Pickup</option>
-                              </select>
-                            </div>
+                          <div className="mt-2 text-start">
+                            <Button
+                              loading={loader}
+                              appearance="primary"
+                              color="red"
+                              className="comman_btn2 rounded "
+                              onClick={saveShipment}
+                            >
+                              Save Details
+                            </Button>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 text-center">
-                      <button className="comman_btn ">Save Changes</button>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -686,6 +858,10 @@ const EditOrder = () => {
                 data-bs-dismiss="modal"
                 id="Modal"
                 aria-label="Close"
+                onClick={() => {
+                  setSelectedProduct({ usersSelected: null });
+                  document.getElementById("modalReset").click();
+                }}
               />
             </div>
             <div className="modal-body shadow">
@@ -693,33 +869,56 @@ const EditOrder = () => {
                 <div className="form-group col-12  ">
                   <label htmlFor="">Product Name </label>
                   <Select
-                    defaultValue=""
                     name="users"
                     options={options}
+                    value={selectedProduct?.usersSelected}
                     className="basic-multi-select z-3"
                     classNamePrefix="select"
                     onChange={handleChange2}
                     onInputChange={handleInputChange}
+                    isClearable
                   />
                 </div>
 
                 <div className="form-group col-6">
                   <label htmlFor="">Select Flavour </label>
-                  <select type="select" className="form-select">
+                  <select
+                    type="select"
+                    className="form-select"
+                    onChange={(e) => setFlavour(e.target.value)}
+                  >
                     <option selected="" value="">
                       Select Any Flavour
                     </option>
-                    <option value="">Shipment</option>
-                    <option value="">Delivery</option>
-                    <option value="">In-Store Pickup</option>
+
+                    {product?.type?.map((item, ind) => (
+                      <option value={JSON.stringify(item)} key={ind}>
+                        {item?.flavour}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group col-6">
                   <label htmlFor="EditPass">Quantity </label>
-                  <input type="number" className="form-control-sub border" />
+                  <input
+                    type="number"
+                    className="form-control-sub border"
+                    onChange={(e) => setQuantity(e.target.value)}
+                  />
                 </div>
                 <div className="form-group mb-0 col-12 text-center ">
-                  <button className="comman_btn2">Save</button>
+                  <button className="comman_btn2" onClick={AddProduct}>
+                    Save
+                  </button>
+                </div>
+                <div className="form-group mb-0 col-12 text-center ">
+                  <button
+                    className="comman_btn2 d-none"
+                    id="modalReset"
+                    type="reset"
+                  >
+                    reset
+                  </button>
                 </div>
               </form>
             </div>

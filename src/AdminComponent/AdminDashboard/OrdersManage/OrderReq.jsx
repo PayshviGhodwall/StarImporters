@@ -2,21 +2,46 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
+import Select from "react-select";
+import Swal from "sweetalert2";
+
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
   const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportAllQuotes`;
+  const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
+  const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/findUser`;
   const searchOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/searchOrders`;
   const quoteOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/searchQuotes`;
+  const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
+  const createOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/createOrder`;
+  const getUserDetails = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getUserAddress`;
   const [orders, setOrders] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
+  const [addForm, setAddForm] = useState(true);
   const [values, setValues] = useState({ from: "", to: "" });
+  const [options, setOptions] = useState([]);
+  const [UsersOptions, setUsersOptions] = useState([]);
+  // const [selectedProduct, setSelectedProduct] = useState({ products: [] });
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
+  const [searchUserKey, setSearchUserKey] = useState("");
+  const [product, setProducts] = useState({});
+  const [addType, setAddType] = useState("");
+  const [address, setAddress] = useState("");
+
+  const [formValues, setFormValues] = useState([
+    {
+      productName: [],
+      flavour: [],
+      Quantity: [],
+    },
+  ]);
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
@@ -27,6 +52,15 @@ const OrderReq = () => {
     OrderRequest();
     QuoteRequest();
   }, []);
+
+  useEffect(() => {
+    createOptions();
+  }, [searchKey]);
+
+  useEffect(() => {
+    createOptionUsers();
+  }, [searchUserKey]);
+
   const OrderRequest = async () => {
     await axios.post(orderList).then((res) => {
       setOrders(res?.data.results?.orders);
@@ -38,12 +72,74 @@ const OrderReq = () => {
     });
   };
 
+  const createOptions = async () => {
+    await axios
+      .post(inventorySearch, {
+        search: searchKey,
+      })
+      .then((res) => {
+        if (!res.error) {
+          let data = res?.data.results.results;
+          // setProducts(data);
+          const optionList = data?.map((item, index) => ({
+            value: item?._id,
+            label: item?.unitName,
+          }));
+          setOptions(optionList);
+        }
+      });
+  };
+  const GetProducts = async (id) => {
+    await axios.get(getProducts + "/" + id).then((res) => {
+      let data = res?.data.results;
+      setProducts((p) => ({ ...p, [id]: data }));
+    });
+  };
+
+  const handleChange2 = (selected, index) => {
+    GetProducts(selected?.value);
+    let newFormValues = [...formValues];
+    newFormValues[index].productName = selected;
+    setFormValues(newFormValues);
+  };
+  const handleInputChange = (inputValue) => {
+    setSearchKey(inputValue);
+  };
   const handleDate = (e) => {
     const value = e.target.value;
     setValues({
       ...values,
       [e.target.name]: value,
     });
+  };
+
+  const createOptionUsers = async () => {
+    await axios
+      .post(UserSearch, {
+        search: searchUserKey,
+      })
+      .then((res) => {
+        if (!res.error) {
+          let data = res?.data.results.users;
+          const optionList = data?.map((item, index) => ({
+            value: item?._id,
+            label: item?.firstName + "-" + item?.email,
+          }));
+          setUsersOptions(optionList);
+        }
+      });
+  };
+  const handleChangeUser = async (selected) => {
+    setSelectedUser({
+      userSelected: selected,
+    });
+    await axios.post(getUserDetails + "/" + selected?.value).then((res) => {
+      let data = res?.data.results;
+      setAddress(data?.address);
+    });
+  };
+  const handleInputChangeUser = (inputValue) => {
+    setSearchUserKey(inputValue);
   };
 
   const onOrderSearch = async (e) => {
@@ -56,6 +152,58 @@ const OrderReq = () => {
       .then((res) => {
         setOrders(res?.data.results?.orders);
       });
+  };
+
+  const AddOrder = async (e) => {
+    e.preventDefault();
+    const dataArray = formValues?.map(function (item) {
+      return {
+        productId: item?.productName.value,
+        quantity: item?.Quantity,
+        flavour: JSON.parse(item?.flavour),
+      };
+    });
+
+    await axios
+      .post(createOrder, {
+        userId: selectedUser?.userSelected.value,
+        type: addType,
+        products: dataArray,
+        address: address.addressLine1,
+      })
+      .then((res) => {
+        if (!res.error) {
+          OrderRequest();
+          document.getElementById("Exit").click();
+          Swal.fire({
+            title: "Order Added Successfully!",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Fill All Details Carefully!",
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        }
+      });
+  };
+
+  let handleChangeFlavour = (e, i) => {
+    let val = e.target.value;
+    let newFormValues = [...formValues];
+    newFormValues[i].flavour = val;
+    setFormValues(newFormValues);
+  };
+  let handleChangeQuantity = (e, i) => {
+    let val = e.target.value;
+    let newFormValues = [...formValues];
+    newFormValues[i].Quantity = val;
+    setFormValues(newFormValues);
   };
   const onQuoteSearch = async (e) => {
     e.preventDefault();
@@ -94,6 +242,7 @@ const OrderReq = () => {
         }
       });
   };
+
   const OrderSearch = async (e) => {
     let string = e.target.value;
     string !== ""
@@ -108,6 +257,7 @@ const OrderReq = () => {
           })
       : OrderRequest();
   };
+
   const QuoteSearch = async (e) => {
     let string = e.target.value;
     string !== ""
@@ -122,6 +272,23 @@ const OrderReq = () => {
           })
       : QuoteRequest();
   };
+
+  const addFormFields = (e) => {
+    setFormValues([
+      ...formValues,
+      {
+        productName: [],
+        flavour: [],
+        Quantity: [],
+      },
+    ]);
+  };
+  const removeFormFields = (index) => {
+    let newFormValues = [...formValues];
+    newFormValues?.splice(index, 1);
+    setFormValues(newFormValues);
+  };
+
   var today = new Date().toISOString().split("T")[0];
   document.getElementById("orderTo")?.setAttribute("max", today);
   document.getElementById("orderFrom")?.setAttribute("max", today);
@@ -489,6 +656,184 @@ const OrderReq = () => {
         </div>
         <div className="admin_panel_data height_adjust">
           <div className="row category_management justify-content-center">
+            <div className="col-12 text-end mb-4">
+              {addForm ? (
+                <a
+                  className="comman_btn2 text-decoration-none"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setAddForm(!addForm)}
+                >
+                  Add Order
+                </a>
+              ) : (
+                <a
+                  className="comman_btn2 text-decoration-none"
+                  style={{ cursor: "pointer" }}
+                  id="Exit"
+                  onClick={() => {
+                    setAddForm(!addForm);
+                  }}
+                >
+                  Exit
+                </a>
+              )}
+            </div>
+            <div className="row">
+              <div
+                className={
+                  addForm
+                    ? "d-none"
+                    : "col-12 design_outter_comman  shadow mb-5 "
+                }
+              >
+                <div className="row comman_header justify-content-between ">
+                  <div className="col-auto">
+                    <h2>Add New Order</h2>
+                  </div>
+                </div>
+                <form
+                  className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                  action=""
+                  noValidate
+                >
+                  <div className="form-group col-6">
+                    <label htmlFor="">Select User</label>
+                    <Select
+                      name="users"
+                      options={UsersOptions}
+                      value={selectedUser?.userSelected}
+                      className="basic-multi-select z-3"
+                      classNamePrefix="select"
+                      onChange={handleChangeUser}
+                      onInputChange={handleInputChangeUser}
+                      isClearable
+                      required
+                    />
+                  </div>
+                  <div className="form-group col-6">
+                    <label htmlFor="">Select Delivery Type</label>
+                    <select
+                      type="text"
+                      className="form-select"
+                      name="userName"
+                      onChange={(e) => {
+                        setAddType(e.target.value);
+                      }}
+                      required
+                    >
+                      <option>Select Delivery</option>
+                      <option value="Shipment">Shipment</option>
+                      <option value="Delivery">Delivery</option>
+                      <option value="In-Store Pickup">In-Store Pickup</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group col-12 mt-2 p-1">
+                    <form className=" ">
+                      <div className="row flavour_box align-items-end mx-0 py-3 px-4">
+                        {(formValues || [])?.map((item, index) => (
+                          <div className="form-group mb-0 col-12 border rounded p-3 mb-2">
+                            <div className="row" key={index}>
+                              <div className="form-group col-4">
+                                <label htmlFor="">Select Product</label>
+                                <Select
+                                  name="users"
+                                  options={options}
+                                  value={item?.productName || ""}
+                                  className="basic-multi-select z-3"
+                                  classNamePrefix="select"
+                                  onChange={(value) =>
+                                    handleChange2(value, index)
+                                  }
+                                  onInputChange={handleInputChange}
+                                  isClearable
+                                  required
+                                />
+                              </div>
+                              <div className="form-group col-4">
+                                <label htmlFor="">Select Flavour</label>
+                                <select
+                                  type="text"
+                                  className="form-select"
+                                  name="productName"
+                                  value={item?.flavour || ""}
+                                  onChange={(value) =>
+                                    handleChangeFlavour(value, index)
+                                  }
+                                  required
+                                >
+                                  <option selected="" value="">
+                                    Select Any Flavour
+                                  </option>
+
+                                  {product[
+                                    formValues[index]?.productName?.value
+                                  ]?.type?.map((item, ind) => (
+                                    <option
+                                      value={JSON.stringify(item)}
+                                      key={ind}
+                                    >
+                                      {item?.flavour}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="form-group mb-0 col-3">
+                                <label htmlFor="">Add Quanitity</label>
+                                <input
+                                  type="number"
+                                  className="form-New-select border "
+                                  name="flavourPrice"
+                                  value={item?.Quantity || ""}
+                                  onChange={(e) =>
+                                    handleChangeQuantity(e, index)
+                                  }
+                                  required
+                                />
+                              </div>
+
+                              <div className="form-group col-1  rmv_btn">
+                                <button
+                                  className="comman_btn "
+                                  type="button"
+                                  disabled={
+                                    formValues?.length <= 1 ? true : false
+                                  }
+                                  onClick={() => removeFormFields(index)}
+                                >
+                                  <i className="fa fa-minus mt-1 mx-1" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="form-group  col-12 text-center mb-3 mb-0">
+                          <button
+                            className="comman_btn add_btn"
+                            type="button"
+                            onClick={() => addFormFields()}
+                          >
+                            <i className="fa fa-plus mt-1 mx-1" /> Add More
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="form-group mb-0 col-12 text-center ">
+                    <button
+                      className="comman_btn2"
+                      type="submit"
+                      onClick={AddOrder}
+                    >
+                      Save Product
+                    </button>
+                    <button className="comman_btn2 d-none" type="reset">
+                      Save Product
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
             <div className="col-12">
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman recent_orders shadow">
