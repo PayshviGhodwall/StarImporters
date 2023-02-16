@@ -54,7 +54,7 @@ function WebHeader2() {
                 src={
                   detail?.profileImage
                     ? detail?.profileImage
-                    : "/assets/img/profile_img1.png"
+                    : "/assets/img/favicon.png"
                 }
                 alt=""
               />

@@ -50,7 +50,7 @@ function AppSubCategories() {
               </Link>
             </div>
             <div class="page-heading">
-              <h6 class="mb-0">All Categories</h6>
+              <h6 class="mb-0">All Sub Categories</h6>
             </div>
             <div
               class="suha-navbar-toggler ms-2"

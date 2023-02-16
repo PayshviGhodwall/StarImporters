@@ -95,6 +95,7 @@ function AppHome() {
       navigate("/app/product-by-search", { state: { search: search } });
     }
   };
+
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
