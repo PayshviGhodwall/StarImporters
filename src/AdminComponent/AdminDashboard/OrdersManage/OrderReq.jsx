@@ -7,6 +7,7 @@ import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import Select from "react-select";
 import Swal from "sweetalert2";
+import ViewProduct from "../ViewProduct";
 
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
@@ -690,7 +691,16 @@ const OrderReq = () => {
                   <div className="col-auto">
                     <h2>Add New Order</h2>
                   </div>
+                  <div className="col-auto">
+                    <button
+                      className="comman_btn2"
+                      onClick={() => navigate("/Inventory/View")}
+                    >
+                      View Inventory
+                    </button>
+                  </div>
                 </div>
+
                 <form
                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                   action=""
@@ -1145,6 +1155,35 @@ const OrderReq = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade comman_modal"
+        id="staticBackdropView1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Edit Sub Category
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                id="subCateModal"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body shadow">
+              <ViewProduct />
             </div>
           </div>
         </div>

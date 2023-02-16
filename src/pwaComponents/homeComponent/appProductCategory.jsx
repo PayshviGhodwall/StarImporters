@@ -82,7 +82,7 @@ function AppProductCategory() {
   const sortProducts = async (e) => {
     const { data } = await getByCategory({
       category: id,
-      sortBy: e.target.value,
+      sortBy: parseInt(e.target.value),
       page: activePage,
     });
     if (!data.error) {
@@ -242,7 +242,7 @@ function AppProductCategory() {
                     >
                       <option selected>Sort by</option>
                       <option value="1">A to Z</option>
-                      <option value="0">Z to A</option>
+                      <option value="-1">Z to A</option>
                     </select>
                   </div>
                 </div>

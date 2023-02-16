@@ -106,6 +106,9 @@ import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch"
 import AppWelcome from "./pwaComponents/homeComponent/appWelcome";
 import SubAdmin from "./AdminComponent/AdminDashboard/Sub-Admin/SubAdmin";
 import EditOrder from "./AdminComponent/AdminDashboard/OrdersManage/EditOrder";
+import AppSubCategories from "./pwaComponents/homeComponent/appSubCategories";
+import AppProductSubCategory from "./pwaComponents/homeComponent/appProductSubCategory";
+import ViewProduct from "./AdminComponent/AdminDashboard/ViewProduct";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -193,6 +196,7 @@ function App() {
           <Route path="/UserManage/AddUser" element={<AddUser />} />
           <Route path="/CategorySub" element={<CategorySub />} />
           <Route path="/Inventory" element={<Inventory />} />
+          <Route path="/Inventory/View" element={<ViewProduct />} />
           <Route path="/Inventory/View-Edit" element={<EditInventory />} />
           <Route path="/BrandsManage" element={<BrandsManage />} />
           <Route path="/Cms" element={<Cms />} />
@@ -313,6 +317,10 @@ function App() {
             element={width < 999 ? <AppCategories /> : <AllCategories />}
           />
           <Route
+            path="/app/Sub-Categories/:id"
+            element={width < 999 ? <AppSubCategories /> : <AllCategories />}
+          />
+          <Route
             path="/app/wishlist"
             element={width < 999 ? <AppWishlist /> : <Favourites />}
           />
@@ -339,6 +347,10 @@ function App() {
           <Route
             path="/app/product-category/:id"
             element={<AppProductCategory />}
+          />
+          <Route
+            path="/app/product-subCategory/:id"
+            element={<AppProductSubCategory />}
           />
           <Route
             path="/app/productBrands"

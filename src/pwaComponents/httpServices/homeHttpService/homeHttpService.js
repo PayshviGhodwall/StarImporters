@@ -241,11 +241,27 @@ export async function getCategory(activePage) {
     if (error.response) return { error };
   }
 }
+export async function getSubCategory(id) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/category/subCatbyCat`,
+      {
+        category: id,
+      }
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) return { error };
+  }
+}
 export async function getAllProducts(activePage) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`,{
-        page:activePage
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getAllProducts`,
+      {
+        page: activePage,
       }
     );
     console.log(data);
@@ -262,7 +278,20 @@ export async function getByCategory(formData) {
       `,
 
       formData
-      
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    if (error.response) return { error };
+  }
+}
+export async function getBySubCategory(formData) {
+  try {
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/products/getBySubCategory
+      `,
+      formData
     );
     console.log(data);
 

@@ -43,7 +43,7 @@ function AppProductBrands() {
   const sortProducts = async (e) => {
     const { data } = await getByBrands({
       brand: name,
-      sortBy: e.target.value,
+      sortBy: parseInt(e.target.value),
       page: activePage,
     });
     if (!data.error) {
@@ -57,6 +57,7 @@ function AppProductBrands() {
       setProduct(data.results.products);
     }
   };
+
   const addToCartt = async (id) => {
     const formData = {
       productId: id,
@@ -68,6 +69,7 @@ function AppProductBrands() {
       navigate("/app/cart");
     }
   };
+  
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
@@ -156,7 +158,7 @@ function AppProductBrands() {
                     >
                       <option selected>Short by</option>
                       <option value="1">A to Z</option>
-                      <option value="0">Z to A</option>
+                      <option value="-1">Z to A</option>
                     </select>
                   </div>
                 </div>
