@@ -47,7 +47,6 @@ const SingleProdBySearch = () => {
 
   let token = localStorage.getItem("token-user");
 
- 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
@@ -581,7 +580,7 @@ const SingleProdBySearch = () => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate(`/AllProducts/Product/${item?._id}`, {
                                 state: { id: item?._id },
                               });
                               window.scrollTo({
@@ -594,7 +593,7 @@ const SingleProdBySearch = () => {
                         <div className="product_content mt-3 text-center">
                           <a
                             onClick={() => {
-                              navigate("/AllProducts/Product", {
+                              navigate(`/AllProducts/Product/${item?._id}`, {
                                 state: { id: item?._id },
                               });
                               window.scrollTo({

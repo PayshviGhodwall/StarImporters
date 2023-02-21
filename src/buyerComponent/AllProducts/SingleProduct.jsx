@@ -292,6 +292,7 @@ const SingleProduct = () => {
                                   ? item?.flavourImage
                                   : require("../../assets/img/product.jpg")
                               }
+                              className="flavour_box_img"
                               alt=""
                             />
                           </button>

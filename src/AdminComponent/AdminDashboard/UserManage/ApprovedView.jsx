@@ -677,6 +677,7 @@ const ApprovedView = () => {
                               </div>
                             </label>
                           </div>
+                          <strong> Expires on : 30/013/20</strong>
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
@@ -886,6 +887,36 @@ const ApprovedView = () => {
                           <span className="fw-bold fs-6">
                             Request for Quotation :
                           </span>
+                          <div className="col">
+                            <div className="action_filter filter_check">
+                              <input
+                                className="d-none"
+                                type="radio"
+                                id="vii"
+                                checked={user?.quotation}
+                                name="quotation"
+                                disabled
+                              />
+                              <label htmlFor="vii">Enabled</label>
+                            </div>
+                          </div>
+                          <div className="col">
+                            <div className="action_filter filter_check">
+                              <input
+                                className="d-none"
+                                type="radio"
+                                id="sh"
+                                name="quotation"
+                                disabled
+                              />
+                              <label htmlFor="sh">Disabled </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold fs-6">Tobacco License:</span>
                           <div className="col">
                             <div className="action_filter filter_check">
                               <input

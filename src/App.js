@@ -109,6 +109,7 @@ import EditOrder from "./AdminComponent/AdminDashboard/OrdersManage/EditOrder";
 import AppSubCategories from "./pwaComponents/homeComponent/appSubCategories";
 import AppProductSubCategory from "./pwaComponents/homeComponent/appProductSubCategory";
 import ViewProduct from "./AdminComponent/AdminDashboard/ViewProduct";
+import PdfPrint from "./AdminComponent/AdminDashboard/OrdersManage/PdfPrint";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -201,6 +202,7 @@ function App() {
           <Route path="/BrandsManage" element={<BrandsManage />} />
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
+          <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
           <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
           <Route path="/OrderRequest/ViewOrder/Edit" element={<EditOrder />} />
           <Route

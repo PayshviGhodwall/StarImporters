@@ -65,14 +65,6 @@ const ViewOrder = () => {
       }
     });
   };
-  const exportOrderPdf = async (e) => {
-    e.preventDefault();
-    await axios.post(orderExportPdf + "/" + id).then((res) => {
-      if (!res?.error) {
-        fileDownload(res?.data.results?.file, orders?.orderId);
-      }
-    });
-  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -441,11 +433,9 @@ const ViewOrder = () => {
                     <div className="col-auto">
                       <h2>Order Details</h2>
                     </div>
+                    <div className="col-auto"></div>
                     <div className="col-auto">
-                     
-                    </div>
-                    <div className="col-auto">
-                    <button
+                      <button
                         class="dropdown-btns comman_btn2 mx-2"
                         onClick={() =>
                           navigate("/OrderRequest/ViewOrder/Edit", {
@@ -479,7 +469,7 @@ const ViewOrder = () => {
                           <a href="#">
                             <Link
                               className="text-decoration-none text-dark dropdown-item"
-                              onClick={exportOrderPdf}
+                              to={`/OrderRequest/Pdf/${id}`}
                             >
                               Export .pdf
                             </Link>

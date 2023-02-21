@@ -187,22 +187,20 @@
   /*--------------------------------------------------------------
     # Header
     --------------------------------------------------------------*/
-.comman_btn_search{
-  background-color: #3e4093;
-  color: #fff;
-  padding: 2px 6px;
-  transition: 0.5s all;
-  border-radius: 6px 0px 0px 6px  ;
-  position: relative;
-  left: 4px;
-  z-index: 9;
-
-}
-.searchDrop{
-  background-color: #3e4093;
-  border: none;
-
-}
+  .comman_btn_search {
+    background-color: #3e4093;
+    color: #fff;
+    padding: 2px 6px;
+    transition: 0.5s all;
+    border-radius: 6px 0px 0px 6px;
+    position: relative;
+    left: 4px;
+    z-index: 9;
+  }
+  .searchDrop {
+    background-color: #3e4093;
+    border: none;
+  }
   .comman_btn {
     background-color: #3e4093;
     padding: 14px 32px;
@@ -906,12 +904,12 @@
     padding: 0 20px;
     border: 0;
   }
-  .form-New-select{
+  .form-New-select {
     height: 35px !important;
     font-size: 13px;
     padding: 0 20px;
     border-radius: 6px;
-    border: 2px grey !important; 
+    border: 2px grey !important;
   }
   .header_search {
     border-radius: 4px;
@@ -1143,6 +1141,9 @@
     margin: 0 auto;
     left: 0;
     right: 0;
+  }
+  .flavour_box_img {
+    background-color: #000 !important;
   }
   section {
     overflow: hidden;
@@ -1926,7 +1927,7 @@
     width: 100%;
   }
   .product_show .carousel-indicators button {
-    width: 90px !important;
+    width: 100px !important;
     height: 90px;
     overflow: hidden;
     display: block;
@@ -1934,12 +1935,14 @@
     border: 0;
     background-color: #eef3ff !important;
     opacity: 1;
+    padding: 0 !important;
   }
+  
   .product_show .carousel-inner {
     margin-left: 15px;
   }
   .product_show .carousel-indicators button img {
-    max-width: 35px;
+    max-width: 90px;
   }
   .product_details_text h2 {
     font-weight: 600;
@@ -8899,7 +8902,7 @@ background-color: #3e4093;
     font-weight: 500;
     padding: 0.375rem 0.5rem;
   }
-  
+
   .cart-form .quantity-button-handler {
     width: 35px;
     height: 35px;
@@ -12308,13 +12311,13 @@ a:hover {
   left: 62px;
 }
 @keyframes lds-default {
-  0%, 20%, 80%, 100% {
+  0%,
+  20%,
+  80%,
+  100% {
     transform: scale(1);
   }
   50% {
     transform: scale(1.5);
   }
 }
-
-
-

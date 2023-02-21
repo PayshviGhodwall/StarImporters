@@ -41,13 +41,17 @@ const Navbar = ({ NState, LoginState }) => {
       document.getElementById("modal-login").click();
     }
   }, [LoginState]);
-
   const getProductList = async (e) => {
     let Search = e.target.value;
-    const { data } = await homeSearch({ search: Search?.replace(".", "") });
-    if (!data.error) {
-      let dataList = data?.results;
-      setProducts(dataList?.slice(0, 6));
+    console.log(Search);
+    if (Search != "") {
+      const { data } = await homeSearch({
+        search: Search?.replace(".", "")?.trim(),
+      });
+      if (!data.error) {
+        let dataList = data?.results;
+        setProducts(dataList?.slice(0, 6));
+      }
     }
   };
 
@@ -120,7 +124,7 @@ const Navbar = ({ NState, LoginState }) => {
     }
   };
   return (
-    <div className="header_main ">
+    <div className="header_main " ref={ref}>
       <header className="">
         <div className="row header_top py-3 px-4 align-items-center justify-content-between">
           <div className="col-auto">
@@ -213,6 +217,7 @@ const Navbar = ({ NState, LoginState }) => {
                   data-bs-target="#staticBackdrop1"
                   aria-current="page"
                   href="#"
+                  onClick={() => setSearch()}
                 >
                   Login
                 </Link>
@@ -309,7 +314,7 @@ const Navbar = ({ NState, LoginState }) => {
         </div>
       </header>
       {search?.length ? (
-        <section className="brands_page p-2 shadow" ref={ref}>
+        <section className="brands_page p-2 shadow">
           {products?.length ? (
             <div>
               <div className="col w-100">

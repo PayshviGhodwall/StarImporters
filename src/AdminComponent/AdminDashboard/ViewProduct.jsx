@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
 import classNames from "classnames";
-import { useScrollBy } from "react-use-window-scroll";
 import Swal from "sweetalert2";
-import swal from "sweetalert";
 
 const ViewProduct = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/allProducts`;

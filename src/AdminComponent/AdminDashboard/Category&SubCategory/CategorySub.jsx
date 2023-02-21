@@ -930,6 +930,7 @@ const CategorySub = () => {
                                           <th>Category Image</th>
                                           <th>Background Image</th>
                                           <th>Status</th>
+                                          <th>Tobacco</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -988,7 +989,24 @@ const CategorySub = () => {
                                                   </label>
                                                 </div>
                                               </td>
-
+                                              <td className="border">
+                                                {" "}
+                                                <div className="">
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={index + 1}
+                                                      defaultChecked={
+                                                        item?.status
+                                                      }
+                                                      onClick={() => {
+                                                        CategoryStatus(index);
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
+                                              </td>
                                               <td>
                                                 <Link
                                                   data-bs-toggle="modal"
@@ -1150,6 +1168,7 @@ const CategorySub = () => {
                                           <th>Category Name</th>
                                           <th>Sub Category Name</th>
                                           <th>Sub Category Image</th>
+                                          <th>Tobacco</th>
                                           <th>Action</th>
                                         </tr>
                                       </thead>
@@ -1183,6 +1202,24 @@ const CategorySub = () => {
                                                       : require("../../../assets/img/product.jpg")
                                                   }
                                                 ></img>
+                                              </td>
+                                              <td className="border">
+                                                {" "}
+                                                <div className="">
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={index + 1}
+                                                      defaultChecked={
+                                                        item?.status
+                                                      }
+                                                      onClick={() => {
+                                                        CategoryStatus(index);
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
                                               </td>
                                               <td className="border">
                                                 <Link

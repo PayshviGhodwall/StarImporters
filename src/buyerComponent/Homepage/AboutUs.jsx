@@ -31,7 +31,7 @@ const AboutUs = () => {
               <div class="inner-column">
                 <div class="sec-title">
                   <span class="title">About us</span>
-                  <h2>STAR IMPORTER & WHOLESALER Established Since 1994</h2>
+                  <h2>STAR IMPORTERS & WHOLESALERS Established Since 1994</h2>
                 </div>
                 <div class="text">
                   Star Importers & Wholesalers is a family-owned and operated
@@ -65,15 +65,14 @@ const AboutUs = () => {
 
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
               <div class="inner-column wow fadeInLeft">
-                <div class="author-desc">
-                  <h2>MONTY HUDDA</h2>
-                  <span>Owner</span>
+                <div class="author-desc mx-3">
+                  <h2>STAR TEAM</h2>
                 </div>
                 <figure class="image-1">
                   <a href="#" class="lightbox-image" data-fancybox="images">
                     <img
                       title="Rahul Kumar Yadav"
-                      src="https://i.ibb.co/QP6Nmpf/image-1-about.jpg"
+                      src={require("../../assets/img/starBg.jpg")}
                       alt=""
                     />
                   </a>
@@ -83,7 +82,7 @@ const AboutUs = () => {
           </div>
           <div class="sec-title">
             <span class="title">Our Future Goal</span>
-            <h2>We are leading towards Enovation & Technology</h2>
+            <h2>We are leading towards Innovation & Technology</h2>
           </div>
           <div class="text">
             <p>
