@@ -17,6 +17,12 @@ const PdfPrint = () => {
   const OrderDetails = async () => {
     await axios.get(orderView + "/" + id.id).then((res) => {
       setOrders(res?.data.results);
+      if (!res?.data.error) {
+        const timer = setTimeout(() => {
+          printPdf();
+        }, 2000);
+        return () => clearTimeout(timer);
+      }
     });
   };
 
@@ -26,7 +32,7 @@ const PdfPrint = () => {
   };
   return (
     <div>
-      <section className="m-0">
+      <section className="p-3">
         <table
           width="100%"
           style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}
@@ -885,7 +891,7 @@ const PdfPrint = () => {
             </tr>
           </tbody>
         </table>
-        <button className="comman_btn2" onClick={printPdf}>
+        <button className="comman_btn2 d-none" onClick={printPdf}>
           Print
         </button>
       </section>
