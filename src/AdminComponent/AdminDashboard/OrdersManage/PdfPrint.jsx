@@ -11,10 +11,18 @@ const PdfPrint = () => {
     OrderDetails();
   }, []);
 
+  axios.defaults.headers.common["x-auth-token-admin"] =
+    localStorage.getItem("AdminLogToken");
+
   const OrderDetails = async () => {
-    await axios.get(orderView + "/" + id).then((res) => {
+    await axios.get(orderView + "/" + id.id).then((res) => {
       setOrders(res?.data.results);
     });
+  };
+
+  const printPdf = async () => {
+    console.log("KK");
+    window.print();
   };
   return (
     <div>
@@ -441,13 +449,17 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  22/12/2022
+                                                  {orders?.createdAt?.slice(
+                                                    0,
+                                                    10
+                                                  )}
                                                 </span>
                                               </td>
                                             </tr>
                                           </tbody>
                                         </table>
                                       </td>
+
                                       <td
                                         style={{
                                           width: "20%",
@@ -486,7 +498,7 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  WOW10002
+                                                  {orders?.orderId}
                                                 </span>
                                               </td>
                                             </tr>
@@ -531,7 +543,7 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  3
+                                                  {orders?.products?.length}
                                                 </span>
                                               </td>
                                             </tr>
@@ -648,1057 +660,136 @@ const PdfPrint = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        <table
-                                          width="100%"
-                                          style={{
-                                            margin: "0 auto",
-                                            border: 0,
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
+                                    {(orders?.products || [])?.map(
+                                      (item, index) => (
+                                        <tr>
+                                          <td
                                             style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
+                                              fontSize: 16,
+                                              fontWeight: 500,
+                                              textAlign: "start",
+                                              color: "#000",
+                                              border: "2px solid #000",
+                                              padding: "10px 20px",
+                                              borderBottom: 0,
                                             }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        E-PART OOZE TWIST BATTERY DISPLAY 24CT -
-                                        PRE HEAT (YELLOW) 1/12
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        24
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        <table
-                                          width="100%"
-                                          style={{
-                                            margin: "0 auto",
-                                            border: 0,
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
+                                          >
+                                            <table
+                                              width="100%"
+                                              style={{
+                                                margin: "0 auto",
+                                                border: 0,
+                                                borderSpacing: 0,
+                                              }}
+                                            >
+                                              <tbody>
+                                                {(
+                                                  item?.flavour?.barcode || []
+                                                )?.map((item, ind) => (
+                                                  <tr>
+                                                    <td
+                                                      style={{
+                                                        fontSize: 16,
+                                                        fontWeight: 500,
+                                                        textAlign: "start",
+                                                        color: "#000",
+                                                      }}
+                                                    >
+                                                      {" "}
+                                                      {item}
+                                                    </td>
+                                                  </tr>
+                                                ))}
+                                              </tbody>
+                                            </table>
+                                          </td>
+                                          <td
                                             style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
+                                              fontSize: 16,
+                                              fontWeight: 500,
+                                              textAlign: "center",
+                                              color: "#000",
+                                              border: "2px solid #000",
+                                              padding: 12,
+                                              borderLeft: 0,
+                                              borderBottom: 0,
+                                              verticalAlign: "middle",
                                             }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        E-PART OOZE TWIST SLIM PEN 320MAH
-                                        BATTERY 1CT ASSORTED COLOR 1/50/300
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        1,000
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        <table
-                                          width="100%"
-                                          style={{
-                                            margin: "0 auto",
-                                            border: 0,
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
+                                          >
+                                            {" "}
+                                            <span
+                                              style={{
+                                                display: "block",
+                                                backgroundColor: "#f2f2f2",
+                                                borderRadius: 10,
+                                                padding: "17px 20px",
+                                              }}
+                                            >
+                                              <img
                                                 style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
+                                                  display: "block",
+                                                  maxWidth: 55,
+                                                  margin: "0 auto",
                                                 }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
+                                                src={
+                                                  item?.flavour?._id
+                                                    ? item?.flavour
+                                                        ?.flavourImage
+                                                    : item?.productId
+                                                        ?.productImage
+                                                }
+                                                alt=""
+                                              />
+                                            </span>{" "}
+                                          </td>
+                                          <td
                                             style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
+                                              fontSize: 16,
+                                              fontWeight: 500,
+                                              textAlign: "start",
+                                              color: "#000",
+                                              border: "2px solid #000",
+                                              padding: "10px 20px",
+                                              borderLeft: 0,
+                                              borderBottom: 0,
                                             }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        LGT 1CT EAGLE TORCH PT101N SINGLE ANGLE
-                                        1/15/180
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        360
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        <table
-                                          width="100%"
-                                          style={{
-                                            margin: "0 auto",
-                                            border: 0,
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  fontSize: 16,
-                                                  fontWeight: 500,
-                                                  textAlign: "start",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {" "}
-                                                857493007265
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
+                                          >
+                                            {item?.flavour?._id
+                                              ? item?.productId?.unitName +
+                                                "-" +
+                                                item?.flavour?.flavour
+                                              : item?.productId?.unitName}
+                                          </td>
+                                          <td
                                             style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
+                                              fontSize: 16,
+                                              fontWeight: 500,
+                                              textAlign: "center",
+                                              color: "#000",
+                                              border: "2px solid #000",
+                                              padding: "10px 20px",
+                                              borderLeft: 0,
+                                              borderBottom: 0,
                                             }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        LGT 1CT EAGLE TORCH PT116BN SINGLE ANGLE
-                                        NEON 1/20/400
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        800
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        814859012301
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
+                                          >
+                                            {item?.quantity}
+                                          </td>
+                                          <td
                                             style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
+                                              fontSize: 16,
+                                              fontWeight: 500,
+                                              textAlign: "center",
+                                              color: "#000",
+                                              border: "2px solid #000",
+                                              padding: "10px 20px",
+                                              borderLeft: 0,
+                                              borderBottom: 0,
                                             }}
-                                            src="product.png"
-                                            alt=""
                                           />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        SCALE AWS-600 600X0.1g 1/50
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        100
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        814859012301
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
-                                            style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
-                                            }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        SCALE AWS-600 600X0.1g 1/50
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        100
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        814859012301
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
-                                            style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
-                                            }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        SCALE AWS-600 600X0.1g 1/50
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        100
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        814859012301
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
-                                            style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
-                                            }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        SCALE AWS-600 600X0.1g 1/50
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        100
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        814859012301
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: 12,
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
-                                        {" "}
-                                        <span
-                                          style={{
-                                            display: "block",
-                                            backgroundColor: "#f2f2f2",
-                                            borderRadius: 10,
-                                            padding: "17px 20px",
-                                          }}
-                                        >
-                                          <img
-                                            style={{
-                                              display: "block",
-                                              maxWidth: 55,
-                                              margin: "0 auto",
-                                            }}
-                                            src="product.png"
-                                            alt=""
-                                          />
-                                        </span>{" "}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        SCALE AWS-600 600X0.1g 1/50
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      >
-                                        100
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          textAlign: "center",
-                                          color: "#000",
-                                          border: "2px solid #000",
-                                          padding: "10px 20px",
-                                          borderLeft: 0,
-                                          borderBottom: 0,
-                                        }}
-                                      />
-                                    </tr>
+                                        </tr>
+                                      )
+                                    )}
+
                                     <tr>
                                       <td
                                         style={{
@@ -1723,7 +814,7 @@ const PdfPrint = () => {
                                         }}
                                       >
                                         {" "}
-                                        <span
+                                        {/* <span
                                           style={{
                                             display: "block",
                                             backgroundColor: "#f2f2f2",
@@ -1740,7 +831,7 @@ const PdfPrint = () => {
                                             src="product.png"
                                             alt=""
                                           />
-                                        </span>{" "}
+                                        </span> */}
                                       </td>
                                       <td
                                         style={{
@@ -1794,6 +885,9 @@ const PdfPrint = () => {
             </tr>
           </tbody>
         </table>
+        <button className="comman_btn2" onClick={printPdf}>
+          Print
+        </button>
       </section>
     </div>
   );

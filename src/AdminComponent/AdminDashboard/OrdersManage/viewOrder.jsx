@@ -551,7 +551,7 @@ const ViewOrder = () => {
                                               : item?.productId?.unitName}
                                           </h3>
                                           <p>
-                                            Barcodes:{" "}
+                                            Barcodes:
                                             {item?.flavour?.barcode.map(
                                               (item) => (
                                                 <li>{item},</li>
