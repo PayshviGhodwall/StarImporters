@@ -337,20 +337,16 @@ const Account = () => {
                         />
                         <label htmlFor="floatingInput">Mobile Number</label>
                       </div>
-                      <div className="form-floating col-6 mb-4 position-relative">
-                        <input
-                          type="password"
-                          name="password"
-                          defaultValue="idontknow"
-                          className="form-control shadow-none"
-                          id="password-field"
-                          disabled
-                        />
-                        <label htmlFor="password-field">Password</label>
-                        <span
-                          toggle="#password-field"
-                          className="fa fa-fw fa-eye field-icon toggle-password"
-                        />
+                      <div className="col-5 mx-3 mb-4 border rounded bg-light">
+                        <label className="fw-bold">
+                          Tobacco Licence Status:
+                        </label>
+                        <br/>
+                        <strong>
+                          {users?.istobaccoLicenceExpired
+                            ? "Expired"
+                            : "Active"}
+                        </strong>
                       </div>
                       <div className="col-12 text-center"></div>
                     </form>

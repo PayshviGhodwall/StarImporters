@@ -1937,7 +1937,7 @@
     opacity: 1;
     padding: 0 !important;
   }
-  
+
   .product_show .carousel-inner {
     margin-left: 15px;
   }
@@ -4218,12 +4218,13 @@
   /* pending view */
   .Pending-view .Pending-view_img {
     margin: 0 auto;
-    height: 150px;
-    width: 150px;
+    max-height: 150px;
+    max-width: 150px;
   }
   .Pending-view_img img {
     max-width: 100%;
     border-radius: 10px;
+    max-height: 180px;
   }
   .user_name {
     font-weight: 700;

@@ -17,37 +17,71 @@ import Swal from "sweetalert2";
 function TopProduct() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+
   const [product, setProduct] = useState([]);
   const [heart, setHeart] = useState(false);
   const [activePage, setActivePage] = useState(1);
+  const [userDetail, setUserDetail] = useState([]);
 
   let { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getProductList();
+    userInfo();
   }, []);
   let token = localStorage.getItem("token-user");
   console.log(token);
+
+  const userInfo = async () => {
+    await axios.get(userData).then((res) => {
+      setUserDetail(res?.data?.results);
+    });
+  };
+
   const getProductList = async () => {
     const { data } = await getAllProducts(activePage);
     if (!data?.error) {
       setProduct(data?.results.products.slice(0, 6));
     }
   };
-
   const addToCartt = async (id, index) => {
-    const formData = {
-      productId: id,
-      quantity: 1,
-      flavour: product[index]?.type[0],
-    };
-    const { data } = await addToCart(formData);
-    if (!data.error) {
-      navigate("/app/cart");
-    }
-    if (data?.error) {
-      navigate("/app/login");
+    if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
+      if (!userDetail?.istobaccoLicenceExpired) {
+        const formData = {
+          productId: id,
+          quantity: 1,
+          flavour: product[index]?.type[0],
+        };
+        const { data } = await addToCart(formData);
+        if (!data.error) {
+          navigate("/app/cart");
+        }
+        if (data?.error) {
+          navigate("/app/login");
+        }
+      } else {
+        Swal.fire({
+          title: "Your Tobacco licence is Expired/Invalid!",
+          text: "*Licence is Required for this product.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        });
+      }
+    } else {
+      const formData = {
+        productId: id,
+        quantity: 1,
+        flavour: product[index]?.type[0],
+      };
+      const { data } = await addToCart(formData);
+      if (!data.error) {
+        navigate("/app/cart");
+      }
+      if (data?.error) {
+        navigate("/app/login");
+      }
     }
   };
 

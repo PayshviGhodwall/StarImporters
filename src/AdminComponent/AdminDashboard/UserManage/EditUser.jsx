@@ -76,40 +76,54 @@ const EditUser = () => {
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
+    formData.append("istobaccoLicenceExpired", data?.License);
 
-    await axios.post(apiUrl2 + "/" + objectId, formData).then((res) => {
-      if (res?.data.message === "User Deatils Updated Successfully") {
+    await axios
+      .post(apiUrl2 + "/" + objectId, formData)
+      .then((res) => {
+        if (res?.data.message === "User Deatils Updated Successfully") {
+          setLoader(false);
+          navigate("/UserManage/ApprovedView");
+        }
+        if (res?.data.message === "Invalid file format") {
+          setLoader(false);
+          Swal.fire({
+            title: "Invalid File Format!",
+            text: "Only images/pdf/docs are allowed.",
+            icon: "error",
+            button: "Ok",
+          });
+          setFiles(null);
+          getUser();
+        }
+        if (res?.data.message === "Email is already registered") {
+          setLoader(false);
+          Swal.fire({
+            title: "Email is Already registered!",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+        if (res?.data.message === "Phone is already registered") {
+          setLoader(false);
+          Swal.fire({
+            title: "Phone is already registered!",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         setLoader(false);
-        navigate("/UserManage/ApprovedView");
-      }
-      if (res?.data.message === "Invalid file format") {
-        setLoader(false);
-        Swal.fire({
-          title: "Invalid File Format!",
-          text: "Only images/pdf/docs are allowed.",
-          icon: "error",
-          button: "Ok",
-        });
-        setFiles(null);
-        getUser();
-      }
-      if (res?.data.message === "Email is already registered") {
-        setLoader(false);
-        Swal.fire({
-          title: "Email is Already registered!",
-          icon: "error",
-          button: "Ok",
-        });
-      }
-      if (res?.data.message === "Phone is already registered") {
-        setLoader(false);
-        Swal.fire({
-          title: "Phone is already registered!",
-          icon: "error",
-          button: "Ok",
-        });
-      }
-    });
+        if (err.response.data.error) {
+          Swal.fire({
+            title: "Error!",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+      });
   };
 
   useEffect(() => {
@@ -127,6 +141,7 @@ const EditUser = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -573,10 +588,9 @@ const EditUser = () => {
                       <div className="col-12 text-center mb-4">
                         <div className="form-group col-auto">
                           <div className="account_profile position-relative d-inline-block">
-                            <div className="mb-2">
+                            <div className="mb-2 Pending-view_img">
                               <img
-                                className=""
-                                style={{ height: "200px" }}
+                                className="UserImage"
                                 src={prodImg ? prodImg : user?.profileImage}
                                 alt="Upload Image ........"
                               />
@@ -1099,7 +1113,9 @@ const EditUser = () => {
                           name="heardAboutUs"
                           {...register("heardAboutUs")}
                         >
-                          <option selected="">Select</option>
+                          <option selected="" value="">
+                            Select
+                          </option>
                           <option s value="Email Flyer">
                             Email Flyer
                           </option>
@@ -1131,6 +1147,28 @@ const EditUser = () => {
                         </div>
                       </div>
 
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold fs-6">
+                            Tobacco License :{" "}
+                            {user?.istobaccoLicenceExpired
+                              ? "Expired/Disabled"
+                              : "Enabled"}
+                            -(Slide to Update)
+                          </span>
+                          <div className="col-12 align-item-center ">
+                            <label class="switch">
+                              <input
+                                type="checkbox"
+                                name="License"
+                                defaultChecked={user?.istobaccoLicenceExpired}
+                                {...register("License")}
+                              />
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                       <div className="col-12 text-center">
                         <Button
                           loading={loader}

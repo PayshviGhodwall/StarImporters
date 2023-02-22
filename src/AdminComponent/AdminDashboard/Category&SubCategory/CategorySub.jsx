@@ -16,6 +16,8 @@ const CategorySub = () => {
   const editCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/editCategory`;
   const editSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/editSubCategory`;
   const disableCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/categoryStatus`;
+  const TobaccoCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/tobaccoCategoryStatus`;
+  const TobaccoSubCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/subCategoryTobacco`;
   const deleteSubImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/subCategory/deleteSubCatImage`;
   const deleteCatImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
   const deleteBackImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/deleteCatImage`;
@@ -288,7 +290,21 @@ const CategorySub = () => {
         setChange(!change);
       });
   };
+  const CategoryTobaccoStatus = async (index) => {
+    await axios
+      .post(TobaccoCategory + "/" + allCategories[index]?._id)
+      .then((res) => {
+        setChange(!change);
+      });
+  };
 
+  const SubCategoryTobaccoStatus = async (index) => {
+    await axios
+      .post(TobaccoSubCategory + "/" + allSubCategories[index]?._id)
+      .then((res) => {
+        setChange(!change);
+      });
+  };
   const deleteSubImage = async (id) => {
     await axios.post(deleteSubImg + "/" + id).then((res) => {
       getSubCategories();
@@ -997,10 +1013,12 @@ const CategorySub = () => {
                                                       type="checkbox"
                                                       id={index + 1}
                                                       defaultChecked={
-                                                        item?.status
+                                                        item?.isTobacco
                                                       }
                                                       onClick={() => {
-                                                        CategoryStatus(index);
+                                                        CategoryTobaccoStatus(
+                                                          index
+                                                        );
                                                       }}
                                                     />
                                                     <span class="sliderUser round"></span>
@@ -1211,10 +1229,12 @@ const CategorySub = () => {
                                                       type="checkbox"
                                                       id={index + 1}
                                                       defaultChecked={
-                                                        item?.status
+                                                        item?.isTobacco
                                                       }
                                                       onClick={() => {
-                                                        CategoryStatus(index);
+                                                        SubCategoryTobaccoStatus(
+                                                          index
+                                                        );
                                                       }}
                                                     />
                                                     <span class="sliderUser round"></span>

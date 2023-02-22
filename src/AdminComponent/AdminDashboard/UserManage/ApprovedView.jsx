@@ -510,7 +510,7 @@ const ApprovedView = () => {
                       <div className="col-12 text-center mb-4">
                         <div className="Pending-view_img">
                           <img
-                            height={150}
+                            className="UserImage"
                             src={
                               user?.profileImage ? user?.profileImage : Starlogo
                             }
@@ -922,9 +922,11 @@ const ApprovedView = () => {
                               <input
                                 className="d-none"
                                 type="radio"
-                                id="vii"
-                                checked={user?.quotation}
-                                name="quotation"
+                                id="license"
+                                checked={
+                                  user?.istobaccoLicenceExpired ? false : true
+                                }
+                                name="license"
                                 disabled
                               />
                               <label htmlFor="vii">Enabled</label>
@@ -935,8 +937,11 @@ const ApprovedView = () => {
                               <input
                                 className="d-none"
                                 type="radio"
-                                id="sh"
-                                name="quotation"
+                                id="d_license"
+                                name="license"
+                                checked={
+                                  user?.istobaccoLicenceExpired ? true : false
+                                }
                                 disabled
                               />
                               <label htmlFor="sh">Disabled </label>

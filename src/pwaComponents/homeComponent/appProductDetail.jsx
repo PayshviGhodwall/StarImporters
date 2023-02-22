@@ -67,23 +67,56 @@ function AppProductDetail() {
   };
 
   const addToCartt = async () => {
-    if (flavour) {
-      const formData = {
-        productId: id,
-        quantity: quantity,
-        flavour: flavour ? flavour : {},
-      };
-      console.log(formData);
-      const { data } = await addToCart(formData);
-      if (!data.error) {
-        navigate("/app/cart");
+    if (
+      productDetail?.category?.isTobacco ||
+      productDetail?.subCategory?.isTobacco
+    ) {
+      if (!userDetail?.istobaccoLicenceExpired) {
+        if (flavour) {
+          const formData = {
+            productId: id,
+            quantity: quantity,
+            flavour: flavour ? flavour : {},
+          };
+          console.log(formData);
+          const { data } = await addToCart(formData);
+          if (!data.error) {
+            navigate("/app/cart");
+          }
+        } else {
+          Swal.fire({
+            title: "Select Any Flavour/Packsize!",
+            icon: "error",
+            button: "Ok",
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "Your Tobacco licence is Expired/Invalid!",
+          text: "*Licence is Required for this product.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        });
       }
     } else {
-      Swal.fire({
-        title: "Select Any Flavour/Packsize!",
-        icon: "error",
-        button: "Ok",
-      });
+      if (flavour) {
+        const formData = {
+          productId: id,
+          quantity: quantity,
+          flavour: flavour ? flavour : {},
+        };
+        console.log(formData);
+        const { data } = await addToCart(formData);
+        if (!data.error) {
+          navigate("/app/cart");
+        }
+      } else {
+        Swal.fire({
+          title: "Select Any Flavour/Packsize!",
+          icon: "error",
+          button: "Ok",
+        });
+      }
     }
   };
   const AddtoQuotess = async () => {
@@ -91,7 +124,7 @@ function AppProductDetail() {
       const formData = {
         productId: id,
         quantity: quantity,
-        flavour:  flavour ? flavour  : {},
+        flavour: flavour ? flavour : {},
       };
       const { data } = await addToQuote(formData);
       if (!data.error) {

@@ -80,68 +80,149 @@ const SingleProdBySearch = () => {
   }, [change, objectId]);
 
   const AddtoCart = async () => {
-    if (flavour) {
-      setLoader(true);
-      cartProduct.push(objectId);
-      cartProduct.push(unitCount);
+    if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
+      if (!userDetail?.istobaccoLicenceExpired) {
+        if (flavour) {
+          setLoader(true);
+          cartProduct.push(objectId);
+          cartProduct.push(unitCount);
 
-      await axios
-        .post(addCart, {
-          productId: cartProduct[0],
-          quantity: cartProduct[1],
-          flavour: flavour,
-        })
-        .then((res) => {
-          if (res.data?.message === "Product Added") {
-            setLoader(false);
-            setSuccesMsg("Product added to Cart!");
+          await axios
+            .post(addCart, {
+              productId: cartProduct[0],
+              quantity: cartProduct[1],
+              flavour: flavour,
+            })
+            .then((res) => {
+              if (res.data?.message === "Product Added") {
+                setLoader(false);
+                setSuccesMsg("Product added to Cart!");
 
-            setNState(true);
-          }
-          if (res.data?.message === "Product modified") {
-            setLoader(false);
-            setSuccesMsg("Product added to Cart!");
-            // document.getElementById("req-modal2").click();
+                setNState(true);
+              }
+              if (res.data?.message === "Product modified") {
+                setLoader(false);
+                setSuccesMsg("Product added to Cart!");
+                // document.getElementById("req-modal2").click();
 
-            setNState(true);
-          }
-        })
-        .catch((err) => {
-          if (
-            err.response?.data?.message === "Access Denied. No token provided."
-          ) {
-            setLoader(false);
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
+                setNState(true);
+              }
+            })
+            .catch((err) => {
+              if (
+                err.response?.data?.message ===
+                "Access Denied. No token provided."
+              ) {
+                setLoader(false);
+                Swal.fire({
+                  title: "Please Login to your Account!",
+                  icon: "error",
+                  focusConfirm: false,
+                });
+              }
+              if (
+                err.response?.data?.message === "You are not Authenticated Yet"
+              ) {
+                setLoader(false);
+                Swal.fire({
+                  title: "Please Login to your Account!",
+                  icon: "error",
+                  focusConfirm: false,
+                });
+              }
+              if (err.response?.data.message === "") {
+                setLoader(false);
+                Swal.fire({
+                  title: "Product is already in Cart!",
+                  icon: "error",
+                  focusConfirm: false,
+                });
+              }
             });
-          }
-          if (err.response?.data?.message === "You are not Authenticated Yet") {
+          setTimeout(() => {
             setLoader(false);
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-          if (err.response?.data.message === "") {
-            setLoader(false);
-            Swal.fire({
-              title: "Product is already in Cart!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
+            setSuccesMsg();
+          }, 3000);
+        } else {
+          document.getElementById("flavour_box").className =
+            "offers_box_main_afterSelect ";
+          setErrMsg("Please Select a Flavour.");
+        }
+      } else {
+        Swal.fire({
+          title: "Your Tobacco licence is Expired/Invalid!",
+          text: "*Licence is Required for this product.",
+          icon: "warning",
+          confirmButtonText: "Okay",
         });
-      setTimeout(() => {
-        setLoader(false);
-        setSuccesMsg();
-      }, 3000);
+      }
     } else {
-      document.getElementById("flavour_box").className =
-        "offers_box_main_afterSelect ";
-      setErrMsg("Please Select a Flavour.");
+      if (flavour) {
+        setLoader(true);
+        cartProduct.push(objectId);
+        cartProduct.push(unitCount);
+
+        await axios
+          .post(addCart, {
+            productId: cartProduct[0],
+            quantity: cartProduct[1],
+            flavour: flavour,
+          })
+          .then((res) => {
+            if (res.data?.message === "Product Added") {
+              setLoader(false);
+              setSuccesMsg("Product added to Cart!");
+
+              setNState(true);
+            }
+            if (res.data?.message === "Product modified") {
+              setLoader(false);
+              setSuccesMsg("Product added to Cart!");
+              // document.getElementById("req-modal2").click();
+
+              setNState(true);
+            }
+          })
+          .catch((err) => {
+            if (
+              err.response?.data?.message ===
+              "Access Denied. No token provided."
+            ) {
+              setLoader(false);
+              Swal.fire({
+                title: "Please Login to your Account!",
+                icon: "error",
+                focusConfirm: false,
+              });
+            }
+            if (
+              err.response?.data?.message === "You are not Authenticated Yet"
+            ) {
+              setLoader(false);
+              Swal.fire({
+                title: "Please Login to your Account!",
+                icon: "error",
+                focusConfirm: false,
+              });
+            }
+            if (err.response?.data.message === "") {
+              setLoader(false);
+              Swal.fire({
+                title: "Product is already in Cart!",
+                icon: "error",
+                focusConfirm: false,
+              });
+            }
+          });
+        setTimeout(() => {
+          setLoader(false);
+          setSuccesMsg();
+        }, 3000);
+      } else {
+        document.getElementById("flavour_box").className =
+          "offers_box_main_afterSelect ";
+        setErrMsg("Please Select a Flavour.");
+      }
     }
   };
   const AddtoQuote = async () => {
