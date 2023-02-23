@@ -25,6 +25,7 @@ const EditUser = () => {
     salesTaxId: "",
     accountOwnerId: "",
   });
+  const [newExpiry, setNewExpiry] = useState();
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [prodImg, setProdImg] = useState();
@@ -52,6 +53,8 @@ const EditUser = () => {
   const onFileSelection = async (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
+
+  console.log(newExpiry);
   const onSubmit = async (data) => {
     setLoader(true);
     const formData = new FormData();
@@ -77,6 +80,10 @@ const EditUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
     formData.append("istobaccoLicenceExpired", data?.License);
+    formData.append(
+      "tobaccoLicenceExpiry",
+      newExpiry ? newExpiry : user?.tobaccoLicenceExpiry
+    );
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
@@ -895,6 +902,22 @@ const EditUser = () => {
                               </div>
                             </label>
                           </div>
+                          {user.tobaccoLicence ? (
+                            <strong>
+                              {" "}
+                              Expires on :{" "}
+                              {user?.tobaccoLicenceExpiry?.slice(0, 10)}
+                              <br />
+                              <label>New Expiry:</label>{" "}
+                              <input
+                                type="date"
+                                className="border rounded"
+                                onChange={(e) => setNewExpiry(e.target.value)}
+                              ></input>
+                            </strong>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
@@ -1152,12 +1175,11 @@ const EditUser = () => {
                           <span className="fw-bold fs-6">
                             Tobacco License :{" "}
                             {user?.istobaccoLicenceExpired
-                              ? "Expired/Disabled"
+                              ? "Disabled"
                               : "Enabled"}
-                            -(Slide to Update)
                           </span>
                           <div className="col-12 align-item-center ">
-                            <label class="switch">
+                            <label class="switch mb-2">
                               <input
                                 type="checkbox"
                                 name="License"
@@ -1166,6 +1188,14 @@ const EditUser = () => {
                               />
                               <span class="slider round"></span>
                             </label>
+                            <br />
+                            <small className="mt-2 fw-bold">
+                              ( Slide to{" "}
+                              {user?.istobaccoLicenceExpired
+                                ? "Enable Licence"
+                                : "Disable Licence"}
+                              )
+                            </small>
                           </div>
                         </div>
                       </div>

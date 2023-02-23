@@ -44,6 +44,7 @@ const UserManage = () => {
   const [maxPenPage, setMaxPenPage] = useState(1);
   const [maxRetPage, setMaxRetPage] = useState(1);
   const [searchType, setSearchType] = useState("companyName");
+  const [userType, setUserType] = useState("APPROVED");
 
   useEffect(() => {
     GetUserCount();
@@ -63,19 +64,25 @@ const UserManage = () => {
 
   const userSearch = async (e) => {
     let string = e.target.value;
-    string !== ""
-      ? await axios
-          .post(searchUser, {
-            type: "APPROVED",
-            search: e.target.value,
-            searchType: searchType,
-          })
-          .then((res) => {
-            if (!res.error) {
-              setApprovedUsers(res?.data.results.users);
-            }
-          })
-      : getApprovedUser();
+    if (string !== "") {
+      await axios
+        .post(searchUser, {
+          type: userType,
+          search: string,
+          searchType: searchType,
+        })
+        .then((res) => {
+          if (!res.error) {
+            setApprovedUsers(res?.data.results.users);
+            setPendingUsers(res?.data.results.users);
+            setRejectedUsers(res?.data.results.users);
+          }
+        });
+    } else {
+      getApprovedUser();
+      getPendingUser();
+      getRejectedUser();
+    }
   };
 
   const sorting = async (i) => {
@@ -757,6 +764,7 @@ const UserManage = () => {
                               onClick={() => {
                                 getPendingUser();
                                 document.getElementById("Search").value = "";
+                                setUserType("PENDING");
                               }}
                             >
                               Pending{" "}
@@ -776,7 +784,7 @@ const UserManage = () => {
                               aria-selected="false"
                               onClick={() => {
                                 document.getElementById("Search").value = "";
-
+                                setUserType("APPROVED");
                                 getApprovedUser();
                               }}
                             >
@@ -797,6 +805,7 @@ const UserManage = () => {
                               onClick={() => {
                                 getRejectedUser();
                                 document.getElementById("Search").value = "";
+                                setUserType("REJECTED");
                               }}
                             >
                               Returned{" "}

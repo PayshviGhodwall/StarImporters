@@ -53,70 +53,85 @@ const SignUp = () => {
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
       formData.append("heardAboutUs", data?.heardAboutUs);
+      // formData.append("tobaccoLicenceExpiry ", data?.heardAboutUs);
 
-      await axios.post(apiUrl, formData).then((response) => {
-        if (response?.data.message === "Registered Successfully") {
-          setLoader(false);
-          Swal.fire({
-            title: "Thanks You! Your Account Is Under Review.",
-            text: "We will be reviewing your account.Please check your registered email.",
-            icon: "success",
-            button: "Ok",
-          });
-          setText("done");
-          navigate("/app/home");
-        }
-        if (response?.data.message === "Email is already registered") {
-          setLoader(false);
+      await axios
+        .post(apiUrl, formData)
+        .then((response) => {
+          if (response?.data.message === "Registered Successfully") {
+            setLoader(false);
+            Swal.fire({
+              title: "Thanks You! Your Account Is Under Review.",
+              text: "We will be reviewing your account.Please check your registered email.",
+              icon: "success",
+              button: "Ok",
+            });
+            setText("done");
+            navigate("/app/home");
+          }
+          if (response?.data.message === "Email is already registered") {
+            setLoader(false);
 
-          Swal.fire({
-            title: "Email is Already registered!",
-            text: "Please Login to your Account",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-        if (response?.data.message === "Invalid file format") {
-          Swal.fire({
-            title: "Invalid file format!",
-            text: "Only Images/docs/pdf are allowed",
-            icon: "warning",
-            confirmButtonText: "ok",
-          });
-          setLoader(false);
-        }
-        if (response?.data.message === "Please enter valid name") {
-          setLoader(false);
+            Swal.fire({
+              title: "Email is Already registered!",
+              text: "Please Login to your Account",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          if (response?.data.message === "Invalid file format") {
+            Swal.fire({
+              title: "Invalid file format!",
+              text: "Only Images/docs/pdf are allowed",
+              icon: "warning",
+              confirmButtonText: "ok",
+            });
+            setLoader(false);
+          }
+          if (response?.data.message === "Please enter valid name") {
+            setLoader(false);
 
-          Swal.fire({
-            title:
-              "First/Last Name cannot contain spaces/numbers/special characters!",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-        if (response?.data.message === "Phone is already registered") {
-          setLoader(false);
+            Swal.fire({
+              title:
+                "First/Last Name cannot contain spaces/numbers/special characters!",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          if (response?.data.message === "Phone is already registered") {
+            setLoader(false);
 
-          Swal.fire({
-            title: "This Phone Number is Already Registered ",
-            text: "Please Enter a new Number ",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-        if (response?.data.message == "Wrong input") {
-          setLoader(false);
+            Swal.fire({
+              title: "This Phone Number is Already Registered ",
+              text: "Please Enter a new Number ",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          if (response?.data.message == "Wrong input") {
+            setLoader(false);
 
-          console.log();
-          Swal.fire({
-            title: "Enter Valid Data in Required Fields.",
-            text: "",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-      });
+            console.log();
+            Swal.fire({
+              title: "Enter Valid Data in Required Fields.",
+              text: "",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+        })
+        .catch((err) => {
+          let error = err?.response?.data?.message;
+          setLoader(false);
+          if (err) {
+            Swal.fire({
+              title: error,
+              text: "401 error",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+        });
     };
 
     SignUpData();
