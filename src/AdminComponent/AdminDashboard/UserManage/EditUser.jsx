@@ -80,10 +80,7 @@ const EditUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
     formData.append("istobaccoLicenceExpired", data?.License);
-    formData.append(
-      "tobaccoLicenceExpiry",
-      newExpiry ? newExpiry : user?.tobaccoLicenceExpiry
-    );
+    formData.append("tobaccoLicenceExpiry", newExpiry ? newExpiry : "");
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
