@@ -116,6 +116,15 @@ const EditUser = () => {
             button: "Ok",
           });
         }
+        if (res?.data.message === "Please provide proper date") {
+          setLoader(false);
+          Swal.fire({
+            title: "Please provide proper date!",
+            text: "Give further date from today",
+            icon: "error",
+            button: "Ok",
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -136,7 +145,11 @@ const EditUser = () => {
 
   const getUser = async () => {
     const res = await axios.post(apiUrl + "/" + objectId);
+    let date = res.data.results?.tobaccoLicenceExpiry;
+    console.log(date);
     setUser(res.data.results);
+    document.getElementById("expiryDate").defaultValue = date.slice(0, 10);
+
     return res.data;
   };
 
@@ -145,6 +158,8 @@ const EditUser = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("expiryDate")?.setAttribute("min", today);
 
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
@@ -902,13 +917,11 @@ const EditUser = () => {
                           {user.tobaccoLicence ? (
                             <strong>
                               {" "}
-                              Expires on :{" "}
-                              {user?.tobaccoLicenceExpiry?.slice(0, 10)}
-                              <br />
-                              <label>New Expiry:</label>{" "}
+                              Expires on :
                               <input
                                 type="date"
-                                className="border rounded"
+                                className=" border rounded"
+                                id="expiryDate"
                                 onChange={(e) => setNewExpiry(e.target.value)}
                               ></input>
                             </strong>
@@ -1175,25 +1188,51 @@ const EditUser = () => {
                               ? "Disabled"
                               : "Enabled"}
                           </span>
-                          <div className="col-12 align-item-center ">
-                            <label class="switch mb-2">
-                              <input
-                                type="checkbox"
-                                name="License"
-                                defaultChecked={user?.istobaccoLicenceExpired}
-                                {...register("License")}
-                              />
-                              <span class="slider round"></span>
-                            </label>
-                            <br />
-                            <small className="mt-2 fw-bold">
-                              ( Slide to{" "}
-                              {user?.istobaccoLicenceExpired
-                                ? "Enable Licence"
-                                : "Disable Licence"}
-                              )
-                            </small>
-                          </div>
+                          {user?.istobaccoLicenceExpired ? (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.istobaccoLicenceExpired
+                                  ? "Enable"
+                                  : "Disable"}{" "}
+                                Licence ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  value="false"
+                                  className="border check"
+                                  name="License"
+                                  {...register("License")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          ) : (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.istobaccoLicenceExpired
+                                  ? "Enable"
+                                  : "Disable"}{" "}
+                                Licence ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  className="border check"
+                                  name="License"
+                                  value="true"
+                                  {...register("License")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="col-12 text-center">

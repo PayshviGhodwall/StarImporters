@@ -4735,7 +4735,13 @@
     font-size: 16px;
     margin-top: 3px;
   }
-
+.check{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 3.5px;
+  accent-color: #3b4093;
+}
   .sidebar_logo a {
     display: inline-flex;
     background-color: #fff;

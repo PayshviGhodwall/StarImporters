@@ -224,8 +224,7 @@ const UserManage = () => {
         }
       });
   };
-  // var today = new Date().toISOString().split("T")[0];
-  // document.getElementById("appTo")?.setAttribute("max", today);
+ 
   // document.getElementById("appFrom")?.setAttribute("max", today);
   // document.getElementById("penFrom")?.setAttribute("max", today);
   // document.getElementById("penTo")?.setAttribute("max", today);
