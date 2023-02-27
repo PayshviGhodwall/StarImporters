@@ -71,9 +71,11 @@ const EditInventory = () => {
 
   const GetProducts = async () => {
     await axios.get(getProducts + "/" + id).then((res) => {
+      let data = [res?.data?.results];
       setAllProducts([res?.data.results]);
       setFormValues(res?.data.results.type);
       setProductBarcode(res?.data.results?.pBarcode);
+      SubCategoryDrop(data[0]?.category?._id);
     });
   };
 
@@ -87,7 +89,15 @@ const EditInventory = () => {
         setSubCategories(res?.data.results);
       });
   };
-
+  const SubCategoryDrop = async (id) => {
+    await axios
+      .post(SubCategoryApi, {
+        categoryId: id,
+      })
+      .then((res) => {
+        setSubCategories(res?.data.results);
+      });
+  };
   const productImageSelection = (e) => {
     const formData = new FormData();
     formData.append("productImage", e.target.files[0]);

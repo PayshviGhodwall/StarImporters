@@ -257,7 +257,7 @@ function AppHome() {
                         <img src={banner[1]?.banner}></img>
                         <div className="slide-content h-100 d-flex align-items-center">
                           <div className="slide-text">
-                            <h4
+                            {/* <h4
                               className="text-white banner_text"
                               data-animation="fadeInUp"
                               data-delay="100ms"
@@ -266,7 +266,7 @@ function AppHome() {
                               {" "}
                               𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕥𝕠 <br />
                               <span>𝕊𝕋𝔸ℝ 𝕀𝕄ℙ𝕆ℝ𝕋𝔼ℝ𝕊</span>
-                            </h4>
+                            </h4> */}
                             {/* <p
                                   className="text-white"
                                   style={{ fontSize: "4px" }}
@@ -375,7 +375,7 @@ function AppHome() {
                           >
                             <div className="card-body">
                               <Link to="/app/brands">
-                                <img src={item?.brandImage} alt="" />
+                                <img width={40} src={item?.brandImage} alt="" />
                               </Link>
                             </div>
                           </div>
