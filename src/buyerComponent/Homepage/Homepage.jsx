@@ -100,6 +100,9 @@ const Homepage = () => {
   const getBrands = async () => {
     await axios.get(brandApi).then((res) => {
       setBrands(res?.data.results);
+      if (!res.data.error) {
+        setLoading(false);
+      }
     });
   };
   const createMarkup = (html) => {
@@ -110,7 +113,6 @@ const Homepage = () => {
   return (
     <div className="home_page">
       <Navbar />
-
       {loading ? (
         <section className="loading-screen text-center bg-white">
           <div class="centered">
