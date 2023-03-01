@@ -168,6 +168,12 @@ const Homepage = () => {
                   data-bs-slide-to="5"
                   aria-label="Slide 6"
                 ></button>
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleControls"
+                  data-bs-slide-to="6"
+                  aria-label="Slide 7"
+                ></button>
               </div>
               <div className="carousel-inner banner_box">
                 <div className="carousel-item active">
@@ -241,7 +247,18 @@ const Homepage = () => {
                   <div className="frame-container ">
                     <iframe
                       className="d-block w-100 banner_slide"
-                      src="https://www.youtube.com/embed/ZL3PN5MauWM?start=45&autoplay=1&mute=1&loop=1&playlist=ZL3PN5MauWM"
+                      src="https://www.youtube.com/embed/oh6GzwmIaeo?&autoplay=1&mute=1&loop=1&playlist=oh6GzwmIaeo"
+                      frameborder="0"
+                      allow=" autoplay;"
+                      allowfullscreen=""
+                    ></iframe>
+                  </div>
+                </div>
+                <div className="carousel-item">
+                  <div className="frame-container ">
+                    <iframe
+                      className="d-block w-100 banner_slide"
+                      src="https://www.youtube.com/embed/E1hq593LbFI?&autoplay=1&mute=1&loop=1&playlist=E1hq593LbFI"
                       frameborder="0"
                       allow=" autoplay;"
                       allowfullscreen=""
@@ -291,29 +308,6 @@ const Homepage = () => {
                         allSlides[2]?.description
                       )}
                     ></p>
-                    {/* 
-              <Link
-                to="/app/register"
-                className={
-                  (allSlides[2]?.position === "One" &&
-                    "d-flex text-start text-decoration-none bannerTxt") ||
-                  (allSlides[2]?.position === "Two" &&
-                    " text-center text-decoration-none bannerTxt") ||
-                  (allSlides[2]?.position === "Three" &&
-                    " d-flex justify-content-end text-decoration-none bannerTxt")
-                }
-                style={{ top: "10px" }}
-              >
-                {token ? null : (
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
-                )}
-              </Link> */}
                   </div>
                 </div>
                 <div className="carousel-item ">

@@ -12,6 +12,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import { Slide } from "@mui/material";
 
 const Cms = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -518,7 +519,7 @@ const Cms = () => {
         }
       });
   };
-  
+
   const onSavePrivacy = async (e) => {
     let Desc = await stateToHTML(editorHomePrivacyState.getCurrentContent());
 
@@ -1018,6 +1019,23 @@ const Cms = () => {
                                 >
                                   <button
                                     className="nav-link labels"
+                                    id="SlideNew-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideNew"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideNew"
+                                    aria-selected="false"
+                                  >
+                                    Slide
+                                  </button>
+                                </li>
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation"
+                                >
+                                  <button
+                                    className="nav-link labels"
                                     id="SlideThree-tab"
                                     data-bs-toggle="tab"
                                     data-bs-target="#SlideThree"
@@ -1256,7 +1274,192 @@ const Cms = () => {
                                   <div className="row mx-0 border rounded py-3 px-1">
                                     <div className="row mx-0  rounded py-3 px-1">
                                       <div className="col-12">
-                                        Youtube Video Slide : Not customizable from cms.
+                                        Youtube Video Slide : Not customizable
+                                        from cms.
+                                        {/* <form
+                                          className="form-design row"
+                                          action=""
+                                          onSubmit={handleSubmit(onSubmit)}
+                                        >
+                                          <div className="form-group col-12 ">
+                                            <label
+                                              htmlFor=""
+                                              className="labels d-flex"
+                                            >
+                                              Content Position :{" "}
+                                              <div class="form-check mx-2 fs-6 mt-1">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="radio"
+                                                  name="flexRadioDefault"
+                                                  id="flexRadioDefault1"
+                                                  value="One"
+                                                  onChange={contentPosition}
+                                                  defaultChecked
+                                                />
+                                                <label
+                                                  class="form-check-label"
+                                                  for="flexRadioDefault1"
+                                                >
+                                                  Align Left
+                                                </label>
+                                              </div>
+                                              <div class="form-check mx-2 fs-6 mt-1">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="radio"
+                                                  name="flexRadioDefault"
+                                                  id="flexRadioDefault2"
+                                                  value="Two"
+                                                  onChange={contentPosition}
+                                                />
+                                                <label
+                                                  class="form-check-label"
+                                                  for="flexRadioDefault2"
+                                                >
+                                                  Align Center
+                                                </label>
+                                              </div>
+                                              <div class="form-check mx-2 fs-6 mt-1">
+                                                <input
+                                                  class="form-check-input"
+                                                  type="radio"
+                                                  name="flexRadioDefault"
+                                                  id="flexRadioDefault2"
+                                                  value="Three"
+                                                  onChange={contentPosition}
+                                                />
+                                                <label
+                                                  class="form-check-label"
+                                                  for="flexRadioDefault2"
+                                                >
+                                                  Align Right
+                                                </label>
+                                              </div>
+                                            </label>
+
+                                            <label
+                                              htmlFor=""
+                                              className="labels"
+                                            >
+                                              Slide Image
+                                            </label>
+
+                                            <div className="account_profile position-relative d-inline-block">
+                                              <div className="cmsSlide">
+                                                <img
+                                                  className="SlideCms"
+                                                  id="slide1"
+                                                  src={
+                                                    productImage
+                                                      ? productImage
+                                                      : slideData[0]?.banner
+                                                  }
+                                                  alt=""
+                                                />
+                                              </div>
+                                              <div className="p-image">
+                                                <i className="upload-button fas fa-camera" />
+                                                <input
+                                                  className="file-uploads"
+                                                  type="file"
+                                                  name="slide1Img"
+                                                  accept="image/*"
+                                                  id="slideOneUrl"
+                                                  {...register("slides")}
+                                                  onChange={(e) =>
+                                                    onFileSelection(
+                                                      e,
+                                                      "slide1Img"
+                                                    )
+                                                  }
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div className="form-group col-12">
+                                            <label
+                                              htmlFor=""
+                                              className="labels d-flex"
+                                            >
+                                              TITLE :
+                                            </label>
+                                            <Editor
+                                              editorState={editorTitleState}
+                                              wrapperClassName="wrapper-class"
+                                              editorClassName="editor-class border"
+                                              toolbarClassName="toolbar-class"
+                                              onEditorStateChange={
+                                                onEditorTitleStateChange
+                                              }
+                                              wrapperStyle={{}}
+                                              editorStyle={{}}
+                                              toolbarStyle={{}}
+                                              toolbar={{
+                                                options: [
+                                                  "inline",
+                                                  "blockType",
+                                                  // "fontSize",
+                                                  // "fontFamily",
+                                                  // "colorPicker",
+                                                ],
+                                              }}
+                                            />
+                                          </div>
+                                          <div className="form-group col-12">
+                                            <label
+                                              htmlFor=""
+                                              className="labels"
+                                            >
+                                              Paragraph
+                                            </label>
+                                            <Editor
+                                              editorState={editorDescState}
+                                              wrapperClassName="wrapper-class"
+                                              editorClassName="editor-class border"
+                                              toolbarClassName="toolbar-class"
+                                              onEditorStateChange={
+                                                onEditorDescStateChange
+                                              }
+                                              wrapperStyle={{}}
+                                              editorStyle={{}}
+                                              toolbarStyle={{}}
+                                              toolbar={{
+                                                options: [
+                                                  "inline",
+                                                  "blockType",
+                                                  // "fontSize",
+                                                  // "fontFamily",
+                                                  // "colorPicker",
+                                                ],
+                                              }}
+                                            />
+                                          </div>
+                                          <div className="form-group col-12 text-start">
+                                            <button
+                                              className="comman_btn"
+                                              type="submit"
+                                            >
+                                              Save
+                                            </button>
+                                          </div>
+                                        </form> */}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className="tab-pane fade"
+                                  id="SlideNew"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideNew-tab"
+                                >
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="row mx-0  rounded py-3 px-1">
+                                      <div className="col-12">
+                                        Youtube Video Slide : Not customizable
+                                        from cms.
                                         {/* <form
                                           className="form-design row"
                                           action=""

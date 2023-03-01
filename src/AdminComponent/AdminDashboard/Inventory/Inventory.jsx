@@ -350,9 +350,15 @@ const Inventory = () => {
     setImpFile(file);
     setUx("uploaded");
   };
-  const ProductStatus = async (index) => {
-    await axios.post(prodStatus + "/" + allProducts[index]?._id).then((res) => {
-      console.log(res);
+  const ProductStatus = async (id) => {
+    await axios.post(prodStatus + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
     });
   };
   // const OnSearching = async () => {
@@ -1182,14 +1188,14 @@ const Inventory = () => {
                                 </td>
                                 <td className="border">
                                   {" "}
-                                  <div className="">
+                                  <div className="" key={User?._id}>
                                     <label class="switchUser">
                                       <input
                                         type="checkbox"
-                                        id={index + 1}
+                                        id={User?.unitName}
                                         defaultChecked={User?.status}
                                         onClick={() => {
-                                          ProductStatus(index);
+                                          ProductStatus(User?._id);
                                         }}
                                       />
                                       <span class="sliderUser round"></span>

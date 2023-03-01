@@ -3133,7 +3133,7 @@
   .banner_slide {
     background: linear-gradient(to right, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0));
     background-size: cover;
-    height: 45rem;
+    /* height: 45rem; */
     background-position: center;
     position: relative;
     display: flex;
@@ -3142,10 +3142,10 @@
   }
   .frame-container {
     position: relative;
-    padding-bottom: 40%; /* 16:9 */
-    padding-top: 25px;
-    width: 300%; /* enlarge beyond browser width */
-    left: -100%; /* center */
+    padding-bottom: 50%; /* 16:9 */
+    width: 450%; /* enlarge beyond browser width */
+    height: 80%;
+     left: -175%;/* center */
   }
 
   .frame-container iframe {
@@ -12341,47 +12341,61 @@ a:hover {
 
 /* loader */
 
-.loading-screen{
+.loading-screen {
   margin-top: 12rem;
   justify-content: center;
   display: flex;
 }
 
-.centered{
-	width:400px;
-	height:400px;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
-	background:#fff;
-	filter: blur(10px) contrast(20);
+.centered {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  filter: blur(10px) contrast(20);
 }
-.blob-1,.blob-2{
-	width:70px;
-	height:70px;
-	position:absolute;
-	background:#3e4093;
-	border-radius:50%;
-	top:50%;left:50%;
-	transform:translate(-50%,-50%);
+.blob-1,
+.blob-2 {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  background: #3e4093;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.blob-1{
-	left:20%;
-	animation:osc-l 2.5s ease infinite;
+.blob-1 {
+  left: 20%;
+  animation: osc-l 2.5s ease infinite;
 }
-.blob-2{
-	left:80%;
-	animation:osc-r 2.5s ease infinite;
-	background:#eb3237;
+.blob-2 {
+  left: 80%;
+  animation: osc-r 2.5s ease infinite;
+  background: #eb3237;
 }
-@keyframes osc-l{
-	0%{left:20%;}
-	50%{left:50%;}
-	100%{left:20%;}
+@keyframes osc-l {
+  0% {
+    left: 20%;
+  }
+  50% {
+    left: 50%;
+  }
+  100% {
+    left: 20%;
+  }
 }
-@keyframes osc-r{
-	0%{left:80%;}
-	50%{left:50%;}
-	100%{left:80%;}
+@keyframes osc-r {
+  0% {
+    left: 80%;
+  }
+  50% {
+    left: 50%;
+  }
+  100% {
+    left: 80%;
+  }
 }

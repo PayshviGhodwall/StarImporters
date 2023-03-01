@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import html2pdf from "html2pdf.js/dist/html2pdf.min";
 const PdfPrint = () => {
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const [orders, setOrders] = useState([]);
@@ -30,8 +30,18 @@ const PdfPrint = () => {
     console.log("KK");
     window.print();
   };
+  const printHandler = () => {
+    const printElement = document.getElementById("main_pdf");
+    html2pdf().from(printElement).save(orders?.orderId);
+  };
   return (
-    <div>
+    <div className="" id="main_pdf">
+      {/* <button className="commanBtn2 mb-5" onClick={printHandler}>
+        <i class="fa fa-download"></i> Download.
+      </button> */}
+      <button className="commanBtn2 mb-5 mx-3" onClick={printPdf}>
+        <i class="fa fa-print" aria-hidden="true"></i> Print.
+      </button>
       <section className="p-3">
         <table
           width="100%"
@@ -99,7 +109,6 @@ const PdfPrint = () => {
                                             borderSpacing: 0,
                                           }}
                                         >
-                                          {" "}
                                           582113879
                                         </span>
                                       </td>
@@ -347,7 +356,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -355,17 +364,62 @@ const PdfPrint = () => {
                                                 }}
                                               >
                                                 {" "}
-                                                Packing List :{" "}
+                                                Company Name :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  M938569
+                                                  {orders?.userId?.companyName}
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </td>
+                                      <td
+                                        style={{
+                                          width: "15%",
+                                          textAlign: "center",
+                                          borderSpacing: 0,
+                                          verticalAlign: "top",
+                                        }}
+                                      >
+                                        <table
+                                          width="100%"
+                                          style={{
+                                            margin: "0 auto",
+                                            border: 0,
+                                            borderSpacing: 0,
+                                          }}
+                                        >
+                                          <tbody>
+                                            <tr>
+                                              <td
+                                                style={{
+                                                  fontSize: 15,
+                                                  fontWeight: 600,
+                                                  color: "#000",
+                                                  textAlign: "center",
+                                                  borderSpacing: 0,
+                                                }}
+                                              >
+                                                {" "}
+                                                Phone :{" "}
+                                                <span
+                                                  style={{
+                                                    fontSize: 15,
+                                                    fontWeight: 700,
+                                                    color: "#3e4093",
+                                                    textAlign: "center",
+                                                    borderSpacing: 0,
+                                                  }}
+                                                >
+                                                  {orders?.userId?.phoneNumber}
                                                 </span>
                                               </td>
                                             </tr>
@@ -392,7 +446,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -400,17 +454,17 @@ const PdfPrint = () => {
                                                 }}
                                               >
                                                 {" "}
-                                                Account :{" "}
+                                                Address :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  #6618728
+                                                  {orders?.userId?.addressLine1}
                                                 </span>
                                               </td>
                                             </tr>
@@ -419,7 +473,7 @@ const PdfPrint = () => {
                                       </td>
                                       <td
                                         style={{
-                                          width: "20%",
+                                          width: "15%",
                                           textAlign: "center",
                                           borderSpacing: 0,
                                           verticalAlign: "top",
@@ -437,7 +491,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -448,7 +502,7 @@ const PdfPrint = () => {
                                                 Order Date :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
@@ -468,7 +522,7 @@ const PdfPrint = () => {
 
                                       <td
                                         style={{
-                                          width: "20%",
+                                          width: "15%",
                                           textAlign: "center",
                                           borderSpacing: 0,
                                           verticalAlign: "top",
@@ -486,7 +540,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -497,7 +551,7 @@ const PdfPrint = () => {
                                                 Order Id :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
@@ -513,7 +567,7 @@ const PdfPrint = () => {
                                       </td>
                                       <td
                                         style={{
-                                          width: "20%",
+                                          width: "15%",
                                           textAlign: "center",
                                           borderSpacing: 0,
                                           verticalAlign: "top",
@@ -531,7 +585,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -542,7 +596,7 @@ const PdfPrint = () => {
                                                 Total Product :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 18,
+                                                    fontSize: 15,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
@@ -592,7 +646,7 @@ const PdfPrint = () => {
                                       <th
                                         style={{
                                           backgroundColor: "#f2f2f2",
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: 600,
                                           textAlign: "start",
                                           color: "#000",
@@ -606,7 +660,7 @@ const PdfPrint = () => {
                                       <th
                                         style={{
                                           backgroundColor: "#f2f2f2",
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: 600,
                                           textAlign: "center",
                                           color: "#000",
@@ -616,12 +670,12 @@ const PdfPrint = () => {
                                           borderBottom: 0,
                                         }}
                                       >
-                                        Image
+                                        Product Image
                                       </th>
                                       <th
                                         style={{
                                           backgroundColor: "#f2f2f2",
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: 600,
                                           textAlign: "start",
                                           color: "#000",
@@ -636,7 +690,7 @@ const PdfPrint = () => {
                                       <th
                                         style={{
                                           backgroundColor: "#f2f2f2",
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: 600,
                                           textAlign: "center",
                                           color: "#000",
@@ -651,7 +705,7 @@ const PdfPrint = () => {
                                       <th
                                         style={{
                                           backgroundColor: "#f2f2f2",
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: 600,
                                           textAlign: "center",
                                           color: "#000",
@@ -691,21 +745,24 @@ const PdfPrint = () => {
                                               <tbody>
                                                 {(
                                                   item?.flavour?.barcode || []
-                                                )?.map((item, ind) => (
-                                                  <tr>
-                                                    <td
-                                                      style={{
-                                                        fontSize: 16,
-                                                        fontWeight: 500,
-                                                        textAlign: "start",
-                                                        color: "#000",
-                                                      }}
-                                                    >
-                                                      {" "}
-                                                      {item}
-                                                    </td>
-                                                  </tr>
-                                                ))}
+                                                )?.map(
+                                                  (item, ind) =>
+                                                    ind <= 2 && (
+                                                      <tr>
+                                                        <td
+                                                          style={{
+                                                            fontSize: 16,
+                                                            fontWeight: 500,
+                                                            textAlign: "start",
+                                                            color: "#000",
+                                                          }}
+                                                        >
+                                                          {" "}
+                                                          {item}
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                )}
                                               </tbody>
                                             </table>
                                           </td>
@@ -734,7 +791,7 @@ const PdfPrint = () => {
                                               <img
                                                 style={{
                                                   display: "block",
-                                                  maxWidth: 55,
+                                                  maxWidth: 90,
                                                   margin: "0 auto",
                                                 }}
                                                 src={

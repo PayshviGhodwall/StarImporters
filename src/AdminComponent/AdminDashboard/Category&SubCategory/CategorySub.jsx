@@ -283,27 +283,39 @@ const CategorySub = () => {
     localStorage.removeItem("AdminEmail");
   };
 
-  const CategoryStatus = async (index) => {
-    await axios
-      .post(disableCategory + "/" + allCategories[index]?._id)
-      .then((res) => {
-        setChange(!change);
-      });
+  const CategoryStatus = async (id) => {
+    await axios.post(disableCategory + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
-  const CategoryTobaccoStatus = async (index) => {
-    await axios
-      .post(TobaccoCategory + "/" + allCategories[index]?._id)
-      .then((res) => {
-        setChange(!change);
-      });
+  const CategoryTobaccoStatus = async (id) => {
+    await axios.post(TobaccoCategory + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
 
-  const SubCategoryTobaccoStatus = async (index) => {
-    await axios
-      .post(TobaccoSubCategory + "/" + allSubCategories[index]?._id)
-      .then((res) => {
-        setChange(!change);
-      });
+  const SubCategoryTobaccoStatus = async (id) => {
+    await axios.post(TobaccoSubCategory + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
   const deleteSubImage = async (id) => {
     await axios.post(deleteSubImg + "/" + id).then((res) => {
@@ -989,16 +1001,21 @@ const CategorySub = () => {
                                               </td>
                                               <td className="border">
                                                 {" "}
-                                                <div className="">
+                                                <div
+                                                  className=""
+                                                  key={item?._id}
+                                                >
                                                   <label class="switchUser">
                                                     <input
                                                       type="checkbox"
-                                                      id={index + 1}
+                                                      id={item?.unitName}
                                                       defaultChecked={
                                                         item?.status
                                                       }
                                                       onClick={() => {
-                                                        CategoryStatus(index);
+                                                        CategoryStatus(
+                                                          item?._id
+                                                        );
                                                       }}
                                                     />
                                                     <span class="sliderUser round"></span>
@@ -1007,17 +1024,20 @@ const CategorySub = () => {
                                               </td>
                                               <td className="border">
                                                 {" "}
-                                                <div className="">
+                                                <div
+                                                  className=""
+                                                  key={item?._id}
+                                                >
                                                   <label class="switchUser">
                                                     <input
                                                       type="checkbox"
-                                                      id={index + 1}
+                                                      id={item?._id}
                                                       defaultChecked={
                                                         item?.isTobacco
                                                       }
                                                       onClick={() => {
                                                         CategoryTobaccoStatus(
-                                                          index
+                                                          item?._id
                                                         );
                                                       }}
                                                     />
@@ -1223,17 +1243,20 @@ const CategorySub = () => {
                                               </td>
                                               <td className="border">
                                                 {" "}
-                                                <div className="">
+                                                <div
+                                                  className=""
+                                                  key={item?._id}
+                                                >
                                                   <label class="switchUser">
                                                     <input
                                                       type="checkbox"
-                                                      id={index + 1}
+                                                      id={item?._id}
                                                       defaultChecked={
                                                         item?.isTobacco
                                                       }
                                                       onClick={() => {
                                                         SubCategoryTobaccoStatus(
-                                                          index
+                                                          item?._id
                                                         );
                                                       }}
                                                     />

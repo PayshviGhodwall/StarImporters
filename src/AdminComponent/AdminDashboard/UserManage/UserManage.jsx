@@ -206,13 +206,18 @@ const UserManage = () => {
     // setStatsIndex(approvedUsers[index]?._id);
   };
 
-  const UserStatus = async (index) => {
-    await axios
-      .post(userStatus + "/" + approvedUsers[index]?._id)
-      .then((res) => {
-        console.log(res);
-      });
+  const UserStatus = async (id) => {
+    await axios.post(userStatus + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
+
   const GenerateCrendential = async () => {
     await axios
       .post(genCrendentials, {
@@ -224,7 +229,7 @@ const UserManage = () => {
         }
       });
   };
- 
+
   // document.getElementById("appFrom")?.setAttribute("max", today);
   // document.getElementById("penFrom")?.setAttribute("max", today);
   // document.getElementById("penTo")?.setAttribute("max", today);
@@ -1017,7 +1022,7 @@ const UserManage = () => {
                                               </td>
                                               <td
                                                 className="border"
-                                                key={User.status}
+                                                key={User._id}
                                               >
                                                 {" "}
                                                 <div className="">
@@ -1025,11 +1030,12 @@ const UserManage = () => {
                                                     <input
                                                       type="checkbox"
                                                       name="quotation"
+                                                      id={User._id}
                                                       defaultChecked={
                                                         User.status
                                                       }
                                                       onClick={() => {
-                                                        UserStatus(index);
+                                                        UserStatus(User?._id);
                                                       }}
                                                     />
                                                     <span class="sliderUser round"></span>
