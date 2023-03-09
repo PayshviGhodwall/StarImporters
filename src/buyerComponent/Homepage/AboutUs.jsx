@@ -65,14 +65,11 @@ const AboutUs = () => {
 
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
               <div class="inner-column wow fadeInLeft">
-                <div class="author-desc mx-3">
-                  <h2>STAR TEAM</h2>
-                </div>
+                
                 <figure class="image-1">
                   <a href="#" class="lightbox-image" data-fancybox="images">
                     <img
-                      title="Rahul Kumar Yadav"
-                      src={require("../../assets/img/starBg.jpg")}
+                      src={require("../../assets/img/starBgg.jpg")}
                       alt=""
                     />
                   </a>

@@ -429,6 +429,7 @@ const Cms = () => {
     ?.addEventListener("change", function () {
       if (this.files[0]) {
         var picture = new FileReader();
+        console.log(picture);
         picture.readAsDataURL(this.files[0]);
         picture.addEventListener("load", function (event) {
           document

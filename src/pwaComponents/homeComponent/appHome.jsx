@@ -340,9 +340,7 @@ function AppHome() {
                   </div>
                 </div>
               </div>
-
               <TopProduct />
-
               <div className="flash-sale-wrapper mt-3">
                 <div className="container">
                   <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
