@@ -33,7 +33,7 @@ const Checkout = () => {
         .then((res) => {
           if (!res.error) {
             Swal.fire({
-              title: "Hurray! Order Placed.",
+              title: "Order Placed!",
               text: "You can Track your order on my account",
               icon: "success",
               confirmButtonText: "View Order",
@@ -53,7 +53,7 @@ const Checkout = () => {
         .then((res) => {
           if (!res.error) {
             Swal.fire({
-              title: "Hurray! Order Placed.",
+              title: "Order Placed!",
               text: "You can Track your order on my account",
 
               icon: "success",
@@ -74,7 +74,7 @@ const Checkout = () => {
         .then((res) => {
           if (!res.error) {
             Swal.fire({
-              title: "Hurray! Order Placed.",
+              title: "Order Placed!",
               text: "You can Track your order on my account",
 
               icon: "success",
@@ -142,7 +142,7 @@ const Checkout = () => {
                 <div className="chosse_location">
                   <h3>Choose your checkout</h3>
 
-                  {users?.state == "Georgia" ? (
+                  {users?.state === "Georgia" ? (
                     <form className="row" action="">
                       <div className="form-group col-4 custom_radio">
                         <input
@@ -170,6 +170,20 @@ const Checkout = () => {
                           name="radioo"
                         />
                         <label htmlFor="new_radio1">Delivery</label>
+                      </div>
+                      <div className="form-group col-4 custom_radio">
+                        <input
+                          type="radio"
+                          defaultChecked="true"
+                          className="d-none"
+                          value={true}
+                          id="new_radio2"
+                          name="radioo"
+                          onClick={() => {
+                            setDelevryChoice("Shipment");
+                          }}
+                        />
+                        <label htmlFor="new_radio2">Shipment</label>
                       </div>
                     </form>
                   ) : (

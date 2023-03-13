@@ -31,13 +31,14 @@ function AppForgotPasswordSuccess() {
     const response = await updatePassword(formData);
 
     if (!response.data.error) {
-
       navigate("/app/login");
       if (window.flutter_inappwebview) {
-        window.flutter_inappwebview.callHandler("saveDetails" , location.state.email ,data?.password);
-        
-  
-     }
+        window.flutter_inappwebview.callHandler(
+          "saveDetails",
+          location.state.email,
+          data?.password
+        );
+      }
     }
   };
   return (
@@ -75,11 +76,13 @@ function AppForgotPasswordSuccess() {
                         id="password"
                         {...register("password", {
                           required: "This field is required",
-                          pattern: {
-                            value:
-                              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                            message:
-                              "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                          maxLength: {
+                            value: 15,
+                            message: "Password Max length is 15 characters!",
+                          },
+                          minLength: {
+                            value: 8,
+                            message: "Password Min length is 8 characters!",
                           },
                         })}
                       />
@@ -103,11 +106,13 @@ function AppForgotPasswordSuccess() {
                         id="confirmpassword"
                         {...register("confirmpassword", {
                           required: "This field is required",
-                          pattern: {
-                            value:
-                              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                            message:
-                              "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                          maxLength: {
+                            value: 15,
+                            message: "Password Max length is 15 characters!",
+                          },
+                          minLength: {
+                            value: 8,
+                            message: "Password Min length is 8 characters!",
                           },
                         })}
                       />

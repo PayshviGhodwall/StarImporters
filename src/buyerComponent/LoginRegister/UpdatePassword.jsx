@@ -88,11 +88,13 @@ const UpdatePassword = (otpEmail) => {
                 name="Npassword"
                 {...register("Npassword", {
                   required: "Enter Your Password",
-                  pattern: {
-                    value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message:
-                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters. Please Avoid #,^,$",
+                  maxLength: {
+                    value: 15,
+                    message: "Password Max length is 15 characters!",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Password Min length is 8 characters!",
                   },
                 })}
               />
@@ -118,11 +120,13 @@ const UpdatePassword = (otpEmail) => {
                 name="password"
                 {...register("password", {
                   required: "Enter Your Password",
-                  pattern: {
-                    value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message:
-                      "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters,Avoid #,^,$",
+                  maxLength: {
+                    value: 15,
+                    message: "Password Max length is 15 characters!",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Password Min length is 8 characters!",
                   },
                 })}
               />

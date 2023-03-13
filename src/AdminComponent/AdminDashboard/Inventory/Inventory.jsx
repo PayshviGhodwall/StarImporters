@@ -28,7 +28,6 @@ const Inventory = () => {
   const [maxPage, setMaxPage] = useState(1);
   const [productImage, setProductImage] = useState();
   const [barcodes, setBarcodes] = useState([]);
-  const [values, setValues] = useState({ from: "", to: "" });
   const [sideBar, setSideBar] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -751,7 +750,7 @@ const Inventory = () => {
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-group col-6">
+                    <div className="form-group col-4">
                       <label htmlFor="">Product Name</label>
                       <input
                         type="text"
@@ -767,7 +766,7 @@ const Inventory = () => {
                       />
                     </div>
 
-                    <div className="form-group col-6 choose_fileInvent position-relative">
+                    <div className="form-group col-4 choose_fileInvent position-relative">
                       <span>Product Image </span>
                       <label htmlFor="upload_video" className="inputText">
                         <i className="fa fa-camera me-1" />
@@ -787,6 +786,21 @@ const Inventory = () => {
                           required: "Enter Product Name",
                         })}
                         onChange={(e) => productImageSelection(e)}
+                      />
+                    </div>
+                    <div className="form-group col-4">
+                      <label htmlFor="">Case Size</label>
+                      <input
+                        type="text"
+                        className={classNames(
+                          "form-control  border border-secondary",
+                          { "is-invalid": errors.caseSize }
+                        )}
+                        name="caseSize"
+                        placeholder="Enter Product Name"
+                        {...register("caseSize", {
+                          required: "Enter Case Size",
+                        })}
                       />
                     </div>
                     <div className="form-group col-4">

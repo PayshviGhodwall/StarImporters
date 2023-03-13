@@ -3145,7 +3145,7 @@
     padding-bottom: 50%; /* 16:9 */
     width: 450%; /* enlarge beyond browser width */
     height: 80%;
-     left: -175%;/* center */
+    left: -175%; /* center */
   }
 
   .frame-container iframe {
@@ -12398,4 +12398,15 @@ a:hover {
   100% {
     left: 80%;
   }
+}
+.quanityField {
+  display: inline-flex;
+  align-items: center;
+  width: 5rem !important;
+  justify-content: center !important;
+  height: 20px;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-left: 5px;
 }

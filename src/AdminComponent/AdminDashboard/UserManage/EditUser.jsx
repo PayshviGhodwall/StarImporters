@@ -1166,17 +1166,47 @@ const EditUser = () => {
                             Quotation :{" "}
                             {user?.quotation ? "Enabled" : "Disabled"}
                           </span>
-                          <div className="col-12 align-item-center ">
-                            <label class="switch">
-                              <input
-                                type="checkbox"
-                                name="quotation"
-                                defaultChecked={user?.quotation}
-                                {...register("quotation")}
-                              />
-                              <span class="slider round"></span>
-                            </label>
-                          </div>
+                          {user?.quotation ? (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.quotation ? "Disable" : "Enabled"}{" "}
+                                Licence ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  value="false"
+                                  className="border check"
+                                  name="quotation"
+                                  {...register("quotation")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          ) : (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.quotation ? "Disable" : "Enable"} Licence
+                                ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  className="border check"
+                                  name="quotation"
+                                  value="true"
+                                  {...register("quotation")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          )}
                         </div>
                       </div>
 

@@ -31,12 +31,11 @@ const AdminResetPassword = () => {
       data?.Npassword !== data?.password ||
       data?.password !== data?.Npassword
     ) {
-      setError("Passwords does not match!")
+      setError("Passwords does not match!");
       Swal.fire({
-        title:"Confirm password should same as New password!",
-        icon:"error"
-
-      })
+        title: "Confirm password should same as New password!",
+        icon: "error",
+      });
     } else if (data.Npassword === data.password) {
       setError("");
       axios
@@ -70,7 +69,9 @@ const AdminResetPassword = () => {
                       ></img>
                     </div>
                     <h1 className="fw-bold fs-4  LoginHead">Reset Password</h1>
-                    <p className="fw-lighter fs-6 text-danger">{error?.length ? error : null}</p>
+                    <p className="fw-lighter fs-6 text-danger">
+                      {error?.length ? error : null}
+                    </p>
                   </div>
                   <div className="col-12">
                     <form
@@ -88,11 +89,19 @@ const AdminResetPassword = () => {
                           name="Npassword"
                           {...register("Npassword", {
                             required: "Enter Your Password",
-                            pattern: {
-                              value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                              message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
+                            // pattern: {
+                            //   value:
+                            //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            //   message:
+                            //     "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
+                            // },
+                            maxLength: {
+                              value: 15,
+                              message: "Password Max length is 15 characters!",
+                            },
+                            minLength: {
+                              value: 8,
+                              message: "Password Min length is 8 characters!",
                             },
                           })}
                         />
@@ -117,11 +126,19 @@ const AdminResetPassword = () => {
                           name="password"
                           {...register("password", {
                             required: "Enter Your Password",
-                            pattern: {
-                              value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                              message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
+                            // pattern: {
+                            //   value:
+                            //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            //   message:
+                            //     "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters (ex.StarnewUser123@)",
+                            // },
+                            maxLength: {
+                              value: 15,
+                              message: "Password Max length is 15 characters!",
+                            },
+                            minLength: {
+                              value: 8,
+                              message: "Password Min length is 8 characters!",
                             },
                           })}
                         />

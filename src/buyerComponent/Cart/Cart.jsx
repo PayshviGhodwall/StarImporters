@@ -50,7 +50,7 @@ const Cart = () => {
         }
       });
   };
-  
+
   const HandleIncrease = async (id) => {
     const formData = {
       productId: product[id]?.productId?._id,
@@ -105,16 +105,12 @@ const Cart = () => {
           style={{ backgroundColor: "#eef3ff" }}
         >
           {token ? (
-            <div className="container user-management-tabs px-0">
+            <div className="container user-management-tabs  px-5">
               <nav className="w-100">
                 <div className="nav nav-tabs  " id="nav-tab" role="tablist">
                   <button
                     className="nav-link active"
-                    style={
-                      userDetail?.quotation === true
-                        ? { width: "50%" }
-                        : { width: "100%" }
-                    }
+                    style={{ width: "100%" }}
                     id="nav-home-tab"
                     data-bs-toggle="tab"
                     data-bs-target="#nav-home"
@@ -130,7 +126,7 @@ const Cart = () => {
                     MY CART
                   </button>
 
-                  {userDetail?.quotation === true ? (
+                  {/* {userDetail?.quotation === true ? (
                     <button
                       className="nav-link "
                       id="nav-profile-tab"
@@ -146,15 +142,29 @@ const Cart = () => {
                       />
                       MY QUOTATIONS
                     </button>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </nav>
-              <div className="container bg-white ">
-                <div className="row p-4">
+              <div className="container bg-white border">
+                <div className="row p-5">
                   <div className="col-12 bg-white">
                     <div className="row">
                       <div className="col-12">
                         <div className="cart_table">
+                          <div className="col-12 text-start mb-2">
+                            <Link
+                              className="comman_btn text-decoration-none"
+                              to="/app/checkout"
+                            >
+                              Place your Order
+                            </Link>
+                            <Link
+                              className="comman_btn2 text-decoration-none mx-2"
+                              to="/app/checkout"
+                            >
+                              Request For Quote
+                            </Link>
+                          </div>
                           {product?.length ? (
                             <div className="table-responsive">
                               <table className="table">
@@ -256,26 +266,7 @@ const Cart = () => {
                                                   150
                                                 ) + "...."}
                                               </p>
-                                              <div className="rate_main d-flex align-items-center my-md-3 my-2">
-                                                <div className="rating_box">
-                                                  <a href="javasript:;">
-                                                    <i className="fas fa-star" />
-                                                  </a>
-                                                  <a href="javasript:;">
-                                                    <i className="fas fa-star" />
-                                                  </a>
-                                                  <a href="javasript:;">
-                                                    <i className="fas fa-star" />
-                                                  </a>
-                                                  <a href="javasript:;">
-                                                    <i className="fas fa-star" />
-                                                  </a>
-                                                  <a href="javasript:;">
-                                                    <i className="fa fa-star" />
-                                                  </a>
-                                                </div>
-                                                <span>(216)</span>
-                                              </div>
+
                                               <a
                                                 className="text-decoration-none"
                                                 style={{
@@ -318,7 +309,6 @@ const Cart = () => {
                                             )}
                                           </span>
                                           <input
-                                            type="text"
                                             value={item?.quantity}
                                             onChange={(e) =>
                                               updateQuantity(
@@ -342,14 +332,6 @@ const Cart = () => {
                                   ))}
                                 </tbody>
                               </table>
-                              <div className="col-12 text-center mb-3 mt-5">
-                                <Link
-                                  className="comman_btn text-decoration-none"
-                                  to="/app/checkout"
-                                >
-                                  Checkout
-                                </Link>
-                              </div>
                             </div>
                           ) : (
                             <div

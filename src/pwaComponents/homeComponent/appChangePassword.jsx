@@ -158,11 +158,13 @@ function AppChangePassword() {
                           id="oldPassword"
                           {...register("oldPassword", {
                             required: "This field is required",
-                            pattern: {
-                              value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                              message:
-                                "Password must be 8 characters including one uppercase letter, one special character and alphanumeric characters",
+                            maxLength: {
+                              value: 15,
+                              message: "Password Max length is 15 characters!",
+                            },
+                            minLength: {
+                              value: 8,
+                              message: "Password Min length is 8 characters!",
                             },
                           })}
                         />
@@ -189,23 +191,25 @@ function AppChangePassword() {
                           id="newPassword-input"
                           {...register("newPassword", {
                             required: "This field is required",
-                            pattern: {
-                              value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-                              message:
-                                "Password must be 6 characters including one uppercase letter, one special character and alphanumeric characters",
+                            maxLength: {
+                              value: 15,
+                              message: "Password Max length is 15 characters!",
+                            },
+                            minLength: {
+                              value: 8,
+                              message: "Password Min length is 8 characters!",
                             },
                           })}
                         />
-                         <span
-                        style={{
-                          position: "relative",
-                          left: "90%",
-                          top: "-28px",
-                        }}
-                        onClick={togglePassword2}
-                        className="fa fa-fw fa-eye field-icon toggle-password"
-                      />
+                        <span
+                          style={{
+                            position: "relative",
+                            left: "90%",
+                            top: "-28px",
+                          }}
+                          onClick={togglePassword2}
+                          className="fa fa-fw fa-eye field-icon toggle-password"
+                        />
                         {errors?.newPassword && (
                           <p className="form-error mt-1">
                             {errors?.newPassword?.message}
@@ -232,15 +236,15 @@ function AppChangePassword() {
                             },
                           })}
                         />
-                         <span
-                        style={{
-                          position: "relative",
-                          left: "90%",
-                          top: "-28px",
-                        }}
-                        onClick={togglePassword}
-                        className="fa fa-fw fa-eye field-icon toggle-password"
-                      />
+                        <span
+                          style={{
+                            position: "relative",
+                            left: "90%",
+                            top: "-28px",
+                          }}
+                          onClick={togglePassword}
+                          className="fa fa-fw fa-eye field-icon toggle-password"
+                        />
                         {errors?.confirmPassword && (
                           <p className="form-error mt-1">
                             {errors?.confirmPassword?.message}

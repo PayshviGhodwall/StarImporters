@@ -420,27 +420,6 @@ const SingleProdBySearch = () => {
                         <div className="row border-bottom pb-4">
                           <div className="col-12">
                             <h1>{product?.unitName}</h1>
-
-                            <div className="ratee_part d-flex align-items-center mt-3">
-                              <div className="rating_box">
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fa fa-star" />
-                                </a>
-                              </div>
-                              <span>(216)</span>
-                            </div>
                           </div>
                           <div className="col-12">
                             <div className="row offers_box pt-3 pb-3 border-0">
