@@ -36,13 +36,14 @@ const PdfPrint = () => {
   };
   return (
     <div className="" id="main_pdf">
-      {/* <button className="commanBtn2 mb-5" onClick={printHandler}>
-        <i class="fa fa-download"></i> Download.
-      </button> */}
-      <button className="commanBtn2 mb-5 mx-3" onClick={printPdf}>
-        <i class="fa fa-print" aria-hidden="true"></i> Print.
-      </button>
-      <section className="p-3">
+      <p className="d-flex mx-3 justify-content-between mt-1">
+        <img width={100} src={require("../../../assets/img/logo.png")} />
+        <button className="commanBtn2  text-end" onClick={printPdf}>
+          <i class="fa fa-print" aria-hidden="true"></i> Print.
+        </button>
+      </p>
+
+      <section className="px-3 mt-0">
         <table
           width="100%"
           style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}
@@ -57,7 +58,7 @@ const PdfPrint = () => {
                   style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}
                 >
                   <tbody>
-                    <tr>
+                    {/* <tr>
                       <td style={{ paddingBottom: 25 }}>
                         <table
                           width="100%"
@@ -77,207 +78,13 @@ const PdfPrint = () => {
                                   verticalAlign: "top",
                                 }}
                               >
-                                <table
-                                  width="100%"
-                                  style={{
-                                    margin: "0 auto",
-                                    border: 0,
-                                    borderSpacing: 0,
-                                  }}
-                                >
-                                  <tbody>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          color: "#000",
-                                          textAlign: "left",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        EIN :{" "}
-                                        <span
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            color: "#000",
-                                            textAlign: "left",
-                                            textTransform: "uppercase",
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          582113879
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          color: "#000",
-                                          textAlign: "left",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        SALES TAX :{" "}
-                                        <span
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            color: "#000",
-                                            textAlign: "left",
-                                            textTransform: "uppercase",
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          {" "}
-                                          308259392
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          color: "#000",
-                                          textAlign: "left",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        STI :{" "}
-                                        <span
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            color: "#000",
-                                            textAlign: "left",
-                                            textTransform: "uppercase",
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          {" "}
-                                          20009110633
-                                        </span>{" "}
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          color: "#000",
-                                          textAlign: "left",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        DID :{" "}
-                                        <span
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            color: "#000",
-                                            textAlign: "left",
-                                            textTransform: "uppercase",
-                                            borderSpacing: 0,
-                                          }}
-                                        >
-                                          {" "}
-                                          10146001
-                                        </span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+                                kii
                               </td>
-                              <td
-                                style={{
-                                  width: "60%",
-                                  textAlign: "center",
-                                  borderSpacing: 0,
-                                  verticalAlign: "top",
-                                }}
-                              >
-                                <table
-                                  width="100%"
-                                  style={{
-                                    margin: "0 auto",
-                                    border: 0,
-                                    borderSpacing: 0,
-                                  }}
-                                >
-                                  <tbody>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 23,
-                                          fontWeight: 700,
-                                          color: "#000",
-                                          textAlign: "center",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        STAR IMPORTERS AND WHOLESALERS INC.{" "}
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          color: "#000",
-                                          textAlign: "center",
-                                          textTransform: "uppercase",
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        2166 MOUNTAIN INDUSTRIAL BLVD{" "}
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 500,
-                                          color: "#000",
-                                          textAlign: "center",
-                                          textTransform: "uppercase",
-                                          paddingBottom: 15,
-                                          borderSpacing: 0,
-                                        }}
-                                      >
-                                        {" "}
-                                        TUCKER,GA 30084{" "}
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                              <td
-                                style={{
-                                  width: "20%",
-                                  textAlign: "end",
-                                  borderSpacing: 0,
-                                  verticalAlign: "top",
-                                }}
-                              ></td>
                             </tr>
                           </tbody>
                         </table>
                       </td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <td
                         style={{
@@ -464,7 +271,12 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.userId?.addressLine1}
+                                                  {orders?.userId
+                                                    ?.addressLine1 +
+                                                    "-" +
+                                                    orders?.userId?.state +
+                                                    "-" +
+                                                    orders?.userId?.city}
                                                 </span>
                                               </td>
                                             </tr>

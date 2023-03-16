@@ -8,6 +8,8 @@ import { components } from "react-select";
 import { default as ReactSelect } from "react-select";
 import axios from "axios";
 import Swal from "sweetalert2";
+import moment from "moment";
+
 const Option = (props) => {
   return (
     <div>
@@ -708,7 +710,9 @@ const SubAdmin = () => {
                                   {(activePage - 1) * 20 + (index + 1)}.
                                 </td>
                                 <td className="border">
-                                  {item?.createdAt?.slice(0, 10)}
+                                  {moment(item?.craetedAt?.slice(0, 10)).format(
+                                    "DD/MM/YYYY"
+                                  )}
                                 </td>
                                 <td className="border">{item?.fullName}</td>
                                 <td className=" border ">

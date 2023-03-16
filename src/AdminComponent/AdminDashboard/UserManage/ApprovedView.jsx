@@ -10,6 +10,7 @@ import axios from "axios";
 import { FaFileDownload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
+import moment from "moment";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
@@ -681,7 +682,9 @@ const ApprovedView = () => {
                             <strong>
                               {" "}
                               Expires on :{" "}
-                              {user?.tobaccoLicenceExpiry?.slice(0, 10)}
+                              {moment(
+                                user?.tobaccoLicenceExpiry?.slice(0, 10)
+                              ).format("DD/MM/YYYY")}
                             </strong>
                           ) : (
                             ""

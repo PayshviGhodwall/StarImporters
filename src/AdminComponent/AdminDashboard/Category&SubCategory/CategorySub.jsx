@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
+import moment from "moment";
 
 const CategorySub = () => {
   const addCategory = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/category/addCategory`;
@@ -973,7 +974,9 @@ const CategorySub = () => {
                                                 .
                                               </td>
                                               <td className="border">
-                                                {item?.updatedAt?.slice(0, 10)}
+                                                {moment(
+                                                  item?.updatedAt?.slice(0, 10)
+                                                ).format("DD/MM/YYYY")}
                                               </td>
                                               <td className="border">
                                                 {item?.categoryName}
@@ -1220,7 +1223,9 @@ const CategorySub = () => {
                                                 .
                                               </td>
                                               <td className="border">
-                                                {item?.updatedAt?.slice(0, 10)}
+                                                {moment(
+                                                  item?.updatedAt?.slice(0, 10)
+                                                ).format("DD/MM/YYYY")}
                                               </td>
                                               <td className="border">
                                                 {item?.category?.categoryName

@@ -561,6 +561,15 @@ const EditOrder = () => {
                     </div>
                     <div className="col-12 mb-4 ">
                       <div className="cart_table border rounded">
+                        <div className="border-bottom pb-3">
+                          <button
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop65"
+                            className="comman_btn2 mx-4 rounded mt-3"
+                          >
+                            Add More
+                          </button>
+                        </div>
                         <div className="table-responsive">
                           <table className="table">
                             <thead>
@@ -647,15 +656,6 @@ const EditOrder = () => {
                                 </tr>
                               ))}
                             </tbody>
-                            <div>
-                              <button
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop65"
-                                className="comman_btn2 mx-4 rounded mt-3"
-                              >
-                                Add More
-                              </button>
-                            </div>
                           </table>
                         </div>
                       </div>
@@ -781,7 +781,7 @@ const EditOrder = () => {
                                   }
                                 >
                                   <option selected="" value="">
-                                    {orders?.type}
+                                    {orders?.type}-(Selected)
                                   </option>
                                   <option value="Shipment">Shipment</option>
                                   <option value="Delivery">Delivery</option>
@@ -804,11 +804,13 @@ const EditOrder = () => {
                                     handleEditDetails(e, "status")
                                   }
                                 >
-                                  <option selected="">{orders?.status}</option>
+                                  <option selected="">
+                                    {orders?.status}-(Selected)
+                                  </option>
                                   <option value="ORDER PLACED">
                                     Order Placed
                                   </option>
-                                  <option value="DISPATCHED">Dispatched</option>
+                                  <option value="PROCESSING">Processing</option>
                                   <option value="SHIPPED">Shipped</option>
                                   <option value="DELIVERED">Delivered</option>
                                   <option value="CANCEL">Canceled</option>

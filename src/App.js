@@ -110,6 +110,7 @@ import AppSubCategories from "./pwaComponents/homeComponent/appSubCategories";
 import AppProductSubCategory from "./pwaComponents/homeComponent/appProductSubCategory";
 import ViewProduct from "./AdminComponent/AdminDashboard/ViewProduct";
 import PdfPrint from "./AdminComponent/AdminDashboard/OrdersManage/PdfPrint";
+import AppTerms from "./pwaComponents/homeComponent/AppTerms";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -368,6 +369,10 @@ function App() {
           <Route
             path="/app/contact-us"
             element={width < 999 ? <AppContactUs /> : <Contact />}
+          />
+          <Route
+            path="/app/terms"
+            element={width < 999 ? <AppTerms /> : <TermsCondition />}
           />
           <Route
             path="/app/logout"

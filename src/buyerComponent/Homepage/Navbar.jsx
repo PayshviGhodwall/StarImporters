@@ -12,7 +12,7 @@ import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
-  const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/countProducts`;
+  const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
   const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
   const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
@@ -101,10 +101,10 @@ const Navbar = ({ NState, LoginState }) => {
   }, [UserAuth]);
 
   const CartCounts = async () => {
-    await axios.get(cart).then((res) => {
+    await axios.post(cart).then((res) => {
       console.log(res);
 
-      setCartNum(res?.data.results);
+      setCartNum(res?.data.results?.productCount);
     });
   };
 
@@ -170,7 +170,7 @@ const Navbar = ({ NState, LoginState }) => {
             <div className="social_icon d-flex">
               {NState ? (
                 <Animate>
-                  <Link to="/app/Cart">
+                  <Link to="/app/Cart" state={{ key: "hii" }}>
                     <i className="fa fa-cart-arrow-down" />
 
                     <span className="count">{cartNum}</span>

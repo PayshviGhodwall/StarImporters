@@ -593,8 +593,14 @@ function AppSignUp() {
                     </div>
                   </form>
                 </div>
-                <div className="login-meta-data">
-                  <p className="mt-3 mb-0">
+                <div className="login-meta-data mt-2">
+                  <small style={{ fontSize: "13px" }}>
+                    *By signing up, you agree to our
+                    <Link className="mx-1" to="/app/terms" state={"jiij"}>
+                      Terms and Conditions.
+                    </Link>
+                  </small>
+                  <p className="mt-2 mb-0">
                     Already have an account?
                     <Link className="mx-1" to="/app/login">
                       Sign In

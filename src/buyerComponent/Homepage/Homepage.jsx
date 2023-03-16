@@ -1,7 +1,6 @@
 import React from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
-import { BsFillStarFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -57,7 +56,19 @@ const Homepage = () => {
       setLoading(false);
     }, 8000);
   }, []);
+  let image = JSON.parse(localStorage?.getItem("imageBg"));
 
+  useEffect(() => {
+    setAllSlides(JSON.parse(localStorage.getItem("slides")));
+    setCategory(JSON.parse(localStorage.getItem("categories")));
+
+    console.log(image?.bottomImage);
+    var background =
+      document.getElementById("bottom-image")?.style.backgroundImage;
+    if (image) {
+      background = `url(${image?.bottomImage})`;
+    }
+  }, []);
   const AllProducts = async () => {
     await axios
       .post(allProd, {
@@ -73,16 +84,16 @@ const Homepage = () => {
   };
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
-      setAllSlides(res?.data.results);
+      localStorage.setItem("slides", JSON.stringify(res?.data.results));
     });
   };
   const getHeaders = async () => {
     await axios.get(HeadersApi).then((res) => {
       setAllHeaders(res?.data.results?.headers[0]);
-      let image = res?.data.results?.headers[0].bottomImage;
-      document.getElementById(
-        "bottom-image"
-      ).style.backgroundImage = `url(${image})`;
+      localStorage.setItem(
+        "imageBg",
+        JSON.stringify(res?.data.results?.headers[0])
+      );
     });
   };
   const getCategory = async () => {
@@ -91,7 +102,10 @@ const Homepage = () => {
         page: 1,
       })
       .then((res) => {
-        setCategory(res?.data.results?.categories);
+        localStorage.setItem(
+          "categories",
+          JSON.stringify(res?.data.results?.categories)
+        );
         if (!res.data.error) {
           setLoading(false);
         }
@@ -665,23 +679,7 @@ const Homepage = () => {
                           >
                             {item?.unitName}
                           </Link>
-                          <div className="rating_box mt-2 mb-1">
-                            <Link className="mx-1">
-                              <BsFillStarFill color=" #FFCC00  " />
-                            </Link>
-                            <Link className="mx-1">
-                              <BsFillStarFill color=" #FFCC00  " />
-                            </Link>
-                            <Link className="mx-1">
-                              <BsFillStarFill color=" #FFCC00  " />
-                            </Link>
-                            <Link className="mx-1">
-                              <BsFillStarFill color=" #FFCC00  " />
-                            </Link>
-                            <Link className="mx-1">
-                              <BsFillStarFill color=" #CACACA" />
-                            </Link>
-                          </div>
+                          <p>{item?.description}</p>
                         </div>
                       </div>
                     </SwiperSlide>
@@ -690,7 +688,11 @@ const Homepage = () => {
               </div>
             </div>
           </section>
-          <section className="product_show_home" id="bottom-image">
+          <section
+            className="product_show_home"
+            id="bottom-image"
+            style={{ backgroundImage: `url(${image?.bottomImage})` }}
+          >
             <div className="container">
               <div className="row">
                 <div className="col-12">

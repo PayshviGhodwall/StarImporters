@@ -12,6 +12,8 @@ import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
+import moment from "moment";
+
 const EditUser = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
@@ -1170,8 +1172,8 @@ const EditUser = () => {
                             <div className="col-12 align-item-center ">
                               <p>
                                 Do you want to{" "}
-                                {user?.quotation ? "Disable" : "Enabled"}{" "}
-                                Licence ?
+                                {user?.quotation ? "Disable" : "Enabled"} Quota
+                                ?
                               </p>
                               <div>
                                 <input
@@ -1190,8 +1192,8 @@ const EditUser = () => {
                             <div className="col-12 align-item-center ">
                               <p>
                                 Do you want to{" "}
-                                {user?.quotation ? "Disable" : "Enable"} Licence
-                                ?
+                                {user?.quotation ? "Disable" : "Enable"}{" "}
+                                Quotation ?
                               </p>
                               <div>
                                 <input

@@ -142,7 +142,7 @@ const FeaturedProducts = () => {
                               {item?.unitName}
                             </h1>
                           </div>
-                          <div className="rating_box mt-2 mb-1">
+                          {/* <div className="rating_box mt-2 mb-1">
                             <i
                               className="fa fa-star"
                               style={{ color: "#FFCA33" }}
@@ -167,7 +167,7 @@ const FeaturedProducts = () => {
                               className="fa fa-star"
                               style={{ color: "#E2E2E2 " }}
                             />
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

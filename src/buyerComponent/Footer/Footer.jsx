@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../assets/css/main.css";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { AiFillLinkedin } from "react-icons/ai";
@@ -6,44 +6,71 @@ import { IconContext } from "react-icons";
 import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const [state, setState] = useState(false);
   const navigate = useNavigate();
   <IconContext.Provider value={{ color: "red" }}>
     <AiFillLinkedin />
     <AiFillTwitterCircle />
   </IconContext.Provider>;
+
+  let Nstate = localStorage?.getItem("letter");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("letter", state);
+    window.location.reload(false);
+  };
   return (
     <div>
-      <section className="section newsletter_section">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <div className="news_leter_heading">
-                <h3>Subscribe Our Newsletter</h3>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="newsletter_form">
-                <form className="form-design d-flex">
-                  <input
-                    type="text"
-                    required=""
-                    className="form-control rounded-0 shadow-none"
-                    placeholder="Enter Email Address"
-                  />
-                  <button
-                    type="submit"
-                    className="btn btn-dark rounded-0"
-                    name="submit"
-                    value="Submit"
-                  >
-                    Subscribe
-                  </button>
-                </form>
+      {Nstate ? null : (
+        <section className="section newsletter_section">
+          <div className="container">
+            <div className="row align-items-center">
+              {Nstate ? null : (
+                <div className="col-md-6">
+                  <div className="news_leter_heading">
+                    <h3>Subscribe Our Newsletter</h3>
+                  </div>
+                </div>
+              )}
+
+              <div className="col-md-6">
+                {Nstate ? (
+                  <div className="news_leter_heading">
+                    <h3> &#10003; Thank you for Subscribing our newsletter.</h3>
+                    <small className="" style={{ marginLeft: "35px" }}>
+                      You will get all our notifications on your email.
+                    </small>
+                  </div>
+                ) : (
+                  <div className="newsletter_form">
+                    <form
+                      className="form-design d-flex"
+                      onSubmit={handleSubmit}
+                    >
+                      <input
+                        type="email"
+                        className="form-control rounded-0 shadow-none"
+                        placeholder="Enter Email Address"
+                        required
+                      />
+                      <button
+                        type="submit"
+                        className="btn btn-dark rounded-0"
+                        name="submit"
+                        value="Submit"
+                        onClick={() => setState(!state)}
+                      >
+                        Subscribe
+                      </button>
+                    </form>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
       <section className="footer_dark">
         <div className="footer_top">
           <div className="container">

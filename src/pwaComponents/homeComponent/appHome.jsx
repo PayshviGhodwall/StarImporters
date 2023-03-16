@@ -33,6 +33,9 @@ function AppHome() {
     getCategoryList();
     getTopProductList();
     getBrandList();
+    setBanner(JSON.parse(localStorage.getItem("banners")));
+    setCategory(JSON.parse(localStorage.getItem("categories")));
+    setProduct(JSON.parse(localStorage.getItem("products")));
   }, []);
 
   useEffect(() => {
@@ -56,14 +59,19 @@ function AppHome() {
   const getBanner = async () => {
     const { data } = await homeBanner();
     if (!data.error) {
-      setBanner(data.results);
+      localStorage.setItem("banners", JSON.stringify(data?.results));
+      // setBanner(data.results);
     }
   };
 
   const getCategoryList = async () => {
     const { data } = await getCategory(activePage);
     if (!data.error) {
-      setCategory(data.results.categories);
+      localStorage.setItem(
+        "categories",
+        JSON.stringify(data?.results?.categories)
+      );
+      // setCategory(data.results?.categories);
     }
   };
   const getHeaders = async () => {
@@ -74,7 +82,11 @@ function AppHome() {
   const getTopProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
-      setProduct(data.results.slice(0, 4));
+      localStorage.setItem(
+        "products",
+        JSON?.stringify(data.results.slice(0, 4))
+      );
+      // setProduct(data.results.slice(0, 4));
     }
   };
 
@@ -127,11 +139,7 @@ function AppHome() {
       }
     }
   };
-  const createMarkup = (html) => {
-    return {
-      __html: DOMPurify.sanitize(html),
-    };
-  };
+
   const handleOutsideClick = (event) => {
     if (ref.current.contains(event.target)) {
       setSearch(null);

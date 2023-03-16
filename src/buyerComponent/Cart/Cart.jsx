@@ -7,22 +7,26 @@ import Navbar from "../Homepage/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import Animate, { Animate2 } from "../../Animate";
 import { updateCart } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
+import Swal from "sweetalert2";
+import { Button, Loader } from "rsuite";
+
 const Cart = () => {
-  const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/getCart`;
-  const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/removeProducts`;
+  const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
+  const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/removeProduct`;
+  const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const [token, setToken] = useState();
+  const [load, setLoad] = useState(false);
   const [NState, setNState] = useState(false);
   const [userDetail, setUserDetail] = useState([]);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
   const getCart = async () => {
-    await axios.get(getCartProducts).then((res) => {
-      setProduct(res?.data.results.getUserCart?.products);
+    await axios.post(getCartProducts).then((res) => {
+      setProduct(res?.data.results.cart?.products);
     });
   };
 
@@ -32,6 +36,7 @@ const Cart = () => {
         setUserDetail(res?.data?.results);
       });
     };
+    window.scrollTo(0, 0);
     userInfo();
     setToken(localStorage.getItem("token-user"));
     getCart();
@@ -52,6 +57,7 @@ const Cart = () => {
   };
 
   const HandleIncrease = async (id) => {
+    setLoad(true);
     const formData = {
       productId: product[id]?.productId?._id,
       quantity: product[id]?.quantity + 1,
@@ -60,9 +66,11 @@ const Cart = () => {
     const { data } = await updateCart(formData);
     if (!data.error) {
       getCart();
+      setLoad(false);
     }
   };
   const HandleDecrease = async (id) => {
+    setLoad(true);
     const formData = {
       productId: product[id]?.productId?._id,
       quantity: product[id]?.quantity - 1,
@@ -70,6 +78,7 @@ const Cart = () => {
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
+      setLoad(false);
       setProduct((product) =>
         product.map((item, ind) =>
           id === ind
@@ -85,15 +94,32 @@ const Cart = () => {
   };
 
   const updateQuantity = async (e, id) => {
+    setLoad(true);
     setQuantity(e);
     const formData = {
-      productId: id,
-      quantity: e,
+      productId: product[id]?.productId?._id,
+      quantity: e.target?.value,
+      flavour: product[id]?.flavour,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
       getCart();
+      setLoad(false);
     }
+  };
+
+  const addToQuotes = async () => {
+    await axios.post(addQuotes).then((res) => {
+      if (!res?.error) {
+        Swal.fire({
+          title: "Your Quotation Request Has Submitted!",
+          text: "Check Status here",
+          icon: "success",
+          button: "Ok",
+        });
+        navigate("/RequestOrder");
+      }
+    });
   };
 
   return (
@@ -151,27 +177,36 @@ const Cart = () => {
                     <div className="row">
                       <div className="col-12">
                         <div className="cart_table">
-                          <div className="col-12 text-start mb-2">
-                            <Link
-                              className="comman_btn text-decoration-none"
-                              to="/app/checkout"
-                            >
-                              Place your Order
-                            </Link>
-                            <Link
-                              className="comman_btn2 text-decoration-none mx-2"
-                              to="/app/checkout"
-                            >
-                              Request For Quote
-                            </Link>
-                          </div>
                           {product?.length ? (
                             <div className="table-responsive">
+                              <div className="col-12 text-start mb-2">
+                                <Link
+                                  className="comman_btn text-decoration-none"
+                                  to="/app/checkout"
+                                >
+                                  Place your Order
+                                </Link>
+                                {userDetail?.quotation === true ? (
+                                  <Link
+                                    className="comman_btn2 text-decoration-none mx-2"
+                                    onClick={addToQuotes}
+                                  >
+                                    Request For Quote
+                                  </Link>
+                                ) : null}
+                              </div>
                               <table className="table">
                                 <thead>
                                   <tr>
                                     <th>Product Details</th>
-                                    <th>Quantity</th>
+
+                                    <th>
+                                      {load ? (
+                                        <Loader color="red" />
+                                      ) : (
+                                        "Quantity"
+                                      )}
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -309,12 +344,11 @@ const Cart = () => {
                                             )}
                                           </span>
                                           <input
-                                            value={item?.quantity}
+                                            key={item?.quantity}
+                                            className="p-1 border quanityField"
+                                            defaultValue={item?.quantity}
                                             onChange={(e) =>
-                                              updateQuantity(
-                                                e.target.value,
-                                                item?.productId?._id
-                                              )
+                                              updateQuantity(e, index)
                                             }
                                           />
                                           <span

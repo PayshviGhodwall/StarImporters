@@ -8,6 +8,7 @@ import axios from "axios";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
+import moment from "moment";
 
 const BrandsManage = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/getBrands`;
@@ -643,7 +644,11 @@ const BrandsManage = () => {
                                           {" "}
                                           {(activePage - 1) * 15 + (index + 1)}.
                                         </td>
-                                        <td>{item?.updatedAt.slice(0, 10)}</td>
+                                        <td>
+                                          {moment(
+                                            item?.updatedAt?.slice(0, 10)
+                                          ).format("DD/MM/YYYY")}
+                                        </td>
                                         <td>{item?.brandName}</td>
                                         <td>
                                           <img

@@ -93,7 +93,7 @@ export async function countProducts() {
 export async function getCart() {
   try {
     const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/getCart
+      `${process.env.REACT_APP_APIENDPOINT}user/getMyCart
       `
     );
     console.log(data);
@@ -122,7 +122,7 @@ export async function getQuotes() {
 export async function updateCart(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/updateCart
+      `${process.env.REACT_APP_APIENDPOINT}/user/modifyCart
       `,
       formData
     );

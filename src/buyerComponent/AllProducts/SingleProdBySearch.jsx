@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 
 const SingleProdBySearch = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
-  const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
+  const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
@@ -505,24 +505,27 @@ const SingleProdBySearch = () => {
                                 className="minus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  unitCount == 1
-                                    ? setUnitCount(1)
-                                    : setUnitCount(unitCount - 1);
+                                  document
+                                    .getElementById("quanInput")
+                                    .stepDown(1);
                                 }}
                               >
                                 -
                               </span>
                               <input
-                                type="text"
-                                className="p-1"
-                                disabled
-                                value={unitCount}
+                                type="number"
+                                id="quanInput"
+                                className="p-1 border quanityField"
+                                defaultValue={unitCount}
+                                onChange={(e) => setUnitCount(e.target.value)}
                               />
                               <span
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  setUnitCount(unitCount + 1);
+                                  document
+                                    .getElementById("quanInput")
+                                    .stepUp(1);
                                 }}
                               >
                                 +
@@ -562,7 +565,7 @@ const SingleProdBySearch = () => {
                               </div>
                             )}
 
-                            {userDetail?.quotation === true ? (
+                            {/* {userDetail?.quotation === true ? (
                               <Button
                                 className="comman_btn2"
                                 style={{
@@ -576,7 +579,7 @@ const SingleProdBySearch = () => {
                               >
                                 Add Request to Quote
                               </Button>
-                            ) : null}
+                            ) : null} */}
                           </div>
                         </div>
                       </div>
@@ -664,23 +667,6 @@ const SingleProdBySearch = () => {
                           >
                             {item?.unitName}
                           </a>
-                          <div className="rating_box mt-2 mb-1">
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fa fa-star" />
-                            </a>
-                          </div>
                         </div>
                       </div>
                     </div>

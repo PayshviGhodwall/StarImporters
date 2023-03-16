@@ -414,7 +414,7 @@ const Cms = () => {
         description: Desc?.trim(),
       })
       .then((res) => {
-        if (res.data.message === "Modified Successfully") {
+        if (!res.data.error) {
           Swal.fire({
             title: "Content Modified!",
             icon: "success",
@@ -511,7 +511,7 @@ const Cms = () => {
         description: Desc,
       })
       .then((res) => {
-        if (res.data.message === "Modified Successfully") {
+        if (!res.data.error) {
           Swal.fire({
             title: "Content Modified!",
             icon: "success",
@@ -529,9 +529,7 @@ const Cms = () => {
         description: Desc,
       })
       .then((res) => {
-        if (
-          res.data.message === '"Terms and Conditions" Modified Successfully'
-        ) {
+        if (!res.data.error) {
           Swal.fire({
             title: "Content Modified!",
             icon: "success",

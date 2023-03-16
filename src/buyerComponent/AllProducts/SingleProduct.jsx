@@ -16,7 +16,7 @@ import { icon, text } from "@fortawesome/fontawesome-svg-core";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
-  const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/cart/addToCart`;
+  const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
   const similarProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/similarProduct`;
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
@@ -557,7 +557,7 @@ const SingleProduct = () => {
                               </div>
                             )}
 
-                            {userDetail?.quotation === true ? (
+                            {/* {userDetail?.quotation === true ? (
                               <Button
                                 className="comman_btn2"
                                 style={{
@@ -571,7 +571,7 @@ const SingleProduct = () => {
                               >
                                 Add Request to Quote
                               </Button>
-                            ) : null}
+                            ) : null} */}
                           </div>
                         </div>
                       </div>
@@ -659,23 +659,6 @@ const SingleProduct = () => {
                           >
                             {item?.unitName}
                           </a>
-                          <div className="rating_box mt-2 mb-1">
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fas fa-star" />
-                            </a>
-                            <a href="javasript:;">
-                              <i className="fa fa-star" />
-                            </a>
-                          </div>
                         </div>
                       </div>
                     </div>

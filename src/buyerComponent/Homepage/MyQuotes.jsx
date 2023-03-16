@@ -25,7 +25,6 @@ const MyQuotes = () => {
     });
   };
 
-  console.log(product);
   useEffect(() => {
     setToken(localStorage.getItem("token-user"));
     getQuotes();

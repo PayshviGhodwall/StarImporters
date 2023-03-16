@@ -62,7 +62,7 @@ const ProductBySearch = () => {
                         <div className="product_content mt-3 text-center">
                           <div className="d-flex justify-content-center">
                             <h1
-                              className="text-center fs-5 fw-bolder "
+                              className="text-center fs-5 fw-bolder text-uppercase"
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
                                 navigate(`/app/product-details/${item?._id}`, {
@@ -75,32 +75,9 @@ const ProductBySearch = () => {
                                 : item?.unitName}
                             </h1>
                           </div>
-                          <div className="rating_box mt-2 mb-1">
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#E2E2E2 " }}
-                            />
-                          </div>
+                          <small className="fw-lighter text-lowercase font-italic">
+                            {item?.type.description}
+                          </small>
                         </div>
                       </div>
                     </div>

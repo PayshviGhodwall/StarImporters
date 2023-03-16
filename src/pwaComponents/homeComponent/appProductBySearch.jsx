@@ -82,7 +82,7 @@ function AppProductBySearch() {
         if (!data.error) {
           if (data.results.length)
             navigate(`/app/product-detail/${data.results[0]._id}`);
-              // navigate(`/app/product-by-search/${data.results[0]._id}`)
+          // navigate(`/app/product-by-search/${data.results[0]._id}`)
           window.location.reload();
         }
       }
@@ -145,7 +145,7 @@ function AppProductBySearch() {
           <div className="top-products-area py-3">
             <div className="container">
               <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                 <h6> Showing results for "{search ? search : preSearch }"</h6>
+                <h6> Showing results for "{search ? search : preSearch}"</h6>
               </div>
               {product.length ? (
                 <div className="row g-2">
@@ -160,7 +160,11 @@ function AppProductBySearch() {
                             >
                               <img
                                 className="mb-2"
-                                src={ item?.type.flavourImage ? item?.type.flavourImage :  require("../../assets/img/product.jpg") }
+                                src={
+                                  item?.type.flavourImage
+                                    ? item?.type.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
                                 alt=""
                               />
                             </Link>
@@ -170,14 +174,6 @@ function AppProductBySearch() {
                             >
                               {item.unitName + "-" + item?.type.flavour}
                             </Link>
-
-                            <div className="product-rating">
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -186,8 +182,8 @@ function AppProductBySearch() {
                 </div>
               ) : (
                 <div>
-                <img className="no-data" src="../assets/img/no-data.gif" />
-                <h1 className="text-center"> No Results</h1>
+                  <img className="no-data" src="../assets/img/no-data.gif" />
+                  <h1 className="text-center"> No Results</h1>
                 </div>
               )}
             </div>

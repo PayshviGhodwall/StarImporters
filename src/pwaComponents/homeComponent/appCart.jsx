@@ -18,6 +18,7 @@ function AppCart() {
   const [userDetail, setUserDetail] = useState([]);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   let ref = useRef();
+
   useEffect(() => {
     getCarts();
     userInfo();
@@ -32,7 +33,7 @@ function AppCart() {
   const getCarts = async () => {
     const { data } = await getCart();
     if (!data?.error) {
-      setCart(data?.results?.getUserCart?.products);
+      setCart(data?.results?.cart.products);
     }
   };
 
@@ -146,37 +147,15 @@ function AppCart() {
             </div>
 
             <div id="container">
-              {userDetail?.quotation === true ? (
-                <div class="inner-container">
-                  <div
-                    class="toggle"
-                    onClick={() => {
-                      navigate("/app/quotes");
-                    }}
-                  >
-                    <p className="text-dark fw-bold">Quotes</p>
-                  </div>
-                  <div
-                    class="toggle"
-                    style={{ backgroundColor: "#eb3237" }}
-                    onClick={() => {
-                      navigate("/app/cart");
-                    }}
-                  >
-                    <p className="text-white fw-bold">Cart</p>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  class="toggle w-100"
-                  style={{ backgroundColor: "#eb3237" }}
-                  onClick={() => {
-                    navigate("/app/cart");
-                  }}
-                >
-                  <p className="text-white fw-bold">Cart</p>
-                </div>
-              )}
+              <div
+                class="toggle w-100"
+                style={{ backgroundColor: "#eb3237" }}
+                onClick={() => {
+                  navigate("/app/cart");
+                }}
+              >
+                <p className="text-white fw-bold">Cart</p>
+              </div>
             </div>
 
             <div

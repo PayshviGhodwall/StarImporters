@@ -174,7 +174,6 @@ const Checkout = () => {
                       <div className="form-group col-4 custom_radio">
                         <input
                           type="radio"
-                          defaultChecked="true"
                           className="d-none"
                           value={true}
                           id="new_radio2"

@@ -292,18 +292,6 @@ function AppProductDetail() {
               </div>
               <div className="product-ratings ">
                 <div className="container d-flex flex-wrap align-items-center justify-content-between rtl-flex-d-row-r">
-                  <div className="ratings mb-2">
-                    <i className="fa-solid fa-star"></i>
-                    <i className="fa-solid fa-star"></i>
-                    <i className="fa-solid fa-star"></i>
-                    <i className="fa-solid fa-star"></i>
-                    <i className="fa-solid fa-star"></i>
-                    <span className="ps-1">3 ratings</span>
-                  </div>
-                  <div className="total-result-of-ratings">
-                    <span>5.0</span>
-                    <span>Very Good</span>
-                  </div>
                   {flavour?.flavour ? (
                     <div className="col-12 mt-3">
                       <p className="fw-bold">
@@ -398,16 +386,6 @@ function AppProductDetail() {
                       Please Login to see price.
                     </Link>
                   )}
-
-                  {userDetail?.quotation === true ? (
-                    <button
-                      className="comman_btn2"
-                      type="submit"
-                      onClick={() => AddtoQuotess()}
-                    >
-                      Add Request to Quotation
-                    </button>
-                  ) : null}
                 </div>
               </div>
             </div>
