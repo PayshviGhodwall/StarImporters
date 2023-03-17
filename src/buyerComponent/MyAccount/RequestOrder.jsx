@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
+import moment from "moment";
 
 const RequestOrders = () => {
   const [quotes, setQuotes] = useState([]);
-  const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`
-  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`
+  const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`;
 
   useEffect(() => {
     GetQuote();
@@ -174,12 +175,12 @@ const RequestOrders = () => {
                           <h2>Request Order :</h2>
                         </div>
                       </div>
-                     
+
                       {(quotes || [])?.map((item, index) => (
                         <div className="col-6 mb-3 d-flex" key={index}>
                           <Link
                             to="/RequestDetails"
-                            state={{id:item?.quoteId}}
+                            state={{ id: item?.quoteId }}
                             className="my_orderbox position-relative text-decoration-none"
                           >
                             <div className="left_part">
@@ -190,22 +191,31 @@ const RequestOrders = () => {
                                 Request ID: <strong>{item?.quoteId}</strong>
                               </div>
                               <div className="date_box">
-                               Date : {item?.createdAt.slice(0, 10)}
+                                Date :{" "}
+                                {moment(item?.createdAt?.slice(0, 10)).format(
+                                  "DD/MM/YYYY"
+                                )}
                               </div>
                             </div>
                             <div className="items_box">
                               <h2>Items :</h2>
                               {(item?.products || []).map((item, ind) => (
                                 <ul className="list-unstyled mb-0">
-                                  <li key={ind}>{item?.flavour?._id ? item?.productId?.unitName + "-" + item?.flavour?.flavour :  item?.productId?.unitName}</li>
+                                  <li key={ind}>
+                                    {item?.flavour?._id
+                                      ? item?.productId?.unitName +
+                                        "-" +
+                                        item?.flavour?.flavour
+                                      : item?.productId?.unitName}
+                                  </li>
                                 </ul>
                               ))}
                             </div>
                           </Link>
                         </div>
                       ))}
-                     </div>
-                     </div>
+                    </div>
+                  </div>
 
                   <div
                     className="tab-pane fade"

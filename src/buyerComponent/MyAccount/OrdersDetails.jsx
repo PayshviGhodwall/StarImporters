@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
+import moment from "moment";
 
 const OrderDetails = () => {
   const [users, setUsers] = useState([]);
@@ -201,7 +202,13 @@ const OrderDetails = () => {
                                     <div className="row">
                                       <div className="col-12 d-flex">
                                         <span className="data_main">
-                                          Order Date : {orderDetails?.createdAt?.slice(0,10)}
+                                          Order Date :{" "}
+                                          {moment(
+                                            orderDetails?.createdAt?.slice(
+                                              0,
+                                              10
+                                            )
+                                          ).format("DD/MM/YYYY")}
                                         </span>
                                       </div>
                                     </div>
@@ -219,7 +226,8 @@ const OrderDetails = () => {
                                     <div className="row">
                                       <div className="col-12 text-center">
                                         <span className="data_main">
-                                          Total Products : {orderDetails?.products?.length}
+                                          Total Products :{" "}
+                                          {orderDetails?.products?.length}
                                         </span>
                                       </div>
                                     </div>
@@ -251,19 +259,43 @@ const OrderDetails = () => {
                                                   <div className="col-auto">
                                                     <span className="cart_product">
                                                       <img
-                                                        src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
+                                                        src={
+                                                          item?.flavour?._id
+                                                            ? item?.flavour
+                                                                ?.flavourImage
+                                                            : item?.productId
+                                                                ?.productImage
+                                                        }
                                                         alt=""
                                                       />
                                                     </span>
                                                   </div>
                                                   <div className="col">
                                                     <div className="cart_content">
-                                                      <h3>{item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName }</h3>
-                                                      <p>Bar Code: { item?.flavour?.barcode.map((item)=>(
-                                                        <li>{item}</li>
-                                                      ))}</p>
+                                                      <h3>
+                                                        {item?.flavour?._id
+                                                          ? item?.productId
+                                                              ?.unitName +
+                                                            "-" +
+                                                            item?.flavour
+                                                              ?.flavour
+                                                          : item?.productId
+                                                              ?.unitName}
+                                                      </h3>
+                                                      <p>
+                                                        Bar Code:{" "}
+                                                        {item?.flavour?.barcode.map(
+                                                          (item) => (
+                                                            <li>{item}</li>
+                                                          )
+                                                        )}
+                                                      </p>
                                                       <span className="ordertext my-2 d-block ">
-                                                        Ordered On: {item?.productId?.createdAt?.slice(0,10)}
+                                                        Ordered On:{" "}
+                                                        {item?.productId?.createdAt?.slice(
+                                                          0,
+                                                          10
+                                                        )}
                                                       </span>
                                                     </div>
                                                   </div>
@@ -287,35 +319,60 @@ const OrderDetails = () => {
                                   <span className="small_header">
                                     Track Your Order
                                   </span>
-                                  {
-                                    orderDetails?.status === "CANCEL" ?
-
+                                  {orderDetails?.status === "CANCEL" ? (
                                     <ul className="track_order list-unstyled mb-0">
-                                    <li className="fs-4 text-danger">
-                                      YOUR ORDER HAS BEEN CANCELED!
-                                    </li>
+                                      <li className="fs-4 text-danger">
+                                        YOUR ORDER HAS BEEN CANCELED!
+                                      </li>
                                     </ul>
-                                    :
-
-                                  <ul className="track_order list-unstyled mb-0">
-                                    <li className={orderDetails?.status === "DISPATCHED" || orderDetails?.status === "SHIPPED" || orderDetails?.status === "DELIVERED" ? "active" : "" }>
-                                      <span className="track_circle" />
-                                      Order Placed
-                                    </li>
-                                    <li className={orderDetails?.status === "SHIPPED" || orderDetails?.status === "DELIVERED" ? "active" : "" }>
-                                      <span className="track_circle" />
-                                      Dispatched
-                                    </li>
-                                    <li className={orderDetails?.status === "DELIVERED" ? "active" : "" }>
-                                      <span className="track_circle" />
-                                      Shipped
-                                    </li>
-                                    <li>
-                                      <span className={orderDetails?.status === "DELIVERED" ? "track_circle fw-bold text-success" : "track_circle" } />
-                                      Delivered
-                                    </li>
-                                  </ul>
-}
+                                  ) : (
+                                    <ul className="track_order list-unstyled mb-0">
+                                      <li
+                                        className={
+                                          orderDetails?.status ===
+                                            "PROCESSING" ||
+                                          orderDetails?.status === "SHIPPED" ||
+                                          orderDetails?.status === "DELIVERED"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        <span className="track_circle" />
+                                        Order Placed
+                                      </li>
+                                      <li
+                                        className={
+                                          orderDetails?.status === "SHIPPED" ||
+                                          orderDetails?.status === "DELIVERED"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        <span className="track_circle" />
+                                        Dispatched
+                                      </li>
+                                      <li
+                                        className={
+                                          orderDetails?.status === "DELIVERED"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        <span className="track_circle" />
+                                        Shipped
+                                      </li>
+                                      <li>
+                                        <span
+                                          className={
+                                            orderDetails?.status === "DELIVERED"
+                                              ? "track_circle fw-bold text-success"
+                                              : "track_circle"
+                                          }
+                                        />
+                                        Delivered
+                                      </li>
+                                    </ul>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-12 mb-4">
@@ -332,7 +389,9 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                        {orderDetails?.userId?.firstName + " "+ orderDetails?.userId?.lastName }
+                                          {orderDetails?.userId?.firstName +
+                                            " " +
+                                            orderDetails?.userId?.lastName}
                                         </span>
                                       </div>
                                     </div>
@@ -374,7 +433,7 @@ const OrderDetails = () => {
                                       </div>
                                       <div className="col-6">
                                         <span className="data_submain">
-                                           {orderDetails?.userId?.addressLine[0]}
+                                          {orderDetails?.userId?.addressLine1}
                                         </span>
                                       </div>
                                     </div>

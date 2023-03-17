@@ -78,8 +78,8 @@ export async function getUserProfile(formData) {
 
 export async function countProducts() {
   try {
-    const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/countProducts`
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/countCartProducts`
     );
     console.log(data);
 
@@ -90,11 +90,10 @@ export async function countProducts() {
   }
 }
 
-export async function getCart() {
+export async function getMyCart() {
   try {
     const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}user/getMyCart
-      `
+      `${process.env.REACT_APP_APIENDPOINT}user/getMyCart`
     );
     console.log(data);
 
@@ -159,9 +158,7 @@ export async function updateQuote(formData) {
 export async function deleteCart(id) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/removeProducts
-
-      `,
+      `${process.env.REACT_APP_APIENDPOINT}/user/removeProduct`,
       id
     );
     console.log(data);
@@ -368,7 +365,7 @@ export async function getProductDetaill(id) {
 export async function addToCart(formData) {
   try {
     const { data } = await appHttpService.post(
-      `${process.env.REACT_APP_APIENDPOINT}/user/cart/addToCart
+      `${process.env.REACT_APP_APIENDPOINT}/user/addProducts
       `,
       formData
     );

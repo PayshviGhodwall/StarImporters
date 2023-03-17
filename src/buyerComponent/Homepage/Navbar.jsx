@@ -73,7 +73,6 @@ const Navbar = ({ NState, LoginState }) => {
   const handleRefresh = () => {
     window.location.reload(false);
   };
-
   const getEmail = (data) => {
     setOtpEmail(data);
   };

@@ -262,7 +262,13 @@ function AppHome() {
                       items={1}
                     >
                       <div className="single-hero-slide item">
-                        <img src={banner[1]?.banner}></img>
+                        <img
+                          src={
+                            banner[1]?.banner
+                              ? banner[1]?.banner
+                              : require("../../assets/img/banner_img.png")
+                          }
+                        ></img>
                         <div className="slide-content h-100 d-flex align-items-center">
                           <div className="slide-text">
                             {/* <h4

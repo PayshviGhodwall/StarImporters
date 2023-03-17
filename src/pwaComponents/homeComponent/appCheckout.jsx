@@ -19,45 +19,43 @@ function AppCheckout() {
     };
     getUser();
   }, []);
-  const createOrder = async()=>{
-    
-    if(delevryChoice == "Shipment"){
-      await axios.post(newOrder,{
-        type:"Shipment",
-        address:users?.addressLine1 + users?.addressLine2
-        
-       }).then((res)=>{
-        if (!res.error) {
-          console.log(res?.data.message)
-        }
-       })
+  const createOrder = async () => {
+    if (delevryChoice == "Shipment") {
+      await axios
+        .post(newOrder, {
+          type: "Shipment",
+          address: users?.addressLine1 + users?.addressLine2,
+        })
+        .then((res) => {
+          if (!res.error) {
+            console.log(res?.data.message);
+          }
+        });
+    } else if (delevryChoice == "Delivery") {
+      await axios
+        .post(newOrder, {
+          type: "Delivery",
+          address: users?.addressLine1 + users?.addressLine2,
+        })
+        .then((res) => {
+          if (!res.error) {
+            console.log(res?.data.message);
+          }
+        });
+    } else if (delevryChoice == "In-Store Pickup") {
+      await axios
+        .post(newOrder, {
+          type: "In-Store Pickup",
+          address: users?.addressLine1 + users?.addressLine2,
+        })
+        .then((res) => {
+          if (!res.error) {
+            console.log(res?.data.message);
+          }
+        });
     }
-    else if(delevryChoice == "Delivery") {
-      await axios.post(newOrder,{
-        type:"Delivery",
-        address:users?.addressLine1 + users?.addressLine2
-        
+  };
 
-       }).then((res)=>{
-        if (!res.error) {
-          console.log(res?.data.message)
-        }
-       })
-    }
-    else if(delevryChoice == "In-Store Pickup") {
-      await axios.post(newOrder,{
-        type:"In-Store Pickup",
-        address:users?.addressLine1 + users?.addressLine2
-
-       }).then((res)=>{
-        if (!res.error) {
-          console.log(res?.data.message)
-        }
-       })
-    }
-   
-  }
-  
   console.log(users?.state);
   return (
     <>
@@ -100,43 +98,39 @@ function AppCheckout() {
                       <div class="data-content">{users?.phoneNumber}</div>
                     </div>
 
-                    {
-                      delevryChoice == "Shipment" || delevryChoice == "Delivery" ?
+                    {delevryChoice == "Shipment" ||
+                    delevryChoice == "Delivery" ? (
                       <div class="single-profile-data d-flex align-items-center justify-content-between">
-                      <div class="title d-flex align-items-center">
-                        <i class="fa-solid fa-location-crosshairs"></i>
-                        
-                        <span className="mt-0">Shipping Address</span>
+                        <div class="title d-flex align-items-center">
+                          <i class="fa-solid fa-location-crosshairs"></i>
+
+                          <span className="mt-0">Shipping Address</span>
+                        </div>
+                        <div class="data-content">
+                          {users?.addressLine1 +
+                            "," +
+                            users?.state +
+                            "-" +
+                            users?.zipcode}
+                        </div>
                       </div>
-                      <div class="data-content">
-                        {users?.addressLine1 +
-                          "," +
-                          users?.state +
-                          "-" +
-                          users?.zipcode}
+                    ) : (
+                      <div class="single-profile-data d-flex align-items-center justify-content-between">
+                        <div class="title  ">
+                          <i class="fa-solid fa-location-crosshairs"></i>
+
+                          <span className="mt-0">Store Address</span>
+                        </div>
+                        <div class="data-content">
+                          <p>
+                            <p className="mb-0">
+                              2166 Mountain Industrial Blvd. GA, United States,
+                              Georgia, 78548962
+                            </p>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    :
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                    <div class="title  ">
-                      <i class="fa-solid fa-location-crosshairs"></i>
-                      
-                      <span className="mt-0">Store Address</span>
-                    </div>
-                    <div class="data-content">
-                      <p>
-                      <p className="mb-0">
-                       2166 Mountain Industrial Blvd.
-                      GA, United States,
-                      Georgia,
-                      78548962
-                    </p>
-                    
-                      </p>
-                    </div>
-                  </div>
-                    }
-                   
+                    )}
                   </div>
                 </div>
               </div>
@@ -164,11 +158,11 @@ function AppCheckout() {
                               defaultChecked="true"
                             />
                             <label for="fastShipping">
-                              In-Store Pickup{" "}
-                              <span>1 days delivery  </span>
+                              In-Store Pickup <span>1 days delivery </span>
                             </label>
                             <div class="check"></div>
                           </li>
+
                           <li>
                             <input
                               id="normalShipping"
@@ -180,6 +174,20 @@ function AppCheckout() {
                             />
                             <label for="normalShipping">
                               Delivery <span>1-2 days delivery</span>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                          <li>
+                            <input
+                              id="courier"
+                              type="radio"
+                              name="selector"
+                              onClick={() => {
+                                setDelevryChoice("Shipment");
+                              }}
+                            />
+                            <label for="courier">
+                              Shipment <span>5-8 days delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -197,8 +205,7 @@ function AppCheckout() {
                               defaultChecked="true"
                             />
                             <label for="fastShipping">
-                              In-Store Pickup{" "}
-                              <span>1 days delivery</span>
+                              In-Store Pickup <span>1 days delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -221,8 +228,12 @@ function AppCheckout() {
                     </div>
                   </div>
                 </div>
-               
-                <Link class="comman_btn mt-3" to="/app/thankyou" onClick={createOrder}  >
+
+                <Link
+                  class="comman_btn mt-3"
+                  to="/app/thankyou"
+                  onClick={createOrder}
+                >
                   Place Order
                 </Link>
               </div>

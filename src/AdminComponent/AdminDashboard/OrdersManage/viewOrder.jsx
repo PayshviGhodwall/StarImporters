@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
+
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
@@ -544,7 +545,7 @@ const ViewOrder = () => {
                             <span>Shipment Location:</span>
                             <div className="col">
                               <strong>
-                                {orders?.userId?.addressLine[0] +
+                                {orders?.userId?.addressLine1 +
                                   "," +
                                   orders?.userId?.city +
                                   "," +
@@ -661,7 +662,7 @@ const ViewOrder = () => {
                                 <option value="ORDER PLACED">
                                   Order Placed
                                 </option>
-                                <option value="DISPATCHED">Dispatched</option>
+                                <option value="PROCESSING">Processing</option>
                                 <option value="SHIPPED">Shipped</option>
                                 <option value="DELIVERED">Delivered</option>
                                 <option value="CANCEL">Canceled</option>

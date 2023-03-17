@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "rsuite";
+import Swal from "sweetalert2";
 import Animate from "../../Animate";
 import {
   deleteCart,
   getCart,
+  getMyCart,
   searchByBarcode,
   updateCart,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -17,10 +19,12 @@ function AppCart() {
   const navigate = useNavigate();
   const [userDetail, setUserDetail] = useState([]);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
+  const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
+  const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
 
   useEffect(() => {
-    getCarts();
+    getCartss();
     userInfo();
   }, []);
 
@@ -30,17 +34,16 @@ function AppCart() {
     });
   };
 
-  const getCarts = async () => {
-    const { data } = await getCart();
-    if (!data?.error) {
-      setCart(data?.results?.cart.products);
-    }
+  const getCartss = async () => {
+    await axios.post(myCart).then((res) => {
+      setCart(res?.data.results?.cart.products);
+    });
   };
 
   const deleteProduct = async (id, flavour) => {
     const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
-      getCarts();
+      getCartss();
     }
   };
 
@@ -52,7 +55,7 @@ function AppCart() {
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
-      getCarts();
+      getCartss();
     }
   };
 
@@ -104,7 +107,7 @@ function AppCart() {
             : item
         )
       );
-      getCarts();
+      getCartss();
     }
   };
 
@@ -122,9 +125,23 @@ function AppCart() {
           id === ind ? { ...item, quantity: item?.quantity + 1 } : item
         )
       );
-      getCarts();
+      getCartss();
     }
   };
+  const addToQuotes = async () => {
+    await axios.post(addQuotes).then((res) => {
+      if (!res?.error) {
+        Swal.fire({
+          title: "Your Quotation Request Has Submitted!",
+          text: "Check Status here",
+          icon: "success",
+          button: "Ok",
+        });
+        navigate("/app/my-request");
+      }
+    });
+  };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
@@ -135,6 +152,7 @@ function AppCart() {
       document.getElementById("closeModal").click();
     }
   };
+
   return (
     <>
       <div className="star_imp_app">
@@ -178,6 +196,26 @@ function AppCart() {
             <div className="cart-wrapper-area py-3 ">
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body p-1">
+                  {cart?.length ? (
+                    <div className="d-flex justify-content-between p-2">
+                      <Link className="comman_btn" to="/app/checkout">
+                        Place Your Order
+                      </Link>
+
+                      {userDetail?.quotation === true ? (
+                        <Link
+                          className="comman_btn2 text-decoration-none mx-2"
+                          onClick={addToQuotes}
+                        >
+                          Request For Quote
+                        </Link>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <Link className="comman_btn " to="/app/home">
+                      Start Shopping
+                    </Link>
+                  )}
                   <table className="table mb-0">
                     {cart?.length ? (
                       <tbody>
@@ -215,6 +253,7 @@ function AppCart() {
                                 {item?.flavour?._id ? (
                                   <Link
                                     to={`/app/product-detail/${item?.productId?._id}`}
+                                    className="fs-6"
                                   >
                                     {item?.productId?.unitName +
                                       "-" +
@@ -230,8 +269,11 @@ function AppCart() {
 
                                 <div className="quantity d-flex mt-1">
                                   <span
-                                    className=" minus fs-5 fw-bold"
-                                    style={{ userSelect: "none" }}
+                                    className="minus fs-5 fw-bold"
+                                    style={{
+                                      userSelect: "none",
+                                      background: "#fff",
+                                    }}
                                     onClick={() => {
                                       HandleDecrease(index);
                                     }}
@@ -263,15 +305,18 @@ function AppCart() {
                                       )
                                     }
                                   />
-                                  <Button
-                                    className="plus fs-5 fw-bold"
-                                    style={{ userSelect: "none" }}
+                                  <span
+                                    className=" fs-5 fw-bold"
+                                    style={{
+                                      userSelect: "none",
+                                      background: "#fff",
+                                    }}
                                     onClick={() => {
                                       HandleIncrease(index);
                                     }}
                                   >
                                     +
-                                  </Button>
+                                  </span>
                                 </div>
                               </td>
                             </tr>
@@ -293,24 +338,11 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                <div className=" col-6 cart-amount-area p-1">
-                  <div className="card-body d-flex align-items-center justify-content-between">
-                    <h5 className="total-price mb-0"></h5>
-                    {cart?.length ? (
-                      <Link className="comman_btn" to="/app/checkout">
-                        Checkout
-                      </Link>
-                    ) : (
-                      <Link className="comman_btn " to="/app/home">
-                        Start Shopping
-                      </Link>
-                    )}
-                  </div>
-                </div>
+                <div className=" col-6 cart-amount-area p-1"></div>
                 <div className="col-6 cart-amount-area p-1">
                   <div className="card-body d-flex align-items-center justify-content-between">
                     <h5 className="total-price mb-0"></h5>
-                    <a className="comman_btn2" onClick={cameraScan}>
+                    <a className="comman_btn2 text-center" onClick={cameraScan}>
                       Scan Barcode
                     </a>
                   </div>

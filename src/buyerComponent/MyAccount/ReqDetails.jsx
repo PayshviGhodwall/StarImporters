@@ -5,29 +5,29 @@ import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
-import OrderDetails from "./OrdersDetails";
+import moment from "moment";
 
 const RequestDetails = () => {
   const [users, setUsers] = useState([]);
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
   const [quoteDetails, setQuoteDetails] = useState([]);
- 
 
   let location = useLocation();
   let id = location?.state?.id;
 
   useEffect(() => {
     const GetQuote = async () => {
-      await axios.post(getQuoteDetails,{
-        quoteId:id
-      }).then((res) => {
-        setQuoteDetails(res?.data.results);
-      });
+      await axios
+        .post(getQuoteDetails, {
+          quoteId: id,
+        })
+        .then((res) => {
+          setQuoteDetails(res?.data.results);
+        });
     };
     GetQuote();
   }, []);
 
- 
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -93,7 +93,10 @@ const RequestDetails = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div className="nav-active px-3 text-white py-2 border   " role="tablist">
+                    <div
+                      className="nav-active px-3 text-white py-2 border   "
+                      role="tablist"
+                    >
                       <h4 className="">
                         <i className="fas fa-file mt-1" />
                         <span className="fs-6 mx-2">REQUEST ORDER</span>
@@ -185,37 +188,51 @@ const RequestDetails = () => {
                             <div className="row">
                               <div className="col-12 mb-3">
                                 <div className="order_heading">
-                                  <h2>Request Details : {quoteDetails?.status}</h2>
-                                </div>  
+                                  <h2>
+                                    Request Details : {quoteDetails?.status}
+                                  </h2>
+                                </div>
                               </div>
                               <div class="col-12 mt-3 mb-4">
-                                 <div class="row mx-0 border rounded pt-4 p-3 position-relative">
-                                    <span class="small_header">Request Details</span>
-                                    <div class="col-4 ">
-                                       <div class="row">
-                                          <div class="col-6">
-                                             <span class="data_main">Request Date: {quoteDetails?.createdAt?.slice(0,10)}</span>
-                                          </div>
-                                        
-                                       </div>
+                                <div class="row mx-0 border rounded pt-4 p-3 position-relative">
+                                  <span class="small_header">
+                                    Request Details
+                                  </span>
+                                  <div class="col-4 ">
+                                    <div class="row">
+                                      <div class="col-6">
+                                        <span class="data_main">
+                                          Request Date:{" "}
+                                          {moment(
+                                            quoteDetails?.createdAt?.slice(
+                                              0,
+                                              10
+                                            )
+                                          ).format("DD/MM/YYYY")}
+                                        </span>
+                                      </div>
                                     </div>
-                                    <div class="col-4">
-                                       <div class="row">
-                                          <div class="col-6">
-                                             <span class="data_main">Request Id : {quoteDetails?.quoteId}</span>
-                                          </div>
-                                          
-                                       </div>
+                                  </div>
+                                  <div class="col-4">
+                                    <div class="row">
+                                      <div class="col-6">
+                                        <span class="data_main">
+                                          Request Id : {quoteDetails?.quoteId}
+                                        </span>
+                                      </div>
                                     </div>
-                                    <div class="col-4">
-                                       <div class="row">
-                                          <div class="col text-center">
-                                             <span class="data_main">Total Products : {quoteDetails?.products?.length}</span>
-                                          </div>
-                                         
-                                       </div>
-                                    </div> 
-                                 </div>
+                                  </div>
+                                  <div class="col-4">
+                                    <div class="row">
+                                      <div class="col text-center">
+                                        <span class="data_main">
+                                          Total Products :{" "}
+                                          {quoteDetails?.products?.length}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                               <div className="col-12 mb-2">
                                 <div className="cart_table">
@@ -243,19 +260,39 @@ const RequestDetails = () => {
                                                   <div className="col-auto">
                                                     <span className="cart_product">
                                                       <img
-                                                        src={item?.flavour?._id ? item?.flavour?.flavourImage : item?.productId?.productImage}
+                                                        src={
+                                                          item?.flavour?._id
+                                                            ? item?.flavour
+                                                                ?.flavourImage
+                                                            : item?.productId
+                                                                ?.productImage
+                                                        }
                                                         alt=""
                                                       />
                                                     </span>
                                                   </div>
                                                   <div className="col">
                                                     <div className="cart_content">
-                                                      <h3>{item?.flavour?._id ? item?.productId?.unitName +"-" + item?.flavour?.flavour : item?.productId?.unitName}</h3>
-                                                      <p>Bar Code: {item?.flavour?.barcode.map((item)=>(
-                                                        <li>{item}</li>
-                                                      )) }</p>
+                                                      <h3>
+                                                        {item?.flavour?._id
+                                                          ? item?.productId
+                                                              ?.unitName +
+                                                            "-" +
+                                                            item?.flavour
+                                                              ?.flavour
+                                                          : item?.productId
+                                                              ?.unitName}
+                                                      </h3>
+                                                      <p>
+                                                        Bar Code:{" "}
+                                                        {item?.flavour?.barcode.map(
+                                                          (item) => (
+                                                            <li>{item}</li>
+                                                          )
+                                                        )}
+                                                      </p>
                                                       <span className="ordertext my-2 d-block ">
-                                                         Price : ${item?.price} 
+                                                        Price : ${item?.price}
                                                       </span>
                                                     </div>
                                                   </div>
@@ -268,7 +305,8 @@ const RequestDetails = () => {
                                               </td>
                                               <td>
                                                 <span className="quantity_text">
-                                                  ${item?.price * item?.quantity}
+                                                  $
+                                                  {item?.price * item?.quantity}
                                                 </span>
                                               </td>
                                             </tr>
@@ -279,7 +317,6 @@ const RequestDetails = () => {
                                   </div>
                                 </div>
                               </div>
-                           
                             </div>
                           </div>
                         </div>

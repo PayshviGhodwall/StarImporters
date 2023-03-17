@@ -85,7 +85,9 @@ function AppOrderDetail() {
                             </td>
                             <td>
                               <div className="order_items">
-                                <Link  to={`/app/product-detail/${item?.productId?._id}`}>
+                                <Link
+                                  to={`/app/product-detail/${item?.productId?._id}`}
+                                >
                                   {item?.productId?.unitName +
                                     "-" +
                                     item?.flavour.flavour}
@@ -109,7 +111,6 @@ function AppOrderDetail() {
                                   className="qty-text"
                                   type="text"
                                   disabled
-
                                   value={item?.quantity}
                                 />
                               </div>
@@ -130,7 +131,7 @@ function AppOrderDetail() {
                       </div>
                       <div className="order-text">
                         <h6>Order placed</h6>
-                        <span>{orders?.createdAt?.slice(0,10)}</span>
+                        <span>{orders?.createdAt?.slice(0, 10)}</span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check"></i>
@@ -145,122 +146,115 @@ function AppOrderDetail() {
                       }
                     >
                       <div className="order-icon text-dark">
-                      <i className="fa-solid fa-bag-shopping"></i>
-                      
-                    
-
+                        <i className="fa-solid fa-bag-shopping"></i>
                       </div>
                       <div className="order-text ">
                         <h6 className="text-danger fw-bold">Order Canceled</h6>
-                        <span className="text-danger ">{orders?.createdAt?.slice(0,10)}</span>
-
+                        <span className="text-danger ">
+                          {orders?.createdAt?.slice(0, 10)}
+                        </span>
                       </div>
                       <div className="order-status">
                         <i className="fa-solid fa-circle-check text-danger "></i>
                       </div>
                     </div>
-                    {
-                      orders?.status === "CANCEL"
-                      ? 
-                      null
-                      :
-                    
+                    {orders?.status === "CANCEL" ? null : (
                       <div>
-                    <div
-                      className={
-                        orders?.status === "DISPATCHED" ||
-                        orders?.status === "SHIPPED" ||
-                        orders?.status === "DELIVERED"
-                          ? "single-order-status active"
-                          : "single-order-status"
-                      }
-                    >
-                      <div className="order-icon">
-                        <i className="fa-solid fa-box-open"></i>
-                      </div>
-                      <div className="order-text">
-                        <h6>Product packaging</h6>
-                      </div>
-                      <div className="order-status">
-                        <i className="fa-solid fa-circle-check"></i>
-                      </div>
-                    </div>
+                        <div
+                          className={
+                            orders?.status === "PROCESSING" ||
+                            orders?.status === "SHIPPED" ||
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status" 
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-box-open"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>Product packaging</h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
 
-                    <div
-                      className={
-                        orders?.status === "SHIPPED" ||
-                        orders?.status === "DELIVERED"
-                          ? "single-order-status active"
-                          : "single-order-status"
-                      }
-                    >
-                      <div className="order-icon">
-                        <i className="fa-solid fa-truck"></i>
-                      </div>
-                      <div className="order-text">
-                        <h6>Ready for shipment</h6>
-                      </div>
-                      <div className="order-status">
-                        <i className="fa-solid fa-circle-check"></i>
-                      </div>
-                    </div>
+                        <div
+                          className={
+                            orders?.status === "SHIPPED" ||
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status"
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-truck"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>Ready for shipment</h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
 
-                    <div
-                      className={
-                        orders?.status === "SHIPPED" ||
-                        orders?.status === "DELIVERED"
-                          ? "single-order-status active"
-                          : "single-order-status"
-                      }
-                    >
-                      <div className="order-icon">
-                        <i className="fa-solid fa-truck-fast"></i>
-                      </div>
-                      <div className="order-text">
-                        <h6>On the way</h6>
-                      </div>
-                      <div className="order-status">
-                        <i className="fa-solid fa-circle-check"></i>
-                      </div>
-                    </div>
+                        <div
+                          className={
+                            orders?.status === "SHIPPED" ||
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status"
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-truck-fast"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>On the way</h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
 
-                    <div
-                      className={
-                        orders?.status === "DELIVERED"
-                          ? "single-order-status active"
-                          : "single-order-status"
-                      }
-                    >
-                      <div className="order-icon">
-                        <i className="fa-solid fa-store"></i>
-                      </div>
-                      <div className="order-text">
-                        <h6>Dropped in the delivery station</h6>
-                      </div>
-                      <div className="order-status">
-                        <i className="fa-solid fa-circle-check"></i>
-                      </div>
-                    </div>
+                        <div
+                          className={
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status"
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-store"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>Dropped in the delivery station</h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
 
-                    <div
-                      className={
-                        orders?.status === "DELIVERED"
-                          ? "single-order-status active"
-                          : "single-order-status"
-                      }
-                    >
-                      <div className="order-icon">
-                        <i className="fa-solid fa-heart-circle-check"></i>
+                        <div
+                          className={
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status"
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-heart-circle-check"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>Delivered</h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
                       </div>
-                      <div className="order-text">
-                        <h6>Delivered</h6>
-                      </div>
-                      <div className="order-status">
-                        <i className="fa-solid fa-circle-check"></i>
-                      </div>
-                    </div>
-                    </div>
-}
+                    )}
                   </div>
                 </div>
               </div>
@@ -273,11 +267,9 @@ function AppOrderDetail() {
                       <div className="col-12 d-flex">
                         <span className="data_main">Buyer Name :</span>
                         <span className="data_submain mx-2">
-
                           {orders?.userId?.firstName}
                         </span>
                       </div>
-                      
                     </div>
                   </div>
                   <div className="col-12 mb-1">
@@ -305,10 +297,15 @@ function AppOrderDetail() {
                       <div className="col-12 d-flex">
                         <span className="data_main">Shipment Location:</span>
                         <span className="data_submain mx-2">
-                          {orders?.userId?.addressLine[0]}
+                          {orders?.userId?.addressLine1 +
+                            "-" +
+                            orders?.userId?.state +
+                            "-" +
+                            orders?.userId?.city +
+                            "-" +
+                            orders?.userId?.zipcode}
                         </span>
                       </div>
-                      
                     </div>
                   </div>
                 </div>

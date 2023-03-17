@@ -41,7 +41,7 @@ function AppHeader({cartCount}) {
   const getCartCount = async () => {
     const { data } = await countProducts();
     if (!data?.error) {
-      setCount(data?.results);
+      setCount(data?.results.productCount);
     }
   };
   return (

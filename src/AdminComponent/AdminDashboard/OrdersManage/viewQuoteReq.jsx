@@ -5,6 +5,8 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
+import moment from "moment";
+
 const ViewQuoteReq = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
@@ -185,7 +187,11 @@ const ViewQuoteReq = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -450,7 +456,11 @@ const ViewQuoteReq = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Request Date:</span>
                             <div className="col">
-                              <strong>{quote?.createdAt?.slice(0, 10)}</strong>
+                              <strong>
+                                {moment(quote?.createdAt?.slice(0, 10)).format(
+                                  "DD/MM/YYYY"
+                                )}
+                              </strong>
                             </div>
                           </div>
                         </div>
