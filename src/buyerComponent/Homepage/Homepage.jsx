@@ -85,6 +85,7 @@ const Homepage = () => {
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
       localStorage.setItem("slides", JSON.stringify(res?.data.results));
+      setAllSlides(res?.data.results);
     });
   };
   const getHeaders = async () => {
@@ -108,6 +109,7 @@ const Homepage = () => {
         );
         if (!res.data.error) {
           setLoading(false);
+          setCategory(res?.data.results?.categories);
         }
       });
   };

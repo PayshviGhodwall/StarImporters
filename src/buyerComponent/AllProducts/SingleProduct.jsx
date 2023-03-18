@@ -500,24 +500,27 @@ const SingleProduct = () => {
                                 className="minus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  unitCount == 1
-                                    ? setUnitCount(1)
-                                    : setUnitCount(unitCount + -1);
+                                  document
+                                    .getElementById("quanInput")
+                                    .stepDown(1);
                                 }}
                               >
                                 -
                               </span>
                               <input
                                 type="number"
+                                id="quanInput"
                                 className="p-1 border quanityField"
-                                value={unitCount}
+                                defaultValue={unitCount}
                                 onChange={(e) => setUnitCount(e.target.value)}
                               />
                               <span
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  setUnitCount(unitCount + 1);
+                                  document
+                                    .getElementById("quanInput")
+                                    .stepUp(1);
                                 }}
                               >
                                 +

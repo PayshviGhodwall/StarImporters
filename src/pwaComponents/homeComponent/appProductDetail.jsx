@@ -58,11 +58,13 @@ function AppProductDetail() {
     }
   };
   console.log(categoryName);
+
   const getQuantity = (type) => {
     if (type === "add") {
-      setQuantity(quantity + 1);
+      // setQuantity(quantity + 1);
+      document.getElementById("quanInput").stepUp(1);
     } else {
-      if (quantity > 0) setQuantity(quantity - 1);
+      if (quantity > 0) document.getElementById("quanInput").stepDown(1);
     }
   };
 
@@ -310,12 +312,13 @@ function AppProductDetail() {
                         -
                       </div>
                       <input
-                        className="form-control cart-quantity-input"
+                        className="cart-quantity-input"
                         type="number"
-                        step="1"
-                        disabled
+                        id="quanInput"
                         name="quantity"
-                        value={quantity}
+                        max={3}
+                        defaultValue={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
                       />
                       <div
                         className="quantity-button-handler"
@@ -348,6 +351,7 @@ function AppProductDetail() {
                               e.preventDefault();
                               setFlavour(item);
                               setFInd(index);
+                              setQuantity(1);
                             }}
                           >
                             {item?.flavour}
@@ -359,6 +363,7 @@ function AppProductDetail() {
                               e.preventDefault();
                               setFlavour(item);
                               setFInd(index);
+                              setQuantity(1);
                             }}
                           >
                             {item?.flavour}
