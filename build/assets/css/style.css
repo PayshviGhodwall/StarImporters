@@ -9259,7 +9259,7 @@ background-color: #3e4093;
     border: 4px seashell;
   }
   .cart-table .qty-text {
-    width: 2.5rem;
+    width: 3.5rem;
     text-align: center;
     color: #000;
     height: 1.8rem;
@@ -12425,5 +12425,5 @@ a:hover {
   border: 1px solid #ced4da;
   appearance: none;
   border-radius: 0.375rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }

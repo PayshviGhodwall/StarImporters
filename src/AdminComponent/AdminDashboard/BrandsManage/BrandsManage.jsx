@@ -25,7 +25,6 @@ const BrandsManage = () => {
   const [files, setFiles] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const [loader, setLoader] = useState(false);
-  const [Index, setIndex] = useState();
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   axios.defaults.headers.common["x-auth-token-admin"] =

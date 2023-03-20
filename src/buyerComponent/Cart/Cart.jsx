@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Animate, { Animate2 } from "../../Animate";
 import { updateCart } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 import Swal from "sweetalert2";
-import { Button, Loader } from "rsuite";
+import { Loader } from "rsuite";
 
 const Cart = () => {
   const getCartProducts = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;

@@ -24,7 +24,6 @@ const ApprovedView = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
-
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);

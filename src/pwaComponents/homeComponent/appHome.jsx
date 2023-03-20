@@ -194,7 +194,7 @@ function AppHome() {
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
                   <h6> Showing results for "{search}"</h6>
                 </div>
-                {product.length ? (
+                {product?.length ? (
                   <div className="row g-2">
                     {(product || [])?.map((item, index) => {
                       return (

@@ -69,6 +69,7 @@ const Homepage = () => {
       background = `url(${image?.bottomImage})`;
     }
   }, []);
+
   const AllProducts = async () => {
     await axios
       .post(allProd, {
@@ -82,12 +83,14 @@ const Homepage = () => {
         }
       });
   };
+
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
       localStorage.setItem("slides", JSON.stringify(res?.data.results));
       setAllSlides(res?.data.results);
     });
   };
+
   const getHeaders = async () => {
     await axios.get(HeadersApi).then((res) => {
       setAllHeaders(res?.data.results?.headers[0]);
@@ -97,6 +100,7 @@ const Homepage = () => {
       );
     });
   };
+
   const getCategory = async () => {
     await axios
       .post(categoryApi, {
@@ -113,6 +117,7 @@ const Homepage = () => {
         }
       });
   };
+
   const getBrands = async () => {
     await axios.get(brandApi).then((res) => {
       setBrands(res?.data.results);
@@ -121,11 +126,13 @@ const Homepage = () => {
       }
     });
   };
+
   const createMarkup = (html) => {
     return {
       __html: DOMPurify.sanitize(html),
     };
   };
+
   return (
     <div className="home_page">
       <Navbar />

@@ -68,7 +68,7 @@ function AppBrands() {
                       to="/app/productBrands"
                       state={{ name: item?.brandName }}
                     >
-                      <img src={item?.brandImage} alt="" />
+                      <img src={item?.brandImage} className="p-2" alt="" />
                     </Link>
                   </div>
                 );

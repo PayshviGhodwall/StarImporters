@@ -231,60 +231,6 @@ const SingleProduct = () => {
       }
     }
   };
-  const AddtoQuote = async () => {
-    if (flavour) {
-      cartProduct.push(objectId);
-      cartProduct.push(unitCount);
-      await axios
-        .post(addQuote, {
-          productId: cartProduct[0],
-          quantity: cartProduct[1],
-          flavour: flavour,
-        })
-        .then((res) => {
-          if (res.data?.message === "Quote is Added") {
-            setSuccesMsg("Product added to Quote!");
-            // document.getElementById("req-modal").click();
-          }
-          if (res.data?.message === "Quote is already in Cart") {
-            setSuccesMsg("Product added to Cart!");
-            // document.getElementById("req-modal").click();
-          }
-        })
-        .catch((err) => {
-          if (
-            err.response?.data?.message === "Access Denied. No token provided."
-          ) {
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-          if (err.response?.data?.message === "You are not Authenticated Yet") {
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-          if (err.response?.data.message === "") {
-            Swal.fire({
-              title: "Product is already in Cart!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-        });
-      setTimeout(() => {
-        setSuccesMsg();
-      }, 3000);
-    } else {
-      document.getElementById("flavour_box").className =
-        "offers_box_main_afterSelect ";
-      setErrMsg("Please Select a Flavour.");
-    }
-  };
 
   return (
     <div className="" style={{ background: "#eef3ff" }}>
@@ -500,6 +446,9 @@ const SingleProduct = () => {
                                 className="minus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
+                                  if (unitCount > 1) {
+                                    setUnitCount(unitCount - 1);
+                                  }
                                   document
                                     .getElementById("quanInput")
                                     .stepDown(1);
@@ -510,8 +459,8 @@ const SingleProduct = () => {
                               <input
                                 type="number"
                                 id="quanInput"
-                                className="p-1 border quanityField"
-                                defaultValue={unitCount}
+                                className="cart-quantity-input p-1 border quanityField"
+                                value={unitCount}
                                 onChange={(e) => setUnitCount(e.target.value)}
                               />
                               <span

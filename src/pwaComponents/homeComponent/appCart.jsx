@@ -13,9 +13,11 @@ import {
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import WebHeader2 from "./webHeader2";
+import { Loader } from "rsuite";
 
 function AppCart() {
   const [cart, setCart] = useState([]);
+  const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const [userDetail, setUserDetail] = useState([]);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
@@ -41,21 +43,25 @@ function AppCart() {
   };
 
   const deleteProduct = async (id, flavour) => {
+    setLoad(true);
     const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
+      setLoad(false);
       getCartss();
     }
   };
 
-  const updateQuantity = async (e, id, flavour) => {
+  const updateQuantity = async (q, id, flavour) => {
+    setLoad(true);
     const formData = {
-      productId: id,
-      quantity: e.target.value,
-      flavour: flavour,
+      productId: cart[id]?.productId?._id,
+      quantity: q,
+      flavour: cart[id]?.flavour,
     };
     const { data } = await updateCart(formData);
     if (!data.error) {
       getCartss();
+      setLoad(false);
     }
   };
 
@@ -90,6 +96,7 @@ function AppCart() {
   //   console.log(toggleNumber)
   // });
   const HandleDecrease = async (id) => {
+    setLoad(true);
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity - 1,
@@ -108,11 +115,13 @@ function AppCart() {
         )
       );
       getCartss();
+      setLoad(false);
     }
   };
 
   const HandleIncrease = async (id) => {
     console.log(id);
+    setLoad(true);
     const formData = {
       productId: cart[id]?.productId?._id,
       quantity: cart[id]?.quantity + 1,
@@ -126,8 +135,10 @@ function AppCart() {
         )
       );
       getCartss();
+      setLoad(false);
     }
   };
+
   const addToQuotes = async () => {
     await axios.post(addQuotes).then((res) => {
       if (!res?.error) {
@@ -196,6 +207,7 @@ function AppCart() {
             <div className="cart-wrapper-area py-3 ">
               <div className="cart-table card mb-3">
                 <div className="table-responsive card-body p-1">
+                  {load ? <Loader speed="slow" content="Updating.." /> : null}
                   {cart?.length ? (
                     <div className="d-flex justify-content-between p-2">
                       <Link className="comman_btn" to="/app/checkout">
@@ -293,16 +305,13 @@ function AppCart() {
                                     )}
                                   </span>
                                   <input
-                                    className="qty-text mx-2"
-                                    type="text"
+                                    className="qty-text mx-2 text-center"
+                                    type="number"
+                                    key={item?.quantity}
                                     id={`quantity${index}`}
-                                    value={item?.quantity}
-                                    disabled
+                                    defaultValue={item?.quantity}
                                     onChange={(e) =>
-                                      updateQuantity(
-                                        e.target.value,
-                                        item?.productId?._id
-                                      )
+                                      updateQuantity(e.target.value, index)
                                     }
                                   />
                                   <span

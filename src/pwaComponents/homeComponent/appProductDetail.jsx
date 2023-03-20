@@ -59,15 +59,6 @@ function AppProductDetail() {
   };
   console.log(categoryName);
 
-  const getQuantity = (type) => {
-    if (type === "add") {
-      // setQuantity(quantity + 1);
-      document.getElementById("quanInput").stepUp(1);
-    } else {
-      if (quantity > 0) document.getElementById("quanInput").stepDown(1);
-    }
-  };
-
   const addToCartt = async () => {
     if (
       productDetail?.category?.isTobacco ||
@@ -305,27 +296,33 @@ function AppProductDetail() {
                   ) : null}
                   <form className="cart-form w-100" action="#" method="">
                     <div className="order-plus-minus d-flex align-items-center">
-                      <div
+                      <span
                         className="quantity-button-handler"
-                        onClick={() => getQuantity("sub")}
+                        key={quantity}
+                        onClick={() => {
+                          if (quantity > 1) setQuantity(quantity - 1);
+                        }}
                       >
                         -
-                      </div>
+                      </span>
                       <input
-                        className="cart-quantity-input"
+                        className="cart-quantity-input text-center"
                         type="number"
                         id="quanInput"
                         name="quantity"
-                        max={3}
-                        defaultValue={quantity}
+                        max="9999"
+                        value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
                       />
-                      <div
+                      <span
                         className="quantity-button-handler"
-                        onClick={() => getQuantity("add")}
+                        onClick={() => {
+                          document.getElementById("quanInput").stepUp(1);
+                          setQuantity(quantity + 1);
+                        }}
                       >
                         +
-                      </div>
+                      </span>
                     </div>
                   </form>
                 </div>
