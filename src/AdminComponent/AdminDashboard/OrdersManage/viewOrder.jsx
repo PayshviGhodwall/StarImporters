@@ -471,6 +471,8 @@ const ViewOrder = () => {
                             <Link
                               className="text-decoration-none text-dark dropdown-item"
                               to={`/OrderRequest/Pdf/${id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Export .pdf
                             </Link>
@@ -566,6 +568,47 @@ const ViewOrder = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="col-12 mb-5 mt-3">
+                      <div className="row mx-0 border rounded pt-4 p-3 position-relative">
+                        <span className="small_header">
+                          Change Order Status
+                        </span>
+                        <div className="col-12 Change_staus">
+                          <form
+                            className="form-design row align-items-end"
+                            action=""
+                          >
+                            <div className="form-group mb-0 col">
+                              <label htmlFor="">Order Status</label>
+                              <select
+                                className="form-select form-control"
+                                aria-label="Default select example"
+                                onChange={(e) => {
+                                  setOrderStatus(e.target.value);
+                                }}
+                              >
+                                <option selected="">{orders?.status}</option>
+                                <option value="ORDER PLACED">
+                                  Order Placed
+                                </option>
+                                <option value="PROCESSING">Processing</option>
+                                <option value="SHIPPED">Shipped</option>
+                                <option value="DELIVERED">Delivered</option>
+                                <option value="CANCEL">Canceled</option>
+                              </select>
+                            </div>
+                            <div className="form-group mb-0 col-auto">
+                              <button
+                                className="comman_btn"
+                                onClick={UpdateOrderStatus}
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                     <div className="col-12 mb-4">
                       <div className="cart_table">
                         <div className="table-responsive">
@@ -636,47 +679,6 @@ const ViewOrder = () => {
                               ))}
                             </tbody>
                           </table>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 mb-5">
-                      <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                        <span className="small_header">
-                          Change Order Status
-                        </span>
-                        <div className="col-12 Change_staus">
-                          <form
-                            className="form-design row align-items-end"
-                            action=""
-                          >
-                            <div className="form-group mb-0 col">
-                              <label htmlFor="">Order Status</label>
-                              <select
-                                className="form-select form-control"
-                                aria-label="Default select example"
-                                onChange={(e) => {
-                                  setOrderStatus(e.target.value);
-                                }}
-                              >
-                                <option selected="">{orders?.status}</option>
-                                <option value="ORDER PLACED">
-                                  Order Placed
-                                </option>
-                                <option value="PROCESSING">Processing</option>
-                                <option value="SHIPPED">Shipped</option>
-                                <option value="DELIVERED">Delivered</option>
-                                <option value="CANCEL">Canceled</option>
-                              </select>
-                            </div>
-                            <div className="form-group mb-0 col-auto">
-                              <button
-                                className="comman_btn"
-                                onClick={UpdateOrderStatus}
-                              >
-                                Save
-                              </button>
-                            </div>
-                          </form>
                         </div>
                       </div>
                     </div>

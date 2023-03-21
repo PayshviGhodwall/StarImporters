@@ -12411,6 +12411,11 @@ a:hover {
   font-size: 13px;
   margin-left: 5px;
 }
+.quanityField:focus {
+  border: 2px solid #eb3237 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+}
 .cart-quantity-input {
   display: block;
   width: 20%;

@@ -178,7 +178,6 @@ const SingleProduct = () => {
             if (res.data?.message === "Product Added") {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
-
               setNState(true);
             }
             if (res.data?.message === "Product modified") {
@@ -230,6 +229,7 @@ const SingleProduct = () => {
         setErrMsg("Please Select a Flavour.");
       }
     }
+    setUnitCount(1);
   };
 
   return (
@@ -317,6 +317,7 @@ const SingleProduct = () => {
                                   ? item?.flavourImage
                                   : require("../../assets/img/product.jpg");
                               setFlavour(item);
+                              setUnitCount(1);
                             }}
                           >
                             <img
@@ -417,6 +418,7 @@ const SingleProduct = () => {
                                             setErrMsg();
                                             setTypeObj();
                                             setFlavour(item);
+                                            setUnitCount(1);
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
@@ -440,7 +442,7 @@ const SingleProduct = () => {
                               </p>
                             </div>
                           ) : null}
-                          <div className="col-12 quantity_box d-md-flex align-items-center mt-md-3 mb-md-2">
+                          <div className="col-12 quantity_box d-flex align-items-center mt-md-3 mb-md-2">
                             <div className="number me-md-4 mb-md-0 mb-3">
                               <span
                                 className="minus"
@@ -448,10 +450,10 @@ const SingleProduct = () => {
                                 onClick={() => {
                                   if (unitCount > 1) {
                                     setUnitCount(unitCount - 1);
+                                    document
+                                      .getElementById("quanInput")
+                                      .stepDown(1);
                                   }
-                                  document
-                                    .getElementById("quanInput")
-                                    .stepDown(1);
                                 }}
                               >
                                 -
@@ -459,7 +461,7 @@ const SingleProduct = () => {
                               <input
                                 type="number"
                                 id="quanInput"
-                                className="cart-quantity-input p-1 border quanityField"
+                                className=" p-1 border rounded mx-2 quanityField"
                                 value={unitCount}
                                 onChange={(e) => setUnitCount(e.target.value)}
                               />
@@ -467,6 +469,7 @@ const SingleProduct = () => {
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
+                                  setUnitCount(unitCount + 1);
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);

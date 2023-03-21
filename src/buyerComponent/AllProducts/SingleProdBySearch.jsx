@@ -224,66 +224,7 @@ const SingleProdBySearch = () => {
         setErrMsg("Please Select a Flavour.");
       }
     }
-  };
-  const AddtoQuote = async () => {
-    if (flavour) {
-      cartProduct.push(objectId);
-      cartProduct.push(unitCount);
-      await axios
-        .post(addQuote, {
-          productId: cartProduct[0],
-          quantity: cartProduct[1],
-          flavour: flavour,
-        })
-        .then((res) => {
-          if (res.data?.message === "Quote is Added") {
-            setLoader(false);
-            setSuccesMsg("Product added to Quote!");
-            // document.getElementById("req-modal").click();
-          }
-          if (res.data?.message === "Quote is already in Cart") {
-            setLoader(false);
-            setSuccesMsg("Product added to Cart!");
-            // document.getElementById("req-modal").click();
-          }
-        })
-        .catch((err) => {
-          if (
-            err.response?.data?.message === "Access Denied. No token provided."
-          ) {
-            setLoader(false);
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-          if (err.response?.data?.message === "You are not Authenticated Yet") {
-            setLoader(false);
-            Swal.fire({
-              title: "Please Login to your Account!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-          if (err.response?.data.message === "") {
-            setLoader(false);
-            Swal.fire({
-              title: "Product is already in Cart!",
-              icon: "error",
-              focusConfirm: false,
-            });
-          }
-        });
-      setTimeout(() => {
-        setLoader(false);
-        setSuccesMsg();
-      }, 3000);
-    } else {
-      document.getElementById("flavour_box").className =
-        "offers_box_main_afterSelect ";
-      setErrMsg("Please Select a Flavour.");
-    }
+    setUnitCount(1);
   };
 
   return (
@@ -377,6 +318,7 @@ const SingleProdBySearch = () => {
                                   ? item?.flavourImage
                                   : require("../../assets/img/product.jpg");
                               setFlavour(item);
+                              setUnitCount(1);
                             }}
                           >
                             <img
@@ -476,6 +418,7 @@ const SingleProdBySearch = () => {
                                             setErrMsg();
                                             setTypeObj();
                                             setFlavour(item);
+                                            setUnitCount(1);
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
@@ -505,9 +448,12 @@ const SingleProdBySearch = () => {
                                 className="minus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  document
-                                    .getElementById("quanInput")
-                                    .stepDown(1);
+                                  if (unitCount > 1) {
+                                    setUnitCount(unitCount - 1);
+                                    document
+                                      .getElementById("quanInput")
+                                      .stepDown(1);
+                                  }
                                 }}
                               >
                                 -
@@ -515,14 +461,15 @@ const SingleProdBySearch = () => {
                               <input
                                 type="number"
                                 id="quanInput"
-                                className="p-1 border quanityField"
-                                defaultValue={unitCount}
+                                className=" p-1 border rounded mx-2 quanityField"
+                                value={unitCount}
                                 onChange={(e) => setUnitCount(e.target.value)}
                               />
                               <span
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
+                                  setUnitCount(unitCount + 1);
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);

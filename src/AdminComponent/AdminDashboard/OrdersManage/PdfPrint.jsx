@@ -145,7 +145,7 @@ const PdfPrint = () => {
                                     <tr>
                                       <td
                                         style={{
-                                          width: "20%",
+                                          width: "15%",
                                           textAlign: "center",
                                           borderSpacing: 0,
                                           verticalAlign: "top",
@@ -405,7 +405,52 @@ const PdfPrint = () => {
                                                 }}
                                               >
                                                 {" "}
-                                                Total Product :{" "}
+                                                Delevery Status :{" "}
+                                                <span
+                                                  style={{
+                                                    fontSize: 15,
+                                                    fontWeight: 700,
+                                                    color: "#3e4093",
+                                                    textAlign: "center",
+                                                    borderSpacing: 0,
+                                                  }}
+                                                >
+                                                  {orders?.status}
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </td>
+                                      <td
+                                        style={{
+                                          width: "15%",
+                                          textAlign: "center",
+                                          borderSpacing: 0,
+                                          verticalAlign: "top",
+                                        }}
+                                      >
+                                        <table
+                                          width="100%"
+                                          style={{
+                                            margin: "0 auto",
+                                            border: 0,
+                                            borderSpacing: 0,
+                                          }}
+                                        >
+                                          <tbody>
+                                            <tr>
+                                              <td
+                                                style={{
+                                                  fontSize: 15,
+                                                  fontWeight: 600,
+                                                  color: "#000",
+                                                  textAlign: "center",
+                                                  borderSpacing: 0,
+                                                }}
+                                              >
+                                                {" "}
+                                                Items :{" "}
                                                 <span
                                                   style={{
                                                     fontSize: 15,

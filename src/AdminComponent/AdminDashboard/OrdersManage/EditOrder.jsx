@@ -138,6 +138,11 @@ const EditOrder = () => {
       .then((res) => {
         OrderDetails();
         setLoader(false);
+        navigate("/OrderRequest/ViewOrder", {
+          state: {
+            id: id,
+          },
+        });
         if (!res.data.error) {
           Swal.fire({
             title: "Shipment Details Updated!",
