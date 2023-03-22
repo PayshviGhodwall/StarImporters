@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import {
   addToCart,
   getAllProducts,
+  getFeaturedProd,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -41,11 +42,12 @@ function TopProduct() {
   };
 
   const getProductList = async () => {
-    const { data } = await getAllProducts(activePage);
+    const { data } = await getFeaturedProd();
     if (!data?.error) {
       setProduct(data?.results.products.slice(0, 6));
     }
   };
+
   const addToCartt = async (id, index) => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
       if (!userDetail?.istobaccoLicenceExpired) {
