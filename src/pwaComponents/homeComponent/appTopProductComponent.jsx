@@ -180,13 +180,6 @@ function TopProduct() {
                           >
                             {item?.unitName + "-" + item.type[0]?.flavour}
                           </Link>
-                          <div className="product-rating">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                          </div>
                         </div>
                         <div class="col-auto">
                           <Link

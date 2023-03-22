@@ -7,7 +7,7 @@ import {
 import { useRecoilValue } from "recoil";
 import { notifyCount } from "../../atom";
 
-function AppHeader({cartCount}) {
+function AppHeader({ cartCount }) {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
   let counter = useRecoilValue(notifyCount);
@@ -34,7 +34,7 @@ function AppHeader({cartCount}) {
 
   const getUserDetail = async () => {
     const { data } = await getUserProfile();
-    if (!data.error) {
+    if (!data?.error) {
       setDetail(data?.results);
     }
   };
@@ -146,7 +146,7 @@ function AppHeader({cartCount}) {
                   <i className="fa-solid fa-users"></i>My Request
                 </Link>
               </li>
-                {/* <li>
+              {/* <li>
                   <Link to={token ? "/app/notifications" : "/app/login"}>
                     <i className="fa-solid fa-bell lni-tada-effect"></i>
                     Notifications

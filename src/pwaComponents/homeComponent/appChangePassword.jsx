@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+
 import {
   changePassword,
   getUserProfile,
@@ -228,11 +228,13 @@ function AppChangePassword() {
                           id="password"
                           {...register("confirmPassword", {
                             required: "This field is required",
-                            pattern: {
-                              value:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-                              message:
-                                "Password must be 6 characters including one uppercase letter, one special character and alphanumeric characters",
+                            maxLength: {
+                              value: 15,
+                              message: "Password Max length is 15 characters!",
+                            },
+                            minLength: {
+                              value: 8,
+                              message: "Password Min length is 8 characters!",
                             },
                           })}
                         />

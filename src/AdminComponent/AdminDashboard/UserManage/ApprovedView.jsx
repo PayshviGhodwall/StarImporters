@@ -677,17 +677,14 @@ const ApprovedView = () => {
                               </div>
                             </label>
                           </div>
-                          {user.tobaccoLicence ? (
-                            <strong>
-                              {" "}
-                              Expires on :{" "}
-                              {moment(
-                                user?.tobaccoLicenceExpiry?.slice(0, 10)
-                              ).format("DD/MM/YYYY")}
-                            </strong>
-                          ) : (
-                            ""
-                          )}
+
+                          <strong>
+                            {" "}
+                            Expires on :{" "}
+                            {moment(
+                              user?.tobaccoLicenceExpiry?.slice(0, 10)
+                            ).format("DD/MM/YYYY")}
+                          </strong>
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">

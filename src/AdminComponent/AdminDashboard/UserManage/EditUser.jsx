@@ -916,20 +916,17 @@ const EditUser = () => {
                               </div>
                             </label>
                           </div>
-                          {user.tobaccoLicence ? (
-                            <strong>
-                              {" "}
-                              Expires on :
-                              <input
-                                type="date"
-                                className=" border rounded"
-                                id="expiryDate"
-                                onChange={(e) => setNewExpiry(e.target.value)}
-                              ></input>
-                            </strong>
-                          ) : (
-                            ""
-                          )}
+
+                          <strong>
+                            {" "}
+                            Expires on :
+                            <input
+                              type="date"
+                              className=" border rounded"
+                              id="expiryDate"
+                              onChange={(e) => setNewExpiry(e.target.value)}
+                            ></input>
+                          </strong>
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">

@@ -223,14 +223,6 @@ function AppHome() {
                               >
                                 {item.unitName + "-" + item?.type.flavour}
                               </Link>
-
-                              <div className="product-rating">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
                             </div>
                           </div>
                         </div>
