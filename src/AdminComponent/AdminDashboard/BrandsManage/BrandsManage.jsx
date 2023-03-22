@@ -646,7 +646,7 @@ const BrandsManage = () => {
                                         <td>
                                           {moment(
                                             item?.updatedAt?.slice(0, 10)
-                                          ).format("DD/MM/YYYY")}
+                                          ).format("MM/DD/YYYY")}
                                         </td>
                                         <td>{item?.brandName}</td>
                                         <td>

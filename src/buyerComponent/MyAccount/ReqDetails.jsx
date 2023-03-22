@@ -208,7 +208,7 @@ const RequestDetails = () => {
                                               0,
                                               10
                                             )
-                                          ).format("DD/MM/YYYY")}
+                                          ).format("MM/DD/YYYY")}
                                         </span>
                                       </div>
                                     </div>

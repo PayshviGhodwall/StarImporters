@@ -4,6 +4,7 @@ import "../../assets/css/adminMain.css";
 import Starlogo from "../../assets/img/logo.png";
 import ProfileBar from "./ProfileBar";
 import axios from "axios";
+import moment from "moment";
 
 const Dashboard = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/recentOrders`;
@@ -11,7 +12,6 @@ const Dashboard = () => {
   const totalOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/totalOrders`;
   const totalReq = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/totalRequestHistory`;
   const recentSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/dashboard/searchOrder`;
-
   const [values, setValues] = useState({ from: "", to: "" });
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState();
@@ -190,7 +190,11 @@ const Dashboard = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -529,7 +533,9 @@ const Dashboard = () => {
                                   {item?.userId?.phoneNumber ||
                                     item?.users?.phoneNumber}
                                 </td>
-                                <td>{item?.createdAt?.slice(0, 10)}</td>
+                                <td>
+                                  {moment(item?.createdAt).format("MM/DD/YYYY")}
+                                </td>
                                 <td>{item?.orderId}</td>
                                 <td>
                                   <button

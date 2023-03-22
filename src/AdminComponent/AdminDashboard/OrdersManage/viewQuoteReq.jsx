@@ -458,7 +458,7 @@ const ViewQuoteReq = () => {
                             <div className="col">
                               <strong>
                                 {moment(quote?.createdAt?.slice(0, 10)).format(
-                                  "DD/MM/YYYY"
+                                  "MM/DD/YYYY"
                                 )}
                               </strong>
                             </div>

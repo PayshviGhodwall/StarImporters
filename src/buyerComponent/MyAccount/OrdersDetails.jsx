@@ -208,7 +208,7 @@ const OrderDetails = () => {
                                               0,
                                               10
                                             )
-                                          ).format("DD/MM/YYYY")}
+                                          ).format("MM/DD/YYYY")}
                                         </span>
                                       </div>
                                     </div>
@@ -290,13 +290,13 @@ const OrderDetails = () => {
                                                           )
                                                         )}
                                                       </p>
-                                                      <span className="ordertext my-2 d-block ">
+                                                      {/* <span className="ordertext my-2 d-block ">
                                                         Ordered On:{" "}
                                                         {item?.productId?.createdAt?.slice(
                                                           0,
                                                           10
                                                         )}
-                                                      </span>
+                                                      </span> */}
                                                     </div>
                                                   </div>
                                                 </div>
@@ -349,7 +349,7 @@ const OrderDetails = () => {
                                         }
                                       >
                                         <span className="track_circle" />
-                                        Dispatched
+                                        Processing
                                       </li>
                                       <li
                                         className={

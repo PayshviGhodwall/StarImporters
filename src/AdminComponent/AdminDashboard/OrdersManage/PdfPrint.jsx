@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import html2pdf from "html2pdf.js/dist/html2pdf.min";
+import moment from "moment";
+
 const PdfPrint = () => {
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const [orders, setOrders] = useState([]);
@@ -321,10 +323,12 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.createdAt?.slice(
-                                                    0,
-                                                    10
-                                                  )}
+                                                  {moment(
+                                                    orders?.craetedAt?.slice(
+                                                      0,
+                                                      10
+                                                    )
+                                                  ).format("MM/DD/YYYY")}
                                                 </span>
                                               </td>
                                             </tr>

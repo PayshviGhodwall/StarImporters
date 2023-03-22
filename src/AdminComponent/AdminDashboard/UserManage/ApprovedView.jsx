@@ -683,7 +683,7 @@ const ApprovedView = () => {
                             Expires on :{" "}
                             {moment(
                               user?.tobaccoLicenceExpiry?.slice(0, 10)
-                            ).format("DD/MM/YYYY")}
+                            ).format("MM/DD/YYYY")}
                           </strong>
                         </div>
                       </div>

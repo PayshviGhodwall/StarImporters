@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import moment from "moment";
 
 function AppRequestDetail() {
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
@@ -41,7 +42,9 @@ function AppRequestDetail() {
                       </div>
                       <div className="col-6">
                         <span className="data_submain">
-                          {quoteDetails?.createdAt?.slice(0, 10)}
+                          {moment(quoteDetails?.createdAt?.slice(0, 10)).format(
+                            "MM/DD/YYYY"
+                          )}
                         </span>
                       </div>
                     </div>
@@ -90,7 +93,9 @@ function AppRequestDetail() {
                             </td>
                             <td>
                               <div className="order_items">
-                                <Link  to={`/app/product-detail/${item?.productId?._id}`}>
+                                <Link
+                                  to={`/app/product-detail/${item?.productId?._id}`}
+                                >
                                   {item?.productId?.unitName}
                                 </Link>
                                 {/* <div className="bar_code mt-1">

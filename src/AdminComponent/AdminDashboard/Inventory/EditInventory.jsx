@@ -701,6 +701,17 @@ const EditInventory = () => {
                         {...register("productName")}
                       />
                     </div>
+                    <div className="form-group col-4">
+                      <label htmlFor="">Case Size</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="caseSize"
+                        defaultValue={allProducts[0]?.unitName}
+                        placeholder="Enter Case Size"
+                        {...register("caseSize")}
+                      />
+                    </div>
                     <div className="form-group col-3">
                       <label htmlFor="">Category</label>
                       <select

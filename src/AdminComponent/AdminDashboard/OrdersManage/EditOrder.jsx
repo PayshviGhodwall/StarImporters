@@ -6,6 +6,8 @@ import ProfileBar from "../ProfileBar";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { Button, Loader } from "rsuite";
+import moment from "moment";
+
 const EditOrder = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
@@ -542,7 +544,11 @@ const EditOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Date:</span>
                             <div className="col">
-                              <strong>{orders?.createdAt?.slice(0, 10)}</strong>
+                              <strong>
+                                {moment(orders?.craetedAt?.slice(0, 10)).format(
+                                  "MM/DD/YYYY"
+                                )}
+                              </strong>
                             </div>
                           </div>
                         </div>

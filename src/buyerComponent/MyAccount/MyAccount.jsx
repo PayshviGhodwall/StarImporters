@@ -197,7 +197,7 @@ const MyAccount = () => {
                               </div>
                               <div className="date_box">
                                 {moment(item?.createdAt?.slice(0, 10)).format(
-                                  "DD/MM/YYYY"
+                                  "MM/DD/YYYY"
                                 )}
                               </div>
                             </div>

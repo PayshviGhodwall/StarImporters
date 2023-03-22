@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import moment from "moment";
 
 function AppRequests() {
   const getQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/requestHistory`;
@@ -41,7 +42,9 @@ function AppRequests() {
                           Request ID: <strong>{item?.quoteId}</strong>
                         </div>
                         <div className="date_box">
-                          {item?.createdAt.slice(0, 10)}
+                          {moment(item?.createdAt?.slice(0, 10)).format(
+                            "MM/DD/YYYY"
+                          )}
                         </div>
                       </div>
                       <div className="items_box">

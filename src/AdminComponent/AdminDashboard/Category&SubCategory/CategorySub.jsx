@@ -976,7 +976,7 @@ const CategorySub = () => {
                                               <td className="border">
                                                 {moment(
                                                   item?.updatedAt?.slice(0, 10)
-                                                ).format("DD/MM/YYYY")}
+                                                ).format("MM/DD/YYYY")}
                                               </td>
                                               <td className="border">
                                                 {item?.categoryName}
@@ -1225,7 +1225,7 @@ const CategorySub = () => {
                                               <td className="border">
                                                 {moment(
                                                   item?.updatedAt?.slice(0, 10)
-                                                ).format("DD/MM/YYYY")}
+                                                ).format("MM/DD/YYYY")}
                                               </td>
                                               <td className="border">
                                                 {item?.category?.categoryName

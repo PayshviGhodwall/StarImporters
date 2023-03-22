@@ -3,18 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import moment from "moment";
 
 function AppOrderDetail() {
   const getOrderDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/viewOrder`;
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   let location = useLocation();
-
   let id = location?.state?.id;
 
   useEffect(() => {
     OrderDetails();
   }, []);
+
   const OrderDetails = async () => {
     await axios.get(getOrderDetails + "/" + id).then((res) => {
       setOrders(res?.data.results?.orders);
@@ -38,7 +39,9 @@ function AppOrderDetail() {
                       </div>
                       <div className="col-6">
                         <span className="data_submain">
-                          {orders?.createdAt?.slice(0, 10)}
+                          {moment(orders?.createdAt?.slice(0, 10)).format(
+                            "MM/DD/YYYY"
+                          )}
                         </span>
                       </div>
                     </div>
@@ -166,7 +169,7 @@ function AppOrderDetail() {
                             orders?.status === "SHIPPED" ||
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
-                              : "single-order-status" 
+                              : "single-order-status"
                           }
                         >
                           <div className="order-icon">

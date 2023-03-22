@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
+import moment from "moment";
 
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -13,7 +14,6 @@ const ViewOrder = () => {
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
   const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
-  const orderExportPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportsPDF`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
@@ -489,7 +489,12 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Date:</span>
                             <div className="col">
-                              <strong>{orders?.createdAt?.slice(0, 10)}</strong>
+                              <strong>
+                                {" "}
+                                {moment(orders?.craetedAt?.slice(0, 10)).format(
+                                  "MM/DD/YYYY"
+                                )}
+                              </strong>
                             </div>
                           </div>
                         </div>

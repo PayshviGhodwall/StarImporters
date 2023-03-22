@@ -193,7 +193,7 @@ const RequestOrders = () => {
                               <div className="date_box">
                                 Date :{" "}
                                 {moment(item?.createdAt?.slice(0, 10)).format(
-                                  "DD/MM/YYYY"
+                                  "MM/DD/YYYY"
                                 )}
                               </div>
                             </div>

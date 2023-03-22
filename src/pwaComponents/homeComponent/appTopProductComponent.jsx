@@ -33,7 +33,6 @@ function TopProduct() {
     userInfo();
   }, []);
   let token = localStorage.getItem("token-user");
-  console.log(token);
 
   const userInfo = async () => {
     await axios.get(userData).then((res) => {

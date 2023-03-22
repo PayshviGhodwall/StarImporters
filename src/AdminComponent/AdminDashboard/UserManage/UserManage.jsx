@@ -842,7 +842,7 @@ const UserManage = () => {
                                         <th>Address</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
-                                        <th>Status</th>
+
                                         <th>Action</th>
                                       </tr>
                                     </thead>
@@ -886,9 +886,7 @@ const UserManage = () => {
                                             <td className="border">
                                               {User?.phoneNumber}
                                             </td>
-                                            <td className="border">
-                                              {User?.isVerified}
-                                            </td>
+
                                             <td className="border">
                                               <Link
                                                 className="comman_btn2  text-decoration-none"

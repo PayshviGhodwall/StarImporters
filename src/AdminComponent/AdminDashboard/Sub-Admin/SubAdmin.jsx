@@ -711,7 +711,7 @@ const SubAdmin = () => {
                                 </td>
                                 <td className="border">
                                   {moment(item?.craetedAt?.slice(0, 10)).format(
-                                    "DD/MM/YYYY"
+                                    "MM/DD/YYYY"
                                   )}
                                 </td>
                                 <td className="border">{item?.fullName}</td>
