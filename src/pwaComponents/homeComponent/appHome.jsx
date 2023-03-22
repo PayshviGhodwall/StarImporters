@@ -335,8 +335,9 @@ function AppHome() {
                             <div className="card catagory-card w-100">
                               <div className="card-body px-2">
                                 <Link to={`/app/Sub-Categories/${item._id}`}>
-                                  <img src={item.categoryImage} alt="" />
-                                  <span>{item.categoryName}</span>
+                                  <img src={item?.categoryImage} alt="" />
+                                  {console.log(item?.categoryImage)}
+                                  <span>{item?.categoryName}</span>
                                 </Link>
                               </div>
                             </div>

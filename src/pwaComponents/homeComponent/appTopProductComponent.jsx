@@ -170,6 +170,7 @@ function TopProduct() {
                           }
                           alt="Product Image not updated"
                         />
+                        {console.log(item.type[0]?.flavourImage)}
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">
