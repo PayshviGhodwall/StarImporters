@@ -138,26 +138,40 @@ const Cart = () => {
                     className=" d-flex nav  p-2 justify-content-between"
                     style={{ width: "100%" }}
                   >
-                    <Link
-                      className="comman_btn2 text-decoration-none fs-6"
-                      to="/app/checkout"
+                    {product?.length ? (
+                      <Link
+                        className="comman_btn2 text-decoration-none fs-6"
+                        to="/app/checkout"
+                      >
+                        Place your Order
+                      </Link>
+                    ) : null}
+
+                    <button
+                      className={
+                        product?.length
+                          ? "nav-link border rounded"
+                          : "nav-link border m-0 w-100"
+                      }
                     >
-                      Place your Order
-                    </Link>
-                    <button className="nav-link border rounded">
                       <i
                         className="fa fa-cart-arrow-down"
                         style={{ fontSize: "15px" }}
                       />
                       MY CART({product?.length})
                     </button>
-                    {userDetail?.quotation === true ? (
-                      <Link
-                        className="comman_btn2 text-decoration-none mx-2 fs-6"
-                        onClick={addToQuotes}
-                      >
-                        Request For Quote
-                      </Link>
+
+                    {product?.length ? (
+                      <a>
+                        {userDetail?.quotation === true ? (
+                          <Link
+                            className="comman_btn2 text-decoration-none mx-2 fs-6"
+                            onClick={addToQuotes}
+                          >
+                            Request For Quote
+                          </Link>
+                        ) : null}
+                      </a>
                     ) : null}
                   </div>
                 </div>
