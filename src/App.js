@@ -114,19 +114,7 @@ import AppTerms from "./pwaComponents/homeComponent/AppTerms";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
-  const [notification, setNotifications] = useState();
-  const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
-  const [count, setCount] = useRecoilState(notifyCount);
-  useEffect(() => {
-    getNotifications();
-  }, []);
-  const getNotifications = async () => {
-    await axios.get(allNotify).then((res) => {
-      let data = res?.data.results?.notifications;
-      setNotifications(res?.data.results?.notifications);
-      setCount(data?.length);
-    });
-  };
+
   const GetData = (data) => {
     console.log(data);
     setCateName(data);

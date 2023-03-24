@@ -516,13 +516,20 @@ const EditOrder = () => {
           <div className="row category_management justify-content-center">
             <div className="col-12">
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="col-12 design_outter_comman  shadow">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
                       <h2>Edit Order Details</h2>
                     </div>
 
                     <div className="col-auto">
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop65"
+                        className="comman_btn2 mx-4 rounded "
+                      >
+                        Add More
+                      </button>
                       <button
                         class="dropdown-btns comman_btn2 p-2 rounded"
                         title="Close"
@@ -536,9 +543,9 @@ const EditOrder = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="row p-4 py-5">
+                  <div className="row p-4 py-5 recent_orders_new">
                     <div className="col-12 mb-4">
-                      <div className="row mx-0 border rounded py-4 px-3 position-relative">
+                      <div className="row mx-0 border rounded py-4 px-3 position-relative border rounded mt-2">
                         <span className="small_header">Order Details</span>
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
@@ -570,18 +577,85 @@ const EditOrder = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 mb-4 ">
-                      <div className="cart_table border rounded">
-                        <div className="border-bottom pb-3">
-                          <button
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop65"
-                            className="comman_btn2 mx-4 rounded mt-3"
-                          >
-                            Add More
-                          </button>
+
+                    <div className="col-12">
+                      <form
+                        className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                        action=""
+                        // onSubmit={handleSubmit(onSubmit)}
+                      >
+                        <div className="row mx-0 border rounded pt-4 p-3 position-relative">
+                          <span className="small_header">Shipment Details</span>
+
+                          <div className="col-md-6 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Order Type:</span>
+                              <div className="col">
+                                <select
+                                  type="select"
+                                  className="form-select"
+                                  name="orderType"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "orderType")
+                                  }
+                                >
+                                  <option selected="" value="">
+                                    {orders?.type}-(Selected)
+                                  </option>
+                                  <option value="Shipment">Shipment</option>
+                                  <option value="Delivery">Delivery</option>
+                                  <option value="In-Store Pickup">
+                                    In-Store Pickup
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-6 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Order Status:</span>
+                              <div className="col">
+                                <select
+                                  type="select"
+                                  className="form-select"
+                                  name="orderType"
+                                  onChange={(e) =>
+                                    handleEditDetails(e, "status")
+                                  }
+                                >
+                                  <option selected="">
+                                    {orders?.status}-(Selected)
+                                  </option>
+                                  <option value="ORDER PLACED">
+                                    Order Placed
+                                  </option>
+                                  <option value="PROCESSING">Processing</option>
+                                  <option value="SHIPPED">Shipped</option>
+                                  <option value="DELIVERED">Delivered</option>
+                                  <option value="CANCEL">Canceled</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-2 text-start">
+                            <Button
+                              loading={loader}
+                              appearance="primary"
+                              color="red"
+                              className="comman_btn2 rounded "
+                              onClick={saveShipment}
+                            >
+                              Save Details
+                            </Button>
+                          </div>
                         </div>
-                        <div className="table-responsive">
+                      </form>
+                    </div>
+
+                    <div className="col-12 mb-4 ">
+                      <div className="cart_table">
+                        <div className=""></div>
+                        <div className="table-responsive border rounded">
                           <table className="table">
                             <thead>
                               <tr>
@@ -597,7 +671,7 @@ const EditOrder = () => {
                                 </th>
                               </tr>
                             </thead>
-                            <tbody className="border">
+                            <tbody className="">
                               {(orders?.products || [])?.map((item, index) => (
                                 <tr className="border">
                                   <td>
@@ -670,178 +744,6 @@ const EditOrder = () => {
                           </table>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="col-12">
-                      <form
-                        className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                        action=""
-                        // onSubmit={handleSubmit(onSubmit)}
-                      >
-                        <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                          <span className="small_header">Shipment Details</span>
-
-                          {/* <div className="col-md-4 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Buyer Name:</span>
-                              <div className="col">
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.firstName}
-                                  name="firstName"
-                                  className="border p-2 rounded bg-light"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "firstName")
-                                  }
-                                />
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.lastName}
-                                  className="border p-2 rounded bg-light"
-                                  name="lastName"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "lastName")
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-4 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Email:</span>
-                              <div className="col">
-                                <input
-                                  type="email"
-                                  defaultValue={orders?.userId?.email}
-                                  className="border p-2 rounded bg-light"
-                                  name="email"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "email")
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-4 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Mobile Number:</span>
-                              <div className="col">
-                                <input
-                                  type="number"
-                                  defaultValue={orders?.userId?.phoneNumber}
-                                  className="border p-2 rounded bg-light"
-                                  name="phoneNumber"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "phoneNumber")
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-md-6 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Shipment Location:</span>
-                              <div className="col-12">
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.addressLine1}
-                                  className="border p-2 rounded bg-light"
-                                  name="addressLine"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "addressLine")
-                                  }
-                                />
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.city}
-                                  className="border p-2 rounded bg-light"
-                                  name="city"
-                                  onChange={(e) => handleEditDetails(e, "city")}
-                                />
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.state}
-                                  className="border p-2 rounded bg-light"
-                                  name="state"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "state")
-                                  }
-                                />
-                                <input
-                                  type="text"
-                                  defaultValue={orders?.userId?.zipcode}
-                                  className="border p-2 rounded bg-light"
-                                  name="zipcode"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "zipcode")
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div> */}
-                          <div className="col-md-6 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Order Type:</span>
-                              <div className="col">
-                                <select
-                                  type="select"
-                                  className="form-select"
-                                  name="orderType"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "orderType")
-                                  }
-                                >
-                                  <option selected="" value="">
-                                    {orders?.type}-(Selected)
-                                  </option>
-                                  <option value="Shipment">Shipment</option>
-                                  <option value="Delivery">Delivery</option>
-                                  <option value="In-Store Pickup">
-                                    In-Store Pickup
-                                  </option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6 my-3 d-flex align-items-stretch">
-                            <div className="row view-inner-box border mx-0 w-100">
-                              <span>Order Status:</span>
-                              <div className="col">
-                                <select
-                                  type="select"
-                                  className="form-select"
-                                  name="orderType"
-                                  onChange={(e) =>
-                                    handleEditDetails(e, "status")
-                                  }
-                                >
-                                  <option selected="">
-                                    {orders?.status}-(Selected)
-                                  </option>
-                                  <option value="ORDER PLACED">
-                                    Order Placed
-                                  </option>
-                                  <option value="PROCESSING">Processing</option>
-                                  <option value="SHIPPED">Shipped</option>
-                                  <option value="DELIVERED">Delivered</option>
-                                  <option value="CANCEL">Canceled</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-2 text-start">
-                            <Button
-                              loading={loader}
-                              appearance="primary"
-                              color="red"
-                              className="comman_btn2 rounded "
-                              onClick={saveShipment}
-                            >
-                              Save Details
-                            </Button>
-                          </div>
-                        </div>
-                      </form>
                     </div>
                   </div>
                 </div>

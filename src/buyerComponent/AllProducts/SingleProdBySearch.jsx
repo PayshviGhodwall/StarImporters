@@ -24,7 +24,7 @@ const SingleProdBySearch = () => {
   const [userDetail, setUserDetail] = useState([]);
   const [flavour, setFlavour] = useState();
   const [simProducts, setSimProducts] = useState([]);
-  const [NState, setNState] = useState(false);
+  const [NState, setNState] = useState(0);
   const [LoginState, setLoginState] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState([]);
@@ -46,7 +46,6 @@ const SingleProdBySearch = () => {
     localStorage.getItem("token-user");
 
   let token = localStorage.getItem("token-user");
-
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
     setFlavour(location?.state?.type);
@@ -98,14 +97,14 @@ const SingleProdBySearch = () => {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
 
-                setNState(true);
+                setNState(NState + 1);
               }
               if (res.data?.message === "Product modified") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
                 // document.getElementById("req-modal2").click();
 
-                setNState(true);
+                setNState(7);
               }
             })
             .catch((err) => {
@@ -173,14 +172,12 @@ const SingleProdBySearch = () => {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
 
-              setNState(true);
+              setNState(9);
             }
             if (res.data?.message === "Product modified") {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
               // document.getElementById("req-modal2").click();
-
-              setNState(true);
             }
           })
           .catch((err) => {
@@ -456,12 +453,12 @@ const SingleProdBySearch = () => {
                                   }
                                 }}
                               >
-                                -
+                                <i class="fa fa-minus fs-6" aria-hidden="true"></i>
                               </span>
                               <input
                                 type="number"
                                 id="quanInput"
-                                className=" p-1 border rounded mx-2 quanityField"
+                                className=" p-1 border rounded mx-2 quanityField "
                                 value={unitCount}
                                 onChange={(e) => setUnitCount(e.target.value)}
                               />
@@ -475,7 +472,7 @@ const SingleProdBySearch = () => {
                                     .stepUp(1);
                                 }}
                               >
-                                +
+                                <i class="fa fa-plus fs-6" aria-hidden="true"></i>
                               </span>
                             </div>
                           </div>

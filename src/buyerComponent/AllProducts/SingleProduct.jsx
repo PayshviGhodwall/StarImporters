@@ -456,7 +456,10 @@ const SingleProduct = () => {
                                   }
                                 }}
                               >
-                                -
+                                <i
+                                  class="fa fa-minus fs-6"
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                               <input
                                 type="number"
@@ -475,7 +478,10 @@ const SingleProduct = () => {
                                     .stepUp(1);
                                 }}
                               >
-                                +
+                                <i
+                                  class="fa fa-plus fs-6"
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                             </div>
                           </div>

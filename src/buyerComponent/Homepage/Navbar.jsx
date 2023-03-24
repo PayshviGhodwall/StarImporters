@@ -10,6 +10,7 @@ import axios from "axios";
 import LoginPass from "../LoginRegister/LoginPass";
 import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
+
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;

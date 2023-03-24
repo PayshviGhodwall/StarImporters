@@ -448,7 +448,7 @@ const ViewQuoteReq = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="row p-4 py-5">
+                  <div className="row p-4 py-5 recent_orders_new">
                     <div className="col-12 mb-4">
                       <div className="row mx-0 border rounded py-4 px-3 position-relative">
                         <span className="small_header">Request Details </span>

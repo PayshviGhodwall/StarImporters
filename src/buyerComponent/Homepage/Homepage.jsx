@@ -266,24 +266,26 @@ const Homepage = () => {
               </Link> */}
                   </div>
                 </div>
+
                 <div className="carousel-item">
                   <div className="frame-container ">
                     <iframe
-                      className="d-block w-100 banner_slide"
+                      className="d-block w-100 banner_slide video_slide"
                       src="https://www.youtube.com/embed/oh6GzwmIaeo?&autoplay=1&mute=1&loop=1&playlist=oh6GzwmIaeo"
                       frameborder="0"
-                      allow=" autoplay;"
+                      allow="autoplay;"
                       allowfullscreen=""
                     ></iframe>
                   </div>
                 </div>
+
                 <div className="carousel-item">
                   <div className="frame-container ">
                     <iframe
-                      className="d-block w-100 banner_slide"
+                      className="d-block w-100 banner_slide video_slide"
                       src="https://www.youtube.com/embed/E1hq593LbFI?&autoplay=1&mute=1&loop=1&playlist=E1hq593LbFI"
                       frameborder="0"
-                      allow=" autoplay;"
+                      allow="autoplay;"
                       allowfullscreen=""
                     ></iframe>
                   </div>
@@ -619,7 +621,7 @@ const Homepage = () => {
               ))}
             </Swiper>
           </section>
-          <section className="features_products py-1 bg-white shadow">
+          <section className="features_products py-1 bg-white">
             <div className="container-fluid  mb-4">
               <div className="col-12 comman_head mb-2 mt-3 text-center">
                 <h2
@@ -703,8 +705,8 @@ const Homepage = () => {
             style={{ backgroundImage: `url(${image?.bottomImage})` }}
           >
             <div className="container">
-              <div className="row">
-                <div className="col-12">
+              <div className="row justify-content-center">
+                <div className="col-12 forground_img">
                   <div className="w-100 mb-5">
                     <img src={allHeaders?.foreground} alt="" />
                   </div>

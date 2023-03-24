@@ -132,46 +132,37 @@ const Cart = () => {
         >
           {token ? (
             <div className="container user-management-tabs  px-5">
-              <nav className="w-100">
+              <nav className="w-100 border rounded">
                 <div className="nav nav-tabs  " id="nav-tab" role="tablist">
-                  <button
-                    className="nav-link active"
+                  <div
+                    className=" d-flex nav  p-2 justify-content-between"
                     style={{ width: "100%" }}
-                    id="nav-home-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#nav-home"
-                    type="button"
-                    onClick={() => {
-                      navigate("/app/Cart");
-                    }}
                   >
-                    <i
-                      className="fa fa-cart-arrow-down"
-                      style={{ fontSize: "15px" }}
-                    />
-                    MY CART
-                  </button>
-
-                  {/* {userDetail?.quotation === true ? (
-                    <button
-                      className="nav-link "
-                      id="nav-profile-tab"
-                      data-bs-toggle="tab"
-                      style={{ width: "50%" }}
-                      onClick={() => {
-                        navigate("/app/quotes");
-                      }}
+                    <Link
+                      className="comman_btn2 text-decoration-none fs-6"
+                      to="/app/checkout"
                     >
+                      Place your Order
+                    </Link>
+                    <button className="nav-link border rounded">
                       <i
-                        className="fa fa-clipboard-list"
+                        className="fa fa-cart-arrow-down"
                         style={{ fontSize: "15px" }}
                       />
-                      MY QUOTATIONS
+                      MY CART({product?.length})
                     </button>
-                  ) : null} */}
+                    {userDetail?.quotation === true ? (
+                      <Link
+                        className="comman_btn2 text-decoration-none mx-2 fs-6"
+                        onClick={addToQuotes}
+                      >
+                        Request For Quote
+                      </Link>
+                    ) : null}
+                  </div>
                 </div>
               </nav>
-              <div className="container bg-white border">
+              <div className="container bg-white border table_main">
                 <div className="row p-5">
                   <div className="col-12 bg-white">
                     <div className="row">
@@ -179,23 +170,7 @@ const Cart = () => {
                         <div className="cart_table">
                           {product?.length ? (
                             <div className="table-responsive">
-                              <div className="col-12 text-start mb-2">
-                                <Link
-                                  className="comman_btn text-decoration-none"
-                                  to="/app/checkout"
-                                >
-                                  Place your Order
-                                </Link>
-                                {userDetail?.quotation === true ? (
-                                  <Link
-                                    className="comman_btn2 text-decoration-none mx-2"
-                                    onClick={addToQuotes}
-                                  >
-                                    Request For Quote
-                                  </Link>
-                                ) : null}
-                              </div>
-                              <table className="table">
+                              <table className="table ">
                                 <thead>
                                   <tr>
                                     <th>Product Details</th>
@@ -327,7 +302,10 @@ const Cart = () => {
                                         <div className="number me-md-4 mb-md-0 mb-3">
                                           <span
                                             className="minus"
-                                            style={{ userSelect: "none" }}
+                                            style={{
+                                              userSelect: "none",
+                                              border: "none",
+                                            }}
                                             onClick={() => {
                                               HandleDecrease(index);
                                             }}
@@ -340,12 +318,15 @@ const Cart = () => {
                                                 }}
                                               ></i>
                                             ) : (
-                                              "-"
+                                              <i
+                                                class="fa fa-minus fs-6"
+                                                aria-hidden="true"
+                                              ></i>
                                             )}
                                           </span>
                                           <input
                                             key={item?.quantity}
-                                            className="p-1 border quanityField"
+                                            className="p-1 border rounded quanityField"
                                             defaultValue={item?.quantity}
                                             onChange={(e) =>
                                               updateQuantity(e, index)
@@ -353,12 +334,18 @@ const Cart = () => {
                                           />
                                           <span
                                             className="plus"
-                                            style={{ userSelect: "none" }}
+                                            style={{
+                                              userSelect: "none",
+                                              border: "none",
+                                            }}
                                             onClick={() => {
                                               HandleIncrease(index);
                                             }}
                                           >
-                                            +
+                                            <i
+                                              class="fa fa-plus fs-6"
+                                              aria-hidden="true"
+                                            ></i>
                                           </span>
                                         </div>
                                       </td>

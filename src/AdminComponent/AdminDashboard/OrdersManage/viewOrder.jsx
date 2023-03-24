@@ -428,9 +428,9 @@ const ViewOrder = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row category_management justify-content-center">
             <div className="col-12">
-              <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders shadow">
-                  <div className="row comman_header justify-content-between">
+              <div className="row mx-0 ">
+                <div className="col-12 design_outter_comman  shadow">
+                  <div className="row comman_header justify-content-between ">
                     <div className="col-auto">
                       <h2>Order Details</h2>
                     </div>
@@ -481,7 +481,7 @@ const ViewOrder = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="row p-4 py-5">
+                  <div className="row p-4 py-5 recent_orders_new  ">
                     <div className="col-12 mb-4 ">
                       <div className="row mx-0 border rounded py-4 px-3 position-relative">
                         <span className="small_header">Order Details</span>
@@ -521,7 +521,7 @@ const ViewOrder = () => {
                         <span className="small_header">Shipment Details</span>
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Buyer Name:</span>
+                            <span>Customer Name:</span>
                             <div className="col">
                               <strong>
                                 {orders?.userId?.firstName +
@@ -547,7 +547,15 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch">
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Company Name:</span>
+                            <div className="col">
+                              <strong>{orders?.userId?.companyName}</strong>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Shipment Location:</span>
                             <div className="col">
@@ -563,7 +571,7 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-6 my-3 d-flex align-items-stretch ">
+                        <div className="col-md-4 my-3 d-flex align-items-stretch ">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Type:</span>
                             <div className="col">
