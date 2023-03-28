@@ -869,7 +869,7 @@ const UserManage = () => {
                                                 (index + 1)}
                                               .
                                             </td> */}
-                                            <td className="border">
+                                            <td className="border table_user">
                                               {User?.companyName}
                                             </td>
                                             <td className="border">

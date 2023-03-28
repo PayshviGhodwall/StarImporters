@@ -16,7 +16,6 @@ const Navbar = ({ NState, LoginState }) => {
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
   const allNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/getAllNotifications `;
-  const deleteNotify = `${process.env.REACT_APP_APIENDPOINTNEW}user/notify/removeOne`;
   const [SearchData, setSearchData] = useState([]);
   const [search, setSearch] = useState();
   const [category, setCategory] = useState([]);
@@ -138,11 +137,7 @@ const Navbar = ({ NState, LoginState }) => {
                 class="row justify-content-center"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  navigate("/app/ProductSearch", {
-                    state: {
-                      search: search,
-                    },
-                  });
+                  navigate(`/app/ProductSearch/${search}`);
                   setSearch();
                 }}
               >
@@ -387,11 +382,7 @@ const Navbar = ({ NState, LoginState }) => {
                     className=" dropViewAll"
                     onClick={() => {
                       setSearch();
-                      navigate("/app/ProductSearch", {
-                        state: {
-                          search: search,
-                        },
-                      });
+                      navigate(`/app/ProductSearch/${search}`);
                     }}
                   >
                     View all results

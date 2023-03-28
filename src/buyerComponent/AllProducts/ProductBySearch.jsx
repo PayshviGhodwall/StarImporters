@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "../Footer/Footer";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 
 const ProductBySearch = () => {
   const [products, setProducts] = useState([]);
+  let params = useParams();
+
   const [search, setSearch] = useState("");
   let navigate = useNavigate();
-  let location = useLocation();
-  if (search !== location?.state?.search) {
-    setSearch(location?.state?.search);
+  if (search !== params?.id) {
+    setSearch(params?.id);
   }
 
   const getProductList = async () => {

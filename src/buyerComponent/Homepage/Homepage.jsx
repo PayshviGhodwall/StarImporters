@@ -35,7 +35,6 @@ const Homepage = () => {
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
-  let token = localStorage.getItem("token-user");
   useEffect(() => {
     let x = document.cookie;
     let token = localStorage.getItem("token-user");
@@ -43,11 +42,12 @@ const Homepage = () => {
       if (x === "") {
         const modal = document.getElementById("age_modal");
         setTimeout(() => {
-          modal.click();
+          modal?.click();
         }, 1000);
       }
     }
     getSlides();
+
     getCategory();
     getHeaders();
     getBrands();
@@ -56,20 +56,8 @@ const Homepage = () => {
       setLoading(false);
     }, 8000);
   }, []);
+
   let image = JSON.parse(localStorage?.getItem("imageBg"));
-
-  useEffect(() => {
-    setAllSlides(JSON.parse(localStorage.getItem("slides")));
-    setCategory(JSON.parse(localStorage.getItem("categories")));
-
-    console.log(image?.bottomImage);
-    var background =
-      document.getElementById("bottom-image")?.style.backgroundImage;
-    if (image) {
-      background = `url(${image?.bottomImage})`;
-    }
-  }, []);
-
   const AllProducts = async () => {
     await axios
       .post(allProd, {
@@ -88,6 +76,18 @@ const Homepage = () => {
     await axios.get(slidesApi).then((res) => {
       localStorage.setItem("slides", JSON.stringify(res?.data.results));
       setAllSlides(res?.data.results);
+      setAllSlides(
+        JSON.parse(localStorage.getItem("slides"))
+          ? JSON.parse(localStorage.getItem("slides"))
+          : res?.data.results
+      );
+
+      console.log(image?.bottomImage);
+      var background =
+        document.getElementById("bottom-image")?.style.backgroundImage;
+      if (image) {
+        background = `url(${image?.bottomImage})`;
+      }
     });
   };
 
@@ -137,18 +137,15 @@ const Homepage = () => {
     <div className="home_page">
       <Navbar />
       {loading ? (
-        <section className="loading-screen text-center bg-white">
-          <div class="centered">
-            <div class="blob-1"></div>
-            <div class="blob-2"></div>
-          </div>
-        </section>
+        <div className="load_position">
+          <div class="loader_new"></div>
+        </div>
       ) : (
         <div>
           <section className="home">
             <div
               id="carouselExampleControls"
-              className="carousel slide carousel-fade"
+              className="carousel slide "
               data-bs-ride="carousel"
               data-interval="8000"
             >
@@ -201,7 +198,7 @@ const Homepage = () => {
               <div className="carousel-inner banner_box">
                 <div className="carousel-item active">
                   <img
-                    src={allSlides[1]?.banner}
+                    src={allSlides[1]?.banner ? allSlides[1]?.banner : ""}
                     className="d-block w-100 banner_slide"
                     alt="No image"
                   />
@@ -650,7 +647,7 @@ const Homepage = () => {
                   modules={[FreeMode, Pagination, Autoplay, Navigation]}
                   className="mySwiper  py-2 featuredSwiper"
                 >
-                  {(featured || []).map((item, index) => (
+                  {(featured || [])?.map((item, index) => (
                     <SwiperSlide
                       key={index}
                       className="col-lg-3 col-md-4 col-sm-4"
@@ -706,13 +703,19 @@ const Homepage = () => {
           >
             <div className="container">
               <div className="row justify-content-center">
-                <div className="col-12 forground_img">
+                <div className="col-12">
                   <div className="w-100 mb-5">
-                    <img src={allHeaders?.foreground} alt="" />
+                    <img
+                      className="border rounded border-dark"
+                      src={allHeaders?.foreground}
+                      alt=""
+                    />
                   </div>
                   <Link
-                    className="comman_btn2 text-decoration-none"
-                    href="product.html"
+                    className="comman_btn2"
+                    to={`/app/ProductSearch/${"sugar" + " " + "daddy"}`}
+                    state={"loo"}
+                    targe=""
                   >
                     Shop Now
                   </Link>

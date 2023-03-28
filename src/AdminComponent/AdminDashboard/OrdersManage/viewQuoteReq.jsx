@@ -75,6 +75,24 @@ const ViewQuoteReq = () => {
     });
   };
 
+  const exportOrder = async (e) => {
+    e.preventDefault();
+
+    // await axios.post(orderExport + "/" + id).then((res) => {
+    //   if (!res?.error) {
+    //     fileDownload(res?.data.results?.file, orders?.orderId);
+    //   }
+    // });
+  };
+  const exportOrderXls = async (e) => {
+    e.preventDefault();
+    // await axios.post(orderExportXls + "/" + id).then((res) => {
+    //   if (!res?.error) {
+    //     fileDownload(res?.data.results?.file, orders?.orderId);
+    //   }
+    // });
+  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -443,9 +461,41 @@ const ViewQuoteReq = () => {
                       <h2>Quotation Request Details</h2>
                     </div>
                     <div className="col-auto">
-                      <button className="comman_btn2" onClick={exportQuote}>
-                        Export <i class="fa fa-download"></i>
-                      </button>
+                      <div className="col-auto">
+                        <div class="dropdowns">
+                          <button class="dropdown-btns comman_btn2 ">
+                            Export <i class="fa fa-download"></i>
+                          </button>
+                          <div class="dropdown-contents">
+                            <a href="#">
+                              <Link
+                                className="text-decoration-none"
+                                onClick={exportOrder}
+                              >
+                                Export .csv
+                              </Link>
+                            </a>
+                            <a href="#">
+                              <Link
+                                className="text-decoration-none text-dark dropdown-item"
+                                onClick={exportOrderXls}
+                              >
+                                Export .xls
+                              </Link>
+                            </a>
+                            <a href="#">
+                              <Link
+                                className="text-decoration-none text-dark dropdown-item"
+                                to={`/QuoteRequest/Pdf/${id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Export .pdf
+                              </Link>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className="row p-4 py-5 recent_orders_new">

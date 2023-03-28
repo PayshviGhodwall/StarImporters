@@ -42,9 +42,9 @@ const ViewOrder = () => {
       .then((res) => {
         if (!res?.error) {
           Swal.fire({
-            title: "Order Status Updated",
+            title: "Order Updated!",
             icon: "success",
-            button: "Ok",
+            button: "Okay",
           });
         }
       });

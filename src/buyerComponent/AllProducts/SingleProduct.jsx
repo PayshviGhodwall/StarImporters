@@ -12,7 +12,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
-import { icon, text } from "@fortawesome/fontawesome-svg-core";
 
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
@@ -232,6 +231,25 @@ const SingleProduct = () => {
     setUnitCount(1);
   };
 
+  const onHover = (image) => {
+    console.log("Jii");
+    document.getElementById("productMainImg").src = image?.flavourImage
+      ? image?.flavourImage
+      : require("../../assets/img/product.jpg");
+    document.getElementById("productMainImg").className = "selected-img";
+    setFlavour(image);
+    setUnitCount(1);
+  };
+  const onHoverMain = (image) => {
+    document.getElementById("productMainImg").src = image
+      ? image
+      : require("../../assets/img/product.jpg");
+    setFlavour();
+    setUnitCount(1);
+  };
+  const onMouseOut = () => {
+    document.getElementById("productMainImg").className = "d-block";
+  };
   return (
     <div className="" style={{ background: "#eef3ff" }}>
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
@@ -254,12 +272,6 @@ const SingleProduct = () => {
                         Home <span className="arrow mx-1 ">&#62;</span>{" "}
                       </Link>
                     </li>
-                    {/* <li className="item_nanner">
-                        <a className="text-decoration-none text-white fs-6  ">
-                          {product?.category?.categoryName}{" "}
-                          <span className="arrow mx-1">&#62;</span>{" "}
-                        </a>
-                      </li> */}
                     <li className="breadcrumb-item" aria-current="page">
                       <a className="text-decoration-none text-white fs-6  ">
                         {product?.unitName}
@@ -277,10 +289,10 @@ const SingleProduct = () => {
           <div className="container-fluid card">
             <div className="row mx-0 bg-white p-xl-5 p-lg-4 p-md-4 p-3 ">
               <div className="col-lg-6 px-md-3 px-0 ">
-                <div className="product_show">
+                <div className="product_show ">
                   <div
                     id="carouselExampleIndicators"
-                    className="carousel "
+                    className="carousel p-2"
                     data-bs-touch="false"
                     data-bs-interval="false"
                     data-bs-ride="carousel"
@@ -289,6 +301,8 @@ const SingleProduct = () => {
                       <div className="carousel-indicators ">
                         <button
                           type="button"
+                          className="flavours"
+                          onMouseOver={() => onHoverMain(product?.productImage)}
                           onClick={() => {
                             document.getElementById("productMainImg").src =
                               product?.productImage
@@ -307,30 +321,38 @@ const SingleProduct = () => {
                             alt=""
                           />
                         </button>
-                        {(product?.type || []).map((item, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            onClick={() => {
-                              document.getElementById("productMainImg").src =
-                                item?.flavourImage
-                                  ? item?.flavourImage
-                                  : require("../../assets/img/product.jpg");
-                              setFlavour(item);
-                              setUnitCount(1);
-                            }}
-                          >
-                            <img
-                              src={
-                                item?.flavourImage
-                                  ? item?.flavourImage
-                                  : require("../../assets/img/product.jpg")
-                              }
-                              className="flavour_box_img"
-                              alt=""
-                            />
-                          </button>
-                        ))}
+                        <div>
+                          {(product?.type || []).map((item, index) => (
+                            <button
+                              key={index}
+                              className="flavours"
+                              type="button"
+                              onMouseOver={() => onHover(item)}
+                              onMouseOut={onMouseOut}
+                              onClick={() => {
+                                document.getElementById("productMainImg").src =
+                                  item?.flavourImage
+                                    ? item?.flavourImage
+                                    : require("../../assets/img/product.jpg");
+                                document.getElementById(
+                                  "productMainImg"
+                                ).className = "selected-img";
+                                setFlavour(item);
+                                setUnitCount(1);
+                              }}
+                            >
+                              <img
+                                src={
+                                  item?.flavourImage
+                                    ? item?.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                                className="flavour_box_img"
+                                alt=""
+                              />
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                     <div className="carousel-inner">
@@ -409,6 +431,7 @@ const SingleProduct = () => {
                                         <a
                                           className=" text-decoration-none"
                                           key={ind}
+                                          onMouseMove={onMouseOut}
                                           style={{ cursor: "pointer" }}
                                           onClick={() => {
                                             document.getElementById(
@@ -422,9 +445,12 @@ const SingleProduct = () => {
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
+                                            document.getElementById(
+                                              "productMainImg"
+                                            ).className = "selected-img";
                                           }}
                                         >
-                                          {item.flavour}
+                                          <span>{item.flavour}</span>
                                         </a>
                                       );
                                     })}
@@ -472,7 +498,7 @@ const SingleProduct = () => {
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  setUnitCount(unitCount + 1);
+                                  // setUnitCount(unitCount + 1);
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);

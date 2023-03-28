@@ -111,6 +111,8 @@ import AppProductSubCategory from "./pwaComponents/homeComponent/appProductSubCa
 import ViewProduct from "./AdminComponent/AdminDashboard/ViewProduct";
 import PdfPrint from "./AdminComponent/AdminDashboard/OrdersManage/PdfPrint";
 import AppTerms from "./pwaComponents/homeComponent/AppTerms";
+import QuotePdf from "./AdminComponent/AdminDashboard/OrdersManage/QuotePdf";
+import Gallery from "./buyerComponent/Footer/Gallery";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -145,7 +147,7 @@ function App() {
           <Route path="/Favourites" element={<Favourites />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/BuyAgain" element={<BuyAgain />} />
-          <Route path="/app/ProductSearch" element={<ProductBySearch />} />
+          <Route path="/app/ProductSearch/:id" element={<ProductBySearch />} />
           <Route path="/AgeVerified" element={<AgeVerification />} />
           <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
           <Route path="/Terms&Condition" element={<TermsCondition />} />
@@ -192,6 +194,7 @@ function App() {
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
+          <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
           <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
           <Route path="/OrderRequest/ViewOrder/Edit" element={<EditOrder />} />
           <Route
@@ -199,6 +202,7 @@ function App() {
             element={<ViewQuoteReq />}
           />
           <Route path="/OrderRequest" element={<OrderReq />} />
+          <Route path="/app/Gallery" element={<Gallery />} />
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
           <Route path="/app/subCategories" element={<SubCategories />} />

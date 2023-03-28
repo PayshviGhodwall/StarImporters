@@ -846,7 +846,7 @@ const OrderReq = () => {
             </div>
             <div className="col-12">
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="col-12 design_outter_comman  shadow">
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <nav>
@@ -955,7 +955,7 @@ const OrderReq = () => {
                                   </form>
                                 </div>
                               </form>
-                              <div className="row">
+                              <div className="row recent_orders_order">
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
                                     <table className="table mb-0">
@@ -1023,7 +1023,7 @@ const OrderReq = () => {
                           role="tabpanel"
                           aria-labelledby="nav-profile-tab"
                         >
-                          <div className="row mx-0">
+                          <div className="row mx-0 ">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
@@ -1085,7 +1085,7 @@ const OrderReq = () => {
                                   </form>
                                 </div>
                               </form>
-                              <div className="row">
+                              <div className="row recent_orders_order  ">
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
                                     <table className="table mb-0">

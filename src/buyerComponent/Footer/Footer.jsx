@@ -108,6 +108,14 @@ const Footer = () => {
                     <li>
                       <a
                         className="text-decoration-none"
+                        onClick={() => navigate("/app/Gallery")}
+                      >
+                        Gallery{" "}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="text-decoration-none"
                         onClick={() => navigate("/app/brands")}
                       >
                         Brands{" "}

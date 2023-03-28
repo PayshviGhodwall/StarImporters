@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import { Toggle } from "rsuite";
+import Compressor from "compressorjs";
 
 const EditInventory = () => {
   const [files, setFiles] = useState([]);
@@ -100,17 +101,23 @@ const EditInventory = () => {
   };
   const productImageSelection = (e) => {
     const formData = new FormData();
-    formData.append("productImage", e.target.files[0]);
-
-    axios.post(uploadImage, formData).then((res) => {
-      if (res?.data.message === "Invalid Image format") {
-        Swal.fire({
-          title: "Invalid Image format!",
-          icon: "warning",
-          confirmButtonText: "ok",
+    const image = e.target.files[0];
+    new Compressor(image, {
+      quality: 0.8,
+      success: (compressed) => {
+        formData.append("productImage", compressed);
+        axios.post(uploadImage, formData).then((res) => {
+          if (res?.data.message === "Invalid Image format") {
+            Swal.fire({
+              title: "Invalid Image format!",
+              icon: "warning",
+              confirmButtonText: "ok",
+            });
+          }
+          console.log(res?.data.results);
+          setProductImage(res?.data.results.productImage);
         });
-      }
-      setProductImage(res?.data.results.productImage);
+      },
     });
   };
 
@@ -198,22 +205,28 @@ const EditInventory = () => {
     ];
     e.target.value = "";
   }
-  const flavourImageSelection = async (e, index) => {
+  const flavourImageSelection = (e, index) => {
     const formData = new FormData();
-    formData.append("flavourImage", e.target.files[0]);
 
-    await axios.post(uploadImage, formData).then((res) => {
-      if (res?.data.message === "Invalid Image format") {
-        Swal.fire({
-          title: "Invalid Image format!",
-          icon: "warning",
-          confirmButtonText: "ok",
+    const image = e.target.files[0];
+    new Compressor(image, {
+      quality: 0.8,
+      success: (compressed) => {
+        formData.append("flavourImage", compressed);
+        axios.post(uploadImage, formData).then((res) => {
+          if (res?.data.message === "Invalid Image format") {
+            Swal.fire({
+              title: "Invalid Image format!",
+              icon: "warning",
+              confirmButtonText: "ok",
+            });
+          }
+          let data = res.data?.results;
+          let newFormValues = [...formValues];
+          newFormValues[index][e.target.name] = data?.flavourImage;
+          setFormValues(newFormValues);
         });
-      }
-      let data = res.data?.results;
-      let newFormValues = [...formValues];
-      newFormValues[index][e.target.name] = data?.flavourImage;
-      setFormValues(newFormValues);
+      },
     });
   };
   function handleKeyDown(i, e) {
@@ -691,7 +704,7 @@ const EditInventory = () => {
                       </div>
                     </div>
 
-                    <div className="form-group col-3">
+                    <div className="form-group col-6">
                       <label htmlFor="">Product Name</label>
                       <input
                         type="text"
@@ -701,7 +714,7 @@ const EditInventory = () => {
                         {...register("productName")}
                       />
                     </div>
-                    <div className="form-group col-4">
+                    <div className="form-group col-6">
                       <label htmlFor="">Case Size</label>
                       <input
                         type="text"
@@ -712,7 +725,7 @@ const EditInventory = () => {
                         {...register("caseSize")}
                       />
                     </div>
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Category</label>
                       <select
                         className="form-select form-control"
@@ -732,7 +745,7 @@ const EditInventory = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="form-group col-3">
+                    <div className="form-group col-4">
                       <label htmlFor="">Sub Category</label>
                       <select
                         className="form-select form-control"
@@ -751,7 +764,7 @@ const EditInventory = () => {
                       </select>
                     </div>
 
-                    <div className="form-group col-3  ">
+                    <div className="form-group col-4 ">
                       <label htmlFor="">Brands</label>
                       <select
                         className="form-select form-control"

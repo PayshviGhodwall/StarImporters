@@ -223,7 +223,24 @@ const SingleProdBySearch = () => {
     }
     setUnitCount(1);
   };
-
+  const onHover = (image) => {
+    document.getElementById("productMainImg").src = image?.flavourImage
+      ? image?.flavourImage
+      : require("../../assets/img/product.jpg");
+    document.getElementById("productMainImg").className = "selected-img";
+    setFlavour(image);
+    setUnitCount(1);
+  };
+  const onHoverMain = (image) => {
+    document.getElementById("productMainImg").src = image
+      ? image
+      : require("../../assets/img/product.jpg");
+    setFlavour();
+    setUnitCount(1);
+  };
+  const onMouseOut = () => {
+    document.getElementById("productMainImg").className = "d-block";
+  };
   return (
     <div className="" style={{ background: "#eef3ff" }}>
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
@@ -278,7 +295,7 @@ const SingleProdBySearch = () => {
                 <div className="product_show">
                   <div
                     id="carouselExampleIndicators"
-                    className="carousel "
+                    className="carousel p-2"
                     data-bs-touch="false"
                     data-bs-interval="false"
                     data-bs-ride="carousel"
@@ -287,12 +304,13 @@ const SingleProdBySearch = () => {
                       <div className="carousel-indicators ">
                         <button
                           type="button"
+                          className="flavours"
+                          onMouseOver={() => onHoverMain(product?.productImage)}
                           onClick={() => {
                             document.getElementById("productMainImg").src =
                               product?.productImage
                                 ? product?.productImage
                                 : require("../../assets/img/product.jpg");
-
                             setFlavour();
                           }}
                         >
@@ -309,6 +327,9 @@ const SingleProdBySearch = () => {
                           <button
                             key={index}
                             type="button"
+                            className="flavours"
+                            onMouseOut={onMouseOut}
+                            onMouseOver={() => onHover(item)}
                             onClick={() => {
                               document.getElementById("productMainImg").src =
                                 item?.flavourImage
@@ -351,6 +372,7 @@ const SingleProdBySearch = () => {
                   </div>
                 </div>
               </div>
+              
               <div className="col-lg-6 mt-lg-0 px-md-3 px-0 mt-md-5 mt-4 mb-5">
                 <div className="product_details_main ps-xl-5">
                   <div className="row align-items-start">
@@ -405,6 +427,7 @@ const SingleProdBySearch = () => {
                                       ) : (
                                         <a
                                           className=" text-decoration-none"
+                                          onMouseMove={onMouseOut}
                                           key={ind}
                                           style={{ cursor: "pointer" }}
                                           onClick={() => {
@@ -419,6 +442,9 @@ const SingleProdBySearch = () => {
                                             document.getElementById(
                                               "flavour_box"
                                             ).className = "offers_box_main ";
+                                            document.getElementById(
+                                              "productMainImg"
+                                            ).className = "selected-img";
                                           }}
                                         >
                                           {item.flavour}
@@ -453,7 +479,10 @@ const SingleProdBySearch = () => {
                                   }
                                 }}
                               >
-                                <i class="fa fa-minus fs-6" aria-hidden="true"></i>
+                                <i
+                                  class="fa fa-minus fs-6"
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                               <input
                                 type="number"
@@ -466,13 +495,16 @@ const SingleProdBySearch = () => {
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  setUnitCount(unitCount + 1);
+                                  // setUnitCount(unitCount + 1);
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);
                                 }}
                               >
-                                <i class="fa fa-plus fs-6" aria-hidden="true"></i>
+                                <i
+                                  class="fa fa-plus fs-6"
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                             </div>
                           </div>

@@ -523,7 +523,7 @@ const BrandsManage = () => {
           </div>
         </div>
         <div className="admin_panel_data height_adjust">
-          <div className="col-12 design_outter_comman recent_orders shadow">
+          <div className="col-12 design_outter_comman border ">
             <div className="row comman_header justify-content-between">
               <div className="col-auto">
                 <h2 className="main_headers">Brands Management</h2>
@@ -545,7 +545,7 @@ const BrandsManage = () => {
                 </form>
               </div>
             </div>
-            <div className="row category_management justify-content-center">
+            <div className="row category_management justify-content-center recent_orders_cate shadow">
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row">
                   <div className="col-12 user-management-tabs px-0">

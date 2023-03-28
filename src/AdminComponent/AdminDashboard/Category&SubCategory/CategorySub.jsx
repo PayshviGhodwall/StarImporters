@@ -815,7 +815,7 @@ const CategorySub = () => {
                 </div>
               </div>
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="col-12 design_outter_comman recent_orders_cate shadow">
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <nav>

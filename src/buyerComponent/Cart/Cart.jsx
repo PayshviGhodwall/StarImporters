@@ -135,47 +135,55 @@ const Cart = () => {
               <nav className="w-100 border rounded">
                 <div className="nav nav-tabs  " id="nav-tab" role="tablist">
                   <div
-                    className=" d-flex nav  p-2 justify-content-between"
+                    className=" d-flex nav p-2 justify-content-between"
                     style={{ width: "100%" }}
                   >
-                    {product?.length ? (
-                      <Link
-                        className="comman_btn2 text-decoration-none fs-6"
-                        to="/app/checkout"
-                      >
-                        Place your Order
-                      </Link>
-                    ) : null}
-
                     <button
                       className={
                         product?.length
-                          ? "nav-link border rounded"
+                          ? "nav-link border rounded d-flex justify-content-between"
                           : "nav-link border m-0 w-100"
                       }
                     >
-                      <i
-                        className="fa fa-cart-arrow-down"
-                        style={{ fontSize: "15px" }}
-                      />
-                      MY CART({product?.length})
+                      <span>
+                        <i
+                          className="fa fa-cart-arrow-down"
+                          style={{ fontSize: "15px" }}
+                        />
+                        MY CART
+                      </span>
+                      <span>
+                        NO. OF PRODUCTS:
+                        {product?.length ? product.length : 0}
+                      </span>
                     </button>
+                    <div>
+                      {product?.length ? (
+                        <Link
+                          className="comman_btn2 text-decoration-none fs-6"
+                          to="/app/checkout"
+                        >
+                          Place your Order
+                        </Link>
+                      ) : null}
 
-                    {product?.length ? (
-                      <a>
-                        {userDetail?.quotation === true ? (
-                          <Link
-                            className="comman_btn2 text-decoration-none mx-2 fs-6"
-                            onClick={addToQuotes}
-                          >
-                            Request For Quote
-                          </Link>
-                        ) : null}
-                      </a>
-                    ) : null}
+                      {product?.length ? (
+                        <a>
+                          {userDetail?.quotation === true ? (
+                            <Link
+                              className="comman_btn2 text-decoration-none mx-2 fs-6"
+                              onClick={addToQuotes}
+                            >
+                              Request For Quotation
+                            </Link>
+                          ) : null}
+                        </a>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </nav>
+
               <div className="container bg-white border table_main">
                 <div className="row p-5">
                   <div className="col-12 bg-white">

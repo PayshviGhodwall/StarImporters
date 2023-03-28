@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
+import Compressor from "compressorjs";
 
 const Inventory = () => {
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
@@ -24,6 +25,7 @@ const Inventory = () => {
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
   const inventorySort = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/sortProducts`;
   const [NewMessage, setNewMessage] = useState("");
+  const [compressedFile, setCompressedFile] = useState(null);
   const scrollBy = useScrollBy();
   const [maxPage, setMaxPage] = useState(1);
   const [productImage, setProductImage] = useState();
@@ -160,23 +162,28 @@ const Inventory = () => {
     setFormValues(newFormValues);
     setChange(!change);
   };
+  console.log(compressedFile);
 
   const productImageSelection = (e) => {
     const formData = new FormData();
-    formData.append("productImage", e.target.files[0]);
-
-    axios.post(uploadImage, formData).then((res) => {
-      if (res?.data.message === "Invalid Image format") {
-        Swal.fire({
-          title: "Invalid Image format!",
-          icon: "warning",
-          confirmButtonText: "ok",
+    const image = e.target.files[0];
+    new Compressor(image, {
+      success: (compressed) => {
+        formData.append("productImage", compressed);
+        axios.post(uploadImage, formData).then((res) => {
+          if (res?.data.message === "Invalid Image format") {
+            Swal.fire({
+              title: "Invalid Image format!",
+              icon: "warning",
+              confirmButtonText: "ok",
+            });
+            e.target.value = null;
+            setProductImage("");
+          }
+          console.log(res?.data.results);
+          setProductImage(res?.data.results.productImage);
         });
-        e.target.value = null;
-        setProductImage("");
-      }
-      console.log(res?.data.results);
-      setProductImage(res?.data.results.productImage);
+      },
     });
   };
   const flavourImageSelection = async (e, index) => {
@@ -725,24 +732,22 @@ const Inventory = () => {
             </div>
           </div>
         </div>
-        <div className="admin_panel_data height_adjust">
+        <div className="admin_panel_data height_adjust mt-0">
           <div className="row inventory-management justify-content-center">
-            <div className="col-12 text-end mb-4">
-              <a
-                data-bs-toggle="modal"
-                id="modal-toggle66"
-                data-bs-target="#staticBackdrop66"
-                className="comman_btn2 text-decoration-none"
-              >
-                Import Inventory
-              </a>
-            </div>
             <div className="col-12">
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman shadow mb-4">
+                <div className="col-12 design_outter_comman shadow mb-3">
                   <div className="row comman_header justify-content-between">
-                    <div className="col-auto">
-                      <h2>Add New Inventory</h2>
+                    <div className="col-12 d-flex justify-content-between">
+                      <h2 className="mt-3">Add New Inventory</h2>
+                      <a
+                        data-bs-toggle="modal"
+                        id="modal-toggle66"
+                        data-bs-target="#staticBackdrop66"
+                        className="comman_btn2 text-decoration-none"
+                      >
+                        Import Inventory
+                      </a>
                     </div>
                   </div>
                   <form
@@ -1157,8 +1162,8 @@ const Inventory = () => {
                       </button>
                     </div>
                   </form>
-                  <div className="row">
-                    <div className="col-12 comman_table_design px-0">
+                  <div className="row recent_orders_invent">
+                    <div className="col-12 comman_table_design ">
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
