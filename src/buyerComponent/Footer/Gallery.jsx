@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import Footer from "./Footer";
-import image from "../../assets/img/starBgg.jpg";
+import image from "../../assets/img/starBggN.jpg";
 
 const Gallery = () => {
   const [loader, setLoader] = useState(false);
   return (
     <div>
       <Navbar />
-      <section className="">
+      <section className="marginTop">
         <>
           {loader ? (
             <div id="loader-wrapper">
@@ -18,40 +18,45 @@ const Gallery = () => {
             </div>
           ) : (
             <div>
-              <section
-                className="product_show_home"
-                id="bottom-image"
+              <div
+                class="main-banner product_show_home_Gallery"
                 style={{ backgroundImage: `url(${image})` }}
               >
-                <div className="container">
-                  <div className="row justify-content-center">
-                    <div className="col-12 ">
-                      <form className="d-flex tm-search-form">
-                        <input
-                          className="form-control tm-search-input"
-                          type="search"
-                          placeholder="Search"
-                          aria-label="Search"
-                        />
-                        <button
-                          className="btn btn-outline-success tm-search-btn"
-                          type="submit"
-                        >
-                          <i className="fas fa-search" />
-                        </button>
-                      </form>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                      <div class="header-text">
+                        <h2>
+                          Explore our <em>Photos Gallery</em> &amp; Amazing{" "}
+                          <em>Collection</em>
+                        </h2>
+                        <p>
+                          STAR IMPORTERS & WHOLESALERS Established Since 1994.
+                        </p>
+                        <div class="buttons">
+                          <div class="big-border-button">
+                            <a href="contests.html">Explore SnapX Contest</a>
+                          </div>
+                          <div class="icon-button">
+                            <a
+                              href="https://youtube.com/templatemo"
+                              target="_blank"
+                            >
+                              <i class="fa fa-play"></i> Watch Our Video Now
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </section>
-              <div
-                className="tm-hero d-flex justify-content-center align-items-center"
-                data-parallax="scroll"
-                data-image-src="../../assets/img/banner_3.png"
-              ></div>
+              </div>
+
               <div className="container-fluid tm-container-content tm-mt-60">
                 <div className="row mb-4">
-                  <h2 className="col-6 tm-text-primary">Latest Photos</h2>
+                  <h2 className="col-6 tm-text-primary ">
+                    STAR IMPORTERS // GALLERY
+                  </h2>
                   <div className="col-6 d-flex justify-content-end align-items-center">
                     {/* <form action="" className="tm-text-primary">
                       Page
@@ -96,7 +101,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -113,7 +117,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -130,7 +133,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -147,7 +149,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -164,7 +165,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -181,7 +181,6 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -198,19 +197,13 @@ const Gallery = () => {
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
                       <span className="tm-text-gray-light">18 Oct 2020</span>
-                      <span>9,906 views</span>
                     </div>
                   </div>
                 </div>
                 {/* row */}
                 <div className="row tm-mb-90">
                   <div className="col-12 d-flex justify-content-between align-items-center tm-paging-col">
-                    <a
-                      href="javascript:void(0);"
-                      className="btn btn-primary tm-btn-prev mb-2 disabled"
-                    >
-                      Previous
-                    </a>
+                    <a className="comman_btn2 disabled">Previous</a>
                     <div className="tm-paging d-flex">
                       <a
                         href="javascript:void(0);"
@@ -228,12 +221,7 @@ const Gallery = () => {
                         4
                       </a>
                     </div>
-                    <a
-                      href="javascript:void(0);"
-                      className="btn btn-primary tm-btn-next"
-                    >
-                      Next Page
-                    </a>
+                    <a className="comman_btn2">Next Page</a>
                   </div>
                 </div>
               </div>

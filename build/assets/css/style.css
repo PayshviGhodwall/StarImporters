@@ -12519,6 +12519,20 @@ a:hover {
   height: 500px;
 }
 
+.product_show_home_Gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  background-size: cover !important;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: soft-light;
+  height: 350px;
+ 
+}
+
 .forground_img {
   background-color: #000;
   width: 33rem !important;
@@ -12869,6 +12883,7 @@ a:hover {
 }
 .tm-text-primary {
   color: #009999;
+  font-family: cursive;
 }
 .tm-text-secondary {
   color: #cc6699;
@@ -13047,7 +13062,7 @@ p,
   width: 60px;
   height: 60px;
   font-size: 1.1rem;
-  color: #999;
+  color: #eb3237;
   background-color: #eeeeee;
   margin: 10px;
   border-radius: 5px;
@@ -13057,7 +13072,7 @@ p,
 
 .tm-paging-link:hover,
 .tm-paging-link.active {
-  background-color: #009999;
+  background-color: #eb3237;
   color: #fff;
 }
 
@@ -13379,4 +13394,150 @@ select:not([multiple]) {
   .tm-social-links li {
     margin-right: 3px;
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main-button a {
+  font-size: 15px;
+  color: #fff;
+  background-color: #00bdfe;
+  border: 1px solid #00bdfe;
+  padding: 10px 30px;
+  display: inline-block;
+  border-radius: 10px;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all .3s;
+}
+
+.main-button a:hover {
+  background-color: transparent;
+  color: #00bdfe;
+}
+
+
+
+.section-heading {
+  position: relative;
+  z-index: 2;
+  margin-top: 0px;
+  margin-bottom: 70px;
+}
+
+.section-heading h6 {
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #00bdfe;
+  font-weight: 400;
+}
+
+.section-heading h4 {
+  margin-top: 10px;
+  line-height: 36px;
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #212741;
+}
+
+.section-heading h4 em {
+  color: #00bdfe;
+  font-style: normal;
+}
+
+.section-heading p {
+  margin-top: 30px;
+}
+
+
+.main-banner {
+  background-image: url(../images/banner-bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding-top: 290px;
+  padding-bottom: 240px;
+  text-align: center;
+  background-color: #2a2a2a;
+}
+
+.main-banner h2 {
+  color: #fff;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 74px;
+}
+
+.main-banner h2 em {
+  font-style: normal;
+  color: #00bdfe;
+}
+
+.main-banner p {
+  color: #fff;
+  padding: 30px 0px;
+  margin: 40px 75px 0px 75px;
+  border-top: 1px solid rgba(250,250,250,0.2);
+}
+
+.main-banner .buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.main-banner .big-border-button a {
+  font-size: 20px;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #fff;
+  padding: 15px 30px;
+  display: inline-block;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-right: 15px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all .3s;
+}
+
+.main-banner .big-border-button a:hover {
+  background-color: #fff;
+  color: #00bdfe;
+}
+
+.main-banner .icon-button a {
+  margin-top: 20px;
+  display: inline-block;
+  margin-left: 15px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  transition: all .3s;
+}
+
+.main-banner .icon-button a i {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.main-banner .icon-button a:hover {
+  color: #00bdfe;
 }
