@@ -113,6 +113,7 @@ import PdfPrint from "./AdminComponent/AdminDashboard/OrdersManage/PdfPrint";
 import AppTerms from "./pwaComponents/homeComponent/AppTerms";
 import QuotePdf from "./AdminComponent/AdminDashboard/OrdersManage/QuotePdf";
 import Gallery from "./buyerComponent/Footer/Gallery";
+import Photos from "./buyerComponent/Footer/Photos";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -203,6 +204,7 @@ function App() {
           />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/app/Gallery" element={<Gallery />} />
+          <Route path="/app/Gallery/Photos" element={<Photos />} />
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
           <Route path="/app/subCategories" element={<SubCategories />} />

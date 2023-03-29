@@ -815,7 +815,7 @@ const CategorySub = () => {
                 </div>
               </div>
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders_cate shadow">
+                <div className="col-12 design_outter_comman  shadow">
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <nav>
@@ -858,7 +858,10 @@ const CategorySub = () => {
                           </button>
                         </div>
                       </nav>
-                      <div className="tab-content" id="nav-tabContent">
+                      <div
+                        className="tab-content recent_orders_cate"
+                        id="nav-tabContent"
+                      >
                         <div
                           className="tab-pane fade show active"
                           id="nav-home"
@@ -1113,7 +1116,7 @@ const CategorySub = () => {
                           </div>
                         </div>
                         <div
-                          className="tab-pane fade"
+                          className="tab-pane fade recent_orders_cate"
                           id="nav-profile"
                           role="tabpanel"
                           aria-labelledby="nav-profile-tab"

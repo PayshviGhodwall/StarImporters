@@ -13,7 +13,8 @@ const ViewQuoteReq = () => {
   const QuoteView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/singleUserQuote`;
   const setPrice = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/setQuotePrice`;
   const QuoteExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportQuotes`;
-  // const [products,setProducts] = useState([{productId:[],quantity:[],price:[]}])
+  const QuoteExportCsv = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
+
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
   const [quote, setQuote] = useState([]);
@@ -31,15 +32,10 @@ const ViewQuoteReq = () => {
     });
   };
   const handleChange = (i, e) => {
-    // let newProduct = [...products];
     let newProducts = { ...quote };
     newProducts.products[i].price = e.target.value;
-    // newProduct[i][e.target.name] = e.target.value;
-    // newProduct[i]["productId"] = quote?.products[i]?.productId?._id;
-    // newProduct[i]["quantity"] = quote?.products[i]?.quantity;
     setQuote(newProducts);
   };
-  console.log(quote);
 
   const shareQuotePrice = async () => {
     const product = [];
@@ -78,19 +74,19 @@ const ViewQuoteReq = () => {
   const exportOrder = async (e) => {
     e.preventDefault();
 
-    // await axios.post(orderExport + "/" + id).then((res) => {
-    //   if (!res?.error) {
-    //     fileDownload(res?.data.results?.file, orders?.orderId);
-    //   }
-    // });
+    await axios.post(QuoteExportCsv + "/" + id).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, quote?.quoteId);
+      }
+    });
   };
   const exportOrderXls = async (e) => {
     e.preventDefault();
-    // await axios.post(orderExportXls + "/" + id).then((res) => {
-    //   if (!res?.error) {
-    //     fileDownload(res?.data.results?.file, orders?.orderId);
-    //   }
-    // });
+    await axios.post(QuoteExport + "/" + id).then((res) => {
+      if (!res?.error) {
+        fileDownload(res?.data.results?.file, quote?.quoteId);
+      }
+    });
   };
 
   const handleClick = () => {

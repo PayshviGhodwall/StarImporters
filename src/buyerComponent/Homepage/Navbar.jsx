@@ -125,22 +125,44 @@ const Navbar = ({ NState, LoginState }) => {
   return (
     <div className="header_main " ref={ref}>
       <header className="">
-        <div className="row header_top py-3 px-4 align-items-center justify-content-between">
+        <div className="row Newheader align-items-center">
           <div className="col-auto">
             <Link className="header_logo mx-2" to="/app/home">
               <img src={Starlogo} alt="" />
             </Link>
           </div>
-          <div class="col-lg-6 col-md-5 d-flex align-items-center">
+          <div class="col ps-5 head_search">
+            <form
+              class="header_newsearch"
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                navigate(`/app/ProductSearch/${search}`);
+                setSearch();
+              }}
+            >
+              <div class="form-group position-relative">
+                <input
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setSearch(e.target.value);
+                    getProductList(e);
+                  }}
+                  type="text"
+                  id="search"
+                  name="search"
+                  class="form-control shadow-none"
+                  placeholder="Search in Star Importers"
+                />
+                <button class="search_ibtn">
+                  <img src={require("../../assets/img/searchPng.png")} alt="" />
+                </button>
+              </div>
+            </form>
+          </div>
+          {/* <div class="col-lg-6 col-md-5 d-flex align-items-center">
             <div class="header_search">
-              <form
-                class="row justify-content-center"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  navigate(`/app/ProductSearch/${search}`);
-                  setSearch();
-                }}
-              >
+              <form>
                 <div class="col pe-0">
                   <div class="form-group">
                     <input
@@ -159,10 +181,10 @@ const Navbar = ({ NState, LoginState }) => {
                 </div>
               </form>
             </div>
-          </div>
+          </div> */}
 
-          <div className="col-auto d-flex align-items-center">
-            <div className="social_icon d-flex">
+          <div class="col-auto px-5 head_cart">
+            <a class="cart_header">
               {NState ? (
                 <Animate>
                   <Link to="/app/Cart" state={{ key: "hii" }}>
@@ -178,12 +200,32 @@ const Navbar = ({ NState, LoginState }) => {
                   <span className="count">{cartNum}</span>
                 </Link>
               )}
-            </div>
+            </a>
+          </div>
+
+          <div className="col-auto text-end">
+            {/* <div className="social_icon d-flex">
+              {NState ? (
+                <Animate>
+                  <Link to="/app/Cart" state={{ key: "hii" }}>
+                    <i className="fa fa-cart-arrow-down" />
+
+                    <span className="count">{cartNum}</span>
+                  </Link>
+                </Animate>
+              ) : (
+                <Link to="/app/Cart">
+                  <i className="fa fa-cart-arrow-down" />
+
+                  <span className="count">{cartNum}</span>
+                </Link>
+              )}
+            </div> */}
             {UserAuth ? (
-              <div className="d-flex mt-2 ">
+              <div className="header_tabs ">
                 <div class="dropdown">
                   <Link to="/MyAccount" className="text-decoration-none mx-1">
-                    <button className="signup_btns m-2  ">My Account</button>
+                    <button class="Signupb">My Account</button>
                   </Link>
                   <div class="dropdown-content">
                     <Link
@@ -206,7 +248,8 @@ const Navbar = ({ NState, LoginState }) => {
               <div className="d-flex mt-2 mx-3">
                 <Link
                   to=""
-                  className="login_btns mt-2 text-decoration-none"
+                  // className="login_btns mt-2 text-decoration-none"
+                  class="Loginb text-decoration-none"
                   data-bs-toggle="modal"
                   id="modal-login"
                   data-bs-target="#staticBackdrop1"
@@ -218,7 +261,7 @@ const Navbar = ({ NState, LoginState }) => {
                 </Link>
                 <Link to="/app/register" style={{ textDecoration: "none" }}>
                   <div className="btn-group ">
-                    <button className="signup_btns">SignUp</button>
+                    <button class="Signupb text-decoration-none">SignUp</button>
                   </div>
                 </Link>
               </div>
@@ -280,7 +323,7 @@ const Navbar = ({ NState, LoginState }) => {
                             ))}
                           <div className="col-lg-12 d-flex text-center mt-1 mb-0">
                             <p
-                              className=" dropViewAll"
+                              className="dropViewAll"
                               onClick={() =>
                                 navigate("/app/subCategories", {
                                   state: {
@@ -300,7 +343,7 @@ const Navbar = ({ NState, LoginState }) => {
                 ))}
 
               <li>
-                <Link className="text-decoration-none" to="/app/Categories">
+                <Link className="text-decoration-none" to="/app/Categories" state={"kooo"}>
                   More
                 </Link>
               </li>

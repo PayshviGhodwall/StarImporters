@@ -260,18 +260,10 @@ const SingleProdBySearch = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-1 ">&#62;</span>{" "}
+                        Home <span className="arrow mx-1 mt-1">&#62;</span>{" "}
                       </Link>
                     </li>
-                    <li className="item_nanner">
-                      <Link
-                        to="/AllBrands"
-                        className="text-decoration-none text-white fs-6  "
-                      >
-                        {product?.category?.categoryName}{" "}
-                        <span className="arrow mx-1">&#62;</span>{" "}
-                      </Link>
-                    </li>
+
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
@@ -372,7 +364,7 @@ const SingleProdBySearch = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="col-lg-6 mt-lg-0 px-md-3 px-0 mt-md-5 mt-4 mb-5">
                 <div className="product_details_main ps-xl-5">
                   <div className="row align-items-start">

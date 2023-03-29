@@ -142,7 +142,7 @@ const Homepage = () => {
         </div>
       ) : (
         <div>
-          <section className="home">
+          <section className="home ">
             <div
               id="carouselExampleControls"
               className="carousel slide "
@@ -564,6 +564,66 @@ const Homepage = () => {
             </div>
           </section>
 
+          <section class="category_newdesign">
+            <div class="container">
+              <div class="row newdesign_main bg-white">
+                <a
+                  class="view_all"
+                  onClick={() => navigate("/app/Categories", { state: "hii" })}
+                >
+                  View All
+                </a>
+                <div class="col-12 mb-3">
+                  <div class="comn_heads mb-5">
+                    <h2
+                      dangerouslySetInnerHTML={createMarkup(
+                        allHeaders?.categoryTitle
+                      )}
+                    ></h2>
+                  </div>
+                </div>
+                <Swiper
+                  slidesPerView={4}
+                  spaceBetween={30}
+                  navigation={true}
+                  autoplay={true}
+                  loop={true}
+                  modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                  className="mySwiper px-4 py-2"
+                >
+                  {(category || [])?.map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="col-12 px-4">
+                        <div className="categorynew_slider sliderbtns_design">
+                          <a class="categorynew_box">
+                            <div class="categorynew_img p-2">
+                              <Link
+                                to={{
+                                  pathname: "/CategoryProducts",
+                                }}
+                                state={{
+                                  name: item?.categoryName,
+                                  image: item?.background,
+                                }}
+                              >
+                                <img
+                                  src={item?.categoryImage}
+                                  className=""
+                                  alt="lorem"
+                                />
+                              </Link>
+                            </div>
+                            <span> {item?.categoryName}</span>
+                          </a>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </section>
+          {/*           
           <section className="featured_category mx-5 shadow pt-3 mb-5">
             <div className="col-12 comman_head mb-3  mt-2 text-center">
               <h2
@@ -591,8 +651,29 @@ const Homepage = () => {
             >
               {(category || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <div className="p-3 mb-2">
-                    <div className="text-center">
+                  <div className="col-12">
+                    <div className="categorynew_slider sliderbtns_design">
+                      <a class="categorynew_box">
+                        <div class="categorynew_img">
+                          <Link
+                            to={{
+                              pathname: "/CategoryProducts",
+                            }}
+                            state={{
+                              name: item?.categoryName,
+                              image: item?.background,
+                            }}
+                          >
+                            <img
+                              src={item?.categoryImage}
+                              className=""
+                              alt="lorem"
+                            />
+                          </Link>
+                        </div>
+                        <span> {item?.categoryName}</span>
+                      </a>
+                      <div className="text-center">
                       <Link
                         to={{
                           pathname: "/CategoryProducts",
@@ -610,15 +691,97 @@ const Homepage = () => {
                         />
                       </Link>
                     </div>
-                    <span className="d-flex justify-content-center w-100 mt-2 ">
-                      {item?.categoryName}
-                    </span>
+                      <span className="d-flex justify-content-center w-100 mt-2 "></span>
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
+          </section> */}
+
+          <section class="featuredproduct">
+            <div class="container">
+              <div class="row featuredproduct_slider">
+                <a
+                  class="view_all"
+                  onClick={() =>
+                    navigate("/app/featured-products", { state: "hii" })
+                  }
+                >
+                  View All
+                </a>
+                <div class="col-12 mb-3">
+                  <div class="comn_heads mb-5">
+                    <h2
+                      dangerouslySetInnerHTML={createMarkup(
+                        allHeaders?.featuredTitle
+                      )}
+                    ></h2>
+                  </div>
+                </div>
+                <div className="">
+                  <Swiper
+                    slidesPerView={4}
+                    spaceBetween={30}
+                    navigation={true}
+                    autoplay={true}
+                    loop={true}
+                    style={{ padding: "30px" }}
+                    modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                    className="mySwiper  py-3 "
+                  >
+                    {(featured || [])?.map((item, index) => (
+                      <SwiperSlide key={index} className="px-3">
+                        <div className="col-12">
+                          <div
+                            className="categorynew_slider sliderbtns_design"
+                            onClick={() =>
+                              navigate(`/AllProducts/Product/${item?._id}`, {
+                                state: {
+                                  id: item?._id,
+                                },
+                              })
+                            }
+                          >
+                            <a class="featuredproduct_box p-2">
+                              <div className="featuredproduct_img ">
+                                <img
+                                  src={
+                                    item?.productImage
+                                      ? item?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  alt="Product"
+                                />
+                              </div>
+                              <div class="featuredproduct_details p-2">
+                                <span
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/${item?._id}`,
+                                      {
+                                        state: {
+                                          id: item?._id,
+                                        },
+                                      }
+                                    )
+                                  }
+                                >
+                                  {item?.unitName}
+                                </span>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+            </div>
           </section>
-          <section className="features_products py-1 bg-white">
+
+          {/* <section className="features_products py-1 bg-white">
             <div className="container-fluid  mb-4">
               <div className="col-12 comman_head mb-2 mt-3 text-center">
                 <h2
@@ -695,7 +858,8 @@ const Homepage = () => {
                 </Swiper>
               </div>
             </div>
-          </section>
+          </section> */}
+
           <section
             className="product_show_home"
             id="bottom-image"
@@ -723,7 +887,55 @@ const Homepage = () => {
               </div>
             </div>
           </section>
-          <div className="features_brands py-5 bg-white border-top">
+
+          <section class="brandsnew">
+            <div class="container">
+              <div class="row featuredproduct_slider">
+                <a
+                  class="view_all"
+                  onClick={() => navigate("/app/brands", { state: "hii" })}
+                >
+                  View All
+                </a>
+                <div class="col-12 mb-3">
+                  <div class="comn_heads mb-5">
+                    <h2
+                      dangerouslySetInnerHTML={createMarkup(
+                        allHeaders?.brandTitle
+                      )}
+                    ></h2>
+                  </div>
+                </div>
+                <Swiper
+                  slidesPerView={4}
+                  spaceBetween={20}
+                  loop={true}
+                  navigation={true}
+                  autoplay={true}
+                  modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                  className="mySwiper px-4 py-2"
+                >
+                  {(brands || [])?.map((item, index) => (
+                    <SwiperSlide key={index} className="px-4">
+                      <div class="col-12">
+                        <div class="categorynew_slider sliderbtns_design">
+                          <Link
+                            to="/app/brands"
+                            state={"hisds"}
+                            className="brandsnew_box"
+                          >
+                            <img src={item?.brandImage} alt="" />
+                          </Link>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </section>
+
+          {/* <div className="features_brands py-5 bg-white border-top">
             <div className="container-fluid px-0">
               <div className="col-lg-12 col-sm-12 comman_head mb-4 text-center">
                 <h2
@@ -760,7 +972,7 @@ const Homepage = () => {
                 </Swiper>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <Footer />
           <button

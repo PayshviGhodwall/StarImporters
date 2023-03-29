@@ -108,7 +108,11 @@ const Footer = () => {
                     <li>
                       <a
                         className="text-decoration-none"
-                        onClick={() => navigate("/app/Gallery")}
+                        onClick={() =>
+                          navigate("/app/Gallery", {
+                            state: "jiji",
+                          })
+                        }
                       >
                         Gallery{" "}
                       </a>
@@ -116,7 +120,11 @@ const Footer = () => {
                     <li>
                       <a
                         className="text-decoration-none"
-                        onClick={() => navigate("/app/brands")}
+                        onClick={() =>
+                          navigate("/app/brands", {
+                            state: "jiji",
+                          })
+                        }
                       >
                         Brands{" "}
                       </a>

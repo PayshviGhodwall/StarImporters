@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import Footer from "./Footer";
 import image from "../../assets/img/starBggN.jpg";
+import { Link, animateScroll as scroll } from "react-scroll";
+import { useNavigate } from "react-router-dom";
 
 const Gallery = () => {
   const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
   return (
-    <div>
+    <div className="header_top">
       <Navbar />
       <section className="marginTop">
         <>
@@ -33,17 +36,28 @@ const Gallery = () => {
                         <p>
                           STAR IMPORTERS & WHOLESALERS Established Since 1994.
                         </p>
+                        <div class="icon-button">
+                          <a href="https://youtube.com" target="_blank">
+                            <i class="fa fa-play"></i> Watch Our Videos Now
+                          </a>
+                        </div>
                         <div class="buttons">
-                          <div class="big-border-button">
-                            <a href="contests.html">Explore SnapX Contest</a>
-                          </div>
-                          <div class="icon-button">
-                            <a
-                              href="https://youtube.com/templatemo"
-                              target="_blank"
+                          <div class="">
+                            <Link
+                              activeClass="active"
+                              style={{ cursor: "pointer" }}
+                              to="collection"
+                              spy={true}
+                              smooth={true}
+                              offset={-70}
+                              duration={100}
                             >
-                              <i class="fa fa-play"></i> Watch Our Video Now
-                            </a>
+                              <div class="container_swipe">
+                                <div class="chevron"></div>
+                                <div class="chevron"></div>
+                                <div class="chevron"></div>
+                              </div>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -52,11 +66,12 @@ const Gallery = () => {
                 </div>
               </div>
 
-              <div className="container-fluid tm-container-content tm-mt-60">
-                <div className="row mb-4">
-                  <h2 className="col-6 tm-text-primary ">
-                    STAR IMPORTERS // GALLERY
-                  </h2>
+              <div
+                className="container-fluid tm-container-content tm-mt-60"
+                id="collection"
+              >
+                <div className="row mb-4 mt-5 d-flex justify-content-center">
+                  <h2 className="mt-4  Collect_header">Collection</h2>
                   <div className="col-6 d-flex justify-content-end align-items-center">
                     {/* <form action="" className="tm-text-primary">
                       Page
@@ -80,7 +95,13 @@ const Gallery = () => {
                       />
                       <figcaption className="d-flex align-items-center justify-content-center">
                         <h2>Warehouse</h2>
-                        <a href="photo-detail.html">View more</a>
+                        <a
+                          onClick={() => {
+                            navigate("/app/Gallery/Photos");
+                          }}
+                        >
+                          View more
+                        </a>
                       </figcaption>
                     </figure>
                     <div className="d-flex justify-content-between tm-text-gray">
@@ -106,7 +127,7 @@ const Gallery = () => {
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                     <figure className="effect-ming tm-video-item">
                       <img
-                        src={require("../../assets/img/brand_1.png")}
+                        src={require("../../assets/img/banner_1.jpg")}
                         alt="Image"
                         className="img-fluid"
                       />
@@ -122,7 +143,7 @@ const Gallery = () => {
                   <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                     <figure className="effect-ming tm-video-item">
                       <img
-                        src={require("../../assets/img/brand_4.png")}
+                        src={require("../../assets/img/product_new2.png")}
                         alt="Image"
                         className="img-fluid"
                       />
