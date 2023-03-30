@@ -225,7 +225,7 @@ const Navbar = ({ NState, LoginState }) => {
               <div className="header_tabs ">
                 <div class="dropdown">
                   <Link to="/MyAccount" className="text-decoration-none mx-1">
-                    <button class="Signupb">My Account</button>
+                    <button class="Signupb mt-2">My Account</button>
                   </Link>
                   <div class="dropdown-content">
                     <Link
@@ -343,7 +343,11 @@ const Navbar = ({ NState, LoginState }) => {
                 ))}
 
               <li>
-                <Link className="text-decoration-none" to="/app/Categories" state={"kooo"}>
+                <Link
+                  className="text-decoration-none"
+                  to="/app/Categories"
+                  state={"kooo"}
+                >
                   More
                 </Link>
               </li>

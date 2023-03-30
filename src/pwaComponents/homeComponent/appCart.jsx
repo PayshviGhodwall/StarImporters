@@ -205,7 +205,7 @@ function AppCart() {
         <div className="page-content-wrapper">
           <div className="container">
             <div className="cart-wrapper-area py-3 ">
-              <div className="cart-table card mb-3">
+              <div className="cart-table card mb-1">
                 <div className="table-responsive card-body p-1">
                   {load ? <Loader speed="slow" content="Updating.." /> : null}
                   {cart?.length ? (
@@ -228,9 +228,10 @@ function AppCart() {
                       Start Shopping
                     </Link>
                   )}
-                  <table className="table mb-0">
+                  <div className=" fixed-head">
+                  <table className="table mb-0 ">
                     {cart?.length ? (
-                      <tbody>
+                      <tbody className="">
                         {(cart || [])?.map((item, index) => {
                           return (
                             <tr key={index}>
@@ -344,6 +345,8 @@ function AppCart() {
                       </tbody>
                     )}
                   </table>
+                  </div>
+                 
                 </div>
               </div>
               <div className="row">

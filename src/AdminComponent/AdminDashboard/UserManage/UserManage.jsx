@@ -678,7 +678,7 @@ const UserManage = () => {
                       Add User
                     </Link>
                   </div>
-                  <div className="col-12 design_outter_comman recent_orders shadow">
+                  <div className="col-12 design_outter_comman  shadow">
                     <div className="row comman_header justify-content-between px-2">
                       <div className="col-6">
                         <h2 className="main_headers">Users Management</h2>
@@ -821,7 +821,7 @@ const UserManage = () => {
                         </nav>
                         <div className="tab-content" id="nav-tabContent">
                           <div
-                            className="tab-pane fade "
+                            className="tab-pane fade recent_orders_user "
                             id="nav-home"
                             role="tabpanel"
                             aria-aria-labelledby="nav-home-tab"
@@ -969,7 +969,7 @@ const UserManage = () => {
                           </div>
                           <div className="tab-content" id="nav-tabContent">
                             <div
-                              className="tab-pane fade show active"
+                              className="tab-pane fade show active recent_orders_user"
                               id="nav-approve"
                               role="tabpanel"
                               aria-labelledby="nav-approve-tab"
@@ -1126,7 +1126,7 @@ const UserManage = () => {
 
                         <div className="tab-content" id="nav-tabContent">
                           <div
-                            className="tab-pane fade"
+                            className="tab-pane fade recent_orders_user"
                             id="nav-return"
                             role="tabpanel"
                             aria-labelledby="nav-return-tab"

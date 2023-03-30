@@ -237,7 +237,6 @@ function AppProductDetail() {
                         ? flavour?.flavourImage
                         : productDetail?.productImage
                     }
-                    alt=""
                   />
                 </div>
                 {productDetail?.type.map((item) => (
@@ -318,7 +317,7 @@ function AppProductDetail() {
                         className="quantity-button-handler"
                         onClick={() => {
                           document.getElementById("quanInput").stepUp(1);
-                          setQuantity(quantity + 1);
+                          setQuantity(+quantity + 1);
                         }}
                       >
                         +

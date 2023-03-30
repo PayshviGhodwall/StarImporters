@@ -123,8 +123,8 @@ function TopProduct() {
     <>
       <div className="top-products-area pb-3 ">
         <div className="container">
-          <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-            <h6>Featured Products</h6>
+          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
+            <h6 className="fs-5">Featured Products</h6>
             <Link className="btn p-0" to="/app/product-list">
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>

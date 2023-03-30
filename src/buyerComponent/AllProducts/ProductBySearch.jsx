@@ -63,7 +63,7 @@ const ProductBySearch = () => {
                         <div className="product_content mt-3 text-center">
                           <div className="d-flex justify-content-center">
                             <h1
-                              className="text-center fs-5 fw-bolder text-uppercase"
+                              className="text-center fs-6 fw-bolder text-uppercase"
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
                                 navigate(`/app/product-details/${item?._id}`, {
@@ -76,9 +76,6 @@ const ProductBySearch = () => {
                                 : item?.unitName}
                             </h1>
                           </div>
-                          <small className="fw-lighter text-lowercase font-italic">
-                            {item?.type.description}
-                          </small>
                         </div>
                       </div>
                     </div>

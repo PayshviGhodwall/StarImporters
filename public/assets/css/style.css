@@ -538,35 +538,35 @@
     margin-top: 9rem !important;
   }
   .photos {
-   margin-top: 11rem;
-   background-color: #f1f0ff;
+    margin-top: 11rem;
+    background-color: #f1f0ff;
   }
   .photos_main {
     padding: 1rem;
 
-    border-radius: .2rem;
+    border-radius: 0.2rem;
   }
   .photos_main img {
     max-width: 26rem;
     min-width: 20rem;
     min-height: 18rem;
-    max-height: 24rem;
+    max-height: 20rem;
     margin-bottom: 0.8rem !important;
     border-radius: 5px;
   }
   .photos_main img:hover {
-   opacity: 50%;
-   filter:brightness(70%);
-  cursor:zoom-in;
+    opacity: 50%;
+    filter: brightness(70%);
+    cursor: zoom-in;
   }
   @media (max-width: 800px) {
     .photos_main img {
       max-width: 26rem;
       min-width: 20rem;
-      margin:1rem ;
+      margin: 1rem;
     }
   }
-  
+
   /*--------------------------------------------------------------
   # Contact Us
   --------------------------------------------------------------*/
@@ -1638,7 +1638,7 @@
     background-attachment: fixed;
     height: 500px;
   } */
-  .product_show_home img {
+  .carousel-item_home img {
     max-width: 500px;
   }
 
@@ -7258,6 +7258,8 @@ background-color: #3e4093;
     margin: 0 auto;
     height: 290px;
     width: auto !important;
+    animation: fadeinout 1s ease-in !important;
+    transition: 0.8s ease-in !important;
   }
   .filter-option {
     cursor: pointer;
@@ -13847,6 +13849,15 @@ figure.effect-ming:hover img {
   justify-content: center;
   align-items: center;
 }
+.recent_orders_user {
+  overflow-y: scroll;
+  max-height: 32rem !important;
+  overflow-x: hidden;
 
+}
 /* 
  */
+.fixed-head {
+  overflow-y: scroll;
+  max-height: 34rem !important;
+}

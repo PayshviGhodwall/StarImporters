@@ -51,6 +51,7 @@ const SingleProduct = () => {
     setFlavour(location?.state?.type);
   }
 
+  console.log(unitCount);
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -498,10 +499,13 @@ const SingleProduct = () => {
                                 className="plus"
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
-                                  // setUnitCount(unitCount + 1);
+                                  // if (unitCount > 10) {
+
+                                  // }
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);
+                                  setUnitCount(+unitCount + 1);
                                 }}
                               >
                                 <i

@@ -314,13 +314,8 @@ function AppHome() {
 
               <div className="product-catagories-wrapper py-3">
                 <div className="container">
-                  <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                    <h6
-                      className="fs-6"
-                      // dangerouslySetInnerHTML={createMarkup(allHeaders?.categoryTitle)}
-                    >
-                      Top Categories
-                    </h6>
+                  <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                    <h2 className="fs-5">Top Categories</h2>
                     <Link className="btn p-0" to="/app/Categories">
                       View All
                       <i className="ms-1 fa-solid fa-arrow-right-long"></i>
@@ -350,10 +345,8 @@ function AppHome() {
               <TopProduct />
               <div className="flash-sale-wrapper mt-3">
                 <div className="container">
-                  <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-                    <h6 className="d-flex align-items-center rtl-flex-d-row-r">
-                      Popular Brands
-                    </h6>
+                  <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
+                    <h6 className="fs-5">Popular Brands</h6>
                     <Link className="btn p-0" to="/app/brands">
                       View All
                       <i className="ms-1 fa-solid fa-arrow-right-long"></i>

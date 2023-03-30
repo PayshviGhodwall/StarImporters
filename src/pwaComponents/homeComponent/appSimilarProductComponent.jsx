@@ -48,8 +48,8 @@ function SimlarProduct({ categoryName }) {
     <>
       <div className="related-product-wrapper bg-white py-3 mb-3">
         <div className="container -fluid">
-          <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-            <h6>Related Products</h6>
+          <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <h6 className="fs-5">Related Products</h6>
             <Link className="btn p-0" to="/app/product-list">
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>

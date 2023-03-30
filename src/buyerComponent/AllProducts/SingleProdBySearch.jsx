@@ -488,6 +488,7 @@ const SingleProdBySearch = () => {
                                 style={{ userSelect: "none" }}
                                 onClick={() => {
                                   // setUnitCount(unitCount + 1);
+                                  setUnitCount(+unitCount + 1);
                                   document
                                     .getElementById("quanInput")
                                     .stepUp(1);
