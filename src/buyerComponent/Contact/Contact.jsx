@@ -6,7 +6,7 @@ import swal from "sweetalert";
 import axios from "axios";
 
 const Contact = () => {
-  const apiUrl =  `${process.env.REACT_APP_APIENDPOINTNEW}user/contact`
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/contact`;
 
   const {
     register,
@@ -19,32 +19,39 @@ const Contact = () => {
     const getData = async () => {
       let response = await axios
         .post(apiUrl, {
-            
-                firstName:data.firstName,
-                email:data.email,
-                subject:data.subject,
-                textArea:data.textArea
-                 
-             
+          firstName: data.firstName,
+          email: data.email,
+          subject: data.subject,
+          textArea: data.textArea,
         })
         .then((res) => {
-            console.log(res?.data.message)
-            if (res?.data.message === "We'll contact you ASAP") {
-                swal({
-                  title: "Query Submitted",
-                  text: "We'll contact you ",
-                  icon: "success",
-                  button: "Go Back",
-                });
-              }
+          console.log(res?.data.message);
+          if (res?.data.message === "We'll contact you ASAP") {
+            swal({
+              title: "Query Submitted",
+              text: "We'll contact you ",
+              icon: "success",
+              button: "Go Back",
+            });
+          }
         })
-    }
+        .catch((res) => {
+          console.log(res);
+          if (res?.response.data?.error) {
+            swal({
+              title: res?.response.data.message,
+              icon: "error",
+              button: "Go Back",
+            });
+          }
+        });
+    };
     getData();
   };
 
   return (
     <div className="bg-light Contacts">
-        <Navbar/>
+      <Navbar />
 
       <div className="marginTop">
         <div className="container p-5">
@@ -174,7 +181,6 @@ const Contact = () => {
                       name="textArea"
                       {...register("textArea", {
                         required: "Required Field",
-                        
                       })}
                       onKeyUp={() => {
                         trigger("textArea");

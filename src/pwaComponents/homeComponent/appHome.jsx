@@ -33,9 +33,6 @@ function AppHome() {
     getCategoryList();
     getTopProductList();
     getBrandList();
-    setBanner(JSON.parse(localStorage.getItem("banners")));
-    setCategory(JSON.parse(localStorage.getItem("categories")));
-    setProduct(JSON.parse(localStorage.getItem("products")));
   }, []);
 
   useEffect(() => {
@@ -60,7 +57,8 @@ function AppHome() {
     const { data } = await homeBanner();
     if (!data.error) {
       localStorage.setItem("banners", JSON.stringify(data?.results));
-      // setBanner(data.results);
+      setBanner(data.results);
+      setBanner(JSON.parse(localStorage.getItem("banners")));
     }
   };
 
@@ -71,7 +69,8 @@ function AppHome() {
         "categories",
         JSON.stringify(data?.results?.categories)
       );
-      // setCategory(data.results?.categories);
+      setCategory(data.results?.categories);
+      setCategory(JSON.parse(localStorage.getItem("categories")));
     }
   };
   const getHeaders = async () => {
@@ -86,7 +85,8 @@ function AppHome() {
         "products",
         JSON?.stringify(data.results.slice(0, 4))
       );
-      // setProduct(data.results.slice(0, 4));
+      setProduct(data.results.slice(0, 4));
+      setProduct(JSON.parse(localStorage.getItem("products")));
     }
   };
 
@@ -258,7 +258,7 @@ function AppHome() {
                           src={
                             banner[1]?.banner
                               ? banner[1]?.banner
-                              : require("../../assets/img/banner_img.png")
+                              : require("../../assets/img/banner_img1.jpg")
                           }
                         ></img>
                         <div className="slide-content h-100 d-flex align-items-center">

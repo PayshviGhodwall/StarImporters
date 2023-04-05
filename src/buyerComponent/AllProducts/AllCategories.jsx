@@ -21,7 +21,7 @@ const AllCategories = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTop">
+      <section className="comman_banner _banner marginTopSec">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -34,7 +34,7 @@ const AllCategories = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-2">&#62;</span>{" "}
+                        Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
@@ -50,7 +50,41 @@ const AllCategories = () => {
         </div>
       </section>
       <>
-        <section className="brands_page py-5 ">
+        <section class="Sub-Categories-page comman_padding">
+          <div class="container">
+            <div class="row comman_divvision mx-0">
+              {/* <a class="view_all" href="javascript:;">
+                View All
+              </a> */}
+              <div class="col-12 mb-3">
+                <div class="comn_heads mb-5">
+                  <h2>Categories</h2>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row justify-content-center comman_product1">
+                  {(categories || [])?.map((item, index) => (
+                    <div class="col-lg-3 col-md-4 mb-5">
+                      <a class="categorynew_box text-decoration-none">
+                        <Link 
+                          to="/CategoryProducts"
+                          state={{ name: item?.categoryName }}
+                        >
+                          <div class="categorynew_img">
+                            <img src={item?.categoryImage} alt="" />
+                          </div>
+                        </Link>
+                        <span>{item?.categoryName}</span>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* <section className="brands_page py-5 ">
           <div className="container">
             <div className="row">
               <div className="col-12 bg-white px-0 border rounded">
@@ -76,7 +110,7 @@ const AllCategories = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </>
       <Footer />
     </div>

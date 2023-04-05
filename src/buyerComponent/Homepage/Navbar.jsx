@@ -124,43 +124,47 @@ const Navbar = ({ NState, LoginState }) => {
   };
   return (
     <div className="header_main " ref={ref}>
-      <header className="">
-        <div className="row Newheader align-items-center">
-          <div className="col-auto">
-            <Link className="header_logo mx-2" to="/app/home">
-              <img src={Starlogo} alt="" />
-            </Link>
-          </div>
-          <div class="col ps-5 head_search">
-            <form
-              class="header_newsearch"
-              autoComplete="off"
-              onSubmit={(e) => {
-                e.preventDefault();
-                navigate(`/app/ProductSearch/${search}`);
-                setSearch();
-              }}
-            >
-              <div class="form-group position-relative">
-                <input
-                  onChange={(e) => {
-                    e.preventDefault();
-                    setSearch(e.target.value);
-                    getProductList(e);
-                  }}
-                  type="text"
-                  id="search"
-                  name="search"
-                  class="form-control shadow-none"
-                  placeholder="Search in Star Importers"
-                />
-                <button class="search_ibtn">
-                  <img src={require("../../assets/img/searchPng.png")} alt="" />
-                </button>
-              </div>
-            </form>
-          </div>
-          {/* <div class="col-lg-6 col-md-5 d-flex align-items-center">
+      <div className="">
+        <div className="container">
+          <div className="row Newheader align-items-center ">
+            <div className="col-auto">
+              <Link className="header_logo mx-2" to="/app/home">
+                <img src={Starlogo} alt="" />
+              </Link>
+            </div>
+            <div class="col ps-5 head_search">
+              <form
+                class="header_newsearch"
+                autoComplete="off"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  navigate(`/app/ProductSearch/${search}`);
+                  setSearch();
+                }}
+              >
+                <div class="form-group position-relative">
+                  <input
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setSearch(e.target.value);
+                      getProductList(e);
+                    }}
+                    type="text"
+                    id="search"
+                    name="search"
+                    class="form-control shadow-none"
+                    placeholder="Search in Star Importers"
+                  />
+                  <button class="search_ibtn">
+                    <img
+                      src={require("../../assets/img/searchPng.png")}
+                      alt=""
+                    />
+                  </button>
+                </div>
+              </form>
+            </div>
+            {/* <div class="col-lg-6 col-md-5 d-flex align-items-center">
             <div class="header_search">
               <form>
                 <div class="col pe-0">
@@ -183,28 +187,28 @@ const Navbar = ({ NState, LoginState }) => {
             </div>
           </div> */}
 
-          <div class="col-auto px-5 head_cart">
-            <a class="cart_header">
-              {NState ? (
-                <Animate>
-                  <Link to="/app/Cart" state={{ key: "hii" }}>
+            <div class="col-auto px-5 head_cart">
+              <a class="cart_header">
+                {NState ? (
+                  <Animate>
+                    <Link to="/app/Cart" state={{ key: "hii" }}>
+                      <i className="fa fa-cart-arrow-down" />
+
+                      <span className="count">{cartNum}</span>
+                    </Link>
+                  </Animate>
+                ) : (
+                  <Link to="/app/Cart">
                     <i className="fa fa-cart-arrow-down" />
 
                     <span className="count">{cartNum}</span>
                   </Link>
-                </Animate>
-              ) : (
-                <Link to="/app/Cart">
-                  <i className="fa fa-cart-arrow-down" />
+                )}
+              </a>
+            </div>
 
-                  <span className="count">{cartNum}</span>
-                </Link>
-              )}
-            </a>
-          </div>
-
-          <div className="col-auto text-end">
-            {/* <div className="social_icon d-flex">
+            <div className="col-auto text-end">
+              {/* <div className="social_icon d-flex">
               {NState ? (
                 <Animate>
                   <Link to="/app/Cart" state={{ key: "hii" }}>
@@ -221,55 +225,164 @@ const Navbar = ({ NState, LoginState }) => {
                 </Link>
               )}
             </div> */}
-            {UserAuth ? (
-              <div className="header_tabs ">
-                <div class="dropdown">
-                  <Link to="/MyAccount" className="text-decoration-none mx-1">
-                    <button class="Signupb mt-2">My Account</button>
-                  </Link>
-                  <div class="dropdown-content">
-                    <Link
-                      to=""
-                      className="login_btns mt-3 text-decoration-none"
-                      data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop1"
-                      aria-current="page"
-                      href="#"
-                      onClick={() => {
-                        LogOut();
-                      }}
-                    >
-                      Logout
+              {UserAuth ? (
+                <div className="header_tabs ">
+                  <div class="dropdown">
+                    <Link to="/MyAccount" className="text-decoration-none mx-1">
+                      <button class="Signupb mt-2">My Account</button>
                     </Link>
+                    <div class="dropdown-content">
+                      <Link
+                        to=""
+                        className="login_btns mt-3 text-decoration-none"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop1"
+                        aria-current="page"
+                        href="#"
+                        onClick={() => {
+                          LogOut();
+                        }}
+                      >
+                        Logout
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="d-flex mt-2 mx-3">
-                <Link
-                  to=""
-                  // className="login_btns mt-2 text-decoration-none"
-                  class="Loginb text-decoration-none"
-                  data-bs-toggle="modal"
-                  id="modal-login"
-                  data-bs-target="#staticBackdrop1"
-                  aria-current="page"
-                  href="#"
-                  onClick={() => setSearch()}
-                >
-                  Login
-                </Link>
-                <Link to="/app/register" style={{ textDecoration: "none" }}>
-                  <div className="btn-group ">
-                    <button class="Signupb text-decoration-none">SignUp</button>
-                  </div>
-                </Link>
-              </div>
-            )}
+              ) : (
+                <div className="d-flex mt-2 mx-3">
+                  <Link
+                    to=""
+                    // className="login_btns mt-2 text-decoration-none"
+                    class="Loginb text-decoration-none"
+                    data-bs-toggle="modal"
+                    id="modal-login"
+                    data-bs-target="#staticBackdrop1"
+                    aria-current="page"
+                    href="#"
+                    onClick={() => setSearch()}
+                  >
+                    Login
+                  </Link>
+                  <Link to="/app/register" style={{ textDecoration: "none" }}>
+                    <div className="btn-group ">
+                      <button class="Signupb text-decoration-none">
+                        SignUp
+                      </button>
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="row  justify-content-center ">
-          <div className="col-12 header_bottom ">
+
+        <div className="row justify-content-center  ">
+          <div class="col-12 header_bottom ">
+            <div class="container-fluid">
+              <div class="row ">
+                <div class="col-12 mx-2">
+                  <ul class="header_menuss mb-0 ps-0">
+                    <li>
+                      <a
+                        className=""
+                        onClick={() =>
+                          navigate("/app/home", {
+                            state: {
+                              id: "kiiii",
+                            },
+                          })
+                        }
+                      >
+                        Home
+                      </a>
+                    </li>
+                    {(category || [])
+                      ?.filter((item, idx) => idx < 9)
+                      .map((item, index) => (
+                        <li
+                          class="new_dropdown"
+                          key={index}
+                          // className="zindex-1"
+                        >
+                          <a
+                            class="new_dropdown_link"
+                            onClick={() =>
+                              navigate("/app/subCategories", {
+                                state: {
+                                  id: item?._id,
+                                  name: item?.categoryName,
+                                  image: item?.background,
+                                },
+                              })
+                            }
+                          >
+                            {item?.categoryName}
+                          </a>
+                          <div class="new_dropdown_inner">
+                            {(item?.subcategories || [])
+                              ?.filter((item, idx) => idx < 24)
+                              .map((item, index) => (
+                                <a
+                                  key={index}
+                                  onClick={() =>
+                                    navigate("/SubCategory/Products", {
+                                      state: {
+                                        name: item?.subCategoryName,
+                                      },
+                                    })
+                                  }
+                                >
+                                  {item?.subCategoryName}
+                                </a>
+                              ))}
+                            {item?.subcategories.length ? (
+                              <a
+                                onClick={() =>
+                                  navigate("/app/subCategories", {
+                                    state: {
+                                      id: item?._id,
+                                      name: item?.categoryName,
+                                    },
+                                  })
+                                }
+                              >
+                                View all
+                              </a>
+                            ) : (
+                              <a>No Results....</a>
+                            )}
+                          </div>
+                        </li>
+                      ))}
+                    <li>
+                      <Link
+                        className="text-decoration-none"
+                        to="/app/Categories"
+                        state={"kooo"}
+                      >
+                        More
+                      </Link>
+                    </li>
+                    {/* <li class="new_dropdown">
+                      <a class="new_dropdown_link" href="javascript:;">
+                        Tabacoo
+                      </a>
+                      <div class="new_dropdown_inner">
+                        <a href="javascript:;">Cigars</a>
+                        <a href="javascript:;">Cigrates</a>
+                        <a href="javascript:;">Pipe Tabacoo</a>
+                        <a href="javascript:;">Little Cigars</a>
+                        <a href="javascript:;">Chewing Tabacoo</a>
+                        <a href="javascript:;">Snuff</a>
+                        <a href="javascript:;">Leaf</a>
+                      </div>
+                    </li> */}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="col-12 header_bottom ">
             <ul className="header_menus mb-0 ps-0">
               <li>
                 <Link className="text-decoration-none" to="/app/home">
@@ -352,9 +465,9 @@ const Navbar = ({ NState, LoginState }) => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
-      </header>
+      </div>
       {search?.length ? (
         <section className="brands_page p-2 shadow">
           {products?.length ? (
@@ -363,8 +476,8 @@ const Navbar = ({ NState, LoginState }) => {
                 <div className="product_single_right row p-2">
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
-                      <div className="product_parts_box_search ">
-                        <div className="partsproduct_img_search">
+                      <a class="featuredproduct_box p-2">
+                        <div className="featuredproduct_img ">
                           <img
                             src={
                               item?.type.flavour
@@ -385,42 +498,25 @@ const Navbar = ({ NState, LoginState }) => {
                             }}
                           />
                         </div>
-                        {/* </Link> */}
-                        <div className="product_content mt-3 text-center">
-                          <div className="d-flex justify-content-center">
-                            <h1
-                              className="text-center fw-bolder "
-                              style={{
-                                position: "relative",
-                                left: "0px",
-                                fontSize: "13px",
-                              }}
-                              onClick={() => {
-                                navigate(`/app/product-details/${item?._id}`, {
-                                  state: {
-                                    id: item?._id,
-                                    type: item?.type,
-                                  },
-                                });
+                        <div class="featuredproduct_details p-2">
+                          <span
+                            onClick={() => {
+                              navigate(`/app/product-details/${item?._id}`, {
+                                state: {
+                                  id: item?._id,
+                                  type: item?.type,
+                                },
+                              });
 
-                                setSearch();
-                              }}
-                            >
-                              {item?.type.flavour
-                                ? item?.unitName + "-" + item?.type?.flavour
-                                : item?.unitName}
-                            </h1>
-                          </div>
-                          <div>
-                            <small
-                              className="fst-italic  "
-                              style={{ fontSize: "12px" }}
-                            >
-                              {item?.type.description?.slice(0, 40)}........
-                            </small>
-                          </div>
+                              setSearch();
+                            }}
+                          >
+                            {item?.type.flavour
+                              ? item?.unitName + "-" + item?.type?.flavour
+                              : item?.unitName}
+                          </span>
                         </div>
-                      </div>
+                      </a>
                     </div>
                   ))}
                 </div>

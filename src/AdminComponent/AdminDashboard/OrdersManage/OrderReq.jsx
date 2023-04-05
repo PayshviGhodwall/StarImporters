@@ -8,6 +8,7 @@ import ProfileBar from "../ProfileBar";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import ViewProduct from "../ViewProduct";
+import moment from "moment";
 
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
@@ -431,6 +432,26 @@ const OrderReq = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
+                  </Link>
+                </li>
+                <li
+                  className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
                   }
                 >
@@ -565,6 +586,22 @@ const OrderReq = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
                   </Link>
                 </li>
                 <li>
@@ -963,7 +1000,7 @@ const OrderReq = () => {
                                         <tr
                                           style={{ backgroundColor: "#f2f2f2" }}
                                         >
-                                          <th>S.No.</th>
+                                          <th>Date</th>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
@@ -975,7 +1012,11 @@ const OrderReq = () => {
                                       <tbody>
                                         {(orders || [])?.map((item, index) => (
                                           <tr key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>
+                                              {moment(
+                                                item?.createdAt?.slice(0, 10)
+                                              ).format("MM/DD/YYYY")}
+                                            </td>
                                             <td>
                                               {item?.userId?.firstName ||
                                                 item?.user?.firstName}
@@ -1093,7 +1134,7 @@ const OrderReq = () => {
                                         <tr
                                           style={{ backgroundColor: "#f2f2f2" }}
                                         >
-                                          <th>S.No.</th>
+                                          <th>Date</th>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
@@ -1106,7 +1147,11 @@ const OrderReq = () => {
                                         {(quoteReq || [])?.map(
                                           (item, index) => (
                                             <tr key={index}>
-                                              <td>{index + 1}</td>
+                                              <td>
+                                                {moment(
+                                                  item?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
                                               <td>
                                                 {item?.userId?.firstName ||
                                                   item?.user?.firstName}

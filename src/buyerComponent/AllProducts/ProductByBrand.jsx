@@ -73,7 +73,7 @@ const ProductByBrand = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTop">
+      <section className="comman_banner  marginTopSec">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -86,12 +86,12 @@ const ProductByBrand = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-1">&#62;</span>
+                        Home <span className="arrow mx-1">&#9679;</span>
                       </Link>
                     </li>
                     <Link to="/app/brands" className="text-decoration-none">
                       <li className="item_nanner fs-6">
-                        Brands <span className="arrow mx-1">&#62;</span>
+                        Brands <span className="arrow mx-1">&#9679;</span>
                       </li>
                     </Link>
                     <li className="breadcrumb-item fs-6" aria-current="page">
@@ -105,7 +105,174 @@ const ProductByBrand = () => {
         </div>
       </section>
       <>
-        <section className="product_single py-5 ">
+        <section class="singleproduct-page comman_padding">
+          <div class="container">
+            <div class="row singleproduct_divvision mx-0">
+              <div class="col-xl-3 col-lg-4 col-md-4 ps-0 mt-4">
+                <div class="singleproduct-left">
+                  <div class="singleproduct-left-box">
+                    <h2>Sort By</h2>
+                    <form class="singleproduct-form row" action="">
+                      <div class="form-group col-12 mb-3 custom_radio">
+                        <input
+                          type="radio"
+                          checked
+                          class="d-none"
+                          id="Alphabetically"
+                          name="Alphabetically"
+                          value="1"
+                          onChange={(e) => setSortValue(1)}
+                        />
+                        <label for="Alphabetically">
+                          Alphabetically: A to Z
+                        </label>
+                      </div>
+                      <div class="form-group col-12 mb-3 custom_radio">
+                        <input
+                          type="radio"
+                          class="d-none"
+                          id="Alphabetically1"
+                          name="Alphabetically"
+                          value="0"
+                          onChange={(e) => setSortValue(-1)}
+                        />
+                        <label for="Alphabetically1">
+                          Alphabetically: Z to A
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="singleproduct--btns mt-4">
+                  <a type="reset" onClick={() => setChnge(!chnge)}>
+                    Clear All
+                  </a>
+                  <a onClick={filterProduct}>Apply Filter</a>
+                </div>
+              </div>
+              <div class="col-xl-9 col-lg-8 col-md-8 pe-0 ps-xl-5 ">
+                <div class="row singleproduct_right">
+                  {products?.length ? (
+                    <div className="col-12 py-2 rounded Paginate ">
+                      <div class="col-6 mb-2 ps-lg-3">
+                        <div class="singleproducttop---left ps-lg-2">
+                          Total Pages: <span>{maxPage}</span>
+                        </div>
+                      </div>
+                      <div class="col-6 mb-2 text-end">
+                        <div class="singleproduct---paginationss">
+                          <a
+                            onClick={() => {
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1);
+                            }}
+                          >
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />{" "}
+                            Previous
+                          </a>
+                          <span>{activePage}</span>
+                          <a
+                            onClick={() => {
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1);
+                            }}
+                          >
+                            Next{" "}
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div class="col-12 mt-3">
+                    <div class="row singleproduct---show">
+                      {(products || [{}])?.map((item, index) => (
+                        <div
+                          class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4"
+                          key={index}
+                        >
+                          <div class="singleproduct-box">
+                            <a href="javascript:;" class="singleproduct--img">
+                              <img
+                                src={
+                                  item?.products?.productImage
+                                    ? item?.products?.productImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                                alt="Product"
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/${item?.products?._id}`,
+                                    {
+                                      state: {
+                                        id: item?.products?._id,
+                                        image: item?.background,
+                                        CateName: item?.categoryName,
+                                      },
+                                    }
+                                  );
+                                }}
+                              />
+                            </a>
+                            {/* <a class="favvv---icon" href="javascript:;">
+                              {item?.favourite ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(index);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(index);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                              <img src="assets/images/Vector.png" alt="" />
+                            </a> */}
+                            <span
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/${item?.products?._id}`,
+                                  {
+                                    replace: true,
+                                    state: {
+                                      id: item?.products?._id,
+                                      CateName: item?.categoryName,
+                                    },
+                                  }
+                                );
+                              }}
+                            >
+                              {item?.products?.unitName}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* <section className="product_single py-5 ">
           <div className="container bg-white border shadow">
             <div className="row">
               <div className="col-md-3 pe-lg-0 width_adjust ">
@@ -239,34 +406,7 @@ const ProductByBrand = () => {
                               );
                             }}
                           />
-                          {/* <p
-                              style={{
-                                right: "5px",
-                                top:"-80px",
-                                position: "relative",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              {item?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </p> */}
                         </div>
-                        {/* </Link> */}
                         <div className="product_content mt-3 text-center">
                           <div className="d-flex justify-content-center">
                             <h1
@@ -284,32 +424,6 @@ const ProductByBrand = () => {
                               {item?.products?.unitName}
                             </h1>
                           </div>
-                          {/* <div className="rating_box mt-2">
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#E2E2E2 " }}
-                            />
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -359,7 +473,7 @@ const ProductByBrand = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </>
       <Footer />
     </div>

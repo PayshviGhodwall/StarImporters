@@ -1,9 +1,44 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "../Homepage/Navbar";
-import FsLightbox from "fslightbox-react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Lightbox from "yet-another-react-lightbox";
+import { useEffect } from "react";
+import Footer from "./Footer";
+import "yet-another-react-lightbox/styles.css";
 
 const Photos = () => {
-  const [toggler, setToggler] = useState(false);
+  const galleries = `${process.env.REACT_APP_APIENDPOINTNEW}user/getGallery`;
+  const [open, setOpen] = useState(false);
+  const [gallery, setGallery] = useState([]);
+  let id = useParams();
+  const [slide, setSlide] = useState([]);
+  useEffect(() => {
+    getPhotos();
+  }, []);
+
+  const getPhotos = async () => {
+    const { data } = await axios.post(galleries + "/" + id?.id);
+    console.log(data);
+    setGallery(data?.results?.gallery);
+  };
+
+  const getSlides = (img) => {
+    console.log(img);
+    let Slide = [];
+    if (img) {
+      Slide?.unshift({ src: img });
+    }
+
+    (gallery?.images || [])?.map((item) => {
+      if (item) {
+        Slide?.push({ src: item });
+      }
+    });
+    setSlide(Slide);
+    console.log(slide);
+    setOpen(true);
+  };
 
   return (
     <div>
@@ -11,108 +46,27 @@ const Photos = () => {
       <section class="photos">
         <div className="container">
           <div className="row photos_main mt-5">
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  onClick={() => setToggler(!toggler)}
-                  src={require("../../assets/img/banner_img2.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  onClick={() => setToggler(!toggler)}
-                  src={require("../../assets/img/banner_img2.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  onClick={() => setToggler(!toggler)}
-                  src={require("../../assets/img/starBgg.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  onClick={() => setToggler(!toggler)}
-                  src={require("../../assets/img/banner_img2.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  onClick={() => setToggler(!toggler)}
-                  src={require("../../assets/img/banner_img3.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4">
-              <a>
-                <img
-                  src={require("../../assets/img/banner_img2.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-              <a>
-                <img
-                  src={require("../../assets/img/profile_img1.png")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-              <a>
-                <img
-                  src={require("../../assets/img/banner_img1.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-              <a>
-                <img
-                  src={require("../../assets/img/product_new1.png")}
-                  alt="Park"
-                />
-              </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-              <a>
-                <img
-                  src={require("../../assets/img/banner_img3.jpg")}
-                  alt="Park"
-                />
-              </a>
-            </div>
+            {(gallery?.images || [])?.map((item, ind) => (
+              <div class="col-sm-6 col-md-6 col-lg-4">
+                <a>
+                  <img
+                    onClick={() => {
+                      getSlides(item);
+                      // setOpen(true);
+                    }}
+                    src={
+                      item ? item : require("../../assets/img/banner_img2.jpg")
+                    }
+                    alt="Park"
+                  />
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-      <FsLightbox
-        toggler={toggler}
-        sources={[
-          "../../assets/img/banner_img3.jpg",
-          "../../assets/img/banner_img3.jpg",
-          "../../assets/img/banner_img1.jpg",
-          "../../assets/img/banner_img3.jpg",
-          "../../assets/img/banner_img2.jpg",
-          "../../assets/img/banner_img3.jpg",
-          "../../assets/img/banner_img3.jpg",
-          "../../assets/img/banner_img1.jpg",
-          "../../assets/img/banner_img3.jpg",
-        ]}
-      />
+      <Footer />
+      <Lightbox open={open} close={() => setOpen(false)} slides={slide} />
     </div>
   );
 };

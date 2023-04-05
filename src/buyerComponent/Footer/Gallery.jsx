@@ -4,10 +4,26 @@ import Footer from "./Footer";
 import image from "../../assets/img/starBggN.jpg";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
+import Carousel from "react-grid-carousel";
+import moment from "moment";
 
 const Gallery = () => {
+  const galleries = `${process.env.REACT_APP_APIENDPOINTNEW}user/getGalleries`;
   const [loader, setLoader] = useState(false);
+  const [gallery, setGallery] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getGalleries();
+  }, []);
+  const getGalleries = async () => {
+    const { data } = await axios.post(galleries);
+    console.log(data);
+    setGallery(data?.results?.galleries);
+  };
+
   return (
     <div className="header_top">
       <Navbar />
@@ -67,183 +83,53 @@ const Gallery = () => {
               </div>
 
               <div
-                className="container-fluid tm-container-content tm-mt-60"
+                className="container-fluid tm-container-content tm-mt-60 mt-5"
                 id="collection"
               >
-                <div className="row mb-4 mt-5 d-flex justify-content-center">
-                  <h2 className="mt-4  Collect_header">Collection</h2>
-                  <div className="col-6 d-flex justify-content-end align-items-center">
-                    {/* <form action="" className="tm-text-primary">
-                      Page
-                      <input
-                        type="text"
-                        defaultValue={1}
-                        size={1}
-                        className="tm-input-paging tm-text-primary"
-                      />
-                      of 200
-                    </form> */}
+                <div>
+                  <div class="nine">
+                    <h1>
+                      GallerieS<span>Latest</span>
+                    </h1>
                   </div>
                 </div>
-                <div className="row tm-mb-90 tm-gallery">
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_1.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Warehouse</h2>
-                        <a
-                          onClick={() => {
-                            navigate("/app/Gallery/Photos");
-                          }}
-                        >
-                          View more
-                        </a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_1.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Oulets</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/banner_1.jpg")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/product_new2.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_1.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_4.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_1.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure className="effect-ming tm-video-item">
-                      <img
-                        src={require("../../assets/img/brand_4.png")}
-                        alt="Image"
-                        className="img-fluid"
-                      />
-                      <figcaption className="d-flex align-items-center justify-content-center">
-                        <h2>Clocks</h2>
-                        <a href="photo-detail.html">View more</a>
-                      </figcaption>
-                    </figure>
-                    <div className="d-flex justify-content-between tm-text-gray">
-                      <span className="tm-text-gray-light">18 Oct 2020</span>
-                    </div>
-                  </div>
-                </div>
-                {/* row */}
-                <div className="row tm-mb-90">
-                  <div className="col-12 d-flex justify-content-between align-items-center tm-paging-col">
-                    <a className="comman_btn2 disabled">Previous</a>
-                    <div className="tm-paging d-flex">
-                      <a
-                        href="javascript:void(0);"
-                        className="active tm-paging-link"
-                      >
-                        1
-                      </a>
-                      <a href="javascript:void(0);" className="tm-paging-link">
-                        2
-                      </a>
-                      <a href="javascript:void(0);" className="tm-paging-link">
-                        3
-                      </a>
-                      <a href="javascript:void(0);" className="tm-paging-link">
-                        4
-                      </a>
-                    </div>
-                    <a className="comman_btn2">Next Page</a>
-                  </div>
+                <div className="row tm-mb-90 tm-gallery p-4 ">
+                  <Carousel cols={4} rows={1} gap={15} loop autoplay={3000}>
+                    {(gallery || [])?.map((item, ind) => (
+                      <Carousel.Item>
+                        <div className="border rounded bg-white shadow">
+                          <figure className="effect-ming tm-video-item">
+                            <img
+                              src={
+                                item?.coverImage
+                                  ? item?.coverImage
+                                  : require("../../assets/img/brand_1.png")
+                              }
+                              alt="Image"
+                              className="img-fluid"
+                            />
+                            <figcaption className="d-flex align-items-center justify-content-center">
+                              <h2>{item?.title}</h2>
+                              <a
+                                onClick={() => {
+                                  navigate(`/app/Gallery/Photos/${item?._id}`);
+                                }}
+                              >
+                                View more
+                              </a>
+                            </figcaption>
+                          </figure>
+                          <div className="d-flex justify-content-center tm-text-gray">
+                            <span className="tm-text-gray-light mb-1">
+                              {moment(item?.createdAt?.slice(0, 10)).format(
+                                "MM/DD/YYYY"
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
                 </div>
               </div>
               <Footer />

@@ -158,7 +158,11 @@ const ChangePassword = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("Sub-Admin") ? "" : "d-none"}>
+                <li
+                  className={
+                    User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
@@ -172,6 +176,26 @@ const ChangePassword = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                <li
+                  className={
+                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
                   </Link>
                 </li>
                 <li
@@ -228,7 +252,6 @@ const ChangePassword = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                      
                     }}
                   >
                     <i
@@ -307,6 +330,22 @@ const ChangePassword = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
                   </Link>
                 </li>
                 <li>
@@ -420,7 +459,6 @@ const ChangePassword = () => {
                         id="name"
                         {...register("oldPassword")}
                       />
-                      
                     </div>
 
                     {/* <div className="form-group col-12">
@@ -443,7 +481,7 @@ const ChangePassword = () => {
                         id="password"
                         {...register("newPassword")}
                       />
-                       <span
+                      <span
                         onClick={togglePassword}
                         className="fa fa-fw fa-eye field-icon toggle-password3"
                       />

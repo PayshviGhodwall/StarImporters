@@ -42,12 +42,12 @@ const SubCategories = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-2">&#62;</span>{" "}
+                        Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <a className="text-decoration-none text-white fs-6  ">
                       {location?.state.name}{" "}
-                      <span className="arrow mx-2">&#62;</span>{" "}
+                      <span className="arrow mx-2">&#9679;</span>{" "}
                     </a>
                     <a className="text-decoration-none text-white fs-6  ">
                       Sub-Categories <span className="arrow mx-2"></span>{" "}
@@ -60,6 +60,51 @@ const SubCategories = () => {
         </div>
       </section>
       <>
+        <section class="Sub-Categories-page comman_padding">
+          <div class="container">
+            <div class="row comman_divvision mx-0">
+              {/* <a class="view_all" href="javascript:;">
+                View All
+              </a> */}
+              <div class="col-12 mb-3">
+                <div class="comn_heads mb-5">
+                  <h2>Sub Categories</h2>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row justify-content-center comman_product1">
+                  {(categories || [])?.map((item, index) => (
+                    <div class="col-lg-3 col-md-4 mb-5">
+                      <a class="categorynew_box text-decoration-none">
+                        <Link
+                          to="/SubCategory/Products"
+                          state={{
+                            name: item?.subCategoryName,
+                            catName: location?.state?.name,
+                          }}
+                        >
+                          <div class="categorynew_img">
+                            <img
+                              src={
+                                item?.subCategoryImage
+                                  ? item?.subCategoryImage
+                                  : require("./../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
+                          </div>
+                        </Link>
+                        <span>{item?.subCategoryName}</span>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* 
         <section className="brands_page py-5 ">
           <div className="container">
             <div className="row">
@@ -98,7 +143,7 @@ const SubCategories = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </>
       <Footer />
     </div>

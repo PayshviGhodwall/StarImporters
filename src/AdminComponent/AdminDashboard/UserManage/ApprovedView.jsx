@@ -223,6 +223,26 @@ const ApprovedView = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
+                  </Link>
+                </li>
+                <li
+                  className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
                   }
                 >
@@ -393,6 +413,22 @@ const ApprovedView = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
                   </Link>
                 </li>
                 <li>
@@ -956,7 +992,18 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">
+                            Wholesale Confirmation ?
+                          </span>
+                          <div className="col">
+                            <strong>
+                              {user?.wholesaleConfirmation ? "Yes" : "No"}
+                            </strong>
+                          </div>
+                        </div>
+                      </div>
                       <div className="col-12 text-center">
                         <Link
                           to="/UserManage/ApprovedView-editUser"

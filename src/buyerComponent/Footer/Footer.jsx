@@ -97,37 +97,31 @@ const Footer = () => {
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
                     <li>
-                      <a
+                      <Link
                         className="text-decoration-none"
                         onClick={() => navigate("/app/home")}
                       >
                         Home{" "}
-                      </a>
+                      </Link>
                     </li>
 
                     <li>
-                      <a
+                      <Link
                         className="text-decoration-none"
-                        onClick={() =>
-                          navigate("/app/Gallery", {
-                            state: "jiji",
-                          })
-                        }
+                        to="/app/Gallery"
+                        state={"JII"}
                       >
                         Gallery{" "}
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
+                      <Link
                         className="text-decoration-none"
-                        onClick={() =>
-                          navigate("/app/brands", {
-                            state: "jiji",
-                          })
-                        }
-                      >
+                        to="/app/brands"
+                        state={"JII"}
+                        >
                         Brands{" "}
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <Link

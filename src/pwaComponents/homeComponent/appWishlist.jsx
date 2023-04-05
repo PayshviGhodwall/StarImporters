@@ -66,10 +66,10 @@ function AppWishlist() {
         <div className="page-content-wrapper">
           <div className="py-3">
             <div className="container">
-              <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+              <div className="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r mb-4">
                 <h6>Wishlist Items - {products?.length}</h6>
               </div>
-              <div className="row g-2">
+              <div className="row mt-0">
                 {(products || [])?.map((item, index) => (
                   <div className="col-12 mb-3" key={index}>
                     <div className="horizontal-product-card">
@@ -82,38 +82,30 @@ function AppWishlist() {
                           >
                             <img
                               src={
-                                item?.flavour?.flavourImage
-                                  ? item?.flavour?.flavourImage
-                                  : require("../../assets/img/product.jpg")
+                                item?.flavour
+                                  ? item?.flavour?.flavourImage ||
+                                    require("../../assets/img/product.jpg")
+                                  : item?.productId?.productImage ||
+                                    require("../../assets/img/product.jpg")
                               }
                               alt=""
                             />
                           </Link>
                         </div>
-                        <div className="product-description">
-                          <a
-                            className="delete-btn"
-                            onClick={() => rmvFromFav(index)}
-                          >
-                            <i className="fa-solid fa-trash-can"></i>
-                          </a>
+
+                        <div className="">
                           <Link
-                            className="product-title d-block fs-5 mb-2"
+                            className="product-title d-block fs-5 mb-3"
                             to={`/app/product-detail/${item?.productId?._id}`}
                             state={{ type: item?.flavour }}
                           >
-                            {item?.productId?.unitName +
-                              "-" +
-                              item?.flavour?.flavour}
+                            {item?.productId?.unitName}
+                            {item?.flavour?.flavour
+                              ? "-" + item?.flavour?.flavour
+                              : null}
                           </Link>
-                          <div className="product-rating mt-2 mb-2">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                          </div>
-                          <div className="col-auto mt-3">
+
+                          <div className=" d-flex">
                             <Link
                               class="cart_bttn"
                               to=""
@@ -123,6 +115,12 @@ function AppWishlist() {
                             >
                               <i class="fa-light fa-plus"></i>
                             </Link>
+                            <a
+                              className="delete_btn mx-3 mt-2"
+                              onClick={() => rmvFromFav(index)}
+                            >
+                              <i className="fa-solid fa-trash-can"></i>
+                            </a>
                           </div>
                           <div class="col-auto"></div>
                         </div>

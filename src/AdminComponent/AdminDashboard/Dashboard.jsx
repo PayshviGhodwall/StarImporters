@@ -237,6 +237,26 @@ const Dashboard = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
+                  </Link>
+                </li>
+                <li
+                  className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
                   }
                 >
@@ -368,6 +388,22 @@ const Dashboard = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Gallery-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
+                    Gallery Management
                   </Link>
                 </li>
                 <li>

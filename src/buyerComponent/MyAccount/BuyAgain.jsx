@@ -3,14 +3,56 @@ import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
-
+import axios from "axios";
 
 const BuyAgain = () => {
   const [users, setUsers] = useState();
+  const products = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/purchasedProducts`;
+  const addInCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/buyAgain`;
+  const [purchasedProd, setPurchasedProd] = useState();
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
+  const [list, setList] = useState([]);
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
+    getProducts();
   }, []);
+
+  const getProducts = async () => {
+    await axios.post(products).then((res) => {
+      setPurchasedProd(res?.data.results.products);
+    });
+  };
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter((item) => item !== id));
+    }
+  };
+  const handleSelectAll = (e) => {
+    setIsCheckAll(!isCheckAll);
+    setIsCheck(purchasedProd?.map((li) => li._id));
+    if (isCheckAll) {
+      setIsCheck([]);
+    }
+  };
+  const AddtoCart = async () => {
+    if (isCheckAll) {
+      await axios.post(addInCart, {
+        productId: purchasedProd?.map((item) => item?.products),
+        quantity: 1,
+        flavour: purchasedProd?.map((li) => li._id),
+      });
+    }
+    // await axios.post(addInCart, {
+    //   productId: cartProduct[0],
+    //   quantity: cartProduct[1],
+    //   flavour: flavour,
+    // });
+  };
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -48,7 +90,7 @@ const BuyAgain = () => {
 
       <div className="myaccount mb-4 ">
         <div className="container-lg position-relative">
-        <Profile/>
+          <Profile />
         </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
@@ -112,10 +154,7 @@ const BuyAgain = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div
-                      className="nav px-3 py-2  border  "
-                      role="tablist"
-                    >
+                    <div className="nav px-3 py-2  border  " role="tablist">
                       <h4 className="">
                         <i className="fas fa-heart" />
                         <span className="fs-6 mx-2">MY FAVOURITES</span>
@@ -139,7 +178,10 @@ const BuyAgain = () => {
                     style={{ textDecoration: "none", fontSize: "15px" }}
                     className="nav-link"
                   >
-                    <div className="nav-active  text-white px-3 py-2 border  " role="tablist">
+                    <div
+                      className="nav-active  text-white px-3 py-2 border  "
+                      role="tablist"
+                    >
                       <h4 className="">
                         <i className="fa fa-shopping-cart mt-1" />
                         <span className="fs-6 mx-2">BUY AGAIN</span>
@@ -153,168 +195,67 @@ const BuyAgain = () => {
             <div className="col-lg-9 col-md-9 col-sm-9">
               <div className="bg-white p-4 ">
                 <div className="row">
-                  <div className="col-12">
+                  {/* <div className="col-12 fs-5 fw-bold">Purchased Products</div> */}
+                  <div className="row myfavourites">
+                    {(purchasedProd || [])?.map((item, index) =>
+                      item.products?.map((val, ind) => (
+                        <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
+                          <div className="product_parts_box">
+                            <div className="partsproduct_img">
+                              <img
+                                src={
+                                  val?.flavour
+                                    ? val?.flavour?.flavourImage ||
+                                      require("../../assets/img/product.jpg")
+                                    : val?.productId?.productImage ||
+                                      require("../../assets/img/product.jpg")
+                                }
+                                alt="Product"
+                              />
+                              <label class="checkbox-label">
+                                <input
+                                  type="checkbox"
+                                  key={item._id}
+                                  name={ind}
+                                  id={item?._id}
+                                  onChange={handleClick}
+                                  class="checkbox-input"
+                                  checked={isCheck.includes(item?._id)}
+                                />
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                            <div>
+                              <div class="featuredproduct_details p-2 text-center">
+                                <span>
+                                  {val?.productId?.unitName}
+                                  {"-"}
+                                  {val?.flavour ? val?.flavour?.flavour : null}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
 
-                    PURCHASE HISTORY IS NOT AVAILABLE.....
-                    {/* <div className="row myfavourites">
-                      <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 mb-2">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
-                        <div className="product_parts_box">
-                          <div className="partsproduct_img mb-4">
-                            <img
-                              src={require("../../assets/img/product_new9.png")}
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="product_content mt-2 text-center">
-                            <Link to="" className="text-decoration-none">
-                              Elf Bar 5000Puff
-                            </Link>
-                            <div className="rating_box mt-1 ">
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i className="fas fa-star" />
-                              </a>
-                              <a href="javasript:;">
-                                <i
-                                  className="fa fa-star"
-                                  style={{ color: "#b1afaa" }}
-                                ></i>
-                              </a>
-                            </div>
-                            <a
-                              className="fav_btn change_btn"
-                              href="javscript:;"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                     
-                    </div> */}
+                  <div className="col-lg-5 col-md-5 mb-2 ">
+                    <label class="checkbox-label-all d-flex">
+                      <input
+                        type="checkbox"
+                        name="selectAll"
+                        id="selectAll"
+                        onChange={handleSelectAll}
+                        checked={isCheckAll}
+                        class="checkbox-input-all"
+                      />
+                      <span class="checkmark-all"></span>
+                      <span className="select-text">Select All</span>
+                    </label>
+                  </div>
+                  <div className="col-lg-6 col-md-6 mb-2 justify-content-center">
+                    <button className="Signupb">Add to Cart</button>
                   </div>
                 </div>
               </div>

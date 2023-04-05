@@ -53,7 +53,7 @@ const SignUp = () => {
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
       formData.append("heardAboutUs", data?.heardAboutUs);
-      // formData.append("tobaccoLicenceExpiry ", data?.heardAboutUs);
+      formData.append("comments ", data?.comments);
 
       await axios
         .post(apiUrl, formData)
@@ -711,6 +711,36 @@ const SignUp = () => {
                     </label>
                   </div>
 
+                  <div className="form-floating col-12 mb-4">
+                    <textarea
+                      type="text"
+                      className={classNames(
+                        "form-control  border border-secondary signup_fields ",
+                        { "is-invalid": errors.comments }
+                      )}
+                      id="floatingComment"
+                      placeholder="Type anything ....."
+                      name="comments"
+                      {...register("comments", {
+                        maxLength: {
+                          value: 200,
+                          message: "maximium 200 Charcarters",
+                        },
+                        minLength: 10,
+                      })}
+                    />
+                    {errors.comments && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.comments?.message}
+                      </small>
+                    )}
+                    <label
+                      htmlFor="floatingComment"
+                      className="mx-2 fw-bolder text-secondary"
+                    >
+                      Comments (optional)
+                    </label>
+                  </div>
                   <div class="form-check mt-1 col-6 mx-3 ">
                     <input
                       className={classNames(

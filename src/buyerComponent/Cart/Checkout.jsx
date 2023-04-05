@@ -238,10 +238,11 @@ const Checkout = () => {
                     <span>Store Address :</span>
                     <h2>Star Importers</h2>
                     <p className="mb-0">
-                      2166 Mountain Industrial Blvd, Tucker, GA, United States,
-                      Georgia
+                      <i className="fas fa-map-signs" /> 2166 Mountain
+                      Industrial Blvd, Tucker, GA 30084, United States
+                      <br />
+                      <i className="fas fa-phone-alt" /> +1 770-908-0404
                     </p>
-                    <p>5898687485,748746595</p>
                   </div>
                 )}
               </div>

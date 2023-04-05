@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { aboutUs } from "../httpServices/homeHttpService/homeHttpService";
-import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppAboutUs() {
@@ -15,7 +13,7 @@ function AppAboutUs() {
   const getContentInfo = async () => {
     const { data } = await aboutUs();
     if (!data.error) {
-      setContent(data.results[0].description);
+      setContent(data.results[0]?.description);
     }
   };
   return (
@@ -31,7 +29,6 @@ function AppAboutUs() {
             <div class="page-heading">
               <h6 class="mb-0">About Us</h6>
             </div>
-           
           </div>
         </div>
         <WebHeader2 />

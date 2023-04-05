@@ -114,6 +114,7 @@ import AppTerms from "./pwaComponents/homeComponent/AppTerms";
 import QuotePdf from "./AdminComponent/AdminDashboard/OrdersManage/QuotePdf";
 import Gallery from "./buyerComponent/Footer/Gallery";
 import Photos from "./buyerComponent/Footer/Photos";
+import GalleryMain from "./AdminComponent/AdminDashboard/GalleryManage/GalleryMain";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -192,6 +193,7 @@ function App() {
           <Route path="/Inventory/View" element={<ViewProduct />} />
           <Route path="/Inventory/View-Edit" element={<EditInventory />} />
           <Route path="/BrandsManage" element={<BrandsManage />} />
+          <Route path="/Gallery-Management" element={<GalleryMain />} />
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
@@ -204,7 +206,7 @@ function App() {
           />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/app/Gallery" element={<Gallery />} />
-          <Route path="/app/Gallery/Photos" element={<Photos />} />
+          <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
           <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
           <Route path="/Cart/Checkout" element={<Checkout />} />
           <Route path="/app/subCategories" element={<SubCategories />} />

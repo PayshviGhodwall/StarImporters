@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 //
 const UserManage = () => {
@@ -392,6 +393,32 @@ const UserManage = () => {
                   </li>
                   <li
                     className={
+                      User?.access?.includes("Gallery Management")
+                        ? ""
+                        : "d-none"
+                    }
+                  >
+                    <Link
+                      className=""
+                      to="/Gallery-Management"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                      }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fas fa-user-cog"
+                      ></i>{" "}
+                      Gallery Management
+                    </Link>
+                  </li>
+                  <li
+                    className={
                       User?.access?.includes("Orders Request") ? "" : "d-none"
                     }
                   >
@@ -562,6 +589,26 @@ const UserManage = () => {
                         class="fas fa-user-cog"
                       ></i>{" "}
                       Sub-Admin Management
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className=""
+                      to="/Gallery-Management"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                      }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fas fa-image"
+                      ></i>{" "}
+                      Gallery Management
                     </Link>
                   </li>
                   <li>
@@ -837,6 +884,7 @@ const UserManage = () => {
                                           marginLeft: "8px",
                                         }}
                                       >
+                                        <th>Date</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
                                         <th>Address</th>
@@ -864,11 +912,11 @@ const UserManage = () => {
                                         })
                                         .map((User, index) => (
                                           <tr className="" key={index}>
-                                            {/* <td className="border">
-                                              {(activePendingPage - 1) * 15 +
-                                                (index + 1)}
-                                              .
-                                            </td> */}
+                                            <td className="border">
+                                              {moment(
+                                                User?.createdAt?.slice(0, 10)
+                                              ).format("MM/DD/YYYY")}
+                                            </td>
                                             <td className="border table_user">
                                               {User?.companyName}
                                             </td>
@@ -985,6 +1033,7 @@ const UserManage = () => {
                                             marginLeft: "8px",
                                           }}
                                         >
+                                          <th>Date</th>
                                           <th>Company Name</th>
                                           <th>User Name</th>
                                           <th>Address</th>
@@ -998,6 +1047,11 @@ const UserManage = () => {
                                         {(approvedUsers || []).map(
                                           (User, index) => (
                                             <tr key={index} className="">
+                                              <td className="border">
+                                                {moment(
+                                                  User?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
                                               <td className="border">
                                                 {User?.companyName}
                                               </td>
@@ -1131,41 +1185,6 @@ const UserManage = () => {
                             role="tabpanel"
                             aria-labelledby="nav-return-tab"
                           >
-                            {/* <form
-                              className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                              action=""
-                            >
-                              <div className="form-group mb-0 col-5">
-                                <label htmlFor="">From</label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  name="from"
-                                  id="rejFrom"
-                                  value={values.from}
-                                  onChange={handleDate}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-5">
-                                <label htmlFor="">To</label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  name="to"
-                                  id="rejTo"
-                                  value={values.to}
-                                  onChange={handleDate}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-auto">
-                                <button
-                                  className="comman_btn"
-                                  onClick={onReturnedSearch}
-                                >
-                                  Search
-                                </button>
-                              </div>
-                            </form> */}
                             <div className="row">
                               <div className="col-12 comman_table_design ">
                                 <div className="table-responsive">
@@ -1177,12 +1196,12 @@ const UserManage = () => {
                                           marginLeft: "8px",
                                         }}
                                       >
+                                        <th>Date</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
                                         <th>Address</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
-                                        <th>Status</th>
                                         <th>Action</th>
                                       </tr>
                                     </thead>
@@ -1204,6 +1223,11 @@ const UserManage = () => {
                                         .map((User, index) => (
                                           <tr key={index} className="">
                                             <td className="border">
+                                              {moment(
+                                                User?.createdAt?.slice(0, 10)
+                                              ).format("MM/DD/YYYY")}
+                                            </td>
+                                            <td className="border">
                                               {User?.companyName}
                                             </td>
                                             <td className="border">
@@ -1220,9 +1244,7 @@ const UserManage = () => {
                                             <td className="border">
                                               {User?.phoneNumber}
                                             </td>
-                                            <td className="fs-6 text-danger border">
-                                              {User?.isVerified}
-                                            </td>
+
                                             <td className="border">
                                               <Link
                                                 className="comman_btn2  text-decoration-none"

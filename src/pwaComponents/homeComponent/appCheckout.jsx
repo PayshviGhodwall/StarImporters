@@ -125,7 +125,7 @@ function AppCheckout() {
                           <p>
                             <p className="mb-0">
                               2166 Mountain Industrial Blvd. GA, United States,
-                              Georgia, 78548962
+                              Georgia
                             </p>
                           </p>
                         </div>
