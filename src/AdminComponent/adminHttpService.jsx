@@ -1,6 +1,6 @@
 import axios from "axios";
 
-
+axios.defaults.headers.append("Access-Control-Allow-Origin", "*");
 axios.defaults.headers.common["x-auth-token-user"] =
   localStorage.getItem("token-user");
 axios.interceptors.request.use(async (req) => {

@@ -23,6 +23,7 @@ const PendingView = () => {
   const [docs, setDocs] = useState([]);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
   const objectId = localStorage.getItem("objectId");
@@ -65,8 +66,10 @@ const PendingView = () => {
       setUser(res.data.results);
       let data = res?.data.results;
       setDocs([
-        { uri: data?.federalTaxId, fileType: "pdf" },
-        { uri: data?.salesTaxId },
+        {
+          uri: require("./../../../assets/img/banner_img.png"),
+        },
+        { uri: require("./../../../assets/new.pdf") },
         { uri: data?.tobaccoLicence },
         { uri: data?.businessLicense },
         { uri: data?.accountOwnerId },
@@ -89,7 +92,7 @@ const PendingView = () => {
 
   const preview = (id) => {
     document.getElementById("preview_modal").click();
-    document.getElementById("preview_images").src = id;
+    // document.getElementById("preview_images").src = id;
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -1274,7 +1277,6 @@ const PendingView = () => {
               <DocViewer
                 documents={docs}
                 pluginRenderers={DocViewerRenderers}
-                // initialActiveDocument={docs[1]}
                 style={{ height: 1000 }}
               />
             </div>
