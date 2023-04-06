@@ -347,6 +347,7 @@ const Navbar = ({ NState, LoginState }) => {
                                 }
                               >
                                 View all
+                                <i class="fa fa-arrow-up-right-from-square mx-2"></i>
                               </a>
                             ) : (
                               <a>No Results....</a>

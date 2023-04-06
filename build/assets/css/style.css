@@ -1923,7 +1923,6 @@
     display: flex;
     margin-top: 1rem !important;
     justify-content: space-between;
-    background-color: #fff;
   }
   .fav_btn {
     background-image: url(../img/fav_icon.png);
@@ -13839,7 +13838,7 @@ figure.effect-ming:hover img {
   transform: translateY(-50%);
 }
 .search_ibtn img {
-  max-width: 30px;
+  max-width: 30px !important;
 }
 .cart_header i {
   max-width: 40px;
@@ -14309,6 +14308,7 @@ figure.effect-ming:hover img {
 .header_menuss li:hover > a {
   background-color: #fff;
   color: #3e4093;
+  cursor: pointer;
 }
 .new_dropdown {
   z-index: 999 !important;
@@ -14328,9 +14328,20 @@ figure.effect-ming:hover img {
   top: 21px;
   filter: brightness(20.5);
 }
+@keyframes list-anime {
+  0% {
+    opacity: 15%;
+  }
+
+  100% {
+    opacity: 100%;
+  }
+}
+
 .header_menuss li:hover > .new_dropdown_link::after {
   filter: unset;
   transform: rotate(180deg);
+  transition: 2s ease-in !important;
 }
 .header_menuss li .new_dropdown_link {
   padding: 15px 32px 15px 22px;
@@ -14361,6 +14372,8 @@ figure.effect-ming:hover img {
   box-shadow: 0 35px 30px #00000029;
   max-height: 300px;
   overflow-y: scroll;
+  animation-name: list-anime;
+  animation-duration: 0.7s;
 }
 .new_dropdown:hover .new_dropdown_inner a:last-child {
   border: 0;
@@ -14376,7 +14389,9 @@ figure.effect-ming:hover img {
   cursor: pointer;
 }
 .new_dropdown_inner a:hover {
-  transform: translateX(7px);
+  transform: translateX(8px);
+  background-color: #3e4093 !important;
+  color: #fff !important;
 }
 .new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar {
   width: 5px !important;

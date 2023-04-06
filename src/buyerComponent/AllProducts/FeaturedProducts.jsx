@@ -29,7 +29,7 @@ const FeaturedProducts = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTop">
+      <section className="comman_banner _banner marginTopSec">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -58,49 +58,51 @@ const FeaturedProducts = () => {
         </div>
       </section>
       <>
-        <section className="brands_page py-5 ">
+        <section className="brands_page px-5 mt-2 ">
           <div className="container">
             <div className="row">
               <div className="col width_adjust_right">
                 <div className="product_single_right row p-2">
                   {products?.length ? (
-                    <div className="col-12 py-2 border rounded Paginate ">
-                      <span className="totalPage">Total Pages : {maxPage}</span>
-                      <ul id="pagination" className="pagination">
-                        <li>
+                    <div className="col-12 py-2 rounded Paginate ">
+                      <div class="col-6 mb-2 ps-lg-3">
+                        <div class="singleproducttop---left ps-lg-2">
+                          Total Pages: <span>{maxPage}</span>
+                        </div>
+                      </div>
+                      <div class="col-6 mb-2 text-end">
+                        <div class="singleproduct---paginationss">
                           <a
-                            class="fs-6 control"
                             onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage <= 1
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
                             }}
                           >
-                            « previous
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />{" "}
+                            Previous
                           </a>
-                        </li>
-
-                        <li>
-                          <a className="active">{activePage}</a>
-                        </li>
-
-                        <li>
+                          <span>{activePage}</span>
                           <a
-                            className="fs-6"
                             onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage === maxPage
                                 ? setActivePage(maxPage)
                                 : setActivePage(activePage + 1);
                             }}
                           >
-                            next »
+                            Next{" "}
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />
                           </a>
-                        </li>
-                      </ul>
+                        </div>
+                      </div>
                     </div>
                   ) : null}
                   {(products || [{}])?.map((item, index) => (
@@ -173,43 +175,45 @@ const FeaturedProducts = () => {
                     </div>
                   ))}
                   {products?.length ? (
-                    <div className="col-12  py-2  mt-3 rounded Paginate ">
-                      <span className="totalPage">Total Pages : {maxPage}</span>
-                      <ul id="pagination" className="pagination">
-                        <li>
+                    <div className="col-12 py-2 rounded Paginate ">
+                      <div class="col-6 mb-2 ps-lg-3">
+                        <div class="singleproducttop---left ps-lg-2">
+                          Total Pages: <span>{maxPage}</span>
+                        </div>
+                      </div>
+                      <div class="col-6 mb-2 text-end">
+                        <div class="singleproduct---paginationss">
                           <a
-                            class="fs-6 control"
                             onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage <= 1
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
                             }}
                           >
-                            « previous
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />{" "}
+                            Previous
                           </a>
-                        </li>
-
-                        <li>
-                          <a className="active">{activePage}</a>
-                        </li>
-
-                        <li>
+                          <span>{activePage}</span>
                           <a
-                            className="fs-6"
                             onClick={() => {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
                               activePage === maxPage
                                 ? setActivePage(maxPage)
                                 : setActivePage(activePage + 1);
                             }}
                           >
-                            next »
+                            Next{" "}
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />
                           </a>
-                        </li>
-                      </ul>
+                        </div>
+                      </div>
                     </div>
                   ) : null}
                 </div>

@@ -12,7 +12,7 @@ import axios from "axios";
 import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
-
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const PendingView = () => {
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -20,6 +20,7 @@ const PendingView = () => {
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
+  const [docs, setDocs] = useState([]);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -57,10 +58,19 @@ const PendingView = () => {
         }
       });
   };
+
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
       setUser(res.data.results);
+      let data = res?.data.results;
+      setDocs([
+        { uri: data?.federalTaxId, fileType: "pdf" },
+        { uri: data?.salesTaxId },
+        { uri: data?.tobaccoLicence },
+        { uri: data?.businessLicense },
+        { uri: data?.accountOwnerId },
+      ]);
       return res.data;
     };
     getUser();
@@ -1249,7 +1259,7 @@ const PendingView = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header comman_modal">
               <h5 class="modal-title">Preview</h5>
@@ -1261,11 +1271,12 @@ const PendingView = () => {
               ></button>
             </div>
             <div class="modal-body">
-              <img
-                src={user?.federalTaxId}
-                className="preview_image"
-                id="preview_images"
-              ></img>
+              <DocViewer
+                documents={docs}
+                pluginRenderers={DocViewerRenderers}
+                // initialActiveDocument={docs[1]}
+                style={{ height: 1000 }}
+              />
             </div>
             <div class="modal-footer">
               <button
