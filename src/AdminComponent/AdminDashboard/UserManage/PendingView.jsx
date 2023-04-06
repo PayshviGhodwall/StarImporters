@@ -74,6 +74,7 @@ const PendingView = () => {
         { uri: data?.businessLicense },
         { uri: data?.accountOwnerId },
       ]);
+      console.log(data?.accountOwnerId);
       return res.data;
     };
     getUser();
