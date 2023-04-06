@@ -33,6 +33,7 @@ function AppProductSubCategory() {
     getCategoryList();
     getProductList();
     GetBrands();
+    
   }, [activePage]);
 
   const GetBrands = async () => {
@@ -300,13 +301,6 @@ function AppProductSubCategory() {
                                   "-" +
                                   item?.products?.type[0]?.flavour}
                               </a>
-                              <div className="product-rating">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
                             </div>
                             {/* <div class="col-auto">
                               <Link

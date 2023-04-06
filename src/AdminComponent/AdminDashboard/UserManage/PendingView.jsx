@@ -59,6 +59,10 @@ const PendingView = () => {
         }
       });
   };
+  const headers = {
+    "x-auth-token-admin": localStorage.getItem("AdminLogToken"),
+    // "Access-Control-Allow-Origin": "*",
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -67,9 +71,9 @@ const PendingView = () => {
       let data = res?.data.results;
       setDocs([
         {
-          uri: require("./../../../assets/img/banner_img.png"),
+          uri: data?.federalTaxId?.text.replace("http", "https"),
         },
-        { uri: require("./../../../assets/new.pdf") },
+        { uri: data?.salexTaxId },
         { uri: data?.tobaccoLicence },
         { uri: data?.businessLicense },
         { uri: data?.accountOwnerId },
@@ -83,6 +87,7 @@ const PendingView = () => {
   const fileDownload = (url) => {
     saveAs(url);
   };
+
   const approveUser = async () => {
     setLoader(true);
     const res = await axios.post(approveUrl + "/" + objectId);

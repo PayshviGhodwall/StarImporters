@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getBrands,
   getCategory,
@@ -9,14 +9,40 @@ import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function AppSubCategories() {
   const [categories, setCategories] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   let { id } = useParams();
-
+  const navigate = useNavigate();
   let ref = useRef();
+
+  if (id === "639a042ff2f72167b43774de") {
+    Swal.fire({
+      title: "Please Make Sure!",
+      text: "",
+      icon: "warning",
+
+      position: "bottom-end",
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Thumbs up, Okay!",
+      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+      cancelButtonAriaLabel: "Thumbs down",
+      html: "<ol><li>Your are above <b>18 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        navigate("/app/home");
+      }
+    });
+  }
   useEffect(() => {
     getCategoryList();
   }, [activePage]);

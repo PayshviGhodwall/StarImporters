@@ -46,6 +46,12 @@ function AppWishlist() {
     };
     console.log(formData);
     const { data } = await addToCart(formData);
+    Swal.fire({
+      title: "Added to Cart!",
+      text:"Product added to Cart.",
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Thumbs up, Okay!",
+    });
     if (!data.error) {
       await axios
         .post(rmvFav, {

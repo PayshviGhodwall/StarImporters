@@ -230,6 +230,7 @@ function AppEditProfile() {
                       <input
                         className="form-control form-control2"
                         type="text"
+                        disabled
                         placeholder=""
                         name="addressLine"
                         id="addressLine"

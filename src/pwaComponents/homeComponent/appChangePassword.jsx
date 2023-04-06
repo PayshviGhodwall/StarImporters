@@ -179,9 +179,7 @@ function AppChangePassword() {
                           <i className="fa-solid fa-key"></i>
                           <span>
                             New Password{" "}
-                            <span className="text-secondary">
-                              (example:StarLovers123@)
-                            </span>
+                            <span className="text-secondary"></span>
                           </span>
                         </div>
                         <input

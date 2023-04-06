@@ -229,124 +229,123 @@ function AppCart() {
                     </Link>
                   )}
                   <div className=" fixed-head">
-                  <table className="table mb-0 ">
-                    {cart?.length ? (
-                      <tbody className="">
-                        {(cart || [])?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <th scope="">
-                                <Link
-                                  className="remove-product"
-                                  to=""
-                                  onClick={() =>
-                                    deleteProduct(
-                                      item?.productId._id,
-                                      item?.flavour
-                                    )
-                                  }
-                                >
-                                  <i className="fa-solid fa-xmark"></i>
-                                </Link>
-                              </th>
-                              <td>
-                                <div className="cart_icon">
-                                  <img
-                                    className=""
-                                    src={
-                                      item?.flavour?._id
-                                        ? item?.flavour?.flavourImage
-                                        : item?.productId?.productImage
+                    <table className="table mb-0 ">
+                      {cart?.length ? (
+                        <tbody className="">
+                          {(cart || [])?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <th scope="">
+                                  <Link
+                                    className="remove-product"
+                                    to=""
+                                    onClick={() =>
+                                      deleteProduct(
+                                        item?.productId._id,
+                                        item?.flavour
+                                      )
                                     }
-                                    alt=""
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                {item?.flavour?._id ? (
-                                  <Link
-                                    to={`/app/product-detail/${item?.productId?._id}`}
-                                    className="fs-6"
                                   >
-                                    {item?.productId?.unitName +
-                                      "-" +
-                                      item?.flavour?.flavour}
+                                    <i className="fa-solid fa-xmark"></i>
                                   </Link>
-                                ) : (
-                                  <Link
-                                    to={`/app/product-detail/${item?.productId?._id}`}
-                                  >
-                                    {item?.productId?.unitName}
-                                  </Link>
-                                )}
+                                </th>
+                                <td>
+                                  <div className="cart_icon">
+                                    <img
+                                      className=""
+                                      src={
+                                        item?.flavour?._id
+                                          ? item?.flavour?.flavourImage
+                                          : item?.productId?.productImage
+                                      }
+                                      alt=""
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  {item?.flavour?._id ? (
+                                    <Link
+                                      to={`/app/product-detail/${item?.productId?._id}`}
+                                      className="fs-6"
+                                    >
+                                      {item?.productId?.unitName +
+                                        "-" +
+                                        item?.flavour?.flavour}
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      to={`/app/product-detail/${item?.productId?._id}`}
+                                    >
+                                      {item?.productId?.unitName}
+                                    </Link>
+                                  )}
 
-                                <div className="quantity d-flex mt-1">
-                                  <span
-                                    className="minus fs-5 fw-bold"
-                                    style={{
-                                      userSelect: "none",
-                                      background: "#fff",
-                                    }}
-                                    onClick={() => {
-                                      HandleDecrease(index);
-                                    }}
-                                  >
-                                    {item?.quantity <= 1 ? (
-                                      <i
-                                        class="fa fa-trash fs-6 text-danger"
-                                        onClick={() => {
-                                          deleteProduct(
-                                            item?.productId._id,
-                                            item?.flavour
-                                          );
-                                        }}
-                                      ></i>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </span>
-                                  <input
-                                    className="qty-text mx-2 text-center"
-                                    type="number"
-                                    key={item?.quantity}
-                                    id={`quantity${index}`}
-                                    defaultValue={item?.quantity}
-                                    onChange={(e) =>
-                                      updateQuantity(e.target.value, index)
-                                    }
-                                  />
-                                  <span
-                                    className=" fs-5 fw-bold"
-                                    style={{
-                                      userSelect: "none",
-                                      background: "#fff",
-                                    }}
-                                    onClick={() => {
-                                      HandleIncrease(index);
-                                    }}
-                                  >
-                                    +
-                                  </span>
-                                </div>
+                                  <div className="quantity d-flex mt-1">
+                                    <span
+                                      className="minus fs-5 fw-bold"
+                                      style={{
+                                        userSelect: "none",
+                                        background: "#fff",
+                                      }}
+                                      onClick={() => {
+                                        HandleDecrease(index);
+                                      }}
+                                    >
+                                      {item?.quantity <= 1 ? (
+                                        <i
+                                          class="fa fa-trash fs-6 text-danger"
+                                          onClick={() => {
+                                            deleteProduct(
+                                              item?.productId._id,
+                                              item?.flavour
+                                            );
+                                          }}
+                                        ></i>
+                                      ) : (
+                                        <span className="text-dark">-</span>
+                                      )}
+                                    </span>
+                                    <input
+                                      className="qty-text mx-2 text-center"
+                                      type="number"
+                                      key={item?.quantity}
+                                      id={`quantity${index}`}
+                                      defaultValue={item?.quantity}
+                                      onChange={(e) =>
+                                        updateQuantity(e.target.value, index)
+                                      }
+                                    />
+                                    <span
+                                      className=" fs-5 fw-bold"
+                                      style={{
+                                        userSelect: "none",
+                                        background: "#fff",
+                                      }}
+                                      onClick={() => {
+                                        HandleIncrease(index);
+                                      }}
+                                    >
+                                      +
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      ) : (
+                        <tbody className="text-center">
+                          <Animate>
+                            <tr className="">
+                              <td className="text-center">
+                                Ahh! Your Cart is Empty <span>&#128577;</span>
                               </td>
                             </tr>
-                          );
-                        })}
-                      </tbody>
-                    ) : (
-                      <tbody className="text-center">
-                        <Animate>
-                          <tr className="">
-                            <td className="text-center">
-                              Ahh! Your Cart is Empty <span>&#128577;</span>
-                            </td>
-                          </tr>
-                        </Animate>
-                      </tbody>
-                    )}
-                  </table>
+                          </Animate>
+                        </tbody>
+                      )}
+                    </table>
                   </div>
-                 
                 </div>
               </div>
               <div className="row">

@@ -280,7 +280,7 @@ function App() {
           />
           <Route
             path="/app/term-condition"
-            element={width < 999 ? <AppConditions /> : <TermsCondition />}
+            element={width < 999 ? <AppTerms /> : <TermsCondition />}
           />
           <Route
             path="/app/about-us"

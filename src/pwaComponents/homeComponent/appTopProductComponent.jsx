@@ -149,7 +149,7 @@ function TopProduct() {
                             <i
                               class="fa fa-heart"
                               onClick={() => {
-                                addToFav(index);
+                                addToFav(index);  
                               }}
                               style={{ color: "#E1E1E1 " }}
                             />

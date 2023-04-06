@@ -22,10 +22,11 @@ function AppProductBrands() {
   const [brands, setBrands] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [bName, setBName] = useState("");
   let location = useLocation();
   const navigate = useNavigate();
   let ref = useRef();
-  let name = location.state?.name;
+  const name = location.state?.name;
   let token = localStorage.getItem("token-user");
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function AppProductBrands() {
 
   const sortProducts = async (e) => {
     const { data } = await getByBrands({
-      brand: name,
+      brand: name ? name : bName,
       sortBy: parseInt(e.target.value),
       page: activePage,
     });
@@ -52,29 +53,20 @@ function AppProductBrands() {
   };
 
   const getProductList = async () => {
-    const { data } = await getByBrands({ brand: name, page: activePage });
+    const { data } = await getByBrands({
+      brand: name,
+      page: activePage,
+    });
     if (!data.error) {
       setProduct(data.results.products);
     }
   };
 
-  const addToCartt = async (id) => {
-    const formData = {
-      productId: id,
-      quantity: 1,
-    };
-    console.log(formData);
-    const { data } = await addToCart(formData);
-    if (!data.error) {
-      navigate("/app/cart");
-    }
-  };
-  
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
         productId: product[index]?.products?._id,
-        flavour: product[index]?.type[0],
+        flavour: product[index]?.products?.type[0],
       })
       .then((res) => {
         Swal.fire({
@@ -83,14 +75,13 @@ function AppProductBrands() {
         });
       });
     getProductList();
-
-    setHeart(!heart);
+    setBName(name);
   };
   const rmvFromFav = async (index) => {
     await axios
       .post(rmvFav, {
         productId: product[index]?.products?._id,
-        flavour: product[index]?.type[0],
+        flavour: product[index]?.products?.type[0],
       })
       .then((res) => {
         Swal.fire({
@@ -99,8 +90,7 @@ function AppProductBrands() {
         });
       });
     getProductList();
-
-    setHeart(!heart);
+    setBName(name);
   };
 
   useEffect(() => {
@@ -156,7 +146,7 @@ function AppProductBrands() {
                       aria-label="Default select example"
                       onChange={(e) => sortProducts(e)}
                     >
-                      <option selected>Short by</option>
+                      <option selected>Sort by</option>
                       <option value="1">A to Z</option>
                       <option value="-1">Z to A</option>
                     </select>
@@ -169,7 +159,7 @@ function AppProductBrands() {
                     <div class="col-6 col-md-4 d-flex align-items-stretch">
                       <div class="card product-card w-100">
                         <div class="card-body">
-                          {token?.length ? (
+                          {/* {token?.length ? (
                             <a class="wishlist-btn" href="#">
                               {item?.products?.favourities ? (
                                 <i
@@ -189,7 +179,7 @@ function AppProductBrands() {
                                 />
                               )}
                             </a>
-                          ) : null}
+                          ) : null} */}
                           <Link
                             class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?.products?._id}`}
@@ -210,13 +200,6 @@ function AppProductBrands() {
                               <a class="product-title" href="javascript:;">
                                 {item.products.unitName}
                               </a>
-                              <div className="product-rating">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
                             </div>
                             {/* <div class="col-auto">
                               <Link

@@ -28,7 +28,30 @@ function AppProductCategory() {
   let { id } = useParams();
   const navigate = useNavigate();
   let token = localStorage.getItem("token-user");
+  if (id === "Tobacco" || id === "Smoke%20Shop") {
+    Swal.fire({
+      title: "Please Make Sure!",
+      text: "",
+      icon: "warning",
 
+      position: "bottom-end",
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Thumbs up, Okay!",
+      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+      cancelButtonAriaLabel: "Thumbs down",
+      html: "<ol><li>Your are above <b>18 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        navigate("/app/home");
+      }
+    });
+  }
   useEffect(() => {
     getCategoryList();
     getProductList();
@@ -299,13 +322,6 @@ function AppProductCategory() {
                                   "-" +
                                   item?.products?.type[0]?.flavour}
                               </a>
-                              <div className="product-rating">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
                             </div>
                             {/* <div class="col-auto">
                               <Link

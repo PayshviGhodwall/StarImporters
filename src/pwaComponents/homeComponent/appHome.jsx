@@ -258,7 +258,7 @@ function AppHome() {
                           src={
                             banner[1]?.banner
                               ? banner[1]?.banner
-                              : require("../../assets/img/banner_img1.jpg")
+                              : require("../../assets/img/staticBg.png")
                           }
                         ></img>
                         <div className="slide-content h-100 d-flex align-items-center">
