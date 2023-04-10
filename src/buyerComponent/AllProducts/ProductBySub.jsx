@@ -66,6 +66,7 @@ const ProductBySubCate = () => {
         setMaxPage(res.data?.results?.totalPages);
       });
   };
+
   const clearFilters = (e) => {
     e.preventDefault();
     window.location.reload(false);
@@ -175,11 +176,11 @@ const ProductBySubCate = () => {
                   </div>
                   <div class="singleproduct-left-box">
                     <h2>Sort By</h2>
-                    <form class="singleproduct-form row" action="">
+                    <form class="singleproduct-form row">
                       <div class="form-group col-12 mb-3 custom_radio">
                         <input
                           type="radio"
-                          checked
+                          defaultChecked
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"

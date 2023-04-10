@@ -116,7 +116,7 @@ function AppHome() {
           barcode: Dd,
         });
         if (!data.error) {
-          if (data.results.length)
+          if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]._id}`, {
               state: {
                 flavour: data.results[0]?.type,
@@ -124,7 +124,7 @@ function AppHome() {
             });
           console.log(data);
           // navigate(`/app/product-by-search/${data.results[0]._id}`)
-          window.location.reload();
+          // window.location.reload();
         }
       }
     }

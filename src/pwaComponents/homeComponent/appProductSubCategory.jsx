@@ -33,7 +33,6 @@ function AppProductSubCategory() {
     getCategoryList();
     getProductList();
     GetBrands();
-    
   }, [activePage]);
 
   const GetBrands = async () => {
@@ -61,25 +60,6 @@ function AppProductSubCategory() {
     }
   };
 
-  // const addToCartt = async (id, index) => {
-  //   const formData = {
-  //     productId: id,
-  //     quantity: 1,
-  //     flavour: product[index]?.products.type[0],
-  //   };
-  //   const { data } = await addToCart(formData);
-  //   if (!data.error) {
-  //     navigate("/app/cart");
-  //   }
-  // };
-
-  //   const filterProduct = async (idd) => {
-  //     console.log(idd);
-  //     const { data } = await getByCategory({ category: id, brand: idd });
-  //     if (!data.error) {
-  //       setProduct(data.results);
-  //     }
-  //   };
   const sortProducts = async (e) => {
     const { data } = await getBySubCategory({
       subCategory: id,

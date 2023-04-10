@@ -101,7 +101,19 @@ function AppProductDetail() {
         console.log(formData);
         const { data } = await addToCart(formData);
         if (!data.error) {
-          navigate("/app/cart");
+          Swal.fire({
+            title: "Product Added to Cart",
+            icon: "success",
+            // position: "top",
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+            confirmButtonAriaLabel: "Thumbs up, Okay!",
+            cancelButtonText: "Close",
+          }).then((res) => {
+            navigate("/app/cart");
+          });
         }
       } else {
         Swal.fire({

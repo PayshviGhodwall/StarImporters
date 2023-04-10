@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
-  addToCart,
   getByCategory,
   getSubCategories,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -18,8 +17,8 @@ function AppProductCategory() {
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [product, setProduct] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [pop, setPopup] = useState(true);
   const [heart, setHeart] = useState(false);
-  const [brandName, setBrandName] = useState();
   const [category, setCategory] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -28,30 +27,32 @@ function AppProductCategory() {
   let { id } = useParams();
   const navigate = useNavigate();
   let token = localStorage.getItem("token-user");
-  if (id === "Tobacco" || id === "Smoke%20Shop") {
-    Swal.fire({
-      title: "Please Make Sure!",
-      text: "",
-      icon: "warning",
 
-      position: "bottom-end",
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
-      confirmButtonAriaLabel: "Thumbs up, Okay!",
-      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-      cancelButtonAriaLabel: "Thumbs down",
-      html: "<ol><li>Your are above <b>18 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        Swal.fire("Saved!", "", "success");
-      } else if (result.isDenied) {
-        navigate("/app/home");
-      }
-    });
-  }
+  useEffect(() => {
+    if (id === "Tobacco" || id === "Smoke%20Shop") {
+      Swal.fire({
+        title: "Please Make Sure!",
+        icon: "warning",
+        position: "bottom",
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+        confirmButtonAriaLabel: "Thumbs up, Okay!",
+        cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: "Thumbs down",
+        html: "<ol><li>Your are above <b>18 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          navigate("/app/home");
+        }
+      });
+    }
+  }, [pop]);
+
   useEffect(() => {
     getCategoryList();
     getProductList();

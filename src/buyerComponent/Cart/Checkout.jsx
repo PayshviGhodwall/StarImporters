@@ -9,6 +9,7 @@ const Checkout = () => {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
+  const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
   const navigate = useNavigate();
   const autoClose = () => {
@@ -29,6 +30,7 @@ const Checkout = () => {
         .post(newOrder, {
           type: "Shipment",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -49,6 +51,7 @@ const Checkout = () => {
         .post(newOrder, {
           type: "Delivery",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -70,6 +73,7 @@ const Checkout = () => {
         .post(newOrder, {
           type: "In-Store Pickup",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -105,7 +109,7 @@ const Checkout = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-2">&#62;</span>{" "}
+                        Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="item_nanner">
@@ -113,7 +117,7 @@ const Checkout = () => {
                         to="/app/cart"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Cart <span className="arrow mx-2">&#62;</span>{" "}
+                        Cart <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
@@ -134,13 +138,13 @@ const Checkout = () => {
       <>
         <section
           className="Checkout_page py-5"
-          style={{ backgroundColor: "#eef3ff" }}
+          // style={{ backgroundColor: "#eef3ff" }}
         >
-          <div className="container bg-white">
+          <div className="container bg-white shadow">
             <div className="row p-4 align-items-end">
-              <div className="col-12 mb-4">
+              <div className="col-12 mb-2">
                 <div className="chosse_location">
-                  <h3>Choose your checkout</h3>
+                  <h3>Checkout</h3>
 
                   {users?.state === "Georgia" ? (
                     <form className="row" action="">
@@ -245,7 +249,22 @@ const Checkout = () => {
                     </p>
                   </div>
                 )}
+                <div className="row mx-0 Checkout_address mt-4">
+                  <div className="col-12">
+                    <span> Comments (optional) </span>
+                    <div className="">
+                      <textarea
+                        className="form-control form-control2"
+                        style={{ height: "5rem" }}
+                        type="text"
+                        placeholder="Enter your comments...."
+                        onClick={(e) => setComments(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
+
               <div className="col-12 text-start">
                 <button className="comman_btn" onClick={createOrder}>
                   Place Order

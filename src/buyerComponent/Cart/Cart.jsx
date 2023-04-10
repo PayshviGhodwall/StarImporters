@@ -128,7 +128,7 @@ const Cart = () => {
       <Animate2>
         <section
           className="cart_page py-5 marginTop"
-          style={{ backgroundColor: "#eef3ff" }}
+          // style={{ backgroundColor: "#eef3ff" }}
         >
           {token ? (
             <div className="container user-management-tabs  px-5">

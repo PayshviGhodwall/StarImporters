@@ -204,30 +204,39 @@ function AppCart() {
         <WebHeader2 />
         <div className="page-content-wrapper">
           <div className="container">
-            <div className="cart-wrapper-area py-3 ">
+            {cart?.length ? (
+              <div className="d-flex justify-content-between p-2 mt-5">
+                <Link className="comman_btn2 " to="/app/checkout">
+                  Place Your Order
+                </Link>
+
+                {userDetail?.quotation === true ? (
+                  <Link
+                    className="comman_btn2 text-decoration-none mx-2"
+                    onClick={addToQuotes}
+                  >
+                    Req. for Quote
+                  </Link>
+                ) : (
+                  <Link
+                    className="comman_btn2 text-decoration-none mx-2"
+                    onClick={addToQuotes}
+                    style={{ visibility: "hidden" }}
+                  >
+                    Req. for Quote
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <Link className="comman_btn " to="/app/home">
+                Start Shopping
+              </Link>
+            )}
+            <div className="cart-wrapper-area py-1">
               <div className="cart-table card mb-1">
                 <div className="table-responsive card-body p-1">
                   {load ? <Loader speed="slow" content="Updating.." /> : null}
-                  {cart?.length ? (
-                    <div className="d-flex justify-content-between p-2">
-                      <Link className="comman_btn" to="/app/checkout">
-                        Place Your Order
-                      </Link>
 
-                      {userDetail?.quotation === true ? (
-                        <Link
-                          className="comman_btn2 text-decoration-none mx-2"
-                          onClick={addToQuotes}
-                        >
-                          Request For Quote
-                        </Link>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <Link className="comman_btn " to="/app/home">
-                      Start Shopping
-                    </Link>
-                  )}
                   <div className=" fixed-head">
                     <table className="table mb-0 ">
                       {cart?.length ? (

@@ -9,6 +9,7 @@ function AppCheckout() {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
   const [users, setUsers] = useState();
+  const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
   useEffect(() => {
     const getUser = async () => {
@@ -19,12 +20,14 @@ function AppCheckout() {
     };
     getUser();
   }, []);
+  console.log(comments);
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
       await axios
         .post(newOrder, {
           type: "Shipment",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -36,6 +39,7 @@ function AppCheckout() {
         .post(newOrder, {
           type: "Delivery",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -47,6 +51,7 @@ function AppCheckout() {
         .post(newOrder, {
           type: "In-Store Pickup",
           address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
         })
         .then((res) => {
           if (!res.error) {
@@ -137,9 +142,7 @@ function AppCheckout() {
               <div class="shipping-method-choose mb-3">
                 <div class="card shipping-method-choose-title-card">
                   <div class="card-body">
-                    <h6 class="text-center mb-0 text-white">
-                      Shipping Method Choose
-                    </h6>
+                    <h6 class="text-center mb-0 text-white">Shipping Method</h6>
                   </div>
                 </div>
                 <div class="card shipping-method-choose-card">
@@ -187,7 +190,11 @@ function AppCheckout() {
                               }}
                             />
                             <label for="courier">
-                              Shipment <span>5-8 days delivery</span>
+                              Shipment{" "}
+                              <span>
+                                5-8 days delivery(Additional Shipping charges
+                                will be applied.)
+                              </span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -205,7 +212,7 @@ function AppCheckout() {
                               defaultChecked="true"
                             />
                             <label for="fastShipping">
-                              In-Store Pickup <span>1 days delivery</span>
+                              In-Store Pickup <span>Instant delivery</span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -219,7 +226,11 @@ function AppCheckout() {
                               }}
                             />
                             <label for="courier">
-                              Shipment <span>5-8 days delivery</span>
+                              Shipment{" "}
+                              <span>
+                                5-8 days delivery.(Additional Shipping charges
+                                will be applied.)
+                              </span>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -228,15 +239,34 @@ function AppCheckout() {
                     </div>
                   </div>
                 </div>
-
-                <Link
-                  class="comman_btn mt-3"
-                  to="/app/thankyou"
-                  onClick={createOrder}
-                >
-                  Place Order
-                </Link>
               </div>
+              <div class="shipping-method-choose mb-3">
+                <div class="card shipping-method-choose-title-card">
+                  <div class="card-body">
+                    <h6 class="text-center mb-0 text-white">
+                      Order Comments (optional)
+                    </h6>
+                  </div>
+                </div>
+                <div class="card">
+                  <div>
+                    <textarea
+                      className="form-control form-control2"
+                      style={{ height: "8rem" }}
+                      type="text"
+                      placeholder="Enter your comments...."
+                      onClick={(e) => setComments(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <Link
+                class="comman_btn mt-3 w-50 d-flex text-center"
+                to="/app/thankyou"
+                onClick={createOrder}
+              >
+                Place Order
+              </Link>
             </div>
           </div>
         </div>

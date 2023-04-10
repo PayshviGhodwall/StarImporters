@@ -98,7 +98,7 @@ const PendingView = () => {
 
   const preview = (id) => {
     document.getElementById("preview_modal").click();
-    // document.getElementById("preview_images").src = id;
+    document.getElementById("preview_images").src = id;
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -1252,7 +1252,7 @@ const PendingView = () => {
           </div>
         </div>
       </div>
-      <button
+      {/* <button
         type="button"
         class="btn btn-primary d-none"
         id="preview_modal"
@@ -1285,6 +1285,53 @@ const PendingView = () => {
                 pluginRenderers={DocViewerRenderers}
                 style={{ height: 1000 }}
               />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> */}
+      <button
+        type="button"
+        class="btn btn-primary d-none"
+        id="preview_modal"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Launch demo modal
+      </button>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header comman_modal">
+              <h5 class="modal-title">Preview</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <img
+                src={user?.federalTaxId}
+                type="application/pdf"
+                className="preview_image"
+                id="preview_images"
+              ></img>
             </div>
             <div class="modal-footer">
               <button

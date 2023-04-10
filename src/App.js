@@ -115,6 +115,7 @@ import QuotePdf from "./AdminComponent/AdminDashboard/OrdersManage/QuotePdf";
 import Gallery from "./buyerComponent/Footer/Gallery";
 import Photos from "./buyerComponent/Footer/Photos";
 import GalleryMain from "./AdminComponent/AdminDashboard/GalleryManage/GalleryMain";
+import UserPdf from "./AdminComponent/AdminDashboard/OrdersManage/userPdf";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -197,6 +198,7 @@ function App() {
           <Route path="/Cms" element={<Cms />} />
           <Route path="/OrderRequest" element={<OrderReq />} />
           <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
+          <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
           <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
           <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
           <Route path="/OrderRequest/ViewOrder/Edit" element={<EditOrder />} />

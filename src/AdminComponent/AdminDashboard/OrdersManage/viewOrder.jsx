@@ -607,6 +607,14 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Comments:</span>
+                            <div className="col">
+                              <strong>{orders?.userId?.companyName}</strong>
+                            </div>
+                          </div>
+                        </div>
                         <div className="col-md-4 my-3 d-flex align-items-stretch ">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Type:</span>

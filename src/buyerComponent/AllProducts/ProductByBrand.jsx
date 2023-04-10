@@ -116,7 +116,7 @@ const ProductByBrand = () => {
                       <div class="form-group col-12 mb-3 custom_radio">
                         <input
                           type="radio"
-                          checked
+                          defaultChecked
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"

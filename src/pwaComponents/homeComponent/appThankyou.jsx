@@ -9,10 +9,13 @@ function AppThankyou() {
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-11 col-lg-8 thankyou_text">
-              <h2>Thank You, Enjoy !</h2>
-              <p>Your Order Was Completed Successfully.</p>
+              <h2>Thank You For Placing Order!</h2>
+              <p>Your Order Was Placed Successfully.</p>
               <Link class="comman_btn d-inline" to="/app/home">
                 Back to Home
+              </Link>
+              <Link class="comman_btn d-inline" to="/app/my-order">
+                View Orders
               </Link>
             </div>
           </div>
