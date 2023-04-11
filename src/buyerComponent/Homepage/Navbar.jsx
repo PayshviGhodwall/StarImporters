@@ -228,7 +228,11 @@ const Navbar = ({ NState, LoginState }) => {
               {UserAuth ? (
                 <div className="header_tabs ">
                   <div class="dropdown">
-                    <Link to="/MyAccount" className="text-decoration-none mx-1">
+                    <Link
+                      to="/MyAccount"
+                      state={"jii"}
+                      className="text-decoration-none mx-1"
+                    >
                       <button class="Signupb mt-2">My Account</button>
                     </Link>
                     <div class="dropdown-content">

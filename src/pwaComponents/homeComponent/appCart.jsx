@@ -24,6 +24,7 @@ function AppCart() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
+  let deviceId = localStorage.getItem("device");
 
   useEffect(() => {
     getCartss();
@@ -80,21 +81,7 @@ function AppCart() {
       }
     }
   };
-  // var toggle = document.getElementById('container');
-  // var toggleContainer = document.getElementById('toggle-container');
-  // var toggleNumber;
 
-  // toggle.addEventListener('click', function() {
-  //   toggleNumber = !toggleNumber;
-  //   if (toggleNumber) {
-  //     toggleContainer.style.clipPath = 'inset(0 0 0 50%)';
-  //     toggleContainer.style.backgroundColor = '#D74046';
-  //   } else {
-  //     toggleContainer.style.clipPath = 'inset(0 50% 0 0)';
-  //     toggleContainer.style.backgroundColor = 'dodgerblue';
-  //   }
-  //   console.log(toggleNumber)
-  // });
   const HandleDecrease = async (id) => {
     setLoad(true);
     const formData = {
@@ -171,7 +158,7 @@ function AppCart() {
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">
-                <i class="fa-solid fa-arrow-left-long"></i>
+                <i className="fa-solid fa-house"></i>
               </Link>
             </div>
 
@@ -183,7 +170,9 @@ function AppCart() {
                   navigate("/app/cart");
                 }}
               >
-                <p className="text-white fw-bold">Cart</p>
+                <p className="text-white fw-bold">
+                  <i class="fa fa-shopping-cart"></i> Cart ({cart?.length})
+                </p>
               </div>
             </div>
 
@@ -358,15 +347,19 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                <div className=" col-6 cart-amount-area p-1"></div>
-                <div className="col-6 cart-amount-area p-1">
-                  <div className="card-body d-flex align-items-center justify-content-between">
-                    <h5 className="total-price mb-0"></h5>
-                    <a className="comman_btn2 text-center" onClick={cameraScan}>
-                      Scan Barcode
-                    </a>
+                {deviceId !== "" ? (
+                  <div className="col-6 cart-amount-area p-1">
+                    <div className="card-body d-flex align-items-center justify-content-between">
+                      <h5 className="total-price mb-0"></h5>
+                      <a
+                        className="comman_btn2 text-center"
+                        onClick={cameraScan}
+                      >
+                        Scan Barcode
+                      </a>
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </div>
             </div>
           </div>

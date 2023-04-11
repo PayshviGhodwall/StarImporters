@@ -207,26 +207,7 @@ const Favourites = () => {
                               <Link to="" className="text-decoration-none">
                                 {item?.productId?.unitName}
                               </Link>
-                              <div className="rating_box mt-1 mb-0">
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i className="fas fa-star" />
-                                </a>
-                                <a href="javasript:;">
-                                  <i
-                                    className="fa fa-star"
-                                    style={{ color: "#b1afaa" }}
-                                  ></i>
-                                </a>
-                              </div>
+
                               <a
                                 className="fav_btn change_btn"
                                 href="javscript:;"

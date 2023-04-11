@@ -74,7 +74,20 @@ function AppProductDetail() {
           console.log(formData);
           const { data } = await addToCart(formData);
           if (!data.error) {
-            navigate("/app/cart");
+            Swal.fire({
+              title: "Product Added to Cart",
+              icon: "success",
+              showCloseButton: true,
+              showCancelButton: true,
+              focusConfirm: false,
+              confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+              confirmButtonAriaLabel: "Thumbs up, Okay!",
+              cancelButtonText: "Close",
+            }).then((res) => {
+              if (res.isConfirmed) {
+                navigate("/app/cart");
+              }
+            });
           }
         } else {
           Swal.fire({
@@ -104,7 +117,6 @@ function AppProductDetail() {
           Swal.fire({
             title: "Product Added to Cart",
             icon: "success",
-            // position: "top",
             showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
@@ -112,7 +124,9 @@ function AppProductDetail() {
             confirmButtonAriaLabel: "Thumbs up, Okay!",
             cancelButtonText: "Close",
           }).then((res) => {
-            navigate("/app/cart");
+            if (res.isConfirmed) {
+              navigate("/app/cart");
+            }
           });
         }
       } else {
@@ -206,7 +220,7 @@ function AppProductDetail() {
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">
-                <i class="fa-solid fa-arrow-left-long"></i>
+                <i className="fa-solid fa-house"></i>
               </Link>
             </div>
             <div class="page-heading">

@@ -51,7 +51,7 @@ const Cart = () => {
       .then((res) => {
         if (res.data?.message === "Product has been removed") {
           getCart();
-          setNState(true);
+          setNState(!NState);
         }
       });
   };
@@ -322,30 +322,30 @@ const Cart = () => {
                                       </td>
                                       <td>
                                         <div className="number me-md-4 mb-md-0 mb-3">
-                                          <span
-                                            className="minus"
-                                            style={{
-                                              userSelect: "none",
-                                              border: "none",
-                                            }}
-                                            onClick={() => {
-                                              HandleDecrease(index);
-                                            }}
-                                          >
-                                            {item?.quantity <= 1 ? (
-                                              <i
-                                                class="fa fa-trash fs-6 text-danger"
-                                                onClick={() => {
-                                                  RemoveProduct(index);
-                                                }}
-                                              ></i>
-                                            ) : (
+                                          {item?.quantity <= 1 ? (
+                                            <i
+                                              class="fa fa-trash fs-6 text-danger"
+                                              onClick={() => {
+                                                RemoveProduct(index);
+                                              }}
+                                            ></i>
+                                          ) : (
+                                            <span
+                                              className="minus"
+                                              style={{
+                                                userSelect: "none",
+                                                border: "none",
+                                              }}
+                                              onClick={() => {
+                                                HandleDecrease(index);
+                                              }}
+                                            >
                                               <i
                                                 class="fa fa-minus fs-6"
                                                 aria-hidden="true"
                                               ></i>
-                                            )}
-                                          </span>
+                                            </span>
+                                          )}
                                           <input
                                             key={item?.quantity}
                                             className="p-1 border rounded quanityField"

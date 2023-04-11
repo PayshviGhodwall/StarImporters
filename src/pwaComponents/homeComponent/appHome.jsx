@@ -26,13 +26,43 @@ function AppHome() {
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
+  const [hideF, setHideF] = useState({ opacity: "1" });
   const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
+  const [loading, setLoading] = useState(true);
   const ref = useRef(null);
+  let deviceId = localStorage.getItem("device");
+  console.log(deviceId);
   useEffect(() => {
     getBanner();
     getCategoryList();
     getTopProductList();
     getBrandList();
+
+    // if (typeof window !== "undefined") {
+    //   window.onscroll = () => {
+    //     let currentScrollPos = window.pageYOffset;
+    //     let maxScroll = document.body.scrollHeight - window.innerHeight;
+    //     let minScroll = document.body.scrollHeight - currentScrollPos;
+    //     console.log(maxScroll, "max");
+    //     console.log(minScroll, "min");
+    //     switch (currentScrollPos) {
+    //       case currentScrollPos > 10:
+    //         setHideF({ opacity: "50%" });
+    //         break;
+    //       case 10:
+    //         setHideF({ opacity: "0%" });
+    //       case 2:
+    //         break;
+    //     }
+
+    //     if (currentScrollPos > 10) {
+    //       console.log(currentScrollPos);
+    //     }
+    //     if (currentScrollPos < maxScroll || currentScrollPos <= maxScroll) {
+    //       setHideF({ opacity: "1" });
+    //     }
+    //   };
+    // }
   }, []);
 
   useEffect(() => {
@@ -94,6 +124,7 @@ function AppHome() {
     const { data } = await getBrands();
     if (!data.error) {
       setBrand(data.results);
+      setLoading(false);
     }
   };
 
@@ -153,242 +184,232 @@ function AppHome() {
         <div>
           <AppHeader />
         </div>
-        <div className="page-content-wrapper">
-          <div className="container">
-            <div className="search-form pt-3 rtl-flex-d-row-r">
-              <form>
-                <input
-                  className="form-control "
-                  type="search"
-                  value={search}
-                  placeholder="Search in Star Importers"
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                  }}
-                />
-                <button onClick={searchProduct} className="me-5">
-                  <i className="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <button type="reset" id="resetBtn" className="d-none">
-                  reset
-                </button>
-              </form>
-
-              <div className="alternative-search-options">
-                <Link
-                  className="comman_btn text-white ms-1"
-                  to=""
-                  onClick={microphoneSearch}
-                >
-                  <i className="fa-solid fa-microphone"></i>
-                </Link>
-                <a className="comman_btn2 ms-1" onClick={() => cameraScan()}>
-                  <i className="fa fa-qrcode"></i>
-                </a>
-              </div>
-            </div>
+        {loading ? (
+          <div className="load_position">
+            <div class="loader_new"></div>
           </div>
-          {search?.length ? (
-            <div className="top-products-area py-3">
-              <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                  <h6> Showing results for "{search}"</h6>
-                </div>
-                {product?.length ? (
-                  <div className="row g-2">
-                    {(product || [])?.map((item, index) => {
-                      return (
-                        <div className="col-6 col-md-4" key={index}>
-                          <div className="card product-card">
-                            <div className="card-body">
-                              <Link
-                                className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item._id}`}
-                                state={{ type: item?.type }}
-                              >
-                                <img
-                                  className="mb-2"
-                                  src={
-                                    item?.type.flavourImage
-                                      ? item?.type.flavourImage
-                                      : require("../../assets/img/product.jpg")
-                                  }
-                                  alt=""
-                                />
-                              </Link>
-                              <Link
-                                className="product-title"
-                                to={`/app/product-detail/${item._id}`}
-                                state={{ type: item?.type }}
-                              >
-                                {item.unitName + "-" + item?.type.flavour}
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+        ) : (
+          <div className="page-content-wrapper">
+            <div className="container ">
+              <div
+                className={
+                  deviceId !== "" ? "search-form pt-3 " : "search-new pt-3 "
+                }
+              >
+                <form className="" style={{ width: "100%" }}>
+                  <input
+                    className="form-control"
+                    type="search"
+                    value={search}
+                    placeholder="Search in Star Importers"
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
+
+                  <button onClick={searchProduct} className="me-5">
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                  <button type="reset" id="resetBtn" className="d-none">
+                    reset
+                  </button>
+                </form>
+                {deviceId != "" ? (
+                  <div className="alternative-search-options">
+                    <Link
+                      className="comman_btn text-white ms-1"
+                      to=""
+                      onClick={microphoneSearch}
+                    >
+                      <i className="fa-solid fa-microphone"></i>
+                    </Link>
+                    <a
+                      className="comman_btn2 ms-1"
+                      onClick={() => cameraScan()}
+                    >
+                      <i className="fa fa-qrcode"></i>
+                    </a>
                   </div>
                 ) : (
-                  <div>
-                    <img className="no-data" src="../assets/img/no-data.gif" />
-                    <h1 className="text-center"> No Results</h1>
-                  </div>
+                  <div className="d-none"></div>
                 )}
               </div>
             </div>
-          ) : (
-            <div>
-              <div className="hero-wrapper">
+            {search?.length ? (
+              <div className="top-products-area py-1">
                 <div className="container">
-                  <div className="pt-3">
-                    <OwlCarousel
-                      className=" hero-slides "
-                      autoplay={true}
-                      autoplayHoverPause={false}
-                      autoplayTimeout={5000}
-                      dots={true}
-                      loop={true}
-                      nav={false}
-                      fade={false}
-                      items={1}
-                    >
-                      <div className="single-hero-slide item">
-                        <img
-                          src={
-                            banner[1]?.banner
-                              ? banner[1]?.banner
-                              : require("../../assets/img/staticBg.png")
-                          }
-                        ></img>
-                        <div className="slide-content h-100 d-flex align-items-center">
-                          <div className="slide-text">
-                            {/* <h4
-                              className="text-white banner_text"
-                              data-animation="fadeInUp"
-                              data-delay="100ms"
-                              data-duration="1000ms"
-                            >
-                              {" "}
-                              𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕥𝕠 <br />
-                              <span>𝕊𝕋𝔸ℝ 𝕀𝕄ℙ𝕆ℝ𝕋𝔼ℝ𝕊</span>
-                            </h4> */}
-                            {/* <p
-                                  className="text-white"
-                                  style={{ fontSize: "4px" }}
-                                  data-animation="fadeInUp"
-                                  data-delay="400ms"
-                                  data-duration="1000ms"
-                                  dangerouslySetInnerHTML={createMarkup(item?.description)}
-                                >
-                                  {item.description}
-                                </p> */}
-                          </div>
-                        </div>
-                      </div>
-                      {banner?.map((item, index) => {
-                        return (
-                          <div className="single-hero-slide item">
-                            <img src={item?.banner}></img>
-                            <div className="slide-content h-100 d-flex align-items-center">
-                              <div className="slide-text">
-                                {/* <p
-                                  className="text-white"
-                                  style={{ fontSize: "4px" }}
-                                  data-animation="fadeInUp"
-                                  data-delay="400ms"
-                                  data-duration="1000ms"
-                                  dangerouslySetInnerHTML={createMarkup(item?.description)}
-                                >
-                                  {item.description}
-                                </p> */}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </OwlCarousel>
+                  <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
+                    <h6> Showing results for "{search}"</h6>
                   </div>
-                </div>
-              </div>
-
-              <div className="product-catagories-wrapper py-3">
-                <div className="container">
-                  <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                    <h2 className="fs-5">Top Categories</h2>
-                    <Link className="btn p-0" to="/app/Categories">
-                      View All
-                      <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                    </Link>
-                  </div>
-                  <div className="row g-2 rtl-flex-d-row-r">
-                    {category
-                      .filter((item, idx) => idx < 6)
-                      .map((item, index) => {
+                  {product?.length ? (
+                    <div className="row g-2">
+                      {(product || [])?.map((item, index) => {
                         return (
-                          <div className="col-4 d-flex align-items-stretch">
-                            <div className="card catagory-card w-100">
-                              <div className="card-body px-2">
-                                <Link to={`/app/Sub-Categories/${item._id}`}>
-                                  <img src={item?.categoryImage} alt="" />
-                                  {console.log(item?.categoryImage)}
-                                  <span>{item?.categoryName}</span>
+                          <div className="col-6 col-md-4" key={index}>
+                            <div className="card product-card">
+                              <div className="card-body">
+                                <Link
+                                  className="product-thumbnail d-block"
+                                  to={`/app/product-detail/${item._id}`}
+                                  state={{ type: item?.type }}
+                                >
+                                  <img
+                                    className="mb-2"
+                                    src={
+                                      item?.type.flavourImage
+                                        ? item?.type.flavourImage
+                                        : item?.productImage ||
+                                          require("../../assets/img/product.jpg")
+                                    }
+                                    alt=""
+                                  />
+                                </Link>
+                                <Link
+                                  className="product-title"
+                                  to={`/app/product-detail/${item._id}`}
+                                  state={{ type: item?.type }}
+                                >
+                                  {item.unitName + "-" + item?.type.flavour}
                                 </Link>
                               </div>
                             </div>
                           </div>
                         );
                       })}
-                  </div>
-                </div>
-              </div>
-              <TopProduct />
-              <div className="flash-sale-wrapper mt-3">
-                <div className="container">
-                  <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
-                    <h6 className="fs-5">Popular Brands</h6>
-                    <Link className="btn p-0" to="/app/brands">
-                      View All
-                      <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                    </Link>
-                  </div>
-                  {brand.length ? (
-                    <OwlCarousel
-                      className="flash-sale-slide"
-                      autoplay={true}
-                      autoplayHoverPause={false}
-                      autoplayTimeout={5000}
-                      dots={false}
-                      loop={true}
-                      nav={false}
-                      fade={false}
-                      items={3}
-                      margin={10}
-                    >
-                      {brand.map((item, index) => {
-                        return (
-                          <div
-                            className="card flash-sale-card item"
-                            key={index}
-                          >
-                            <div className="card-body">
-                              <Link to="/app/brands">
-                                <img width={40} src={item?.brandImage} alt="" />
-                              </Link>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </OwlCarousel>
+                    </div>
                   ) : (
-                    ""
+                    <div>
+                      <img
+                        className="no-data"
+                        src="../assets/img/no-data.gif"
+                      />
+                      <h1 className="text-center"> No Results</h1>
+                    </div>
                   )}
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-        <div ref={ref}>
+            ) : (
+              <div>
+                <div className="hero-wrapper">
+                  <div className="container">
+                    <div className="pt-3">
+                      <OwlCarousel
+                        className=" hero-slides "
+                        autoplay={true}
+                        autoplayHoverPause={false}
+                        autoplayTimeout={5000}
+                        dots={true}
+                        loop={true}
+                        nav={false}
+                        fade={false}
+                        items={1}
+                      >
+                        <div className="single-hero-slide item">
+                          <img
+                            src={
+                              banner[1]?.banner
+                                ? banner[1]?.banner
+                                : require("../../assets/img/staticBg.png")
+                            }
+                          ></img>
+                          <div className="slide-content h-100 d-flex align-items-center"></div>
+                        </div>
+                        {banner?.map((item, index) => {
+                          return (
+                            <div className="single-hero-slide item">
+                              <img src={item?.banner}></img>
+                              <div className="slide-content h-100 d-flex align-items-center">
+                                <div className="slide-text"></div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </OwlCarousel>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="product-catagories-wrapper py-3">
+                  <div className="container">
+                    <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                      <h2 className="fs-5">Top Categories</h2>
+                      <Link className="btn p-0" to="/app/Categories">
+                        View All
+                        <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                      </Link>
+                    </div>
+                    <div className="row g-2 rtl-flex-d-row-r">
+                      {category
+                        .filter((item, idx) => idx < 6)
+                        .map((item, index) => {
+                          return (
+                            <div className="col-4 d-flex align-items-stretch">
+                              <div className="card catagory-card w-100">
+                                <div className="card-body px-2">
+                                  <Link to={`/app/Sub-Categories/${item._id}`}>
+                                    <img src={item?.categoryImage} alt="" />
+                                    <span>{item?.categoryName}</span>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </div>
+                <TopProduct />
+                <div className="flash-sale-wrapper mt-3">
+                  <div className="container">
+                    <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
+                      <h6 className="fs-5">Popular Brands</h6>
+                      <Link className="btn p-0" to="/app/brands">
+                        View All
+                        <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                      </Link>
+                    </div>
+                    {brand.length ? (
+                      <OwlCarousel
+                        className="flash-sale-slide"
+                        autoplay={true}
+                        autoplayHoverPause={false}
+                        autoplayTimeout={5000}
+                        dots={false}
+                        loop={true}
+                        nav={false}
+                        fade={false}
+                        items={3}
+                        margin={10}
+                      >
+                        {brand.map((item, index) => {
+                          return (
+                            <div
+                              className="card flash-sale-card item"
+                              key={index}
+                            >
+                              <div className="card-body">
+                                <Link to="/app/brands">
+                                  <img
+                                    width={40}
+                                    src={item?.brandImage}
+                                    alt=""
+                                  />
+                                </Link>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </OwlCarousel>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
           <AppFooter />
         </div>
       </div>

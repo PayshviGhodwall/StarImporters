@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const BuyAgain = () => {
   const [users, setUsers] = useState();
@@ -12,8 +13,10 @@ const BuyAgain = () => {
   const [purchasedProd, setPurchasedProd] = useState();
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [list, setList] = useState([]);
-
+  const [Nstate, setNstate] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
@@ -25,37 +28,79 @@ const BuyAgain = () => {
       setPurchasedProd(res?.data.results.products);
     });
   };
-  const handleClick = (e) => {
+
+  const handleClick = (e, flavour, productId, i) => {
     const { id, checked } = e.target;
+    console.log(id, checked);
+    if (checked) {
+      let Array = [...selected];
+      Array.push({ flavour, productId });
+      setSelected(Array);
+    }
     setIsCheck([...isCheck, id]);
     if (!checked) {
       setIsCheck(isCheck.filter((item) => item !== id));
+      setSelected(selected.filter((item) => item?.productId !== productId));
     }
   };
+  console.log(selected);
   const handleSelectAll = (e) => {
     setIsCheckAll(!isCheckAll);
-    setIsCheck(purchasedProd?.map((li) => li._id));
+    let Nitem = [...isCheck];
+    purchasedProd?.map((li) =>
+      li.products?.map((val, ind) => Nitem.push(val.flavour?._id))
+    );
+    console.log(Nitem);
+    setIsCheck(Nitem);
     if (isCheckAll) {
       setIsCheck([]);
     }
+    let allData = [...selected];
+    (purchasedProd || [])?.map((item, index) =>
+      item.products?.map((val, ind) =>
+        allData.push({
+          flavour: val?.flavour,
+          productId: val?.productId?._id,
+        })
+      )
+    );
+    setSelected(allData);
   };
-  const AddtoCart = async () => {
-    if (isCheckAll) {
-      await axios.post(addInCart, {
-        productId: purchasedProd?.map((item) => item?.products),
-        quantity: 1,
-        flavour: purchasedProd?.map((li) => li._id),
+
+  const AddtoCart = async (e) => {
+    const { data } = await axios.post(addInCart, {
+      products: selected,
+    });
+    console.log(data);
+    if (!data.error) {
+      setNstate(!Nstate);
+      Swal.fire({
+        title: "Product Added to Cart",
+        icon: "success",
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+        confirmButtonAriaLabel: "Thumbs up, Okay!",
+        cancelButtonText: "Close",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/app/cart", { state: "jii" });
+        }
       });
     }
-    // await axios.post(addInCart, {
-    //   productId: cartProduct[0],
-    //   quantity: cartProduct[1],
-    //   flavour: flavour,
-    // });
+    if (data.error) {
+      Swal.fire({
+        title: data?.message,
+        icon: "error",
+        showConfirmButton: "okay",
+      });
+    }
   };
+
   return (
     <div className="main_myaccount">
-      <Navbar />
+      <Navbar NState={Nstate} />
       <section className="comman_banner _banner marginTop">
         <div className="container">
           <div className="row">
@@ -215,12 +260,19 @@ const BuyAgain = () => {
                               <label class="checkbox-label">
                                 <input
                                   type="checkbox"
-                                  key={item._id}
-                                  name={ind}
-                                  id={item?._id}
-                                  onChange={handleClick}
+                                  key={val?.flavour?._id}
+                                  // name={ind}
+                                  id={val?.flavour?._id}
+                                  onChange={(e) =>
+                                    handleClick(
+                                      e,
+                                      val?.flavour,
+                                      val?.productId?._id,
+                                      ind
+                                    )
+                                  }
                                   class="checkbox-input"
-                                  checked={isCheck.includes(item?._id)}
+                                  checked={isCheck?.includes(val?.flavour?._id)}
                                 />
                                 <span class="checkmark"></span>
                               </label>
@@ -239,23 +291,26 @@ const BuyAgain = () => {
                       ))
                     )}
                   </div>
-
-                  <div className="col-lg-5 col-md-5 mb-2 ">
-                    <label class="checkbox-label-all d-flex">
-                      <input
-                        type="checkbox"
-                        name="selectAll"
-                        id="selectAll"
-                        onChange={handleSelectAll}
-                        checked={isCheckAll}
-                        class="checkbox-input-all"
-                      />
-                      <span class="checkmark-all"></span>
-                      <span className="select-text">Select All</span>
-                    </label>
-                  </div>
-                  <div className="col-lg-6 col-md-6 mb-2 justify-content-center">
-                    <button className="Signupb">Add to Cart</button>
+                  <div className="row py-3 border rounded">
+                    <div className="col-lg-5 col-md-5">
+                      <label class="checkbox-label-all d-flex">
+                        <input
+                          type="checkbox"
+                          name="selectAll"
+                          id="selectAll"
+                          onChange={handleSelectAll}
+                          checked={isCheckAll}
+                          class="checkbox-input-all"
+                        />
+                        <span class="checkmark-all"></span>
+                        <span className="select-text">Select All</span>
+                      </label>
+                    </div>
+                    <div className="col-lg-6 col-md-6  justify-content-center">
+                      <button className="Signupb" onClick={() => AddtoCart()}>
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

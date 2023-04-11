@@ -54,8 +54,7 @@ export async function userPreLogin(formData) {
     console.log(data);
     return { data };
   } catch (error) {
-    if (error.response) toast.error(error.response.data.message);
-    return { error };
+    if (error.response) return { error };
   }
 }
 
@@ -108,7 +107,6 @@ export async function forgotPassword(formData) {
 
     if (!data.error) {
       await localStorage.removeItem("token-user");
-      
     } else toast.error(data.message);
 
     if (!data.error) return { data };

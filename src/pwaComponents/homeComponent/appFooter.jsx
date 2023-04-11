@@ -17,7 +17,7 @@ function AppFooter() {
               </li>
               <li>
                 <Link to={token ? "/app/cart" : "/app/login"}>
-                  <i className="fa-solid fa-bag-shopping"></i>Basket
+                  <i className="fa-solid fa-bag-shopping"></i>Cart
                 </Link>
               </li>
               <li>

@@ -126,7 +126,7 @@ function AppProductSubCategory() {
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
               <Link to="/app/home">
-                <i class="fa-solid fa-arrow-left-long"></i>
+                <i className="fa-solid fa-house"></i>
               </Link>
             </div>
 

@@ -21,6 +21,8 @@ function AppProductBySearch() {
   const [scan, setScan] = useState(false);
   const navigate = useNavigate();
   let location = useLocation();
+  let deviceId = localStorage.getItem("device");
+
   const {
     transcript,
     listening,
@@ -110,7 +112,11 @@ function AppProductBySearch() {
       <AppHeader />
       <div className="page-content-wrapper">
         <div className="container">
-          <div className="search-form pt-3 rtl-flex-d-row-r">
+          <div
+            className={
+              deviceId !== "" ? "search-form pt-3 " : "search-new pt-3 "
+            }
+          >
             <form>
               <input
                 className="form-control"
@@ -125,21 +131,23 @@ function AppProductBySearch() {
               </button>
             </form>
 
-            <div className="alternative-search-options">
-              <button
-                className="comman_btn text-white ms-1"
-                onClick={microphoneSearch}
-              >
-                <i className="fa-solid fa-microphone"></i>
-              </button>
-              <Link
-                className="comman_btn2 ms-1"
-                to=""
-                onClick={() => cameraScan()}
-              >
-                <i className="fa fa-qrcode"></i>
-              </Link>
-            </div>
+            {deviceId !== "" ? (
+              <div className="alternative-search-options">
+                <button
+                  className="comman_btn text-white ms-1"
+                  onClick={microphoneSearch}
+                >
+                  <i className="fa-solid fa-microphone"></i>
+                </button>
+                <Link
+                  className="comman_btn2 ms-1"
+                  to=""
+                  onClick={() => cameraScan()}
+                >
+                  <i className="fa fa-qrcode"></i>
+                </Link>
+              </div>
+            ) : null}
           </div>
 
           <div className="top-products-area py-3">
@@ -163,7 +171,8 @@ function AppProductBySearch() {
                                 src={
                                   item?.type.flavourImage
                                     ? item?.type.flavourImage
-                                    : require("../../assets/img/product.jpg")
+                                    : item?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                 }
                                 alt=""
                               />

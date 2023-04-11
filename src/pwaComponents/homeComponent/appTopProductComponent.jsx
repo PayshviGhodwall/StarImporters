@@ -19,7 +19,6 @@ function TopProduct() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
-
   const [product, setProduct] = useState([]);
   const [heart, setHeart] = useState(false);
   const [activePage, setActivePage] = useState(1);
@@ -171,7 +170,6 @@ function TopProduct() {
                           }
                           alt="Product Image not updated"
                         />
-                        {console.log(item.type[0]?.flavourImage)}
                       </Link>
                       <div class="row mt-1 d-flex align-items-center justify-content-between">
                         <div class="col">

@@ -64,7 +64,7 @@ function AppHeader({ cartCount }) {
                 </div>
               ) : null}
               <div className="user-profile ms-2">
-                <Link>
+                <Link to={token ? "/app/profile" : "/app/login"}>
                   <img
                     className="headerProfile"
                     src={

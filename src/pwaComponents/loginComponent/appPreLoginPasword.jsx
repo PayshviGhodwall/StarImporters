@@ -38,6 +38,10 @@ function AppPreLoginPassword() {
 
       if (response?.data.message === "Logged In") {
         localStorage.setItem("token-user", response?.data?.results.token);
+        localStorage.setItem(
+          "device",
+          response?.data?.results.verifyUser?.deviceId
+        );
         navigate("/app/home");
         if (window.flutter_inappwebview) {
           window.flutter_inappwebview.callHandler("Flutter", data?.email);
