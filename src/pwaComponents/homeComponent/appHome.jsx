@@ -30,9 +30,8 @@ function AppHome() {
   const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-  let deviceId = localStorage.getItem("device")
-    ? localStorage.getItem("device")
-    : "";
+  let deviceId = localStorage.getItem("device");
+
   console.log(deviceId);
   useEffect(() => {
     getBanner();
@@ -192,11 +191,12 @@ function AppHome() {
           </div>
         ) : (
           <div className="page-content-wrapper">
-            <h1>{deviceId}</h1>
             <div className="container ">
               <div
                 className={
-                  deviceId !== "" ? "search-form pt-3 " : "search-new pt-3 "
+                  deviceId === "android" && "ios"
+                    ? "search-form pt-3 "
+                    : "search-new pt-3 "
                 }
               >
                 <form className="" style={{ width: "100%" }}>
@@ -217,7 +217,7 @@ function AppHome() {
                     reset
                   </button>
                 </form>
-                {deviceId != "" ? (
+                {deviceId === "android" && "ios" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
@@ -407,11 +407,13 @@ function AppHome() {
                       ""
                     )}
                   </div>
+                  <small>{deviceId + "iddd"}</small>
                 </div>
               </div>
             )}
           </div>
         )}
+
         <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
           <AppFooter />
         </div>

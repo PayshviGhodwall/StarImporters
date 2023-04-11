@@ -18,8 +18,8 @@ function AppLogout() {
   const logout = async () => {
     if (await localStorage.getItem("token-user")) {
       await localStorage.removeItem("token-user");
+      await localStorage.removeItem("device");
     }
-
     navigate("/app/login");
   };
 

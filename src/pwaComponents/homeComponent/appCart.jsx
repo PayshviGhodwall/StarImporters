@@ -24,9 +24,7 @@ function AppCart() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
-  let deviceId = localStorage.getItem("device")
-    ? localStorage.getItem("device")
-    : "";
+  let deviceId = localStorage.getItem("device");
 
   useEffect(() => {
     getCartss();
@@ -349,7 +347,7 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                {deviceId !== "" ? (
+                {deviceId === "android" && "ios" ? (
                   <div className="col-6 cart-amount-area p-1">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <h5 className="total-price mb-0"></h5>

@@ -21,9 +21,7 @@ function AppProductBySearch() {
   const [scan, setScan] = useState(false);
   const navigate = useNavigate();
   let location = useLocation();
-  let deviceId = localStorage.getItem("device")
-    ? localStorage.getItem("device")
-    : "";
+  let deviceId = localStorage.getItem("device");
 
   const {
     transcript,
@@ -116,7 +114,9 @@ function AppProductBySearch() {
         <div className="container">
           <div
             className={
-              deviceId !== "" ? "search-form pt-3 " : "search-new pt-3 "
+              deviceId === "android" && "ios"
+                ? "search-form pt-3 "
+                : "search-new pt-3 "
             }
           >
             <form>
@@ -133,7 +133,7 @@ function AppProductBySearch() {
               </button>
             </form>
 
-            {deviceId !== "" ? (
+            {deviceId === "android" && "ios" ? (
               <div className="alternative-search-options">
                 <button
                   className="comman_btn text-white ms-1"

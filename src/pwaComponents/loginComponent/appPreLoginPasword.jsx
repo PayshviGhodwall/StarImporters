@@ -40,7 +40,7 @@ function AppPreLoginPassword() {
         localStorage.setItem("token-user", response?.data?.results.token);
         localStorage.setItem(
           "device",
-          response?.data?.results.verifyUser?.deviceId
+          response?.data?.results.verifyUser?.deviceOS
         );
         navigate("/app/home");
         if (window.flutter_inappwebview) {
