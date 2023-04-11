@@ -21,7 +21,9 @@ function AppProductBySearch() {
   const [scan, setScan] = useState(false);
   const navigate = useNavigate();
   let location = useLocation();
-  let deviceId = localStorage.getItem("device");
+  let deviceId = localStorage.getItem("device")
+    ? localStorage.getItem("device")
+    : "";
 
   const {
     transcript,

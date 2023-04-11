@@ -24,7 +24,9 @@ function AppCart() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
-  let deviceId = localStorage.getItem("device");
+  let deviceId = localStorage.getItem("device")
+    ? localStorage.getItem("device")
+    : "";
 
   useEffect(() => {
     getCartss();

@@ -30,7 +30,9 @@ function AppHome() {
   const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-  let deviceId = localStorage.getItem("device");
+  let deviceId = localStorage.getItem("device")
+    ? localStorage.getItem("device")
+    : "";
   console.log(deviceId);
   useEffect(() => {
     getBanner();
@@ -190,6 +192,7 @@ function AppHome() {
           </div>
         ) : (
           <div className="page-content-wrapper">
+            <h1>{deviceId}</h1>
             <div className="container ">
               <div
                 className={

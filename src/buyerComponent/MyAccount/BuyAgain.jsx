@@ -45,6 +45,8 @@ const BuyAgain = () => {
   };
   console.log(selected);
   const handleSelectAll = (e) => {
+    const { checked } = e.target;
+
     setIsCheckAll(!isCheckAll);
     let Nitem = [...isCheck];
     purchasedProd?.map((li) =>
@@ -52,9 +54,7 @@ const BuyAgain = () => {
     );
     console.log(Nitem);
     setIsCheck(Nitem);
-    if (isCheckAll) {
-      setIsCheck([]);
-    }
+
     let allData = [...selected];
     (purchasedProd || [])?.map((item, index) =>
       item.products?.map((val, ind) =>
@@ -65,9 +65,23 @@ const BuyAgain = () => {
       )
     );
     setSelected(allData);
+    console.log(checked);
+    if (isCheckAll) {
+      setIsCheck([]);
+    }
+    if (!checked) {
+      setSelected([]);
+    }
   };
 
   const AddtoCart = async (e) => {
+    if (selected === []) {
+      Swal.fire({
+        title: "Please Select any product!",
+        icon: "error",
+        showConfirmButton: "okay",
+      });
+    }
     const { data } = await axios.post(addInCart, {
       products: selected,
     });
