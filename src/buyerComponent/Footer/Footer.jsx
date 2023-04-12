@@ -119,7 +119,7 @@ const Footer = () => {
                         className="text-decoration-none"
                         to="/app/brands"
                         state={"JII"}
-                        >
+                      >
                         Brands{" "}
                       </Link>
                     </li>
@@ -175,10 +175,7 @@ const Footer = () => {
                         States
                       </p>
                     </li>
-                    <li>
-                      <i className="fa fa-envelope-open-text" />
-                      <Link to="/app/login">http://starimporters.com</Link>
-                    </li>
+
                     <li>
                       <i className="fas fa-phone-alt" />
                       <p>+1 770-908-0404</p>
