@@ -348,7 +348,7 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                {!browserName.length ? (
+                {browserName === "WebKit" ? (
                   <div className="col-6 cart-amount-area p-1">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <h5 className="total-price mb-0"></h5>

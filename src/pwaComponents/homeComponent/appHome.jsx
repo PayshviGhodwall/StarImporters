@@ -16,7 +16,7 @@ import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import axios from "axios";
-import { browserName, CustomView,isIE } from "react-device-detect";
+import { browserName, CustomView, isIE } from "react-device-detect";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -192,10 +192,10 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
-              <p>{browserName + "" + isIE }</p>
+              <p>{browserName + "" + isIE}</p>
               <div
                 className={
-                  browserName.length !== 0
+                  browserName !== "WebKit"
                     ? "search-new pt-3 "
                     : "search-form pt-3 "
                 }
@@ -218,7 +218,7 @@ function AppHome() {
                     reset
                   </button>
                 </form>
-                {!browserName.length ? (
+                {browserName === "WebKit" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
