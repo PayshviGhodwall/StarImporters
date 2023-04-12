@@ -192,9 +192,12 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
+              <p>{browserName.length}</p>
               <div
                 className={
-                  browserName.length ? "search-new pt-3 " : "search-form pt-3 "
+                  browserName.length !== 0
+                    ? "search-new pt-3 "
+                    : "search-form pt-3 "
                 }
               >
                 <form className="" style={{ width: "100%" }}>
