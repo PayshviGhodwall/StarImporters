@@ -516,7 +516,7 @@ const SingleProdBySearch = () => {
                           setLoginState(!LoginState);
                         }}
                       >
-                        Please Login to add to cart!
+                        Please Login to Add to cart!
                       </div>
                     )}
                   </div>

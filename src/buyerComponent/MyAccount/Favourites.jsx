@@ -10,6 +10,8 @@ const Favourites = () => {
   const allFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/allFav`;
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  let token = localStorage.getItem("token-user");
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
@@ -26,7 +28,7 @@ const Favourites = () => {
   return (
     <div className="main_myaccount">
       <Navbar />
-      <section className="comman_banner _banner">
+      <section className="comman_banner _banner marginTop">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -39,15 +41,15 @@ const Favourites = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6"
                       >
-                        My Account
+                        My Account  <span className="arrow mx-1">&#9679;</span> Favourities 
                       </Link>
                     </li>
                   </ol>
@@ -163,63 +165,69 @@ const Favourites = () => {
             </div>
 
             <div className="col-lg-9 col-md-9 col-sm-9">
-              <div className="bg-white p-4 ">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="row myfavourites">
-                      {(products || [])?.map((item, index) => (
-                        <div
-                          className="col-lg-3 col-md-4 mb-lg-4 mb-md-2 "
-                          key={index}
-                        >
-                          <div className="border br-2 p-2 shadow">
-                            <div
-                              className="partsproduct_img"
-                              onClick={() => {
-                                navigate(
-                                  `/AllProducts/Product/${item?.productId?._id}`,
-                                  {
-                                    state: {
-                                      id: item?.productId?._id,
-                                    },
-                                  }
-                                );
-                              }}
-                            >
-                              <img
-                                src={item?.productId?.productImage}
-                                alt="Product"
-                              />
-                            </div>
-                            <div
-                              className="product_content mt-2 text-center"
-                              onClick={() => {
-                                navigate(
-                                  `/AllProducts/Product/${item?.productId?._id}`,
-                                  {
-                                    state: {
-                                      id: item?.productId?._id,
-                                    },
-                                  }
-                                );
-                              }}
-                            >
-                              <Link to="" className="text-decoration-none">
-                                {item?.productId?.unitName}
-                              </Link>
+              {token ? (
+                <div className="bg-white p-4 ">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="row myfavourites">
+                        {(products || [])?.map((item, index) => (
+                          <div
+                            className="col-lg-3 col-md-4 mb-lg-4 mb-md-2 "
+                            key={index}
+                          >
+                            <div className="border br-2 p-2 shadow">
+                              <div
+                                className="partsproduct_img"
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/${item?.productId?._id}`,
+                                    {
+                                      state: {
+                                        id: item?.productId?._id,
+                                      },
+                                    }
+                                  );
+                                }}
+                              >
+                                <img
+                                  src={item?.productId?.productImage}
+                                  alt="Product"
+                                />
+                              </div>
+                              <div
+                                className="product_content mt-2 text-center"
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/${item?.productId?._id}`,
+                                    {
+                                      state: {
+                                        id: item?.productId?._id,
+                                      },
+                                    }
+                                  );
+                                }}
+                              >
+                                <Link to="" className="text-decoration-none">
+                                  {item?.productId?.unitName}
+                                </Link>
 
-                              <a
-                                className="fav_btn change_btn"
-                                href="javscript:;"
-                              />
+                                <a
+                                  className="fav_btn change_btn"
+                                  href="javscript:;"
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4">
+                  <p>Please Login to see details...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

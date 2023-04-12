@@ -33,7 +33,7 @@ function AppSubCategories() {
         confirmButtonAriaLabel: "Thumbs up, Okay!",
         cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
         cancelButtonAriaLabel: "Thumbs down",
-        html: "<ol><li>Your are above <b>18 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
+        html: "<ol><li>Your are above <b>21 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {

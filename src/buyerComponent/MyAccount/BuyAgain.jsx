@@ -17,6 +17,8 @@ const BuyAgain = () => {
   const [list, setList] = useState([]);
   const [Nstate, setNstate] = useState(false);
   const navigate = useNavigate();
+  let token = localStorage.getItem("token-user");
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
@@ -128,15 +130,16 @@ const BuyAgain = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6"
                       >
-                        My Account
+                        My Account <span className="arrow mx-1">&#9679;</span>{" "}
+                        Buy Again
                       </Link>
                     </li>
                   </ol>
@@ -252,82 +255,92 @@ const BuyAgain = () => {
             </div>
 
             <div className="col-lg-9 col-md-9 col-sm-9">
-              <div className="bg-white p-4 ">
-                <div className="row">
-                  {/* <div className="col-12 fs-5 fw-bold">Purchased Products</div> */}
-                  <div className="row myfavourites">
-                    {(purchasedProd || [])?.map((item, index) =>
-                      item.products?.map((val, ind) => (
-                        <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
-                          <div className="product_parts_box">
-                            <div className="partsproduct_img">
-                              <img
-                                src={
-                                  val?.flavour
-                                    ? val?.flavour?.flavourImage ||
-                                      require("../../assets/img/product.jpg")
-                                    : val?.productId?.productImage ||
-                                      require("../../assets/img/product.jpg")
-                                }
-                                alt="Product"
-                              />
-                              <label class="checkbox-label">
-                                <input
-                                  type="checkbox"
-                                  key={val?.flavour?._id}
-                                  // name={ind}
-                                  id={val?.flavour?._id}
-                                  onChange={(e) =>
-                                    handleClick(
-                                      e,
-                                      val?.flavour,
-                                      val?.productId?._id,
-                                      ind
-                                    )
+              {token ? (
+                <div className="bg-white p-4 ">
+                  <div className="row">
+                    {/* <div className="col-12 fs-5 fw-bold">Purchased Products</div> */}
+                    <div className="row myfavourites">
+                      {(purchasedProd || [])?.map((item, index) =>
+                        item.products?.map((val, ind) => (
+                          <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2">
+                            <div className="product_parts_box">
+                              <div className="partsproduct_img">
+                                <img
+                                  src={
+                                    val?.flavour
+                                      ? val?.flavour?.flavourImage ||
+                                        require("../../assets/img/product.jpg")
+                                      : val?.productId?.productImage ||
+                                        require("../../assets/img/product.jpg")
                                   }
-                                  class="checkbox-input"
-                                  checked={isCheck?.includes(val?.flavour?._id)}
+                                  alt="Product"
                                 />
-                                <span class="checkmark"></span>
-                              </label>
-                            </div>
-                            <div>
-                              <div class="featuredproduct_details p-2 text-center">
-                                <span>
-                                  {val?.productId?.unitName}
-                                  {"-"}
-                                  {val?.flavour ? val?.flavour?.flavour : null}
-                                </span>
+                                <label class="checkbox-label">
+                                  <input
+                                    type="checkbox"
+                                    key={val?.flavour?._id}
+                                    // name={ind}
+                                    id={val?.flavour?._id}
+                                    onChange={(e) =>
+                                      handleClick(
+                                        e,
+                                        val?.flavour,
+                                        val?.productId?._id,
+                                        ind
+                                      )
+                                    }
+                                    class="checkbox-input"
+                                    checked={isCheck?.includes(
+                                      val?.flavour?._id
+                                    )}
+                                  />
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                              <div>
+                                <div class="featuredproduct_details p-2 text-center">
+                                  <span>
+                                    {val?.productId?.unitName}
+                                    {"-"}
+                                    {val?.flavour
+                                      ? val?.flavour?.flavour
+                                      : null}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                  <div className="row py-3 border rounded">
-                    <div className="col-lg-5 col-md-5">
-                      <label class="checkbox-label-all d-flex">
-                        <input
-                          type="checkbox"
-                          name="selectAll"
-                          id="selectAll"
-                          onChange={handleSelectAll}
-                          checked={isCheckAll}
-                          class="checkbox-input-all"
-                        />
-                        <span class="checkmark-all"></span>
-                        <span className="select-text">Select All</span>
-                      </label>
+                        ))
+                      )}
                     </div>
-                    <div className="col-lg-6 col-md-6  justify-content-center">
-                      <button className="Signupb" onClick={() => AddtoCart()}>
-                        Add to Cart
-                      </button>
+                    <div className="row py-3 border rounded">
+                      <div className="col-lg-5 col-md-5">
+                        <label class="checkbox-label-all d-flex">
+                          <input
+                            type="checkbox"
+                            name="selectAll"
+                            id="selectAll"
+                            onChange={handleSelectAll}
+                            checked={isCheckAll}
+                            class="checkbox-input-all"
+                          />
+                          <span class="checkmark-all"></span>
+                          <span className="select-text">Select All</span>
+                        </label>
+                      </div>
+                      <div className="col-lg-6 col-md-6  justify-content-center">
+                        <button className="Signupb" onClick={() => AddtoCart()}>
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4">
+                  <p>Please Login to see details...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

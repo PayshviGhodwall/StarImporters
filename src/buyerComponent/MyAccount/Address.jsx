@@ -10,6 +10,8 @@ const Address = () => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
   }, []);
+  let token = localStorage.getItem("token-user");
+
   const EditAddress = () => {
     document.getElementById("floatingInputValue").disabled = false;
     document.getElementById("floatingInputValue");
@@ -30,15 +32,15 @@ const Address = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6"
                       >
-                        My Account
+                        My Account <span className="arrow mx-1">&#9679;</span> Address Book
                       </Link>
                     </li>
                   </ol>
@@ -154,21 +156,27 @@ const Address = () => {
             </div>
 
             <div className="col-lg-9 col-md-9 col-sm-9">
-              <div className="bg-white p-4 ">
-                <div className="row">
-                  <div className=" pt-3">
-                    <div className="row mx-0 Checkout_address">
-                      <span>Address :</span>
-                      <h2>{users?.firstName}</h2>
-                      <p className="mb-0">
-                        {users?.addressLine1}
-                        <br />
-                        {users?.addressLine2}
-                      </p>
+              {token ? (
+                <div className="bg-white p-4 ">
+                  <div className="row">
+                    <div className=" pt-3">
+                      <div className="row mx-0 Checkout_address">
+                        <span>Address :</span>
+                        <h2>{users?.firstName}</h2>
+                        <p className="mb-0">
+                          {users?.addressLine1}
+                          <br />
+                          {users?.addressLine2}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4">
+                  <p>Please Login to see details...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

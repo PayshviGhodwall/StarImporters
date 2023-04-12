@@ -16,6 +16,7 @@ import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import axios from "axios";
+import { browserName, CustomView } from "react-device-detect";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -407,7 +408,7 @@ function AppHome() {
                       ""
                     )}
                   </div>
-                  <small>{deviceId + "iddd"}</small>
+                  <small>{deviceId + "iddd" + browserName}</small>
                 </div>
               </div>
             )}

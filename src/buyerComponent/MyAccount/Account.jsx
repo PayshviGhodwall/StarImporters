@@ -29,6 +29,7 @@ const Account = () => {
     formState: { errors },
     trigger,
   } = useForm();
+  let token = localStorage.getItem("token-user");
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
@@ -167,15 +168,15 @@ const Account = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6"
                       >
-                        My Account
+                        My Account <span className="arrow mx-1">&#9679;</span> Account Settings
                       </Link>
                     </li>
                   </ol>
@@ -291,68 +292,74 @@ const Account = () => {
             </div>
 
             <div className="col-lg-9 col-md-9 col-sm-9">
-              <div className="bg-white p-4 ">
-                <div className="row mx-0 py-2">
-                  <div className="col-12 text-end mb-4">
-                    <Link
-                      className="text-center comman_btn"
-                      data-bs-toggle="modal"
-                      id="modal-toggle"
-                      data-bs-target="#staticBackdrop8"
-                    >
-                      Edit
-                    </Link>
-                  </div>
-                  <div className="col-12">
-                    <form className="form-design row" action="">
-                      <div className="form-floating col-6 mb-4">
-                        <input
-                          type="text"
-                          className="form-control shadow-none"
-                          defaultValue={users?.firstName}
-                          id="floatingInput"
-                          disabled
-                        />
-                        <label htmlFor="floatingInput">Name</label>
-                      </div>
-                      <div className="form-floating col-6 mb-4">
-                        <input
-                          type="email"
-                          className="form-control shadow-none"
-                          defaultValue={users?.email}
-                          id="floatingInput"
-                          placeholder=" "
-                          disabled
-                        />
-                        <label htmlFor="floatingInput">Email Address</label>
-                      </div>
-                      <div className="form-floating col-6 mb-4">
-                        <input
-                          type="email"
-                          className="form-control shadow-none"
-                          defaultValue={users?.phoneNumber}
-                          id="floatingInput"
-                          placeholder=" "
-                          disabled
-                        />
-                        <label htmlFor="floatingInput">Mobile Number</label>
-                      </div>
-                      <div className="col-5 mx-3 mb-4 border rounded bg-light">
-                        <label className="fw-bold">
-                          Tobacco Licence Status:
-                        </label>
-                        <br/>
-                        <strong>
-                          {users?.istobaccoLicenceExpired
-                            ? "Expired"
-                            : "Active"}
-                        </strong>
-                      </div>
-                      <div className="col-12 text-center"></div>
-                    </form>
+              {token ? (
+                <div className="bg-white p-4 ">
+                  <div className="row mx-0 py-2">
+                    <div className="col-12 text-end mb-4">
+                      <Link
+                        className="text-center comman_btn"
+                        data-bs-toggle="modal"
+                        id="modal-toggle"
+                        data-bs-target="#staticBackdrop8"
+                      >
+                        Edit
+                      </Link>
+                    </div>
+                    <div className="col-12">
+                      <form className="form-design row" action="">
+                        <div className="form-floating col-6 mb-4">
+                          <input
+                            type="text"
+                            className="form-control shadow-none"
+                            defaultValue={users?.firstName}
+                            id="floatingInput"
+                            disabled
+                          />
+                          <label htmlFor="floatingInput">Name</label>
+                        </div>
+                        <div className="form-floating col-6 mb-4">
+                          <input
+                            type="email"
+                            className="form-control shadow-none"
+                            defaultValue={users?.email}
+                            id="floatingInput"
+                            placeholder=" "
+                            disabled
+                          />
+                          <label htmlFor="floatingInput">Email Address</label>
+                        </div>
+                        <div className="form-floating col-6 mb-4">
+                          <input
+                            type="email"
+                            className="form-control shadow-none"
+                            defaultValue={users?.phoneNumber}
+                            id="floatingInput"
+                            placeholder=" "
+                            disabled
+                          />
+                          <label htmlFor="floatingInput">Mobile Number</label>
+                        </div>
+                        <div className="col-5 mx-3 mb-4 border rounded bg-light">
+                          <label className="fw-bold">
+                            Tobacco Licence Status:
+                          </label>
+                          <br />
+                          <strong>
+                            {users?.istobaccoLicenceExpired
+                              ? "Expired"
+                              : "Active"}
+                          </strong>
+                        </div>
+                        <div className="col-12 text-center"></div>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4">
+                  <p>Please Login to see details...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

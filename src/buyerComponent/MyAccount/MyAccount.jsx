@@ -14,6 +14,7 @@ const MyAccount = () => {
   const [orderDetails, setOrderDetails] = useState([]);
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
+  let token = localStorage.getItem("token-user");
 
   useEffect(() => {
     const GetOrders = async () => {
@@ -46,13 +47,13 @@ const MyAccount = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6 mx-1"
                       >
                         My Account
                       </Link>
@@ -167,61 +168,67 @@ const MyAccount = () => {
               </div>
             </div>
             <div className="col-xl-9 col-md-9 col-sm-9">
-              <div className="bg-white p-4 ">
-                <div className="tab-content" id="nav-tabContent">
-                  <div
-                    className="tab-pane fade show active"
-                    id="nav-home"
-                    role="tabpanel"
-                    aria-labelledby="nav-home-tab"
-                  >
-                    <div className="row">
-                      <div className="col-12 mb-3">
-                        <div className="order_heading">
-                          <h2>My Order :</h2>
+              {token ? (
+                <div className="bg-white p-4 ">
+                  <div className="tab-content" id="nav-tabContent">
+                    <div
+                      className="tab-pane fade show active"
+                      id="nav-home"
+                      role="tabpanel"
+                      aria-labelledby="nav-home-tab"
+                    >
+                      <div className="row">
+                        <div className="col-12 mb-3">
+                          <div className="order_heading">
+                            <h2>My Order :</h2>
+                          </div>
                         </div>
+                        {(orderDetails || [])?.map((item, index) => (
+                          <div className="col-6 mb-3 d-flex" key={index}>
+                            <Link
+                              to="/OrderDetails"
+                              state={{ id: item?._id }}
+                              className="my_orderbox position-relative text-decoration-none"
+                            >
+                              <div className="left_part">
+                                <div className="status_order d-block">
+                                  Status: {item?.status}
+                                </div>
+                                <div className="order_id d-block mb-1">
+                                  Order ID: <strong>{item?.orderId}</strong>
+                                </div>
+                                <div className="date_box">
+                                  {moment(item?.createdAt?.slice(0, 10)).format(
+                                    "MM/DD/YYYY"
+                                  )}
+                                </div>
+                              </div>
+                              <div className="items_box">
+                                <h2>Items :</h2>
+                                {(item?.products || []).map((item, ind) => (
+                                  <ul className="list-unstyled mb-0">
+                                    <li key={ind}>
+                                      {item?.flavour?._id
+                                        ? item?.productId?.unitName +
+                                          "-" +
+                                          item?.flavour?.flavour
+                                        : item?.productId?.unitName}
+                                    </li>
+                                  </ul>
+                                ))}
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
                       </div>
-                      {(orderDetails || [])?.map((item, index) => (
-                        <div className="col-6 mb-3 d-flex" key={index}>
-                          <Link
-                            to="/OrderDetails"
-                            state={{ id: item?._id }}
-                            className="my_orderbox position-relative text-decoration-none"
-                          >
-                            <div className="left_part">
-                              <div className="status_order d-block">
-                                Status: {item?.status}
-                              </div>
-                              <div className="order_id d-block mb-1">
-                                Order ID: <strong>{item?.orderId}</strong>
-                              </div>
-                              <div className="date_box">
-                                {moment(item?.createdAt?.slice(0, 10)).format(
-                                  "MM/DD/YYYY"
-                                )}
-                              </div>
-                            </div>
-                            <div className="items_box">
-                              <h2>Items :</h2>
-                              {(item?.products || []).map((item, ind) => (
-                                <ul className="list-unstyled mb-0">
-                                  <li key={ind}>
-                                    {item?.flavour?._id
-                                      ? item?.productId?.unitName +
-                                        "-" +
-                                        item?.flavour?.flavour
-                                      : item?.productId?.unitName}
-                                  </li>
-                                </ul>
-                              ))}
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4">
+                  <p>Please Login to see details...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

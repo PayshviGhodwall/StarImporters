@@ -41,6 +41,7 @@
     "moment": "^2.29.4",
     "quagga": "^0.12.1",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-doc-viewer": "^0.1.5",
     "react-document-preview": "^1.0.1",
     "react-dom": "^18.2.0",

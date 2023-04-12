@@ -920,8 +920,8 @@ const Homepage = () => {
                       <div class="col-12">
                         <div class="categorynew_slider sliderbtns_design">
                           <Link
-                            to="/app/brands"
-                            state={"hisds"}
+                            to="/Brands/Products"
+                            state={{ name: item?.brandName }}
                             className="brandsnew_box"
                           >
                             <img src={item?.brandImage} alt="" />

@@ -64,9 +64,62 @@ const Profile = () => {
   };
 
   return (
-    <div className="row  mt-5 mb-5">
-      <div className="col-lg-12 bg-white p-4">
-        <div className="myaccount_profile row">
+    <div className="row  mt-5 mb-5 shadow ">
+      <div className="col-lg-12 profile_bg  p-4">
+        <div class="content ">
+          <div class="carding">
+            <div class="firstinfo">
+              <form className="nn-form">
+                <label for="fileToUpload">
+                  <div
+                    class="profile-pic-nn border "
+                    id="profile"
+                    src={users?.profileImage ? users?.profileImage : Starlogo}
+                    style={{
+                      backgroundImage: `url(${
+                        users?.profileImage ? users?.profileImage : Starlogo
+                      })`,
+                      backgroundSize: "98%",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    <span class="glyphicon glyphicon-camera"></span>
+                    <span>Edit</span>
+                  </div>
+                  <div style={{ position: "relative" }}>
+                    <span class="icon-photo glyphicon glyphicon-camera"></span>
+                  </div>
+                </label>
+                <input
+                  type="File"
+                  className="nn-Input"
+                  name="fileToUpload"
+                  id="fileToUpload"
+                  onChange={(e) => changeProfile(e, "fileToUpload")}
+                />
+              </form>
+              <div class="profileinfo">
+                <h1>
+                  {users?.companyName
+                    ? users?.companyName
+                    : "Login to continue!"}
+                </h1>
+                <h3>{users?.firstName + " " + users?.lastName}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="badgescard">
+            {" "}
+            <span class="devicons devicons-django"></span>
+            <span class="devicons devicons-python"> </span>
+            <span class="devicons devicons-codepen"></span>
+            <span class="devicons devicons-javascript_badge"></span>
+            <span class="devicons devicons-gulp"></span>
+            <span class="devicons devicons-angular"></span>
+            <span class="devicons devicons-sass"> </span>
+          </div>
+        </div>
+        {/* <div className="myaccount_profile row">
           <div className="col-auto">
             <div className="account_profile">
               <div className="">
@@ -98,40 +151,8 @@ const Profile = () => {
               <span>{users?.city}</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      {/* <Uploader
-      fileListVisible={false}
-      listType="picture"
-      action="//jsonplaceholder.typicode.com/posts/"
-      onUpload={file => {
-         setFiles(file)
-         changeProfile()
-        setUploading(true);
-        previewFile(file.blobFile, value => {
-          setFileInfo(value);
-        });
-      }}
-      onSuccess={(response, file) => {
-        setUploading(false);
-        toaster.push(<Message type="success">Uploaded successfully</Message>);
-        console.log(response);
-      }}
-      onError={() => {
-        setFileInfo(null);
-        setUploading(false);
-        toaster.push(<Message type="error">Upload failed</Message>);
-      }}
-    >
-      <button style={{ width: 150, height: 150 }}>
-        {uploading && <Loader backdrop center />}
-        {fileInfo ? (
-          <img src={fileInfo} width="100%" height="100%" />
-        ) : (
-          <AvatarIcon style={{ fontSize: 80 }} />
-        )}
-      </button>
-    </Uploader> */}
     </div>
   );
 };

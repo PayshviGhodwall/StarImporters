@@ -5714,9 +5714,6 @@ background-color: #3e4093;
   .filter_check input:checked ~ label::before {
     opacity: 1;
   }
-  .main_myaccount {
-    background-color: #eef3ff;
-  }
 
   .wrapper-class {
     padding: 1rem;
@@ -14902,4 +14899,93 @@ figure.effect-ming:hover img {
   .comn_heads {
     margin-bottom: 20px !important;
   }
+}
+
+.content {
+  position: relative;
+  animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
+}
+.carding {
+  width: 100%;
+  min-height: 100px;
+  padding: 20px;
+  border-radius: 3px;
+  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); */
+  position: relative;
+  overflow: hidden;
+}
+.firstinfo {
+  flex-direction: row;
+  z-index: 2;
+  position: relative;
+  
+}
+.firstinfo img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+
+.firstinfo,
+.badgescard,
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.firstinfo .profileinfo {
+  padding: 0px 20px;
+}
+.firstinfo .profileinfo p.bio {
+  padding: 10px 0px;
+  color: #5a5a5a;
+  line-height: 1.2;
+  font-style: initial;
+}
+
+.icon-photo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.profile-pic-nn {
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  vertical-align: middle;
+  text-align: center;
+  color: transparent;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.profile-pic-nn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  color: #fff;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.profile-pic-nn span {
+  display: inline-block;
+  padding-top: 4.5em;
+  padding-bottom: 4.5em;
+}
+
+.nn-form input[type="file"] {
+  display: none;
+  cursor: pointer;
+}
+.profile_bg {
+  background: rgb(255,255,255);
+  background: -moz-linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
+  background: -webkit-linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
+  background: linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#3e4093",GradientType=1);
 }
