@@ -27,12 +27,12 @@ function AppPreLoginPassword() {
   }, []);
 
   useEffect(() => {}, []);
-
+  console.log(browserName.length);
   const onSubmit = async (data) => {
     const response = await userPreLoginPassword({
       email: location.state.email,
       password: data.password,
-      deviceOS: browserName !== "" ? "web" : "",
+      deviceOS: browserName.length > 2 ? "web" : "",
     });
     if (!response.data.error) {
       navigate("/app/home");
