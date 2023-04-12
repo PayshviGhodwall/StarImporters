@@ -33,7 +33,6 @@ function AppHome() {
   const ref = useRef(null);
   let deviceId = localStorage.getItem("device");
 
-  console.log(deviceId);
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -195,9 +194,7 @@ function AppHome() {
             <div className="container ">
               <div
                 className={
-                  deviceId === "android" && "ios"
-                    ? "search-form pt-3 "
-                    : "search-new pt-3 "
+                  browserName.length ? "search-new pt-3 " : "search-form pt-3 "
                 }
               >
                 <form className="" style={{ width: "100%" }}>
@@ -218,7 +215,7 @@ function AppHome() {
                     reset
                   </button>
                 </form>
-                {deviceId === "android" && "ios" ? (
+                {!browserName.length ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
@@ -408,7 +405,7 @@ function AppHome() {
                       ""
                     )}
                   </div>
-                  <small>{deviceId + "iddd" + browserName}</small>
+                  <small>{deviceId}</small>
                 </div>
               </div>
             )}

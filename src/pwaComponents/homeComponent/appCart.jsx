@@ -14,6 +14,7 @@ import {
 import AppFooter from "./appFooter";
 import WebHeader2 from "./webHeader2";
 import { Loader } from "rsuite";
+import { browserName, CustomView } from "react-device-detect";
 
 function AppCart() {
   const [cart, setCart] = useState([]);
@@ -347,7 +348,7 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                {deviceId === "android" && "ios" ? (
+                {!browserName.length ? (
                   <div className="col-6 cart-amount-area p-1">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <h5 className="total-price mb-0"></h5>
