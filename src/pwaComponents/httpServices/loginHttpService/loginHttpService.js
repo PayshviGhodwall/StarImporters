@@ -33,10 +33,7 @@ export async function userPreLoginPassword(formData) {
     console.log(data);
 
     if (!data.error) {
-      toast.success(data.message);
-    } else toast.error(data.message);
-
-    console.log(data.message);
+    } else console.log(data.message);
     return { data };
   } catch (error) {
     if (error.response) toast.error(error.response.data.message);

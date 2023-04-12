@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 import validator from "validator";
 import { useLocation } from "react-router-dom";
-
+import { browserName } from "react-device-detect";
 function AppPreLoginPassword() {
   const {
     register,
@@ -29,10 +29,11 @@ function AppPreLoginPassword() {
   useEffect(() => {}, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    data.email = location.state.email;
-
-    const response = await userPreLoginPassword(data);
+    const response = await userPreLoginPassword({
+      email: location.state.email,
+      password: data.password,
+      deviceOS: browserName !== "" ? "web" : "",
+    });
     if (!response.data.error) {
       navigate("/app/home");
 
