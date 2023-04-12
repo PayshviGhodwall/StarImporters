@@ -14,7 +14,7 @@ import {
 import AppFooter from "./appFooter";
 import WebHeader2 from "./webHeader2";
 import { Loader } from "rsuite";
-import { browserName, CustomView } from "react-device-detect";
+import { browserName } from "react-device-detect";
 
 function AppCart() {
   const [cart, setCart] = useState([]);

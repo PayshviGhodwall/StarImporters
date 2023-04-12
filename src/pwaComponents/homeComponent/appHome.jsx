@@ -192,7 +192,6 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
-              <p>{browserName + "" + isIE}</p>
               <div
                 className={
                   browserName !== "WebKit"
@@ -210,7 +209,6 @@ function AppHome() {
                       setSearch(e.target.value);
                     }}
                   />
-
                   <button onClick={searchProduct} className="me-5">
                     <i className="fa-solid fa-magnifying-glass"></i>
                   </button>
@@ -245,6 +243,7 @@ function AppHome() {
                   <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
                     <h6> Showing results for "{search}"</h6>
                   </div>
+
                   {product?.length ? (
                     <div className="row g-2">
                       {(product || [])?.map((item, index) => {
@@ -268,6 +267,7 @@ function AppHome() {
                                     alt=""
                                   />
                                 </Link>
+
                                 <Link
                                   className="product-title"
                                   to={`/app/product-detail/${item._id}`}
@@ -318,7 +318,7 @@ function AppHome() {
                           ></img>
                           <div className="slide-content h-100 d-flex align-items-center"></div>
                         </div>
-                        {banner?.map((item, index) => {
+                        {banner?.map((item) => {
                           return (
                             <div className="single-hero-slide item">
                               <img src={item?.banner}></img>
@@ -408,7 +408,7 @@ function AppHome() {
                       ""
                     )}
                   </div>
-                  <small>{deviceId}</small>
+                  {/* <small>{deviceId}</small> */}
                 </div>
               </div>
             )}

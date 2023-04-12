@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AppHeader from "./appHeader";
-import AppFooter from "./appFooter";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,9 +9,8 @@ import {
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import Scanner from "./qr_code";
 import { useNavigate } from "react-router-dom";
-import { BiMicrophone } from "react-icons/bi";
+import { browserName, CustomView } from "react-device-detect";
 
 function AppProductBySearch() {
   const [search, setSearch] = useState("");
@@ -114,7 +111,7 @@ function AppProductBySearch() {
         <div className="container">
           <div
             className={
-              deviceId === "android" && "ios"
+              browserName === "WebKit"
                 ? "search-form pt-3 "
                 : "search-new pt-3 "
             }
@@ -133,7 +130,7 @@ function AppProductBySearch() {
               </button>
             </form>
 
-            {deviceId === "android" && "ios" ? (
+            {browserName === "WebKit" ? (
               <div className="alternative-search-options">
                 <button
                   className="comman_btn text-white ms-1"
