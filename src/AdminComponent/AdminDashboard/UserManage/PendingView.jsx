@@ -71,7 +71,7 @@ const PendingView = () => {
       let data = res?.data.results;
       setDocs([
         {
-          uri: data?.federalTaxId?.text.replace("http", "https"),
+          uri: data?.federalTaxId,
         },
         { uri: data?.salexTaxId },
         { uri: data?.tobaccoLicence },
@@ -672,14 +672,15 @@ const PendingView = () => {
                                   ></i>
                                 ) : null}
 
-                                <Link
-                                  to=""
+                                <a
+                                  href={user?.federalTaxId}
+                                  target="_blank  "
                                   className="text-decoration-none"
-                                  onClick={() => {
-                                    fileDownload(user?.federalTaxId);
-                                  }}
+                                  // onClick={() => {
+                                  //   fileDownload(user?.federalTaxId);
+                                  // }}
                                 >
-                                  {user?.tobaccoLicence ? (
+                                  {user?.federalTaxId ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
                                     <FaFileUpload size={25} color="red" />
@@ -687,7 +688,7 @@ const PendingView = () => {
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.federalTaxId?.slice(0, 60)}
                                   </p>
-                                </Link>
+                                </a>
                               </div>
                             </label>
                           </div>
@@ -721,8 +722,9 @@ const PendingView = () => {
                                   ></i>
                                 ) : null}
 
-                                <Link
-                                  to=""
+                                <a
+                                  href={user?.tobaccoLicence}
+                                  target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.tobaccoLicence);
@@ -736,7 +738,7 @@ const PendingView = () => {
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.tobaccoLicence?.slice(0, 60)}
                                   </p>
-                                </Link>
+                                </a>
                               </div>
                             </label>
                           </div>
@@ -768,8 +770,9 @@ const PendingView = () => {
                                   ></i>
                                 ) : null}
 
-                                <Link
-                                  to=""
+                                <a
+                                  href={user?.salesTaxId}
+                                  target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.salesTaxId);
@@ -783,7 +786,7 @@ const PendingView = () => {
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.salesTaxId?.slice(0, 60)}
                                   </p>
-                                </Link>
+                                </a>
                               </div>
                             </label>
                           </div>
@@ -816,8 +819,9 @@ const PendingView = () => {
                                     }
                                   ></i>
                                 ) : null}
-                                <Link
-                                  to=""
+                                <a
+                                  href={user?.businessLicense}
+                                  target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.businessLicense);
@@ -831,7 +835,7 @@ const PendingView = () => {
                                   <p className="" style={{ fontSize: "9px" }}>
                                     {user?.businessLicense?.slice(0, 60)}
                                   </p>
-                                </Link>
+                                </a>
                               </div>
                             </label>
                           </div>
@@ -890,8 +894,9 @@ const PendingView = () => {
                                   ></i>
                                 ) : null}
 
-                                <Link
-                                  to=""
+                                <a
+                                  href={user?.accountOwnerId}
+                                  target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.accountOwnerId);
@@ -906,7 +911,7 @@ const PendingView = () => {
                                   <p style={{ fontSize: "9px" }}>
                                     {user?.accountOwnerId}
                                   </p>
-                                </Link>
+                                </a>
                               </div>
                             </label>
                           </div>

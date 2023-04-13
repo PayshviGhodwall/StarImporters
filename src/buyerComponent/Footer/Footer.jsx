@@ -194,6 +194,7 @@ const Footer = () => {
                   ©2022 All Rights Reserved by Star Importers
                 </p>
               </div>
+              
               {/* <div className="col-md-6">
                 <ul className="footer_payment text-center text-lg-end mb-0">
                   <li>
