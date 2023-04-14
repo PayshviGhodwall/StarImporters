@@ -12,17 +12,17 @@ function AppFooter() {
             <ul className="h-100 d-flex align-items-center justify-content-between ps-0 d-flex rtl-flex-d-row-r">
               <li>
                 <Link to="/app/home">
-                  <i className="fa-solid fa-house"></i>Home
+                  <i className="fa-solid fa-house"></i>
                 </Link>
               </li>
               <li>
                 <Link to={token ? "/app/cart" : "/app/login"}>
-                  <i className="fa-solid fa-bag-shopping"></i>Cart
+                  <i className="fa-solid fa-bag-shopping"></i>
                 </Link>
               </li>
               <li>
                 <Link to={token ? "/app/settings" : "/app/login"}>
-                  <i className="fa-solid fa-gear"></i>Settings
+                  <i className="fa-solid fa-gear"></i>
                 </Link>
               </li>
             </ul>

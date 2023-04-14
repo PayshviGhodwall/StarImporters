@@ -339,7 +339,7 @@ const BrandsManage = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -465,7 +465,7 @@ const BrandsManage = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className=""  
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
@@ -490,7 +490,7 @@ const BrandsManage = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>

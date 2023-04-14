@@ -34,7 +34,7 @@ export const colourOptions = [
   },
   { value: "Brands Management", label: "Brands Management" },
   { value: "Inventory Management", label: "Inventory Management" },
-  { value: "Orders Request", label: "Order Request" },
+  { value: "Orders Request", label: "Order Management" },
   { value: "CMS", label: "CMS" },
 ];
 
@@ -363,7 +363,7 @@ const SubAdmin = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -510,7 +510,7 @@ const SubAdmin = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>

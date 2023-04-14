@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   countProducts,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useRecoilValue } from "recoil";
 import { notifyCount } from "../../atom";
+import { browserName } from "react-device-detect";
 
 function AppHeader({ cartCount }) {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
   let counter = useRecoilValue(notifyCount);
   const ref = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     getUserDetail();
     getCartCount();
@@ -44,6 +45,7 @@ function AppHeader({ cartCount }) {
       setCount(data?.results.productCount);
     }
   };
+
   return (
     <>
       <div className="star_imp_app">
@@ -54,6 +56,19 @@ function AppHeader({ cartCount }) {
                 <img src="../assets/img/logo.png" alt="" />
               </Link>
             </div>
+            {browserName !== "WebKit" ? (
+              <div
+                class="download-app android-app"
+                onClick={() => {
+                  navigate("/app/downloads");
+                }}
+              >
+                <i class="fa-solid fa-circle-down fa fa-2x"></i>
+                <span class="df">Download from</span>
+                <span class="dfn">App Store</span>
+              </div>
+            ) : null}
+
             <div className="navbar-logo-container d-flex align-items-center">
               {token ? (
                 <div className="cart-icon-wrap">

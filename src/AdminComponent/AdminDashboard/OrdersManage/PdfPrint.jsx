@@ -5,7 +5,7 @@ import html2pdf from "html2pdf.js/dist/html2pdf.min";
 import moment from "moment";
 
 const PdfPrint = () => {
-  const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
+  const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/orderPDF`;
   const [orders, setOrders] = useState([]);
   let id = useParams();
   console.log(id);
@@ -767,9 +767,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                         }}
-                                      >
-                                        SHIPPING &amp; HANDLEING/SAIA2127633
-                                      </td>
+                                      ></td>
                                       <td
                                         style={{
                                           fontSize: 16,
@@ -780,9 +778,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                         }}
-                                      >
-                                        1
-                                      </td>
+                                      ></td>
                                       <td
                                         style={{
                                           fontSize: 16,

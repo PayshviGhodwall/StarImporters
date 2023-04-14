@@ -41,6 +41,7 @@ const Navbar = ({ NState, LoginState }) => {
       document.getElementById("modal-login").click();
     }
   }, [LoginState]);
+
   const getProductList = async (e) => {
     let Search = e.target.value;
     console.log(Search);
@@ -123,7 +124,7 @@ const Navbar = ({ NState, LoginState }) => {
     }
   };
   return (
-    <div className="header_main " ref={ref}>
+    <div className="header_main" ref={ref}>
       <div className="">
         <div className="container">
           <div className="row Newheader align-items-center ">
@@ -280,15 +281,15 @@ const Navbar = ({ NState, LoginState }) => {
           </div>
         </div>
 
-        <div className="row justify-content-center  ">
+        <div className="row">
           <div class="col-12 header_bottom ">
             <div class="container-fluid">
-              <div class="row ">
-                <div class="col-12 mx-2">
+              <div class="row header_row">
+                <div class="col-12">
                   <ul class="header_menuss mb-0 ps-0">
                     <li>
                       <a
-                        className=""
+                        className="mx-2 p-3"
                         onClick={() =>
                           navigate("/app/home", {
                             state: {
@@ -301,7 +302,7 @@ const Navbar = ({ NState, LoginState }) => {
                       </a>
                     </li>
                     {(category || [])
-                      ?.filter((item, idx) => idx < 9)
+                      ?.filter((item, idx) => idx < 8)
                       .map((item, index) => (
                         <li
                           class="new_dropdown"
@@ -324,7 +325,7 @@ const Navbar = ({ NState, LoginState }) => {
                           </a>
                           <div class="new_dropdown_inner">
                             {(item?.subcategories || [])
-                              ?.filter((item, idx) => idx < 10)
+                              ?.filter((item, idx) => idx < 9)
                               .map((item, index) => (
                                 <a
                                   key={index}
@@ -361,7 +362,7 @@ const Navbar = ({ NState, LoginState }) => {
                       ))}
                     <li>
                       <Link
-                        className="text-decoration-none"
+                        className="text-decoration-none mx-2 p-3"
                         to="/app/Categories"
                         state={"kooo"}
                       >

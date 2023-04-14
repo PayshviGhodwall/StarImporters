@@ -111,7 +111,7 @@ const Footer = () => {
                         to="/app/Gallery"
                         state={"JII"}
                       >
-                        Gallery{" "}
+                        News and Events{" "}
                       </Link>
                     </li>
                     <li>
@@ -188,57 +188,31 @@ const Footer = () => {
         </div>
         <div className="bottom_footer border-top-tran text-white">
           <div className="container">
-            <div className="row align-items-center">
-              <div className="col-md-6">
+            <div className="row justify-content-between">
+              <div className="col-md-8">
                 <p className="mb-md-0 text-center text-md-start">
                   ©2022 All Rights Reserved by Star Importers
                 </p>
               </div>
-              
-              {/* <div className="col-md-6">
-                <ul className="footer_payment text-center text-lg-end mb-0">
+
+              <div className="col-md-4">
+                <ul className="dwn-ul text-end text-md-end">
                   <li>
-                    <Link className="text-decoration-none">
-                      <img
-                        src={require("../../assets/img/visa.png")}
-                        alt="visa"
-                      />
-                    </Link>
+                    <div class="download android">
+                      <i class="fa-brands fa-android fa-2x fa"></i>
+                      <span class="df">Download Our</span>
+                      <span class="dfn">Android Apk</span>
+                    </div>
                   </li>
                   <li>
-                    <Link className="text-decoration-none">
-                      <img
-                        src={require("../../assets/img/discover.png")}
-                        alt="discover"
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="text-decoration-none">
-                      <img
-                        src={require("../../assets/img/master_card.png")}
-                        alt="master_card"
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <img
-                        src={require("../../assets/img/paypal.png")}
-                        alt="paypal"
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <img
-                        src={require("../../assets/img/amarican_express.png")}
-                        alt="amarican_express"
-                      />
-                    </Link>
+                    <div class="download apple">
+                      <i class="fa-brands fa-app-store-ios fa-2x fa "></i>
+                      <span class="df">Download from</span>
+                      <span class="dfn">App Store</span>
+                    </div>
                   </li>
                 </ul>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

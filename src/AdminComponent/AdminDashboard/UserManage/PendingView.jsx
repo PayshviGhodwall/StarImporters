@@ -33,8 +33,39 @@ const PendingView = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    formState: { errors: errors2 },
+    reset,
+  } = useForm();
 
   const onSubmit = async (data) => {
+    await axios
+      .post(rejectUrl + "/" + objectId, {
+        companyName: data?.companyName,
+        dba: data?.dba,
+        addressLine1: data?.address1,
+        addressLine2: data?.addressLine2,
+        city: data?.city,
+        state: data?.state,
+        zipcode: data?.zipcode,
+        firstName: data?.firstName,
+        tobaccoLicence: data?.tobaccoId,
+        federalTaxId: data?.federalId,
+        accountOwnerId: data?.accountId,
+        businessLicense: data?.businessId,
+        salesTaxId: data?.salesId,
+        rejectReason: data?.reason,
+      })
+      .then((res) => {
+        if (res?.data.message === "Rejected") {
+          document.getElementById("modal-close21").click();
+          navigate("/UserManage");
+        }
+      });
+  };
+  const onSubmitApprove = async (data) => {
     await axios
       .post(rejectUrl + "/" + objectId, {
         companyName: data?.companyName,
@@ -296,7 +327,7 @@ const PendingView = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -482,7 +513,7 @@ const PendingView = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>
@@ -744,6 +775,7 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div
                           className={
@@ -792,6 +824,7 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div
                           className={
@@ -958,15 +991,16 @@ const PendingView = () => {
                       <div className="col-12 text-center">
                         <Button
                           href="javascript:;"
-                          loading={loader}
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop25"
+                          className="comman_btn ms-2 text-decoration-none"
+                          // loading={loader}
                           style={{
                             backgroundColor: "#eb3237",
                             color: "#fff",
                             fontWeight: "500",
                             borderRadius: "30px",
                           }}
-                          className="comman_btn text-decoration-none"
-                          onClick={approveUser}
                         >
                           Approve
                         </Button>
@@ -995,6 +1029,278 @@ const PendingView = () => {
 
       <div
         className="modal fade comman_modal"
+        id="staticBackdrop25"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Approve Remarks*
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                id="modal-closed22"
+              />
+            </div>
+            <div className="modal-body bg-light border rounded">
+              <div className="container ">
+                <div className="row justify-content-center ">
+                  <form
+                    className="p-2"
+                    onSubmit={handleSubmit2(onSubmitApprove)}
+                  >
+                    <h5 className="fw-bold">Enter Reason :</h5>
+
+                    <textarea
+                      className="w-100 fs-6 p-2"
+                      style={{ height: "8rem" }}
+                      name="reason"
+                      {...register2("reason")}
+                    />
+
+                    <div className="row text-start mt-3 return_Reason">
+                      <h6 className="mb-2">Choose Invalid Fields :</h6>
+                      <div className="col-md-6">
+                        <ul className="list-group ">
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="companyName"
+                                {...register2("companyName")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Company Name
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="dba"
+                                {...register2("dba")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                DBA
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="address"
+                                {...register2("address")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Address Line
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="city"
+                                {...register2("city")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                htmlFor="flexCheckDefault"
+                              >
+                                City
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="state"
+                                {...register2("state")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                State
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="zipcode"
+                                {...register2("zipcode")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Zipcode
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6">
+                        <ul className="list-group">
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="federalId"
+                                {...register2("federalId")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Federal Tax Id
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="salesId"
+                                {...register2("salesId")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Sales Tax Id
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="tobaccoId"
+                                {...register2("tobaccoId")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                htmlFor="flexCheckDefault"
+                              >
+                                Tobacco Licence
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="businessId"
+                                {...register2("businessId")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Business Licence
+                              </label>
+                            </div>
+                          </li>
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="firstName"
+                                {...register2("firstName")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                First Name
+                              </label>
+                            </div>
+                          </li>
+
+                          <li className="list-group-item">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="accountId"
+                                {...register2("accountId")}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label mx-1"
+                                for="flexCheckDefault"
+                              >
+                                Account Owner Id
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-12 text-center mt-4">
+                        <button
+                          className="comman_btn2 rounded"
+                          onClick={approveUser}
+                          type="submit"
+                        >
+                          Approve
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade comman_modal"
         id="staticBackdrop21"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -1006,7 +1312,7 @@ const PendingView = () => {
           <div className="modal-content border-0">
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                Return Reason
+                Decline Reason
               </h5>
               <button
                 type="button"

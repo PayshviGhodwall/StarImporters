@@ -4,9 +4,13 @@ import Navbar from "../Homepage/Navbar";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
 import axios from "axios";
-import SendOtp from "../LoginRegister/SendOtp";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { FaFileDownload } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
+import { saveAs } from "file-saver";
+import moment from "moment";
+
 const Account = () => {
   const editProfile = `${process.env.REACT_APP_APIENDPOINTNEW}user/editProfile`;
   const [users, setUsers] = useState([]);
@@ -43,9 +47,11 @@ const Account = () => {
     };
     getUser();
   }, [change]);
+
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
+
   const UpdatedData = (e) => {
     const value = e.target.value;
     setFormValues({
@@ -77,6 +83,10 @@ const Account = () => {
         });
       }
     });
+  };
+  const preview = (id) => {
+    document.getElementById("preview_modal").click();
+    document.getElementById("preview_images").src = id;
   };
   // send Otp//
 
@@ -120,6 +130,7 @@ const Account = () => {
       })
       .then((res) => {});
   };
+
   const moveOnMax = (event, field, nextFieldID) => {
     event = event || window.event;
     if (event.keyCode != 9) {
@@ -129,6 +140,9 @@ const Account = () => {
     }
   };
 
+  const fileDownload = (url) => {
+    saveAs(url);
+  };
   const togglePassword = () => {
     let x = document.getElementById("password-input");
     let y = document.getElementById("password-input2");
@@ -176,7 +190,8 @@ const Account = () => {
                         to=""
                         className="text-decoration-none text-white fs-6"
                       >
-                        My Account <span className="arrow mx-1">&#9679;</span> Account Settings
+                        My Account <span className="arrow mx-1">&#9679;</span>{" "}
+                        Account Settings
                       </Link>
                     </li>
                   </ol>
@@ -349,6 +364,268 @@ const Account = () => {
                               ? "Expired"
                               : "Active"}
                           </strong>
+                        </div>
+                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                          <div
+                            className={
+                              users.federalTaxId
+                                ? "row view-inner-box border  mx-0 w-100"
+                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                            }
+                          >
+                            <span className="fw-bold">Federal Tax ID:</span>
+                            <div className="col img_box_show ">
+                              <input
+                                className="d-none"
+                                type="file"
+                                id="file1"
+                                name="file"
+                                disabled
+                              />
+                              <label htmlFor="file1">
+                                <div className="">
+                                  {users?.federalTaxId ? (
+                                    <i
+                                      class="fa fa-eye preview_icon"
+                                      onClick={() =>
+                                        preview(users?.federalTaxId)
+                                      }
+                                    ></i>
+                                  ) : null}
+                                  <a
+                                    href={users?.federalTaxId}
+                                    className="text-decoration-none"
+                                    // onClick={() => {
+                                    //   fileDownload(users?.federalTaxId);
+                                    // }}
+                                  >
+                                    {users.federalTaxId ? (
+                                      <FaFileDownload size={25} color="black" />
+                                    ) : (
+                                      <FaFileUpload size={25} color="red" />
+                                    )}
+                                    <p
+                                      className="mt-2"
+                                      style={{ fontSize: "9px" }}
+                                    >
+                                      "Federal Tax ID"
+                                    </p>
+                                  </a>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                          <div
+                            className={
+                              users.tobaccoLicence
+                                ? "row view-inner-box border  mx-0 w-100"
+                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                            }
+                          >
+                            <span className="fw-bold">Tobacco License:</span>
+                            <div className="col img_box_show">
+                              <input
+                                className="d-none"
+                                type="file"
+                                id="file1"
+                                name="file"
+                                disabled
+                              />
+                              <label htmlFor="file1">
+                                <div className="">
+                                  {users?.tobaccoLicence ? (
+                                    <i
+                                      class="fa fa-eye preview_icon"
+                                      onClick={() =>
+                                        preview(users?.tobaccoLicence)
+                                      }
+                                    ></i>
+                                  ) : null}
+                                  <Link
+                                    to=""
+                                    className="text-decoration-none"
+                                    onClick={() => {
+                                      fileDownload(users?.tobaccoLicence);
+                                    }}
+                                  >
+                                    {users.tobaccoLicence ? (
+                                      <FaFileDownload size={25} color="black" />
+                                    ) : (
+                                      <FaFileUpload size={25} color="red" />
+                                    )}
+                                    <p
+                                      className="mt-2"
+                                      style={{ fontSize: "9px" }}
+                                    >
+                                      "Tobacco License"
+                                    </p>
+                                  </Link>
+                                </div>
+                              </label>
+                            </div>
+
+                            <strong>
+                              {" "}
+                              Expires on :{" "}
+                              {moment(
+                                users?.tobaccoLicenceExpiry?.slice(0, 10)
+                              ).format("MM/DD/YYYY")}
+                            </strong>
+                          </div>
+                        </div>
+                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                          <div
+                            className={
+                              users.salesTaxId
+                                ? "row view-inner-box border  mx-0 w-100"
+                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                            }
+                          >
+                            <span className="fw-bold">Sales Tax ID:</span>
+                            <div className="col img_box_show">
+                              <input
+                                className="d-none"
+                                type="file"
+                                id="file1"
+                                name="file"
+                                disabled
+                              />
+                              <label htmlFor="file1">
+                                <div className="">
+                                  {users?.salesTaxId ? (
+                                    <i
+                                      class="fa fa-eye preview_icon"
+                                      onClick={() => preview(users?.salesTaxId)}
+                                    ></i>
+                                  ) : null}
+                                  <Link
+                                    to=""
+                                    className="text-decoration-none"
+                                    onClick={() => {
+                                      fileDownload(users?.salesTaxId);
+                                    }}
+                                  >
+                                    {users.salesTaxId ? (
+                                      <FaFileDownload size={25} color="black" />
+                                    ) : (
+                                      <FaFileUpload size={25} color="red" />
+                                    )}
+                                    <p
+                                      className="mt-2"
+                                      style={{ fontSize: "9px" }}
+                                    >
+                                      "Sales Tax ID"
+                                    </p>
+                                  </Link>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                          <div
+                            className={
+                              users.businessLicense
+                                ? "row view-inner-box border  mx-0 w-100"
+                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                            }
+                          >
+                            <span className="fw-bold">Business License:</span>
+                            <div className="col img_box_show">
+                              <input
+                                className="d-none"
+                                type="file"
+                                id="file1"
+                                name="file"
+                                disabled
+                              />
+                              <label htmlFor="file1">
+                                <div className="">
+                                  {users?.businessLicense ? (
+                                    <i
+                                      class="fa fa-eye preview_icon"
+                                      onClick={() =>
+                                        preview(users?.businessLicense)
+                                      }
+                                    ></i>
+                                  ) : null}
+                                  <Link
+                                    to=""
+                                    className="text-decoration-none"
+                                    onClick={() => {
+                                      fileDownload(users?.businessLicense);
+                                    }}
+                                  >
+                                    {users?.businessLicense ? (
+                                      <FaFileDownload size={25} color="black" />
+                                    ) : (
+                                      <FaFileUpload size={25} color="red" />
+                                    )}
+                                    <p
+                                      className="mt-2"
+                                      style={{ fontSize: "9px" }}
+                                    >
+                                      "Business License"
+                                    </p>
+                                  </Link>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-md-12 mb-4 d-flex align-items-stretch">
+                          <div
+                            className={
+                              users.accountOwnerId
+                                ? "row view-inner-box border  mx-0 w-100"
+                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                            }
+                          >
+                            <span className="fw-bold">Account Owner ID:</span>
+                            <div className="col img_box_show">
+                              <input
+                                className="d-none"
+                                type="file"
+                                id="file1"
+                                name="file"
+                                disabled
+                              />
+                              <label htmlFor="file1">
+                                <div className="">
+                                  {users?.accountOwnerId ? (
+                                    <i
+                                      class="fa fa-eye preview_icon2"
+                                      onClick={() =>
+                                        preview(users?.accountOwnerId)
+                                      }
+                                    ></i>
+                                  ) : null}
+                                  <Link
+                                    to=""
+                                    className="text-decoration-none"
+                                    onClick={() => {
+                                      fileDownload(users?.accountOwnerId);
+                                    }}
+                                  >
+                                    {users.accountOwnerId ? (
+                                      <FaFileDownload size={25} color="black" />
+                                    ) : (
+                                      <FaFileUpload size={25} color="red" />
+                                    )}
+                                    <p
+                                      className="mt-2"
+                                      style={{ fontSize: "9px" }}
+                                    >
+                                      "Account Owner ID"
+                                    </p>
+                                  </Link>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
                         </div>
                         <div className="col-12 text-center"></div>
                       </form>

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-import { FaFileUpload, FaLessThanEqual } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
@@ -260,7 +260,7 @@ const ApprovedView = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -446,7 +446,7 @@ const ApprovedView = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>

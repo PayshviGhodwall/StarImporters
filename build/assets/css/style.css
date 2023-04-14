@@ -862,9 +862,9 @@
     display: flex;
     font-weight: 600;
     font-size: 0.7rem;
-    justify-content: center;
+    justify-content: center !important;
     background-color: #3e4093;
-    height: 50px;
+    height: 48px;
   }
   .container-fluid {
     max-width: 96%;
@@ -881,7 +881,8 @@
   }
 
   .header_main {
-    background-color: #fff;
+    background: rgba(246, 247, 250, 1);
+    /* backdrop-filter: blur(10px); */
     width: 100%;
     position: fixed;
     top: 0;
@@ -7389,7 +7390,7 @@ background-color: #3e4093;
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
-    height: 65px;
+    height: 55px;
     width: 380px;
   }
 
@@ -7407,7 +7408,7 @@ background-color: #3e4093;
   .suha-footer-nav ul li a {
     position: relative;
     display: block;
-    font-size: 13px;
+    font-size: 16px;
     text-align: center;
     text-transform: capitalize;
     line-height: 1;
@@ -7416,8 +7417,8 @@ background-color: #3e4093;
   }
   .suha-footer-nav ul li a i {
     display: block;
-    font-size: 20px;
-    margin-bottom: 7px;
+    font-size: 22px;
+    margin-bottom: 6px;
   }
   .suha-footer-nav ul li a:hover,
   .suha-footer-nav ul li a:focus {
@@ -13853,6 +13854,7 @@ figure.effect-ming:hover img {
 }
 .Newheader {
   padding: 25px 40px !important;
+  height: 7.5rem !important;
 }
 .head_search {
   position: relative;
@@ -14336,14 +14338,17 @@ figure.effect-ming:hover img {
   justify-content: center;
   align-items: center;
 }
+.header_menuss {
+  display: flex;
+  justify-content: center;
+}
 .header_menuss li > a {
   color: #fff;
-  font-size: 14px;
+  font-size: 14px !important;
   text-transform: capitalize;
   display: flex;
   align-items: center;
   position: relative;
-  padding: 15px 22px;
   transition: 0.3s;
   height: 52px;
   text-decoration: none;
@@ -14414,8 +14419,8 @@ figure.effect-ming:hover img {
   z-index: 99999;
   overflow-x: hidden;
   box-shadow: 0 35px 30px #00000029;
-  max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: hidden;
+  max-height: 500px !important;
   animation-name: list-anime;
   animation-duration: 0.7s;
 }
@@ -14436,12 +14441,6 @@ figure.effect-ming:hover img {
   transform: translateX(8px);
   background-color: #3e4093 !important;
   color: #fff !important;
-}
-.new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar {
-  width: 5px !important;
-}
-.new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar-thumb {
-  background-color: #3e4093 !important;
 }
 
 .header_menuss li:last-child:hover .new_dropdown_inner {
@@ -14682,6 +14681,8 @@ figure.effect-ming:hover img {
 .flavor_design:hover {
   box-shadow: 4px 4px 54px rgba(214, 223, 232, 0.42);
   border-color: #fff;
+  background-color: #eb3237;
+  color: #fff !important;
 }
 .prdct_bottom .number {
   background: #3d438e;
@@ -14918,7 +14919,6 @@ figure.effect-ming:hover img {
   flex-direction: row;
   z-index: 2;
   position: relative;
-  
 }
 .firstinfo img {
   border-radius: 50%;
@@ -14983,9 +14983,165 @@ figure.effect-ming:hover img {
   cursor: pointer;
 }
 .profile_bg {
-  background: rgb(255,255,255);
-  background: -moz-linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
-  background: -webkit-linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
-  background: linear-gradient(281deg, rgba(255,255,255,1) 6%, rgba(62,64,147,0.9585084033613446) 100%);
+  background: rgb(255, 255, 255);
+  background: -moz-linear-gradient(
+    281deg,
+    rgba(255, 255, 255, 1) 6%,
+    rgba(62, 64, 147, 0.9585084033613446) 100%
+  );
+  background: -webkit-linear-gradient(
+    281deg,
+    rgba(255, 255, 255, 1) 6%,
+    rgba(62, 64, 147, 0.9585084033613446) 100%
+  );
+  background: linear-gradient(
+    281deg,
+    rgba(255, 255, 255, 1) 6%,
+    rgba(62, 64, 147, 0.9585084033613446) 100%
+  );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#3e4093",GradientType=1);
+}
+
+.dwn-ul {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dwn-ul li {
+  display: inline-block;
+  margin: 10px;
+}
+
+.download {
+  width: 160px;
+  height: 50px;
+  background: #e22f35;
+  float: left;
+  border-radius: 8px;
+  position: relative;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+.download > .fa {
+  color: #000;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+.download > .fa :hover {
+  color: #000;
+}
+.df,
+.dfn {
+  position: absolute;
+  left: 60px;
+}
+
+.df {
+  top: 8px;
+  font-size: 0.58em;
+}
+
+.dfn {
+  top: 20px;
+  position: relative;
+  left: 60px !important;
+  font-size: 1em;
+}
+
+.download:hover {
+  background-color: #ffff !important;
+  color: #000 !important;
+}
+
+.download-app {
+  width: 130px;
+  height: 45px;
+  background: #e22f35;
+  float: left;
+  border-radius: 15px;
+  position: relative;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+.download-app > .fa {
+  color: #000;
+  background-color: #fff;
+  border-radius: 30px;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+.download-app > .fa :hover {
+  color: #000;
+}
+.download-app .df,
+.dfn {
+  position: absolute;
+  left: 50px;
+}
+
+.download-app .df {
+  top: 7px;
+  font-size: 0.58em;
+}
+
+.download-app .dfn {
+  top: 18px;
+  font-size: 0.8em;
+}
+.bg-primary-gradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--primary),
+    var(--secondary)
+  );
+}
+.bg-secondary-gradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--secondary),
+    var(--primary)
+  );
+}
+.dwn-btns {
+  border-radius: 20px;
+  border: #000;
+  background: rgb(255, 255, 255);
+  background: -moz-linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(179, 180, 212, 1) 23%,
+    rgba(62, 64, 147, 1) 84%
+  );
+  background: -webkit-linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(179, 180, 212, 1) 23%,
+    rgba(62, 64, 147, 1) 84%
+  );
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(179, 180, 212, 1) 23%,
+    rgba(62, 64, 147, 1) 84%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#3e4093",GradientType=1);
+}
+.text-dwn {
+}
+.dwn-title1 {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif !important;
+    font-weight: 600;
 }

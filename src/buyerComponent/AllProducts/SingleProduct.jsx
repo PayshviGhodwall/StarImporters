@@ -105,14 +105,14 @@ const SingleProduct = () => {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
 
-                setNState(true);
+                setNState(!NState);
               }
               if (res.data?.message === "Product modified") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
                 // document.getElementById("req-modal2").click();
 
-                setNState(true);
+                setNState(!NState);
               }
             })
             .catch((err) => {
@@ -179,14 +179,14 @@ const SingleProduct = () => {
             if (res.data?.message === "Product Added") {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
-              setNState(true);
+              setNState(!NState);
             }
             if (res.data?.message === "Product modified") {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
               // document.getElementById("req-modal2").click();
 
-              setNState(true);
+              setNState(!NState);
             }
           })
           .catch((err) => {
@@ -425,6 +425,9 @@ const SingleProduct = () => {
                             <div className="col-md-4 mb-lg-4 mb-md-3">
                               <a
                                 className="flavor_design selected_flavor text-decoration-none"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title={item?.flavour}
                                 key={ind}
                                 style={{
                                   cursor: "pointer",
@@ -439,6 +442,9 @@ const SingleProduct = () => {
                               <a
                                 className="flavor_design text-decoration-none"
                                 key={ind}
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title={item?.flavour}
                                 onMouseMove={onMouseOut}
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {

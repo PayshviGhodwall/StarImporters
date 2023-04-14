@@ -301,7 +301,7 @@ const AddUser = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -487,7 +487,7 @@ const AddUser = () => {
                       }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>

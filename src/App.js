@@ -116,6 +116,7 @@ import Gallery from "./buyerComponent/Footer/Gallery";
 import Photos from "./buyerComponent/Footer/Photos";
 import GalleryMain from "./AdminComponent/AdminDashboard/GalleryManage/GalleryMain";
 import UserPdf from "./AdminComponent/AdminDashboard/OrdersManage/userPdf";
+import AppDownloads from "./pwaComponents/homeComponent/appDownloads";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -219,6 +220,10 @@ function App() {
 
           {/* App Routes */}
           <Route path="/" element={width < 999 ? <AppHome /> : <Homepage />} />
+          <Route
+            path="/app/downloads"
+            element={width < 999 ? <AppDownloads /> : <Homepage />}
+          />
 
           <Route
             path="/app/pre-login"

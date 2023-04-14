@@ -5,7 +5,7 @@ import html2pdf from "html2pdf.js/dist/html2pdf.min";
 import moment from "moment";
 
 const UserPdf = () => {
-  const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
+  const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/orderPDF`;
   const [orders, setOrders] = useState([]);
   let id = useParams();
   console.log(id);

@@ -98,14 +98,14 @@ const SingleProdBySearch = () => {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
 
-                setNState(NState + 1);
+                setNState(!NState);
               }
               if (res.data?.message === "Product modified") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
                 // document.getElementById("req-modal2").click();
 
-                setNState(7);
+                setNState(!NState);
               }
             })
             .catch((err) => {
@@ -173,7 +173,7 @@ const SingleProdBySearch = () => {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
 
-              setNState(9);
+              setNState(!NState);
             }
             if (res.data?.message === "Product modified") {
               setLoader(false);
@@ -415,6 +415,9 @@ const SingleProdBySearch = () => {
                               <a
                                 className="flavor_design selected_flavor text-decoration-none"
                                 key={ind}
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title={item?.flavour}
                                 style={{
                                   cursor: "pointer",
                                   backgroundColor: "#3e4093",
@@ -429,6 +432,9 @@ const SingleProdBySearch = () => {
                                 className="flavor_design text-decoration-none"
                                 key={ind}
                                 onMouseMove={onMouseOut}
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title={item?.flavour}
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
                                   document.getElementById(

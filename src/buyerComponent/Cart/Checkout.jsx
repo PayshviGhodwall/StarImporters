@@ -258,7 +258,7 @@ const Checkout = () => {
                         style={{ height: "5rem" }}
                         type="text"
                         placeholder="Enter your comments...."
-                        onClick={(e) => setComments(e.target.value)}
+                        onChange={(e) => setComments(e.target.value)}
                       />
                     </div>
                   </div>

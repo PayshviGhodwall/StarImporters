@@ -550,7 +550,7 @@ const Inventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
@@ -697,7 +697,7 @@ const Inventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                    Order request
+                    Order Management
                   </Link>
                 </li>
                 <li>

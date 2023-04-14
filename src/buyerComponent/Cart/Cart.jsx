@@ -142,7 +142,7 @@ const Cart = () => {
                       className={
                         product?.length
                           ? "nav-link border rounded d-flex justify-content-between"
-                          : "nav-link border m-0 w-100"
+                          : "nav-link border m-0 w-100 rounded d-flex justify-content-between"
                       }
                     >
                       <span>
