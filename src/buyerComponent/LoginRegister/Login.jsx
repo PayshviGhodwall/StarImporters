@@ -6,24 +6,20 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import classNames from "classnames";
 import Starlogo from "../../assets/img/logo.png";
-import LoginPass from "./LoginPass";
+import Navbar from "../Homepage/Navbar";
 
-const Login = ({getEmail}) => {
-  const [apiData, setApiData] = useState([]);
+const Login = ({ getEmail }) => {
   const [state, setState] = useState(false);
   const navigate = useNavigate();
   const Swal = require("sweetalert2");
-  const [emailerr ,setEmailErr] = useState()
+  const [emailerr, setEmailErr] = useState();
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/preLogin`;
   const autoClose = () => {
     document.getElementById("close").click();
   };
-  useEffect(() => {
-
-
-  }, [state]);
+  useEffect(() => {}, [state]);
   const handleRefresh = () => {
-    window.location.reload(false)
+    window.location.reload(false);
   };
   const {
     register,
@@ -34,18 +30,18 @@ const Login = ({getEmail}) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    getEmail(data?.email)
+    getEmail(data?.email);
     await axios
       .post(apiUrl, {
         email: data.email,
       })
       .then((res) => {
         if (res?.data.message === "Please enter password") {
-          localStorage.setItem("userEmail",data.email)
+          localStorage.setItem("userEmail", data.email);
 
           document.getElementById("pass-Modal").click();
         }
-         if (res?.data.message === "Your ID in under review") {
+        if (res?.data.message === "Your ID in under review") {
           Swal.fire({
             title: "Your ID in under review",
             text: "Do you want to continue",
@@ -62,7 +58,7 @@ const Login = ({getEmail}) => {
           });
         }
         if (res?.data.message === "You need to provide details again") {
-          localStorage.setItem("userEmail",data.email)
+          localStorage.setItem("userEmail", data.email);
 
           Swal.fire({
             title:
@@ -77,7 +73,7 @@ const Login = ({getEmail}) => {
           });
         }
         if (res?.data.message === "Email is not registered") {
-          setEmailErr("Email is not registered!")
+          setEmailErr("Email is not registered!");
         }
       });
   };
@@ -125,7 +121,6 @@ const Login = ({getEmail}) => {
                     className="row form-design justify-content-center mx-1"
                     onSubmit={handleSubmit(onSubmit)}
                   >
-
                     <div className="form-floating mb-1 col-9 ">
                       <input
                         type="email"
@@ -139,47 +134,17 @@ const Login = ({getEmail}) => {
                           required: "Please Enter Your Email",
                         })}
                       />
-                     
+
                       <label htmlFor="floatingEmail" className="fs-6 fw-bolder">
                         Email Address
                       </label>
-                      <p className="" style={{color:"#eb3237"}}> {emailerr} </p>
-
+                      <p className="" style={{ color: "#eb3237" }}>
+                        {" "}
+                        {emailerr}{" "}
+                      </p>
                     </div>
-                    {/* <div className="form-floating mb-4">
-                      <input
-                        type="password"
-                        className={classNames(
-                          "form-control  border border-secondary px-3",
-                          { "is-invalid": errors.password }
-                        )}
-                        id="Password-Input"
-                        
-                        placeholder="Password"
-                        name="password"
-                        {...register("password", {
-                          required: "Enter Your Password",
-                        })}
-                      />
-                      {errors.password && (
-                        <small className="errorText mx-1 fw-bold">
-                          {errors.password?.message}
-                        </small>
-                      )}
-                      <label
-                        htmlFor="floatingPassword"
-                        className="fs-6 fw-bolder"
-                      >
-                        Password
-                      </label>
-                      <span
-                        onClick={togglePassword}
-                        className="fa fa-fw fa-eye field-icon toggle-password"
-                      />
-                    </div> */}
-                    
                     <div className="form-group mb-3 text-center">
-                      <button type="submit" className="comman_btn py-2 rounded" >
+                      <button type="submit" className="comman_btn py-2 rounded">
                         Sign In
                       </button>
                     </div>
@@ -187,7 +152,7 @@ const Login = ({getEmail}) => {
                       <span>
                         Don't have an account?{" "}
                         <Link
-                          onClick={()=>navigate("/app/register")}
+                          onClick={() => navigate("/app/register")}
                           data-bs-dismiss="modal"
                           className="text-decoration-none text-primary "
                         >

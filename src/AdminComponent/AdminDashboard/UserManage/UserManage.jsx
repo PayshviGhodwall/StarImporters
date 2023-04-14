@@ -747,10 +747,10 @@ const UserManage = () => {
                             <option value="mobile">Mobile</option>
                           </select>
                         </button>
-                        <form className="form-design" action="">
+                        {/* <form className="form-design" action=""> */}
                           <div className="form-group mb-0 position-relative icons_set">
                             <input
-                              type="search"
+                              type="text"
                               className="form-control bg-white"
                               placeholder="Search"
                               name="name"
@@ -760,7 +760,7 @@ const UserManage = () => {
                               }}
                             />
                           </div>
-                        </form>
+                        {/* </form> */}
                         <div className="dropdown  mt-1">
                           <div>
                             <div class="dropdown_sort">

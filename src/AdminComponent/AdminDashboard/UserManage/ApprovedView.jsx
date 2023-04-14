@@ -42,7 +42,9 @@ const ApprovedView = () => {
     getUser();
   }, []);
   const fileDownload = (url) => {
-    saveAs(url);
+    let url1 = url;
+    let url2 = url1.replace("http", "https");
+    saveAs(url2);
   };
   const genPassword = async () => {
     setLoader(true);
@@ -60,10 +62,22 @@ const ApprovedView = () => {
     });
   };
   const preview = (id) => {
-    document.getElementById("preview_modal").click();
-    document.getElementById("preview_images").src = id;
+    if (id.endsWith(".pdf")) {
+      window.location.href = id;
+      Swal.fire({
+        title: "Preview Not Available!",
+        text: "Pdf cannot be shown! Try download and open.",
+        icon: "error",
+      });
+    } else {
+      document.getElementById("preview_modal").click();
+      document.getElementById("preview_images").src = id;
+    }
   };
 
+  // const preview = (url) => {
+  //   navigate("/user/viewDocs", { state: url });
+  // };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -642,7 +656,6 @@ const ApprovedView = () => {
                                   ></i>
                                 ) : null}
                                 <Link
-                                  to=""
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.federalTaxId);
@@ -1063,6 +1076,7 @@ const ApprovedView = () => {
               ></button>
             </div>
             <div class="modal-body">
+              <strong>Only Images Preview Available!</strong>
               <img
                 src={user?.federalTaxId}
                 type="application/pdf"

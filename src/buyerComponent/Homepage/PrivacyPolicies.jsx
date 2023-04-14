@@ -20,16 +20,21 @@ const PrivacyPolicies = () => {
   return (
     <div>
       <Navbar />
-      <div className=" bg-whitem-2 p-5" style={{ marginTop: "8rem" }}>
-        <>
-          <h1> Privacy Policy</h1>
-          <p>
-            <span
-              dangerouslySetInnerHTML={createMarkup(data[0]?.description)}
-            ></span>{" "}
-          </p>
-        </>
+      <div class="content_pagess comman_padding" style={{ marginTop: "8rem" }}>
+        <div class="container">
+          <div class="row comman_divvision">
+            <div class="col-12 content_pagess_main">
+              <h1>Privacy Policy</h1>
+              <p>
+                <span
+                  dangerouslySetInnerHTML={createMarkup(data[0]?.description)}
+                ></span>{" "}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+
       <Footer />
     </div>
   );

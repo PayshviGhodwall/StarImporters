@@ -13,6 +13,7 @@ import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import Swal from "sweetalert2";
 const PendingView = () => {
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -128,9 +129,19 @@ const PendingView = () => {
   };
 
   const preview = (id) => {
-    document.getElementById("preview_modal").click();
-    document.getElementById("preview_images").src = id;
+    if (id?.endsWith(".pdf")) {
+      window.location.href = id;
+      Swal.fire({
+        title: "Preview Not Available!",
+        text: "Pdf cannot be shown! Try download and open.",
+        icon: "error",
+      });
+    } else {
+      document.getElementById("preview_modal").click();
+      document.getElementById("preview_images").src = id;
+    }
   };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -1637,6 +1648,7 @@ const PendingView = () => {
               ></button>
             </div>
             <div class="modal-body">
+              <strong id="PdfHeader"></strong>
               <img
                 src={user?.federalTaxId}
                 type="application/pdf"

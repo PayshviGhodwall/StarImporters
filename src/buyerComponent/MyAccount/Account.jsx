@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -34,7 +34,7 @@ const Account = () => {
     trigger,
   } = useForm();
   let token = localStorage.getItem("token-user");
-
+  const nav = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
 
@@ -84,9 +84,8 @@ const Account = () => {
       }
     });
   };
-  const preview = (id) => {
-    document.getElementById("preview_modal").click();
-    document.getElementById("preview_images").src = id;
+  const preview = (url) => {
+    nav("/user/viewDocs", { state: url });
   };
   // send Otp//
 

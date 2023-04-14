@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.ec15e6fe.css",
-    "main.js": "/static/js/main.95a52d3e.js",
+    "main.css": "/static/css/main.3978aa0b.css",
+    "main.js": "/static/js/main.34819e4d.js",
     "static/js/1.8377113f.chunk.js": "/static/js/1.8377113f.chunk.js",
     "static/media/starBggN.jpg": "/static/media/starBggN.82c8ec7e8e66b36b8a97.jpg",
-    "static/media/starBgg.jpg": "/static/media/starBgg.e96aa920a8aae19b48d5.jpg",
     "static/media/dff.png": "/static/media/dff.d217b0eb731f55f37036.png",
     "static/media/staticBg.png": "/static/media/staticBg.a58ffd0b5e008fff31fd.png",
     "static/media/logo.png": "/static/media/logo.967205a2e98fe897dcdc.png",
+    "static/media/about-img.png": "/static/media/about-img.13f7e0f8ab784789e53f.png",
     "static/media/profile_img1.png": "/static/media/profile_img1.4f4e5c53f25b67f08435.png",
     "static/media/banner_img2.jpg": "/static/media/banner_img2.47c0e7bf3e38fda8d169.jpg",
     "static/media/searchPng.png": "/static/media/searchPng.fb399e91f7981b70a3e2.png",
     "static/media/brand_1.png": "/static/media/brand_1.9f3ec02f204e25b91d23.png",
     "static/media/preview2.png": "/static/media/preview2.3b9939de361864f2871b.png",
     "index.html": "/index.html",
-    "main.ec15e6fe.css.map": "/static/css/main.ec15e6fe.css.map",
-    "main.95a52d3e.js.map": "/static/js/main.95a52d3e.js.map",
+    "main.3978aa0b.css.map": "/static/css/main.3978aa0b.css.map",
+    "main.34819e4d.js.map": "/static/js/main.34819e4d.js.map",
     "1.8377113f.chunk.js.map": "/static/js/1.8377113f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ec15e6fe.css",
-    "static/js/main.95a52d3e.js"
+    "static/css/main.3978aa0b.css",
+    "static/js/main.34819e4d.js"
   ]
 }

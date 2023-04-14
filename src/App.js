@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./buyerComponent/Homepage/Navbar";
 import Login from "./buyerComponent/LoginRegister/Login";
-import ForgotPassword from "./buyerComponent/LoginRegister/ForgotPassword";
 import {
   BrowserRouter as Router,
   Routes,
@@ -57,7 +55,6 @@ import AppCart from "./pwaComponents/homeComponent/appCart";
 import ScrollToTop from "./pwaComponents/homeComponent/scrollToTop";
 import AppSettings from "./pwaComponents/homeComponent/appSettings";
 import AppAboutUs from "./pwaComponents/homeComponent/appAboutUs";
-import AppConditions from "./pwaComponents/homeComponent/appConditions";
 import AppPrivacy from "./pwaComponents/homeComponent/appPrivacy";
 import AppChangePassword from "./pwaComponents/homeComponent/appChangePassword";
 import AppProfile from "./pwaComponents/homeComponent/appProfile";
@@ -94,16 +91,11 @@ import AppCategories from "./pwaComponents/homeComponent/appCategories";
 import AppQuotes from "./pwaComponents/homeComponent/appQuotes";
 import OrderDetails from "./buyerComponent/MyAccount/OrdersDetails";
 import RequestDetails from "./buyerComponent/MyAccount/ReqDetails";
-import Welcome from "./buyerComponent/Homepage/Welcome";
 import ProductBySearch from "./buyerComponent/AllProducts/ProductBySearch";
-import { useRecoilState } from "recoil";
-import axios from "axios";
-import { notifyCount } from "./atom";
 import AllCategories from "./buyerComponent/AllProducts/AllCategories";
 import FeaturedProducts from "./buyerComponent/AllProducts/FeaturedProducts";
 import SubCategories from "./buyerComponent/AllProducts/AllSubCategories";
 import SingleProdBySearch from "./buyerComponent/AllProducts/SingleProdBySearch";
-import AppWelcome from "./pwaComponents/homeComponent/appWelcome";
 import SubAdmin from "./AdminComponent/AdminDashboard/Sub-Admin/SubAdmin";
 import EditOrder from "./AdminComponent/AdminDashboard/OrdersManage/EditOrder";
 import AppSubCategories from "./pwaComponents/homeComponent/appSubCategories";
@@ -117,6 +109,8 @@ import Photos from "./buyerComponent/Footer/Photos";
 import GalleryMain from "./AdminComponent/AdminDashboard/GalleryManage/GalleryMain";
 import UserPdf from "./AdminComponent/AdminDashboard/OrdersManage/userPdf";
 import AppDownloads from "./pwaComponents/homeComponent/appDownloads";
+import ViewDocs from "./buyerComponent/MyAccount/viewDoc";
+
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
@@ -162,6 +156,7 @@ function App() {
           />
           <Route path="/SubCategory/Products" element={<ProductBySubCate />} />
           <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
+          <Route path="/user/viewDocs" element={<ViewDocs />} />
           <Route path="/Brands/Products" element={<ProductByBrand />} />
           <Route path="/AllProducts/Product/:id" element={<SingleProduct />} />
           {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
@@ -387,6 +382,9 @@ function App() {
           {/*  */}
         </Routes>
       </Router>
+      {/* <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+        ...
+      </Worker> */}
     </div>
   );
 }
