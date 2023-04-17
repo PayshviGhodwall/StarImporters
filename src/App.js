@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Login from "./buyerComponent/LoginRegister/Login";
 import {
   BrowserRouter as Router,
   Routes,
@@ -110,6 +109,11 @@ import GalleryMain from "./AdminComponent/AdminDashboard/GalleryManage/GalleryMa
 import UserPdf from "./AdminComponent/AdminDashboard/OrdersManage/userPdf";
 import AppDownloads from "./pwaComponents/homeComponent/appDownloads";
 import ViewDocs from "./buyerComponent/MyAccount/viewDoc";
+import UserLogin from "./buyerComponent/LoginRegister/UserLogin";
+import UserLoginPass from "./buyerComponent/LoginRegister/UserLoginPass";
+import UserForgotPass from "./buyerComponent/LoginRegister/UserForgotPass";
+import UserOtpValidate from "./buyerComponent/LoginRegister/UserOtpValidate";
+import UserUpdatePassword from "./buyerComponent/LoginRegister/UserUpdatePassword";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -131,7 +135,7 @@ function App() {
           {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
           {/* <Route path="/app/register" element={<SignUp />} /> */}
           <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
-          <Route path="/login" element={<Login newData={GetData} />} />
+          {/* <Route path="/login" element={<Login newData={GetData} />} /> */}
           <Route
             path="/MyAccount"
             element={<MyAccount newData={GetData} apiData={apiData} />}
@@ -226,7 +230,11 @@ function App() {
           />
           <Route
             path="/app/login"
-            element={width < 999 ? <AppPreLogin /> : <Homepage />}
+            element={width < 999 ? <AppPreLogin /> : <UserLogin />}
+          />
+          <Route
+            path="/app/login-password"
+            element={width < 999 ? <AppPreLogin /> : <UserLoginPass />}
           />
           <Route
             path="/app/pre-login-password"
@@ -242,11 +250,17 @@ function App() {
           />
           <Route
             path="/app/forgot-password"
-            element={width < 999 ? <AppForgotPassword /> : <Homepage />}
+            element={width < 999 ? <AppForgotPassword /> : <UserForgotPass />}
+          />
+          <Route
+            path="/app/update-password"
+            element={
+              width < 999 ? <AppForgotPassword /> : <UserUpdatePassword />
+            }
           />
           <Route
             path="/app/otp"
-            element={width < 999 ? <AppOtp /> : <Homepage />}
+            element={width < 999 ? <AppOtp /> : <UserOtpValidate />}
           />
           <Route
             path="/app/otp-verification"

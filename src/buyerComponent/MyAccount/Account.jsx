@@ -10,9 +10,11 @@ import { FaFileDownload } from "react-icons/fa";
 import { FaFileUpload } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import moment from "moment";
+import swal from "sweetalert";
 
 const Account = () => {
   const editProfile = `${process.env.REACT_APP_APIENDPOINTNEW}user/editProfile`;
+  const editFiles = `${process.env.REACT_APP_APIENDPOINTNEW}user/reUploadFiles`;
   const [users, setUsers] = useState([]);
   const [formValues, setFormValues] = useState({
     name: "",
@@ -26,18 +28,27 @@ const Account = () => {
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState("");
   const [change, setChange] = useState(false);
+  const [files, setFiles] = useState({
+    federalTaxId: "",
+    businessLicense: "",
+    tobaccoLicence: "",
+    salesTaxId: "",
+    accountOwnerId: "",
+  });
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    trigger,
   } = useForm();
+
   let token = localStorage.getItem("token-user");
   const nav = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
 
+  const onFileSelection = async (e, key) => {
+    setFiles({ ...files, [key]: e.target.files[0] });
+  };
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
@@ -84,9 +95,7 @@ const Account = () => {
       }
     });
   };
-  const preview = (url) => {
-    nav("/user/viewDocs", { state: url });
-  };
+
   // send Otp//
 
   let email = users?.email;
@@ -139,6 +148,20 @@ const Account = () => {
     }
   };
 
+  const editDocs = async (e, file, name) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append(name, file);
+    const { data } = await axios.post(editFiles, formData);
+    if (!data.error) {
+      Swal.fire({
+        title: "Document Modified Successfully!",
+        icon: "success",
+        confirmButtonText: "Okay",
+      });
+      setFiles([]);
+    }
+  };
   const fileDownload = (url) => {
     saveAs(url);
   };
@@ -375,28 +398,23 @@ const Account = () => {
                             <span className="fw-bold">Federal Tax ID:</span>
                             <div className="col img_box_show ">
                               <input
-                                className="d-none"
+                                className="file_selector"
                                 type="file"
-                                id="file1"
-                                name="file"
-                                disabled
+                                name="federalTaxId"
+                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                {...register("federalTaxId")}
+                                onChange={(e) =>
+                                  onFileSelection(e, "federalTaxId")
+                                }
                               />
                               <label htmlFor="file1">
                                 <div className="">
-                                  {users?.federalTaxId ? (
-                                    <i
-                                      class="fa fa-eye preview_icon"
-                                      onClick={() =>
-                                        preview(users?.federalTaxId)
-                                      }
-                                    ></i>
-                                  ) : null}
                                   <a
-                                    href={users?.federalTaxId}
+                                    // href={users?.federalTaxId}
                                     className="text-decoration-none"
-                                    // onClick={() => {
-                                    //   fileDownload(users?.federalTaxId);
-                                    // }}
+                                    onClick={() => {
+                                      fileDownload(users?.federalTaxId);
+                                    }}
                                   >
                                     {users.federalTaxId ? (
                                       <FaFileDownload size={25} color="black" />
@@ -404,14 +422,30 @@ const Account = () => {
                                       <FaFileUpload size={25} color="red" />
                                     )}
                                     <p
-                                      className="mt-2"
+                                      className="mt-3"
                                       style={{ fontSize: "9px" }}
                                     >
-                                      "Federal Tax ID"
+                                      {files?.federalTaxId?.name
+                                        ? files?.federalTaxId?.name
+                                        : users?.federalTaxId?.slice(42)}
                                     </p>
                                   </a>
                                 </div>
                               </label>
+                              {files?.federalTaxId?.name ? (
+                                <button
+                                  className="SaveBtn"
+                                  onClick={(e) =>
+                                    editDocs(
+                                      e,
+                                      files?.federalTaxId,
+                                      "federalTaxId"
+                                    )
+                                  }
+                                >
+                                  Save
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -426,22 +460,17 @@ const Account = () => {
                             <span className="fw-bold">Tobacco License:</span>
                             <div className="col img_box_show">
                               <input
-                                className="d-none"
+                                className="file_selector"
                                 type="file"
-                                id="file1"
+                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
                                 name="file"
-                                disabled
+                                {...register("tobaccoLicence")}
+                                onChange={(e) =>
+                                  onFileSelection(e, "tobaccoLicence")
+                                }
                               />
                               <label htmlFor="file1">
                                 <div className="">
-                                  {users?.tobaccoLicence ? (
-                                    <i
-                                      class="fa fa-eye preview_icon"
-                                      onClick={() =>
-                                        preview(users?.tobaccoLicence)
-                                      }
-                                    ></i>
-                                  ) : null}
                                   <Link
                                     to=""
                                     className="text-decoration-none"
@@ -458,11 +487,27 @@ const Account = () => {
                                       className="mt-2"
                                       style={{ fontSize: "9px" }}
                                     >
-                                      "Tobacco License"
+                                      {files?.tobaccoLicence?.name
+                                        ? files?.tobaccoLicence?.name
+                                        : users?.tobaccoLicence?.slice(42)}
                                     </p>
                                   </Link>
                                 </div>
                               </label>
+                              {files?.tobaccoLicence?.name ? (
+                                <button
+                                  className="SaveBtn"
+                                  onClick={(e) =>
+                                    editDocs(
+                                      e,
+                                      files?.tobaccoLicence,
+                                      "tobaccoLicence"
+                                    )
+                                  }
+                                >
+                                  Save
+                                </button>
+                              ) : null}
                             </div>
 
                             <strong>
@@ -485,20 +530,17 @@ const Account = () => {
                             <span className="fw-bold">Sales Tax ID:</span>
                             <div className="col img_box_show">
                               <input
-                                className="d-none"
+                                className="file_selector"
                                 type="file"
-                                id="file1"
-                                name="file"
-                                disabled
+                                name="salesTaxId"
+                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                {...register("salesTaxId")}
+                                onChange={(e) =>
+                                  onFileSelection(e, "salesTaxId")
+                                }
                               />
                               <label htmlFor="file1">
                                 <div className="">
-                                  {users?.salesTaxId ? (
-                                    <i
-                                      class="fa fa-eye preview_icon"
-                                      onClick={() => preview(users?.salesTaxId)}
-                                    ></i>
-                                  ) : null}
                                   <Link
                                     to=""
                                     className="text-decoration-none"
@@ -515,11 +557,23 @@ const Account = () => {
                                       className="mt-2"
                                       style={{ fontSize: "9px" }}
                                     >
-                                      "Sales Tax ID"
+                                      {files?.salesTaxId?.name
+                                        ? files?.salesTaxId?.name?.slice(10)
+                                        : users?.salesTaxId?.slice(42)}
                                     </p>
                                   </Link>
                                 </div>
                               </label>
+                              {files?.salesTaxId?.name ? (
+                                <button
+                                  className="SaveBtn"
+                                  onClick={(e) =>
+                                    editDocs(e, files?.salesTaxId, "salesTaxId")
+                                  }
+                                >
+                                  Save
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -534,22 +588,17 @@ const Account = () => {
                             <span className="fw-bold">Business License:</span>
                             <div className="col img_box_show">
                               <input
-                                className="d-none"
+                                className="file_selector"
                                 type="file"
-                                id="file1"
-                                name="file"
-                                disabled
+                                name="businessLicense"
+                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                {...register("businessLicense")}
+                                onChange={(e) =>
+                                  onFileSelection(e, "businessLicense")
+                                }
                               />
                               <label htmlFor="file1">
                                 <div className="">
-                                  {users?.businessLicense ? (
-                                    <i
-                                      class="fa fa-eye preview_icon"
-                                      onClick={() =>
-                                        preview(users?.businessLicense)
-                                      }
-                                    ></i>
-                                  ) : null}
                                   <Link
                                     to=""
                                     className="text-decoration-none"
@@ -566,11 +615,29 @@ const Account = () => {
                                       className="mt-2"
                                       style={{ fontSize: "9px" }}
                                     >
-                                      "Business License"
+                                      {files?.businessLicense?.name
+                                        ? files?.businessLicense?.name?.slice(
+                                            10
+                                          )
+                                        : users?.businessLicense?.slice(42)}
                                     </p>
                                   </Link>
                                 </div>
                               </label>
+                              {files?.businessLicense?.name ? (
+                                <button
+                                  className="SaveBtn"
+                                  onClick={(e) =>
+                                    editDocs(
+                                      e,
+                                      files?.businessLicense,
+                                      "businessLicense"
+                                    )
+                                  }
+                                >
+                                  Save
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -586,22 +653,17 @@ const Account = () => {
                             <span className="fw-bold">Account Owner ID:</span>
                             <div className="col img_box_show">
                               <input
-                                className="d-none"
+                                className="file_selector"
                                 type="file"
-                                id="file1"
-                                name="file"
-                                disabled
+                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                name="accountOwnerId"
+                                {...register("accountOwnerId")}
+                                onChange={(e) =>
+                                  onFileSelection(e, "accountOwnerId")
+                                }
                               />
                               <label htmlFor="file1">
                                 <div className="">
-                                  {users?.accountOwnerId ? (
-                                    <i
-                                      class="fa fa-eye preview_icon2"
-                                      onClick={() =>
-                                        preview(users?.accountOwnerId)
-                                      }
-                                    ></i>
-                                  ) : null}
                                   <Link
                                     to=""
                                     className="text-decoration-none"
@@ -618,15 +680,30 @@ const Account = () => {
                                       className="mt-2"
                                       style={{ fontSize: "9px" }}
                                     >
-                                      "Account Owner ID"
+                                      {files?.accountOwnerId?.name
+                                        ? files?.accountOwnerId?.name
+                                        : users?.accountOwnerId?.slice(42)}
                                     </p>
                                   </Link>
                                 </div>
                               </label>
+                              {files?.accountOwnerId?.name ? (
+                                <button
+                                  className="SaveBtn"
+                                  onClick={(e) =>
+                                    editDocs(
+                                      e,
+                                      files?.accountOwnerId,
+                                      "accountOwnerId"
+                                    )
+                                  }
+                                >
+                                  Save
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                         </div>
-                        <div className="col-12 text-center"></div>
                       </form>
                     </div>
                   </div>

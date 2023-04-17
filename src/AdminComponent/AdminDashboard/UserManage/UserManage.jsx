@@ -118,6 +118,7 @@ const UserManage = () => {
       type: "PENDING",
       page: activePendingPage,
     });
+    setMaxPenPage(res?.data.results.totalPages);
     setPendingUsers(res.data.results.usersList);
     return res.data;
   };
@@ -135,7 +136,7 @@ const UserManage = () => {
       page: activeReturnedPage,
     });
     setRejectedUsers(res.data.results.usersList);
-
+    setMaxRetPage(res?.data.results.totalPages);
     return res.data;
   };
   const GetUserCount = async () => {
@@ -748,18 +749,18 @@ const UserManage = () => {
                           </select>
                         </button>
                         {/* <form className="form-design" action=""> */}
-                          <div className="form-group mb-0 position-relative icons_set">
-                            <input
-                              type="text"
-                              className="form-control bg-white"
-                              placeholder="Search"
-                              name="name"
-                              id="Search"
-                              onChange={(e) => {
-                                userSearch(e);
-                              }}
-                            />
-                          </div>
+                        <div className="form-group mb-0 position-relative icons_set">
+                          <input
+                            type="text"
+                            className="form-control bg-white"
+                            placeholder="Search"
+                            name="name"
+                            id="Search"
+                            onChange={(e) => {
+                              userSearch(e);
+                            }}
+                          />
+                        </div>
                         {/* </form> */}
                         <div className="dropdown  mt-1">
                           <div>

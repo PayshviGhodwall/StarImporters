@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Starlogo from "../../assets/img/logo.png";
 import "../../assets/css/main.css";
-import Login from "../LoginRegister/Login";
 import { Link, useNavigate } from "react-router-dom";
-import ForgotPassword from "../LoginRegister/ForgotPassword";
-import SendOtp from "../LoginRegister/SendOtp";
-import UpdatePassword from "../LoginRegister/UpdatePassword";
 import axios from "axios";
-import LoginPass from "../LoginRegister/LoginPass";
 import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 
@@ -256,14 +251,9 @@ const Navbar = ({ NState, LoginState }) => {
               ) : (
                 <div className="d-flex mt-2 mx-3">
                   <Link
-                    to=""
+                    to="/app/login"
                     // className="login_btns mt-2 text-decoration-none"
                     class="Loginb text-decoration-none"
-                    data-bs-toggle="modal"
-                    id="modal-login"
-                    data-bs-target="#staticBackdrop1"
-                    aria-current="page"
-                    href="#"
                     onClick={() => setSearch()}
                   >
                     Login
@@ -551,112 +541,6 @@ const Navbar = ({ NState, LoginState }) => {
           )}
         </section>
       ) : null}
-
-      <div
-        className="modal  login_modal forms_modal"
-        id="staticBackdrop1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="false"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <Login getEmail={getEmail} />
-          </div>
-        </div>
-      </div>
-      <div
-        className="modal  login_modal forms_modal fade"
-        id="staticBackdrop72"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="false"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <LoginPass otpEmail={otpEmail} />
-          </div>
-        </div>
-      </div>
-      <div
-        className="modal  login_modal forms_modal fade"
-        id="staticBackdrop2"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-              <ForgotPassword getEmail={getEmail} />
-            </div>
-          </div>
-        </div>
-      </div>
-      <>
-        <div
-          className="modal login_modal forms_modal fade"
-          id="staticBackdrop3"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex={-1}
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-body">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={handleRefresh}
-                />
-                <SendOtp otpEmail={otpEmail} />
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* OTP Verification Modal  */}
-        {/* Confirm Password Modal  */}
-        <div
-          className="modal  login_modal forms_modal"
-          id="staticBackdrop4"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex={-1}
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-body">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={handleRefresh}
-                />
-                <UpdatePassword otpEmail={otpEmail} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
     </div>
   );
 };

@@ -1081,10 +1081,10 @@ const Inventory = () => {
                       <h2>Inventory Management</h2>
                     </div>
                     <div className="col-4 d-flex justify-content-end">
-                      <form className="form-design" action="">
+                      <div className="form-design">
                         <div className="form-group mb-0 position-relative icons_set">
                           <input
-                            type="search"
+                            type="text"
                             className="form-control bg-white "
                             placeholder="Search"
                             name="name"
@@ -1094,7 +1094,7 @@ const Inventory = () => {
                             }}
                           />
                         </div>
-                      </form>
+                      </div>
                       <div className="dropdown  mt-1">
                         <div>
                           <div class="dropdown_sort">

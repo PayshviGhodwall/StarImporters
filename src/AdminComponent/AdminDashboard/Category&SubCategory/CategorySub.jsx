@@ -233,6 +233,11 @@ const CategorySub = () => {
         setEditCateName("");
         setFiles([]);
         document.getElementById("ResetCat").click();
+        Swal.fire({
+          title: "Category Modified Successfully!",
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
       }
       if (res?.data.message === "Invalid Image format") {
         setLoader(false);
@@ -264,6 +269,11 @@ const CategorySub = () => {
           setCategory("");
           setFiles([]);
           document.getElementById("ResetSub").click();
+          Swal.fire({
+            title: "Sub-Category Modified Successfully!",
+            icon: "success",
+            confirmButtonText: "Okay",
+          });
         }
         if (res?.data.message === "Invalid Image format") {
           setLoader(false);
@@ -801,21 +811,21 @@ const CategorySub = () => {
                 <div className="col-6">
                   <h2 className="main_headers">Categories Management</h2>
                 </div>
-                <div className="col-6  d-flex justify-content-end">
-                  <form className="form-design" action="">
-                    <div className="form-group mb-0 position-relative icons_set">
-                      <input
-                        type="search"
-                        className="form-control bg-white h-50"
-                        placeholder="Search"
-                        name="name"
-                        id="Search"
-                        onChange={(e) => {
-                          CategorySearch(e);
-                        }}
-                      />
-                    </div>
-                  </form>
+                <div className="col-6 form-design d-flex justify-content-end">
+                  {/* <form className="form-design" action=""> */}
+                  <div className="form-group mb-0 position-relative icons_set">
+                    <input
+                      type="text"
+                      className="form-control bg-white py-0"
+                      placeholder="Search   "
+                      name="name"
+                      id="Search"
+                      onChange={(e) => {
+                        CategorySearch(e);
+                      }}
+                    />
+                  </div>
+                  {/* </form> */}
                   <div className="dropdown  mt-1">
                     <div>
                       <div class="dropdown_sort">

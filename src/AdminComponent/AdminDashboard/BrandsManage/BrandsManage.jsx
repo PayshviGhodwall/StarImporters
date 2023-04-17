@@ -568,7 +568,7 @@ const BrandsManage = () => {
                 <h2 className="main_headers">Brands Management</h2>
               </div>
               <div className="col-3">
-                <form className="form-design" action="">
+                <div className="form-design" action="">
                   <div className="form-group mb-0 position-relative icons_set">
                     <input
                       type="text"
@@ -581,7 +581,7 @@ const BrandsManage = () => {
                       }}
                     />
                   </div>
-                </form>
+                </div>
               </div>
             </div>
             <div className="row category_management justify-content-center recent_orders_cate shadow">

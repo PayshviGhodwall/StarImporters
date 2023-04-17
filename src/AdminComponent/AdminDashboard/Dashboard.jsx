@@ -550,7 +550,7 @@ const Dashboard = () => {
                       <h2>Recents</h2>
                     </div>
                     <div className="col-3">
-                      <form className="form-design" action="">
+                      <div className="form-design" action="">
                         <div className="form-group mb-0 position-relative icons_set">
                           <input
                             type="text"
@@ -564,7 +564,7 @@ const Dashboard = () => {
                           />
                           <i className="far fa-search" />
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                   <div className="row">
