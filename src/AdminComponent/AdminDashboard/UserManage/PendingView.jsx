@@ -717,12 +717,12 @@ const PendingView = () => {
                                 ) : null}
 
                                 <a
-                                  href={user?.federalTaxId}
-                                  target="_blank  "
+                                  // href={user?.federalTaxId}
+                                  target="_blank "
                                   className="text-decoration-none"
-                                  // onClick={() => {
-                                  //   fileDownload(user?.federalTaxId);
-                                  // }}
+                                  onClick={() => {
+                                    fileDownload(user?.federalTaxId);
+                                  }}
                                 >
                                   {user?.federalTaxId ? (
                                     <FaFileDownload size={25} color="black" />
@@ -767,7 +767,7 @@ const PendingView = () => {
                                 ) : null}
 
                                 <a
-                                  href={user?.tobaccoLicence}
+                                  // href={user?.tobaccoLicence}
                                   target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
@@ -816,7 +816,7 @@ const PendingView = () => {
                                 ) : null}
 
                                 <a
-                                  href={user?.salesTaxId}
+                                  // href={user?.salesTaxId}
                                   target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
@@ -866,7 +866,7 @@ const PendingView = () => {
                                   ></i>
                                 ) : null}
                                 <a
-                                  href={user?.businessLicense}
+                                  // href={user?.businessLicense}
                                   target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
@@ -887,6 +887,7 @@ const PendingView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact First name:</span>
@@ -941,7 +942,7 @@ const PendingView = () => {
                                 ) : null}
 
                                 <a
-                                  href={user?.accountOwnerId}
+                                  // href={user?.accountOwnerId}
                                   target="_blank"
                                   className="text-decoration-none"
                                   onClick={() => {
