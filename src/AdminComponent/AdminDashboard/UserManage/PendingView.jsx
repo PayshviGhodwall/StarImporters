@@ -117,7 +117,9 @@ const PendingView = () => {
   }, []);
 
   const fileDownload = (url) => {
-    saveAs(url);
+    let url1 = url;
+    let url2 = url1.replace("http", "https");
+    saveAs(url2);
   };
 
   const approveUser = async () => {

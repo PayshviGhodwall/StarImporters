@@ -41,6 +41,7 @@ const ApprovedView = () => {
     };
     getUser();
   }, []);
+
   const fileDownload = (url) => {
     let url1 = url;
     let url2 = url1.replace("http", "https");
