@@ -742,10 +742,10 @@ const UserManage = () => {
                             <option selected="" value="companyName">
                               Company
                             </option>
-                            <option value="name">User Name</option>
+                            <option value="firstName">User Name</option>
                             <option value="email">Email</option>
-                            <option value="address">Address</option>
-                            <option value="mobile">Mobile</option>
+                            <option value="addressLine1">Address</option>
+                            <option value="phoneNumber">Mobile</option>
                           </select>
                         </button>
                         {/* <form className="form-design" action=""> */}
@@ -869,15 +869,64 @@ const UserManage = () => {
                         </nav>
                         <div className="tab-content" id="nav-tabContent">
                           <div
-                            className="tab-pane fade recent_orders_user "
+                            className="tab-pane fade  "
                             id="nav-home"
                             role="tabpanel"
                             aria-aria-labelledby="nav-home-tab"
                           >
                             <div className="row">
                               <div className="col-12 comman_table_design ">
-                                <div className="table-responsive">
-                                  <table className="table mb-0">
+                                <div className="table-responsive recent_orders_user">
+                                  {pendingUsers?.length ? (
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        Total Pages : {maxPenPage}
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePendingPage <= 1
+                                                ? setActivePendingPage(1)
+                                                : setActivePendingPage(
+                                                    activePendingPage - 1
+                                                  )
+                                            }
+                                          >
+                                            «<small>prev</small>
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePendingPage}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePendingPage === maxPenPage
+                                                ? setActivePendingPage(
+                                                    maxPenPage
+                                                  )
+                                                : setActivePendingPage(
+                                                    activePendingPage + 1
+                                                  )
+                                            }
+                                          >
+                                            <small>next</small>»
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ) : null}
+
+                                  <table className="table mb-0  ">
                                     <thead>
                                       <tr
                                         style={{
@@ -953,7 +1002,7 @@ const UserManage = () => {
                                     </tbody>
                                   </table>
                                   {pendingUsers?.length ? (
-                                    <div className="col-11 d-flex justify-content-between py-2  mx-5">
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                       <span className="totalPage">
                                         Total Pages : {maxPenPage}
                                       </span>
@@ -970,26 +1019,14 @@ const UserManage = () => {
                                                   )
                                             }
                                           >
-                                            «
+                                            «<small>prev</small>
                                           </a>
                                         </li>
 
                                         <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
                                           <a href="#" className="active">
                                             {activePendingPage}
                                           </a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
                                         </li>
 
                                         <li>
@@ -1006,7 +1043,7 @@ const UserManage = () => {
                                                   )
                                             }
                                           >
-                                            »
+                                            <small>next</small>»
                                           </a>
                                         </li>
                                       </ul>
@@ -1026,6 +1063,54 @@ const UserManage = () => {
                               <div className="row">
                                 <div className="col-12 comman_table_design ">
                                   <div className="table-responsive">
+                                    {approvedUsers.length ? (
+                                      <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                        <span className="totalPage">
+                                          ( Total Pages : {maxAppPage} )
+                                        </span>
+                                        <ul id="pagination">
+                                          <li>
+                                            <a
+                                              class="fs-5"
+                                              href="#"
+                                              onClick={() =>
+                                                activeApprovePage === 1
+                                                  ? setActiveApprovePage(1)
+                                                  : setActiveApprovePage(
+                                                      activeApprovePage - 1
+                                                    )
+                                              }
+                                            >
+                                              « <small>prev</small>
+                                            </a>
+                                          </li>
+
+                                          <li>
+                                            <a href="#" className="active">
+                                              {activeApprovePage}
+                                            </a>
+                                          </li>
+
+                                          <li>
+                                            <a
+                                              className="fs-5"
+                                              href="#"
+                                              onClick={() =>
+                                                activeApprovePage === maxAppPage
+                                                  ? setActiveApprovePage(
+                                                      maxAppPage
+                                                    )
+                                                  : setActiveApprovePage(
+                                                      activeApprovePage + 1
+                                                    )
+                                              }
+                                            >
+                                              <small>next</small>»
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    ) : null}
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
@@ -1131,26 +1216,14 @@ const UserManage = () => {
                                                   )
                                             }
                                           >
-                                            «
+                                            «<small>prev</small>
                                           </a>
                                         </li>
 
                                         <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
                                           <a href="#" className="active">
                                             {activeApprovePage}
                                           </a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
-                                        </li>
-                                        <li>
-                                          <a href="#">.</a>
                                         </li>
 
                                         <li>
@@ -1167,7 +1240,7 @@ const UserManage = () => {
                                                   )
                                             }
                                           >
-                                            »
+                                            <small>next</small>»
                                           </a>
                                         </li>
                                       </ul>

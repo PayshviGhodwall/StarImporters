@@ -50,12 +50,6 @@ const Account = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   useEffect(() => {
-    const getUser = async () => {
-      await axios.get(userApi).then((res) => {
-        console.log(res);
-        setUsers(res?.data.results);
-      });
-    };
     getUser();
   }, [change]);
 
@@ -63,6 +57,12 @@ const Account = () => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
 
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      console.log(res);
+      setUsers(res?.data.results);
+    });
+  };
   const UpdatedData = (e) => {
     const value = e.target.value;
     setFormValues({
@@ -154,6 +154,7 @@ const Account = () => {
     formData.append(name, file);
     const { data } = await axios.post(editFiles, formData);
     if (!data.error) {
+      getUser();
       Swal.fire({
         title: "Document Modified Successfully!",
         icon: "success",
@@ -162,9 +163,11 @@ const Account = () => {
       setFiles([]);
     }
   };
+
   const fileDownload = (url) => {
     saveAs(url);
   };
+
   const togglePassword = () => {
     let x = document.getElementById("password-input");
     let y = document.getElementById("password-input2");
@@ -449,6 +452,7 @@ const Account = () => {
                             </div>
                           </div>
                         </div>
+
                         <div className="col-md-3 mb-4 d-flex align-items-stretch">
                           <div
                             className={

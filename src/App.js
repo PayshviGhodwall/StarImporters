@@ -159,6 +159,7 @@ function App() {
             element={<ProductByCate CateName={cateName} />}
           />
           <Route path="/SubCategory/Products" element={<ProductBySubCate />} />
+          <Route path="/app/verify" element={<AgeVerification />} />
           <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
           <Route path="/user/viewDocs" element={<ViewDocs />} />
           <Route path="/Brands/Products" element={<ProductByBrand />} />

@@ -142,11 +142,11 @@ const ProductByCate = () => {
               <div class="col-xl-3 col-lg-4 col-md-4 ps-0">
                 <div class="singleproduct-left">
                   <div class="singleproduct-left-box border-bottom border-dark mt-4">
-                    <h2>Brands</h2>
+                    <h2>Top Brands</h2>
                     <form class="singleproduct-form row" action="">
                       <div className="">
                         {(brands || [])
-                          ?.filter((item, idx) => idx < 7)
+                          ?.filter((item, idx) => idx < 5)
                           .map((item, index) => (
                             <div
                               className="form-group col-12 mb-3 custom_radio"

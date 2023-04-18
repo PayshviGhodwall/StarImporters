@@ -137,14 +137,13 @@ const SignUp = () => {
     SignUpData();
   };
   return (
-    <div className="SignUp">
+    <div className="">
       <Navbar />
-
-      <div className="container marginTop">
+      <div className="container marginTop ">
         <div className="row justify-content-center">
           <div className="col-lg-8">
             <form
-              className=" mt-5 bg-white p-5 mb-5 "
+              className=" mt-5 bg-white p-5 mb-5 shadow"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="row">

@@ -42,7 +42,7 @@ const FeaturedProducts = () => {
                         to="/app/home"
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow mx-2">&#62;</span>{" "}
+                        Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
@@ -58,11 +58,11 @@ const FeaturedProducts = () => {
         </div>
       </section>
       <>
-        <section className="brands_page px-5 mt-2 ">
+        <section className="singleproduct-page comman_padding">
           <div className="container">
             <div className="row">
-              <div className="col width_adjust_right">
-                <div className="product_single_right row p-2">
+              <div className="col singleproduct_divvision mx-0">
+                <div className="product_single_right row p-3">
                   {products?.length ? (
                     <div className="col-12 py-2 rounded Paginate ">
                       <div class="col-6 mb-2 ps-lg-3">
@@ -105,33 +105,34 @@ const FeaturedProducts = () => {
                       </div>
                     </div>
                   ) : null}
-                  {(products || [{}])?.map((item, index) => (
-                    <div className="col-xl-3 col-lg-3 col-md-3" key={index}>
-                      <div className="product_parts_box">
-                        <div className="partsproduct_img">
-                          <img
-                            src={
-                              item.productImage
-                                ? item.productImage
-                                : require("../../assets/img/product.jpg")
-                            }
-                            alt="Product"
-                            onClick={() => {
-                              navigate(`/AllProducts/Product/${item?._id}`, {
-                                state: {
-                                  id: item?._id,
-                                  CateName: item?.categoryName,
-                                },
-                              });
-                            }}
-                          />
-                        </div>
-                        {/* </Link> */}
-                        <div className="product_content mt-3 text-center">
-                          <div className="d-flex justify-content-center">
-                            <h1
-                              className="text-center fs-5 fw-bolder "
-                              style={{ position: "relative", left: "0px" }}
+                  <div class="col-12">
+                    <div class="row singleproduct---show">
+                      {(products || [{}])?.map((item, index) => (
+                        <div class="col-xl-3 col-lg-3 col-md-6 mb-lg-4 mb-md-4">
+                          <div class="singleproduct-box">
+                            <a href="javascript:;" class="singleproduct--img">
+                              <img
+                                src={
+                                  item.productImage
+                                    ? item.productImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                                alt="Product"
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/${item?._id}`,
+                                    {
+                                      state: {
+                                        id: item?._id,
+                                        CateName: item?.categoryName,
+                                      },
+                                    }
+                                  );
+                                }}
+                              />
+                            </a>
+
+                            <span
                               onClick={() => {
                                 navigate(`/AllProducts/Product/${item?._id}`, {
                                   state: {
@@ -142,38 +143,13 @@ const FeaturedProducts = () => {
                               }}
                             >
                               {item?.unitName}
-                            </h1>
+                            </span>
                           </div>
-                          {/* <div className="rating_box mt-2 mb-1">
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#FFCA33" }}
-                            />
-
-                            <i
-                              className="fa fa-star"
-                              style={{ color: "#E2E2E2 " }}
-                            />
-                          </div> */}
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+
                   {products?.length ? (
                     <div className="col-12 py-2 rounded Paginate ">
                       <div class="col-6 mb-2 ps-lg-3">

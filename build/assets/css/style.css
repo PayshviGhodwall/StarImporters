@@ -1042,7 +1042,7 @@
     margin: 0 0 4px;
   }
   .forms_modal_content .form-group .form-control {
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1px solid #ddd7d7;
     height: 46px;
     font-size: 13px;
@@ -1232,7 +1232,7 @@
     width: 30px;
   }
   .form-design .form-floating > label {
-    font-size: 13px;
+    font-size: 14px;
     color: #3d3d3d;
     font-weight: 500;
     left: 18px;
@@ -1503,7 +1503,8 @@
   }
   .partsproduct_img img {
     max-width: 100%;
-    height: 140px;
+    width: 10rem;
+    height: 100px;
     object-fit: contain;
   }
   .partsproduct_img_search {
@@ -1668,7 +1669,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-top: 80px;
   }
   .age_verification::after {
     position: absolute;
@@ -3517,12 +3517,14 @@
     object-fit: contain;
   }
   .modalContent {
+    margin: 0;
     background-image: url("../img/verification_bg.jpg");
     height: 100vh;
     background-size: cover;
     background-attachment: fixed;
     position: relative;
     background-position: center;
+    top: 0 !important;
   }
   .modalHeadBg {
     background: url("../img/verification_bg.jpg");
@@ -14696,11 +14698,16 @@ figure.effect-ming:hover img {
   border-color: #fff;
   color: #fff !important;
 }
-.flavor_design:hover {
+.selected_flavor:hover {
   box-shadow: 4px 4px 54px rgba(214, 223, 232, 0.42);
   border-color: #fff;
-  background-color: #eb3237;
   color: #fff !important;
+}
+.flavor_design:hover {
+  box-shadow: 4px 4px 54px rgba(214, 223, 232, 0.42);
+  border-color: #eb3237;
+  /* background-color: #eb3237; */
+  /* color: #fff !important; */
 }
 .prdct_bottom .number {
   background: #3d438e;
@@ -15037,11 +15044,11 @@ figure.effect-ming:hover img {
 .download {
   width: 160px;
   height: 50px;
-  background: #e22f35;
+  background: #fff;
   float: left;
   border-radius: 8px;
   position: relative;
-  color: #fff;
+  color: #000000;
   cursor: pointer;
   border: 1px solid #fff;
 }
@@ -15049,6 +15056,7 @@ figure.effect-ming:hover img {
 .download > .fa {
   color: #000;
   position: absolute;
+  width: 30px;
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
@@ -15281,4 +15289,17 @@ figure.effect-ming:hover img {
   padding: 7px 16px;
   text-transform: uppercase;
   transition: all 1s ease;
+}
+.table-responsive-pdf th {
+  font-size: 12px;
+  font-weight: 600;
+  color: "#000";
+  text-align: center;
+  border: 0px solid !important;
+}
+.table-responsive-pdf td {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3e4093;
+  text-align: center;
 }

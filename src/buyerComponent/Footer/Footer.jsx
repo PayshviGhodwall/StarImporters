@@ -199,7 +199,10 @@ const Footer = () => {
                 <ul className="dwn-ul text-end text-md-end">
                   <li>
                     <div class="download android">
-                      <i class="fa-brands fa-android fa-2x fa"></i>
+                      <img
+                        src={require("../../assets/img/icon-android.png")}
+                        className="fa"
+                      ></img>
                       <span class="df">Download Our</span>
                       <span class="dfn">Android Apk</span>
                     </div>

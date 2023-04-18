@@ -4,15 +4,16 @@ import "@coreui/coreui/dist/css/coreui.min.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import "swiper/css/bundle";
+
 import { RecoilRoot } from "recoil";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 // import { render } from "react-dom"; // add this
 
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <App />
-      </RecoilRoot>
-  </React.StrictMode>,  
+    </RecoilRoot>
+  </React.StrictMode>,
   document.getElementById("root")
 );

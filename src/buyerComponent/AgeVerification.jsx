@@ -4,20 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 
 const AgeVerification = ({ ModalClose }) => {
   const [err, setErr] = useState(false);
-
+  const nav = useNavigate();
   const handleClick = (e) => {
-    var expires = new Date(Date.now() + 86400 * 50000).toUTCString();
-    console.log(expires);
     e.preventDefault();
-    document.cookie = "cookie=NewUser; expires =" + expires + ";";
-    ModalClose.click();
+    // var expires = new Date(Date.now() + 86400 * 50000).toUTCString();
+    // console.log(expires);
+    // e.preventDefault();
+    // document.cookie = "cookie=NewUser; expires =" + expires + ";";
+    sessionStorage.setItem("new", "user");
+    nav("/app/home");
   };
 
   return (
-    <div className="">
+    <div className="modalContent ">
       <section className="age_verification">
         <div className="container">
-          <div className="row justify-content-center">
+          <div
+            className="row justify-content-center"
+            style={{ marginTop: "15rem" }}
+          >
             <div className="col-lg-5 col-md-6 verification_content">
               <h2 className="text-shadow">Confirm Your Age</h2>
               <span className="fs-4">ARE YOU 21 YEARS OLD OR OLDER?</span>

@@ -4,6 +4,7 @@ import Navbar from "../Homepage/Navbar";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import axios from "axios";
+import Footer from "../Footer/Footer";
 
 const Contact = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/contact`;
@@ -204,6 +205,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

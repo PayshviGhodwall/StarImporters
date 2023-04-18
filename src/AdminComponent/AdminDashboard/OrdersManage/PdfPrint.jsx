@@ -133,7 +133,43 @@ const PdfPrint = () => {
                                 </table>
                               </td>
                             </tr>
-                            <tr>
+                            <table className="table-responsive-pdf w-100">
+                              <tr>
+                                <th className="border">COMPANY NAME</th>
+                                <th className="border">PHONE NUMBER</th>
+                                <th className="border">ADDRESS</th>
+                                <th className="border">ORDER DATE</th>
+                                <th className="border">ORDER ID</th>
+                                <th className="border">DELEVERY STATUS</th>
+                                <th className="border">ITEMS</th>
+                              </tr>
+                              <tr>
+                                <td className="border">
+                                  {orders?.userId?.companyName}
+                                </td>
+                                <td className="border">
+                                  {orders?.userId?.phoneNumber}
+                                </td>
+                                <td className="border">
+                                  {orders?.userId?.addressLine1 +
+                                    "-" +
+                                    orders?.userId?.state +
+                                    "-" +
+                                    orders?.userId?.city}
+                                </td>
+                                <td className="border">
+                                  {moment(
+                                    orders?.craetedAt?.slice(0, 10)
+                                  ).format("MM/DD/YYYY")}
+                                </td>
+                                <td className="border">{orders?.orderId}</td>
+                                <td className="border">{orders?.status}</td>
+                                <td className="border">
+                                  {orders?.products?.length}
+                                </td>
+                              </tr>
+                            </table>
+                            {/* <tr>
                               <td>
                                 <table
                                   width="100%"
@@ -165,7 +201,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 15,
+                                                  fontSize: 10,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -176,14 +212,14 @@ const PdfPrint = () => {
                                                 Company Name :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 15,
+                                                    fontSize: 14,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.userId?.companyName}
+                                                  
                                                 </span>
                                               </td>
                                             </tr>
@@ -210,7 +246,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 15,
+                                                  fontSize: 10,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -221,7 +257,7 @@ const PdfPrint = () => {
                                                 Phone :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 15,
+                                                    fontSize: 14,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
@@ -255,7 +291,7 @@ const PdfPrint = () => {
                                             <tr>
                                               <td
                                                 style={{
-                                                  fontSize: 15,
+                                                  fontSize: 10,
                                                   fontWeight: 600,
                                                   color: "#000",
                                                   textAlign: "center",
@@ -266,7 +302,7 @@ const PdfPrint = () => {
                                                 Address :{" "}
                                                 <span
                                                   style={{
-                                                    fontSize: 15,
+                                                    fontSize: 14,
                                                     fontWeight: 700,
                                                     color: "#3e4093",
                                                     textAlign: "center",
@@ -374,7 +410,7 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.orderId}
+                                                  
                                                 </span>
                                               </td>
                                             </tr>
@@ -419,7 +455,7 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.status}
+                                                  
                                                 </span>
                                               </td>
                                             </tr>
@@ -464,7 +500,7 @@ const PdfPrint = () => {
                                                     borderSpacing: 0,
                                                   }}
                                                 >
-                                                  {orders?.products?.length}
+                                                  
                                                 </span>
                                               </td>
                                             </tr>
@@ -475,7 +511,7 @@ const PdfPrint = () => {
                                   </tbody>
                                 </table>
                               </td>
-                            </tr>
+                            </tr> */}
                           </tbody>
                         </table>
                       </td>

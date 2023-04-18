@@ -34,20 +34,18 @@ const Homepage = () => {
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-
+  let token = localStorage.getItem("token-user");
+  let NewUser = sessionStorage.getItem("new");
+  console.log(NewUser);
   useEffect(() => {
-    let x = document.cookie;
-    let token = localStorage.getItem("token-user");
     if (!token) {
-      if (x === "") {
-        const modal = document.getElementById("age_modal");
+      if (!NewUser) {
         setTimeout(() => {
-          modal?.click();
-        }, 1000);
+          navigate("/app/verify");
+        }, 2000);
       }
     }
     getSlides();
-
     getCategory();
     getHeaders();
     getBrands();

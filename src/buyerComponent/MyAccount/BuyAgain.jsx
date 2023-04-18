@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 
 const BuyAgain = () => {
   const [users, setUsers] = useState();
+  const [unitCount, setUnitCount] = useState(1);
+
   const products = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/purchasedProducts`;
   const addInCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/buyAgain`;
   const [purchasedProd, setPurchasedProd] = useState();
@@ -297,6 +299,7 @@ const BuyAgain = () => {
                                   <span class="checkmark"></span>
                                 </label>
                               </div>
+
                               <div>
                                 <div class="featuredproduct_details p-2 text-center">
                                   <span>
@@ -306,6 +309,42 @@ const BuyAgain = () => {
                                       ? val?.flavour?.flavour
                                       : null}
                                   </span>
+                                </div>
+                                <div className="prdct_bottom   d-flex justify-content-center">
+                                  <div className="number ">
+                                    <span
+                                      className="minus"
+                                      style={{ userSelect: "none" }}
+                                      onClick={() => {
+                                        if (unitCount > 1) {
+                                          setUnitCount(unitCount - 1);
+                                          document
+                                            .getElementById(ind)
+                                            .stepDown(1);
+                                        }
+                                      }}
+                                    >
+                                      -
+                                    </span>
+                                    <input
+                                      type="number"
+                                      id={ind}
+                                      value={val?.quantity}
+                                      // onChange={(e) => 
+                                      
+                                      // }
+                                    />
+                                    <span
+                                      className="plus"
+                                      style={{ userSelect: "none" }}
+                                      onClick={() => {
+                                        document.getElementById(ind).stepUp(1);
+                                        setUnitCount(+unitCount + 1);
+                                      }}
+                                    >
+                                      +
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
