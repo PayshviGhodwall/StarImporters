@@ -197,7 +197,7 @@ function AppCart() {
             {cart?.length ? (
               <div className="d-flex justify-content-between p-2 mt-5">
                 <Link className="comman_btn2 " to="/app/checkout">
-                  Place Your Order
+                Place Order
                 </Link>
 
                 {userDetail?.quotation === true ? (

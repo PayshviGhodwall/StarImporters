@@ -11,7 +11,6 @@ import { browserName } from "react-device-detect";
 function AppHeader({ cartCount }) {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
-  let counter = useRecoilValue(notifyCount);
   const ref = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -50,10 +49,10 @@ function AppHeader({ cartCount }) {
     <>
       <div className="star_imp_app">
         <div className="header-area " id="headerArea" ref={ref}>
-          <div className="container h-100 d-flex align-items-center justify-content-between d-flex rtl-flex-d-row-r">
+          <div className="container h-100 d-flex align -items-center justify-content-between d-flex rtl-flex-d-row-r">
             <div className="logo-wrapper">
               <Link to="/app/home">
-                <img src="../assets/img/logo.png" alt="" />
+                <img src={require("../../assets/img/logo2.png")} alt="" />
               </Link>
             </div>
             {browserName !== "WebKit" ? (
@@ -159,6 +158,12 @@ function AppHeader({ cartCount }) {
               <li>
                 <Link to={token ? "/app/my-request" : "/app/login"}>
                   <i className="fa-solid fa-users"></i>My Request
+                </Link>
+              </li>
+              <li>
+                <Link to={token ? "/app/buy-again" : "/app/login"}>
+                  <i className="fa fa-shopping-cart mt-1" />
+                  Buy Again
                 </Link>
               </li>
               {/* <li>

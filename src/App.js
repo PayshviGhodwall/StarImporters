@@ -114,6 +114,8 @@ import UserLoginPass from "./buyerComponent/LoginRegister/UserLoginPass";
 import UserForgotPass from "./buyerComponent/LoginRegister/UserForgotPass";
 import UserOtpValidate from "./buyerComponent/LoginRegister/UserOtpValidate";
 import UserUpdatePassword from "./buyerComponent/LoginRegister/UserUpdatePassword";
+import AppBuyAgain from "./pwaComponents/homeComponent/appBuyAgain";
+import AppDocs from "./pwaComponents/homeComponent/appDocs";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -278,6 +280,14 @@ function App() {
           <Route
             path="/app/homeGuest"
             element={width < 999 ? <AppHome /> : <Homepage />}
+          />
+          <Route
+            path="/app/buy-again"
+            element={width < 999 ? <AppBuyAgain /> : <Homepage />}
+          />
+          <Route
+            path="/app/profile/docs"
+            element={width < 999 ? <AppDocs /> : <Homepage />}
           />
           <Route
             path="/app/cart"

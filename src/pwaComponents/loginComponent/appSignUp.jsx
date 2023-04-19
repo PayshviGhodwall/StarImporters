@@ -103,9 +103,9 @@ function AppSignUp() {
   useTimeout(() => {
     setLoader(false);
   }, [9000]);
+  
   const onFileSelection = (event, index) => {
     let file = event[0];
-
     if (index === 1) {
       setSelectedFile1(event[0]);
     } else if (index === 2) {

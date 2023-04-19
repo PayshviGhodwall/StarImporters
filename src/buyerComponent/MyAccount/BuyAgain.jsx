@@ -33,12 +33,12 @@ const BuyAgain = () => {
     });
   };
 
-  const handleClick = (e, flavour, productId, i) => {
+  const handleClick = (e, flavour, productId, quantity, i) => {
     const { id, checked } = e.target;
     console.log(id, checked);
     if (checked) {
       let Array = [...selected];
-      Array.push({ flavour, productId });
+      Array.push({ flavour, productId, quantity });
       setSelected(Array);
     }
     setIsCheck([...isCheck, id]);
@@ -50,7 +50,6 @@ const BuyAgain = () => {
   console.log(selected);
   const handleSelectAll = (e) => {
     const { checked } = e.target;
-
     setIsCheckAll(!isCheckAll);
     let Nitem = [...isCheck];
     purchasedProd?.map((li) =>
@@ -58,13 +57,13 @@ const BuyAgain = () => {
     );
     console.log(Nitem);
     setIsCheck(Nitem);
-
     let allData = [...selected];
     (purchasedProd || [])?.map((item, index) =>
       item.products?.map((val, ind) =>
         allData.push({
           flavour: val?.flavour,
           productId: val?.productId?._id,
+          quantity: val?.quantity,
         })
       )
     );
@@ -288,6 +287,7 @@ const BuyAgain = () => {
                                         e,
                                         val?.flavour,
                                         val?.productId?._id,
+                                        val?.quantity,
                                         ind
                                       )
                                     }
@@ -310,7 +310,7 @@ const BuyAgain = () => {
                                       : null}
                                   </span>
                                 </div>
-                                <div className="prdct_bottom   d-flex justify-content-center">
+                                {/* <div className="prdct_bottom   d-flex justify-content-center">
                                   <div className="number ">
                                     <span
                                       className="minus"
@@ -333,7 +333,7 @@ const BuyAgain = () => {
                                       // onChange={(e) => 
                                       
                                       // }
-                                    />
+                                    />  
                                     <span
                                       className="plus"
                                       style={{ userSelect: "none" }}
@@ -345,7 +345,7 @@ const BuyAgain = () => {
                                       +
                                     </span>
                                   </div>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>

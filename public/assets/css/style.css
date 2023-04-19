@@ -8505,7 +8505,7 @@ background-color: #3e4093;
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
     color: #020310;
-    font-size: 14px;
+    font-size: 13px;
     display: block;
     line-height: 1.2;
     overflow: hidden;
@@ -8609,7 +8609,7 @@ background-color: #3e4093;
     line-height: 1;
   }
   .product-card .product-title {
-    font-size: 15px;
+    font-size: 13px;
     margin-bottom: 0.5rem;
     color: #020310;
     line-height: 1;
@@ -8743,7 +8743,7 @@ background-color: #3e4093;
   }
   .horizontal-product-card .product-description .product-title {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem !important;
     color: #020310;
     line-height: 1;
     white-space: nowrap;
@@ -10360,6 +10360,22 @@ background-color: #3e4093;
     position: relative;
     z-index: 1;
     margin-bottom: 1.25rem;
+  }
+  .edit_pen{
+    position: relative;
+    top: 12px !important;
+    left: 3px;
+    z-index: 999;
+
+  }
+  .file_selector_app{
+    opacity: 1% !important;
+    position: relative;
+    font-size: 10px;
+    top: 8px;
+    left: -30px;
+    width: 40px !important;
+    z-index: 99999;
   }
   .single-profile-data:last-child {
     margin-bottom: 0;
@@ -15302,4 +15318,8 @@ figure.effect-ming:hover img {
   font-weight: 600;
   color: #3e4093;
   text-align: center;
+}
+.buyAgain {
+  max-height: 43rem;
+  overflow-y: scroll;
 }

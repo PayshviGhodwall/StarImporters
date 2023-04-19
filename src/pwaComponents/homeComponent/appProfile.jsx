@@ -92,10 +92,27 @@ function AppProfile() {
                     </div>
                     <div className="data-content">
                       <Link
-                        className="btn btn-success btn-sm"
+                        className="btn  btn-sm"
+                        style={{ backgroundColor: "#3e4093", color: "#fff" }}
                         to="/app/my-order"
                       >
                         View Status
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className="single-profile-data d-flex align-items-center justify-content-between">
+                    <div className="title d-flex align-items-center">
+                      <i className="fa fa-file"></i>
+                      <span>My Documents</span>
+                    </div>
+                    <div className="data-content">
+                      <Link
+                        className="btn  btn-sm"
+                        style={{ backgroundColor: "#3e4093", color: "#fff" }}
+                        to="/app/profile/docs"
+                      >
+                        View Documents
                       </Link>
                     </div>
                   </div>

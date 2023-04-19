@@ -82,6 +82,12 @@ function WebHeader2() {
                 <i className="fa-solid fa-users"></i>My Request
               </Link>
             </li>
+            <li>
+              <Link to={token ? "/app/buy-again" : "/app/login"}>
+                <i className="fa fa-shopping-cart mt-1" />
+                Buy Again
+              </Link>
+            </li>
             {/* <li>
               <Link to={token ? "/app/notifications" : "/app/login"}>
                 <i className="fa-solid fa-bell lni-tada-effect"></i>
