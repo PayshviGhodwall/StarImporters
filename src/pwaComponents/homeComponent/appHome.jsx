@@ -38,32 +38,6 @@ function AppHome() {
     getCategoryList();
     getTopProductList();
     getBrandList();
-
-    // if (typeof window !== "undefined") {
-    //   window.onscroll = () => {
-    //     let currentScrollPos = window.pageYOffset;
-    //     let maxScroll = document.body.scrollHeight - window.innerHeight;
-    //     let minScroll = document.body.scrollHeight - currentScrollPos;
-    //     console.log(maxScroll, "max");
-    //     console.log(minScroll, "min");
-    //     switch (currentScrollPos) {
-    //       case currentScrollPos > 10:
-    //         setHideF({ opacity: "50%" });
-    //         break;
-    //       case 10:
-    //         setHideF({ opacity: "0%" });
-    //       case 2:
-    //         break;
-    //     }
-
-    //     if (currentScrollPos > 10) {
-    //       console.log(currentScrollPos);
-    //     }
-    //     if (currentScrollPos < maxScroll || currentScrollPos <= maxScroll) {
-    //       setHideF({ opacity: "1" });
-    //     }
-    //   };
-    // }
   }, []);
 
   useEffect(() => {
@@ -134,12 +108,6 @@ function AppHome() {
     navigate("/app/product-by-search", { state: { search: search } });
   };
 
-  const onSearch = () => {
-    if (search?.length >= 3) {
-      navigate("/app/product-by-search", { state: { search: search } });
-    }
-  };
-
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
@@ -184,7 +152,6 @@ function AppHome() {
       <div className="star_imp_app">
         <div>
           <AppHeader />
-          <p>{browserName}</p>
         </div>
         {loading ? (
           <div className="load_position">
@@ -193,8 +160,6 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
-              <p>{browserName + "nnn"}</p>
-
               <div
                 className={
                   browserName === "WebKit" || browserName === "Chrome WebView"

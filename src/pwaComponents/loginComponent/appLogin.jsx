@@ -13,9 +13,7 @@ function AppLogin() {
     reset,
     formState: { errors },
   } = useForm();
-
   const navigate = useNavigate();
-
   useEffect(() => {
     if (localStorage.getItem("token-user")) {
       navigate("/app/home");

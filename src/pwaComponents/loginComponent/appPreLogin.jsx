@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { userPreLogin, userPreLoginPassword } from "../httpServices/loginHttpService/loginHttpService";
+import {
+  userPreLogin,
+  userPreLoginPassword,
+} from "../httpServices/loginHttpService/loginHttpService";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { browserName, CustomView, isIE } from "react-device-detect";
 
 function AppPreLogin() {
   const {
@@ -64,7 +68,9 @@ function AppPreLogin() {
   };
   const faceLogin = async () => {
     if (window.flutter_inappwebview) {
-      let data = await window.flutter_inappwebview.callHandler("loginWithFaceID");
+      let data = await window.flutter_inappwebview.callHandler(
+        "loginWithFaceID"
+      );
       data = data ? JSON.parse(data) : null;
       console.log(data);
       const response = await userPreLogin(data);
@@ -100,26 +106,23 @@ function AppPreLogin() {
         toast.error("Email is not registered");
       }
       if (response?.data.message === "Please enter password") {
-       
         const response = await userPreLoginPassword(data);
         if (!response.data.error) {
           navigate("/app/home");
-    
+
           if (response?.data.message === "Logged In") {
             localStorage.setItem("token-user", response?.data?.results.token);
             navigate("/app/home");
             if (window.flutter_inappwebview) {
-               window.flutter_inappwebview.callHandler("Flutter", data?.email);
+              window.flutter_inappwebview.callHandler("Flutter", data?.email);
               //  window.flutter_inappwebview.callHandler("saveDetails" , data?.email ,data?.password);
-    
             }
-          //  
+            //
           }
         }
         if (response?.data.message === "First Time Login") {
           navigate("/app/success", { state: { email: data.email } });
         }
-
       }
     }
   };
@@ -139,11 +142,10 @@ function AppPreLogin() {
                   />
                 </div>
                 <div className="text-center rtl-text-right mt-4">
-                  <h5 className="mb-1 text-white fs-4">Welcome to StarImporters</h5>
-                  <p className="mt-3 text-white ">
-                    Please Login To Continue.
-                   
-                  </p>
+                  <h5 className="mb-1 text-white fs-4">
+                    Welcome to StarImporters
+                  </h5>
+                  <p className="mt-3 text-white ">Please Login To Continue.</p>
                 </div>
 
                 <div className="register-form mt-5">
@@ -190,10 +192,14 @@ function AppPreLogin() {
                     View as Guest
                   </Link>
                 </div>
-                <div className="view-as-guest mt-2">
-                  <a className="btn" to="" onClick={faceLogin}>
-                    Login with Finger Print/Face ID.                 </a>
-                </div>
+                {browserName === "WebKit" ||
+                browserName === "Chrome WebView" ? (
+                  <div className="view-as-guest mt-2">
+                    <a className="btn" to="" onClick={faceLogin}>
+                      Login with Finger Print/Face ID.
+                    </a>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

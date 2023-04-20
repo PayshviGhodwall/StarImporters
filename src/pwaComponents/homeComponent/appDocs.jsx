@@ -6,6 +6,7 @@ import AppHeader from "./appHeader";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
+import { saveAs } from "file-saver";
 
 function AppDocs() {
   const [detail, setDetail] = useState("");
@@ -50,7 +51,11 @@ function AppDocs() {
       setFiles([]);
     }
   };
-
+  const fileDownload = (url) => {
+    let url1 = url;
+    let url2 = url1.replace("http", "https");
+    saveAs(url2);
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -88,9 +93,15 @@ function AppDocs() {
                       accept="image/jpeg,image/png,application/pdf,image/x-eps"
                       onChange={(e) => onFileSelection(e, "federalTaxId")}
                     />
+
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
-                      <div className="title d-flex align-items-center">
-                        <i className="fa fa-file"></i>
+                      <div
+                        className="title d-flex align-items-center"
+                        onClick={() => {
+                          fileDownload(detail?.federalTaxId);
+                        }}
+                      >
+                        <i className="fa fa-eye"></i>
                         <span>Federal Tax ID</span>
                       </div>
                       <div className="data-content">
@@ -123,8 +134,13 @@ function AppDocs() {
                       onChange={(e) => onFileSelection(e, "tobaccoLicence")}
                     />
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
-                      <div className="title d-flex align-items-center">
-                        <i className="fa fa-file"></i>
+                      <div
+                        className="title d-flex align-items-center"
+                        onClick={() => {
+                          fileDownload(detail?.tobaccoLicence);
+                        }}
+                      >
+                        <i className="fa fa-eye"></i>
                         <span>Tobacco License ID</span>
                       </div>
                       <div className="data-content">
@@ -157,8 +173,13 @@ function AppDocs() {
                       onChange={(e) => onFileSelection(e, "salesTaxId")}
                     />
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
-                      <div className="title d-flex align-items-center">
-                        <i className="fa fa-file"></i>
+                      <div
+                        className="title d-flex align-items-center"
+                        onClick={() => {
+                          fileDownload(detail?.salesTaxId);
+                        }}
+                      >
+                        <i className="fa fa-eye"></i>
                         <span>Sales Tax ID</span>
                       </div>
                       <div className="data-content">
@@ -191,8 +212,13 @@ function AppDocs() {
                       onChange={(e) => onFileSelection(e, "businessLicense")}
                     />
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
-                      <div className="title d-flex align-items-center">
-                        <i className="fa fa-file"></i>
+                      <div
+                        className="title d-flex align-items-center"
+                        onClick={() => {
+                          fileDownload(detail?.businessLicense);
+                        }}
+                      >
+                        <i className="fa fa-eye"></i>
                         <span>Business License ID</span>
                       </div>
                       <div className="data-content">
@@ -225,8 +251,13 @@ function AppDocs() {
                       onChange={(e) => onFileSelection(e, "accountOwnerId")}
                     />
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
-                      <div className="title d-flex align-items-center">
-                        <i className="fa fa-file"></i>
+                      <div
+                        className="title d-flex align-items-center"
+                        onClick={() => {
+                          fileDownload(detail?.accountOwnerId);
+                        }}
+                      >
+                        <i className="fa fa-eye"></i>
                         <span>Account Owner ID</span>
                       </div>
                       <div className="data-content">

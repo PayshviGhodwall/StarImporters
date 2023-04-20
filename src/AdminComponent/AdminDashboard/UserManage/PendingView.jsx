@@ -19,6 +19,7 @@ const PendingView = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
+
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [docs, setDocs] = useState([]);
@@ -66,26 +67,20 @@ const PendingView = () => {
         }
       });
   };
+
   const onSubmitApprove = async (data) => {
+    console.log(data);
     await axios
-      .post(rejectUrl + "/" + objectId, {
-        companyName: data?.companyName,
-        dba: data?.dba,
-        addressLine1: data?.address1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        state: data?.state,
-        zipcode: data?.zipcode,
-        firstName: data?.firstName,
+      .post(approveUrl + "/" + objectId, {
         tobaccoLicence: data?.tobaccoId,
         federalTaxId: data?.federalId,
         accountOwnerId: data?.accountId,
         businessLicense: data?.businessId,
         salesTaxId: data?.salesId,
-        rejectReason: data?.reason,
+        approveReason: data?.reason,
       })
       .then((res) => {
-        if (res?.data.message === "Rejected") {
+        if (res?.data.message === "User approved Successfully") {
           document.getElementById("modal-close21").click();
           navigate("/UserManage");
         }
@@ -1082,112 +1077,7 @@ const PendingView = () => {
 
                     <div className="row text-start mt-3 return_Reason">
                       <h6 className="mb-2">Choose Invalid Fields :</h6>
-                      <div className="col-md-6">
-                        <ul className="list-group ">
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="companyName"
-                                {...register2("companyName")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Company Name
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="dba"
-                                {...register2("dba")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                DBA
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="address"
-                                {...register2("address")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Address Line
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="city"
-                                {...register2("city")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                htmlFor="flexCheckDefault"
-                              >
-                                City
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="state"
-                                {...register2("state")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                State
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="zipcode"
-                                {...register2("zipcode")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                Zipcode
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
+
                       <div className="col-md-6">
                         <ul className="list-group">
                           <li className="list-group-item">
@@ -1255,23 +1145,6 @@ const PendingView = () => {
                                 for="flexCheckDefault"
                               >
                                 Business Licence
-                              </label>
-                            </div>
-                          </li>
-                          <li className="list-group-item">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="firstName"
-                                {...register2("firstName")}
-                                id="flexCheckDefault"
-                              />
-                              <label
-                                class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
-                                First Name
                               </label>
                             </div>
                           </li>
@@ -1577,52 +1450,7 @@ const PendingView = () => {
           </div>
         </div>
       </div>
-      {/* <button
-        type="button"
-        class="btn btn-primary d-none"
-        id="preview_modal"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Launch demo modal
-      </button>
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header comman_modal">
-              <h5 class="modal-title">Preview</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <DocViewer
-                documents={docs}
-                pluginRenderers={DocViewerRenderers}
-                style={{ height: 1000 }}
-              />
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
+
       <button
         type="button"
         class="btn btn-primary d-none"
