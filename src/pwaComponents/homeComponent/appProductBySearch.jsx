@@ -111,7 +111,7 @@ function AppProductBySearch() {
         <div className="container">
           <div
             className={
-              browserName === "WebKit" || "WebView"
+              browserName === "WebKit" && "Chrome WebView"
                 ? "search-form pt-3 "
                 : "search-new pt-3 "
             }
@@ -130,7 +130,7 @@ function AppProductBySearch() {
               </button>
             </form>
 
-            {browserName === "WebKit" || "WebView" ? (
+            {browserName === "WebKit" && "Chrome WebView" ? (
               <div className="alternative-search-options">
                 <button
                   className="comman_btn text-white ms-1"

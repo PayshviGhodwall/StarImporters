@@ -193,11 +193,11 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
-              <p>{browserName}</p>
+              <p>{browserName + "n"}</p>
 
               <div
                 className={
-                  browserName === "WebKit" || "WebView"
+                  browserName === "WebKit" && "Chrome WebView"
                     ? "search-form pt-3 "
                     : "search-new pt-3 "
                 }
@@ -221,7 +221,7 @@ function AppHome() {
                   </button>
                 </form>
 
-                {browserName === "WebKit" || "WebView" ? (
+                {browserName === "WebKit" && "Chrome WebView" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
@@ -242,6 +242,7 @@ function AppHome() {
                 )}
               </div>
             </div>
+
             {search?.length ? (
               <div className="top-products-area py-1">
                 <div className="container">

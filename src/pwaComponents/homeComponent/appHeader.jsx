@@ -49,15 +49,15 @@ function AppHeader({ cartCount }) {
     <>
       <div className="star_imp_app">
         <div className="header-area " id="headerArea" ref={ref}>
-          <div className="container h-100 d-flex align -items-center justify-content-between d-flex rtl-flex-d-row-r">
+          <div className="container py-2 h-100 d-flex align -items-center justify-content-between d-flex rtl-flex-d-row-r">
             <div className="logo-wrapper">
               <Link to="/app/home">
                 <img src={require("../../assets/img/logo2.png")} alt="" />
               </Link>
             </div>
-            {browserName !== "WebKit" ? (
+            {browserName === "WebKit" && "Chrome WebView" ? null : (
               <div
-                class="download-app android-app"
+                class="download-app android-app "
                 onClick={() => {
                   navigate("/app/downloads");
                 }}
@@ -66,7 +66,7 @@ function AppHeader({ cartCount }) {
                 <span class="df">Download from</span>
                 <span class="dfn">App Store</span>
               </div>
-            ) : null}
+            )}
 
             <div className="navbar-logo-container d-flex align-items-center">
               {token ? (
