@@ -193,11 +193,11 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
-              <p>{browserName + "n"}</p>
+              <p>{browserName + "nnn"}</p>
 
               <div
                 className={
-                  browserName === "WebKit" && "Chrome WebView"
+                  browserName === "WebKit" || browserName === "Chrome WebView"
                     ? "search-form pt-3 "
                     : "search-new pt-3 "
                 }
@@ -221,7 +221,8 @@ function AppHome() {
                   </button>
                 </form>
 
-                {browserName === "WebKit" && "Chrome WebView" ? (
+                {browserName === "WebKit" ||
+                browserName === "Chrome WebView" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"

@@ -55,7 +55,8 @@ function AppHeader({ cartCount }) {
                 <img src={require("../../assets/img/logo2.png")} alt="" />
               </Link>
             </div>
-            {browserName === "WebKit" && "Chrome WebView" ? null : (
+            {browserName === "WebKit" ||
+            browserName === "Chrome WebView" ? null : (
               <div
                 class="download-app android-app "
                 onClick={() => {
