@@ -197,9 +197,9 @@ function AppHome() {
 
               <div
                 className={
-                  browserName !== "WebKit"
-                    ? "search-new pt-3 "
-                    : "search-form pt-3 "
+                  browserName === "WebKit" || "Chrome WebView"
+                    ? "search-form pt-3 "
+                    : "search-new pt-3 "
                 }
               >
                 <form className="" style={{ width: "100%" }}>
@@ -212,6 +212,7 @@ function AppHome() {
                       setSearch(e.target.value);
                     }}
                   />
+
                   <button onClick={searchProduct} className="me-5">
                     <i className="fa-solid fa-magnifying-glass"></i>
                   </button>
@@ -219,7 +220,8 @@ function AppHome() {
                     reset
                   </button>
                 </form>
-                {browserName === "WebKit" ? (
+
+                {browserName === "WebKit" || "Chrome WebView" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
