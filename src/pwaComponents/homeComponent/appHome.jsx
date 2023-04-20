@@ -197,7 +197,7 @@ function AppHome() {
 
               <div
                 className={
-                  browserName === "WebKit" || "Chrome WebView"
+                  browserName === "WebKit" || "WebView"
                     ? "search-form pt-3 "
                     : "search-new pt-3 "
                 }
@@ -221,7 +221,7 @@ function AppHome() {
                   </button>
                 </form>
 
-                {browserName === "WebKit" || "Chrome WebView" ? (
+                {browserName === "WebKit" || "WebView" ? (
                   <div className="alternative-search-options">
                     <Link
                       className="comman_btn text-white ms-1"
