@@ -184,6 +184,7 @@ function AppHome() {
       <div className="star_imp_app">
         <div>
           <AppHeader />
+          <p>{browserName}</p>
         </div>
         {loading ? (
           <div className="load_position">
@@ -192,6 +193,8 @@ function AppHome() {
         ) : (
           <div className="page-content-wrapper">
             <div className="container ">
+              <p>{browserName}</p>
+
               <div
                 className={
                   browserName !== "WebKit"
