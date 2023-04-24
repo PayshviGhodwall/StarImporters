@@ -197,7 +197,7 @@ function AppCart() {
             {cart?.length ? (
               <div className="d-flex justify-content-between p-2 mt-5">
                 <Link className="comman_btn2 " to="/app/checkout">
-                Place Order
+                  Place Order
                 </Link>
 
                 {userDetail?.quotation === true ? (
@@ -348,7 +348,8 @@ function AppCart() {
                 </div>
               </div>
               <div className="row">
-                {browserName === "WebKit" ? (
+                {browserName === "WebKit" ||
+                browserName === "Chrome WebView" ? (
                   <div className="col-6 cart-amount-area p-1">
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <h5 className="total-price mb-0"></h5>

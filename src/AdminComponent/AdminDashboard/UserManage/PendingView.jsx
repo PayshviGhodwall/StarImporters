@@ -77,7 +77,7 @@ const PendingView = () => {
         accountOwnerId: data?.accountId,
         businessLicense: data?.businessId,
         salesTaxId: data?.salesId,
-        approveReason: data?.reason,
+        comment: data?.reason,
       })
       .then((res) => {
         if (res?.data.message === "User approved Successfully") {
@@ -1218,6 +1218,9 @@ const PendingView = () => {
                     <textarea
                       className="w-100 fs-6 p-2"
                       style={{ height: "8rem" }}
+                      defaultValue="Thank you for registering.
+                      Your account is on hold for approval. Kindly update the required documents and resubmit the form.
+                      For any questions please email at websupport@starimporters.com"
                       name="reason"
                       {...register("reason")}
                     />

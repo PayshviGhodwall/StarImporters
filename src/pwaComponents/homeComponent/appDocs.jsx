@@ -85,14 +85,18 @@ function AppDocs() {
               <div className="card user-data-card">
                 <div className="card-body ">
                   <div>
-                    <i className="fa-solid fa-edit me-2 edit_pen"></i>
-                    <input
-                      className="file_selector_app"
-                      type="file"
-                      name="federalTaxId"
-                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                      onChange={(e) => onFileSelection(e, "federalTaxId")}
-                    />
+                    {detail?.federalTaxId === "" ? (
+                      <>
+                        <i className="fa-solid fa-edit me-2 edit_pen"></i>
+                        <input
+                          className="file_selector_app"
+                          type="file"
+                          name="federalTaxId"
+                          accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                          onChange={(e) => onFileSelection(e, "federalTaxId")}
+                        />
+                      </>
+                    ) : null}
 
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
                       <div
@@ -125,14 +129,18 @@ function AppDocs() {
                     ) : null}
                   </div>
                   <div>
-                    <i className="fa-solid fa-edit me-2 edit_pen"></i>
-                    <input
-                      className="file_selector_app"
-                      type="file"
-                      name="tobaccoLicence"
-                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                      onChange={(e) => onFileSelection(e, "tobaccoLicence")}
-                    />
+                    {detail?.tobaccoLicence === "" ? (
+                      <>
+                        <i className="fa-solid fa-edit me-2 edit_pen"></i>
+                        <input
+                          className="file_selector_app"
+                          type="file"
+                          name="tobaccoLicence"
+                          accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                          onChange={(e) => onFileSelection(e, "tobaccoLicence")}
+                        />
+                      </>
+                    ) : null}
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
                       <div
                         className="title d-flex align-items-center"
@@ -164,14 +172,18 @@ function AppDocs() {
                     ) : null}
                   </div>
                   <div>
-                    <i className="fa-solid fa-edit me-2 edit_pen"></i>
-                    <input
-                      className="file_selector_app"
-                      type="file"
-                      name="salesTaxId"
-                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                      onChange={(e) => onFileSelection(e, "salesTaxId")}
-                    />
+                    {detail?.salesTaxId === "" ? (
+                      <>
+                        <i className="fa-solid fa-edit me-2 edit_pen"></i>
+                        <input
+                          className="file_selector_app"
+                          type="file"
+                          name="salesTaxId"
+                          accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                          onChange={(e) => onFileSelection(e, "salesTaxId")}
+                        />
+                      </>
+                    ) : null}
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
                       <div
                         className="title d-flex align-items-center"
@@ -203,14 +215,20 @@ function AppDocs() {
                     ) : null}
                   </div>
                   <div>
-                    <i className="fa-solid fa-edit me-2 edit_pen"></i>
-                    <input
-                      className="file_selector_app"
-                      type="file"
-                      name="businessLicense"
-                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                      onChange={(e) => onFileSelection(e, "businessLicense")}
-                    />
+                    {detail?.businessLicense === "" ? (
+                      <>
+                        <i className="fa-solid fa-edit me-2 edit_pen"></i>
+                        <input
+                          className="file_selector_app"
+                          type="file"
+                          name="businessLicense"
+                          accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                          onChange={(e) =>
+                            onFileSelection(e, "businessLicense")
+                          }
+                        />
+                      </>
+                    ) : null}
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
                       <div
                         className="title d-flex align-items-center"
@@ -242,14 +260,18 @@ function AppDocs() {
                     ) : null}
                   </div>
                   <div>
-                    <i className="fa-solid fa-edit me-2 edit_pen"></i>
-                    <input
-                      className="file_selector_app"
-                      type="file"
-                      name="accountOwnerId"
-                      accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                      onChange={(e) => onFileSelection(e, "accountOwnerId")}
-                    />
+                    {detail?.accountOwnerId === "" ? (
+                      <>
+                        <i className="fa-solid fa-edit me-2 edit_pen"></i>
+                        <input
+                          className="file_selector_app"
+                          type="file"
+                          name="accountOwnerId"
+                          accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                          onChange={(e) => onFileSelection(e, "accountOwnerId")}
+                        />
+                      </>
+                    ) : null}
                     <div className="single-profile-data d-flex align-items-center justify-content-between bg-light p-3">
                       <div
                         className="title d-flex align-items-center"

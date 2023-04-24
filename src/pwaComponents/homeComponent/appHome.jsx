@@ -117,7 +117,7 @@ function AppHome() {
         });
         if (!data.error) {
           if (data?.results?.length)
-            navigate(`/app/product-detail/${data.results[0]._id}`, {
+            navigate(`/app/product-detail/${data.results[0]?._id}`, {
               state: {
                 flavour: data.results[0]?.type,
               },

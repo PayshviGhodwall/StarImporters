@@ -393,23 +393,27 @@ const Account = () => {
                         <div className="col-md-3 mb-4 d-flex align-items-stretch">
                           <div
                             className={
-                              users.federalTaxId
+                              users.federalTaxId != ""
                                 ? "row view-inner-box border  mx-0 w-100"
                                 : "row view-inner-box border border-danger text-danger mx-0 w-100"
                             }
                           >
                             <span className="fw-bold">Federal Tax ID:</span>
+
                             <div className="col img_box_show ">
-                              <input
-                                className="file_selector"
-                                type="file"
-                                name="federalTaxId"
-                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                {...register("federalTaxId")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "federalTaxId")
-                                }
-                              />
+                              {users.federalTaxId === "" ? (
+                                <input
+                                  className="file_selector"
+                                  type="file"
+                                  name="federalTaxId"
+                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                  {...register("federalTaxId")}
+                                  onChange={(e) =>
+                                    onFileSelection(e, "federalTaxId")
+                                  }
+                                />
+                              ) : null}
+
                               <label htmlFor="file1">
                                 <div className="">
                                   <a
@@ -456,23 +460,26 @@ const Account = () => {
                         <div className="col-md-3 mb-4 d-flex align-items-stretch">
                           <div
                             className={
-                              users.tobaccoLicence
+                              users.tobaccoLicence != ""
                                 ? "row view-inner-box border  mx-0 w-100"
                                 : "row view-inner-box border border-danger text-danger mx-0 w-100"
                             }
                           >
                             <span className="fw-bold">Tobacco License:</span>
                             <div className="col img_box_show">
-                              <input
-                                className="file_selector"
-                                type="file"
-                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                name="file"
-                                {...register("tobaccoLicence")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "tobaccoLicence")
-                                }
-                              />
+                              {users.tobaccoLicence === "" ? (
+                                <input
+                                  className="file_selector"
+                                  type="file"
+                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                  name="file"
+                                  {...register("tobaccoLicence")}
+                                  onChange={(e) =>
+                                    onFileSelection(e, "tobaccoLicence")
+                                  }
+                                />
+                              ) : null}
+
                               <label htmlFor="file1">
                                 <div className="">
                                   <Link
@@ -526,23 +533,26 @@ const Account = () => {
                         <div className="col-md-3 mb-4 d-flex align-items-stretch">
                           <div
                             className={
-                              users.salesTaxId
+                              users.salesTaxId != ""
                                 ? "row view-inner-box border  mx-0 w-100"
                                 : "row view-inner-box border border-danger text-danger mx-0 w-100"
                             }
                           >
                             <span className="fw-bold">Sales Tax ID:</span>
                             <div className="col img_box_show">
-                              <input
-                                className="file_selector"
-                                type="file"
-                                name="salesTaxId"
-                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                {...register("salesTaxId")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "salesTaxId")
-                                }
-                              />
+                              {users.salesTaxId === "" ? (
+                                <input
+                                  className="file_selector"
+                                  type="file"
+                                  name="salesTaxId"
+                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                  {...register("salesTaxId")}
+                                  onChange={(e) =>
+                                    onFileSelection(e, "salesTaxId")
+                                  }
+                                />
+                              ) : null}
+
                               <label htmlFor="file1">
                                 <div className="">
                                   <Link
@@ -584,23 +594,26 @@ const Account = () => {
                         <div className="col-md-3 mb-4 d-flex align-items-stretch">
                           <div
                             className={
-                              users.businessLicense
+                              users.businessLicense != ""
                                 ? "row view-inner-box border  mx-0 w-100"
                                 : "row view-inner-box border border-danger text-danger mx-0 w-100"
                             }
                           >
                             <span className="fw-bold">Business License:</span>
                             <div className="col img_box_show">
-                              <input
-                                className="file_selector"
-                                type="file"
-                                name="businessLicense"
-                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                {...register("businessLicense")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "businessLicense")
-                                }
-                              />
+                              {users.businessLicense === "" ? (
+                                <input
+                                  className="file_selector"
+                                  type="file"
+                                  name="businessLicense"
+                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                  {...register("businessLicense")}
+                                  onChange={(e) =>
+                                    onFileSelection(e, "businessLicense")
+                                  }
+                                />
+                              ) : null}
+
                               <label htmlFor="file1">
                                 <div className="">
                                   <Link
@@ -649,23 +662,26 @@ const Account = () => {
                         <div className="col-md-12 mb-4 d-flex align-items-stretch">
                           <div
                             className={
-                              users.accountOwnerId
+                              users.accountOwnerId != ""
                                 ? "row view-inner-box border  mx-0 w-100"
                                 : "row view-inner-box border border-danger text-danger mx-0 w-100"
                             }
                           >
                             <span className="fw-bold">Account Owner ID:</span>
                             <div className="col img_box_show">
-                              <input
-                                className="file_selector"
-                                type="file"
-                                accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                name="accountOwnerId"
-                                {...register("accountOwnerId")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "accountOwnerId")
-                                }
-                              />
+                              {users.accountOwnerId === "" ? (
+                                <input
+                                  className="file_selector"
+                                  type="file"
+                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                                  name="accountOwnerId"
+                                  {...register("accountOwnerId")}
+                                  onChange={(e) =>
+                                    onFileSelection(e, "accountOwnerId")
+                                  }
+                                />
+                              ) : null}
+
                               <label htmlFor="file1">
                                 <div className="">
                                   <Link
