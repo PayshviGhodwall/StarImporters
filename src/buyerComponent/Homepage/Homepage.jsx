@@ -933,45 +933,6 @@ const Homepage = () => {
             </div>
           </section>
 
-          {/* <div className="features_brands py-5 bg-white border-top">
-            <div className="container-fluid px-0">
-              <div className="col-lg-12 col-sm-12 comman_head mb-4 text-center">
-                <h2
-                  dangerouslySetInnerHTML={createMarkup(allHeaders?.brandTitle)}
-                ></h2>
-                <span
-                  className="viewAllBtn"
-                  onClick={() => navigate("/app/brands", { state: "hii" })}
-                >
-                  View All <i className="fa fa-arrow-right"></i>
-                </span>
-              </div>
-              <div className="col-sm-12">
-                <Swiper
-                  slidesPerView={4}
-                  spaceBetween={20}
-                  loop={true}
-                  navigation={true}
-                  autoplay={true}
-                  modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                  className="mySwiper row px-4 py-2"
-                >
-                  {(brands || [])?.map((item, index) => (
-                    <SwiperSlide key={index}>
-                      <Link
-                        to="/app/brands"
-                        state={"hisds"}
-                        className="brand_box col-sm-12 p-sm-4"
-                      >
-                        <img src={item?.brandImage} alt="" />
-                      </Link>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-          </div> */}
-
           <Footer />
           <button
             type="button"

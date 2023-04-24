@@ -6,8 +6,6 @@ import Swal from "sweetalert2";
 import Animate from "../../Animate";
 import {
   deleteCart,
-  getCart,
-  getMyCart,
   searchByBarcode,
   updateCart,
 } from "../httpServices/homeHttpService/homeHttpService";

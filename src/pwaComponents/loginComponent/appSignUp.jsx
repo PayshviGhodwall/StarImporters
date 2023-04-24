@@ -103,7 +103,7 @@ function AppSignUp() {
   useTimeout(() => {
     setLoader(false);
   }, [9000]);
-  
+
   const onFileSelection = (event, index) => {
     let file = event[0];
     if (index === 1) {
@@ -199,7 +199,21 @@ function AppSignUp() {
                         placeholder=""
                         name="addressLine1"
                         id="addressLine"
-                        {...register("addressLine1", { required: "Required" })}
+                        {...register("addressLine1", {
+                          required: "Required",
+                          pattern: {
+                            value: /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$/,
+                            message: "Special Character not allowed!",
+                          },
+                          maxLength: {
+                            value: 200,
+                            message: "Max length is 200 characters!",
+                          },
+                          minLength: {
+                            value: 6,
+                            message: "Min length is 6 characters!",
+                          },
+                        })}
                       />
 
                       {errors?.addressLine1 && (

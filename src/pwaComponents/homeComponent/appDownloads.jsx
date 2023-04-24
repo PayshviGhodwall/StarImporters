@@ -50,7 +50,7 @@ const AppDownloads = () => {
                 </div>
                 <div class="col-sm-6 dwn-btns" data-wow-delay="0.7s">
                   <a
-                    href=""
+                    href="https://i.diawi.com/pPzbeg"
                     class="d-flex bg-secondary-gradient rounded py-3 px-4"
                   >
                     <i class="fab fa-android fa-3x text-white mt-1"></i>

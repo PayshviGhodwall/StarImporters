@@ -222,6 +222,18 @@ const SignUp = () => {
                     name="addressLine1"
                     {...register("addressLine1", {
                       required: "Company Adrress Line1 is Required*",
+                      pattern: {
+                        value: /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$/,
+                        message: "Special Character not allowed!",
+                      },
+                      maxLength: {
+                        value: 200,
+                        message: "Max length is 200 characters!",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Min length is 6 characters!",
+                      },
                     })}
                   />
                   {errors.addressLine1 && (

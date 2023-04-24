@@ -197,16 +197,19 @@ const Footer = () => {
 
               <div className="col-md-4">
                 <ul className="dwn-ul text-end text-md-end">
-                  <li>
-                    <div class="download android">
-                      <img
-                        src={require("../../assets/img/icon-android.png")}
-                        className="fa"
-                      ></img>
-                      <span class="df">Download Our</span>
-                      <span class="dfn">Android Apk</span>
-                    </div>
-                  </li>
+                  <a href="https://i.diawi.com/pPzbeg">
+                    <li>
+                      <div class="download android">
+                        <img
+                          src={require("../../assets/img/icon-android.png")}
+                          className="fa"
+                        ></img>
+                        <span class="df">Download Our</span>
+                        <span class="dfn">Android Apk</span>
+                      </div>
+                    </li>
+                  </a>
+
                   <li>
                     <div class="download apple">
                       <i class="fa-brands fa-app-store-ios fa-2x fa "></i>

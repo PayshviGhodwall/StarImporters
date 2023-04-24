@@ -20,30 +20,30 @@ function AppSubCategories() {
   const navigate = useNavigate();
   let ref = useRef();
 
-  useEffect(() => {
-    if (id === "639a042ff2f72167b43774de") {
-      Swal.fire({
-        title: "Please Make Sure!",
-        icon: "warning",
-        position: "bottom",
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
-        confirmButtonAriaLabel: "Thumbs up, Okay!",
-        cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-        cancelButtonAriaLabel: "Thumbs down",
-        html: "<ol><li>Your are above <b>21 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire("Saved!", "", "success");
-        } else if (result.isDenied) {
-          navigate("/app/home");
-        }
-      });
-    }
-  }, [pop]);
+  // useEffect(() => {
+  //   if (id === "639a042ff2f72167b43774de") {
+  //     Swal.fire({
+  //       title: "Please Make Sure!",
+  //       icon: "warning",
+  //       position: "bottom",
+  //       showCloseButton: true,
+  //       showCancelButton: true,
+  //       focusConfirm: false,
+  //       confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+  //       confirmButtonAriaLabel: "Thumbs up, Okay!",
+  //       cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+  //       cancelButtonAriaLabel: "Thumbs down",
+  //       html: "<ol><li>Your are above <b>21 year of age</b> and not buying tobacco on behalf on anyone who is minor. </li><li>You should have a valid Tobacco license.</li></ol>",
+  //     }).then((result) => {
+  //       /* Read more about isConfirmed, isDenied below */
+  //       if (result.isConfirmed) {
+  //         Swal.fire("Saved!", "", "success");
+  //       } else if (result.isDenied) {
+  //         navigate("/app/home");
+  //       }
+  //     });
+  //   }
+  // }, [pop]);
 
   useEffect(() => {
     getCategoryList();
