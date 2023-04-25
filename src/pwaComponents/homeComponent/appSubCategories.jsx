@@ -10,6 +10,9 @@ import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { charSearchKey } from "../../selecter";
+import Search from "./search";
 
 function AppSubCategories() {
   const [categories, setCategories] = useState([]);
@@ -19,7 +22,8 @@ function AppSubCategories() {
   const [pop, setPopup] = useState(true);
   const navigate = useNavigate();
   let ref = useRef();
-
+  const searchKey = useRecoilValue(charSearchKey);
+  console.log(searchKey);
   // useEffect(() => {
   //   if (id === "639a042ff2f72167b43774de") {
   //     Swal.fire({
@@ -96,36 +100,38 @@ function AppSubCategories() {
         </div>
         <WebHeader2 />
         <div className="page-content-wrapper">
-          <div className="brands_section pt-3">
-            {/* <button className="bg-white fw-bold border rounded-end">
+          <Search />
+          {searchKey?.length ? null : (
+            <div className="brands_section pt-3">
+              {/* <button className="bg-white fw-bold border rounded-end">
               {activePage}
             </button> */}
-            <div className="row mx-0 justify-content-center">
-              {categories.map((item, index) => {
-                return (
-                  <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-3 brands_box shadow">
-                    <Link
-                      className="text-center mt-4"
-                      to={`/app/product-subCategory/${item?.subCategoryName}`}
-                    >
-                      <div>
-                        <img
-                          src={
-                            item?.subCategoryImage
-                              ? item?.subCategoryImage
-                              : require("./../../assets/img/product.jpg")
-                          }
-                          alt=""
-                        />
-                      </div>
-                      <p className="text-center mt-2">
-                        {item?.subCategoryName}
-                      </p>
-                    </Link>
-                  </div>
-                );
-              })}
-              {/* {categories?.length ? (
+              <div className="row mx-0 justify-content-center">
+                {categories.map((item, index) => {
+                  return (
+                    <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-3 brands_box shadow">
+                      <Link
+                        className="text-center mt-4"
+                        to={`/app/product-subCategory/${item?.subCategoryName}`}
+                      >
+                        <div>
+                          <img
+                            src={
+                              item?.subCategoryImage
+                                ? item?.subCategoryImage
+                                : require("./../../assets/img/product.jpg")
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <p className="text-center mt-2">
+                          {item?.subCategoryName}
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
+                {/* {categories?.length ? (
                 <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
                   <div
                     class={
@@ -163,8 +169,9 @@ function AppSubCategories() {
                   </div>
                 </div>
               ) : null} */}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <AppFooter />

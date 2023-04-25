@@ -144,11 +144,13 @@ function AppProductCategory() {
         }
       });
   };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
       document.removeEventListener("click", handleOutsideClick, true);
   }, []);
+
   const handleOutsideClick = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       document.getElementById("sideClose").click();
@@ -243,82 +245,83 @@ function AppProductCategory() {
         <div class="page-content-wrapper">
           <Search />
           <div class="py-3">
-            <div class="container">
-              <div class="row g-1 align-items-center justify-content-between mb-4">
-                <div className="col-auto">
-                  <button className="bg-white fw-bold border rounded-end">
-                    {activePage}
-                  </button>
-                </div>
-                <div class="col-auto">
-                  <div class="custom_select_design">
-                    <select
-                      class=""
-                      name="selectProductCatagory"
-                      aria-label="Default select example"
-                      onChange={(e) => sortProducts(e)}
-                    >
-                      <option selected>Sort by</option>
-                      <option value="1">A to Z</option>
-                      <option value="-1">Z to A</option>
-                    </select>
+            {searchKey?.length ? null : (
+              <div class="container">
+                <div class="row g-1 align-items-center justify-content-between mb-4">
+                  <div className="col-auto">
+                    <button className="bg-white fw-bold border rounded-end">
+                      {activePage}
+                    </button>
+                  </div>
+                  <div class="col-auto">
+                    <div class="custom_select_design">
+                      <select
+                        class=""
+                        name="selectProductCatagory"
+                        aria-label="Default select example"
+                        onChange={(e) => sortProducts(e)}
+                      >
+                        <option selected>Sort by</option>
+                        <option value="1">A to Z</option>
+                        <option value="-1">Z to A</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="row g-2 product_list_main">
-                {(product || [])?.map((item, index) => {
-                  return (
-                    <div
-                      class="col-6 col-md-4 d-flex align-items-stretch"
-                      key={index}
-                    >
-                      <div class="card product-card w-100">
-                        <div class="card-body">
-                          {token?.length ? (
-                            <a class="wishlist-btn">
-                              {item?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </a>
-                          ) : null}
-                          <Link
-                            class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item?.products?._id}`}
-                            state={{ type: item?.products?.type[0] }}
-                          >
-                            <img
-                              class="mb-2"
-                              src={
-                                item?.products?.type[0]?.flavourImage
-                                  ? item?.products?.type[0]?.flavourImage
-                                  : require("../../assets/img/product.jpg")
-                              }
-                              alt=""
-                            />
-                          </Link>
-                          <div class="row mt-1 d-flex align-items-center justify-content-between">
-                            <div class="col">
-                              <a class="product-title" href="javascript:;">
-                                {item?.products?.unitName +
-                                  "-" +
-                                  item?.products?.type[0]?.flavour}
+                <div class="row g-2 product_list_main">
+                  {(product || [])?.map((item, index) => {
+                    return (
+                      <div
+                        class="col-6 col-md-4 d-flex align-items-stretch"
+                        key={index}
+                      >
+                        <div class="card product-card w-100">
+                          <div class="card-body">
+                            {token?.length ? (
+                              <a class="wishlist-btn">
+                                {item?.favourite ? (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      rmvFromFav(index);
+                                    }}
+                                    style={{ color: "#3e4093 " }}
+                                  />
+                                ) : (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      addToFav(index);
+                                    }}
+                                    style={{ color: "#E1E1E1 " }}
+                                  />
+                                )}
                               </a>
-                            </div>
-                            {/* <div class="col-auto">
+                            ) : null}
+                            <Link
+                              class="product-thumbnail d-block"
+                              to={`/app/product-detail/${item?.products?._id}`}
+                              state={{ type: item?.products?.type[0] }}
+                            >
+                              <img
+                                class="mb-2"
+                                src={
+                                  item?.products?.type[0]?.flavourImage
+                                    ? item?.products?.type[0]?.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                                alt=""
+                              />
+                            </Link>
+                            <div class="row mt-1 d-flex align-items-center justify-content-between">
+                              <div class="col">
+                                <a class="product-title" href="javascript:;">
+                                  {item?.products?.unitName +
+                                    "-" +
+                                    item?.products?.type[0]?.flavour}
+                                </a>
+                              </div>
+                              {/* <div class="col-auto">
                               <Link
                                 class="cart_bttn"
                                 to=""
@@ -327,52 +330,53 @@ function AppProductCategory() {
                                 <i class="fa-light fa-plus"></i>
                               </Link>
                             </div> */}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-              {product?.length ? (
-                <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
-                  <div
-                    class={
-                      activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
-                    }
-                  >
-                    <Link
-                      state={{ naek: "ki" }}
-                      onClick={() =>
-                        activePage <= 1
-                          ? setActivePage(1)
-                          : setActivePage(activePage - 1)
-                      }
-                    >
-                      <i class="fa-solid fa-arrow-left-long"></i> Previous
-                    </Link>
-                  </div>
-                  <div
-                    class={
-                      activePage === maxPage
-                        ? "d-none"
-                        : "back-button me-2 me-2 "
-                    }
-                  >
-                    <Link
-                      state={{ naek: "ki" }}
-                      onClick={() =>
-                        activePage === maxPage
-                          ? setActivePage(maxPage)
-                          : setActivePage(activePage + 1)
-                      }
-                    >
-                      Next <i class="fa-solid fa-arrow-right-long"></i>
-                    </Link>
-                  </div>
+                    );
+                  })}
                 </div>
-              ) : null}
-            </div>
+                {product?.length ? (
+                  <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                    <div
+                      class={
+                        activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
+                      }
+                    >
+                      <Link
+                        state={{ naek: "ki" }}
+                        onClick={() =>
+                          activePage <= 1
+                            ? setActivePage(1)
+                            : setActivePage(activePage - 1)
+                        }
+                      >
+                        <i class="fa-solid fa-arrow-left-long"></i> Previous
+                      </Link>
+                    </div>
+                    <div
+                      class={
+                        activePage === maxPage
+                          ? "d-none"
+                          : "back-button me-2 me-2 "
+                      }
+                    >
+                      <Link
+                        state={{ naek: "ki" }}
+                        onClick={() =>
+                          activePage === maxPage
+                            ? setActivePage(maxPage)
+                            : setActivePage(activePage + 1)
+                        }
+                      >
+                        Next <i class="fa-solid fa-arrow-right-long"></i>
+                      </Link>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         </div>
 

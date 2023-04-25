@@ -87,13 +87,12 @@
     <script>
       window.addEventListener("load", function () {
         var shwload = document.getElementById("preloader");
-
         shwload.style.display = "none";
       });
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("worker.js")
+            .register("/worker.js")
             .then(
               function (registration) {
                 console.log(

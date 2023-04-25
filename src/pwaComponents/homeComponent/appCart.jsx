@@ -5,6 +5,7 @@ import { Button } from "rsuite";
 import Swal from "sweetalert2";
 import Animate from "../../Animate";
 import {
+  addToCart,
   deleteCart,
   searchByBarcode,
   updateCart,
@@ -73,9 +74,48 @@ function AppCart() {
           barcode: Dd,
         });
         if (!data.error) {
-          if (data.results.length)
-            navigate(`/app/product-detail/${data.results[0]._id}`);
-          window.location.reload();
+          if (data.results.length) {
+            const productDetail = data?.results;
+            if (
+              productDetail?.category?.isTobacco ||
+              productDetail?.subCategory?.isTobacco
+            ) {
+              if (!userDetail?.istobaccoLicenceExpired) {
+                const formData = {
+                  productId: productDetail?._id,
+                  quantity: 1,
+                  flavour: productDetail?.type,
+                };
+                console.log(formData);
+                const { data } = await addToCart(formData);
+                if (!data.error) {
+                  window.location.reload(false);
+                  getCartss();
+                }
+              } else {
+                Swal.fire({
+                  title: "Your Tobacco licence is Expired/Invalid!",
+                  text: "*Licence is Required for this product.",
+                  icon: "warning",
+                  confirmButtonText: "Okay",
+                });
+              }
+            } else {
+              const formData = {
+                productId: productDetail?._id,
+                quantity: 1,
+                flavour: productDetail?.type,
+              };
+              console.log(formData);
+              const { data } = await addToCart(formData);
+              if (!data.error) {
+                window.location.reload(false);
+                getCartss();
+              }
+            }
+          }
+          // navigate(`/app/product-detail/${data.results[0]._id}`);
+          // window.location.reload();
         }
       }
     }

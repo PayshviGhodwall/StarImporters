@@ -65,7 +65,7 @@ const Search = ({ getSearchK }) => {
 
   return (
     <div>
-      <div className="container ">
+      <div className="container mt-0">
         <div
           className={
             browserName === "WebKit" || browserName === "Chrome WebView"
@@ -113,12 +113,12 @@ const Search = ({ getSearchK }) => {
       {search?.length ? (
         <div className="top-products-area py-1">
           <div className="container">
-            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
               <h6> Showing results for "{search}"</h6>
             </div>
 
             {product?.length ? (
-              <div className="row g-2">
+              <div className="row g-2 ">
                 {(product || [])?.map((item, index) => {
                   return (
                     <div className="col-6 col-md-4" key={index}>

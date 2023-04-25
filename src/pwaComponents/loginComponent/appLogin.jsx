@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { userLogin } from "../httpServices/loginHttpService/loginHttpService";
-import { toast } from "react-toastify";
-import validator from "validator";
-
 function AppLogin() {
   const {
     register,

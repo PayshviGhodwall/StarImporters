@@ -8,7 +8,7 @@ import {
 } from "../httpServices/loginHttpService/loginHttpService";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { browserName, CustomView, isIE } from "react-device-detect";
+import { browserName } from "react-device-detect";
 
 function AppPreLogin() {
   const {

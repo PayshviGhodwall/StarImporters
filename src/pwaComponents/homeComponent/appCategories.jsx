@@ -71,10 +71,7 @@ function AppCategories() {
         <div className="page-content-wrapper container">
           <Search />
           {searchKey.length ? null : (
-            <div className="brands_section mt-0 p-0">
-              {/* <button className="bg-white fw-bold border rounded-end">
-              {activePage}
-            </button> */}
+            <div className="brands_section mt-2 p-0">
               <div className="row mx-0 justify-content-center">
                 {categories.map((item, index) => {
                   return (

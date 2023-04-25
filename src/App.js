@@ -139,9 +139,9 @@ function App() {
     <div className="App">
       <ToastContainer />
       <RecoilRoot>
-      <Router>
-        <ScrollToTop />
-        <Routes>
+        <Router>
+          <ScrollToTop />
+          <Routes>
             <Route
               path="/MyAccount"
               element={<MyAccount newData={GetData} apiData={apiData} />}
@@ -432,21 +432,16 @@ function App() {
               path="/app/logout"
               element={width < 999 ? <AppLogout /> : <Homepage />}
             />
-          {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
-          {/* <Route path="/app/register" element={<SignUp />} /> */}
-          {/* <Route path="/login" element={<Login newData={GetData} />} /> */}
+            {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
+            {/* <Route path="/app/register" element={<SignUp />} /> */}
+            {/* <Route path="/login" element={<Login newData={GetData} />} /> */}
 
-          {/*  */}
+            {/*  */}
 
-          {/*  */}
-        </Routes>
-      </Router>
+            {/*  */}
+          </Routes>
+        </Router>
       </RecoilRoot>
-
-    
-      {/* <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-        ...
-      </Worker> */}
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { charSearchKey } from "../../selecter";
 import { getBrands } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import Search from "./search";
 import WebHeader2 from "./webHeader2";
 
 function AppBrands() {
@@ -11,7 +14,8 @@ function AppBrands() {
   useEffect(() => {
     getBrandList();
   }, []);
-
+  const searchKey = useRecoilValue(charSearchKey);
+  console.log(searchKey);
   const getBrandList = async () => {
     const { data } = await getBrands();
     if (!data.error) {
@@ -58,23 +62,26 @@ function AppBrands() {
         </div>
         <WebHeader2 />
         <div className="page-content-wrapper">
-          <div className="brands_section pt-3">
-            <div className="row mx-0">
-              {brand.map((item, index) => {
-                return (
-                  <div className="col-6 mb-3 pe-2">
-                    <Link
-                      className="brands_box shadow"
-                      to="/app/productBrands"
-                      state={{ name: item?.brandName }}
-                    >
-                      <img src={item?.brandImage} className="p-2" alt="" />
-                    </Link>
-                  </div>
-                );
-              })}
+          <Search />
+          {searchKey?.length ? null : (
+            <div className="brands_section pt-3">
+              <div className="row mx-0">
+                {brand.map((item, index) => {
+                  return (
+                    <div className="col-6 mb-3 pe-2">
+                      <Link
+                        className="brands_box shadow"
+                        to="/app/productBrands"
+                        state={{ name: item?.brandName }}
+                      >
+                        <img src={item?.brandImage} className="p-2" alt="" />
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <AppFooter />
