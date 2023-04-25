@@ -15159,6 +15159,7 @@ figure.effect-ming:hover img {
 .dwn-btns {
   border-radius: 20px;
   border: #000;
+  width: 50%;
   background: rgb(255, 255, 255);
   background: -moz-linear-gradient(
     165deg,
@@ -15322,4 +15323,9 @@ figure.effect-ming:hover img {
 .buyAgain {
   max-height: 43rem;
   overflow-y: scroll;
+}
+.form-check-label-app{
+  position: relative;
+  left: 25px !important;
+  top: 0px !important;
 }

@@ -1,10 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { saveAs } from "file-saver";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { Button } from "rsuite";
-// Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
@@ -12,35 +11,26 @@ import axios from "axios";
 import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import Swal from "sweetalert2";
+
 const PendingView = () => {
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const approveUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin//adminAuthorisedUser`;
   const rejectUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/rejectUser`;
-
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
-  const [docs, setDocs] = useState([]);
+
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+
   axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    formState: { errors: errors2 },
-    reset,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
+  const { register: register2, handleSubmit: handleSubmit2 } = useForm();
 
   const onSubmit = async (data) => {
     await axios
@@ -81,31 +71,17 @@ const PendingView = () => {
       })
       .then((res) => {
         if (res?.data.message === "User approved Successfully") {
-          document.getElementById("modal-close21").click();
+          // document.getElementById("modal-close21").click();
           navigate("/UserManage");
+          window.location.reload();
         }
       });
-  };
-  const headers = {
-    "x-auth-token-admin": localStorage.getItem("AdminLogToken"),
-    // "Access-Control-Allow-Origin": "*",
   };
 
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
       setUser(res.data.results);
-      let data = res?.data.results;
-      setDocs([
-        {
-          uri: data?.federalTaxId,
-        },
-        { uri: data?.salexTaxId },
-        { uri: data?.tobaccoLicence },
-        { uri: data?.businessLicense },
-        { uri: data?.accountOwnerId },
-      ]);
-      console.log(data?.accountOwnerId);
       return res.data;
     };
     getUser();

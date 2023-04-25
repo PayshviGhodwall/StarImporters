@@ -27,7 +27,7 @@ function AppSignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    data.addressLine = [data.addressLine, data.addressLine1];
+    data.addressLine = [data?.addressLine, data?.addressLine1];
     delete data.addressLine1;
 
     const formData = new FormData();
@@ -202,7 +202,7 @@ function AppSignUp() {
                         {...register("addressLine1", {
                           required: "Required",
                           pattern: {
-                            value: /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$/,
+                            value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed!",
                           },
                           maxLength: {
@@ -420,7 +420,7 @@ function AppSignUp() {
                         name="phoneNumber"
                         {...register("phoneNumber", {
                           required: true,
-                          // maxLength: 10,
+                          maxLength: 12,
                           minLength: 10,
                         })}
                       />
@@ -492,14 +492,6 @@ function AppSignUp() {
                         onChange={(e) => onFileSelection(e.target.files, 4)}
                       />
                     </div>
-                    {/* <hr
-                      style={{
-                        margin: "10px auto 30px",
-                        width: "100%",
-                        border: "1px dashed #fff",
-                        opacity: "1",
-                      }}
-                    /> */}
 
                     <div className="form-group choose_file position-relative text-start mb-4">
                       <span>Account Owner ID </span>
@@ -524,32 +516,73 @@ function AppSignUp() {
                         className="form-control"
                         type="number"
                         id="businessNumber"
-                        name="businessNumber"
-                        {...register("businessNumber", {
+                        name="businessPhoneNumber"
+                        {...register("businessPhoneNumber", {
                           required: false,
                           maxLength: 10,
                           minLength: 10,
                         })}
                       />
-                      {errors.businessNumber &&
-                        errors.businessNumber.type === "required" && (
+                      {errors.businessPhoneNumber &&
+                        errors.businessPhoneNumber.type === "required" && (
                           <p className="form-error mt-2">
                             This field is required
                           </p>
                         )}
 
-                      {errors.businessNumber &&
-                        errors.businessNumber.type === "maxLength" && (
+                      {errors.businessPhoneNumber &&
+                        errors.businessPhoneNumber.type === "maxLength" && (
                           <p className="form-error mt-2">
                             Please enter 10 digit number
                           </p>
                         )}
-                      {errors.businessNumber &&
-                        errors.businessNumber.type === "minLength" && (
+                      {errors.businessPhoneNumber &&
+                        errors.businessPhoneNumber.type === "minLength" && (
                           <p className="form-error mt-2">
                             Please enter 10 digit number
                           </p>
                         )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>Comments(optional)</span>
+                      <label for="comments">
+                        <i className="fa-solid fa-at"></i>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="comments"
+                        placeholder="Type anything ....."
+                        {...register("comments", {
+                          maxLength: {
+                            value: 200,
+                            message: "maximium 200 Charcarters",
+                          },
+                          minLength: 10,
+                        })}
+                      />
+
+                      {errors?.comments && (
+                        <p className="form-error mt-1">
+                          {errors.comments.message}
+                        </p>
+                      )}
+                    </div>
+                    <div class="form-group text-start mb-4 d-flex col-12">
+                      <label
+                        className="form-check-label-app "
+                        for="flexCheckAddress"
+                      >
+                        Wholesale Confirmation ?
+                      </label>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={true}
+                        id="flexCheckAddress"
+                        name="wholesaleConfirmation"
+                        {...register("wholesaleConfirmation")}
+                      />
                     </div>
 
                     <div className="form-group text-start mb-4">
@@ -561,8 +594,8 @@ function AppSignUp() {
                         className="form-select mt-2"
                         aria-label="Default select example"
                         id="hear"
-                        name="hear"
-                        {...register("hear", {
+                        name="wholesaleConfirmation"
+                        {...register("wholesaleConfirmation", {
                           required: true,
                         })}
                       >
@@ -576,7 +609,7 @@ function AppSignUp() {
                         <option value="Instagram">Instagram</option>
                       </select>
 
-                      {errors?.hear && (
+                      {errors?.wholesaleConfirmation && (
                         <p className="form-error mt-1">
                           This field is required
                         </p>

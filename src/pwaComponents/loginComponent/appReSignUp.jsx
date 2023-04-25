@@ -55,8 +55,9 @@ function AppReSignUp() {
       defaultValues.firstName = data.results.firstName;
       defaultValues.lastName = data.results.lastName;
       defaultValues.phoneNumber = data.results.phoneNumber;
-      defaultValues.businessNumber = data.results.businessNumber;
-      defaultValues.hear = data.results.hear;
+      defaultValues.businessNumber = data.results.businessPhoneNumber;
+      defaultValues.hear = data.results.heardAboutUs;
+      defaultValues.comments = data.results.comments;
 
       reset({ ...defaultValues });
       setSelectedFile1(data.results.federalTaxId);
@@ -595,6 +596,31 @@ function AppReSignUp() {
                             Please enter 10 digit number
                           </p>
                         )}
+                    </div>
+                    <div className="form-group text-start mb-4">
+                      <span>Comments(optional)</span>
+                      <label for="comments">
+                        <i className="fa-solid fa-at"></i>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="comments"
+                        placeholder="Type anything ....."
+                        {...register("comments", {
+                          maxLength: {
+                            value: 200,
+                            message: "maximium 200 Charcarters",
+                          },
+                          minLength: 10,
+                        })}
+                      />
+
+                      {errors?.comments && (
+                        <p className="form-error mt-1">
+                          {errors.comments.message}
+                        </p>
+                      )}
                     </div>
 
                     <div className="form-group text-start mb-4">

@@ -785,7 +785,7 @@ const SignUp = () => {
                       className="form-check-label fs-6 text-secondary fw-bold "
                       for="flexCheckDefault"
                     >
-                      Subscribe to our email newslette
+                      Subscribe to our email newsletter
                     </label>
                   </div>
                   <div className="col-12 text-center mt-4">

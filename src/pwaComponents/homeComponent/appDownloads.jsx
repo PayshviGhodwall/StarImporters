@@ -29,11 +29,10 @@ const AppDownloads = () => {
                 Download The Latest Version Of Our App
               </h1>
               <p class="mb-3 text-dwn">
-                We are Available on IOS App Store. As well as you can also
-                download our Android apk.
+              Now Available on Android!
               </p>
               <div class="row g-4 p-3">
-                <div
+                {/* <div
                   class="col-sm-6 dwn-btns "
                   //   style="visibility: visible; animation-delay: 0.5s;"
                 >
@@ -47,7 +46,7 @@ const AppDownloads = () => {
                       <h5 class="text-white mb-0">App Store</h5>
                     </div>
                   </a>
-                </div>
+                </div>` */}
                 <div class="col-sm-6 dwn-btns" data-wow-delay="0.7s">
                   <a
                     href="https://i.diawi.com/pPzbeg"

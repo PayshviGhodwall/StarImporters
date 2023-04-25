@@ -773,13 +773,11 @@ const EditUser = () => {
                           defaultValue={user?.state}
                           {...register("state")}
                         >
-                          <option value="">Select a state/province...</option>
+                          <option value="">{user?.state}</option>
                           <option value="Alabama">Alabama</option>
                           <option value="Alabama">Alabama</option>
                           <option value="Alaska">Alaska</option>
-                          <option selected="" value="American Samoa">
-                            American Samoa
-                          </option>
+                          <option value="American Samoa">American Samoa</option>
                           <option value="Arizona">Arizona</option>
                           <option value="Arkansas">Arkansas</option>
                           <option value="California">California</option>

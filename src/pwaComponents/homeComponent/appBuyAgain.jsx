@@ -166,7 +166,7 @@ function AppBuyAgain() {
                             </Link>
                           </div>
 
-                          <div className="">
+                          <div className="p-3">
                             <Link
                               className="product-title d-block  mb-3"
                               to={`/app/product-detail/${val?.productId?._id}`}
@@ -179,7 +179,7 @@ function AppBuyAgain() {
                             <small>Quantity : {val?.quantity}</small>
                           </div>
                           <div>
-                            <label class="checkbox-label">
+                            <label class="checkbox-label mb-3">
                               <input
                                 type="checkbox"
                                 key={val?.flavour?._id}
@@ -194,7 +194,7 @@ function AppBuyAgain() {
                                     ind
                                   )
                                 }
-                                class="checkbox-input"
+                                class="checkbox-input mb-2 mx-3"
                                 checked={isCheck?.includes(val?.flavour?._id)}
                               />
                               <span class="checkmark"></span>

@@ -105,7 +105,7 @@ function AppDocs() {
                           fileDownload(detail?.federalTaxId);
                         }}
                       >
-                        <i className="fa fa-eye"></i>
+                        <i className="fa fa-file"></i>
                         <span>Federal Tax ID</span>
                       </div>
                       <div className="data-content">
@@ -148,7 +148,7 @@ function AppDocs() {
                           fileDownload(detail?.tobaccoLicence);
                         }}
                       >
-                        <i className="fa fa-eye"></i>
+                        <i className="fa fa-file"></i>
                         <span>Tobacco License ID</span>
                       </div>
                       <div className="data-content">
@@ -191,7 +191,7 @@ function AppDocs() {
                           fileDownload(detail?.salesTaxId);
                         }}
                       >
-                        <i className="fa fa-eye"></i>
+                        <i className="fa fa-file"></i>
                         <span>Sales Tax ID</span>
                       </div>
                       <div className="data-content">
@@ -236,7 +236,7 @@ function AppDocs() {
                           fileDownload(detail?.businessLicense);
                         }}
                       >
-                        <i className="fa fa-eye"></i>
+                        <i className="fa fa-file"></i>
                         <span>Business License ID</span>
                       </div>
                       <div className="data-content">
@@ -279,7 +279,7 @@ function AppDocs() {
                           fileDownload(detail?.accountOwnerId);
                         }}
                       >
-                        <i className="fa fa-eye"></i>
+                        <i className="fa fa-file"></i>
                         <span>Account Owner ID</span>
                       </div>
                       <div className="data-content">

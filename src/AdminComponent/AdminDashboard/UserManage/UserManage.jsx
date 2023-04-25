@@ -1299,7 +1299,7 @@ const UserManage = () => {
                                             <td className="border">
                                               {moment(
                                                 User?.createdAt?.slice(0, 10)
-                                              ).format("MM/DD/YYYY")}
+                                              ).format("L")}
                                             </td>
                                             <td className="border">
                                               {User?.companyName}
