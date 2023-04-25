@@ -1,0 +1,170 @@
+import React, { useEffect, useState } from "react";
+import { browserName } from "react-device-detect";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { searchKey } from "../../atom";
+import {
+  homeSearch,
+  searchByBarcode,
+} from "../httpServices/homeHttpService/homeHttpService";
+
+const Search = ({ getSearchK }) => {
+  const [search, setSearch] = useState("");
+  const [product, setProduct] = useState([]);
+  const navigate = useNavigate();
+  const [text, setText] = useRecoilState(searchKey);
+
+  useEffect(() => {
+    getProductList();
+    setText(search);
+  }, [search]);
+
+  const getProductList = async () => {
+    const { data } = await homeSearch({ search: search?.replace(".", "") });
+    if (!data.error) {
+      setProduct(data.results);
+    }
+  };
+
+  const searchProduct = async (e) => {
+    e.preventDefault();
+    navigate("/app/product-by-search", { state: { search: search } });
+  };
+
+  const cameraScan = async () => {
+    if (window.flutter_inappwebview) {
+      let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
+      if (Dd) {
+        const { data } = await searchByBarcode({
+          barcode: Dd,
+        });
+        if (!data.error) {
+          if (data?.results?.length)
+            navigate(`/app/product-detail/${data.results[0]?._id}`, {
+              state: {
+                flavour: data.results[0]?.type,
+              },
+            });
+          console.log(data);
+          // navigate(`/app/product-by-search/${data.results[0]._id}`)
+          // window.location.reload();
+        }
+      }
+    }
+  };
+
+  const microphoneSearch = async () => {
+    if (window.flutter_inappwebview) {
+      let Dd = await window.flutter_inappwebview.callHandler("micSearch");
+      console.log(Dd, "hyiioioio");
+      if (Dd?.length) {
+        navigate("/app/product-by-search", { state: { search: Dd } });
+      }
+    }
+  };
+
+  return (
+    <div>
+      <div className="container ">
+        <div
+          className={
+            browserName === "WebKit" || browserName === "Chrome WebView"
+              ? "search-form pt-3 "
+              : "search-new pt-3 "
+          }
+        >
+          <form className="" style={{ width: "100%" }}>
+            <input
+              className="form-control"
+              type="search"
+              value={search}
+              placeholder="Search in Star Importers"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+
+            <button onClick={searchProduct} className="me-5">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button type="reset" id="resetBtn" className="d-none">
+              reset
+            </button>
+          </form>
+
+          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            <div className="alternative-search-options">
+              <Link
+                className="comman_btn text-white ms-1"
+                to=""
+                onClick={microphoneSearch}
+              >
+                <i className="fa-solid fa-microphone"></i>
+              </Link>
+              <a className="comman_btn2 ms-1" onClick={() => cameraScan()}>
+                <i className="fa fa-qrcode"></i>
+              </a>
+            </div>
+          ) : (
+            <div className="d-none"></div>
+          )}
+        </div>
+      </div>
+      {search?.length ? (
+        <div className="top-products-area py-1">
+          <div className="container">
+            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
+              <h6> Showing results for "{search}"</h6>
+            </div>
+
+            {product?.length ? (
+              <div className="row g-2">
+                {(product || [])?.map((item, index) => {
+                  return (
+                    <div className="col-6 col-md-4" key={index}>
+                      <div className="card product-card">
+                        <div className="card-body">
+                          <Link
+                            className="product-thumbnail d-block"
+                            to={`/app/product-detail/${item._id}`}
+                            state={{ type: item?.type }}
+                          >
+                            <img
+                              className="mb-2"
+                              src={
+                                item?.type.flavourImage
+                                  ? item?.type.flavourImage
+                                  : item?.productImage ||
+                                    require("../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
+                          </Link>
+
+                          <Link
+                            className="product-title"
+                            to={`/app/product-detail/${item._id}`}
+                            state={{ type: item?.type }}
+                          >
+                            {item.unitName + "-" + item?.type.flavour}
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div>
+                <img className="no-data" src="../assets/img/no-data.gif" />
+                <h1 className="text-center"> No Results</h1>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+export default Search;

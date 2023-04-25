@@ -10,6 +10,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Search from "./search";
+import { charSearchKey } from "../../selecter";
+import { useRecoilValue } from "recoil";
 
 function AppProductCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -22,7 +25,6 @@ function AppProductCategory() {
   const [category, setCategory] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-
   let ref = useRef();
   let { id } = useParams();
   const navigate = useNavigate();
@@ -52,6 +54,8 @@ function AppProductCategory() {
   //     });
   //   }
   // }, [pop]);
+  const searchKey = useRecoilValue(charSearchKey);
+  console.log(searchKey);
 
   useEffect(() => {
     getCategoryList();
@@ -64,6 +68,7 @@ function AppProductCategory() {
       setBrands(res?.data.results);
     });
   };
+
   const getCategoryList = async () => {
     const { data } = await getSubCategories();
     if (!data.error) {
@@ -83,18 +88,6 @@ function AppProductCategory() {
       document.getElementById("checkbox").checked = false;
     }
   };
-
-  // const addToCartt = async (id, index) => {
-  //   const formData = {
-  //     productId: id,
-  //     quantity: 1,
-  //     flavour: product[index]?.products.type[0],
-  //   };
-  //   const { data } = await addToCart(formData);
-  //   if (!data.error) {
-  //     navigate("/app/cart");
-  //   }
-  // };
 
   const filterProduct = async (idd) => {
     console.log(idd);
@@ -248,6 +241,7 @@ function AppProductCategory() {
         </div>
 
         <div class="page-content-wrapper">
+          <Search />
           <div class="py-3">
             <div class="container">
               <div class="row g-1 align-items-center justify-content-between mb-4">

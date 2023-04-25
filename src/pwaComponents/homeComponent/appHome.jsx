@@ -16,7 +16,7 @@ import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import axios from "axios";
-import { browserName, CustomView, isIE } from "react-device-detect";
+import { browserName } from "react-device-detect";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -109,8 +109,10 @@ function AppHome() {
   };
 
   const cameraScan = async () => {
+    console.log("Clicked");
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
+      console.log(Dd, "barcode");
       if (Dd) {
         const { data } = await searchByBarcode({
           barcode: Dd,

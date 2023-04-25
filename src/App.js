@@ -5,6 +5,13 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Homepage from "./buyerComponent/Homepage/Homepage";
@@ -131,282 +138,312 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
+      <RecoilRoot>
       <Router>
         <ScrollToTop />
         <Routes>
+            <Route
+              path="/MyAccount"
+              element={<MyAccount newData={GetData} apiData={apiData} />}
+            />
+            <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
+            <Route path="/RequestOrder" element={<RequestOrders />} />
+            <Route path="/OrderDetails" element={<OrderDetails />} />
+            <Route path="/RequestDetails" element={<RequestDetails />} />
+            <Route path="/MainMenu" element={<MainMenu />} />
+            <Route path="/Address" element={<Address />} />
+            <Route path="/Account" element={<Account />} />
+            <Route path="/Favourites" element={<Favourites />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/BuyAgain" element={<BuyAgain />} />
+            <Route
+              path="/app/ProductSearch/:id"
+              element={<ProductBySearch />}
+            />
+            <Route path="/AgeVerified" element={<AgeVerification />} />
+            <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
+            <Route path="/Terms&Condition" element={<TermsCondition />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route
+              path="/CategoryProducts"
+              element={<ProductByCate CateName={cateName} />}
+            />
+            <Route
+              path="/SubCategory/Products"
+              element={<ProductBySubCate />}
+            />
+            <Route path="/app/verify" element={<AgeVerification />} />
+            <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
+            <Route path="/user/viewDocs" element={<ViewDocs />} />
+            <Route path="/Brands/Products" element={<ProductByBrand />} />
+            <Route
+              path="/AllProducts/Product/:id"
+              element={<SingleProduct />}
+            />
+            {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
+            <Route path="/Cart" element={<Cart />} />
+            <Route path="/MyQuotes" element={<MyQuotes />} />
+            {/* admin Routes */}
+            <Route path="/AdminLogin" element={<AdminLogin />} />
+            <Route
+              path="/AdminForgotPassword"
+              element={<AdminForgotPassword />}
+            />
+            <Route path="/AdminVerifyOtp" element={<AdminSendOtp />} />
+            <Route
+              path="/AdminResetPassword"
+              element={<AdminResetPassword />}
+            />
+            <Route path="/AdminDashboard" element={<Dashboard />} />
+            <Route
+              path="/AdminDashboard/EditProfile"
+              element={<EditProfile />}
+            />
+            <Route
+              path="/AdminDashboard/ChangePassword"
+              element={<ChangePassword />}
+            />
+            <Route path="/UserManage" element={<UserManage />} />
+            <Route path="/UserManage/PendingView" element={<PendingView />} />
+            <Route path="/UserManage/ReturnedView" element={<ReturnedView />} />
+            <Route path="/UserManage/ApprovedView" element={<ApprovedView />} />
+            <Route
+              path="/UserManage/ApprovedView-editUser"
+              element={<EditUser />}
+            />
+            <Route path="/UserManage/AddUser" element={<AddUser />} />
+            <Route path="/CategorySub" element={<CategorySub />} />
+            <Route path="/Inventory" element={<Inventory />} />
+            <Route path="/Inventory/View" element={<ViewProduct />} />
+            <Route path="/Inventory/View-Edit" element={<EditInventory />} />
+            <Route path="/BrandsManage" element={<BrandsManage />} />
+            <Route path="/Gallery-Management" element={<GalleryMain />} />
+            <Route path="/Cms" element={<Cms />} />
+            <Route path="/OrderRequest" element={<OrderReq />} />
+            <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
+            <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
+            <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
+            <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
+            <Route
+              path="/OrderRequest/ViewOrder/Edit"
+              element={<EditOrder />}
+            />
+            <Route
+              path="/OrderRequest/ViewQuotationRequest"
+              element={<ViewQuoteReq />}
+            />
+            <Route path="/OrderRequest" element={<OrderReq />} />
+            <Route path="/app/Gallery" element={<Gallery />} />
+            <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
+            <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
+            <Route path="/Cart/Checkout" element={<Checkout />} />
+            <Route path="/app/subCategories" element={<SubCategories />} />
+            <Route
+              path="/app/product-details/:id"
+              element={<SingleProdBySearch />}
+            />
+
+            {/* App Routes */}
+            <Route
+              path="/"
+              element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/downloads"
+              element={width < 999 ? <AppDownloads /> : <Homepage />}
+            />
+
+            <Route
+              path="/app/pre-login"
+              element={width < 999 ? <AppPreLogin /> : <Homepage />}
+            />
+            <Route
+              path="/app/login"
+              element={width < 999 ? <AppPreLogin /> : <UserLogin />}
+            />
+            <Route
+              path="/app/login-password"
+              element={width < 999 ? <AppPreLogin /> : <UserLoginPass />}
+            />
+            <Route
+              path="/app/pre-login-password"
+              element={width < 999 ? <AppPreLoginPassword /> : <Homepage />}
+            />
+            <Route
+              path="/app/register"
+              element={width < 999 ? <AppSignUp /> : <SignUp />}
+            />
+            <Route
+              path="/app/re-register"
+              element={width < 999 ? <AppReSignUp /> : <SignUp />}
+            />
+            <Route
+              path="/app/forgot-password"
+              element={width < 999 ? <AppForgotPassword /> : <UserForgotPass />}
+            />
+            <Route
+              path="/app/update-password"
+              element={
+                width < 999 ? <AppForgotPassword /> : <UserUpdatePassword />
+              }
+            />
+            <Route
+              path="/app/otp"
+              element={width < 999 ? <AppOtp /> : <UserOtpValidate />}
+            />
+            <Route
+              path="/app/otp-verification"
+              element={width < 999 ? <AppOtpVerification /> : <Homepage />}
+            />
+            <Route
+              path="/app/success"
+              element={
+                width < 999 ? <AppForgotPasswordSuccess /> : <Homepage />
+              }
+            />
+            <Route
+              path="/app/home"
+              element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/homeGuest"
+              element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/buy-again"
+              element={width < 999 ? <AppBuyAgain /> : <Homepage />}
+            />
+            <Route
+              path="/app/profile/docs"
+              element={width < 999 ? <AppDocs /> : <Homepage />}
+            />
+            <Route
+              path="/app/cart"
+              element={width < 999 ? <AppCart /> : <Cart />}
+            />
+            <Route
+              path="/app/quotes"
+              element={width < 999 ? <AppQuotes /> : <MyQuotes />}
+            />
+            <Route
+              path="/app/settings"
+              element={width < 999 ? <AppSettings /> : <MyAccount />}
+            />
+            <Route
+              path="/app/privacy-policy"
+              element={width < 999 ? <AppPrivacy /> : <PrivacyPolicies />}
+            />
+            <Route
+              path="/app/term-condition"
+              element={width < 999 ? <AppTerms /> : <TermsCondition />}
+            />
+            <Route
+              path="/app/about-us"
+              element={width < 999 ? <AppAboutUs /> : <AboutUs />}
+            />
+            <Route
+              path="/app/change-password"
+              element={width < 999 ? <AppChangePassword /> : <Account />}
+            />
+            <Route
+              path="/app/profile"
+              element={width < 999 ? <AppProfile /> : <Account />}
+            />
+            <Route
+              path="/app/edit-profile"
+              element={width < 999 ? <AppEditProfile /> : <Account />}
+            />
+            <Route
+              path="/app/my-order"
+              element={width < 999 ? <AppMyOrder /> : <MyAccount />}
+            />
+            <Route
+              path="/app/my-request"
+              element={width < 999 ? <AppRequests /> : <RequestOrders />}
+            />
+            <Route path="/app/notifications" element={<AppNotifications />} />
+            <Route
+              path="/app/brands"
+              element={width < 999 ? <AppBrands /> : <AllBrands />}
+            />
+            <Route
+              path="/app/Categories"
+              element={width < 999 ? <AppCategories /> : <AllCategories />}
+            />
+            <Route
+              path="/app/Sub-Categories/:id"
+              element={width < 999 ? <AppSubCategories /> : <AllCategories />}
+            />
+            <Route
+              path="/app/wishlist"
+              element={width < 999 ? <AppWishlist /> : <Favourites />}
+            />
+            <Route
+              path="/app/product-detail/:id"
+              element={width < 999 ? <AppProductDetail /> : <Homepage />}
+            />
+            <Route
+              path="/app/product-by-search"
+              element={width < 999 ? <AppProductBySearch /> : <Homepage />}
+            />
+            <Route
+              path="/app/request-detail"
+              element={width < 999 ? <AppRequestDetail /> : <RequestDetails />}
+            />
+            <Route
+              path="/app/notification-detail"
+              element={<AppNotificationDetail />}
+            />
+            <Route
+              path="/app/order-detail"
+              element={width < 999 ? <AppOrderDetail /> : <OrderDetails />}
+            />
+            <Route
+              path="/app/product-category/:id"
+              element={<AppProductCategory />}
+            />
+            <Route
+              path="/app/product-subCategory/:id"
+              element={<AppProductSubCategory />}
+            />
+            <Route
+              path="/app/productBrands"
+              element={width < 999 ? <AppProductBrands /> : <AllBrands />}
+            />
+            <Route path="/app/product-list" element={<AppProductList />} />
+            <Route
+              path="/app/featured-products"
+              element={<FeaturedProducts />}
+            />
+            <Route
+              path="/app/checkout"
+              element={width < 999 ? <AppCheckout /> : <Checkout />}
+            />
+            <Route path="/app/thankyou" element={<AppThankyou />} />
+            <Route
+              path="/app/contact-us"
+              element={width < 999 ? <AppContactUs /> : <Contact />}
+            />
+            <Route
+              path="/app/terms"
+              element={width < 999 ? <AppTerms /> : <TermsCondition />}
+            />
+            <Route
+              path="/app/logout"
+              element={width < 999 ? <AppLogout /> : <Homepage />}
+            />
           {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
           {/* <Route path="/app/register" element={<SignUp />} /> */}
-          <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
           {/* <Route path="/login" element={<Login newData={GetData} />} /> */}
-          <Route
-            path="/MyAccount"
-            element={<MyAccount newData={GetData} apiData={apiData} />}
-          />
-          <Route path="/RequestOrder" element={<RequestOrders />} />
-          <Route path="/OrderDetails" element={<OrderDetails />} />
-          <Route path="/RequestDetails" element={<RequestDetails />} />
-          <Route path="/MainMenu" element={<MainMenu />} />
-          <Route path="/Address" element={<Address />} />
-          <Route path="/Account" element={<Account />} />
-          <Route path="/Favourites" element={<Favourites />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/BuyAgain" element={<BuyAgain />} />
-          <Route path="/app/ProductSearch/:id" element={<ProductBySearch />} />
-          <Route path="/AgeVerified" element={<AgeVerification />} />
-          <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
-          <Route path="/Terms&Condition" element={<TermsCondition />} />
-          <Route path="/AboutUs" element={<AboutUs />} />
-          <Route
-            path="/CategoryProducts"
-            element={<ProductByCate CateName={cateName} />}
-          />
-          <Route path="/SubCategory/Products" element={<ProductBySubCate />} />
-          <Route path="/app/verify" element={<AgeVerification />} />
-          <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
-          <Route path="/user/viewDocs" element={<ViewDocs />} />
-          <Route path="/Brands/Products" element={<ProductByBrand />} />
-          <Route path="/AllProducts/Product/:id" element={<SingleProduct />} />
-          {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
-          <Route path="/Cart" element={<Cart />} />
-          <Route path="/MyQuotes" element={<MyQuotes />} />
-          {/* admin Routes */}
-          <Route path="/AdminLogin" element={<AdminLogin />} />
-          <Route
-            path="/AdminForgotPassword"
-            element={<AdminForgotPassword />}
-          />
-          <Route path="/AdminVerifyOtp" element={<AdminSendOtp />} />
-          <Route path="/AdminResetPassword" element={<AdminResetPassword />} />
-          <Route path="/AdminDashboard" element={<Dashboard />} />
-          <Route path="/AdminDashboard/EditProfile" element={<EditProfile />} />
-          <Route
-            path="/AdminDashboard/ChangePassword"
-            element={<ChangePassword />}
-          />
-          <Route path="/UserManage" element={<UserManage />} />
-          <Route path="/UserManage/PendingView" element={<PendingView />} />
-          <Route path="/UserManage/ReturnedView" element={<ReturnedView />} />
-          <Route path="/UserManage/ApprovedView" element={<ApprovedView />} />
-          <Route
-            path="/UserManage/ApprovedView-editUser"
-            element={<EditUser />}
-          />
-          <Route path="/UserManage/AddUser" element={<AddUser />} />
-          <Route path="/CategorySub" element={<CategorySub />} />
-          <Route path="/Inventory" element={<Inventory />} />
-          <Route path="/Inventory/View" element={<ViewProduct />} />
-          <Route path="/Inventory/View-Edit" element={<EditInventory />} />
-          <Route path="/BrandsManage" element={<BrandsManage />} />
-          <Route path="/Gallery-Management" element={<GalleryMain />} />
-          <Route path="/Cms" element={<Cms />} />
-          <Route path="/OrderRequest" element={<OrderReq />} />
-          <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
-          <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
-          <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
-          <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
-          <Route path="/OrderRequest/ViewOrder/Edit" element={<EditOrder />} />
-          <Route
-            path="/OrderRequest/ViewQuotationRequest"
-            element={<ViewQuoteReq />}
-          />
-          <Route path="/OrderRequest" element={<OrderReq />} />
-          <Route path="/app/Gallery" element={<Gallery />} />
-          <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
-          <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
-          <Route path="/Cart/Checkout" element={<Checkout />} />
-          <Route path="/app/subCategories" element={<SubCategories />} />
-          <Route
-            path="/app/product-details/:id"
-            element={<SingleProdBySearch />}
-          />
-
-          {/* App Routes */}
-          <Route path="/" element={width < 999 ? <AppHome /> : <Homepage />} />
-          <Route
-            path="/app/downloads"
-            element={width < 999 ? <AppDownloads /> : <Homepage />}
-          />
-
-          <Route
-            path="/app/pre-login"
-            element={width < 999 ? <AppPreLogin /> : <Homepage />}
-          />
-          <Route
-            path="/app/login"
-            element={width < 999 ? <AppPreLogin /> : <UserLogin />}
-          />
-          <Route
-            path="/app/login-password"
-            element={width < 999 ? <AppPreLogin /> : <UserLoginPass />}
-          />
-          <Route
-            path="/app/pre-login-password"
-            element={width < 999 ? <AppPreLoginPassword /> : <Homepage />}
-          />
-          <Route
-            path="/app/register"
-            element={width < 999 ? <AppSignUp /> : <SignUp />}
-          />
-          <Route
-            path="/app/re-register"
-            element={width < 999 ? <AppReSignUp /> : <SignUp />}
-          />
-          <Route
-            path="/app/forgot-password"
-            element={width < 999 ? <AppForgotPassword /> : <UserForgotPass />}
-          />
-          <Route
-            path="/app/update-password"
-            element={
-              width < 999 ? <AppForgotPassword /> : <UserUpdatePassword />
-            }
-          />
-          <Route
-            path="/app/otp"
-            element={width < 999 ? <AppOtp /> : <UserOtpValidate />}
-          />
-          <Route
-            path="/app/otp-verification"
-            element={width < 999 ? <AppOtpVerification /> : <Homepage />}
-          />
-          <Route
-            path="/app/success"
-            element={width < 999 ? <AppForgotPasswordSuccess /> : <Homepage />}
-          />
-          <Route
-            path="/app/home"
-            element={width < 999 ? <AppHome /> : <Homepage />}
-          />
-          <Route
-            path="/app/homeGuest"
-            element={width < 999 ? <AppHome /> : <Homepage />}
-          />
-          <Route
-            path="/app/buy-again"
-            element={width < 999 ? <AppBuyAgain /> : <Homepage />}
-          />
-          <Route
-            path="/app/profile/docs"
-            element={width < 999 ? <AppDocs /> : <Homepage />}
-          />
-          <Route
-            path="/app/cart"
-            element={width < 999 ? <AppCart /> : <Cart />}
-          />
-          <Route
-            path="/app/quotes"
-            element={width < 999 ? <AppQuotes /> : <MyQuotes />}
-          />
-          <Route
-            path="/app/settings"
-            element={width < 999 ? <AppSettings /> : <MyAccount />}
-          />
-          <Route
-            path="/app/privacy-policy"
-            element={width < 999 ? <AppPrivacy /> : <PrivacyPolicies />}
-          />
-          <Route
-            path="/app/term-condition"
-            element={width < 999 ? <AppTerms /> : <TermsCondition />}
-          />
-          <Route
-            path="/app/about-us"
-            element={width < 999 ? <AppAboutUs /> : <AboutUs />}
-          />
-          <Route
-            path="/app/change-password"
-            element={width < 999 ? <AppChangePassword /> : <Account />}
-          />
-          <Route
-            path="/app/profile"
-            element={width < 999 ? <AppProfile /> : <Account />}
-          />
-          <Route
-            path="/app/edit-profile"
-            element={width < 999 ? <AppEditProfile /> : <Account />}
-          />
-          <Route
-            path="/app/my-order"
-            element={width < 999 ? <AppMyOrder /> : <MyAccount />}
-          />
-          <Route
-            path="/app/my-request"
-            element={width < 999 ? <AppRequests /> : <RequestOrders />}
-          />
-          <Route path="/app/notifications" element={<AppNotifications />} />
-          <Route
-            path="/app/brands"
-            element={width < 999 ? <AppBrands /> : <AllBrands />}
-          />
-          <Route
-            path="/app/Categories"
-            element={width < 999 ? <AppCategories /> : <AllCategories />}
-          />
-          <Route
-            path="/app/Sub-Categories/:id"
-            element={width < 999 ? <AppSubCategories /> : <AllCategories />}
-          />
-          <Route
-            path="/app/wishlist"
-            element={width < 999 ? <AppWishlist /> : <Favourites />}
-          />
-          <Route
-            path="/app/product-detail/:id"
-            element={width < 999 ? <AppProductDetail /> : <Homepage />}
-          />
-          <Route
-            path="/app/product-by-search"
-            element={width < 999 ? <AppProductBySearch /> : <Homepage />}
-          />
-          <Route
-            path="/app/request-detail"
-            element={width < 999 ? <AppRequestDetail /> : <RequestDetails />}
-          />
-          <Route
-            path="/app/notification-detail"
-            element={<AppNotificationDetail />}
-          />
-          <Route
-            path="/app/order-detail"
-            element={width < 999 ? <AppOrderDetail /> : <OrderDetails />}
-          />
-          <Route
-            path="/app/product-category/:id"
-            element={<AppProductCategory />}
-          />
-          <Route
-            path="/app/product-subCategory/:id"
-            element={<AppProductSubCategory />}
-          />
-          <Route
-            path="/app/productBrands"
-            element={width < 999 ? <AppProductBrands /> : <AllBrands />}
-          />
-          <Route path="/app/product-list" element={<AppProductList />} />
-          <Route path="/app/featured-products" element={<FeaturedProducts />} />
-          <Route
-            path="/app/checkout"
-            element={width < 999 ? <AppCheckout /> : <Checkout />}
-          />
-          <Route path="/app/thankyou" element={<AppThankyou />} />
-          <Route
-            path="/app/contact-us"
-            element={width < 999 ? <AppContactUs /> : <Contact />}
-          />
-          <Route
-            path="/app/terms"
-            element={width < 999 ? <AppTerms /> : <TermsCondition />}
-          />
-          <Route
-            path="/app/logout"
-            element={width < 999 ? <AppLogout /> : <Homepage />}
-          />
 
           {/*  */}
 
           {/*  */}
         </Routes>
       </Router>
+      </RecoilRoot>
+
+    
       {/* <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         ...
       </Worker> */}

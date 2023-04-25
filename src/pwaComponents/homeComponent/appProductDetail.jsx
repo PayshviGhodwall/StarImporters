@@ -32,7 +32,6 @@ function AppProductDetail() {
   let { id } = useParams();
   const navigate = useNavigate();
   const [objectId, setObjectID] = useState();
-
   let token = localStorage.getItem("token-user");
   let location = useLocation();
   let ref = useRef();
@@ -216,7 +215,9 @@ function AppProductDetail() {
   return (
     <>
       <div className="star_imp_app">
-        <div class="header-area" id="headerArea" ref={ref}>
+        <AppHeader />
+
+        {/* <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2 me-2">
               <Link to="/app/home">
@@ -240,7 +241,7 @@ function AppProductDetail() {
             </div>
           </div>
         </div>
-        <WebHeader2 />
+        <WebHeader2 /> */}
 
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper">

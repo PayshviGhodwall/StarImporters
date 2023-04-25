@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import WebHeader2 from "./webHeader2";
 import Swal from "sweetalert2";
+import Search from "./search";
 
 function AppProductBrands() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -137,6 +138,7 @@ function AppProductBrands() {
         <div class="page-content-wrapper">
           <div class="py-3">
             <div class="container">
+              <Search />
               <div class="row g-1 align-items-center justify-content-end mb-4">
                 <div class="col-auto">
                   <div class="custom_select_design">

@@ -105,11 +105,11 @@ function AppPreLoginPassword() {
                       <span
                         style={{
                           position: "relative",
-                          left: "310px",
+                          left: "96%",
                           top: "-25px",
                         }}
                         onClick={togglePassword}
-                        className="fa fa-fw fa-eye field-icon toggle-password"
+                        className="fa fa-fw fa-eye field-icon text-end"
                       />
 
                       {errors?.password && (
