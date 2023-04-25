@@ -26,7 +26,6 @@ function AppProductDetail() {
   const [productDetail, setProductDetail] = useState("");
   const [FInd, setFInd] = useState();
   const [quantity, setQuantity] = useState(1);
-  const [typeObj, setTypeObj] = useState();
   const [categoryName, setCategoryName] = useState();
   const [flavour, setFlavour] = useState();
   let { id } = useParams();
@@ -35,10 +34,12 @@ function AppProductDetail() {
   let token = localStorage.getItem("token-user");
   let location = useLocation();
   let ref = useRef();
+
   if (objectId !== id) {
     setObjectID(id);
     setFlavour(location?.state?.type);
   }
+
   useEffect(() => {
     getProductDetail();
     userInfo();

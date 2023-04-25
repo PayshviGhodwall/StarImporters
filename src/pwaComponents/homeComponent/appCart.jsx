@@ -74,7 +74,7 @@ function AppCart() {
           barcode: Dd,
         });
         if (!data.error) {
-          const productDetail = data?.results;
+          const productDetail = data?.results[0];
           const addToCartt = async () => {
             if (
               productDetail?.category?.isTobacco ||
