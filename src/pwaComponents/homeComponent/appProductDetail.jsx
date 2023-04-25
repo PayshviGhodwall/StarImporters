@@ -37,7 +37,7 @@ function AppProductDetail() {
 
   if (objectId !== id) {
     setObjectID(id);
-    setFlavour(location?.state?.type);
+    setFlavour(location?.state?.flavour);
   }
 
   useEffect(() => {

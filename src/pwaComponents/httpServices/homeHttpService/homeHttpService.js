@@ -441,10 +441,22 @@ export async function searchByBarcode(formData) {
       formData
     );
     console.log(data);
-
+    if (data.error) {
+      Swal.fire({
+        title: "Invalid barcode",
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+    }
     return { data };
   } catch (error) {
-    if (error.response) console.log(error.response.data.message);
+    if (error.response)
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+    console.log();
     return { error };
   }
 }

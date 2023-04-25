@@ -29,7 +29,7 @@ const AppDownloads = () => {
                 Download The Latest Version Of Our App
               </h1>
               <p class="mb-3 text-dwn">
-                We are Available on IOS App Store. As well as u can also
+                We are Available on IOS App Store. As well as you can also
                 download our Android apk.
               </p>
               <div class="row g-4 p-3">

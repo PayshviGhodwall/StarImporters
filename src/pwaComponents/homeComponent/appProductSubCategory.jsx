@@ -237,6 +237,44 @@ function AppProductSubCategory() {
                     </div>
                   </div>
                 </div>
+                {product?.length ? (
+                  <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
+                    <div
+                      class={
+                        activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
+                      }
+                    >
+                      <Link
+                        state={{ naek: "ki" }}
+                        onClick={() =>
+                          activePage <= 1
+                            ? setActivePage(1)
+                            : setActivePage(activePage - 1)
+                        }
+                      >
+                        <i class="fa-solid fa-arrow-left-long"></i> Prev
+                      </Link>
+                    </div>
+                    <div
+                      class={
+                        activePage === maxPage
+                          ? "d-none"
+                          : "back-button me-2 me-2 "
+                      }
+                    >
+                      <Link
+                        state={{ naek: "ki" }}
+                        onClick={() =>
+                          activePage === maxPage
+                            ? setActivePage(maxPage)
+                            : setActivePage(activePage + 1)
+                        }
+                      >
+                        Next <i class="fa-solid fa-arrow-right-long"></i>
+                      </Link>
+                    </div>
+                  </div>
+                ) : null}
                 <div class="row g-2 product_list_main">
                   {(product || [])?.map((item, index) => {
                     return (
@@ -321,7 +359,7 @@ function AppProductSubCategory() {
                             : setActivePage(activePage - 1)
                         }
                       >
-                        <i class="fa-solid fa-arrow-left-long"></i> Previous
+                        <i class="fa-solid fa-arrow-left-long"></i> Prev
                       </Link>
                     </div>
                     <div
