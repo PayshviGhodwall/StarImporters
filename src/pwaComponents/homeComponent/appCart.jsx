@@ -74,8 +74,8 @@ function AppCart() {
           barcode: Dd,
         });
         if (!data.error) {
-          if (data.results.length) {
-            const productDetail = data?.results;
+          const productDetail = data?.results;
+          const addToCartt = async () => {
             if (
               productDetail?.category?.isTobacco ||
               productDetail?.subCategory?.isTobacco
@@ -89,7 +89,6 @@ function AppCart() {
                 console.log(formData);
                 const { data } = await addToCart(formData);
                 if (!data.error) {
-                  window.location.reload(false);
                   getCartss();
                 }
               } else {
@@ -109,11 +108,11 @@ function AppCart() {
               console.log(formData);
               const { data } = await addToCart(formData);
               if (!data.error) {
-                window.location.reload(false);
                 getCartss();
               }
             }
-          }
+          };
+          addToCartt();
           // navigate(`/app/product-detail/${data.results[0]._id}`);
           // window.location.reload();
         }
