@@ -27,9 +27,6 @@ function AppSignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    data.addressLine = [data?.addressLine, data?.addressLine1];
-    delete data.addressLine1;
-
     const formData = new FormData();
     for (const item in data) {
       formData.append(item, data[item?.trim()]);
@@ -198,7 +195,7 @@ function AppSignUp() {
                         type="text"
                         placeholder=""
                         name="addressLine1"
-                        id="addressLine"
+                        id="addressLine1"
                         {...register("addressLine1", {
                           required: "Required",
                           pattern: {
@@ -232,7 +229,7 @@ function AppSignUp() {
                         type="text"
                         placeholder=""
                         name="addressLine2"
-                        id="addressLine1"
+                        id="addressLine2"
                         {...register("addressLine2", { required: false })}
                       />
 
@@ -546,20 +543,14 @@ function AppSignUp() {
                     <div className="form-group text-start mb-4">
                       <span>Comments(optional)</span>
                       <label for="comments">
-                        <i className="fa-solid fa-at"></i>
+                        <i className="fa-solid fa-edit"></i>
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         name="comments"
                         placeholder="Type anything ....."
-                        {...register("comments", {
-                          maxLength: {
-                            value: 200,
-                            message: "maximium 200 Charcarters",
-                          },
-                          minLength: 10,
-                        })}
+                        {...register("comments")}
                       />
 
                       {errors?.comments && (

@@ -1162,7 +1162,7 @@ const CategorySub = () => {
                           </div>
                         </div>
                         <div
-                          className="tab-pane fade recent_orders_cate"
+                          className="tab-pane fade recent_order"
                           id="nav-profile"
                           role="tabpanel"
                           aria-labelledby="nav-profile-tab"
