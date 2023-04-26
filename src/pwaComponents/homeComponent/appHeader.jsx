@@ -64,8 +64,8 @@ function AppHeader({ cartCount }) {
                 }}
               >
                 <i class="fa-solid fa-circle-down fa fa-2x"></i>
-                <span class="df">Download from</span>
-                <span class="dfn">App Store</span>
+                <span class="df">Download Our</span>
+                <span class="dfn text-start">App</span>
               </div>
             )}
 

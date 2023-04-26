@@ -594,8 +594,8 @@ function AppSignUp() {
                         className="form-select mt-2"
                         aria-label="Default select example"
                         id="hear"
-                        name="wholesaleConfirmation"
-                        {...register("wholesaleConfirmation", {
+                        name="heardAboutUs"
+                        {...register("heardAboutUs", {
                           required: true,
                         })}
                       >
@@ -604,12 +604,11 @@ function AppSignUp() {
                         <option value="Search Engine (Google, Yahoo, Bing, Etc.)">
                           Search Engine
                         </option>
-                        <option value="SMS">SMS</option>
                         <option value="Referral">Referral</option>
                         <option value="Instagram">Instagram</option>
                       </select>
 
-                      {errors?.wholesaleConfirmation && (
+                      {errors?.heardAboutUs && (
                         <p className="form-error mt-1">
                           This field is required
                         </p>

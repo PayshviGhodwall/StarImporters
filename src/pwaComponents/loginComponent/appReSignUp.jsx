@@ -79,7 +79,6 @@ function AppReSignUp() {
       formData.append(item, data[item]);
       console.log(data[item]);
     }
-
     if (selectedFile1) {
       formData.append("federalTaxId", selectedFile1, selectedFile1.name);
     }
