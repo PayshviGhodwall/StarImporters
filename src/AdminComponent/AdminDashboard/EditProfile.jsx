@@ -53,6 +53,17 @@ const EditProfile = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+  document.getElementById("img_input")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("main_img")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -454,6 +465,7 @@ const EditProfile = () => {
                         <div className="admin_profile">
                           <img
                             className="admin_img"
+                            id="main_img"
                             src={adminData?.adminProfile}
                           />
                         </div>
@@ -470,6 +482,7 @@ const EditProfile = () => {
                             className="Admin-upload "
                             name="adminProfile"
                             type="file"
+                            id="img_input"
                             accept="image/*"
                             {...register("adminProfile")}
                             onChange={(e) => onFileSelection(e, "adminProfile")}

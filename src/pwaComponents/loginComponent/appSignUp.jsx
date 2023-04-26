@@ -575,7 +575,6 @@ function AppSignUp() {
                         {...register("wholesaleConfirmation")}
                       />
                     </div>
-
                     <div className="form-group text-start mb-4">
                       <span>How did you hear about us?</span>
                       <label for="username">

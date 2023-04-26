@@ -53,7 +53,10 @@ const Gallery = () => {
                           STAR IMPORTERS & WHOLESALERS Established Since 1994.
                         </p>
                         <div class="icon-button">
-                          <a href="https://youtube.com" target="_blank">
+                          <a
+                            href="https://www.youtube.com/@starimporters"
+                            target="_blank"
+                          >
                             <i class="fa fa-play"></i> Watch Our Videos Now
                           </a>
                         </div>

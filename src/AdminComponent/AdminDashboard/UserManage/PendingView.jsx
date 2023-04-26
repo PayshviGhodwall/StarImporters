@@ -24,9 +24,7 @@ const PendingView = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
-  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   let User = JSON.parse(localStorage.getItem("AdminData"));
-
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -970,6 +968,14 @@ const PendingView = () => {
                             <strong>
                               {user?.wholesaleConfirmation ? "Yes" : "No"}
                             </strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">Comments</span>
+                          <div className="col">
+                            <strong>{user?.comments}</strong>
                           </div>
                         </div>
                       </div>
