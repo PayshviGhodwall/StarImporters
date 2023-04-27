@@ -10362,14 +10362,13 @@ background-color: #3e4093;
     z-index: 1;
     margin-bottom: 1.25rem;
   }
-  .edit_pen{
+  .edit_pen {
     position: relative;
     top: 12px !important;
     left: 3px;
     z-index: 999;
-
   }
-  .file_selector_app{
+  .file_selector_app {
     opacity: 1% !important;
     position: relative;
     font-size: 10px;
@@ -14700,10 +14699,10 @@ figure.effect-ming:hover img {
 }
 .flavor_design {
   background: #ffffff;
-  border: 2px solid #eaedf2;
+  border: 2px solid #C0C0C0;
   border-radius: 5px;
   display: flex;
-  color: #959595 !important;
+  color: #000000 !important;
   align-items: center;
   justify-content: center;
   padding: 8px 0;
@@ -14720,11 +14719,36 @@ figure.effect-ming:hover img {
   border-color: #fff;
   color: #fff !important;
 }
+.flavor_design:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all 0.1s;
+  position: absolute;
+}
 .flavor_design:hover {
-  box-shadow: 4px 4px 54px rgba(214, 223, 232, 0.42);
-  border-color: #eb3237;
-  /* background-color: #eb3237; */
-  /* color: #fff !important; */
+  border-color: #000;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-animated {
+  animation: moveInBottom 5s ease-out;
+  animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
 .prdct_bottom .number {
   background: #3d438e;
@@ -14762,11 +14786,22 @@ figure.effect-ming:hover img {
 }
 .falvor_main {
   max-height: 19rem;
-  min-height: 10rem;
-  overflow: scroll;
+  min-height: 15rem;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
 }
 .falvor_main::-webkit-scrollbar {
-  display: none;
+  width: 6px !important;
+  margin-left: 2px !important;
+}
+.falvor_main::-webkit-scrollbar-track {
+  /* background-color: #3e4093; */
+  border-radius: 50px;
+}
+.falvor_main::-webkit-scrollbar-thumb {
+  background-color: #3e4093 !important;
+  border-radius: 50px;
+  cursor: pointer !important;
 }
 .SIMILAR_prrodct .categorynew_img {
   background-color: #fff;
@@ -15325,7 +15360,7 @@ figure.effect-ming:hover img {
   max-height: 43rem;
   overflow-y: scroll;
 }
-.form-check-label-app{
+.form-check-label-app {
   position: relative;
   left: 25px !important;
   top: 0px !important;

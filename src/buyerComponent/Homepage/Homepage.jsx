@@ -1,7 +1,6 @@
 import React from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";

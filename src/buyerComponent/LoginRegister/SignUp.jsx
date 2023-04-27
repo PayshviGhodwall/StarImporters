@@ -53,7 +53,7 @@ const SignUp = () => {
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
       formData.append("heardAboutUs", data?.heardAboutUs);
-      formData.append("comments ", data?.comments);
+      formData.append("comments", data?.comments);
 
       await axios
         .post(apiUrl, formData)
@@ -223,7 +223,7 @@ const SignUp = () => {
                     {...register("addressLine1", {
                       required: "Company Adrress Line1 is Required*",
                       pattern: {
-                        value: /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$/,
+                        value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
                         message: "Special Character not allowed!",
                       },
                       maxLength: {
@@ -525,7 +525,10 @@ const SignUp = () => {
                           value: 10,
                           message: "maximium 10 Charcarters",
                         },
-                        minLength: 10,
+                        minLength: {
+                          value: 8,
+                          message: "minimium 8 Charcarters",
+                        },
                       })}
                     />
                     {errors.phoneNumber && (
@@ -706,7 +709,10 @@ const SignUp = () => {
                           value: 10,
                           message: "maximium 10 Charcarters",
                         },
-                        minLength: 10,
+                        minLength: {
+                          value: 7,
+                          message: "minimium 7 Charcarters",
+                        },
                       })}
                     />
                     {errors.businessPhoneNumber && (
@@ -732,19 +738,8 @@ const SignUp = () => {
                       id="floatingComment"
                       placeholder="Type anything ....."
                       name="comments"
-                      {...register("comments", {
-                        maxLength: {
-                          value: 200,
-                          message: "maximium 200 Charcarters",
-                        },
-                        minLength: 10,
-                      })}
+                      {...register("comments")}
                     />
-                    {errors.comments && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.comments?.message}
-                      </small>
-                    )}
                     <label
                       htmlFor="floatingComment"
                       className="mx-2 fw-bolder text-secondary"

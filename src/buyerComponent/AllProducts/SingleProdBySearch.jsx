@@ -13,7 +13,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
-
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 const SingleProdBySearch = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
@@ -294,17 +295,19 @@ const SingleProdBySearch = () => {
               <div className="col-md-6">
                 <div className="prdct_singleneww">
                   <div className="prdct_singleshowimg">
-                    <img
-                      src={
-                        flavour?.flavour
-                          ? flavour?.flavourImage ||
-                            require("../../assets/img/product.jpg")
-                          : product?.productImage ||
-                            require("../../assets/img/product.jpg")
-                      }
-                      id="productMainImg"
-                      alt="..."
-                    />
+                    <Zoom>
+                      <img
+                        src={
+                          flavour?.flavour
+                            ? flavour?.flavourImage ||
+                              require("../../assets/img/product.jpg")
+                            : product?.productImage ||
+                              require("../../assets/img/product.jpg")
+                        }
+                        id="productMainImg"
+                        alt="..."
+                      />
+                    </Zoom>
                   </div>
                   <ul className="list-unstyled p-0 m-0">
                     <Swiper
@@ -408,7 +411,7 @@ const SingleProdBySearch = () => {
                       </div>
                     ) : null}
                     <div className="falvor_main mt-4">
-                      <div className="row">
+                      <div className="row m-1">
                         {(product?.type || []).map((item, ind) => {
                           return flavour?.flavour === item?.flavour ? (
                             <div className="col-md-4 mb-lg-4 mb-md-3">
@@ -512,7 +515,7 @@ const SingleProdBySearch = () => {
                       </Button>
                     ) : (
                       <div
-                        className="btn  me-2 rounded noHover"
+                        className="cartt--btn me-2 rounded  mx-2"
                         style={{
                           color: "#FFF",
                           cursor: "pointer",

@@ -13,7 +13,8 @@ import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
-
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 const SingleProduct = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
@@ -305,17 +306,19 @@ const SingleProduct = () => {
               <div className="col-md-6">
                 <div className="prdct_singleneww">
                   <div className="prdct_singleshowimg">
-                    <img
-                      src={
-                        flavour?.flavour
-                          ? flavour?.flavourImage ||
-                            require("../../assets/img/product.jpg")
-                          : product?.productImage ||
-                            require("../../assets/img/product.jpg")
-                      }
-                      id="productMainImg"
-                      alt="..."
-                    />
+                    <Zoom>
+                      <img
+                        src={
+                          flavour?.flavour
+                            ? flavour?.flavourImage ||
+                              require("../../assets/img/product.jpg")
+                            : product?.productImage ||
+                              require("../../assets/img/product.jpg")
+                        }
+                        id="productMainImg"
+                        alt="..."
+                      />
+                    </Zoom>
                   </div>
                   <ul className="list-unstyled p-0 m-0">
                     <Swiper
@@ -422,7 +425,7 @@ const SingleProduct = () => {
                       <div className="row">
                         {(product?.type || []).map((item, ind) => {
                           return flavour?.flavour === item?.flavour ? (
-                            <div className="col-md-4 mb-lg-4 mb-md-3">
+                            <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
                               <a
                                 className="flavor_design selected_flavor text-decoration-none"
                                 data-toggle="tooltip"
@@ -438,9 +441,9 @@ const SingleProduct = () => {
                               </a>
                             </div>
                           ) : (
-                            <div className="col-md-4 mb-lg-4 mb-md-3">
+                            <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
                               <a
-                                className="flavor_design text-decoration-none"
+                                className="flavor_design text-decoration-none btn-animate"
                                 key={ind}
                                 data-toggle="tooltip"
                                 data-placement="top"
@@ -523,7 +526,7 @@ const SingleProduct = () => {
                       </Button>
                     ) : (
                       <div
-                        className="btn  me-2 rounded noHover"
+                        className="cartt--btn me-2 rounded mx-4"
                         style={{
                           color: "#FFF",
                           cursor: "pointer",
