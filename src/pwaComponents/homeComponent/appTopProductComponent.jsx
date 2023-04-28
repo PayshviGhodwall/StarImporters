@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import AppHeader from "./appHeader";
-import AppFooter from "./appFooter";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link } from "react-router-dom";
 import {
   addToCart,
-  getAllProducts,
   getFeaturedProd,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { browserName } from "react-device-detect";
 
 function TopProduct() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -23,7 +19,6 @@ function TopProduct() {
   const [heart, setHeart] = useState(false);
   const [activePage, setActivePage] = useState(1);
   const [userDetail, setUserDetail] = useState([]);
-
   let { id } = useParams();
   const navigate = useNavigate();
 
@@ -128,75 +123,153 @@ function TopProduct() {
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
-          <div className="row g-2">
-            {(product || []).map((item, index) => {
-              return (
-                <div class="col-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card product-card w-100">
-                    <div class="card-body">
-                      {token?.length ? (
-                        <a class="wishlist-btn">
-                          {item?.favourite ? (
-                            <i
-                              class="fa fa-heart"
-                              onClick={() => {
-                                rmvFromFav(index);
-                              }}
-                              style={{ color: "#3e4093 " }}
-                            />
-                          ) : (
-                            <i
-                              class="fa fa-heart"
-                              onClick={() => {
-                                addToFav(index);  
-                              }}
-                              style={{ color: "#E1E1E1 " }}
-                            />
-                          )}
-                        </a>
-                      ) : null}
+          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            <div className="row g-2">
+              {(product || [])
+                .filter(
+                  (itm, idx) =>
+                    itm.category != "639a042ff2f72167b43774de" &&
+                    itm.category != "639a7617f2f72167b4377754"
+                )
+                .map((item, index) => {
+                  return (
+                    <div class="col-6 col-md-4 d-flex align-items-stretch">
+                      <div class="card product-card w-100">
+                        <div class="card-body">
+                          {token?.length ? (
+                            <a class="wishlist-btn">
+                              {item?.favourite ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(index);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(index);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                            </a>
+                          ) : null}
 
-                      <Link
-                        class="product-thumbnail d-block"
-                        to={`/app/product-detail/${item?._id}`}
-                        state={{ type: item?.type[0] }}
-                      >
-                        <img
-                          class="mb-2"
-                          src={
-                            item.type[0]?.flavourImage
-                              ? item.type[0]?.flavourImage
-                              : require("../../assets/img/product.jpg")
-                          }
-                          alt="Product Image not updated"
-                        />
-                      </Link>
-                      <div class="row mt-1 d-flex align-items-center justify-content-between">
-                        <div class="col">
                           <Link
-                            class="product-title"
+                            class="product-thumbnail d-block"
                             to={`/app/product-detail/${item?._id}`}
                             state={{ type: item?.type[0] }}
                           >
-                            {item?.unitName + "-" + item.type[0]?.flavour}
+                            <img
+                              class="mb-2"
+                              src={
+                                item.type[0]?.flavourImage
+                                  ? item.type[0]?.flavourImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                              alt="Product Image not updated"
+                            />
                           </Link>
+                          <div class="row mt-1 d-flex align-items-center justify-content-between">
+                            <div class="col">
+                              <Link
+                                class="product-title"
+                                to={`/app/product-detail/${item?._id}`}
+                                state={{ type: item?.type[0] }}
+                              >
+                                {item?.unitName + "-" + item.type[0]?.flavour}
+                              </Link>
+                            </div>
+                            <div class="col-auto">
+                              <Link
+                                class="cart_bttn text-decoration-none"
+                                to=""
+                                onClick={() => addToCartt(item?._id, index)}
+                              >
+                                <i class="fa-light fa-plus "></i>
+                              </Link>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-auto">
-                          <Link
-                            class="cart_bttn text-decoration-none"
-                            to=""
-                            onClick={() => addToCartt(item?._id, index)}
-                          >
-                            <i class="fa-light fa-plus "></i>
-                          </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          ) : (
+            <div className="row g-2">
+              {(product || [])?.map((item, index) => {
+                return (
+                  <div class="col-6 col-md-4 d-flex align-items-stretch">
+                    <div class="card product-card w-100">
+                      <div class="card-body">
+                        {token?.length ? (
+                          <a class="wishlist-btn">
+                            {item?.favourite ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
+                          </a>
+                        ) : null}
+
+                        <Link
+                          class="product-thumbnail d-block"
+                          to={`/app/product-detail/${item?._id}`}
+                          state={{ type: item?.type[0] }}
+                        >
+                          <img
+                            class="mb-2"
+                            src={
+                              item.type[0]?.flavourImage
+                                ? item.type[0]?.flavourImage
+                                : require("../../assets/img/product.jpg")
+                            }
+                            alt="Product Image not updated"
+                          />
+                        </Link>
+                        <div class="row mt-1 d-flex align-items-center justify-content-between">
+                          <div class="col">
+                            <Link
+                              class="product-title"
+                              to={`/app/product-detail/${item?._id}`}
+                              state={{ type: item?.type[0] }}
+                            >
+                              {item?.unitName + "-" + item.type[0]?.flavour}
+                            </Link>
+                          </div>
+                          <div class="col-auto">
+                            <Link
+                              class="cart_bttn text-decoration-none"
+                              to=""
+                              onClick={() => addToCartt(item?._id, index)}
+                            >
+                              <i class="fa-light fa-plus "></i>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>

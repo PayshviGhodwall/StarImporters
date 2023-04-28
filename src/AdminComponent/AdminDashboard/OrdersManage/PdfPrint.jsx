@@ -159,7 +159,6 @@ const PdfPrint = () => {
                                     "-" +
                                     orders?.userId?.zipcode}
                                 </td>{" "}
-                                + "-" +
                                 <td className="border">
                                   {moment(
                                     orders?.craetedAt?.slice(0, 10)

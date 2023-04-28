@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+
 const SingleProdBySearch = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
@@ -80,25 +81,25 @@ const SingleProdBySearch = () => {
     NewProducts();
   }, [change, objectId]);
 
+  console.log(unitCount);
   const AddtoCart = async () => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
       if (!userDetail?.istobaccoLicenceExpired) {
         if (flavour) {
           setLoader(true);
           cartProduct.push(objectId);
-          cartProduct.push(unitCount);
-
           await axios
             .post(addCart, {
               productId: cartProduct[0],
-              quantity: cartProduct[1],
+              quantity: unitCount,
               flavour: flavour,
             })
+
             .then((res) => {
               if (res.data?.message === "Product Added") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
-
+                setCartProduct([]);
                 setNState(!NState);
               }
               if (res.data?.message === "Product modified") {
@@ -166,7 +167,7 @@ const SingleProdBySearch = () => {
         await axios
           .post(addCart, {
             productId: cartProduct[0],
-            quantity: cartProduct[1],
+            quantity: unitCount,
             flavour: flavour,
           })
           .then((res) => {

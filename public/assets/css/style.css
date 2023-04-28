@@ -14699,7 +14699,7 @@ figure.effect-ming:hover img {
 }
 .flavor_design {
   background: #ffffff;
-  border: 2px solid #C0C0C0;
+  border: 2px solid #c0c0c0;
   border-radius: 5px;
   display: flex;
   color: #000000 !important;
@@ -15364,4 +15364,12 @@ figure.effect-ming:hover img {
   position: relative;
   left: 25px !important;
   top: 0px !important;
+}
+.barScanner {
+  opacity: 1%;
+  max-width: 2rem !important;
+  position: fixed;
+  width: 2rem;
+  height: 2rem;
+  right: 1rem !important;
 }

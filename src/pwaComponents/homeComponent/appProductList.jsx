@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
-  addToCart,
   getAllProducts,
   getByCategory,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -16,6 +13,7 @@ import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
 import { charSearchKey } from "../../selecter";
 import Search from "./search";
+import { browserName } from "react-device-detect";
 
 function AppProductList() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -32,7 +30,6 @@ function AppProductList() {
   let ref = useRef();
   let { id } = useParams();
   let token = localStorage.getItem("token-user");
-
   const searchKey = useRecoilValue(charSearchKey);
   console.log(searchKey);
 
@@ -139,161 +136,310 @@ function AppProductList() {
 
         <div class="page-content-wrapper">
           <Search />
-          {searchKey?.length ? null : (
-            <div class="py-3">
-              <button className="bg-white fw-bold border rounded-end">
-                {activePage}
-              </button>
+          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            <div>
+              {searchKey?.length ? null : (
+                <div class="py-3">
+                  <button className="bg-white fw-bold border rounded-end">
+                    {activePage}
+                  </button>
+                  <div class="container">
+                    {product?.length ? (
+                      <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
+                        <div
+                          class={
+                            activePage <= 1
+                              ? "opacity-0"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1)
+                            }
+                          >
+                            <i class="fa-solid fa-arrow-left-long"></i> Prev
+                          </Link>
+                        </div>
+                        <div
+                          class={
+                            activePage === maxPage
+                              ? "d-none"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1)
+                            }
+                          >
+                            Next <i class="fa-solid fa-arrow-right-long"></i>
+                          </Link>
+                        </div>
+                      </div>
+                    ) : null}
+                    <div class="row g-2 product_list_main">
+                      {(product || [])
+                        ?.filter(
+                          (itm, idx) =>
+                            itm.category._id != "639a042ff2f72167b43774de" &&
+                            itm.category._id != "639a7617f2f72167b4377754"
+                        )
+                        .map((item, index) => {
+                          return (
+                            <div class="col-6 col-md-4 d-flex align-items-stretch">
+                              <div class="card product-card w-100">
+                                <div class="card-body">
+                                  {token?.length ? (
+                                    <a class="wishlist-btn">
+                                      {item?.favourite ? (
+                                        <i
+                                          class="fa fa-heart"
+                                          onClick={() => {
+                                            rmvFromFav(index);
+                                          }}
+                                          style={{ color: "#3e4093 " }}
+                                        />
+                                      ) : (
+                                        <i
+                                          class="fa fa-heart"
+                                          onClick={() => {
+                                            addToFav(index);
+                                          }}
+                                          style={{ color: "#E1E1E1 " }}
+                                        />
+                                      )}
+                                    </a>
+                                  ) : null}
+                                  <Link
+                                    class="product-thumbnail d-block"
+                                    to={`/app/product-detail/${item?._id}`}
+                                    state={{ type: item?.type[0] }}
+                                  >
+                                    <img
+                                      class="mb-2"
+                                      src={
+                                        item.type[0]?.flavourImage
+                                          ? item.type[0]?.flavourImage
+                                          : require("../../assets/img/product.jpg")
+                                      }
+                                    />
+                                  </Link>
+                                  <div class="row mt-1 d-flex align-items-center justify-content-between">
+                                    <div class="col">
+                                      <a class="product-title">
+                                        {item?.unitName +
+                                          "-" +
+                                          item.type[0]?.flavour}
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
 
-              <div class="container">
-                <div class="row g-1 align-items-center justify-content-end mb-4">
-                  {/* <div class="col-auto">
-                  <div class="custom_select_design">
-                    <select
-                      class=""
-                      name="selectProductCatagory"
-                      aria-label="Default select example"
-                    >
-                      <option selected>Short by</option>
-                      <option value="1">Newest</option>
-                      <option value="2">Popular</option>
-                      <option value="3">Ratings</option>
-                    </select>
+                    {product?.length ? (
+                      <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                        <div
+                          class={
+                            activePage <= 1
+                              ? "opacity-0"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1)
+                            }
+                          >
+                            <i class="fa-solid fa-arrow-left-long"></i> Previous
+                          </Link>
+                        </div>
+                        <div
+                          class={
+                            activePage === maxPage
+                              ? "d-none"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1)
+                            }
+                          >
+                            Next <i class="fa-solid fa-arrow-right-long"></i>
+                          </Link>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                </div> */}
                 </div>
-                {product?.length ? (
-                  <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
-                    <div
-                      class={
-                        activePage <= 1 ? "opacity-0" : "back-button me-2 me-2 "
-                      }
-                    >
-                      <Link
-                        state={{ naek: "ki" }}
-                        onClick={() =>
-                          activePage <= 1
-                            ? setActivePage(1)
-                            : setActivePage(activePage - 1)
-                        }
-                      >
-                        <i class="fa-solid fa-arrow-left-long"></i> Prev
-                      </Link>
-                    </div>
-                    <div
-                      class={
-                        activePage === maxPage
-                          ? "d-none"
-                          : "back-button me-2 me-2 "
-                      }
-                    >
-                      <Link
-                        state={{ naek: "ki" }}
-                        onClick={() =>
-                          activePage === maxPage
-                            ? setActivePage(maxPage)
-                            : setActivePage(activePage + 1)
-                        }
-                      >
-                        Next <i class="fa-solid fa-arrow-right-long"></i>
-                      </Link>
-                    </div>
-                  </div>
-                ) : null}
-                <div class="row g-2 product_list_main">
-                  {(product || [])?.map((item, index) => {
-                    return (
-                      <div class="col-6 col-md-4 d-flex align-items-stretch">
-                        <div class="card product-card w-100">
-                          <div class="card-body">
-                            {token?.length ? (
-                              <a class="wishlist-btn">
-                                {item?.favourite ? (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      rmvFromFav(index);
-                                    }}
-                                    style={{ color: "#3e4093 " }}
+              )}
+            </div>
+          ) : (
+            <div>
+              {searchKey?.length ? null : (
+                <div class="py-3">
+                  <button className="bg-white fw-bold border rounded-end">
+                    {activePage}
+                  </button>
+
+                  <div class="container">
+                    {product?.length ? (
+                      <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
+                        <div
+                          class={
+                            activePage <= 1
+                              ? "opacity-0"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1)
+                            }
+                          >
+                            <i class="fa-solid fa-arrow-left-long"></i> Prev
+                          </Link>
+                        </div>
+                        <div
+                          class={
+                            activePage === maxPage
+                              ? "d-none"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1)
+                            }
+                          >
+                            Next <i class="fa-solid fa-arrow-right-long"></i>
+                          </Link>
+                        </div>
+                      </div>
+                    ) : null}
+                    <div class="row g-2 product_list_main">
+                      {(product || [])?.map((item, index) => {
+                        return (
+                          <div class="col-6 col-md-4 d-flex align-items-stretch">
+                            <div class="card product-card w-100">
+                              <div class="card-body">
+                                {token?.length ? (
+                                  <a class="wishlist-btn">
+                                    {item?.favourite ? (
+                                      <i
+                                        class="fa fa-heart"
+                                        onClick={() => {
+                                          rmvFromFav(index);
+                                        }}
+                                        style={{ color: "#3e4093 " }}
+                                      />
+                                    ) : (
+                                      <i
+                                        class="fa fa-heart"
+                                        onClick={() => {
+                                          addToFav(index);
+                                        }}
+                                        style={{ color: "#E1E1E1 " }}
+                                      />
+                                    )}
+                                  </a>
+                                ) : null}
+                                <Link
+                                  class="product-thumbnail d-block"
+                                  to={`/app/product-detail/${item?._id}`}
+                                  state={{ type: item?.type[0] }}
+                                >
+                                  <img
+                                    class="mb-2"
+                                    src={
+                                      item.type[0]?.flavourImage
+                                        ? item.type[0]?.flavourImage
+                                        : require("../../assets/img/product.jpg")
+                                    }
                                   />
-                                ) : (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      addToFav(index);
-                                    }}
-                                    style={{ color: "#E1E1E1 " }}
-                                  />
-                                )}
-                              </a>
-                            ) : null}
-                            <Link
-                              class="product-thumbnail d-block"
-                              to={`/app/product-detail/${item?._id}`}
-                              state={{ type: item?.type[0] }}
-                            >
-                              <img
-                                class="mb-2"
-                                src={
-                                  item.type[0]?.flavourImage
-                                    ? item.type[0]?.flavourImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                              />
-                            </Link>
-                            <div class="row mt-1 d-flex align-items-center justify-content-between">
-                              <div class="col">
-                                <a class="product-title">
-                                  {item?.unitName + "-" + item.type[0]?.flavour}
-                                </a>
+                                </Link>
+                                <div class="row mt-1 d-flex align-items-center justify-content-between">
+                                  <div class="col">
+                                    <a class="product-title">
+                                      {item?.unitName +
+                                        "-" +
+                                        item.type[0]?.flavour}
+                                    </a>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
+                        );
+                      })}
+                    </div>
+
+                    {product?.length ? (
+                      <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
+                        <div
+                          class={
+                            activePage <= 1
+                              ? "opacity-0"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1)
+                            }
+                          >
+                            <i class="fa-solid fa-arrow-left-long"></i> Previous
+                          </Link>
+                        </div>
+                        <div
+                          class={
+                            activePage === maxPage
+                              ? "d-none"
+                              : "back-button me-2 me-2 "
+                          }
+                        >
+                          <Link
+                            state={{ naek: "ki" }}
+                            onClick={() =>
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1)
+                            }
+                          >
+                            Next <i class="fa-solid fa-arrow-right-long"></i>
+                          </Link>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-
-                {product?.length ? (
-                  <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
-                    <div
-                      class={
-                        activePage <= 1 ? "opacity-0" : "back-button me-2 me-2 "
-                      }
-                    >
-                      <Link
-                        state={{ naek: "ki" }}
-                        onClick={() =>
-                          activePage <= 1
-                            ? setActivePage(1)
-                            : setActivePage(activePage - 1)
-                        }
-                      >
-                        <i class="fa-solid fa-arrow-left-long"></i> Previous
-                      </Link>
-                    </div>
-                    <div
-                      class={
-                        activePage === maxPage
-                          ? "d-none"
-                          : "back-button me-2 me-2 "
-                      }
-                    >
-                      <Link
-                        state={{ naek: "ki" }}
-                        onClick={() =>
-                          activePage === maxPage
-                            ? setActivePage(maxPage)
-                            : setActivePage(activePage + 1)
-                        }
-                      >
-                        Next <i class="fa-solid fa-arrow-right-long"></i>
-                      </Link>
-                    </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -527,9 +527,8 @@ const ViewOrder = () => {
                             <div className="col">
                               <strong>
                                 {" "}
-                                {moment(orders?.createdAt?.slice(0, 10)).format(
-                                  "MM/DD/YYYY"
-                                )}
+                                {orders?.createdAt}
+                                {/* {moment(orders?.createdAt).format("MM/DD/YYYY")} */}
                               </strong>
                             </div>
                           </div>
@@ -627,7 +626,7 @@ const ViewOrder = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="col-12 mb-5 mt-3">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                         <span className="small_header">

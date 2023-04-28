@@ -8,7 +8,7 @@ import {
   searchByBarcode,
 } from "../httpServices/homeHttpService/homeHttpService";
 
-const Search = ({ getSearchK }) => {
+const Search = () => {
   const [search, setSearch] = useState("");
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
@@ -106,63 +106,154 @@ const Search = ({ getSearchK }) => {
               </a>
             </div>
           ) : (
-            <div className="d-none"></div>
+            <div className="alternative-search-options">
+              <a className="comman_btn2 ms-1">
+                <i className="fa fa-qrcode">
+                  <input
+                    className="barScanner"
+                    id="p-1"
+                    accept="image/jpeg,image/png,image/jfif,application/pdf,image/x-eps"
+                    type="file"
+                    placeholder=""
+                    // onChange={(e) => onFileSelection(e.target.files, 1)}
+                  />
+                </i>
+              </a>
+            </div>
           )}
         </div>
       </div>
-      {search?.length ? (
-        <div className="top-products-area py-1">
-          <div className="container">
-            <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
-              <h6> Showing results for "{search}"</h6>
-            </div>
-
-            {product?.length ? (
-              <div className="row g-2 ">
-                {(product || [])?.map((item, index) => {
-                  return (
-                    <div className="col-6 col-md-4" key={index}>
-                      <div className="card product-card">
-                        <div className="card-body">
-                          <Link
-                            className="product-thumbnail d-block"
-                            to={`/app/product-detail/${item._id}`}
-                            state={{ type: item?.type }}
-                          >
-                            <img
-                              className="mb-2"
-                              src={
-                                item?.type.flavourImage
-                                  ? item?.type.flavourImage
-                                  : item?.productImage ||
-                                    require("../../assets/img/product.jpg")
-                              }
-                              alt=""
-                            />
-                          </Link>
-
-                          <Link
-                            className="product-title"
-                            to={`/app/product-detail/${item._id}`}
-                            state={{ type: item?.type }}
-                          >
-                            {item.unitName + "-" + item?.type.flavour}
-                          </Link>
-                        </div>
-                      </div>
+      {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+        <div>
+          {search?.length ? (
+            <div className="top-products-area py-1">
+              <div className="container">
+                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
+                  <h6> Showing results for "{search}"</h6>
+                  {search === "Tobacco" ||
+                  search === "tobacco" ||
+                  search === "smoke" ||
+                  search === "vapes" ? (
+                    <div className="text-center">
+                      <img src={require("../../assets/img/noitem.png")}></img>
+                      <a href="https://starimporters.com/app/home">
+                        Click Here{" "}
+                      </a>
+                      to visit our Website for related products.
                     </div>
-                  );
-                })}
+                  ) : null}
+                </div>
+
+                {product?.length ? (
+                  <div className="row g-2 ">
+                    {(product || [])
+                      ?.filter(
+                        (itm, idx) =>
+                          itm.category != "639a042ff2f72167b43774de" &&
+                          itm.category != "639a7617f2f72167b4377754"
+                      )
+                      .map((item, index) => {
+                        return (
+                          <div className="col-6 col-md-4" key={index}>
+                            <div className="card product-card">
+                              <div className="card-body">
+                                <Link
+                                  className="product-thumbnail d-block"
+                                  to={`/app/product-detail/${item._id}`}
+                                  state={{ type: item?.type }}
+                                >
+                                  <img
+                                    className="mb-2"
+                                    src={
+                                      item?.type.flavourImage
+                                        ? item?.type.flavourImage
+                                        : item?.productImage ||
+                                          require("../../assets/img/product.jpg")
+                                    }
+                                    alt=""
+                                  />
+                                </Link>
+
+                                <Link
+                                  className="product-title"
+                                  to={`/app/product-detail/${item._id}`}
+                                  state={{ type: item?.type }}
+                                >
+                                  {item.unitName + "-" + item?.type.flavour}
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                ) : (
+                  <div>
+                    <img className="no-data" src="../assets/img/no-data.gif" />
+                    <h1 className="text-center"> No Results</h1>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div>
-                <img className="no-data" src="../assets/img/no-data.gif" />
-                <h1 className="text-center"> No Results</h1>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      ) : (
+        <div>
+          {search?.length ? (
+            <div className="top-products-area py-1">
+              <div className="container">
+                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
+                  <h6> Showing results for "{search}"</h6>
+                </div>
+
+                {product?.length ? (
+                  <div className="row g-2 ">
+                    {(product || [])?.map((item, index) => {
+                      return (
+                        <div className="col-6 col-md-4" key={index}>
+                          <div className="card product-card">
+                            <div className="card-body">
+                              <Link
+                                className="product-thumbnail d-block"
+                                to={`/app/product-detail/${item._id}`}
+                                state={{ type: item?.type }}
+                              >
+                                <img
+                                  className="mb-2"
+                                  src={
+                                    item?.type.flavourImage
+                                      ? item?.type.flavourImage
+                                      : item?.productImage ||
+                                        require("../../assets/img/product.jpg")
+                                  }
+                                  alt=""
+                                />
+                              </Link>
+
+                              <Link
+                                className="product-title"
+                                to={`/app/product-detail/${item._id}`}
+                                state={{ type: item?.type }}
+                              >
+                                {item.unitName + "-" + item?.type.flavour}
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div>
+                    <img className="no-data" src="../assets/img/no-data.gif" />
+                    <h1 className="text-center"> No Results</h1>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 };

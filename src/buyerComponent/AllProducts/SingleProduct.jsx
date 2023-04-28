@@ -98,8 +98,8 @@ const SingleProduct = () => {
           await axios
             .post(addCart, {
               productId: cartProduct[0],
-              quantity: cartProduct[1],
-              flavour: flavour,
+              quantity: unitCount,
+              flavour: flavour, 
             })
             .then((res) => {
               if (res.data?.message === "Product Added") {
@@ -173,7 +173,7 @@ const SingleProduct = () => {
         await axios
           .post(addCart, {
             productId: cartProduct[0],
-            quantity: cartProduct[1],
+            quantity: unitCount,
             flavour: flavour,
           })
           .then((res) => {
