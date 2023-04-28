@@ -73,10 +73,10 @@ const Search = () => {
               : "search-new pt-3 "
           }
         >
-          <form className="" style={{ width: "100%" }}>
+          <form className="" action="#" style={{ width: "100%" }}>
             <input
               className="form-control"
-              type="search"
+              type="text"
               value={search}
               placeholder="Search in Star Importers"
               onChange={(e) => {
