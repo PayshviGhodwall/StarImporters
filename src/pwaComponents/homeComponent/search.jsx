@@ -107,7 +107,7 @@ const Search = () => {
             </div>
           ) : (
             <div className="alternative-search-options">
-              <a className="comman_btn2 ms-1">
+              {/* <a className="comman_btn2 ms-1">
                 <i className="fa fa-qrcode">
                   <input
                     className="barScanner"
@@ -118,7 +118,7 @@ const Search = () => {
                     // onChange={(e) => onFileSelection(e.target.files, 1)}
                   />
                 </i>
-              </a>
+              </a> */}
             </div>
           )}
         </div>
@@ -132,7 +132,17 @@ const Search = () => {
                   <h6> Showing results for "{search}"</h6>
                   {search === "Tobacco" ||
                   search === "tobacco" ||
+                  search === "Tobacc " ||
+                  search === "Tobacc " ||
+                  search === "tobac " ||
+                  search === "tobacco " ||
+                  search === "tob" ||
+                  search === "toba" ||
+                  search === "tobac" ||
+                  search === "tobacc" ||
                   search === "smoke" ||
+                  search === "cigars" ||
+                  search === "Cigerettes" ||
                   search === "vapes" ? (
                     <div className="text-center">
                       <img src={require("../../assets/img/noitem.png")}></img>

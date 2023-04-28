@@ -220,7 +220,7 @@ function AppHome() {
                   </div>
                 ) : (
                   <div className="alternative-search-options">
-                    <a className="comman_btn2 ms-1">
+                    {/* <a className="comman_btn2 ms-1">
                       <i className="fa fa-qrcode">
                         <input
                           className="barScanner"
@@ -230,7 +230,7 @@ function AppHome() {
                           onChange={(e) => onFileSelection(e.target.files)}
                         />
                       </i>
-                    </a>
+                    </a> */}
                   </div>
                 )}
               </div>
@@ -245,7 +245,17 @@ function AppHome() {
                       </div>
                       {search === "Tobacco" ||
                       search === "tobacco" ||
+                      search === "Tobacc " ||
+                      search === "Tobacc " ||
+                      search === "tobac " ||
+                      search === "tobacco " ||
+                      search === "tob" ||
+                      search === "toba" ||
+                      search === "tobac" ||
+                      search === "tobacc" ||
                       search === "smoke" ||
+                      search === "cigars" ||
+                      search === "Cigerettes" ||
                       search === "vapes" ? (
                         <div className="text-center">
                           <img

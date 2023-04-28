@@ -206,6 +206,15 @@ function TopProduct() {
                   <div class="col-6 col-md-4 d-flex align-items-stretch">
                     <div class="card product-card w-100">
                       <div class="card-body">
+                        <div class="col-auto">
+                          <Link
+                            class="cart_bttn text-decoration-none"
+                            to=""
+                            onClick={() => addToCartt(item?._id, index)}
+                          >
+                            <i class="fa-light fa-plus "></i>
+                          </Link>
+                        </div>
                         {token?.length ? (
                           <a class="wishlist-btn">
                             {item?.favourite ? (
@@ -244,22 +253,13 @@ function TopProduct() {
                           />
                         </Link>
                         <div class="row mt-1 d-flex align-items-center justify-content-between">
-                          <div class="col">
+                          <div class="col-auto">
                             <Link
                               class="product-title"
                               to={`/app/product-detail/${item?._id}`}
                               state={{ type: item?.type[0] }}
                             >
                               {item?.unitName + "-" + item.type[0]?.flavour}
-                            </Link>
-                          </div>
-                          <div class="col-auto">
-                            <Link
-                              class="cart_bttn text-decoration-none"
-                              to=""
-                              onClick={() => addToCartt(item?._id, index)}
-                            >
-                              <i class="fa-light fa-plus "></i>
                             </Link>
                           </div>
                         </div>

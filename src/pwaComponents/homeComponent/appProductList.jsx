@@ -188,7 +188,7 @@ function AppProductList() {
                       {(product || [])
                         ?.filter(
                           (itm, idx) =>
-                            itm.category._id != "639a042ff2f72167b43774de" &&
+                            // itm.category._id != "639a042ff2f72167b43774de" &&
                             itm.category._id != "639a7617f2f72167b4377754"
                         )
                         .map((item, index) => {
