@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import DOMPurify from "dompurify";
+import Fade from "react-reveal/Fade";
 
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);

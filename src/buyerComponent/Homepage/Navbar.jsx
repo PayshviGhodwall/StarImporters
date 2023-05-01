@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
-
+import Fade from "react-reveal/Fade";
+import Zoom from "react-reveal/Zoom";
+import Pulse from "react-reveal/Pulse";
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
@@ -125,9 +127,12 @@ const Navbar = ({ NState, LoginState }) => {
           <div className="row Newheader align-items-center ">
             <div className="col-auto">
               <Link className="header_logo mx-2" to="/app/home">
-                <img src={Starlogo} alt="" />
+                <Fade left>
+                  <img src={Starlogo} alt="" />
+                </Fade>
               </Link>
             </div>
+
             <div class="col ps-5 head_search">
               <form
                 class="header_newsearch"
@@ -151,76 +156,45 @@ const Navbar = ({ NState, LoginState }) => {
                     class="form-control shadow-none"
                     placeholder="Search in Star Importers"
                   />
+
                   <button class="search_ibtn">
-                    <img
-                      src={require("../../assets/img/searchPng.png")}
-                      alt=""
-                    />
+                    <Fade left>
+                      <img
+                        src={require("../../assets/img/searchPng.png")}
+                        alt=""
+                      />
+                    </Fade>
                   </button>
                 </div>
               </form>
             </div>
-            {/* <div class="col-lg-6 col-md-5 d-flex align-items-center">
-            <div class="header_search">
-              <form>
-                <div class="col pe-0">
-                  <div class="form-group">
-                    <input
-                      onChange={(e) => {
-                        e.preventDefault();
-                        setSearch(e.target.value);
-                        getProductList(e);
-                      }}
-                      type="search"
-                      id="search"
-                      name="search"
-                      class="form-control shadow-none"
-                      placeholder="Search in Star Importers"
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div> */}
 
             <div class="col-auto px-5 head_cart">
               <a class="cart_header">
                 {NState ? (
-                  <Animate>
-                    <Link to="/app/Cart" state={{ key: "hii" }}>
+                  // <Animate>
+                  <Link to="/app/Cart" state={{ key: "hii" }}>
+                    <Fade>
                       <i className="fa fa-cart-arrow-down" />
-
-                      <span className="count">{cartNum}</span>
-                    </Link>
-                  </Animate>
-                ) : (
-                  <Link to="/app/Cart">
-                    <i className="fa fa-cart-arrow-down" />
+                    </Fade>
 
                     <span className="count">{cartNum}</span>
+                  </Link>
+                ) : (
+                  // </Animate>
+                  <Link to="/app/Cart">
+                    <Fade>
+                      <i className="fa fa-cart-arrow-down" />
+                      <span className="count">
+                        <Fade>{cartNum}</Fade>
+                      </span>
+                    </Fade>
                   </Link>
                 )}
               </a>
             </div>
 
             <div className="col-auto text-end">
-              {/* <div className="social_icon d-flex">
-              {NState ? (
-                <Animate>
-                  <Link to="/app/Cart" state={{ key: "hii" }}>
-                    <i className="fa fa-cart-arrow-down" />
-
-                    <span className="count">{cartNum}</span>
-                  </Link>
-                </Animate>
-              ) : (
-                <Link to="/app/Cart">
-                  <i className="fa fa-cart-arrow-down" />
-
-                  <span className="count">{cartNum}</span>
-                </Link>
-              )}
-            </div> */}
               {UserAuth ? (
                 <div className="header_tabs ">
                   <div class="dropdown">
@@ -229,7 +203,9 @@ const Navbar = ({ NState, LoginState }) => {
                       state={"jii"}
                       className="text-decoration-none mx-1"
                     >
-                      <button class="Signupb mt-2">My Account</button>
+                      <button className="Signupb mt-2">
+                        <Fade left>My Account</Fade>
+                      </button>
                     </Link>
                     <div class="dropdown-content">
                       <Link
@@ -256,12 +232,12 @@ const Navbar = ({ NState, LoginState }) => {
                     class="Loginb text-decoration-none"
                     onClick={() => setSearch()}
                   >
-                    Login
+                    <Fade left>Login</Fade>
                   </Link>
                   <Link to="/app/register" style={{ textDecoration: "none" }}>
                     <div className="btn-group ">
                       <button class="Signupb text-decoration-none">
-                        SignUp
+                        <Fade left>Sign Up</Fade>
                       </button>
                     </div>
                   </Link>
