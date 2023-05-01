@@ -11,6 +11,7 @@ function AppCheckout() {
   const [users, setUsers] = useState();
   const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
+
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
@@ -20,7 +21,9 @@ function AppCheckout() {
     };
     getUser();
   }, []);
+
   console.log(comments);
+
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
       await axios
@@ -62,6 +65,7 @@ function AppCheckout() {
   };
 
   console.log(users?.state);
+
   return (
     <>
       <div class="star_imp_app">
