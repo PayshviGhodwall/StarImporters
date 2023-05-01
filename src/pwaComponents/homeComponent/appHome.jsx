@@ -14,24 +14,19 @@ import {
 } from "../httpServices/homeHttpService/homeHttpService";
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
-import DOMPurify from "dompurify";
-import axios from "axios";
 import { browserName } from "react-device-detect";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
-  const [allHeaders, setAllHeaders] = useState([]);
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [hideF, setHideF] = useState({ opacity: "1" });
-  const HeadersApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/homeBanner/getHeaders`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-  let deviceId = localStorage.getItem("device");
 
   useEffect(() => {
     getBanner();
@@ -42,7 +37,6 @@ function AppHome() {
 
   useEffect(() => {
     getProductList();
-    getHeaders();
   }, [search]);
 
   useEffect(() => {
@@ -78,11 +72,11 @@ function AppHome() {
       setCategory(JSON.parse(localStorage.getItem("categories")));
     }
   };
-  const getHeaders = async () => {
-    await axios.get(HeadersApi).then((res) => {
-      setAllHeaders(res?.data.results.headers[0]);
-    });
-  };
+  // const getHeaders = async () => {
+  //   await axios.get(HeadersApi).then((res) => {
+  //     setAllHeaders(res?.data.results.headers[0]);
+  //   });
+  // };
   const getTopProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
@@ -261,7 +255,10 @@ function AppHome() {
                           <img
                             src={require("../../assets/img/noitem.png")}
                           ></img>
-                          <a href="https://starimporters.com/app/home">
+                          <a
+                            href="https://starimporters.com/app/home"
+                            target="_blank"
+                          >
                             Click Here{" "}
                           </a>
                           to visit our Website for related products.{" "}
@@ -355,7 +352,7 @@ function AppHome() {
                                 <div className="single-hero-slide item">
                                   <img src={item?.banner}></img>
                                   <div className="slide-content h-100 d-flex align-items-center">
-                                    <div className="slide-text"></div>
+                                    {/* <div className="slide-text"></div> */}
                                   </div>
                                 </div>
                               );
@@ -424,24 +421,26 @@ function AppHome() {
                             items={3}
                             margin={10}
                           >
-                            {brand.map((item, index) => {
-                              return (
-                                <div
-                                  className="card flash-sale-card item"
-                                  key={index}
-                                >
-                                  <div className="card-body">
-                                    <Link to="/app/brands">
-                                      <img
-                                        width={40}
-                                        src={item?.brandImage}
-                                        alt=""
-                                      />
-                                    </Link>
+                            {brand
+                              ?.filter((itm, idx) => itm.isTobacco != true)
+                              .map((item, index) => {
+                                return (
+                                  <div
+                                    className="card flash-sale-card item"
+                                    key={index}
+                                  >
+                                    <div className="card-body">
+                                      <Link to="/app/brands">
+                                        <img
+                                          width={40}
+                                          src={item?.brandImage}
+                                          alt=""
+                                        />
+                                      </Link>
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
                           </OwlCarousel>
                         ) : (
                           ""

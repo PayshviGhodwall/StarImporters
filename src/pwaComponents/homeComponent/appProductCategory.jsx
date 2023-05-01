@@ -283,7 +283,7 @@ function AppProductCategory() {
                             : setActivePage(activePage - 1)
                         }
                       >
-                        <i class="fa-solid fa-arrow-left-long"></i> Previous
+                        <i class="fa-solid fa-arrow-left-long"></i> Prev
                       </Link>
                     </div>
                     <div

@@ -14,7 +14,7 @@ function AppThankyou() {
               <Link class="comman_btn d-inline" to="/app/home">
                 Back to Home
               </Link>
-              <Link class="comman_btn d-inline" to="/app/my-order">
+              <Link class="comman_btn d-inline mx-2" to="/app/my-order">
                 View Orders
               </Link>
             </div>

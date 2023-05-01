@@ -865,10 +865,10 @@
     position: relative;
     display: flex;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     justify-content: center !important;
     background-color: #3e4093;
-    height: 48px;
+    height: 45px;
   }
   .container-fluid {
     max-width: 96%;
@@ -2839,7 +2839,7 @@
     width: 100%;
     left: 0;
     right: 0;
-    top: 50px;
+    top: 40px;
     min-width: 100% !important;
     max-width: 100%;
     overflow: hidden;

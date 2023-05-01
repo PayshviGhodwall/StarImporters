@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Homepage from "./buyerComponent/Homepage/Homepage";
@@ -127,13 +116,12 @@ import AppDocs from "./pwaComponents/homeComponent/appDocs";
 function App() {
   const [apiData, setApiData] = useState([]);
   const [cateName, setCateName] = useState();
+  const width = window.innerWidth;
 
   const GetData = (data) => {
     console.log(data);
     setCateName(data);
   };
-
-  const width = window.innerWidth;
 
   return (
     <div className="App">
@@ -432,13 +420,10 @@ function App() {
               path="/app/logout"
               element={width < 999 ? <AppLogout /> : <Homepage />}
             />
-            {/* <Route path="/app/home" element={<Homepage GetData={GetData} />} /> */}
-            {/* <Route path="/app/register" element={<SignUp />} /> */}
-            {/* <Route path="/login" element={<Login newData={GetData} />} /> */}
-
-            {/*  */}
-
-            {/*  */}
+            <Route
+              path="*"
+              component={width < 999 ? <AppHome /> : <Homepage />}
+            />
           </Routes>
         </Router>
       </RecoilRoot>

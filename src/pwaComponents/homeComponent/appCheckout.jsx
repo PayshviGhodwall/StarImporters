@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
@@ -259,7 +258,7 @@ function AppCheckout() {
                       style={{ height: "8rem" }}
                       type="text"
                       placeholder="Enter your comments...."
-                      onClick={(e) => setComments(e.target.value)}
+                      onChange={(e) => setComments(e.target.value)}
                     />
                   </div>
                 </div>

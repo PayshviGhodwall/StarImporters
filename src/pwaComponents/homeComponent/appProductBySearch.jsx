@@ -119,7 +119,7 @@ function AppProductBySearch() {
             <form action="#">
               <input
                 className="form-control"
-                type="text"
+              type="text"
                 defaultValue={preSearch}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}

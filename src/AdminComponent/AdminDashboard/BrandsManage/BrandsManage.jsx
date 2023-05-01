@@ -15,6 +15,7 @@ const BrandsManage = () => {
   const editBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/editBrand`;
   const addBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/addBrand`;
   const ViewBrand = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/viewBrands`;
+  const TobaccoBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/tobaccoBrand`;
   const [searchTerm, setSearchTerm] = useState("");
   const [editBrandName, setEditBrandName] = useState("");
   const [change, setChange] = useState("");
@@ -167,6 +168,19 @@ const BrandsManage = () => {
       });
     }
   });
+
+  const brandTobaccoStatus = async (id) => {
+    await axios.post(TobaccoBrands + "/" + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: "Tobacco Status Modified!",
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
+  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -465,7 +479,7 @@ const BrandsManage = () => {
                 </li>
                 <li>
                   <Link
-                    className=""  
+                    className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
@@ -660,6 +674,7 @@ const BrandsManage = () => {
                                     <th>Date</th>
                                     <th>Brand Name</th>
                                     <th>Media</th>
+                                    <th>Tobacco</th>
                                     <th>Action</th>
                                   </tr>
                                 </thead>
@@ -695,7 +710,22 @@ const BrandsManage = () => {
                                             src={item?.brandImage}
                                           ></img>
                                         </td>
-
+                                        <td>
+                                          {" "}
+                                          <div className="" key={item?._id}>
+                                            <label class="switchUser">
+                                              <input
+                                                type="checkbox"
+                                                id={item?._id}
+                                                defaultChecked={item?.isTobacco}
+                                                onClick={() => {
+                                                  brandTobaccoStatus(item?._id);
+                                                }}
+                                              />
+                                              <span class="sliderUser round"></span>
+                                            </label>
+                                          </div>
+                                        </td>
                                         <td>
                                           <Link
                                             data-bs-toggle="modal"

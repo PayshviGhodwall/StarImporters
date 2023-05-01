@@ -4,9 +4,9 @@ import { useRecoilValue } from "recoil";
 import { charSearchKey } from "../../selecter";
 import { getBrands } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import Search from "./search";
 import WebHeader2 from "./webHeader2";
+import { browserName } from "react-device-detect";
 
 function AppBrands() {
   const [brand, setBrand] = useState([]);
@@ -63,23 +63,59 @@ function AppBrands() {
         <WebHeader2 />
         <div className="page-content-wrapper">
           <Search />
-          {searchKey?.length ? null : (
-            <div className="brands_section pt-3">
-              <div className="row mx-0">
-                {brand.map((item, index) => {
-                  return (
-                    <div className="col-6 mb-3 pe-2">
-                      <Link
-                        className="brands_box shadow"
-                        to="/app/productBrands"
-                        state={{ name: item?.brandName }}
-                      >
-                        <img src={item?.brandImage} className="p-2" alt="" />
-                      </Link>
-                    </div>
-                  );
-                })}
-              </div>
+          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            <div>
+              {searchKey?.length ? null : (
+                <div className="brands_section pt-3">
+                  <div className="row mx-0">
+                    {brand
+                      .filter((itm, idx) => itm.isTobacco != true)
+                      .map((item, index) => {
+                        return (
+                          <div className="col-6 mb-3 pe-2">
+                            <Link
+                              className="brands_box shadow"
+                              to="/app/productBrands"
+                              state={{ name: item?.brandName }}
+                            >
+                              <img
+                                src={item?.brandImage}
+                                className="p-2"
+                                alt=""
+                              />
+                            </Link>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              {searchKey?.length ? null : (
+                <div className="brands_section pt-3">
+                  <div className="row mx-0">
+                    {brand.map((item, index) => {
+                      return (
+                        <div className="col-6 mb-3 pe-2">
+                          <Link
+                            className="brands_box shadow"
+                            to="/app/productBrands"
+                            state={{ name: item?.brandName }}
+                          >
+                            <img
+                              src={item?.brandImage}
+                              className="p-2"
+                              alt=""
+                            />
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
