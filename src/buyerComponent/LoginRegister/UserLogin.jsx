@@ -7,6 +7,7 @@ import classNames from "classnames";
 import Starlogo from "../../assets/img/logo.png";
 import Navbar from "../Homepage/Navbar";
 import { Button } from "rsuite";
+import Footer from "../Footer/Footer";
 
 const UserLogin = () => {
   const [loader, setLoader] = useState(false);
@@ -92,8 +93,11 @@ const UserLogin = () => {
     <div>
       <Navbar />
       <div class="login-new-design comman_padding marginTopLog">
-        <div class="container px-4 py-0">
-          <div class="row comman_divvision justify-content-center text-center">
+        <div class="container px-4 py-0 ">
+          <div
+            class="row comman_divvision justify-content-center text-center shadow
+          "
+          >
             <div class="col-12 login-new-img mb-lg-4 mb-md-4">
               <img src={Starlogo} alt="" />
             </div>
@@ -151,6 +155,7 @@ const UserLogin = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

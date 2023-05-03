@@ -3,7 +3,7 @@ import AppHeader from "./appHeader";
 import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import {
   getAllProducts,
   getBrands,
@@ -15,6 +15,7 @@ import {
 import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import { browserName } from "react-device-detect";
+import axios from "axios";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -25,9 +26,10 @@ function AppHome() {
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [hideF, setHideF] = useState({ opacity: "1" });
+  const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-
+  const [tokenWeb, setTokenWeb] = useState();
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -135,7 +137,21 @@ function AppHome() {
       }
     }
   };
+  const redirectToWeb = async (e) => {
+    e.preventDefault();
+    if (window.flutter_inappwebview) {
+      await window.flutter_inappwebview.callHandler(
+        "openExternalBrowser",
+        `/app/redirect/constantRedirect99/${tokenWeb}`
+      );
+    }
+  };
 
+  const genToken = async () => {
+    const token = await axios.post(TempToken);
+    console.log(token.data.results.token);
+    setTokenWeb(token.data.results.token);
+  };
   const handleOutsideClick = (event) => {
     if (ref.current.contains(event.target)) {
       setSearch(null);
@@ -241,10 +257,8 @@ function AppHome() {
                       search === "tobacco" ||
                       search === "Tobacc " ||
                       search === "Tobacc " ||
-                      search === "tobac " ||
+                      search === "tobaco" ||
                       search === "tobacco " ||
-                      search === "tob" ||
-                      search === "toba" ||
                       search === "tobac" ||
                       search === "tobacc" ||
                       search === "smoke" ||
@@ -256,8 +270,9 @@ function AppHome() {
                             src={require("../../assets/img/noitem.png")}
                           ></img>
                           <a
-                            href="https://starimporters.com/app/home"
-                            target="_blank"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"
+                            onClick={genToken}
                           >
                             Click Here{" "}
                           </a>
@@ -637,6 +652,52 @@ function AppHome() {
 
         <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
           <AppFooter />
+        </div>
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                  Please Confirm !
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">Open website in External Browser.</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  id="modalCLose"
+                >
+                  Close
+                </button>
+                <Link
+                  // to={}
+                  onClick={() => {
+                    redirectToWeb();
+                    document.getElementById("modalClose").click();
+                  }}
+                  class="btn btn-primary"
+                >
+                  Confirm
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

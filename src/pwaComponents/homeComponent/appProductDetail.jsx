@@ -14,8 +14,9 @@ import { useNavigate } from "react-router-dom";
 import WebHeader2 from "./webHeader2";
 import SimlarProduct from "./appSimilarProductComponent";
 import axios from "axios";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function AppProductDetail() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -32,18 +33,21 @@ function AppProductDetail() {
   const navigate = useNavigate();
   const [objectId, setObjectID] = useState();
   let token = localStorage.getItem("token-user");
+  const [itemNo, setItemNo] = useState();
   let location = useLocation();
   let ref = useRef();
 
   if (objectId !== id) {
     setObjectID(id);
-    setFlavour(location?.state?.flavour);
+    setFlavour(location?.state?.type);
+    setItemNo(0);
   }
 
+  console.log(location?.state);
   useEffect(() => {
     getProductDetail();
     userInfo();
-  }, [flavour, id]);
+  }, [id]);
 
   const userInfo = async () => {
     await axios.get(userData).then((res) => {
@@ -138,40 +142,6 @@ function AppProductDetail() {
       }
     }
   };
-  const AddtoQuotess = async () => {
-    if (flavour) {
-      const formData = {
-        productId: id,
-        quantity: quantity,
-        flavour: flavour ? flavour : {},
-      };
-      const { data } = await addToQuote(formData);
-      if (!data.error) {
-        navigate("/app/quotes");
-      }
-    } else {
-      Swal.fire({
-        title: "Select Any Flavour/Packsize!",
-        icon: "error",
-        button: "Ok",
-      });
-    }
-  };
-  // const getFlavour = (index) => {
-  //   const flavourData = productDetail?.type.map((option) => option);
-  //   console.log(flavourData);
-  //   setTypeObj(flavourData[index]);
-  //   if (flavour.flavour === flavourData[0].flavour) {
-  //     setFlavour({
-  //       flavour: "",
-  //       flavourImage: "",
-  //     });
-  //   } else
-  //     setFlavour({
-  //       flavour: flavourData[index].flavour,
-  //       flavourImage: flavourData[index].flavourImage,
-  //     });
-  // };
   const addToFav = async () => {
     await axios
       .post(addFav, {
@@ -213,6 +183,9 @@ function AppProductDetail() {
       document.getElementById("closeModal").click();
     }
   };
+  const onHoverMain = (ind) => {
+    setFlavour(productDetail.type[ind - 1]);
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -245,18 +218,14 @@ function AppProductDetail() {
         <WebHeader2 /> */}
 
         <div className="page-content-wrapper">
-          <div className="product-slide-wrapper">
+          <div className="product-slide-wrapper" key={itemNo}>
             {productDetail ? (
-              <OwlCarousel
-                className=" product-slides "
-                autoplay={true}
-                autoplayHoverPause={false}
-                autoplayTimeout={7000}
-                dots={false}
-                loop={true}
-                nav={false}
-                fade={false}
-                items={1}
+              <Carousel
+                showThumbs={false}
+                showIndicators={false}
+                onChange={onHoverMain}
+                autoFocus={false}
+                selectedItem={itemNo}
               >
                 <div className="single-product-slide item">
                   <img
@@ -265,6 +234,8 @@ function AppProductDetail() {
                         ? flavour?.flavourImage
                         : productDetail?.productImage
                     }
+                    className
+                    id="product-image"
                   />
                 </div>
                 {productDetail?.type.map((item) => (
@@ -275,7 +246,7 @@ function AppProductDetail() {
                     />
                   </div>
                 ))}
-              </OwlCarousel>
+              </Carousel>
             ) : (
               ""
             )}
@@ -376,6 +347,9 @@ function AppProductDetail() {
                               setFlavour(item);
                               setFInd(index);
                               setQuantity(1);
+                              setItemNo(index + 1);
+                              document.getElementById("product-image").src =
+                                item?.flavourImage;
                             }}
                           >
                             {item?.flavour}
@@ -387,7 +361,9 @@ function AppProductDetail() {
                               e.preventDefault();
                               setFlavour(item);
                               setFInd(index);
-                              setQuantity(1);
+                              setItemNo(index + 1);
+                              document.getElementById("product-image").src =
+                                item?.flavourImage;
                             }}
                           >
                             {item?.flavour}

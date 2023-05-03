@@ -74,8 +74,8 @@ function AppCategories() {
                   {categories
                     ?.filter(
                       (itm, idx) =>
-                        itm._id != "639a042ff2f72167b43774de" &&
-                        itm._id != "639a7617f2f72167b4377754"
+                        itm._id !== "639a042ff2f72167b43774de" &&
+                        itm._id !== "639a7617f2f72167b4377754"
                     )
                     .map((item, index) => {
                       return (
@@ -87,7 +87,10 @@ function AppCategories() {
                             <div>
                               <img src={item?.categoryImage} alt="" />
                             </div>
-                            <p className="text-center mt-2">
+                            <p
+                              className="text-center mt-2"
+                              style={{ fontSize: "13px" }}
+                            >
                               {item?.categoryName}
                             </p>
                           </Link>
@@ -147,7 +150,10 @@ function AppCategories() {
                           <div>
                             <img src={item?.categoryImage} alt="" />
                           </div>
-                          <p className="text-center mt-2">
+                          <p
+                            className="text-center mt-2"
+                            style={{ fontSize: "13px" }}
+                          >
                             {item?.categoryName}
                           </p>
                         </Link>

@@ -99,7 +99,7 @@ const SingleProduct = () => {
             .post(addCart, {
               productId: cartProduct[0],
               quantity: unitCount,
-              flavour: flavour, 
+              flavour: flavour,
             })
             .then((res) => {
               if (res.data?.message === "Product Added") {

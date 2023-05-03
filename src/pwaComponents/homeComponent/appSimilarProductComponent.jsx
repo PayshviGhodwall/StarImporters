@@ -4,11 +4,7 @@ import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link } from "react-router-dom";
-import {
-  addToCart,
-  getAllProducts,
-  similarProduct,
-} from "../httpServices/homeHttpService/homeHttpService";
+import { addToCart } from "../httpServices/homeHttpService/homeHttpService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

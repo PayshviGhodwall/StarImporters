@@ -112,6 +112,7 @@ import UserOtpValidate from "./buyerComponent/LoginRegister/UserOtpValidate";
 import UserUpdatePassword from "./buyerComponent/LoginRegister/UserUpdatePassword";
 import AppBuyAgain from "./pwaComponents/homeComponent/appBuyAgain";
 import AppDocs from "./pwaComponents/homeComponent/appDocs";
+import AppRedirectWeb from "./pwaComponents/homeComponent/appRedirectWeb";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -296,6 +297,10 @@ function App() {
             <Route
               path="/app/homeGuest"
               element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/redirect/constantRedirect99/:id"
+              element={width < 999 ? <AppRedirectWeb /> : <Homepage />}
             />
             <Route
               path="/app/buy-again"
