@@ -17,6 +17,8 @@ const AppRedirectWeb = () => {
     if (!data.error) {
       navigate("/app/home");
       localStorage.setItem("token-user", data?.results.token);
+    } else {
+      navigate("/app/login");
     }
   };
   return (

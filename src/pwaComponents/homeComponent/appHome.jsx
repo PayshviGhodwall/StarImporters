@@ -29,7 +29,9 @@ function AppHome() {
   const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-  const [tokenWeb, setTokenWeb] = useState("");
+  const [tokenWeb, setTokenWeb] = useState(
+    "6245268ah78a79a98da98da977d9d98d9898ad9d8ad"
+  );
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -254,7 +256,9 @@ function AppHome() {
                   <div className="top-products-area py-1">
                     <div className="container">
                       <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                        <h6> Showing results for "{search}"</h6>
+                        <p className="mt-0 mb-4">
+                          Showing results for "{search}"
+                        </p>
                       </div>
                       {search === "Tobacco" ||
                       search === "tobacco" ||
@@ -274,12 +278,13 @@ function AppHome() {
                           ></img>
                           <a
                             data-bs-toggle="modal"
+                            className="fw-bold mx-2"
                             data-bs-target="#staticBackdrop"
                             onClick={genToken}
                           >
                             Click Here
                           </a>
-                          to visit our Website for related products.{" "}
+                          to buy this product from our website.{" "}
                         </div>
                       ) : null}
 
@@ -475,7 +480,10 @@ function AppHome() {
                   <div className="top-products-area py-1">
                     <div className="container">
                       <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                        <h6> Showing results for "{search}"</h6>
+                        <p className="mt-0 mb-4">
+                          {" "}
+                          Showing results for "{search}"
+                        </p>
                       </div>
 
                       {product?.length ? (
