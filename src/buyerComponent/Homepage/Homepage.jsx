@@ -37,6 +37,7 @@ const Homepage = () => {
   let token = localStorage.getItem("token-user");
   let NewUser = sessionStorage.getItem("new");
   console.log(NewUser);
+
   useEffect(() => {
     if (!token) {
       if (!NewUser) {
@@ -621,81 +622,6 @@ const Homepage = () => {
               </div>
             </div>
           </section>
-          {/*           
-          <section className="featured_category mx-5 shadow pt-3 mb-5">
-            <div className="col-12 comman_head mb-3  mt-2 text-center">
-              <h2
-                dangerouslySetInnerHTML={createMarkup(
-                  allHeaders?.categoryTitle
-                )}
-              ></h2>
-
-              <span
-                className="viewAllBtn"
-                onClick={() => navigate("/app/Categories", { state: "hii" })}
-              >
-                View All <i className="fa fa-arrow-right"></i>
-              </span>
-            </div>
-
-            <Swiper
-              slidesPerView={5}
-              spaceBetween={30}
-              navigation={true}
-              autoplay={true}
-              loop={true}
-              modules={[FreeMode, Pagination, Autoplay, Navigation]}
-              className="mySwiper px-4 py-2"
-            >
-              {(category || [])?.map((item, index) => (
-                <SwiperSlide key={index}>
-                  <div className="col-12">
-                    <div className="categorynew_slider sliderbtns_design">
-                      <a class="categorynew_box">
-                        <div class="categorynew_img">
-                          <Link
-                            to={{
-                              pathname: "/CategoryProducts",
-                            }}
-                            state={{
-                              name: item?.categoryName,
-                              image: item?.background,
-                            }}
-                          >
-                            <img
-                              src={item?.categoryImage}
-                              className=""
-                              alt="lorem"
-                            />
-                          </Link>
-                        </div>
-                        <span> {item?.categoryName}</span>
-                      </a>
-                      <div className="text-center">
-                      <Link
-                        to={{
-                          pathname: "/CategoryProducts",
-                        }}
-                        state={{
-                          name: item?.categoryName,
-                          image: item?.background,
-                        }}
-                        className="featured__box text-center mt-5  text-decoration-none"
-                      >
-                        <img
-                          src={item?.categoryImage}
-                          className=""
-                          alt="lorem"
-                        />
-                      </Link>
-                    </div>
-                      <span className="d-flex justify-content-center w-100 mt-2 "></span>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </section> */}
 
           <section class="featuredproduct">
             <div class="container">
@@ -778,85 +704,6 @@ const Homepage = () => {
               </div>
             </div>
           </section>
-
-          {/* <section className="features_products py-1 bg-white">
-            <div className="container-fluid  mb-4">
-              <div className="col-12 comman_head mb-2 mt-3 text-center">
-                <h2
-                  dangerouslySetInnerHTML={createMarkup(
-                    allHeaders?.featuredTitle
-                  )}
-                ></h2>
-                <span
-                  className="viewAllBtn"
-                  onClick={() =>
-                    navigate("/app/featured-products", { state: "hii" })
-                  }
-                >
-                  View All <i className="fa fa-arrow-right"></i>
-                </span>
-              </div>
-
-              <div className="row">
-                <Swiper
-                  slidesPerView={5}
-                  spaceBetween={30}
-                  navigation={true}
-                  autoplay={true}
-                  loop={true}
-                  style={{ padding: "36px" }}
-                  modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                  className="mySwiper  py-2 featuredSwiper"
-                >
-                  {(featured || [])?.map((item, index) => (
-                    <SwiperSlide
-                      key={index}
-                      className="col-lg-3 col-md-4 col-sm-4"
-                    >
-                      <div
-                        className="product_parts_box "
-                        onClick={() =>
-                          navigate(`/AllProducts/Product/${item?._id}`, {
-                            state: {
-                              id: item?._id,
-                            },
-                          })
-                        }
-                      >
-                        <div className="partsproduct_img ">
-                          <img
-                            src={
-                              item?.productImage
-                                ? item?.productImage
-                                : require("../../assets/img/product.jpg")
-                            }
-                            className="mt-3 mb-3"
-                            alt="Product"
-                          />
-                        </div>
-                        <div className="product_content mt-3 text-center">
-                          <FontAwesomeIcon />
-                          <Link
-                            to=""
-                            style={{
-                              textDecoration: "none",
-                              color: "#3e4093",
-                              fontWeight: "600",
-
-                              fontFamily: "poppins",
-                            }}
-                          >
-                            {item?.unitName}
-                          </Link>
-                          <p>{item?.description}</p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-          </section> */}
 
           <section
             className="product_show_home"

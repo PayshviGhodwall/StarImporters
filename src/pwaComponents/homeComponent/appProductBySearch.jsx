@@ -179,13 +179,12 @@ function AppProductBySearch() {
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
                   <h6> Showing results for "{search}"</h6>
                   {search === "Tobacco" ||
+                  search === "Tobacco " ||
                   search === "tobacco" ||
                   search === "tobaco " ||
                   search === "Tobacc " ||
                   search === "tobac " ||
                   search === "tobacco " ||
-                  search === "tob" ||
-                  search === "toba" ||
                   search === "tobac" ||
                   search === "tobacc" ||
                   search === "smoke" ||
@@ -213,6 +212,7 @@ function AppProductBySearch() {
                       ?.filter(
                         (itm, idx) =>
                           itm.category != "639a042ff2f72167b43774de" &&
+                          idx < 15 &&
                           itm.category != "639a7617f2f72167b4377754"
                       )
                       .map((item, index) => {

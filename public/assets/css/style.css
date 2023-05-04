@@ -1801,9 +1801,13 @@
     position: relative;
   }
 
-  .product_show .carousel-inner {
+  .carousel-inner {
     margin-left: 0;
     width: 100%;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    height: 620px !important;
   }
   .product_show .carousel-indicators {
     position: relative;

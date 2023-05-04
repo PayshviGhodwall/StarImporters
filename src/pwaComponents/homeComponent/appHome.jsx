@@ -261,6 +261,7 @@ function AppHome() {
                         </p>
                       </div>
                       {search === "Tobacco" ||
+                      search === "Tobacco " ||
                       search === "tobacco" ||
                       search === "Tobacc " ||
                       search === "Tobacc " ||
@@ -294,6 +295,7 @@ function AppHome() {
                             ?.filter(
                               (itm, idx) =>
                                 itm.category != "639a042ff2f72167b43774de" &&
+                                idx < 10 &&
                                 itm.category != "639a7617f2f72167b4377754"
                             )
                             .map((item, index) => {
