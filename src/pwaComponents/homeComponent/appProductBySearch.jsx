@@ -10,7 +10,8 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { useNavigate } from "react-router-dom";
-import { browserName, CustomView } from "react-device-detect";
+import { browserName } from "react-device-detect";
+import axios from "axios";
 
 function AppProductBySearch() {
   const [search, setSearch] = useState("");
@@ -19,6 +20,10 @@ function AppProductBySearch() {
   const navigate = useNavigate();
   let location = useLocation();
   let deviceId = localStorage.getItem("device");
+  const [tokenWeb, setTokenWeb] = useState(
+    "6245268ah78a79a98da98da977d9d98d9898ad9d8ad"
+  );
+  const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
 
   const {
     transcript,
@@ -26,6 +31,7 @@ function AppProductBySearch() {
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
+
   let preSearch = location?.state?.search;
   useEffect(() => {
     getProductList();
@@ -97,6 +103,24 @@ function AppProductBySearch() {
     }
   };
 
+  const redirectToWeb = async () => {
+    console.log("testing");
+    try {
+      await window.flutter_inappwebview.callHandler(
+        "openExternalBrowser",
+        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const genToken = async () => {
+    const token = await axios.post(TempToken);
+    console.log(token.data.results.token);
+    setTokenWeb(token.data.results.token);
+  };
+
   // if (scan) {
   //   return (
   //     <div>
@@ -119,7 +143,7 @@ function AppProductBySearch() {
             <form action="#">
               <input
                 className="form-control"
-              type="text"
+                type="text"
                 defaultValue={preSearch}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}
@@ -152,18 +176,33 @@ function AppProductBySearch() {
           <div className="top-products-area py-3">
             {browserName === "WebKit" || browserName === "Chrome WebView" ? (
               <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
-                  <h6> Showing results for "{search ? search : preSearch}"</h6>
+                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
+                  <h6> Showing results for "{search}"</h6>
                   {search === "Tobacco" ||
                   search === "tobacco" ||
+                  search === "tobaco " ||
+                  search === "Tobacc " ||
+                  search === "tobac " ||
+                  search === "tobacco " ||
+                  search === "tob" ||
+                  search === "toba" ||
+                  search === "tobac" ||
+                  search === "tobacc" ||
                   search === "smoke" ||
+                  search === "cigars" ||
+                  search === "Cigerettes" ||
                   search === "vapes" ? (
                     <div className="text-center">
                       <img src={require("../../assets/img/noitem.png")}></img>
-                      <a href="https://starimporters.com/app/home">
-                        Click Here{" "}
+                      <a
+                        data-bs-toggle="modal"
+                        className="fw-bold mx-2"
+                        data-bs-target="#staticBackdrop"
+                        onClick={genToken}
+                      >
+                        Click Here
                       </a>
-                      to visit our Website for related products.{" "}
+                      to buy this product from our website.{" "}
                     </div>
                   ) : null}
                 </div>
@@ -311,6 +350,52 @@ function AppProductBySearch() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Please Confirm !
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Open website in External Browser.</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="modalCLose"
+              >
+                Close
+              </button>
+              <Link
+                // to={}
+                onClick={() => {
+                  redirectToWeb();
+                  // document.getElementById("modalClose").click();
+                }}
+                class="btn btn-primary"
+              >
+                Confirm
+              </Link>
             </div>
           </div>
         </div>

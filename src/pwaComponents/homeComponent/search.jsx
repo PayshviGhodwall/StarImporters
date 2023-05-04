@@ -7,12 +7,17 @@ import {
   homeSearch,
   searchByBarcode,
 } from "../httpServices/homeHttpService/homeHttpService";
+import axios from "axios";
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
   const [text, setText] = useRecoilState(searchKey);
+  const [tokenWeb, setTokenWeb] = useState(
+    "6245268ah78a79a98da98da977d9d98d9898ad9d8ad"
+  );
+  const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
 
   useEffect(() => {
     getProductList();
@@ -61,6 +66,23 @@ const Search = () => {
         navigate("/app/product-by-search", { state: { search: Dd } });
       }
     }
+  };
+  const redirectToWeb = async () => {
+    console.log("testing");
+    try {
+      await window.flutter_inappwebview.callHandler(
+        "openExternalBrowser",
+        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const genToken = async () => {
+    const token = await axios.post(TempToken);
+    console.log(token.data.results.token);
+    setTokenWeb(token.data.results.token);
   };
 
   return (
@@ -132,7 +154,7 @@ const Search = () => {
                   <h6> Showing results for "{search}"</h6>
                   {search === "Tobacco" ||
                   search === "tobacco" ||
-                  search === "Tobacc " ||
+                  search === "tobaco " ||
                   search === "Tobacc " ||
                   search === "tobac " ||
                   search === "tobacco " ||
@@ -146,10 +168,15 @@ const Search = () => {
                   search === "vapes" ? (
                     <div className="text-center">
                       <img src={require("../../assets/img/noitem.png")}></img>
-                      <a href="https://starimporters.com/app/home">
-                        Click Here{" "}
+                      <a
+                        data-bs-toggle="modal"
+                        className="fw-bold mx-2"
+                        data-bs-target="#staticBackdrop"
+                        onClick={genToken}
+                      >
+                        Click Here
                       </a>
-                      to visit our Website for related products.
+                      to buy this product from our website.{" "}
                     </div>
                   ) : null}
                 </div>
@@ -264,6 +291,52 @@ const Search = () => {
           ) : null}
         </div>
       )}
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Please Confirm !
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Open website in External Browser.</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="modalCLose"
+              >
+                Close
+              </button>
+              <Link
+                // to={}
+                onClick={() => {
+                  redirectToWeb();
+                  // document.getElementById("modalClose").click();
+                }}
+                class="btn btn-primary"
+              >
+                Confirm
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
