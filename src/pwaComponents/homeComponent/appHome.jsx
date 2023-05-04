@@ -137,13 +137,13 @@ function AppHome() {
       }
     }
   };
-  const redirectToWeb = async (e) => {
-    e.preventDefault();
-    if (window.flutter_inappwebview) {
+  const redirectToWeb = async () => {
+    if (window.flutter_inappgitwebview) {
       await window.flutter_inappwebview.callHandler(
         "openExternalBrowser",
         `/app/redirect/constantRedirect99/${tokenWeb}`
       );
+      console.log("testing");
     }
   };
 
