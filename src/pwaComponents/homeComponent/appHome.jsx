@@ -152,6 +152,7 @@ function AppHome() {
     console.log(token.data.results.token);
     setTokenWeb(token.data.results.token);
   };
+
   const handleOutsideClick = (event) => {
     if (ref.current.contains(event.target)) {
       setSearch(null);
@@ -274,7 +275,7 @@ function AppHome() {
                             data-bs-target="#staticBackdrop"
                             onClick={genToken}
                           >
-                            Click Here{" "}
+                            Click Here
                           </a>
                           to visit our Website for related products.{" "}
                         </div>
@@ -689,7 +690,7 @@ function AppHome() {
                   // to={}
                   onClick={() => {
                     redirectToWeb();
-                    document.getElementById("modalClose").click();
+                    // document.getElementById("modalClose").click();
                   }}
                   class="btn btn-primary"
                 >
