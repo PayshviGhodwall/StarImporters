@@ -140,18 +140,13 @@ function AppHome() {
   const redirectToWeb = async () => {
     console.log("testing");
     try {
-      if (window.flutter_inappgitwebview) {
-        await window.flutter_inappwebview.callHandler(
-          "openExternalBrowser",
-          `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
-        );
-      }
-      else {
-        console.log("elsselese");
-      }
+      await window.flutter_inappwebview.callHandler(
+        "openExternalBrowser",
+        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
+      );
+    } catch (err) {
+      console.log(err);
     }
- 
-   
   };
 
   const genToken = async () => {
