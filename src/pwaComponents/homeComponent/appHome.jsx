@@ -139,12 +139,12 @@ function AppHome() {
   };
   const redirectToWeb = async (e) => {
     e.preventDefault();
-    // if (window.flutter_inappwebview) {
-    //   await window.flutter_inappwebview.callHandler(
-    //     "openExternalBrowser",
-    //     `/app/redirect/constantRedirect99/${tokenWeb}`
-    //   );
-    // }
+    if (window.flutter_inappwebview) {
+      await window.flutter_inappwebview.callHandler(
+        "openExternalBrowser",
+        `/app/redirect/constantRedirect99/${tokenWeb}`
+      );
+    }
   };
 
   const genToken = async () => {
