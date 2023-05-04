@@ -29,7 +29,7 @@ function AppHome() {
   const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
   const [loading, setLoading] = useState(true);
   const ref = useRef(null);
-  const [tokenWeb, setTokenWeb] = useState();
+  const [tokenWeb, setTokenWeb] = useState("");
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -141,7 +141,7 @@ function AppHome() {
     if (window.flutter_inappgitwebview) {
       await window.flutter_inappwebview.callHandler(
         "openExternalBrowser",
-        `/app/redirect/constantRedirect99/${tokenWeb}`
+        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
       );
       console.log("testing");
     }
