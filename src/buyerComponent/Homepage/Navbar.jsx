@@ -45,6 +45,7 @@ const Navbar = ({ NState, LoginState }) => {
     if (Search != "") {
       const { data } = await homeSearch({
         search: Search?.replace(".", "")?.trim(),
+        limit: 6,
       });
       if (!data.error) {
         let dataList = data?.results;
@@ -509,7 +510,7 @@ const Navbar = ({ NState, LoginState }) => {
             <div className="row justify-content-center">
               <img
                 className="no-data"
-                src="../assets/img/no-data.gif"
+                src={require("../../assets/img/no-data.gif")}
                 style={{ width: "600px" }}
               />
               <h5 className="text-center">NO RESULTS...</h5>

@@ -31,11 +31,11 @@ const MyAccount = () => {
       setUsers(res?.data.results);
     });
   };
-  
+
   return (
     <div className="main_myaccount">
       <Navbar />
-      <section className="comman_banner _banner marginTop">
+      {/* <section className="comman_banner _banner marginTop">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -65,10 +65,44 @@ const MyAccount = () => {
             </div>
           </div>
         </div>
+      </section> */}
+      <section
+        class="comman_banner _banner marginTop"
+        // style="background-image: url(assets/images/product_bg.png);"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>My Account</h1>
+              <div class="breadcrumbs mt-2">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mb-0">
+                    <li className="item_nanner">
+                      <Link
+                        to=""
+                        className="text-decoration-none text-white fs-6  "
+                      >
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                      <Link
+                        to=""
+                        className="text-decoration-none text-white fs-6 mx-1"
+                      >
+                        My Account
+                      </Link>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <div className="myaccount mb-4 ">
-        <div className="container-lg position-relative">
+        <div className="container">
           <Profile />
         </div>
         <div className="container container-sm">

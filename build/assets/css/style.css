@@ -15314,3 +15314,614 @@ figure.effect-ming:hover img {
     transform: rotate(360deg);
   }
 }
+.filter {
+  filter: brightness(30%);
+  opacity: 40%;
+  pointer-events: none;
+}
+.main_video {
+  position: relative;
+  width: 100% !important;
+  height: 100%;
+  top: -15% !important;
+}
+/* new css */
+.myacctnew_profile {
+  margin: 0;
+  background: #ffffff;
+  box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.myacct_detail h2 {
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 6px;
+  font-size: 26px;
+}
+.myacct_detail {
+  padding: 0 30px;
+}
+.acct_email {
+  color: #000 !important;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+.acct_mnumber {
+  color: #000 !important;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+.edit_btnns {
+  position: absolute;
+  top: -27px;
+  right: 20px;
+  font-weight: 500;
+}
+.myacctnew_profilebg {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile_picc img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+.profile_picc {
+  overflow: hidden;
+  border: 7px solid #fff;
+  border-radius: 50%;
+  height: 140px;
+  width: 140px;
+  margin: 0 auto;
+}
+.account-tabss {
+  background: #ffffff;
+  box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58);
+  border-radius: 10px;
+  padding: 44px 25px;
+}
+.account-tabss .nav-link {
+  border: 1px solid #3d438e;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3d438e;
+  display: flex;
+  margin-bottom: 16px;
+}
+.account-tabss .nav .nav-link:last-child {
+  margin-bottom: 0;
+}
+.account-tabss .nav-link.active {
+  background-color: #3d438e;
+  color: #fff;
+}
+.tab_img {
+  width: 40px;
+  margin-right: 10px;
+}
+.account-tabss .nav-link.active .tab_img img {
+  filter: brightness(20.5);
+}
+.widht_mng {
+  width: 28%;
+}
+.myacct_data {
+  background: #ffffff;
+  box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58);
+  border-radius: 10px;
+  padding: 40px 50px;
+}
+.data_head h2 {
+  color: #000;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: capitalize;
+}
+.order-new-box {
+  border: 1px solid #9b9b9b;
+  border-radius: 10px;
+  padding: 12px;
+}
+.widht_mng_r {
+  width: 72%;
+}
+.orderID {
+  font-size: 14px;
+  color: #6c6c6c;
+  font-weight: 500;
+}
+.orderID strong {
+  color: #000;
+}
+.status-box {
+  background: #3d438e;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 13px;
+  padding: 4px 10px;
+  text-align: center;
+}
+.datee_part {
+  font-weight: 500;
+  color: #000;
+  font-size: 14px;
+}
+.items_head {
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+}
+.items_part ul li p {
+  margin: 0;
+  font-weight: 600;
+  color: #000;
+  font-size: 14px;
+}
+.items_part ul {
+  list-style: circle;
+  padding: 0 0 0 20px;
+}
+.addrees_box {
+  border: 1px solid #9b9b9b;
+  border-radius: 10px;
+  padding: 20px 25px;
+}
+.addrees_box p {
+  font-weight: 500;
+  color: #000;
+  font-size: 14px;
+  margin: 0;
+}
+.right_btns a:first-child {
+  border: 1px solid #3e4093;
+  color: #3e4093 !important;
+  font-weight: 400;
+  font-size: 13px;
+  padding: 8px 10px;
+  display: inline-flex;
+  border-radius: 4px;
+  width: 140px;
+  justify-content: center;
+  align-items: center;
+}
+.right_btns a:last-child {
+  background-color: #3e4093;
+  border: 1px solid #3e4093;
+  color: #fff !important;
+  font-weight: 400;
+  font-size: 13px;
+  padding: 8px 10px;
+  display: inline-flex;
+  border-radius: 4px;
+  width: 140px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+}
+.checkboxx_custom label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.checkboxx_custom label::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 30px;
+  border: 1px solid #3d438e;
+  border-radius: 3px;
+}
+.checkboxx_custom label::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 30px;
+  background-color: #3d438e;
+  border-radius: 3px;
+  opacity: 0;
+}
+.checkboxx_custom input:checked ~ label::before {
+  opacity: 1;
+}
+.setting_form .form-floating label {
+  color: #666666 !important;
+  opacity: 1 !important;
+  font-size: 15px;
+  font-weight: 500;
+  left: 18px;
+  top: 5px;
+}
+.setting_form .form-floating .form-control {
+  border: 1px solid #9b9b9b;
+  border-radius: 10px;
+  height: 70px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+  box-shadow: unset;
+  padding: 25px 18px 10px 19px;
+}
+.upload_document {
+  background: #f2f2f2;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+.upload_document > span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666666;
+  display: block;
+  margin-bottom: 15px;
+}
+.drag_box {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.choose_fliee {
+  font-size: 12px;
+  border: 1px solid rgba(61, 67, 142, 1);
+  width: 100%;
+  border-radius: 5px;
+  height: 36px;
+}
+.choose_fliee input {
+  height: 34px;
+  width: 100%;
+  line-height: 27px;
+  font-weight: 500;
+  color: #3d438e;
+}
+.choose_fliee label {
+  background: #3d438e;
+  border: 1px solid #3d438e;
+  border-radius: 5px 0px 0px 5px;
+  color: #fff;
+  height: 35px;
+  top: 0;
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 83px;
+  padding-bottom: 3px;
+}
+.Expired_dattee {
+  font-size: 14px;
+  text-align: center;
+  color: #3d438e;
+  font-weight: 500;
+}
+
+@media (max-width: 1199px) {
+  .header_menuss li > a {
+    font-size: 13px;
+    padding: 12px 12px;
+    transition: 0.3s;
+    height: 42px;
+  }
+  .header_menuss li .new_dropdown_link {
+    padding: 12px 22px 12px 12px;
+  }
+  .new_dropdown_link::after {
+    height: 12px;
+    width: 12px;
+    right: 7px;
+    background-size: 15px;
+    top: 16px;
+  }
+  .header_bottom {
+    height: 42px;
+  }
+  .comman_divvision {
+    padding: 50px 50px;
+  }
+  .comman_product1 .categorynew_box {
+    margin: 0 10px;
+    display: block;
+  }
+  .new_dropdown:hover .new_dropdown_inner {
+    top: 42px;
+    width: 210px;
+    height: 240px;
+  }
+  .new_dropdown_inner a {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  .myacct_data {
+    border-radius: 10px;
+    padding: 30px 40px;
+  }
+  .account-tabss {
+    border-radius: 10px;
+    padding: 32px 22px;
+  }
+  .data_head h2 {
+    font-size: 22px;
+  }
+  .myacct_detail {
+    padding: 0 20px;
+  }
+  .myacct_detail h2 {
+    margin-bottom: 5px;
+    font-size: 24px;
+  }
+  .acct_email,
+  .acct_mnumber {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .comman_padding {
+    padding: 60px 0;
+  }
+  .singleproduct-box {
+    margin: 0;
+  }
+  .comn_heads h2 {
+    font-size: 22px;
+  }
+  .comman_divvision {
+    padding: 40px 30px;
+  }
+  .Loginb,
+  .Signupb {
+    font-size: 13px;
+    padding: 4px 11px;
+    width: auto;
+  }
+  .Loginb {
+    margin-right: 5px;
+  }
+  .header_newsearch .form-control {
+    height: 42px;
+    border-radius: 10px;
+    font-size: 12px;
+    padding: 0 20px;
+  }
+  .search_ibtn {
+    position: absolute;
+    top: 45%;
+    right: 10px;
+  }
+  .search_ibtn img {
+    max-width: 18px;
+  }
+  .header_bottom .container {
+    max-width: 100%;
+  }
+  .header_menuss li > a {
+    font-size: 11px;
+    padding: 12px 12px;
+    height: 42px;
+    line-height: 16px;
+  }
+  .header_bottom {
+    height: 42px !important;
+  }
+  .singleproducttop---left,
+  .singleproduct---paginationss a,
+  .singleproduct---paginationss span {
+    font-size: 14px;
+  }
+  .singleproduct---paginationss a img {
+    max-width: 18px;
+  }
+  .singleproduct_divvision {
+    padding: 30px 30px;
+  }
+  .singleproduct-left-box {
+    padding: 19px 20px;
+  }
+  .singleproduct-left-box h2 {
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
+  .singleproduct-form .custom_radio label {
+    padding-left: 31px;
+    font-size: 13px;
+  }
+  .singleproduct--btns a {
+    width: 48%;
+    padding: 9px 2px;
+  }
+  .prdct_single_main .comman_divvision {
+    padding: 30px 10px;
+  }
+  .prdct_singleneww {
+    padding: 30px 30px;
+  }
+  .prdct_singleshowimg {
+    border-radius: 5px;
+    padding: 20px 20px;
+    margin-bottom: 30px;
+    height: 200px;
+  }
+  .prdct_singleneww ul li a {
+    height: 76px;
+  }
+  .prdct_singleneww ul li a img {
+    max-width: 43px;
+  }
+  .prdct_comtenT h2 {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  .prdct---falvor {
+    font-size: 13px;
+  }
+  .flavor_design {
+    border: 1px solid #eaedf2;
+    border-radius: 5px;
+    padding: 4px 0;
+    font-size: 11px;
+  }
+  .cartt--btn {
+    font-size: 12px;
+    padding: 9px 26px;
+  }
+  .prdct_bottom .number {
+    height: 38px;
+  }
+  .prdct_bottom .minus,
+  .prdct_bottom .plus {
+    height: 34px;
+    font-size: 20px;
+    width: 36px;
+  }
+  .prdct_bottom input {
+    height: 34px;
+  }
+  .describe_main p {
+    font-size: 17px;
+  }
+  .comn_heads {
+    margin-bottom: 20px !important;
+  }
+  .login-new-heading h2 {
+    font-size: 25px;
+  }
+  .login-new-img img {
+    max-width: 160px;
+  }
+  .login-new-form .form-group .form-control {
+    height: 50px;
+  }
+  .content_pagess .comman_divvision {
+    padding: 40px 30px;
+  }
+  .content_pagess_main h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .content_pagess_main p {
+    font-size: 14px;
+    line-height: 25px;
+  }
+  .content_pagess_main h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  .profile_picc {
+    border: 5px solid #fff;
+    height: 110px;
+    width: 110px;
+  }
+  .myacctnew_profilebg {
+    height: 170px;
+  }
+  .myacct_detail {
+    padding: 0 10px;
+  }
+  .myacct_detail h2 {
+    margin-bottom: 5px;
+    font-size: 22px;
+  }
+  .acct_email,
+  .acct_mnumber {
+    font-size: 16px;
+  }
+  .edit_btnns {
+    top: -27px;
+    right: 10px;
+    font-size: 13px;
+    color: #3e4093 !important;
+  }
+  .widht_mng {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .tab_img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .account-tabss .nav {
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: unset !important;
+    overflow-x: auto;
+  }
+  .account-tabss .nav .nav-link {
+    white-space: nowrap;
+    display: inline-flex;
+    margin-right: 14px;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 11px;
+  }
+  .account-tabss .nav::-webkit-scrollbar {
+    display: none;
+  }
+  .account-tabss {
+    border-radius: 10px;
+    padding: 18px 16px;
+  }
+  .widht_mng_r {
+    width: 100%;
+  }
+  .data_head h2 {
+    font-size: 20px;
+  }
+  .myacct_data {
+    border-radius: 10px;
+    padding: 30px 30px;
+  }
+  .orderID {
+    font-size: 12px;
+  }
+  .datee_part {
+    font-size: 12px;
+  }
+  .items_head {
+    font-size: 13px;
+  }
+  .items_part ul li p {
+    font-size: 12px;
+  }
+  .status-box {
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 4px 2px;
+  }
+  .addrees_box p {
+    font-size: 13px;
+    margin: 0;
+  }
+  .addrees_box {
+    padding: 15px 17px;
+  }
+  .checkboxx_custom label::before,
+  .checkboxx_custom label::after {
+    height: 20px;
+    width: 20px;
+  }
+  .right_btns a:first-child,
+  .right_btns a:last-child {
+    font-size: 12px;
+    padding: 6px 12px;
+    width: 100px;
+  }
+}

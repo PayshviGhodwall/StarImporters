@@ -50,7 +50,10 @@ function AppHome() {
   }, []);
 
   const getProductList = async () => {
-    const { data } = await homeSearch({ search: search?.replace(".", "") });
+    const { data } = await homeSearch({
+      search: search?.replace(".", ""),
+      limit: 8,
+    });
     if (!data.error) {
       setProduct(data.results);
     }
@@ -76,11 +79,7 @@ function AppHome() {
       setCategory(JSON.parse(localStorage.getItem("categories")));
     }
   };
-  // const getHeaders = async () => {
-  //   await axios.get(HeadersApi).then((res) => {
-  //     setAllHeaders(res?.data.results.headers[0]);
-  //   });
-  // };
+
   const getTopProductList = async () => {
     const { data } = await getAllProducts();
     if (!data.error) {
@@ -123,8 +122,6 @@ function AppHome() {
               },
             });
           console.log(data);
-          // navigate(`/app/product-by-search/${data.results[0]._id}`)
-          // window.location.reload();
         }
       }
     }

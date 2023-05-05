@@ -64,8 +64,42 @@ const Profile = () => {
   };
 
   return (
-    <div className="row  mt-5 mb-5 shadow ">
-      <div className="col-lg-12 profile_bg  p-4">
+    <div className=" mt-5">
+      <div class="row myacctnew_profile align-items-center mb-lg-5 mb-4">
+        <div class="col-5 ps-0">
+          <div
+            class="myacctnew_profilebg"
+            style={{
+              backgroundImage: `url(${
+                users?.profileImage ? users?.profileImage : Starlogo
+              })`,
+            }}
+            // style="background-image: url('assets/images/profile_bg.png');"
+          >
+            <div class="profile_picc">
+              <img
+                src={users?.profileImage ? users?.profileImage : Starlogo}
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="myacct_detail position-relative">
+            <a class="edit_btnns text-decoration-none">Edit</a>
+            <h2>
+              {users?.companyName ? users?.companyName : "Login to continue!"}
+            </h2>
+            <a class="acct_email text-decoration-none" href="javascript:;">
+              {users?.email}
+            </a>
+            <a class="acct_mnumber text-decoration-none" href="javascript:;">
+              {users?.phoneNumber}
+            </a>
+          </div>
+        </div>
+      </div>
+      {/* <div className="col-lg-12 profile_bg  p-4">
         <div class="content ">
           <div class="carding">
             <div class="firstinfo">
@@ -119,40 +153,8 @@ const Profile = () => {
             <span class="devicons devicons-sass"> </span>
           </div>
         </div>
-        {/* <div className="myaccount_profile row">
-          <div className="col-auto">
-            <div className="account_profile">
-              <div className="">
-                <img
-                  className="profileImage"
-                  id="profile"
-                  src={users?.profileImage ? users?.profileImage : Starlogo}
-                />
-              </div>
-              <div className="">
-                <img
-                  className="p-camera"
-                  src={require("../../assets/img/Camera_icon.png")}
-                  alt=""
-                />
-              </div>
-              <input
-                className="file-uploadsNew"
-                name="ImageProfile"
-                id="profileImg"
-                type="file"
-                onChange={(e) => changeProfile(e, "ImageProfile")}
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="account_detailss mt-3">
-              <h2>{users?.firstName}</h2>
-              <span>{users?.city}</span>
-            </div>
-          </div>
-        </div> */}
-      </div>
+      
+      </div> */}
     </div>
   );
 };

@@ -16,7 +16,10 @@ const ProductBySearch = () => {
   }
 
   const getProductList = async () => {
-    const { data } = await homeSearch({ search: search.replace(".", "") });
+    const { data } = await homeSearch({
+      search: search.replace(".", ""),
+      limit: 20,
+    });
     if (!data.error) {
       setProducts(data.results);
     }
@@ -87,7 +90,7 @@ const ProductBySearch = () => {
             <div className="row justify-content-center">
               <img
                 className="no-data"
-                src="../assets/img/no-data.gif"
+                src={require("../../assets/img/no-data.gif")}
                 style={{ width: "600px" }}
               />
             </div>

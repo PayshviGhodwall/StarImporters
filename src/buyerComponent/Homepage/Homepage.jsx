@@ -264,7 +264,17 @@ const Homepage = () => {
                 </div>
 
                 <div className="carousel-item">
-                  <div className="frame-container ">
+                  <video
+                    id="frameOne"
+                    className="main_video bg-dark"
+                    autoPlay
+                    loop
+                    muted
+                    allowfullscreen=""
+                  >
+                    <source src={require("../../assets/img/videoN.MP4")} />
+                  </video>
+                  {/* <div className="frame-container ">
                     <iframe
                       className="d-block w-100 banner_slide video_slide"
                       src="https://www.youtube.com/embed/oh6GzwmIaeo?&autoplay=1&mute=1&loop=1&playlist=oh6GzwmIaeo"
@@ -272,19 +282,21 @@ const Homepage = () => {
                       allow="autoplay;"
                       allowfullscreen=""
                     ></iframe>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="carousel-item">
-                  <div className="frame-container ">
-                    <iframe
-                      className="d-block w-100 banner_slide video_slide"
-                      src="https://www.youtube.com/embed/E1hq593LbFI?&autoplay=1&mute=1&loop=1&playlist=E1hq593LbFI"
-                      frameborder="0"
-                      allow="autoplay;"
-                      allowfullscreen=""
-                    ></iframe>
-                  </div>
+                  <video
+                    id="frameOne"
+                    className="main_video bg-dark"
+                    autoPlay
+                    loop
+                    muted
+                    allowfullscreen=""
+                    preload="auto"
+                  >
+                    <source src={require("../../assets/img/videoSugar.mp4")} />
+                  </video>
                 </div>
 
                 <div className="carousel-item ">
