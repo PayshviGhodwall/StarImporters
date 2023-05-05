@@ -1,187 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
-import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
-import Profile from "./Profile";
 
 const Address = () => {
   const [users, setUsers] = useState();
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
     setUsers(data);
   }, []);
-  let token = localStorage.getItem("token-user");
 
-  const EditAddress = () => {
-    document.getElementById("floatingInputValue").disabled = false;
-    document.getElementById("floatingInputValue");
-  };
   return (
     <div className="main_myaccount">
-      <Navbar />
-      <section className="comman_banner _banner marginTop">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h1>My Account</h1>
-              <div className="breadcrumbs mt-2">
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb mb-0">
-                    <li className="item_nanner">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6  "
-                      >
-                        Home <span className="arrow mx-1">&#9679;</span>{" "}
-                      </Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6"
-                      >
-                        My Account <span className="arrow mx-1">&#9679;</span> Address Book
-                      </Link>
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
+      <div class="myacct_data_inner">
+        <div class="row">
+          <div class="col-12 data_head mb-4">
+            <h2>Address Book</h2>
           </div>
-        </div>
-      </section>
-
-      <div className="myaccount mb-4 ">
-        <div className="container-lg position-relative">
-          <Profile />
-        </div>
-        <div className="container container-sm">
-          <div className="row mt-5  justify-content-center">
-            <div className="col-lg-3   col-md-3 col-sm-5 col-xs-5 ">
-              <div className="row  ">
-                {/* My Account Tab Menu Start */}
-                <div className="myaccount_tabs bg-white p-2">
-                  <Link
-                    to="/MyAccount"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div
-                      className="  nav flex-coloumn text-white  px-3 py-2 border  "
-                      role=""
-                    >
-                      <h4 className="mt-1">
-                        <i className="fa fa-clipboard-list" />
-                        <span className="fs-6 mx-2">ORDER HISTORY</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/RequestOrder"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border   " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-file mt-1" />
-                        <span className="fs-6 mx-2">MY QUOTATIONS</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Address"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div
-                      className="nav-active  text-white px-3 py-2 border"
-                      role="tablist"
-                    >
-                      <h4 className="">
-                        <i className="fa fa-map-signs" />
-                        <span className="fs-6 mx-2">ADDRESS BOOK</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Account"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2  border  " role="nav-link">
-                      <h4 className="">
-                        <i className="fas fa-user" />
-                        <span className="fs-6 mx-2">ACCOUNT SETTING</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Favourites"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2  border  " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-heart" />
-                        <span className="fs-6 mx-2">MY FAVOURITES</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  {/* <Link
-                    to="/MainMenu"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-list" />
-                        <span className="fs-6 mx-2">MAIN MENU</span>
-                      </h4>
-                    </div>
-                  </Link> */}
-                  <Link
-                    to="/BuyAgain"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-shopping-cart mt-1" />
-                        <span className="fs-6 mx-2">BUY AGAIN</span>
-                      </h4>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-9 col-md-9 col-sm-9">
-              {token ? (
-                <div className="bg-white p-4 ">
-                  <div className="row">
-                    <div className=" pt-3">
-                      <div className="row mx-0 Checkout_address">
-                        <span>Address :</span>
-                        <h2>{users?.firstName}</h2>
-                        <p className="mb-0">
-                          {users?.addressLine1}
-                          <br />
-                          {users?.addressLine2}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="p-4">
-                  <p>Please Login to see details...</p>
-                </div>
-              )}
+          <div class="col-12">
+            <div class="addrees_box">
+              <p>
+                {" "}
+                {users?.addressLine1 +
+                  " " +
+                  users?.addressLine2 +
+                  " " +
+                  users?.city +
+                  " " +
+                  users?.state +
+                  "-" +
+                  users?.zipcode}
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

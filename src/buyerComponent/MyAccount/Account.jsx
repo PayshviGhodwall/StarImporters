@@ -192,555 +192,345 @@ const Account = () => {
     }
   };
   return (
-    <div className="main_myaccount">
-      <Navbar />
-      <section className="comman_banner _banner marginTop">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h1>My Account</h1>
-              <div className="breadcrumbs mt-2">
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb mb-0">
-                    <li className="item_nanner">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6  "
-                      >
-                        Home <span className="arrow mx-1">&#9679;</span>{" "}
-                      </Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6"
-                      >
-                        My Account <span className="arrow mx-1">&#9679;</span>{" "}
-                        Account Settings
-                      </Link>
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
+    <div className="">
+      <div class="myacct_data_inner">
+        <div class="row">
+          <div class="col-6 data_head mb-4">
+            <h2>Account Settings</h2>
           </div>
-        </div>
-      </section>
+          <div class="col-6 text-end data_head mb-4">
+            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop945">
+              <i class="fas fa-edit"></i>
+            </a>
+          </div>
 
-      <div className="myaccount mb-4 ">
-        <div className="container-lg">
-          <Profile />
-        </div>
-        <div className="container container-sm">
-          <div className="row mt-5  justify-content-center">
-            <div className="col-lg-3   col-md-3 col-sm-5 col-xs-5 ">
-              <div className="row  ">
-                {/* My Account Tab Menu Start */}
-                <div className="myaccount_tabs bg-white p-2">
-                  <Link
-                    to="/MyAccount"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link "
-                  >
-                    <div
-                      className="nav flex-coloumn text-white  px-3 py-2 border  "
-                      role="tablist"
+          <div class="col-12">
+            <form class="row setting_form" action="">
+              <div class="col-6 form-floating mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  defaultValue={users?.firstName}
+                  id="floatingInput1"
+                  placeholder="username"
+                  disabled
+                />
+                <label for="floatingInput1">Name</label>
+              </div>
+              <div class="col-6 form-floating mb-4">
+                <input
+                  type="email"
+                  class="form-control"
+                  defaultValue={users?.email}
+                  id="floatingInput"
+                  disabled
+                />
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="col-6 form-floating mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  defaultValue={users?.phoneNumber}
+                  id="floatingInput"
+                  disabled
+                />
+                <label for="floatingInput1">Mobile Number</label>
+              </div>
+              <div class="col-6 form-floating mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  value={users?.istobaccoLicenceExpired ? "Expired" : "Active"}
+                  id="floatingInput1"
+                  placeholder="Expired"
+                  disabled
+                />
+                <label for="floatingInput1">Tobacco Licence Status</label>
+              </div>
+              <div class="col-lg-4 col-md-6 form-group d-flex align-items-stretch mb-4">
+                <div
+                  class="upload_document w-100"
+                  className={
+                    users.federalTaxId != ""
+                      ? "upload_document w-100"
+                      : "upload_document  border-danger text-danger mx-0 w-100"
+                  }
+                >
+                  <span>Federal Tax ID</span>
+                  <div class="drag_box">
+                    <a
+                      className="text-decoration-none text-center"
+                      onClick={() => {
+                        fileDownload(users?.federalTaxId);
+                      }}
                     >
-                      <h4 className="mt-1">
-                        <i className="fa fa-clipboard-list" />
-                        <span className="fs-6 mx-2">ORDER HISTORY</span>
-                      </h4>
+                      {users.federalTaxId ? (
+                        <FaFileDownload size={25} color="black" />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                      <p className="mt-3" style={{ fontSize: "9px" }}>
+                        {files?.federalTaxId?.name
+                          ? files?.federalTaxId?.name
+                          : users?.federalTaxId?.slice(42)}
+                      </p>
+                    </a>
+                  </div>
+                  {users.federalTaxId === "" ? (
+                    <div class="choose_fliee position-relative">
+                      <input
+                        type="file"
+                        name="federalTaxId"
+                        id="upld"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                        {...register("federalTaxId")}
+                        onChange={(e) => onFileSelection(e, "federalTaxId")}
+                      />
+                      <label for="upld">Choose File</label>
                     </div>
-                  </Link>
-                  <Link
-                    to="/RequestOrder"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border   " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-file mt-1" />
-                        <span className="fs-6 mx-2">MY QUOTATIONS</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Address"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border" role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-map-signs" />
-                        <span className="fs-6 mx-2">ADDRESS BOOK</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Account"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div
-                      className="nav-active  text-white px-3 py-2  border  "
-                      role="nav-link"
+                  ) : null}
+
+                  {files?.federalTaxId?.name ? (
+                    <button
+                      className="SaveBtn"
+                      onClick={(e) =>
+                        editDocs(e, files?.federalTaxId, "federalTaxId")
+                      }
                     >
-                      <h4 className="">
-                        <i className="fas fa-user" />
-                        <span className="fs-6 mx-2">ACCOUNT SETTING</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Favourites"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2  border  " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-heart" />
-                        <span className="fs-6 mx-2">MY FAVOURITES</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  {/* <Link
-                    to="/MainMenu"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-list" />
-                        <span className="fs-6 mx-2">MAIN MENU</span>
-                      </h4>
-                    </div>
-                  </Link> */}
-                  <Link
-                    to="/BuyAgain"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-shopping-cart mt-1" />
-                        <span className="fs-6 mx-2">BUY AGAIN</span>
-                      </h4>
-                    </div>
-                  </Link>
+                      Save
+                    </button>
+                  ) : null}
                 </div>
               </div>
-            </div>
-
-            <div className="col-lg-9 col-md-9 col-sm-9">
-              {token ? (
-                <div className="bg-white p-4 ">
-                  <div className="row mx-0 py-2">
-                    <div className="col-12 text-end mb-4">
-                      <Link
-                        className="text-center comman_btn"
-                        data-bs-toggle="modal"
-                        id="modal-toggle"
-                        data-bs-target="#staticBackdrop8"
-                      >
-                        Edit
-                      </Link>
-                    </div>
-                    <div className="col-12">
-                      <form className="form-design row" action="">
-                        <div className="form-floating col-6 mb-4">
-                          <input
-                            type="text"
-                            className="form-control shadow-none"
-                            defaultValue={users?.firstName}
-                            id="floatingInput"
-                            disabled
-                          />
-                          <label htmlFor="floatingInput">Name</label>
-                        </div>
-                        <div className="form-floating col-6 mb-4">
-                          <input
-                            type="email"
-                            className="form-control shadow-none"
-                            defaultValue={users?.email}
-                            id="floatingInput"
-                            placeholder=" "
-                            disabled
-                          />
-                          <label htmlFor="floatingInput">Email Address</label>
-                        </div>
-                        <div className="form-floating col-6 mb-4">
-                          <input
-                            type="email"
-                            className="form-control shadow-none"
-                            defaultValue={users?.phoneNumber}
-                            id="floatingInput"
-                            placeholder=" "
-                            disabled
-                          />
-                          <label htmlFor="floatingInput">Mobile Number</label>
-                        </div>
-                        <div className="col-5 mx-3 mb-4 border rounded bg-light">
-                          <label className="fw-bold">
-                            Tobacco Licence Status:
-                          </label>
-                          <br />
-                          <strong>
-                            {users?.istobaccoLicenceExpired
-                              ? "Expired"
-                              : "Active"}
-                          </strong>
-                        </div>
-                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                          <div
-                            className={
-                              users.federalTaxId != ""
-                                ? "row view-inner-box border  mx-0 w-100"
-                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                            }
-                          >
-                            <span className="fw-bold">Federal Tax ID:</span>
-
-                            <div className="col img_box_show ">
-                              {users.federalTaxId === "" ? (
-                                <input
-                                  className="file_selector"
-                                  type="file"
-                                  name="federalTaxId"
-                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                  {...register("federalTaxId")}
-                                  onChange={(e) =>
-                                    onFileSelection(e, "federalTaxId")
-                                  }
-                                />
-                              ) : null}
-
-                              <label htmlFor="file1">
-                                <div className="">
-                                  <a
-                                    // href={users?.federalTaxId}
-                                    className="text-decoration-none"
-                                    onClick={() => {
-                                      fileDownload(users?.federalTaxId);
-                                    }}
-                                  >
-                                    {users.federalTaxId ? (
-                                      <FaFileDownload size={25} color="black" />
-                                    ) : (
-                                      <FaFileUpload size={25} color="red" />
-                                    )}
-                                    <p
-                                      className="mt-3"
-                                      style={{ fontSize: "9px" }}
-                                    >
-                                      {files?.federalTaxId?.name
-                                        ? files?.federalTaxId?.name
-                                        : users?.federalTaxId?.slice(42)}
-                                    </p>
-                                  </a>
-                                </div>
-                              </label>
-                              {files?.federalTaxId?.name ? (
-                                <button
-                                  className="SaveBtn"
-                                  onClick={(e) =>
-                                    editDocs(
-                                      e,
-                                      files?.federalTaxId,
-                                      "federalTaxId"
-                                    )
-                                  }
-                                >
-                                  Save
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                          <div
-                            className={
-                              users.tobaccoLicence != ""
-                                ? "row view-inner-box border  mx-0 w-100"
-                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                            }
-                          >
-                            <span className="fw-bold">Tobacco License:</span>
-                            <div className="col img_box_show">
-                              {users.tobaccoLicence === "" ? (
-                                <input
-                                  className="file_selector"
-                                  type="file"
-                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                  name="file"
-                                  {...register("tobaccoLicence")}
-                                  onChange={(e) =>
-                                    onFileSelection(e, "tobaccoLicence")
-                                  }
-                                />
-                              ) : null}
-
-                              <label htmlFor="file1">
-                                <div className="">
-                                  <Link
-                                    to=""
-                                    className="text-decoration-none"
-                                    onClick={() => {
-                                      fileDownload(users?.tobaccoLicence);
-                                    }}
-                                  >
-                                    {users.tobaccoLicence ? (
-                                      <FaFileDownload size={25} color="black" />
-                                    ) : (
-                                      <FaFileUpload size={25} color="red" />
-                                    )}
-                                    <p
-                                      className="mt-2"
-                                      style={{ fontSize: "9px" }}
-                                    >
-                                      {files?.tobaccoLicence?.name
-                                        ? files?.tobaccoLicence?.name
-                                        : users?.tobaccoLicence?.slice(42)}
-                                    </p>
-                                  </Link>
-                                </div>
-                              </label>
-                              {files?.tobaccoLicence?.name ? (
-                                <button
-                                  className="SaveBtn"
-                                  onClick={(e) =>
-                                    editDocs(
-                                      e,
-                                      files?.tobaccoLicence,
-                                      "tobaccoLicence"
-                                    )
-                                  }
-                                >
-                                  Save
-                                </button>
-                              ) : null}
-                            </div>
-
-                            <strong>
-                              {" "}
-                              Expires on :{" "}
-                              {moment(
-                                users?.tobaccoLicenceExpiry?.slice(0, 10)
-                              ).format("MM/DD/YYYY")}
-                            </strong>
-                          </div>
-                        </div>
-                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                          <div
-                            className={
-                              users.salesTaxId != ""
-                                ? "row view-inner-box border  mx-0 w-100"
-                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                            }
-                          >
-                            <span className="fw-bold">Sales Tax ID:</span>
-                            <div className="col img_box_show">
-                              {users.salesTaxId === "" ? (
-                                <input
-                                  className="file_selector"
-                                  type="file"
-                                  name="salesTaxId"
-                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                  {...register("salesTaxId")}
-                                  onChange={(e) =>
-                                    onFileSelection(e, "salesTaxId")
-                                  }
-                                />
-                              ) : null}
-
-                              <label htmlFor="file1">
-                                <div className="">
-                                  <Link
-                                    to=""
-                                    className="text-decoration-none"
-                                    onClick={() => {
-                                      fileDownload(users?.salesTaxId);
-                                    }}
-                                  >
-                                    {users.salesTaxId ? (
-                                      <FaFileDownload size={25} color="black" />
-                                    ) : (
-                                      <FaFileUpload size={25} color="red" />
-                                    )}
-                                    <p
-                                      className="mt-2"
-                                      style={{ fontSize: "9px" }}
-                                    >
-                                      {files?.salesTaxId?.name
-                                        ? files?.salesTaxId?.name?.slice(10)
-                                        : users?.salesTaxId?.slice(42)}
-                                    </p>
-                                  </Link>
-                                </div>
-                              </label>
-                              {files?.salesTaxId?.name ? (
-                                <button
-                                  className="SaveBtn"
-                                  onClick={(e) =>
-                                    editDocs(e, files?.salesTaxId, "salesTaxId")
-                                  }
-                                >
-                                  Save
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
-                          <div
-                            className={
-                              users.businessLicense != ""
-                                ? "row view-inner-box border  mx-0 w-100"
-                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                            }
-                          >
-                            <span className="fw-bold">Business License:</span>
-                            <div className="col img_box_show">
-                              {users.businessLicense === "" ? (
-                                <input
-                                  className="file_selector"
-                                  type="file"
-                                  name="businessLicense"
-                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                  {...register("businessLicense")}
-                                  onChange={(e) =>
-                                    onFileSelection(e, "businessLicense")
-                                  }
-                                />
-                              ) : null}
-
-                              <label htmlFor="file1">
-                                <div className="">
-                                  <Link
-                                    to=""
-                                    className="text-decoration-none"
-                                    onClick={() => {
-                                      fileDownload(users?.businessLicense);
-                                    }}
-                                  >
-                                    {users?.businessLicense ? (
-                                      <FaFileDownload size={25} color="black" />
-                                    ) : (
-                                      <FaFileUpload size={25} color="red" />
-                                    )}
-                                    <p
-                                      className="mt-2"
-                                      style={{ fontSize: "9px" }}
-                                    >
-                                      {files?.businessLicense?.name
-                                        ? files?.businessLicense?.name?.slice(
-                                            10
-                                          )
-                                        : users?.businessLicense?.slice(42)}
-                                    </p>
-                                  </Link>
-                                </div>
-                              </label>
-                              {files?.businessLicense?.name ? (
-                                <button
-                                  className="SaveBtn"
-                                  onClick={(e) =>
-                                    editDocs(
-                                      e,
-                                      files?.businessLicense,
-                                      "businessLicense"
-                                    )
-                                  }
-                                >
-                                  Save
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-md-12 mb-4 d-flex align-items-stretch">
-                          <div
-                            className={
-                              users.accountOwnerId != ""
-                                ? "row view-inner-box border  mx-0 w-100"
-                                : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                            }
-                          >
-                            <span className="fw-bold">Account Owner ID:</span>
-                            <div className="col img_box_show">
-                              {users.accountOwnerId === "" ? (
-                                <input
-                                  className="file_selector"
-                                  type="file"
-                                  accept="image/jpeg,image/png,application/pdf,image/x-eps"
-                                  name="accountOwnerId"
-                                  {...register("accountOwnerId")}
-                                  onChange={(e) =>
-                                    onFileSelection(e, "accountOwnerId")
-                                  }
-                                />
-                              ) : null}
-
-                              <label htmlFor="file1">
-                                <div className="">
-                                  <Link
-                                    to=""
-                                    className="text-decoration-none"
-                                    onClick={() => {
-                                      fileDownload(users?.accountOwnerId);
-                                    }}
-                                  >
-                                    {users.accountOwnerId ? (
-                                      <FaFileDownload size={25} color="black" />
-                                    ) : (
-                                      <FaFileUpload size={25} color="red" />
-                                    )}
-                                    <p
-                                      className="mt-2"
-                                      style={{ fontSize: "9px" }}
-                                    >
-                                      {files?.accountOwnerId?.name
-                                        ? files?.accountOwnerId?.name
-                                        : users?.accountOwnerId?.slice(42)}
-                                    </p>
-                                  </Link>
-                                </div>
-                              </label>
-                              {files?.accountOwnerId?.name ? (
-                                <button
-                                  className="SaveBtn"
-                                  onClick={(e) =>
-                                    editDocs(
-                                      e,
-                                      files?.accountOwnerId,
-                                      "accountOwnerId"
-                                    )
-                                  }
-                                >
-                                  Save
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+              <div class="col-lg-4 col-md-6 form-group d-flex align-items-stretch mb-4">
+                <div
+                  class="upload_document w-100"
+                  className={
+                    users.tobaccoLicence != ""
+                      ? "upload_document w-100"
+                      : "upload_document  border-danger text-danger mx-0 w-100"
+                  }
+                >
+                  <span>Tobacco License</span>
+                  <div class="drag_box">
+                    <a
+                      className="text-decoration-none text-center"
+                      onClick={() => {
+                        fileDownload(users?.tobaccoLicence);
+                      }}
+                    >
+                      {users.tobaccoLicence ? (
+                        <FaFileDownload size={25} color="black" />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                      <p className="mt-3" style={{ fontSize: "9px" }}>
+                        {files?.tobaccoLicence?.name
+                          ? files?.tobaccoLicence?.name
+                          : users?.tobaccoLicence?.slice(42)}
+                      </p>
+                    </a>
                   </div>
+                  {users.tobaccoLicence === "" ? (
+                    <div class="choose_fliee position-relative">
+                      <input
+                        type="file"
+                        name="tobaccoLicence"
+                        id="upld"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                        {...register("tobaccoLicence")}
+                        onChange={(e) => onFileSelection(e, "tobaccoLicence")}
+                      />
+                      <label for="upld">Choose File</label>
+                    </div>
+                  ) : null}
+
+                  {files?.tobaccoLicence?.name ? (
+                    <button
+                      className="SaveBtn"
+                      onClick={(e) =>
+                        editDocs(e, files?.tobaccoLicence, "tobaccoLicence")
+                      }
+                    >
+                      Save
+                    </button>
+                  ) : null}
                 </div>
-              ) : (
-                <div className="p-4">
-                  <p>Please Login to see details...</p>
+              </div>
+              <div class="col-lg-4 col-md-6 form-group d-flex align-items-stretch mb-4">
+                <div
+                  class="upload_document w-100"
+                  className={
+                    users.salesTaxId != ""
+                      ? "upload_document w-100"
+                      : "upload_document  border-danger text-danger mx-0 w-100"
+                  }
+                >
+                  <span>Sales Tax ID</span>
+                  <div class="drag_box">
+                    <a
+                      className="text-decoration-none text-center"
+                      onClick={() => {
+                        fileDownload(users?.salesTaxId);
+                      }}
+                    >
+                      {users.salesTaxId ? (
+                        <FaFileDownload size={25} color="black" />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                      <p className="mt-3" style={{ fontSize: "9px" }}>
+                        {files?.salesTaxId?.name
+                          ? files?.salesTaxId?.name
+                          : users?.salesTaxId?.slice(42)}
+                      </p>
+                    </a>
+                  </div>
+                  {users.salesTaxId === "" ? (
+                    <div class="choose_fliee position-relative">
+                      <input
+                        type="file"
+                        name="salesTaxId"
+                        id="upld"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                        {...register("salesTaxId")}
+                        onChange={(e) => onFileSelection(e, "salesTaxId")}
+                      />
+                      <label for="upld">Choose File</label>
+                    </div>
+                  ) : null}
+
+                  {files?.salesTaxId?.name ? (
+                    <button
+                      className="SaveBtn"
+                      onClick={(e) =>
+                        editDocs(e, files?.salesTaxId, "salesTaxId")
+                      }
+                    >
+                      Save
+                    </button>
+                  ) : null}
                 </div>
-              )}
-            </div>
+              </div>
+              <div class="col-lg-6 col-md-6 mb-lg-0 mb-md-4 form-group d-flex align-items-stretch">
+                <div
+                  class="upload_document w-100"
+                  className={
+                    users.businessLicense != ""
+                      ? "upload_document w-100"
+                      : "upload_document  border-danger text-danger mx-0 w-100"
+                  }
+                >
+                  <span>Business License ID</span>
+                  <div class="drag_box">
+                    <a
+                      className="text-decoration-none text-center"
+                      onClick={() => {
+                        fileDownload(users?.businessLicense);
+                      }}
+                    >
+                      {users.businessLicense ? (
+                        <FaFileDownload size={25} color="black" />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                      <p className="mt-3" style={{ fontSize: "9px" }}>
+                        {files?.businessLicense?.name
+                          ? files?.businessLicense?.name
+                          : users?.businessLicense?.slice(42)}
+                      </p>
+                    </a>
+                  </div>
+                  {users.businessLicense === "" ? (
+                    <div class="choose_fliee position-relative">
+                      <input
+                        type="file"
+                        name="businessLicense"
+                        id="upld"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                        {...register("businessLicense")}
+                        onChange={(e) => onFileSelection(e, "businessLicense")}
+                      />
+                      <label for="upld">Choose File</label>
+                    </div>
+                  ) : null}
+
+                  {files?.businessLicense?.name ? (
+                    <button
+                      className="SaveBtn"
+                      onClick={(e) =>
+                        editDocs(e, files?.businessLicense, "businessLicense")
+                      }
+                    >
+                      Save
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+              <div class="col-lg-6 form-group d-flex align-items-stretch">
+                <div
+                  class="upload_document w-100"
+                  className={
+                    users.accountOwnerId != ""
+                      ? "upload_document w-100"
+                      : "upload_document  border-danger text-danger mx-0 w-100"
+                  }
+                >
+                  <span>Account Owner ID</span>
+                  <div class="drag_box">
+                    <a
+                      className="text-decoration-none text-center"
+                      onClick={() => {
+                        fileDownload(users?.accountOwnerId);
+                      }}
+                    >
+                      {users.accountOwnerId ? (
+                        <FaFileDownload size={25} color="black" />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                      <p className="mt-3" style={{ fontSize: "9px" }}>
+                        {files?.accountOwnerId?.name
+                          ? files?.accountOwnerId?.name
+                          : users?.accountOwnerId?.slice(42)}
+                      </p>
+                    </a>
+                  </div>
+                  {users.accountOwnerId === "" ? (
+                    <div class="choose_fliee position-relative">
+                      <input
+                        type="file"
+                        name="accountOwnerId"
+                        id="upld"
+                        accept="image/jpeg,image/png,application/pdf,image/x-eps"
+                        {...register("accountOwnerId")}
+                        onChange={(e) => onFileSelection(e, "accountOwnerId")}
+                      />
+                      <label for="upld">Choose File</label>
+                    </div>
+                  ) : null}
+
+                  {files?.accountOwnerId?.name ? (
+                    <button
+                      className="SaveBtn"
+                      onClick={(e) =>
+                        editDocs(e, files?.accountOwnerId, "accountOwnerId")
+                      }
+                    >
+                      Save
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <Footer />
+
       <div
         className="modal comman_modal_form forms_modal"
-        id="staticBackdrop8"
+        id="staticBackdrop945"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex={-1}
@@ -799,6 +589,7 @@ const Account = () => {
           </div>
         </div>
       </div>
+
       <div
         className="modal  comman_modal_form"
         id="staticBackdrop9"

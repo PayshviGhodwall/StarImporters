@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
 import moment from "moment";
+import Sidebar from "./sidebar";
+import RequestOrders from "./RequestOrder";
+import Address from "./Address";
+import Account from "./Account";
+import Favourites from "./Favourites";
+import BuyAgain from "./BuyAgain";
 
 const MyAccount = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +21,7 @@ const MyAccount = () => {
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
   let token = localStorage.getItem("token-user");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const GetOrders = async () => {
       await axios.get(getOrder).then((res) => {
@@ -101,161 +107,242 @@ const MyAccount = () => {
         </div>
       </section>
 
-      <div className="myaccount mb-4 ">
+      <div className="myacctnew-page mb-4 ">
         <div className="container">
           <Profile />
         </div>
-        <div className="container container-sm">
-          <div className="row mt-5  justify-content-center">
-            <div className="col-lg-3   col-md-3 col-sm-5 col-xs-5 ">
-              <div className="row  ">
-                {/* My Account Tab Menu Start */}
-                <div className="myaccount_tabs bg-white p-2">
-                  <Link
-                    to="/MyAccount"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+        <div className="container">
+          <div className="row flex-lg-nowrap myacct_main align-items-start">
+            <div className="col-md-3 widht_mng ">
+              <div class="account-tabss">
+                <div
+                  class="nav flex-column nav-pills"
+                  id="v-pills-tab"
+                  role="tablist"
+                  aria-orientation="vertical"
+                >
+                  <button
+                    class="nav-link active"
+                    id="v-pills-home-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-home"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-home"
+                    aria-selected="true"
                   >
-                    <div
-                      className="  nav-active flex-coloumn text-white  px-3 py-2 border  "
-                      role=""
-                    >
-                      <h4 className="mt-1">
-                        <i className="fa fa-clipboard-list" />
-                        <span className="fs-6 mx-2">ORDER HISTORY</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/RequestOrder"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+                    <div class="tab_img">
+                      <img
+                        src={require("../../assets/img/order-approve.png")}
+                        alt=""
+                      />
+                    </div>{" "}
+                    My Order
+                  </button>
+                  <button
+                    class="nav-link"
+                    id="v-pills-profile-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-profile"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
                   >
-                    <div className="nav px-3 py-2 border   " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-file mt-1" />
-                        <span className="fs-6 mx-2">MY QUOTATIONS</span>
-                      </h4>
+                    <div class="tab_img">
+                      <img
+                        src={require("../../assets/img/question-answer.png")}
+                        alt=""
+                      />
                     </div>
-                  </Link>
-                  <Link
-                    to="/Address"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+                    My Quotations
+                  </button>
+                  <button
+                    class="nav-link"
+                    id="v-pills-messages-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-messages"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-messages"
+                    aria-selected="false"
                   >
-                    <div className="nav px-3 py-2 border" role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-map-signs" />
-                        <span className="fs-6 mx-2">ADDRESS BOOK</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Account"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+                    <div class="tab_img">
+                      <img
+                        src={require("../../assets/img/address-book.png")}
+                        alt=""
+                      />
+                    </div>{" "}
+                    Address Book
+                  </button>
+                  <button
+                    class="nav-link"
+                    id="v-pills-settings-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-settings"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-settings"
+                    aria-selected="false"
                   >
-                    <div className="nav px-3 py-2  border  " role="nav-link">
-                      <h4 className="">
-                        <i className="fas fa-user" />
-                        <span className="fs-6 mx-2">ACCOUNT SETTING</span>
-                      </h4>
+                    <div class="tab_img">
+                      <img
+                        src={require("../../assets/img/settings.png")}
+                        alt=""
+                      />
                     </div>
-                  </Link>
-                  <Link
-                    to="/Favourites"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+                    Account Settings
+                  </button>
+                  <button
+                    class="nav-link"
+                    id="v-pills-fav-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-fav"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-fav"
+                    aria-selected="false"
                   >
-                    <div className="nav px-3 py-2  border  " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-heart" />
-                        <span className="fs-6 mx-2">MY FAVOURITES</span>
-                      </h4>
-                    </div>
-                  </Link>
-
-                  {/* <Link
-                    to="/MainMenu"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
+                    <div class="tab_img">
+                      <img
+                        src={require("../../assets/img/cards-playing.png")}
+                        alt=""
+                      />
+                    </div>{" "}
+                    My Favourites
+                  </button>
+                  <button
+                    class="nav-link"
+                    id="v-pills-buy-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-buy"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-buy"
+                    aria-selected="false"
                   >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-list" />
-                        <span className="fs-6 mx-2">MAIN MENU</span>
-                      </h4>
+                    <div class="tab_img">
+                      <img src={require("../../assets/img/buy.png")} alt="" />
                     </div>
-                  </Link> */}
-                  <Link
-                    to="/BuyAgain"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-shopping-cart mt-1" />
-                        <span className="fs-6 mx-2">BUY AGAIN</span>
-                      </h4>
-                    </div>
-                  </Link>
+                    Buy Again
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 col-md-9 col-sm-9">
+            <div className="col-md-9 widht_mng_r">
               {token ? (
-                <div className="bg-white p-4 ">
+                <div className="myacct_data">
                   <div className="tab-content" id="nav-tabContent">
                     <div
-                      className="tab-pane fade show active"
-                      id="nav-home"
+                      class="tab-pane fade show active"
+                      id="v-pills-home"
                       role="tabpanel"
-                      aria-labelledby="nav-home-tab"
+                      aria-labelledby="v-pills-home-tab"
                     >
-                      <div className="row">
-                        <div className="col-12 mb-3">
-                          <div className="order_heading">
-                            <h2>My Order :</h2>
+                      <div class="myacct_data_inner">
+                        <div class="row">
+                          <div class="col-12 data_head mb-4">
+                            <h2>My order</h2>
                           </div>
+                          {(orderDetails || [])?.map((item, index) => (
+                            <div class="col-md-6 mb-4">
+                              <div
+                                class="order-new-box"
+                                onClick={() =>
+                                  navigate(`/app/order-detail/${item?._id}`)
+                                }
+                                // state={{ id: item?._id }}
+                              >
+                                <div class="row">
+                                  <div class="col-6 mb-1 pe-0">
+                                    <div class="orderID">
+                                      Order ID: <strong>{item?.orderId}</strong>
+                                    </div>
+                                  </div>
+                                  <div class="col-6 mb-1">
+                                    <div class="status-box">
+                                      Status: <span>{item?.status}</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 mb-2">
+                                    <div class="datee_part">
+                                      {moment(
+                                        item?.createdAt?.slice(0, 10)
+                                      ).format("MM/DD/YYYY")}
+                                    </div>
+                                  </div>
+                                  <div class="col-12 items_part">
+                                    <div class="items_head">Items:</div>
+                                    {(item?.products || []).map((item, ind) => (
+                                      <ul className="list-unstyled mb-0">
+                                        <li key={ind}>
+                                          <strong>
+                                            {item?.flavour?._id
+                                              ? item?.productId?.unitName +
+                                                "-" +
+                                                item?.flavour?.flavour
+                                              : item?.productId?.unitName}
+                                          </strong>
+                                        </li>
+                                      </ul>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        {(orderDetails || [])?.map((item, index) => (
-                          <div className="col-6 mb-3 d-flex" key={index}>
-                            <Link
-                              to="/OrderDetails"
-                              state={{ id: item?._id }}
-                              className="my_orderbox position-relative text-decoration-none"
-                            >
-                              <div className="left_part">
-                                <div className="status_order d-block">
-                                  Status: {item?.status}
-                                </div>
-                                <div className="order_id d-block mb-1">
-                                  Order ID: <strong>{item?.orderId}</strong>
-                                </div>
-                                <div className="date_box">
-                                  {moment(item?.createdAt?.slice(0, 10)).format(
-                                    "MM/DD/YYYY"
-                                  )}
-                                </div>
-                              </div>
-                              <div className="items_box">
-                                <h2>Items :</h2>
-                                {(item?.products || []).map((item, ind) => (
-                                  <ul className="list-unstyled mb-0">
-                                    <li key={ind}>
-                                      {item?.flavour?._id
-                                        ? item?.productId?.unitName +
-                                          "-" +
-                                          item?.flavour?.flavour
-                                        : item?.productId?.unitName}
-                                    </li>
-                                  </ul>
-                                ))}
-                              </div>
-                            </Link>
-                          </div>
-                        ))}
                       </div>
+                    </div>
+
+                    <div
+                      class="tab-pane fade"
+                      id="v-pills-profile"
+                      role="tabpanel"
+                      aria-labelledby="v-pills-profile-tab"
+                    >
+                      <RequestOrders />
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="v-pills-messages"
+                      role="tabpanel"
+                      aria-labelledby="v-pills-messages-tab"
+                    >
+                      <Address />
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="v-pills-settings"
+                      role="tabpanel"
+                      aria-labelledby="v-pills-settings-tab"
+                    >
+                      <Account />
+                    </div>
+
+                    <div
+                      class="tab-pane fade"
+                      id="v-pills-fav"
+                      role="tabpanel"
+                      aria-labelledby="v-pills-fav-tab"
+                    >
+                      <div class="myacct_data_inner">
+                        <div class="row">
+                          <div class="col-12 data_head mb-4">
+                            <h2>My Favourites</h2>
+                          </div>
+                          <Favourites />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="tab-pane fade"
+                      id="v-pills-buy"
+                      role="tabpanel"
+                      aria-labelledby="v-pills-buy-tab"
+                    >
+                      <BuyAgain />
                     </div>
                   </div>
                 </div>

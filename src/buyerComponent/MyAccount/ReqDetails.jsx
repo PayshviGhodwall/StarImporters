@@ -4,11 +4,9 @@ import Navbar from "../Homepage/Navbar";
 import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
-import Profile from "./Profile";
 import moment from "moment";
 
 const RequestDetails = () => {
-  const [users, setUsers] = useState([]);
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
   const [quoteDetails, setQuoteDetails] = useState([]);
 
@@ -64,110 +62,9 @@ const RequestDetails = () => {
       </section>
 
       <div className="myaccount mb-4 ">
-        <div className="container-lg position-relative">
-          <Profile />
-        </div>
         <div className="container container-sm">
           <div className="row mt-5  justify-content-center">
-            <div className="col-lg-3   col-md-3 col-sm-3 col-xs-3 ">
-              <div className="row  ">
-                {/* My Account Tab Menu Start */}
-                <div className="myaccount_tabs bg-white p-2">
-                  <Link
-                    to="/MyAccount"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div
-                      className="  nav flex-coloumn   px-3 py-2 border  "
-                      role=""
-                    >
-                      <h4 className="mt-1">
-                        <i className="fa fa-clipboard-list" />
-                        <span className="fs-6 mx-2">ORDER HISTORY</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/RequestOrder"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div
-                      className="nav-active px-3 text-white py-2 border   "
-                      role="tablist"
-                    >
-                      <h4 className="">
-                        <i className="fas fa-file mt-1" />
-                        <span className="fs-6 mx-2">REQUEST ORDER</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Address"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border" role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-map-signs" />
-                        <span className="fs-6 mx-2">ADDRESS BOOK</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Account"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2  border  " role="nav-link">
-                      <h4 className="">
-                        <i className="fas fa-user" />
-                        <span className="fs-6 mx-2">ACCOUNT SETTING</span>
-                      </h4>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/Favourites"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2  border  " role="tablist">
-                      <h4 className="">
-                        <i className="fas fa-heart" />
-                        <span className="fs-6 mx-2">MY FAVOURITES</span>
-                      </h4>
-                    </div>
-                  </Link>
-
-                  {/* <Link
-                    to="/MainMenu"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-list" />
-                        <span className="fs-6 mx-2">MAIN MENU</span>
-                      </h4>
-                    </div>
-                  </Link> */}
-                  <Link
-                    to="/BuyAgain"
-                    style={{ textDecoration: "none", fontSize: "15px" }}
-                    className="nav-link"
-                  >
-                    <div className="nav px-3 py-2 border  " role="tablist">
-                      <h4 className="">
-                        <i className="fa fa-shopping-cart mt-1" />
-                        <span className="fs-6 mx-2">BUY AGAIN</span>
-                      </h4>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-9 col-md-9 col-sm-9 ">
+            <div className="col-xl-12 col-md-12 col-sm-9 ">
               <div className="bg-white p-4 ">
                 <div className="tab-content" id="nav-tabContent">
                   <div

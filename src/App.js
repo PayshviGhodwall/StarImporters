@@ -388,7 +388,7 @@ function App() {
               element={<AppNotificationDetail />}
             />
             <Route
-              path="/app/order-detail"
+              path="/app/order-detail/:id"
               element={width < 999 ? <AppOrderDetail /> : <OrderDetails />}
             />
             <Route

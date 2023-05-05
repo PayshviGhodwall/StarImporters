@@ -913,7 +913,7 @@
   }
   .product_parts_box:hover {
     behavior: smooth;
-    transform: scale(1.1);
+    transform: scale(1);
     transition: 0.2s ease;
   }
 
@@ -1351,6 +1351,15 @@
     background-color: #fff;
     cursor: pointer;
   }
+  .product_parts_box_buy {
+    width: 100%;
+    padding: 14px 14px 15px;
+    border: 2px solid #f1f1f1;
+    border-radius: 10px;
+    margin: 12px 0;
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
   .slider_box {
     margin: 0 12px;
   }
@@ -1358,6 +1367,11 @@
     max-width: 100%;
     width: 10rem;
     height: 100px;
+    object-fit: contain;
+  }
+  .partsproduct_img_buy img {
+    max-width: 100%;
+    width: 10rem;
     object-fit: contain;
   }
   .partsproduct_img_search {
@@ -1384,6 +1398,19 @@
     justify-content: center;
     width: 100%;
     height: 200px;
+    position: relative;
+  }
+
+  .partsproduct_img_buy {
+    border-radius: 7px;
+    overflow: hidden;
+    background: #fff;
+    padding: 16px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     position: relative;
   }
   .product_content a {
@@ -2504,14 +2531,27 @@
   }
   .myfavourites {
     overflow-y: scroll;
-    max-height: 33rem;
+    max-height: 28rem;
+  }
+  .myfavourites::-webkit-scrollbar {
+    width: 6px !important;
+    margin-left: 2px !important;
+  }
+  .myfavourites::-webkit-scrollbar-track {
+    /* background-color: #3e4093; */
+    border-radius: 50px;
+  }
+  .myfavourites::-webkit-scrollbar-thumb {
+    background-color: #3e4093 !important;
+    border-radius: 50px;
+    cursor: pointer !important;
   }
   .myfavourites .partsproduct_img img {
     max-width: 100%;
     object-fit: contain;
   }
   .myfavourites .partsproduct_img {
-    height: 170px;
+    max-height: 120px;
     position: relative;
   }
   .myfavourites .product_content a {
@@ -3339,6 +3379,10 @@
     background-color: #fff;
     border-radius: 10px;
   }
+  .partsproduct_img_buy {
+    background-color: #fff;
+    border-radius: 10px;
+  }
   .partsproduct_img img {
     width: 100%;
     height: 150px;
@@ -3471,11 +3515,7 @@
   }
 
   /* my account */
-  .nav {
-    background-color: #eb3237;
-    color: #fff;
-    font-family: "Popins" sans-serif;
-  }
+
   .nav-active {
     background-color: #234476;
   }
@@ -13690,7 +13730,7 @@ figure.effect-ming:hover img {
 .featuredproduct_details {
   width: 100%;
   padding: 25px 0;
-  border-top: 1px solid #a9a9a9b0;
+  border-top: none !important;
 }
 .featuredproduct_img img {
   max-width: 100%;
@@ -14121,7 +14161,6 @@ figure.effect-ming:hover img {
 .featuredproduct_details {
   width: 100%;
   padding: 25px 0;
-  border-top: 1px solid #a9a9a9b0;
 }
 .featuredproduct_img img {
   max-width: 100%;
@@ -15384,33 +15423,33 @@ figure.effect-ming:hover img {
   margin: 0 auto;
 }
 .account-tabss {
-  background: #ffffff;
-  box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58);
-  border-radius: 10px;
-  padding: 44px 25px;
+  background: #ffffff !important;
+  box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58) !important;
+  border-radius: 10px !important;
+  padding: 44px 25px !important;
 }
 .account-tabss .nav-link {
-  border: 1px solid #3d438e;
-  border-radius: 5px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #3d438e;
-  display: flex;
-  margin-bottom: 16px;
+  border: 1px solid #3d438e !important;
+  border-radius: 5px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #3d438e !important;
+  display: flex !important;
+  margin-bottom: 16px !important;
 }
 .account-tabss .nav .nav-link:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 .account-tabss .nav-link.active {
-  background-color: #3d438e;
-  color: #fff;
+  background-color: #3d438e !important;
+  color: #fff !important;
 }
 .tab_img {
-  width: 40px;
-  margin-right: 10px;
+  width: 40px !important;
+  margin-right: 10px !important;
 }
 .account-tabss .nav-link.active .tab_img img {
-  filter: brightness(20.5);
+  filter: brightness(20.5) !important;
 }
 .widht_mng {
   width: 28%;
