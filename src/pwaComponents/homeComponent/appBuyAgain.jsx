@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { addToCart } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
@@ -17,7 +16,6 @@ function AppBuyAgain() {
   const [Nstate, setNstate] = useState(false);
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(false);
-  let token = localStorage.getItem("token-user");
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));

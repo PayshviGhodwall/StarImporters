@@ -13,6 +13,7 @@ const Photos = () => {
   const [gallery, setGallery] = useState([]);
   let id = useParams();
   const [slide, setSlide] = useState([]);
+ 
   useEffect(() => {
     getPhotos();
   }, []);
@@ -29,7 +30,6 @@ const Photos = () => {
     if (img) {
       Slide?.unshift({ src: img });
     }
-
     (gallery?.images || [])?.map((item) => {
       if (item) {
         Slide?.push({ src: item });
@@ -45,7 +45,15 @@ const Photos = () => {
       <Navbar />
       <section class="photos">
         <div className="container">
-          <div className="row photos_main mt-5">
+          <div className="mt-5">
+            <div class="nine">
+              <h1>
+                {gallery?.title}
+                <span>All Photos</span>
+              </h1>
+            </div>
+          </div>
+          <div className="row  mt-5 mb-5   comman_divvision">
             {(gallery?.images || [])?.map((item, ind) => (
               <div class="col-sm-6 col-md-6 col-lg-4">
                 <a>
@@ -54,10 +62,8 @@ const Photos = () => {
                       getSlides(item);
                       // setOpen(true);
                     }}
-                    src={
-                      item ? item : require("../../assets/img/banner_img2.jpg")
-                    }
-                    alt="Park"
+                    className="m-3"
+                    src={item}
                   />
                 </a>
               </div>

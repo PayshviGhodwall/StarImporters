@@ -99,7 +99,8 @@ const Footer = () => {
                     <li>
                       <Link
                         className="text-decoration-none"
-                        onClick={() => navigate("/app/home")}
+                        to={"/app/home"}
+                        state={"JII"}
                       >
                         Home{" "}
                       </Link>

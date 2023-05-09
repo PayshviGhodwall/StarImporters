@@ -31,6 +31,12 @@ const TermsCondition = () => {
                   dangerouslySetInnerHTML={createMarkup(data[0]?.description)}
                 ></span>{" "}
               </p>
+              <p className="mb-5 fw-bold">
+                *Please note that the images displayed on this website are for
+                illustrative purposes only and may not necessarily reflect the
+                actual product or service. Kindly ensure that you confirm the
+                accuracy of the image with the corresponding description.
+              </p>
             </div>
           </div>
         </div>

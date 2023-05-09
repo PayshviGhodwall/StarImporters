@@ -128,8 +128,18 @@ function AppPrivacy() {
                 you have any questions or suggestions about our Privacy Policy,
                 do not hesitate to contact us at fareed@starimporters.com
               </p>
-              <h6>Tobacco Products</h6>
-              <p>We do not Sell Any Tobacco Product to anyone untill we properly verify their Tobacco License/id and purpose of Buying tobacco/Smoke Products.</p>
+              <h6 className="fw-bold">Tobacco Products</h6>
+              <p className="mt-1">
+                We do not Sell Any Tobacco Product to anyone untill we properly
+                verify their Tobacco License/id and purpose of Buying
+                tobacco/Smoke Products.
+              </p>
+              <p className="mb-5 fw-bold">
+                *Please note that the images displayed on this website are for
+                illustrative purposes only and may not necessarily reflect the
+                actual product or service. Kindly ensure that you confirm the
+                accuracy of the image with the corresponding description.
+              </p>
             </div>
           </div>
         </div>

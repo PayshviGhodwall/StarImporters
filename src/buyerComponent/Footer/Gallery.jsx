@@ -25,7 +25,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="header_top">
+    <div className="">
       <Navbar />
       <section className="marginTop">
         <>
@@ -86,7 +86,7 @@ const Gallery = () => {
               </div>
 
               <div
-                className="container-fluid tm-container-content tm-mt-60 mt-5"
+                className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
                 id="collection"
               >
                 <div>
@@ -97,7 +97,7 @@ const Gallery = () => {
                   </div>
                 </div>
                 <div className="row tm-mb-90 tm-gallery p-4 ">
-                  <Carousel cols={4} rows={1} gap={15} loop autoplay={3000}>
+                  <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
                     {(gallery || [])?.map((item, ind) => (
                       <Carousel.Item>
                         <div className="border rounded bg-white shadow">

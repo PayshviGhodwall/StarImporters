@@ -15,8 +15,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import DOMPurify from "dompurify";
-import Fade from "react-reveal/Fade";
-
+// import Fade from "react-reveal/Fade";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
   const [allHeaders, setAllHeaders] = useState([]);
@@ -141,7 +143,7 @@ const Homepage = () => {
         </div>
       ) : (
         <div>
-          <section className="home ">
+          {/* <section className="home ">
             <div
               id="carouselExampleControls"
               className="carousel slide "
@@ -238,28 +240,7 @@ const Homepage = () => {
                       )}
                     ></p>
 
-                    {/* <Link
-                to="/app/register"
-                className={
-                  (allSlides[1]?.position === "One" &&
-                    "d-flex text-start text-decoration-none bannerTxt") ||
-                  (allSlides[1]?.position === "Two" &&
-                    " text-center text-decoration-none bannerTxt") ||
-                  (allSlides[1]?.position === "Three" &&
-                    " d-flex justify-content-end text-decoration-none bannerTxt")
-                }
-                style={{ top: "10px" }}
-              >
-                {token ? null : (
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
-                )}
-              </Link> */}
+             
                   </div>
                 </div>
 
@@ -274,15 +255,7 @@ const Homepage = () => {
                   >
                     <source src={require("../../assets/img/videoN.MP4")} />
                   </video>
-                  {/* <div className="frame-container ">
-                    <iframe
-                      className="d-block w-100 banner_slide video_slide"
-                      src="https://www.youtube.com/embed/oh6GzwmIaeo?&autoplay=1&mute=1&loop=1&playlist=oh6GzwmIaeo"
-                      frameborder="0"
-                      allow="autoplay;"
-                      allowfullscreen=""
-                    ></iframe>
-                  </div> */}
+                
                 </div>
 
                 <div className="carousel-item">
@@ -386,28 +359,6 @@ const Homepage = () => {
                       )}
                     ></p>
 
-                    {/* <Link
-                to="/app/register"
-                className={
-                  (allSlides[3]?.position === "One" &&
-                    "d-flex text-start text-decoration-none bannerTxt") ||
-                  (allSlides[3]?.position === "Two" &&
-                    " text-center text-decoration-none bannerTxt") ||
-                  (allSlides[3]?.position === "Three" &&
-                    " d-flex justify-content-end text-decoration-none bannerTxt")
-                }
-                style={{ top: "10px" }}
-              >
-                {token ? null : (
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
-                )}
-              </Link> */}
                   </div>
                 </div>
                 <div className="carousel-item ">
@@ -453,28 +404,7 @@ const Homepage = () => {
                       )}
                     ></p>
 
-                    {/* <Link
-                to="/app/register"
-                className={
-                  (allSlides[4]?.position === "One" &&
-                    "d-flex text-start text-decoration-none bannerTxt") ||
-                  (allSlides[4]?.position === "Two" &&
-                    " text-center text-decoration-none bannerTxt") ||
-                  (allSlides[4]?.position === "Three" &&
-                    " d-flex justify-content-end text-decoration-none bannerTxt")
-                }
-                style={{ top: "10px" }}
-              >
-                {token ? null : (
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
-                )}
-              </Link> */}
+                  
                   </div>
                 </div>
                 <div className="carousel-item ">
@@ -520,28 +450,7 @@ const Homepage = () => {
                       )}
                     ></p>
 
-                    {/* <Link
-                to="/app/register"
-                className={
-                  (allSlides[5]?.position === "One" &&
-                    "d-flex text-start text-decoration-none bannerTxt") ||
-                  (allSlides[5]?.position === "Two" &&
-                    " text-center text-decoration-none bannerTxt") ||
-                  (allSlides[5]?.position === "Three" &&
-                    " d-flex justify-content-end text-decoration-none bannerTxt")
-                }
-                style={{ top: "10px" }}
-              >
-                {token ? null : (
-                  <button
-                    className={
-                      allSlides[0]?.banner ? "comman_btn22 " : "d-none"
-                    }
-                  >
-                    SignUp
-                  </button>
-                )}
-              </Link> */}
+                  
                   </div>
                 </div>
               </div>
@@ -573,8 +482,294 @@ const Homepage = () => {
                 <span className="visually-hidden">Next</span>
               </button>
             </div>
-          </section>
+          </section> */}
+          <OwlCarousel
+            className="banner_slider"
+            autoplay={true}
+            autoplayHoverPause={true}
+            autoplayTimeout={8000}
+            rewind={true}
+            loop={true}
+            dots={false}
+            nav={true}
+            video={true}
+            lazyLoad={true}
+            items={1}
+          >
+            {/* <div
+              class="banner_section item"
+              style={{ backgroundImage: "url(assets/img/01.jpg)" }}
+            >
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-md-9 banner_content">
+                    <h1>You can #Buy, #Sell, #Booking anything from here.</h1>
+                    <p>
+                      Buy and sell everything from used cars to mobile phones
+                      and computers, or search for property, jobs and more in
+                      the world.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div className="banner_section item">
+              <img
+                src={
+                  allSlides[1]?.banner
+                    ? allSlides[1]?.banner
+                    : require("../../assets/img/staticBg.png")
+                }
+                className="d-block w-100"
+                alt="Loading...."
+              />
+              <div
+                className={
+                  (allSlides[1]?.position === "One" &&
+                    "carousel-caption mt-5") ||
+                  (allSlides[1]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-3 mt-5") ||
+                  (allSlides[1]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[1]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[1]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[1]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[1]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[1]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[1]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[1]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[1]?.description
+                  )}
+                ></p>
+              </div>
+            </div>
 
+            <div className="banner_section item">
+              <video
+                id="frameOne"
+                className="main_video bg-dark"
+                autoPlay
+                loop
+                muted
+                allowfullscreen=""
+              >
+                <source src={require("../../assets/img/videoN.MP4")} />
+              </video>
+            </div>
+
+            <div className="banner_section item">
+              <video
+                id="frameOne"
+                className="main_video bg-dark"
+                autoPlay
+                loop
+                muted
+                allowfullscreen=""
+                preload="auto"
+              >
+                <source src={require("../../assets/img/videoSugar.mp4")} />
+              </video>
+            </div>
+
+            <div className="banner_section item ">
+              <img
+                src={
+                  allSlides[2]?.banner
+                    ? allSlides[2]?.banner
+                    : require("../../assets/img/staticBg.png")
+                }
+                className="d-block w-100 "
+                alt="Loading..."
+              />
+              <div
+                className={
+                  (allSlides[2]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[2]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-3") ||
+                  (allSlides[2]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[2]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[2]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[2]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[2]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[2]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[2]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[2]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[2]?.description
+                  )}
+                ></p>
+              </div>
+            </div>
+            <div className="banner_section item">
+              <img
+                src={
+                  allSlides[3]?.banner
+                    ? allSlides[3]?.banner
+                    : require("../../assets/img/staticBg.png")
+                }
+                className="d-block w-100 "
+                alt="Loading..."
+              />
+              <div
+                className={
+                  (allSlides[3]?.position === "One" && "carousel-caption ") ||
+                  (allSlides[3]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-3") ||
+                  (allSlides[3]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[3]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[3]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[3]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[3]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[3]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[3]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[3]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[3]?.description
+                  )}
+                ></p>
+              </div>
+            </div>
+            <div className="banner_section item ">
+              <img
+                src={
+                  allSlides[4]?.banner
+                    ? allSlides[4]?.banner
+                    : require("../../assets/img/staticBg.png")
+                }
+                className="d-block w-100 "
+                alt="Loading..."
+              />
+              <div
+                className={
+                  (allSlides[4]?.position === "One" &&
+                    "carousel-caption mt-3") ||
+                  (allSlides[4]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-3") ||
+                  (allSlides[4]?.position === "Three" &&
+                    "carousel-caption bannerTitle2")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[4]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[4]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[4]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[4]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[4]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[4]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[4]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[4]?.description
+                  )}
+                ></p>
+              </div>
+            </div>
+            <div className="banner_section item">
+              <img
+                src={
+                  allSlides[5]?.banner
+                    ? allSlides[5]?.banner
+                    : require("../../assets/img/staticBg.png")
+                }
+                className="d-block w-100 "
+                alt="Loading..."
+              />
+              <div
+                className={
+                  (allSlides[5]?.position === "One" &&
+                    "carousel-caption mt-3") ||
+                  (allSlides[5]?.position === "Two" &&
+                    "carousel-caption banner-titles mx-5 mt-3") ||
+                  (allSlides[5]?.position === "Three" &&
+                    "carousel-caption bannerTitle2 mt-3")
+                }
+              >
+                <h5
+                  className={
+                    (allSlides[5]?.position === "One" &&
+                      "text-start bannerTxt") ||
+                    (allSlides[5]?.position === "Two" &&
+                      " text-center  Bannertext") ||
+                    (allSlides[5]?.position === "Three" &&
+                      " text-end bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(allSlides[5]?.title)}
+                ></h5>
+                <p
+                  className={
+                    (allSlides[5]?.position === "One" &&
+                      " text-start fs-6 bannerTxt") ||
+                    (allSlides[5]?.position === "Two" &&
+                      "d-flex text-center fs-6 bannerTxt") ||
+                    (allSlides[5]?.position === "Three" &&
+                      "d-flex text-end fs-6 bannerTxt")
+                  }
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[5]?.description
+                  )}
+                ></p>
+              </div>
+            </div>
+          </OwlCarousel>
           <section class="category_newdesign">
             <div class="container">
               <div class="row newdesign_main bg-white">

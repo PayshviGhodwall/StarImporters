@@ -36,6 +36,7 @@ function AppProductDetail() {
   const [itemNo, setItemNo] = useState();
   let location = useLocation();
   let ref = useRef();
+  const [cartCount, setCartCount] = useState(false);
 
   if (objectId !== id) {
     setObjectID(id);
@@ -78,6 +79,7 @@ function AppProductDetail() {
           console.log(formData);
           const { data } = await addToCart(formData);
           if (!data.error) {
+            setCartCount(!cartCount);
             Swal.fire({
               title: "Product Added to Cart",
               icon: "success",
@@ -118,6 +120,7 @@ function AppProductDetail() {
         console.log(formData);
         const { data } = await addToCart(formData);
         if (!data.error) {
+          setCartCount(!cartCount);
           Swal.fire({
             title: "Product Added to Cart",
             icon: "success",
@@ -142,6 +145,7 @@ function AppProductDetail() {
       }
     }
   };
+
   const addToFav = async () => {
     await axios
       .post(addFav, {
@@ -189,33 +193,7 @@ function AppProductDetail() {
   return (
     <>
       <div className="star_imp_app">
-        <AppHeader />
-
-        {/* <div class="header-area" id="headerArea" ref={ref}>
-          <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-            <div class="back-button me-2 me-2">
-              <Link to="/app/home">
-                <i className="fa-solid fa-house"></i>
-              </Link>
-            </div>
-            <div class="page-heading">
-              <h6 class="mb-0">Product Details</h6>
-            </div>
-            <div
-              class="suha-navbar-toggler ms-2"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas"
-            >
-              <div>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <WebHeader2 /> */}
+        <AppHeader cartCount={cartCount} />
 
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper" key={itemNo}>

@@ -272,8 +272,16 @@ function AppCart() {
                           <tbody className="">
                             {(cart || [])?.map((item, index) => {
                               return (
-                                <tr key={index}>
+                                <tr
+                                  key={index}
+                                  className={item?.isTobacco ? "filter" : ""}
+                                >
                                   <th scope="">
+                                    {item?.isTobacco ? (
+                                      <span class="refFilter text-center" />
+                                    ) : (
+                                      ""
+                                    )}
                                     <Link
                                       className="remove-product"
                                       to=""
@@ -395,7 +403,7 @@ function AppCart() {
                           <tbody className="">
                             {(cart || [])?.map((item, index) => {
                               return (
-                                <tr key={index} className="filter">
+                                <tr key={index}>
                                   <th scope="">
                                     <Link
                                       className="remove-product"
