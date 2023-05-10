@@ -234,7 +234,7 @@ function AppEditProfile() {
                         placeholder=""
                         name="addressLine"
                         id="addressLine"
-                        {...register("addressLine", { required: true })}
+                        {...register("addressLine")}
                       />
 
                       {errors?.addressLine && (

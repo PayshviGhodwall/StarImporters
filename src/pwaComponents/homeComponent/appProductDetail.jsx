@@ -366,7 +366,7 @@ function AppProductDetail() {
                     </button>
                   ) : (
                     <Link className="comman_btn mb-2" to="/app/login">
-                      Please Login to Add to Cart!.
+                      Please Login to Add to Cart ! 
                     </Link>
                   )}
                 </div>

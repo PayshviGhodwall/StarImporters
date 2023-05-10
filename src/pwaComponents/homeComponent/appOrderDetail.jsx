@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import moment from "moment";
@@ -10,14 +10,14 @@ function AppOrderDetail() {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   let location = useLocation();
-  let id = location?.state?.id;
+  let id = useParams();
 
   useEffect(() => {
     OrderDetails();
   }, []);
 
   const OrderDetails = async () => {
-    await axios.get(getOrderDetails + "/" + id).then((res) => {
+    await axios.get(getOrderDetails + "/" + id?.id).then((res) => {
       setOrders(res?.data.results?.orders);
     });
   };

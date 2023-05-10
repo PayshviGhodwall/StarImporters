@@ -29,8 +29,7 @@ function AppMyOrder() {
                 {(orderDetails || [])?.map((item, index) => (
                   <div className="col-12 mb-3" key={index}>
                     <Link
-                      to="/app/order-detail"
-                      state={{ id: item?._id }}
+                      to={`/app/order-detail/${item?._id}`}
                       className="my_orderbox position-relative shadow"
                     >
                       <div className="left_part">
