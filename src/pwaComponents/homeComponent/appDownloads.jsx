@@ -22,17 +22,14 @@ const AppDownloads = () => {
               data-wow-delay="0.3s"
               //   style="visibility: visible; animation-delay: 0.3s;"
             >
-              <h5 class=" fw-medium" style={{ color: "#3e4093" }}>
-                Download
-              </h5>
-              <h1 class="mb-3 dwn-title1">
-                Download The Latest Version Of Our App
+              <h1 class="mb-3 dwn-title1 text-center">
+                Download The Latest Version Of Our Star Importers Application.
               </h1>
-              <p class="mb-3 text-dwn">
-              Now Available on Android!
+              <p class="mb-3 text-center">
+                Now Available On Play Store And App Store.
               </p>
               <div class="row g-4 p-3">
-                {/* <div
+                <div
                   class="col-sm-6 dwn-btns "
                   //   style="visibility: visible; animation-delay: 0.5s;"
                 >
@@ -42,20 +39,21 @@ const AppDownloads = () => {
                   >
                     <i class="fab fa-apple fa-3x text-white flex-shrink-0"></i>
                     <div class="ms-3">
-                      <p class="text-white mb-0">Available On</p>
-                      <h5 class="text-white mb-0">App Store</h5>
+                      <p class="text-white mb-0">Download Our</p>
+                      <h5 class="text-white mb-0">Ios App</h5>
                     </div>
                   </a>
-                </div>` */}
+                </div> 
+                `
                 <div class="col-sm-6 dwn-btns" data-wow-delay="0.7s">
                   <a
-                    href="https://i.diawi.com/pPzbeg"
+                    href="https://play.google.com/store/apps/details?id=com.star_importers"
                     class="d-flex bg-secondary-gradient rounded py-3 px-4"
                   >
                     <i class="fab fa-android fa-3x text-white mt-1"></i>
                     <div class="ms-3">
                       <p class="text-white mb-0">Download Our</p>
-                      <h5 class="text-white mb-0">Android Apk</h5>
+                      <h5 class="text-white mb-0">Android App</h5>
                     </div>
                   </a>
                 </div>

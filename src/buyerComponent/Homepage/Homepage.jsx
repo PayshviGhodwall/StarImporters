@@ -19,6 +19,7 @@ import DOMPurify from "dompurify";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
   const [allHeaders, setAllHeaders] = useState([]);
@@ -40,6 +41,7 @@ const Homepage = () => {
   let NewUser = sessionStorage.getItem("new");
   console.log(NewUser);
 
+  
   useEffect(() => {
     if (!token) {
       if (!NewUser) {

@@ -15360,16 +15360,12 @@ figure.effect-ming:hover img {
   border-radius: 1rem !important;
 }
 .refFilter::before {
-  font-weight: bold;
   font-size: 1rem;
   color: #fff;
-  content: "NOT AVAILABLE ON APP!";
-  position: absolute;
   top: 80%;
   z-index: 99999;
   filter: brightness(30%);
 
-  opacity: 100% !important;
 }
 .main_video {
   position: relative;

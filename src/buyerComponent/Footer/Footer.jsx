@@ -198,15 +198,15 @@ const Footer = () => {
 
               <div className="col-md-4">
                 <ul className="dwn-ul text-end text-md-end">
-                  <a href="https://i.diawi.com/pPzbeg">
+                  <a href="https://play.google.com/store/apps/details?id=com.star_importers">
                     <li>
                       <div class="download android">
                         <img
                           src={require("../../assets/img/icon-android.png")}
                           className="fa"
                         ></img>
-                        <span class="df">Download Our</span>
-                        <span class="dfn">Android Apk</span>
+                        <span class="df">Download from</span>
+                        <span class="dfn">Play Store</span>
                       </div>
                     </li>
                   </a>
