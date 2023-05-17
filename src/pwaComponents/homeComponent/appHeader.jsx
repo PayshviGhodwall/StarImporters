@@ -4,8 +4,6 @@ import {
   countProducts,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
-import { useRecoilValue } from "recoil";
-import { notifyCount } from "../../atom";
 import { browserName } from "react-device-detect";
 
 function AppHeader({ cartCount }) {

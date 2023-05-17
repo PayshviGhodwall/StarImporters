@@ -15366,6 +15366,7 @@ figure.effect-ming:hover img {
   z-index: 99999;
   filter: brightness(30%);
 
+  opacity: 90% !important;
 }
 .main_video {
   position: relative;

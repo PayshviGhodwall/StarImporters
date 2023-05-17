@@ -6,10 +6,8 @@ import {
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 import { toast } from "react-toastify";
-import { icon } from "@fortawesome/fontawesome-svg-core";
 import Swal from "sweetalert2";
 
 function AppEditProfile() {

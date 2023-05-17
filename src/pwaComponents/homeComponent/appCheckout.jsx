@@ -21,8 +21,6 @@ function AppCheckout() {
     getUser();
   }, []);
 
-  console.log(comments);
-
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
       await axios
@@ -62,8 +60,6 @@ function AppCheckout() {
         });
     }
   };
-
-  console.log(users?.state);
 
   return (
     <>

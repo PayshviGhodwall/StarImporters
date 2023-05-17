@@ -11,22 +11,25 @@ import { browserName } from "react-device-detect";
 function AppBrands() {
   const [brand, setBrand] = useState([]);
   let ref = useRef();
+  const searchKey = useRecoilValue(charSearchKey);
+
   useEffect(() => {
     getBrandList();
   }, []);
-  const searchKey = useRecoilValue(charSearchKey);
-  console.log(searchKey);
+
   const getBrandList = async () => {
     const { data } = await getBrands();
     if (!data.error) {
       setBrand(data.results);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
       document.removeEventListener("click", handleOutsideClick, true);
   }, []);
+
   const handleOutsideClick = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       document.getElementById("closeModal").click();

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Button } from "rsuite";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Animate from "../../Animate";
 import {
@@ -24,7 +23,6 @@ function AppCart() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
-  let deviceId = localStorage.getItem("device");
 
   useEffect(() => {
     getCartss();
@@ -113,13 +111,11 @@ function AppCart() {
             }
           };
           addToCartt();
-          // navigate(`/app/product-detail/${data.results[0]._id}`);
-          // window.location.reload();
         }
       }
     }
   };
-
+  
   const HandleDecrease = async (id) => {
     setLoad(true);
     const formData = {

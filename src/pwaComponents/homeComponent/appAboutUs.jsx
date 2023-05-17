@@ -16,6 +16,7 @@ function AppAboutUs() {
       setContent(data.results[0]?.description);
     }
   };
+
   return (
     <>
       <div className="star_imp_app">
@@ -32,7 +33,6 @@ function AppAboutUs() {
           </div>
         </div>
         <WebHeader2 />
-
         <div className="page-content-wrapper">
           <div className="container">
             <div className="privacy-policy-wrapper py-3">

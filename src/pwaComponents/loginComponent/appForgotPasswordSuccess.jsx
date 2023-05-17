@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -7,29 +6,25 @@ import { toast } from "react-toastify";
 import { updatePassword } from "../httpServices/loginHttpService/loginHttpService";
 
 function AppForgotPasswordSuccess() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
   const onSubmit = async (data) => {
     if (data.password !== data.confirmpassword) {
       toast.error("Password & Confirm Password should be same");
       return;
     }
-    console.log(data);
-
     const formData = {
       email: location.state.email,
       password: data.password,
     };
-
     const response = await updatePassword(formData);
-
     if (!response.data.error) {
       navigate("/app/login");
       if (window.flutter_inappwebview) {
@@ -41,6 +36,7 @@ function AppForgotPasswordSuccess() {
       }
     }
   };
+
   return (
     <>
       <div className="star_imp_app">

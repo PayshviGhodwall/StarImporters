@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
@@ -52,7 +51,6 @@ function AppContactUs() {
             </div>
           </div>
         </div>
-
         <AppFooter />
       </div>
     </>

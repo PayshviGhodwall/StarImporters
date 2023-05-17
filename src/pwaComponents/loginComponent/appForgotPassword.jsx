@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../httpServices/loginHttpService/loginHttpService";
@@ -7,16 +6,15 @@ import validator from "validator";
 import { toast } from "react-toastify";
 
 function AppForgotPassword() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-
   const onSubmit = async (data) => {
-    console.log(data);
     let formData = {};
     if (validator.isEmail(data.email)) {
       formData.email = data.email;
@@ -26,13 +24,12 @@ function AppForgotPassword() {
       toast.error("Invalid email or phone number");
       return;
     }
-
     const response = await forgotPassword(formData);
-    console.log(response);
     if (!response.data.error) {
       navigate("/app/otp-verification", { state: { email: data.email } });
     }
   };
+
   return (
     <>
       <div className="star_imp_app">

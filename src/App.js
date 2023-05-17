@@ -42,7 +42,6 @@ import EditInventory from "./AdminComponent/AdminDashboard/Inventory/EditInvento
 import SingleProduct from "./buyerComponent/AllProducts/SingleProduct";
 import AppSignUp from "./pwaComponents/loginComponent/appSignUp";
 import AppForgotPassword from "./pwaComponents/loginComponent/appForgotPassword";
-import AppOtp from "./pwaComponents/loginComponent/appOtp";
 import AppOtpVerification from "./pwaComponents/loginComponent/appOtpVerify";
 import AppForgotPasswordSuccess from "./pwaComponents/loginComponent/appForgotPasswordSuccess";
 import AppHome from "./pwaComponents/homeComponent/appHome";
@@ -56,12 +55,10 @@ import AppProfile from "./pwaComponents/homeComponent/appProfile";
 import AppEditProfile from "./pwaComponents/homeComponent/appEditProfile";
 import AppMyOrder from "./pwaComponents/homeComponent/appMyOrder";
 import AppRequests from "./pwaComponents/homeComponent/appRequests";
-import AppNotifications from "./pwaComponents/homeComponent/appNotifications";
 import AppWishlist from "./pwaComponents/homeComponent/appWishlist";
 import AppBrands from "./pwaComponents/homeComponent/appBrands";
 import AppProductDetail from "./pwaComponents/homeComponent/appProductDetail";
 import AppRequestDetail from "./pwaComponents/homeComponent/appRequestDetail";
-import AppNotificationDetail from "./pwaComponents/homeComponent/appNotificationDetail";
 import AppOrderDetail from "./pwaComponents/homeComponent/appOrderDetail";
 import AppProductCategory from "./pwaComponents/homeComponent/appProductCategory";
 import AppProductList from "./pwaComponents/homeComponent/appProductList";
@@ -276,10 +273,7 @@ function App() {
                 width < 999 ? <AppForgotPassword /> : <UserUpdatePassword />
               }
             />
-            <Route
-              path="/app/otp"
-              element={width < 999 ? <AppOtp /> : <UserOtpValidate />}
-            />
+
             <Route
               path="/app/otp-verification"
               element={width < 999 ? <AppOtpVerification /> : <Homepage />}
@@ -354,7 +348,6 @@ function App() {
               path="/app/my-request"
               element={width < 999 ? <AppRequests /> : <RequestOrders />}
             />
-            <Route path="/app/notifications" element={<AppNotifications />} />
             <Route
               path="/app/brands"
               element={width < 999 ? <AppBrands /> : <AllBrands />}
@@ -383,10 +376,7 @@ function App() {
               path="/app/request-detail"
               element={width < 999 ? <AppRequestDetail /> : <RequestDetails />}
             />
-            <Route
-              path="/app/notification-detail"
-              element={<AppNotificationDetail />}
-            />
+
             <Route
               path="/app/order-detail/:id"
               element={width < 999 ? <AppOrderDetail /> : <OrderDetails />}

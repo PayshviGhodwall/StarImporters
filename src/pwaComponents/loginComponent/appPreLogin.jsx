@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import { browserName } from "react-device-detect";
 
 function AppPreLogin() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,7 +20,6 @@ function AppPreLogin() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token-user")) {
       navigate("/app/home");
@@ -137,7 +138,7 @@ function AppPreLogin() {
                 <div className="logo_comman">
                   <img
                     className="big-logo"
-                    src="../assets/img/logo1.png"
+                    src={require("../../assets/img/welcomeLog2.png")}
                     alt=""
                   />
                 </div>

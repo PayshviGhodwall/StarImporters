@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { tAndC } from "../httpServices/homeHttpService/homeHttpService";
-import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppConditions() {
@@ -18,6 +16,7 @@ function AppConditions() {
       setContent(data.results[0].description);
     }
   };
+  
   return (
     <>
       <div className="star_imp_app">

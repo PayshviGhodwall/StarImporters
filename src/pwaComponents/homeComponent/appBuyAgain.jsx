@@ -12,13 +12,10 @@ function AppBuyAgain() {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [list, setList] = useState([]);
-  const [Nstate, setNstate] = useState(false);
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(false);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("UserData"));
     getProducts();
   }, []);
 
@@ -42,7 +39,7 @@ function AppBuyAgain() {
       setSelected(selected.filter((item) => item?.productId !== productId));
     }
   };
-  console.log(selected);
+
   const handleSelectAll = (e) => {
     const { checked } = e.target;
     setIsCheckAll(!isCheckAll);
@@ -203,12 +200,6 @@ function AppBuyAgain() {
                     </div>
                   ))
                 )}
-
-                {/* <div className="col-12">
-                  <Link to="/app/cart" className="comman_btn">
-                    Go to Cart
-                  </Link>
-                </div> */}
               </div>
             </div>
           </div>

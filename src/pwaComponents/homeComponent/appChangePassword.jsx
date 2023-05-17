@@ -2,25 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 import {
   changePassword,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppChangePassword() {
   const [detail, setDetail] = useState("");
   let ref = useRef();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log(data);

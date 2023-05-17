@@ -13,8 +13,8 @@ function AppCategories() {
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const searchKey = useRecoilValue(charSearchKey);
-  console.log(searchKey);
   let ref = useRef();
+
   useEffect(() => {
     getCategoryList();
   }, [activePage]);
@@ -26,11 +26,13 @@ function AppCategories() {
       setMaxPage(data?.results.totalPages);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
     return () =>
       document.removeEventListener("click", handleOutsideClick, true);
   }, []);
+
   const handleOutsideClick = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       document.getElementById("closeModal").click();

@@ -3,7 +3,7 @@ import AppHeader from "./appHeader";
 import AppFooter from "./appFooter";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getAllProducts,
   getBrands,

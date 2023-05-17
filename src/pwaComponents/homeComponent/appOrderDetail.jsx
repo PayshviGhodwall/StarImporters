@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import moment from "moment";
@@ -9,7 +9,6 @@ function AppOrderDetail() {
   const getOrderDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/viewOrder`;
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  let location = useLocation();
   let id = useParams();
 
   useEffect(() => {
