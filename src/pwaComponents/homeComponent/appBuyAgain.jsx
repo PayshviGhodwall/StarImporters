@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
+import { browserName } from "react-device-detect";
 
 function AppBuyAgain() {
   const products = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/purchasedProducts`;
@@ -113,96 +114,195 @@ function AppBuyAgain() {
       <div className="star_imp_app">
         <AppHeader cartCount={cartCount} />
         <div className="page-content-wrapper">
-          <div className="py-3">
-            <div className="row mb-2">
-              <div className="col-5 mx-3 mx-xs-0 col-xs-6">
-                <label class="checkbox-label-all d-flex">
-                  <input
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    onChange={handleSelectAll}
-                    checked={isCheckAll}
-                    class="checkbox-input-all"
-                  />
-                  <span class="checkmark-all"></span>
-                  <span className="select-text">Select All</span>
-                </label>
+          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            <div className="py-3">
+              <div className="row mb-2">
+                <div className="col-5 mx-3 mx-xs-0 col-xs-6">
+                  <label class="checkbox-label-all d-flex">
+                    <input
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      onChange={handleSelectAll}
+                      checked={isCheckAll}
+                      class="checkbox-input-all"
+                    />
+                    <span class="checkmark-all"></span>
+                    <span className="select-text">Select All</span>
+                  </label>
+                </div>
+                <div className="col-6 col-xs-6">
+                  <button onClick={(e) => AddtoCart(e)} className="comman_btn">
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-              <div className="col-6 col-xs-6">
-                <button onClick={(e) => AddtoCart(e)} className="comman_btn">
-                  Add to Cart
-                </button>
+              <div className="container ">
+                <div className="row mt-0 buyAgain">
+                  {(purchasedProd || [])?.map((item, index) =>
+                    item.products
+                      ?.filter(
+                        (itm, idx) => itm.productId.isTobaccoProduct !== true
+                      )
+                      .map((val, ind) => (
+                        <div className="col-12 mb-2 card" key={index}>
+                          <div className="horizontal-product-card py-2">
+                            <div className="d-flex align-items-center">
+                              <div className="product-thumbnail-side">
+                                <Link
+                                  className="product-thumbnail shadow-sm d-block"
+                                  to={`/app/product-detail/${item?.productId?._id}`}
+                                  state={{ type: item?.flavour }}
+                                >
+                                  <img
+                                    src={
+                                      val?.flavour
+                                        ? val?.flavour?.flavourImage ||
+                                          require("../../assets/img/product.jpg")
+                                        : val?.productId?.productImage ||
+                                          require("../../assets/img/product.jpg")
+                                    }
+                                    alt="Product"
+                                  />
+                                </Link>
+                              </div>
+
+                              <div className="p-3">
+                                <Link
+                                  className="product-title d-block  mb-3"
+                                  to={`/app/product-detail/${val?.productId?._id}`}
+                                  state={{ type: val?.flavour }}
+                                >
+                                  {val?.productId?.unitName}
+                                  {"-"}
+                                  {val?.flavour ? val?.flavour?.flavour : null}
+                                </Link>
+                                <small>Quantity : {val?.quantity}</small>
+                              </div>
+                              <div>
+                                <label class="checkbox-label mb-3">
+                                  <input
+                                    type="checkbox"
+                                    key={val?.flavour?._id}
+                                    name={ind}
+                                    id={val?.flavour?._id}
+                                    onChange={(e) =>
+                                      handleClick(
+                                        e,
+                                        val?.flavour,
+                                        val?.productId?._id,
+                                        val?.quantity,
+                                        ind
+                                      )
+                                    }
+                                    class="checkbox-input mb-2 mx-3"
+                                    checked={isCheck?.includes(
+                                      val?.flavour?._id
+                                    )}
+                                  />
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                  )}
+                </div>
               </div>
             </div>
-            <div className="container ">
-              <div className="row mt-0 buyAgain">
-                {(purchasedProd || [])?.map((item, index) =>
-                  item.products?.map((val, ind) => (
-                    <div className="col-12 mb-2 card" key={index}>
-                      <div className="horizontal-product-card py-2">
-                        <div className="d-flex align-items-center">
-                          <div className="product-thumbnail-side">
-                            <Link
-                              className="product-thumbnail shadow-sm d-block"
-                              to={`/app/product-detail/${item?.productId?._id}`}
-                              state={{ type: item?.flavour }}
-                            >
-                              <img
-                                src={
-                                  val?.flavour
-                                    ? val?.flavour?.flavourImage ||
-                                      require("../../assets/img/product.jpg")
-                                    : val?.productId?.productImage ||
-                                      require("../../assets/img/product.jpg")
-                                }
-                                alt="Product"
-                              />
-                            </Link>
-                          </div>
+          ) : (
+            <div className="py-3">
+              <div className="row mb-2">
+                <div className="col-5 mx-3 mx-xs-0 col-xs-6">
+                  <label class="checkbox-label-all d-flex">
+                    <input
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      onChange={handleSelectAll}
+                      checked={isCheckAll}
+                      class="checkbox-input-all"
+                    />
+                    <span class="checkmark-all"></span>
+                    <span className="select-text">Select All</span>
+                  </label>
+                </div>
+                <div className="col-6 col-xs-6">
+                  <button onClick={(e) => AddtoCart(e)} className="comman_btn">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+              <div className="container ">
+                <div className="row mt-0 buyAgain">
+                  {(purchasedProd || [])?.map((item, index) =>
+                    item.products?.map((val, ind) => (
+                      <div className="col-12 mb-2 card" key={index}>
+                        <div className="horizontal-product-card py-2">
+                          <div className="d-flex align-items-center">
+                            <div className="product-thumbnail-side">
+                              <Link
+                                className="product-thumbnail shadow-sm d-block"
+                                to={`/app/product-detail/${item?.productId?._id}`}
+                                state={{ type: item?.flavour }}
+                              >
+                                <img
+                                  src={
+                                    val?.flavour
+                                      ? val?.flavour?.flavourImage ||
+                                        require("../../assets/img/product.jpg")
+                                      : val?.productId?.productImage ||
+                                        require("../../assets/img/product.jpg")
+                                  }
+                                  alt="Product"
+                                />
+                              </Link>
+                            </div>
 
-                          <div className="p-3">
-                            <Link
-                              className="product-title d-block  mb-3"
-                              to={`/app/product-detail/${val?.productId?._id}`}
-                              state={{ type: val?.flavour }}
-                            >
-                              {val?.productId?.unitName}
-                              {"-"}
-                              {val?.flavour ? val?.flavour?.flavour : null}
-                            </Link>
-                            <small>Quantity : {val?.quantity}</small>
-                          </div>
-                          <div>
-                            <label class="checkbox-label mb-3">
-                              <input
-                                type="checkbox"
-                                key={val?.flavour?._id}
-                                name={ind}
-                                id={val?.flavour?._id}
-                                onChange={(e) =>
-                                  handleClick(
-                                    e,
-                                    val?.flavour,
-                                    val?.productId?._id,
-                                    val?.quantity,
-                                    ind
-                                  )
-                                }
-                                class="checkbox-input mb-2 mx-3"
-                                checked={isCheck?.includes(val?.flavour?._id)}
-                              />
-                              <span class="checkmark"></span>
-                            </label>
+                            <div className="p-3">
+                              <Link
+                                className="product-title d-block  mb-3"
+                                to={`/app/product-detail/${val?.productId?._id}`}
+                                state={{ type: val?.flavour }}
+                              >
+                                {val?.productId?.unitName}
+                                {"-"}
+                                {val?.flavour ? val?.flavour?.flavour : null}
+                              </Link>
+                              <small>Quantity : {val?.quantity}</small>
+                            </div>
+                            <div>
+                              <label class="checkbox-label mb-3">
+                                <input
+                                  type="checkbox"
+                                  key={val?.flavour?._id}
+                                  name={ind}
+                                  id={val?.flavour?._id}
+                                  onChange={(e) =>
+                                    handleClick(
+                                      e,
+                                      val?.flavour,
+                                      val?.productId?._id,
+                                      val?.quantity,
+                                      ind
+                                    )
+                                  }
+                                  class="checkbox-input mb-2 mx-3"
+                                  checked={isCheck?.includes(val?.flavour?._id)}
+                                />
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <AppFooter />

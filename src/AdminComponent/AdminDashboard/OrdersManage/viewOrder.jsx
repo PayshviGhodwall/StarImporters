@@ -653,8 +653,7 @@ const ViewOrder = () => {
                                     "Pickup") ||
                                     (orders?.type === "Shipment" &&
                                       "Shipping") ||
-                                    (orders?.type === "Delivery" &&
-                                      "Delivery")}
+                                    (orders?.type === "Delivery" && "Delivery")}
                                 </option>
                                 <option value="DELIVERED">Delivered</option>
                                 <option value="CANCEL">Canceled</option>

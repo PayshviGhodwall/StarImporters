@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import moment from "moment";
+import { browserName } from "react-device-detect";
 
 function AppOrderDetail() {
   const getOrderDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/viewOrder`;
@@ -79,57 +80,109 @@ function AppOrderDetail() {
                   </div>
                 </div>
               </div>
-              <div className="col-12 mb-3">
-                <div className="row mx-0 border rounded position-relative bg-white shadow cart-table">
-                  <div className="table-responsive card-body">
-                    <table className="table mb-0">
-                      <tbody>
-                        {(orders?.products || [])?.map((item, index) => (
-                          <tr key={index}>
-                            <td>
-                              <div className="cart_icon">
-                                <img
-                                  className=""
-                                  src={item?.flavour?.flavourImage}
-                                  alt=""
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <div className="order_items">
-                                <Link
-                                  to={`/app/product-detail/${item?.productId?._id}`}
-                                >
-                                  {item?.productId?.unitName +
-                                    "-" +
-                                    item?.flavour.flavour}
-                                </Link>
-                                {/* <div className="bar_code mt-1">
-                                  Bar Code:{" "}
-                                  <span>{item?.flavour.barcode.map((item)=>(
-                                    <li>{item}</li>
-                                  ))}</span>
-                                </div> */}
-                                <div className="bar_code mt-1"></div>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="quantity">
-                                <input
-                                  className="qty-text"
-                                  type="text"
-                                  disabled
-                                  value={item?.quantity}
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+              {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+                <div className="col-12 mb-3">
+                  <div className="row mx-0 border rounded position-relative bg-white shadow cart-table">
+                    <div className="table-responsive card-body">
+                      <table className="table mb-0">
+                        <tbody>
+                          {(orders?.products || [])?.map((item, index) => (
+                            <tr
+                              key={index}
+                              className={
+                                item?.productId?.isTobaccoProduct
+                                  ? "filter"
+                                  : ""
+                              }
+                            >
+                              <td>
+                                <div className="cart_icon">
+                                  <img
+                                    className=""
+                                    src={item?.flavour?.flavourImage}
+                                    alt=""
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="order_items">
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName +
+                                      "-" +
+                                      item?.flavour.flavour}
+                                  </Link>
+
+                                  <div className="bar_code mt-1"></div>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="quantity">
+                                  <input
+                                    className="qty-text"
+                                    type="text"
+                                    disabled
+                                    value={item?.quantity}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="col-12 mb-3">
+                  <div className="row mx-0 border rounded position-relative bg-white shadow cart-table">
+                    <div className="table-responsive card-body">
+                      <table className="table mb-0">
+                        <tbody>
+                          {(orders?.products || [])?.map((item, index) => (
+                            <tr key={index}>
+                              <td>
+                                <div className="cart_icon">
+                                  <img
+                                    className=""
+                                    src={item?.flavour?.flavourImage}
+                                    alt=""
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="order_items">
+                                  <Link
+                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                  >
+                                    {item?.productId?.unitName +
+                                      "-" +
+                                      item?.flavour.flavour}
+                                  </Link>
+
+                                  <div className="bar_code mt-1"></div>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="quantity">
+                                  <input
+                                    className="qty-text"
+                                    type="text"
+                                    disabled
+                                    value={item?.quantity}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="col-12 mb-3">
                 <div className="card border rounded py-3 px-1 position-relative bg-white shadow">
                   <div className="card-body px-3 py-1">

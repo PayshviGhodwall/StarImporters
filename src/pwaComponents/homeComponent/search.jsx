@@ -192,7 +192,8 @@ const Search = () => {
                         (itm, idx) =>
                           itm.category != "639a042ff2f72167b43774de" &&
                           idx < 15 &&
-                          itm.category != "639a7617f2f72167b4377754"
+                          itm.category != "639a7617f2f72167b4377754" &&
+                          itm.category.isTobacco != true
                       )
                       .map((item, index) => {
                         return (

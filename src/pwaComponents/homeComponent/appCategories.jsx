@@ -77,7 +77,8 @@ function AppCategories() {
                     ?.filter(
                       (itm, idx) =>
                         itm._id !== "639a042ff2f72167b43774de" &&
-                        itm._id !== "639a7617f2f72167b4377754"
+                        itm._id !== "639a7617f2f72167b4377754" &&
+                        itm.isTobacco != true
                     )
                     .map((item, index) => {
                       return (
@@ -207,7 +208,6 @@ function AppCategories() {
             </div>
           )}
         </div>
-
         <AppFooter />
       </div>
     </>

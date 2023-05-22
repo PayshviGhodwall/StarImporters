@@ -293,7 +293,8 @@ function AppHome() {
                               (itm, idx) =>
                                 itm.category != "639a042ff2f72167b43774de" &&
                                 idx < 10 &&
-                                itm.category != "639a7617f2f72167b4377754"
+                                itm.category != "639a7617f2f72167b4377754" &&
+                                itm.category.isTobacco != true
                             )
                             .map((item, index) => {
                               return (
@@ -399,7 +400,8 @@ function AppHome() {
                               (itm, idx) =>
                                 itm._id != "639a042ff2f72167b43774de" &&
                                 idx < 8 &&
-                                itm._id != "639a7617f2f72167b4377754"
+                                itm._id != "639a7617f2f72167b4377754" &&
+                                itm.isTobacco != true
                             )
                             .map((item, index) => {
                               return (

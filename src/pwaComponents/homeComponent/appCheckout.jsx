@@ -206,7 +206,7 @@ function AppCheckout() {
                               defaultChecked="true"
                             />
                             <label for="fastShipping">
-                              In-Store Pickup <span>Instant delivery</span>
+                              In-Store Pickup
                             </label>
                             <div class="check"></div>
                           </li>
@@ -257,7 +257,7 @@ function AppCheckout() {
                 class="comman_btn mt-3 w-50 d-flex text-center"
                 to="/app/thankyou"
                 onClick={createOrder}
-              >
+              > 
                 Place Order
               </Link>
             </div>
