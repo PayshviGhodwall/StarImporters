@@ -133,7 +133,7 @@ function AppSignUp() {
                     alt=""
                   />
                 </div>
-                {browserName !== "WebKit" ||
+                {browserName === "WebKit" ||
                 browserName === "Chrome WebView" ? (
                   <div className="register-form mt-5">
                     <span className="mb-3">
