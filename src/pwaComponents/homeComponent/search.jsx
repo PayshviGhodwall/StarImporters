@@ -103,7 +103,7 @@ const Search = () => {
               className="form-control"
               type="text"
               value={search}
-              placeholder="Search in Star Importers"
+              placeholder={"  " + "Search in Star Importers"}
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
@@ -193,7 +193,7 @@ const Search = () => {
                           itm.category != "639a042ff2f72167b43774de" &&
                           idx < 15 &&
                           itm.category != "639a7617f2f72167b4377754" &&
-                          itm.category.isTobacco != true
+                          itm.isTobaccoProduct != true
                       )
                       .map((item, index) => {
                         return (
