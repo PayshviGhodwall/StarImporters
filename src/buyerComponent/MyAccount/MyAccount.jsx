@@ -21,7 +21,9 @@ const MyAccount = () => {
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
   let token = localStorage.getItem("token-user");
+
   const navigate = useNavigate();
+
   useEffect(() => {
     const GetOrders = async () => {
       await axios.get(getOrder).then((res) => {
@@ -37,41 +39,11 @@ const MyAccount = () => {
       setUsers(res?.data.results);
     });
   };
-
+  console.log(users);
   return (
     <div className="main_myaccount">
       <Navbar />
-      {/* <section className="comman_banner _banner marginTop">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h1>My Account</h1>
-              <div className="breadcrumbs mt-2">
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb mb-0">
-                    <li className="item_nanner">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6  "
-                      >
-                        Home <span className="arrow mx-1">&#9679;</span>{" "}
-                      </Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      <Link
-                        to=""
-                        className="text-decoration-none text-white fs-6 mx-1"
-                      >
-                        My Account
-                      </Link>
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+
       <section
         class="comman_banner _banner marginTop"
         // style="background-image: url(assets/images/product_bg.png);"
@@ -139,24 +111,27 @@ const MyAccount = () => {
                     </div>{" "}
                     My Order
                   </button>
-                  <button
-                    class="nav-link"
-                    id="v-pills-profile-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-profile"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-profile"
-                    aria-selected="false"
-                  >
-                    <div class="tab_img">
-                      <img
-                        src={require("../../assets/img/question-answer.png")}
-                        alt=""
-                      />
-                    </div>
-                    My Quotations
-                  </button>
+                  {users?.quotation ? (
+                    <button
+                      class="nav-link"
+                      id="v-pills-profile-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#v-pills-profile"
+                      type="button"
+                      role="tab"
+                      aria-controls="v-pills-profile"
+                      aria-selected="false"
+                    >
+                      <div class="tab_img">
+                        <img
+                          src={require("../../assets/img/question-answer.png")}
+                          alt=""
+                        />
+                      </div>
+                      My Quotations
+                    </button>
+                  ) : null}
+
                   <button
                     class="nav-link"
                     id="v-pills-messages-tab"

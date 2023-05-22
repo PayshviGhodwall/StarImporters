@@ -74,12 +74,12 @@ function WebHeader2() {
             </li>
             <li>
               <Link to={token ? "/app/my-order" : "/app/login"}>
-                <i className="fa-solid fa-bag-shopping"></i>My Order
+                <i className="fa-solid fa-bag-shopping"></i>My Orders
               </Link>
             </li>
             <li>
               <Link to={token ? "/app/my-request" : "/app/login"}>
-                <i className="fa-solid fa-users"></i>My Request
+                <i className="fa-solid fa-users"></i>My Quotations
               </Link>
             </li>
             <li>

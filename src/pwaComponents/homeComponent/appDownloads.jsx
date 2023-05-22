@@ -43,10 +43,11 @@ const AppDownloads = () => {
                       <h5 class="text-white mb-0">Ios App</h5>
                     </div>
                   </a>
-                </div> 
+                </div>
                 `
                 <div class="col-sm-6 dwn-btns" data-wow-delay="0.7s">
                   <a
+                    target="_blank"
                     href="https://play.google.com/store/apps/details?id=com.star_importers"
                     class="d-flex bg-secondary-gradient rounded py-3 px-4"
                   >

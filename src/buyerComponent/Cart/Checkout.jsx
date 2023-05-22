@@ -40,9 +40,7 @@ const Checkout = () => {
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/app/order-detail", {
-                state: { id: res?.data.results?.order._id },
-              });
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
             });
           }
         });
@@ -62,9 +60,7 @@ const Checkout = () => {
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/app/order-detail", {
-                state: { id: res?.data.results.order._id },
-              });
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
             });
           }
         });
@@ -80,13 +76,10 @@ const Checkout = () => {
             Swal.fire({
               title: "Order Placed!",
               text: "You can Track your order on my account",
-
               icon: "success",
               confirmButtonText: "View Order",
             }).then((data) => {
-              navigate("/app/order-detail", {
-                state: { id: res?.data.results.order._id },
-              });
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
             });
           }
         });

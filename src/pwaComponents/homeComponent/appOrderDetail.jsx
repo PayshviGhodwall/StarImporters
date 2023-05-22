@@ -58,6 +58,16 @@ function AppOrderDetail() {
                   <div className="col-12 mb-1">
                     <div className="row">
                       <div className="col-6">
+                        <span className="data_main">Order Id :</span>
+                      </div>
+                      <div className="col-6">
+                        <span className="data_submain">{orders?.type}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 mb-1">
+                    <div className="row">
+                      <div className="col-6">
                         <span className="data_main">Total Products :</span>
                       </div>
                       <div className="col-6">
@@ -100,11 +110,7 @@ function AppOrderDetail() {
                                     <li>{item}</li>
                                   ))}</span>
                                 </div> */}
-                                <div className="bar_code mt-1">
-                                  <span>
-                                    {item?.productId?.createdAt?.slice(0, 10)}
-                                  </span>
-                                </div>
+                                <div className="bar_code mt-1"></div>
                               </div>
                             </td>
                             <td>
@@ -175,7 +181,7 @@ function AppOrderDetail() {
                             <i className="fa-solid fa-box-open"></i>
                           </div>
                           <div className="order-text">
-                            <h6>Product packaging</h6>
+                            <h6>Order Processing</h6>
                           </div>
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
@@ -194,7 +200,13 @@ function AppOrderDetail() {
                             <i className="fa-solid fa-truck"></i>
                           </div>
                           <div className="order-text">
-                            <h6>Ready for shipment</h6>
+                            <h6>
+                              Ready for{" "}
+                              {(orders?.type === "In-Store Pickup" &&
+                                "Pick up") ||
+                                (orders?.type === "Shipment" && "Shipment") ||
+                                (orders?.type === "Delivery" && "Delivery")}
+                            </h6>
                           </div>
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
@@ -213,14 +225,20 @@ function AppOrderDetail() {
                             <i className="fa-solid fa-truck-fast"></i>
                           </div>
                           <div className="order-text">
-                            <h6>On the way</h6>
+                            <h6>
+                              {" "}
+                              {(orders?.type === "In-Store Pickup" &&
+                                "Picked up") ||
+                                (orders?.type === "Shipment" && "Shipped") ||
+                                (orders?.type === "Delivery" && "Delivered")}
+                            </h6>
                           </div>
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
                           </div>
                         </div>
 
-                        <div
+                        {/* <div
                           className={
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
@@ -254,7 +272,7 @@ function AppOrderDetail() {
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </div>
@@ -274,6 +292,7 @@ function AppOrderDetail() {
                       </div>
                     </div>
                   </div>
+
                   <div className="col-12 mb-1">
                     <div className="row">
                       <div className="col-12 d-flex">
@@ -284,6 +303,7 @@ function AppOrderDetail() {
                       </div>
                     </div>
                   </div>
+
                   <div className="col-12 mb-1">
                     <div className="row">
                       <div className="col-12 d-flex">
@@ -294,6 +314,7 @@ function AppOrderDetail() {
                       </div>
                     </div>
                   </div>
+
                   <div className="col-12 mb-1">
                     <div className="row">
                       <div className="col-12 d-flex">
@@ -306,6 +327,16 @@ function AppOrderDetail() {
                             orders?.userId?.city +
                             "-" +
                             orders?.userId?.zipcode}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 mb-1">
+                    <div className="row">
+                      <div className="col-12 d-flex">
+                        <span className="data_main">Comments:</span>
+                        <span className="data_submain mx-2">
+                          {orders?.comments}
                         </span>
                       </div>
                     </div>

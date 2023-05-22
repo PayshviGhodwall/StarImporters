@@ -356,7 +356,7 @@ function AppHome() {
                             dots={true}
                             loop={true}
                             nav={false}
-                            fade={false}
+                            fade={true}
                             items={1}
                           >
                             <div className="single-hero-slide item">

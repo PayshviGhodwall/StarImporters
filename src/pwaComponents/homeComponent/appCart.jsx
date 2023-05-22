@@ -115,7 +115,7 @@ function AppCart() {
       }
     }
   };
-  
+
   const HandleDecrease = async (id) => {
     setLoad(true);
     const formData = {
@@ -225,37 +225,25 @@ function AppCart() {
           </div>
         </div>
         <WebHeader2 />
-        <div className="page-content-wrapper">
-          <div className="container">
-            {cart?.length ? (
-              <div className="d-flex justify-content-between p-2 mt-5">
-                <Link className="comman_btn2 " to="/app/checkout">
-                  Place Order
-                </Link>
-
-                {userDetail?.quotation === true ? (
-                  <Link
-                    className="comman_btn2 text-decoration-none mx-2"
-                    onClick={addToQuotes}
-                  >
-                    Req. for Quote
-                  </Link>
-                ) : (
-                  <Link
-                    className="comman_btn2 text-decoration-none mx-2"
-                    onClick={addToQuotes}
-                    style={{ visibility: "hidden" }}
-                  >
-                    Req. for Quote
-                  </Link>
-                )}
+        <div className="page-content-wrapper" style={{ marginTop: "4.5rem" }}>
+          <div className="container ">
+            <div className=" ">
+              <div className="">
+                {browserName === "WebKit" ||
+                browserName === "Chrome WebView" ? (
+                  <div className="col-6  p-1 mb-3">
+                    <div className="card-body d-flex align-items-center justify-content-between">
+                      <h5 className="total-price mb-0"></h5>
+                      <a
+                        className="comman_btn2 text-center"
+                        onClick={cameraScan}
+                      >
+                        Scan Barcode
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
               </div>
-            ) : (
-              <Link className="comman_btn " to="/app/home">
-                Start Shopping
-              </Link>
-            )}
-            <div className="cart-wrapper-area py-1">
               <div className="cart-table card mb-1">
                 {browserName === "WebKit" ||
                 browserName === "Chrome WebView" ? (
@@ -514,23 +502,35 @@ function AppCart() {
                   </div>
                 )}
               </div>
-              <div className="row">
-                {browserName === "WebKit" ||
-                browserName === "Chrome WebView" ? (
-                  <div className="col-6 cart-amount-area p-1">
-                    <div className="card-body d-flex align-items-center justify-content-between">
-                      <h5 className="total-price mb-0"></h5>
-                      <a
-                        className="comman_btn2 text-center"
-                        onClick={cameraScan}
-                      >
-                        Scan Barcode
-                      </a>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
             </div>
+            {cart?.length ? (
+              <div className="d-flex justify-content-between p-2 ">
+                <Link className="comman_btn2 " to="/app/checkout">
+                  Place Order
+                </Link>
+
+                {userDetail?.quotation === true ? (
+                  <Link
+                    className="comman_btn2 text-decoration-none mx-2"
+                    onClick={addToQuotes}
+                  >
+                    Req. for Quote
+                  </Link>
+                ) : (
+                  <Link
+                    className="comman_btn2 text-decoration-none mx-2"
+                    onClick={addToQuotes}
+                    style={{ visibility: "hidden" }}
+                  >
+                    Req. for Quote
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <Link className="comman_btn " to="/app/home">
+                Start Shopping
+              </Link>
+            )}
           </div>
         </div>
         <AppFooter />

@@ -83,6 +83,7 @@ function AppProductDetail() {
             Swal.fire({
               title: "Product Added to Cart",
               icon: "success",
+              timer: 2000,
               showCloseButton: true,
               showCancelButton: true,
               focusConfirm: false,
@@ -124,6 +125,7 @@ function AppProductDetail() {
           Swal.fire({
             title: "Product Added to Cart",
             icon: "success",
+            timer: 2000,
             showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
@@ -366,7 +368,7 @@ function AppProductDetail() {
                     </button>
                   ) : (
                     <Link className="comman_btn mb-2" to="/app/login">
-                      Please Login to Add to Cart ! 
+                      Please Login to Add to Cart !
                     </Link>
                   )}
                 </div>

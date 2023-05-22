@@ -159,9 +159,7 @@ function AppCheckout() {
                               }}
                               defaultChecked="true"
                             />
-                            <label for="fastShipping">
-                              In-Store Pickup <span>1 days delivery </span>
-                            </label>
+                            <label for="fastShipping">In-Store Pickup</label>
                             <div class="check"></div>
                           </li>
 
@@ -174,9 +172,7 @@ function AppCheckout() {
                                 setDelevryChoice("Delivery");
                               }}
                             />
-                            <label for="normalShipping">
-                              Delivery <span>1-2 days delivery</span>
-                            </label>
+                            <label for="normalShipping">Delivery</label>
                             <div class="check"></div>
                           </li>
                           <li>
@@ -191,8 +187,7 @@ function AppCheckout() {
                             <label for="courier">
                               Shipment{" "}
                               <span>
-                                5-8 days delivery(Additional Shipping charges
-                                will be applied.)
+                                (Additional Shipping charges will be applied.)
                               </span>
                             </label>
                             <div class="check"></div>
@@ -227,8 +222,7 @@ function AppCheckout() {
                             <label for="courier">
                               Shipment{" "}
                               <span>
-                                5-8 days delivery.(Additional Shipping charges
-                                will be applied.)
+                                (Additional Shipping charges will be applied.)
                               </span>
                             </label>
                             <div class="check"></div>

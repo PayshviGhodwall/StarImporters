@@ -21,7 +21,7 @@ const PdfPrint = () => {
       setOrders(res?.data.results);
       if (!res?.data.error) {
         const timer = setTimeout(() => {
-          printPdf();
+          // printPdf();
         }, 2000);
         return () => clearTimeout(timer);
       }
@@ -40,8 +40,11 @@ const PdfPrint = () => {
     <div className="" id="main_pdf">
       <p className="d-flex mx-3 justify-content-between mt-1">
         <img width={100} src={require("../../../assets/img/logo.png")} />
-        <button className="commanBtn2  text-end" onClick={printPdf}>
-          <i class="fa fa-print" aria-hidden="true"></i> Print.
+        <button
+          className="border text-dark fw-bold text-end"
+          onClick={printPdf}
+        >
+          <i class="fa fa-print" aria-hidden="true"></i> Print
         </button>
       </p>
 
@@ -140,7 +143,6 @@ const PdfPrint = () => {
                                 <th className="border">ADDRESS</th>
                                 <th className="border">ORDER DATE</th>
                                 <th className="border">ORDER ID</th>
-                                <th className="border">DELEVERY STATUS</th>
                                 <th className="border">ITEMS</th>
                               </tr>
                               <tr>
@@ -165,7 +167,6 @@ const PdfPrint = () => {
                                   ).format("MM/DD/YYYY")}
                                 </td>
                                 <td className="border">{orders?.orderId}</td>
-                                <td className="border">{orders?.status}</td>
                                 <td className="border">
                                   {orders?.products?.length}
                                 </td>
@@ -175,6 +176,7 @@ const PdfPrint = () => {
                         </table>
                       </td>
                     </tr>
+
                     <tr>
                       <td style={{ paddingTop: 25 }}>
                         <table
@@ -492,6 +494,48 @@ const PdfPrint = () => {
                             </tr>
                           </tbody>
                         </table>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td
+                        style={{
+                          padding: "5px 4px 8px",
+                          border: "2px solid #000",
+                          backgroundColor: "#f2f2f2",
+                        }}
+                      >
+                        <tbody>
+                          <tr className=" text-center px-2">
+                            <th
+                              style={{
+                                fontSize: 17,
+                                fontWeight: 700,
+                                color: "#00000",
+                                textAlign: "center",
+                                textTransform: "uppercase",
+                                borderSpacing: 0,
+                              }}
+                            >
+                              Order Comments:
+                            </th>
+                            <tr>
+                              <th
+                                style={{
+                                  fontSize: 15,
+                                  fontWeight: 600,
+                                  textAlign: "start",
+                                  color: "#3b4093",
+                                  padding: "5px 10px",
+                                }}
+                              >
+                                {orders?.comments
+                                  ? orders?.comments
+                                  : "No comments!"}
+                              </th>
+                            </tr>
+                          </tr>
+                        </tbody>
                       </td>
                     </tr>
                   </tbody>

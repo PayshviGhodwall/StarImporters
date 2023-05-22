@@ -36,6 +36,7 @@ function AppMyOrder() {
                         <div className="status_order d-block">
                           Status: {item?.status}
                         </div>
+
                         <div className="order_id d-block mb-1">
                           Order ID: <strong>{item?.orderId}</strong>
                         </div>
@@ -46,7 +47,9 @@ function AppMyOrder() {
                         </div>
                       </div>
                       <div className="items_box">
-                        <h2>Items :</h2>
+                        <h2>
+                          Items : <strong>Click to View Details</strong>
+                        </h2>
                         {(item?.products || []).map((item, ind) => (
                           <ul className="list-unstyled mb-0">
                             <li key={ind}>{item?.productId?.unitName}</li>

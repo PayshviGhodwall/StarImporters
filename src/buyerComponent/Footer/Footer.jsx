@@ -198,7 +198,10 @@ const Footer = () => {
 
               <div className="col-md-4">
                 <ul className="dwn-ul text-end text-md-end">
-                  <a href="https://play.google.com/store/apps/details?id=com.star_importers">
+                  <a
+                    target="_blank"
+                    href="https://play.google.com/store/apps/details?id=com.star_importers"
+                  >
                     <li>
                       <div class="download android">
                         <img

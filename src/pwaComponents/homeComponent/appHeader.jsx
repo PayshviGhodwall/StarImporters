@@ -152,14 +152,17 @@ function AppHeader({ cartCount }) {
               </li>
               <li>
                 <Link to={token ? "/app/my-order" : "/app/login"}>
-                  <i className="fa-solid fa-bag-shopping"></i>My Order
+                  <i className="fa-solid fa-bag-shopping"></i>My Orders
                 </Link>
               </li>
-              <li>
-                <Link to={token ? "/app/my-request" : "/app/login"}>
-                  <i className="fa-solid fa-users"></i>My Request
-                </Link>
-              </li>
+              {detail?.quotation && (
+                <li>
+                  <Link to={token ? "/app/my-request" : "/app/login"}>
+                    <i className="fa-solid fa-users"></i>My Quotations
+                  </Link>     
+                </li>
+              )}
+
               <li>
                 <Link to={token ? "/app/buy-again" : "/app/login"}>
                   <i className="fa fa-shopping-cart mt-1" />

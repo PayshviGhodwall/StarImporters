@@ -1069,7 +1069,7 @@
     bottom: 28px;
     width: 100%;
     text-align: center;
-    left: -11px;
+    left: -1px;
     right: 0;
   }
   .banner_sider .owl-dots .owl-dot {
@@ -7889,7 +7889,7 @@ background-color: #3e4093;
   .hero-slides .owl-dots {
     position: absolute;
     width: 100%;
-    bottom: 15px;
+    bottom: -14px !important;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -7913,11 +7913,11 @@ background-color: #3e4093;
     -ms-flex: 0 0 8px;
     flex: 0 0 8px;
     max-width: 8px;
-    background-color: #ebebeb;
+    background-color: #a9a9a9 !important;
     border-radius: 50%;
   }
   .hero-slides .owl-dots .owl-dot.active {
-    background-color: #eb3237;
+    background-color: #eb3237 !important;
   }
   .hero-slides .owl-dots .owl-dot.active::after {
     position: absolute;
@@ -7935,10 +7935,10 @@ background-color: #3e4093;
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 160px;
+    height: 80% !important;
     background-position: center center;
     background-size: cover;
-    border-radius: 6px;
+    border-radius: 10px;
   }
 
   .single-hero-slide .slide-content {
@@ -13904,7 +13904,20 @@ figure.effect-ming:hover img {
  */
 .fixed-head {
   overflow-y: scroll;
-  max-height: 28rem !important;
+  max-height: 65vh !important;
+}
+.fixed-head::-webkit-scrollbar {
+  width: 6px !important;
+  margin-left: 2px !important;
+}
+.fixed-head::-webkit-scrollbar-track {
+  /* background-color: #3e4093; */
+  border-radius: 50px;
+}
+.fixed-head::-webkit-scrollbar-thumb {
+  background-color: #3e4093 !important;
+  border-radius: 50px;
+  cursor: pointer !important;
 }
 
 .checkbox-label {

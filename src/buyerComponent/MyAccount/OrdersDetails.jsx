@@ -20,7 +20,7 @@ const OrderDetails = () => {
 
   useEffect(() => {
     const GetOrder = async () => {
-      await axios.get(getOrderDetails + "/" + id.id).then((res) => {
+      await axios.get(getOrderDetails + "/" + id?.id).then((res) => {
         setOrderDetails(res?.data.results?.orders);
       });
     };
@@ -49,15 +49,24 @@ const OrderDetails = () => {
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6 "
                       >
-                        My Account
+                        My Account <span className="arrow mx-1">&#9679;</span>
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                      <Link
+                        to=""
+                        style={{ position: "relative", left: "-12px" }}
+                        className="text-decoration-none text-white fs-6 "
+                      >
+                        My Orders
                       </Link>
                     </li>
                   </ol>
@@ -103,7 +112,7 @@ const OrderDetails = () => {
                                   <span className="small_header">
                                     Order Details
                                   </span>
-                                  <div className="col-4">
+                                  <div className="col-3">
                                     <div className="row">
                                       <div className="col-12 d-flex">
                                         <span className="data_main">
@@ -118,7 +127,18 @@ const OrderDetails = () => {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-5">
+
+                                  <div className="col-3">
+                                    <div className="row">
+                                      <div className="col-12 d-flex">
+                                        <span className="data_main">
+                                          Order Type : {orderDetails?.type}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-3">
                                     <div className="row">
                                       <div className="col-12 d-flex">
                                         <span className="data_main">
@@ -254,7 +274,7 @@ const OrderDetails = () => {
                                         }
                                       >
                                         <span className="track_circle" />
-                                        Processing
+                                        Order Processing
                                       </li>
                                       <li
                                         className={
@@ -264,8 +284,15 @@ const OrderDetails = () => {
                                         }
                                       >
                                         <span className="track_circle" />
-                                        Shipped
+                                        {(orderDetails?.type ===
+                                          "In-Store Pickup" &&
+                                          "Picked up") ||
+                                          (orderDetails?.type === "Shipment" &&
+                                            "Shipped") ||
+                                          (orderDetails?.type === "Delivery" &&
+                                            "Delivered")}
                                       </li>
+
                                       <li>
                                         <span
                                           className={

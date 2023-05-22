@@ -525,11 +525,7 @@ const ViewOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Date:</span>
                             <div className="col">
-                              <strong>
-                                {" "}
-                                {orders?.createdAt}
-                                {/* {moment(orders?.createdAt).format("MM/DD/YYYY")} */}
-                              </strong>
+                              <strong> {orders?.createdAt}</strong>
                             </div>
                           </div>
                         </div>
@@ -651,7 +647,15 @@ const ViewOrder = () => {
                                   Order Placed
                                 </option>
                                 <option value="PROCESSING">Processing</option>
-                                <option value="SHIPPED">Shipped</option>
+                                <option value="RDF">
+                                  Ready for{" "}
+                                  {(orders?.type === "In-Store Pickup" &&
+                                    "Pickup") ||
+                                    (orders?.type === "Shipment" &&
+                                      "Shipping") ||
+                                    (orders?.type === "Delivery" &&
+                                      "Delivery")}
+                                </option>
                                 <option value="DELIVERED">Delivered</option>
                                 <option value="CANCEL">Canceled</option>
                               </select>

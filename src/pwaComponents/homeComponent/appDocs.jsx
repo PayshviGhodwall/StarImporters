@@ -92,6 +92,7 @@ function AppDocs() {
                           className="file_selector_app"
                           type="file"
                           name="federalTaxId"
+                          id="fileFT"
                           accept="image/jpeg,image/png,application/pdf,image/x-eps"
                           onChange={(e) => onFileSelection(e, "federalTaxId")}
                         />
@@ -109,9 +110,18 @@ function AppDocs() {
                         <span>Federal Tax ID</span>
                       </div>
                       <div className="data-content">
-                        {detail?.federalTaxId
-                          ? "......." + detail?.federalTaxId?.slice(65)
-                          : "Upload Document!"}
+                        {detail?.federalTaxId ? (
+                          "......." + detail?.federalTaxId?.slice(65)
+                        ) : (
+                          <small
+                            className=" "
+                            onClick={() => {
+                              document.getElementById("fileFT").click();
+                            }}
+                          >
+                            Re-upload Document
+                          </small>
+                        )}
                       </div>
                     </div>
                     {files?.federalTaxId?.name ? (
@@ -136,6 +146,7 @@ function AppDocs() {
                           className="file_selector_app"
                           type="file"
                           name="tobaccoLicence"
+                          id="fileTL"
                           accept="image/jpeg,image/png,application/pdf,image/x-eps"
                           onChange={(e) => onFileSelection(e, "tobaccoLicence")}
                         />
@@ -152,9 +163,18 @@ function AppDocs() {
                         <span>Tobacco License ID</span>
                       </div>
                       <div className="data-content">
-                        {detail?.tobaccoLicence
-                          ? "......." + detail?.tobaccoLicence?.slice(65)
-                          : "Upload Document!"}
+                        {detail?.tobaccoLicence ? (
+                          "......." + detail?.tobaccoLicence?.slice(65)
+                        ) : (
+                          <small
+                            className=" "
+                            onClick={() => {
+                              document.getElementById("fileTL").click();
+                            }}
+                          >
+                            Re-upload Document
+                          </small>
+                        )}
                       </div>
                     </div>
                     {files?.tobaccoLicence?.name ? (
@@ -179,6 +199,7 @@ function AppDocs() {
                           className="file_selector_app"
                           type="file"
                           name="salesTaxId"
+                          id="fileST"
                           accept="image/jpeg,image/png,application/pdf,image/x-eps"
                           onChange={(e) => onFileSelection(e, "salesTaxId")}
                         />
@@ -195,9 +216,18 @@ function AppDocs() {
                         <span>Sales Tax ID</span>
                       </div>
                       <div className="data-content">
-                        {detail?.salesTaxId
-                          ? "......." + detail?.salesTaxId?.slice(65)
-                          : "Upload Document!"}
+                        {detail?.salesTaxId ? (
+                          "......." + detail?.salesTaxId?.slice(65)
+                        ) : (
+                          <small
+                            className=" "
+                            onClick={() => {
+                              document.getElementById("fileST").click();
+                            }}
+                          >
+                            Re-upload Document
+                          </small>
+                        )}
                       </div>
                     </div>
                     {files?.salesTaxId?.name ? (
@@ -221,6 +251,7 @@ function AppDocs() {
                         <input
                           className="file_selector_app"
                           type="file"
+                          id="fileBL"
                           name="businessLicense"
                           accept="image/jpeg,image/png,application/pdf,image/x-eps"
                           onChange={(e) =>
@@ -240,9 +271,18 @@ function AppDocs() {
                         <span>Business License ID</span>
                       </div>
                       <div className="data-content">
-                        {detail?.businessLicense
-                          ? "......." + detail?.businessLicense?.slice(65)
-                          : "Upload Document!"}
+                        {detail?.businessLicense ? (
+                          "......." + detail?.businessLicense?.slice(65)
+                        ) : (
+                          <small
+                            className=" "
+                            onClick={() => {
+                              document.getElementById("fileBL").click();
+                            }}
+                          >
+                            Re-upload Document
+                          </small>
+                        )}
                       </div>
                     </div>
                     {files?.businessLicense?.name ? (
@@ -266,6 +306,7 @@ function AppDocs() {
                         <input
                           className="file_selector_app"
                           type="file"
+                          id="fileAc"
                           name="accountOwnerId"
                           accept="image/jpeg,image/png,application/pdf,image/x-eps"
                           onChange={(e) => onFileSelection(e, "accountOwnerId")}
@@ -283,9 +324,18 @@ function AppDocs() {
                         <span>Account Owner ID</span>
                       </div>
                       <div className="data-content">
-                        {detail?.accountOwnerId
-                          ? "......." + detail?.accountOwnerId?.slice(50)
-                          : "Upload Document!"}
+                        {detail?.accountOwnerId ? (
+                          "......." + detail?.accountOwnerId?.slice(50)
+                        ) : (
+                          <small
+                            className=" "
+                            onClick={() => {
+                              document.getElementById("fileAc").click();
+                            }}
+                          >
+                            Re-upload Document
+                          </small>
+                        )}
                       </div>
                     </div>
                     {files?.accountOwnerId?.name ? (
