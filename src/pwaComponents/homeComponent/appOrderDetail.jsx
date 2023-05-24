@@ -59,7 +59,7 @@ function AppOrderDetail() {
                   <div className="col-12 mb-1">
                     <div className="row">
                       <div className="col-6">
-                        <span className="data_main">Order Id :</span>
+                        <span className="data_main">Order Type:</span>
                       </div>
                       <div className="col-6">
                         <span className="data_submain">{orders?.type}</span>

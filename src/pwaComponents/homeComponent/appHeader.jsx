@@ -158,8 +158,8 @@ function AppHeader({ cartCount }) {
               {detail?.quotation && (
                 <li>
                   <Link to={token ? "/app/my-request" : "/app/login"}>
-                    <i className="fa-solid fa-users"></i>My Quotations
-                  </Link>     
+                    <i className="fa-solid fa-users"></i>My Quotation
+                  </Link>
                 </li>
               )}
 

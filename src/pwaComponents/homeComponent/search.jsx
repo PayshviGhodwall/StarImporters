@@ -153,8 +153,8 @@ const Search = () => {
           {search?.length ? (
             <div className="top-products-area py-1">
               <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
-                  <h6> Showing results for "{search}"</h6>
+                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
+                  <p className="mt-0 mb-4">Showing results for "{search}"</p>
                   {search === "Tobacco" ||
                   search === "Tobacco " ||
                   search === "tobacco" ||

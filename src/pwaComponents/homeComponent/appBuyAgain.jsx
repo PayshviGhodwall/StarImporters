@@ -15,7 +15,7 @@ function AppBuyAgain() {
   const [selected, setSelected] = useState([]);
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(false);
-
+  const [quantity, setQuantity] = useState();
   useEffect(() => {
     getProducts();
   }, []);
@@ -109,6 +109,77 @@ function AppBuyAgain() {
     }
   };
 
+  const handleQuantityMinus = (outerInd, innerInd) => {
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: val?.quantity - (val?.quantity > 1 ? 1 : 0),
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    console.log(data);
+    setPurchasedProd(data);
+  };
+
+  const handleQuantityPlus = (outerInd, innerInd) => {
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: +val?.quantity + 1,
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    console.log(data);
+    setPurchasedProd(data);
+  };
+
+  const handleQuantity = (outerInd, innerInd, value) => {
+    console.log(value);
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: val?.quantity === value,
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    setPurchasedProd(data);
+  };
   return (
     <>
       <div className="star_imp_app">
@@ -213,7 +284,7 @@ function AppBuyAgain() {
             </div>
           ) : (
             <div className="py-3">
-              <div className="row mb-2">
+              <div className="row mb-2 p-2">
                 <div className="col-5 mx-3 mx-xs-0 col-xs-6">
                   <label class="checkbox-label-all d-flex">
                     <input
@@ -238,7 +309,7 @@ function AppBuyAgain() {
                 <div className="row mt-0 buyAgain">
                   {(purchasedProd || [])?.map((item, index) =>
                     item.products?.map((val, ind) => (
-                      <div className="col-12 mb-2 card" key={index}>
+                      <div className="col-12 mb-2 card" key={`${ind}${index}`}>
                         <div className="horizontal-product-card py-2">
                           <div className="d-flex align-items-center">
                             <div className="product-thumbnail-side">
@@ -270,7 +341,43 @@ function AppBuyAgain() {
                                 {"-"}
                                 {val?.flavour ? val?.flavour?.flavour : null}
                               </Link>
-                              <small>Quantity : {val?.quantity}</small>
+                              Quantity :{" "}
+                              <form className="cart-form w-100" action="#">
+                                <div className="order-plus-minus d-flex align-items-center">
+                                  <span
+                                    className="quantity-button-handler"
+                                    // key={`${ind}${index}`}
+                                    onClick={() =>
+                                      handleQuantityMinus(index, ind)
+                                    }
+                                  >
+                                    -
+                                  </span>
+                                  <input
+                                    className="cart-quantity-input text-center bg-light"
+                                    type="number"
+                                    key={val?.quantity}
+                                    // id={`${ind}${index}`}
+                                    name="quantity"
+                                    max="999"
+                                    defaultValue={val?.quantity}
+                                    disabled
+                                    onChange={(e) =>
+                                      handleQuantity(index, ind, e.target.value)
+                                    }
+                                  />
+
+                                  <span
+                                    className="quantity-button-handler"
+                                    // key={`${ind}${index}`}
+                                    onClick={() =>
+                                      handleQuantityPlus(index, ind)
+                                    }
+                                  >
+                                    +
+                                  </span>
+                                </div>
+                              </form>
                             </div>
                             <div>
                               <label class="checkbox-label mb-3">

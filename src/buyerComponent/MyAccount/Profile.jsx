@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/main.css";
 import axios from "axios";
-import { Uploader, Message, Loader, useToaster } from "rsuite";
-import AvatarIcon from "@rsuite/icons/legacy/Avatar";
-import Starlogo from "../../assets/img/logo.png";
+import Starlogo from "../../assets/img/logo2.png";
 import Swal from "sweetalert2";
 
 const Profile = () => {
-  const toaster = useToaster();
-  const [uploading, setUploading] = React.useState(false);
   const [fileInfo, setFileInfo] = React.useState(null);
   const [users, setUsers] = useState([]);
   const [files, setFiles] = useState([]);

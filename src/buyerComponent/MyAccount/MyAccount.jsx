@@ -6,7 +6,7 @@ import "../../assets/css/main.css";
 import axios from "axios";
 import Profile from "./Profile";
 import moment from "moment";
-import Sidebar from "./sidebar";
+
 import RequestOrders from "./RequestOrder";
 import Address from "./Address";
 import Account from "./Account";
@@ -128,7 +128,7 @@ const MyAccount = () => {
                           alt=""
                         />
                       </div>
-                      My Quotations
+                      My Quotation
                     </button>
                   ) : null}
 
