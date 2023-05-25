@@ -248,7 +248,47 @@ function AppBuyAgain() {
                                   {"-"}
                                   {val?.flavour ? val?.flavour?.flavour : null}
                                 </Link>
-                                <small>Quantity : {val?.quantity}</small>
+                                Quantity :{" "}
+                                <form className="cart-form w-100" action="#">
+                                  <div className="order-plus-minus d-flex align-items-center">
+                                    <span
+                                      className="quantity-button-handler"
+                                      // key={`${ind}${index}`}
+                                      onClick={() =>
+                                        handleQuantityMinus(index, ind)
+                                      }
+                                    >
+                                      -
+                                    </span>
+                                    <input
+                                      className="cart-quantity-input text-center bg-light"
+                                      type="number"
+                                      key={val?.quantity}
+                                      // id={`${ind}${index}`}
+                                      name="quantity"
+                                      max="999"
+                                      defaultValue={val?.quantity}
+                                      disabled
+                                      onChange={(e) =>
+                                        handleQuantity(
+                                          index,
+                                          ind,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+
+                                    <span
+                                      className="quantity-button-handler"
+                                      // key={`${ind}${index}`}
+                                      onClick={() =>
+                                        handleQuantityPlus(index, ind)
+                                      }
+                                    >
+                                      +
+                                    </span>
+                                  </div>
+                                </form>
                               </div>
                               <div>
                                 <label class="checkbox-label mb-3">

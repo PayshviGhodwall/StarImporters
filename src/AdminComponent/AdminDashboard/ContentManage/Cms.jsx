@@ -411,7 +411,7 @@ const Cms = () => {
     let Desc = await stateToHTML(editorHomeAboutState.getCurrentContent());
     await axios
       .post(editAboutUs, {
-        description: Desc?.trim(),
+        description: Desc,
       })
       .then((res) => {
         if (!res.data.error) {

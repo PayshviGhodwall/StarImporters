@@ -21,6 +21,7 @@ const Inventory = () => {
   const brandsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/brandsDropdown`;
   const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
   const importInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
+  const editInvent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/importInventory`;
   const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
   const inventorySort = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/sortProducts`;
@@ -37,7 +38,9 @@ const Inventory = () => {
   const [brands, setBrands] = useState([]);
   const [change, setChange] = useState();
   const importInput = document.getElementById("fileID");
+  const editInput = document.getElementById("fileEditID");
   const [impFile, setImpFile] = useState([]);
+  const [editFile, setEditFile] = useState([]);
   const [uploadError, setUploadError] = useState("");
   const [set, setSet] = useState(true);
   const [ux, setUx] = useState("");
@@ -351,10 +354,63 @@ const Inventory = () => {
       });
     document.getElementById("reUpload").hidden = false;
   };
+
+  const onUploadEdit = async () => {
+    const formData = new FormData();
+    formData.append("csvFilePath", editFile);
+    await axios
+      .post(importInvent, formData)
+      .then((res) => {
+        if (res?.error) {
+          Swal.fire({
+            title: "Error in File",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
+        if (res?.data.message === "Imported Successfully") {
+          Swal.fire({
+            title: "Products Imported successfully",
+            icon: "success",
+            confirmButtonText: "ok",
+          });
+          window.location.reload(false);
+        } else if (res?.data.message === "Error in File") {
+          Swal.fire({
+            title: "Item Number or Product Name Error in CSV",
+            text: res?.data.results?.catError.map((item) => item),
+            icon: "error",
+            focusConfirm: false,
+          });
+        } else if (res?.data.message === "Error in file") {
+          Swal.fire({
+            title: "Item Number or Product Name Error in CSV",
+            text: res?.data.results?.itemNumErr.map((item) => item),
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Error in csv!",
+            icon: "error",
+            focusConfirm: false,
+          });
+        }
+      });
+    document.getElementById("reUpload").hidden = false;
+  };
+
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
     setUx("uploaded");
+  };
+  const onFileSelectionEdit = (e) => {
+    let file = e.target.files[0];
+    setEditFile(file);
   };
   const ProductStatus = async (id) => {
     await axios.post(prodStatus + "/" + id).then((res) => {
@@ -783,6 +839,14 @@ const Inventory = () => {
                         className="comman_btn2 text-decoration-none"
                       >
                         Import Inventory
+                      </a>
+                      <a
+                        data-bs-toggle="modal"
+                        id="modal-toggle66"
+                        data-bs-target="#staticBackdrop68"
+                        className="comman_btn2 text-decoration-none"
+                      >
+                        Edit Inventory
                       </a>
                     </div>
                   </div>
@@ -1420,6 +1484,75 @@ const Inventory = () => {
                         </button>
                       </div>
                     )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal comman_modal_form forms_modal"
+        id="staticBackdrop68"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0 rounded-0  rounded-top">
+            <div className="modal-body">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => {
+                  window.location.reload(false);
+                }}
+                id="modal-close66"
+              />
+
+              <div>
+                <div className="container">
+                  <div className="">
+                    <div className="drop_box p-5">
+                      <header>
+                        <h4>Choose Edit File here</h4>
+                      </header>
+                      <p>Files Supported: CSV</p>
+                      <p className="text-dark bg-light p-2">
+                        {editFile?.name}{" "}
+                        <button
+                          hidden
+                          className="btn"
+                          id="reUpload"
+                          accept=".csv/*"
+                          onClick={() => {
+                            editInput.click();
+                          }}
+                        >
+                          <BiEdit />
+                        </button>
+                      </p>
+                      <p className="text-danger fw-bold">{uploadError}</p>
+                      <input
+                        type="file"
+                        accept=".csv"
+                        id="fileEditID"
+                        style={{ display: "none" }}
+                        onChange={onFileSelectionEdit}
+                      />
+                      <button
+                        className="comman_btn"
+                        htmlFor=""
+                        onClick={onUploadEdit}
+                      >
+                        Upload
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
