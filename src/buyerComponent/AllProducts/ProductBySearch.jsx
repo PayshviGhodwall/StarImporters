@@ -48,10 +48,12 @@ const ProductBySearch = () => {
                           <img
                             src={
                               item?.type.flavour
-                                ? item?.type?.flavourImage
-                                : item?.productImage
+                                ? item?.type?.flavourImage ||
+                                  require("../../assets/img/product.jpg")
+                                : item?.productImage ||
+                                  require("../../assets/img/product.jpg")
                             }
-                            alt="../../assets/img/product.jpg"
+                            alt=""
                             onClick={() => {
                               navigate(`/app/product-details/${item?._id}`, {
                                 state: {

@@ -8,6 +8,8 @@ import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/hom
 import Fade from "react-reveal/Fade";
 import Zoom from "react-reveal/Zoom";
 import Pulse from "react-reveal/Pulse";
+import { useRecoilValue } from "recoil";
+import { CartCount } from "../../atom";
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
@@ -24,6 +26,7 @@ const Navbar = ({ NState, LoginState }) => {
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
   const [products, setProducts] = useState([]);
+  const alert = useRecoilValue(CartCount);
   const ref = useRef(null);
   useEffect(() => {
     AllProducts();
@@ -31,7 +34,7 @@ const Navbar = ({ NState, LoginState }) => {
     getNotifications();
     getCategory();
     handleScroll();
-  }, [state, NState]);
+  }, [state, NState, alert]);
 
   useEffect(() => {
     if (LoginState) {
@@ -44,7 +47,7 @@ const Navbar = ({ NState, LoginState }) => {
     console.log(Search);
     if (Search != "") {
       const { data } = await homeSearch({
-        search: Search?.replace(".", "")?.trim(),
+        search: Search.trim(),
         limit: 6,
       });
       if (!data.error) {

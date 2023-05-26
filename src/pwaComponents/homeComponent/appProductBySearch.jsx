@@ -39,7 +39,7 @@ function AppProductBySearch() {
 
   const getProductList = async () => {
     const { data } = await homeSearch({
-      search: search.replace(".", "") ? search.replace(".", "") : preSearch,
+      search: search.replace("") ? search.replace("") : preSearch,
       limit: 8,
     });
     if (!data.error) {

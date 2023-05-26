@@ -42,7 +42,7 @@ const MyAccount = () => {
   console.log(users);
   return (
     <div className="main_myaccount">
-      <Navbar />
+      <Navbar  />
 
       <section
         class="comman_banner _banner marginTop"
@@ -184,7 +184,7 @@ const MyAccount = () => {
                         alt=""
                       />
                     </div>{" "}
-                    My Favourites
+                    My Favorites
                   </button>
                   <button
                     class="nav-link"
@@ -304,7 +304,7 @@ const MyAccount = () => {
                       <div class="myacct_data_inner">
                         <div class="row">
                           <div class="col-12 data_head mb-4">
-                            <h2>My Favourites</h2>
+                            <h2>My Favorites</h2>
                           </div>
                           <Favourites />
                         </div>

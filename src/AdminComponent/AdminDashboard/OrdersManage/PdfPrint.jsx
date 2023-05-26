@@ -163,15 +163,11 @@ const PdfPrint = () => {
                                     orders?.userId?.zipcode}
                                 </td>{" "}
                                 <td className="border">
-                                  {
-                                    moment(
-                                      orders?.createdAt?.slice(0, 10)
-                                    ).format("MM/DD/YYYY")
-
-                                    // moment(
-                                    //   orders?.createdAt?.slice(0, 10)
-                                    // ).format("h:mm:ss a")}
-                                  }
+                                  {moment(orders?.updatedAt).format(
+                                    "MM/DD/YYYY"
+                                  ) +
+                                    ":" +
+                                    moment(orders?.updatedAt).format("h:mm a")}
                                 </td>
                                 <td className="border">{orders?.orderId}</td>
                                 <td className="border">{orders?.type}</td>

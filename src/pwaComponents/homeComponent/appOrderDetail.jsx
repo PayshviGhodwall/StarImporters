@@ -41,7 +41,9 @@ function AppOrderDetail() {
                         <span className="data_submain">
                           {moment(orders?.createdAt?.slice(0, 10)).format(
                             "MM/DD/YYYY"
-                          )}
+                          ) +
+                            "-" +
+                            moment(orders?.createdAt).format("h:mm a")}
                         </span>
                       </div>
                     </div>

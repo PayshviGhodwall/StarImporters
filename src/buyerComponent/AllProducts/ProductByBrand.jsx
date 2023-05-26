@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
-import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 
 const ProductByBrand = () => {
@@ -13,16 +12,17 @@ const ProductByBrand = () => {
   const getProductData = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByBrands`;
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
-  // const [brandName, setBrandName] = useState();
   const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [chnge, setChnge] = useState(false);
+
   useEffect(() => {
     GetBrands();
     getProducts();
-  }, [chnge]);
+  }, [chnge, activePage]);
+
   const GetBrands = async () => {
     await axios
       .get(getBrands, {
@@ -32,6 +32,7 @@ const ProductByBrand = () => {
         setBrands(res?.data.results);
       });
   };
+
   const getProducts = async () => {
     await axios
       .post(getProductData, {
@@ -43,6 +44,7 @@ const ProductByBrand = () => {
         setMaxPage(res.data?.results.totalPages);
       });
   };
+
   const filterProduct = async (e) => {
     e.preventDefault();
     await axios
@@ -56,19 +58,6 @@ const ProductByBrand = () => {
         setMaxPage(res.data?.results.totalPages);
       });
   };
-
-  // const addToFav = async (index) => {
-  //   await axios.post(addFav, {
-  //     productId: products[index]?.products?._id,
-  //   });
-  //   setHeart(!heart);
-  // };
-  // const rmvFromFav = async (index) => {
-  //   await axios.post(rmvFav, {
-  //     productId: products[index]?.products?._id,
-  //   });
-  //   setHeart(!heart);
-  // };
 
   return (
     <div>

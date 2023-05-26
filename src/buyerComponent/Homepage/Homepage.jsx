@@ -41,7 +41,6 @@ const Homepage = () => {
   let NewUser = sessionStorage.getItem("new");
   console.log(NewUser);
 
-  
   useEffect(() => {
     if (!token) {
       if (!NewUser) {
@@ -123,7 +122,9 @@ const Homepage = () => {
 
   const getBrands = async () => {
     await axios.get(brandApi).then((res) => {
-      setBrands(res?.data.results);
+      let data = res?.data.results;
+      let newData = data?.filter((itm, idx) => !(idx > 14));
+      setBrands(newData);
       if (!res.data.error) {
         setLoading(false);
       }

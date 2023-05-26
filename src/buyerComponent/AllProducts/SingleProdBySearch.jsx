@@ -38,7 +38,9 @@ const SingleProdBySearch = () => {
   let location = useLocation();
   const [errMsg, setErrMsg] = useState();
   const [objectId, setObjectID] = useState();
-
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
+  const [heart, setHeart] = useState();
   const navigate = useNavigate();
   const GetChange = (data) => {
     setChange(data);
@@ -244,6 +246,48 @@ const SingleProdBySearch = () => {
   const onMouseOut = () => {
     document.getElementById("productMainImg").className = "d-block";
   };
+
+  const addToFav = async (index) => {
+    await axios
+      .post(addFav, {
+        productId: product._id,
+        flavour: flavour,
+      })
+      .then((res) => {
+        if (!res.error) {
+          setHeart(!heart);
+          setChange(!change);
+
+          Swal.fire({
+            title: "Product Added to Wishlist.",
+            icon: "success",
+            timer: 1000,
+            text: "You can see your favorite products on My Wishlist.",
+            confirmButtonText: "Okay",
+          });
+        }
+      });
+  };
+  const rmvFromFav = async (index) => {
+    await axios
+      .post(rmvFav, {
+        productId: product._id,
+        flavour: flavour,
+      })
+      .then((res) => {
+        if (!res.error) {
+          setHeart(!heart);
+          setChange(!change);
+          Swal.fire({
+            title: "Product Removed from Wishlist.",
+            icon: "success",
+            timer: 1000,
+            confirmButtonText: "Okay",
+          });
+        }
+      });
+  };
+
   return (
     <div className="">
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
@@ -295,6 +339,39 @@ const SingleProdBySearch = () => {
             <div className="row comman_divvision mx-0">
               <div className="col-md-6">
                 <div className="prdct_singleneww">
+                  {token?.length ? (
+                    <a class="wishlist-btn">
+                      {product?.favourite ? (
+                        <i
+                          class="fa fa-heart"
+                          onClick={() => {
+                            rmvFromFav();
+                          }}
+                          style={{
+                            color: "#3e4093 ",
+                            position: "relative",
+                            top: "30px",
+                            left: "6px",
+                            fontSize: "1.4rem",
+                          }}
+                        />
+                      ) : (
+                        <i
+                          class="fa fa-heart"
+                          onClick={() => {
+                            addToFav();
+                          }}
+                          style={{
+                            color: "#E1E1E1 ",
+                            position: "relative",
+                            top: "30px",
+                            left: "6px",
+                            fontSize: "1.4rem",
+                          }}
+                        />
+                      )}
+                    </a>
+                  ) : null}
                   <div className="prdct_singleshowimg">
                     <Zoom>
                       <img

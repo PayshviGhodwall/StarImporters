@@ -118,11 +118,12 @@ const OrderDetails = () => {
                                         <span className="data_main">
                                           Order Date :{" "}
                                           {moment(
-                                            orderDetails?.createdAt?.slice(
-                                              0,
-                                              10
-                                            )
-                                          ).format("MM/DD/YYYY")}
+                                            orderDetails?.createdAt
+                                          )?.format("MM/DD/YYYY") +
+                                            " -" +
+                                            moment(
+                                              orderDetails?.createdAt
+                                            ).format("h:mm a")}
                                         </span>
                                       </div>
                                     </div>

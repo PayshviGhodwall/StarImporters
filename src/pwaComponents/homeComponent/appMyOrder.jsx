@@ -43,7 +43,9 @@ function AppMyOrder() {
                         <div className="date_box">
                           {moment(item?.createdAt?.slice(0, 10)).format(
                             "MM/DD/YYYY"
-                          )}
+                          ) +
+                            "-" +
+                            moment(item?.createdAt).format("h:mm a")}
                         </div>
                       </div>
                       <div className="items_box">

@@ -523,9 +523,16 @@ const ViewOrder = () => {
                         <span className="small_header">Order Details</span>
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Order Date:</span>
+                            <span>Order Date - Time</span>
                             <div className="col">
-                              <strong> {orders?.createdAt}</strong>
+                              <strong>
+                                {" "}
+                                {moment(orders?.createdAt?.slice(0, 10)).format(
+                                  "MM/DD/YYYY"
+                                ) +
+                                  "-" +
+                                  moment(orders?.createdAt).format("h:mm a")}
+                              </strong>
                             </div>
                           </div>
                         </div>

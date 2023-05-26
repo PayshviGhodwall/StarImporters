@@ -105,11 +105,11 @@ import ViewDocs from "./buyerComponent/MyAccount/viewDoc";
 import UserLogin from "./buyerComponent/LoginRegister/UserLogin";
 import UserLoginPass from "./buyerComponent/LoginRegister/UserLoginPass";
 import UserForgotPass from "./buyerComponent/LoginRegister/UserForgotPass";
-import UserOtpValidate from "./buyerComponent/LoginRegister/UserOtpValidate";
 import UserUpdatePassword from "./buyerComponent/LoginRegister/UserUpdatePassword";
 import AppBuyAgain from "./pwaComponents/homeComponent/appBuyAgain";
 import AppDocs from "./pwaComponents/homeComponent/appDocs";
 import AppRedirectWeb from "./pwaComponents/homeComponent/appRedirectWeb";
+import ProductsByFilter from "./buyerComponent/AllProducts/ProductsByFilter";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -158,6 +158,7 @@ function App() {
               path="/SubCategory/Products"
               element={<ProductBySubCate />}
             />
+            <Route path="/Products/Filter" element={<ProductsByFilter />} />
             <Route path="/app/verify" element={<AgeVerification />} />
             <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
             <Route path="/user/viewDocs" element={<ViewDocs />} />

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { charCountState } from "../../selecter";
+import { CartCount } from "../../atom";
 
 const BuyAgain = () => {
   const [users, setUsers] = useState();
@@ -13,6 +16,7 @@ const BuyAgain = () => {
   const [selected, setSelected] = useState([]);
   const [Nstate, setNstate] = useState(false);
   const navigate = useNavigate();
+  const setCount = useSetRecoilState(CartCount);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("UserData"));
@@ -40,7 +44,7 @@ const BuyAgain = () => {
       setSelected(selected.filter((item) => item?.productId !== productId));
     }
   };
-  console.log(selected);
+
   const handleSelectAll = (e) => {
     const { checked } = e.target;
     setIsCheckAll(!isCheckAll);
@@ -84,11 +88,18 @@ const BuyAgain = () => {
     console.log(data);
     if (!data.error) {
       setNstate(!Nstate);
+      setCount((count) => [
+        ...count,
+        {
+          text: Math.random(),
+        },
+      ]);
       Swal.fire({
         title: "Product Added to Cart",
         icon: "success",
         showCloseButton: true,
         showCancelButton: true,
+        timer: 1000,
         focusConfirm: false,
         confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
         confirmButtonAriaLabel: "Thumbs up, Okay!",
@@ -106,6 +117,77 @@ const BuyAgain = () => {
         showConfirmButton: "okay",
       });
     }
+  };
+  const handleQuantityMinus = (outerInd, innerInd) => {
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: val?.quantity - (val?.quantity > 1 ? 1 : 0),
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    console.log(data);
+    setPurchasedProd(data);
+  };
+
+  const handleQuantityPlus = (outerInd, innerInd) => {
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: +val?.quantity + 1,
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    console.log(data);
+    setPurchasedProd(data);
+  };
+
+  const handleQuantity = (outerInd, innerInd, value) => {
+    console.log(value);
+    let data = purchasedProd?.map((item, index) => {
+      if (outerInd === index) {
+        return {
+          ...item,
+          products: item.products?.map((val, ind) => {
+            if (innerInd === ind) {
+              return {
+                ...val,
+                quantity: val?.quantity === value,
+              };
+            } else {
+              return val;
+            }
+          }),
+        };
+      } else {
+        return item;
+      }
+    });
+    setPurchasedProd(data);
   };
 
   return (
@@ -194,25 +276,91 @@ const BuyAgain = () => {
                     </label>
                   </div>
                   <div>
-                    <div
-                      class="featuredproduct_details p-2 text-center"
-                      onClick={() => {
-                        navigate(
-                          `/AllProducts/Product/${val?.productId?._id}`,
-                          {
-                            state: {
-                              id: val?.productId?._id,
-                            },
-                          }
-                        );
-                      }}
-                    >
-                      <span>
+                    <div class="featuredproduct_details p-2 text-center">
+                      <span
+                        onClick={() => {
+                          navigate(
+                            `/AllProducts/Product/${val?.productId?._id}`,
+                            {
+                              state: {
+                                id: val?.productId?._id,
+                              },
+                            }
+                          );
+                        }}
+                      >
                         {val?.productId?.unitName}
                         {"-"}
                         {val?.flavour ? val?.flavour?.flavour : null}
                       </span>
+                      {isCheck?.includes(val?.flavour?._id) ? (
+                        <p>Quantity:{val?.quantity}</p>
+                      ) : (
+                        <div className="prdct_bottom mt-3 d-flex justify-content-center">
+                          <div className="number">
+                            <span
+                              className="minus"
+                              style={{ userSelect: "none" }}
+                              onClick={() => handleQuantityMinus(index, ind)}
+                            >
+                              -
+                            </span>
+                            <input
+                              type="number"
+                              key={val?.quantity}
+                              // id={`${ind}${index}`}
+                              name="quantity"
+                              max="999"
+                              defaultValue={val?.quantity}
+                              disabled
+                              onChange={(e) =>
+                                handleQuantity(index, ind, e.target.value)
+                              }
+                            />
+                            <span
+                              className="plus"
+                              style={{ userSelect: "none" }}
+                              onClick={() => handleQuantityPlus(index, ind)}
+                            >
+                              +
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
+
+                    {/* <form className="cart-form w-100" action="#">
+                      <div className="order-plus-minus d-flex align-items-center">
+                        <span
+                          className="quantity-button-handler"
+                          // key={`${ind}${index}`}
+                          onClick={() => handleQuantityMinus(index, ind)}
+                        >
+                          -
+                        </span>
+                        <input
+                          className="cart-quantity-input text-center bg-light"
+                          type="number"
+                          key={val?.quantity}
+                          // id={`${ind}${index}`}
+                          name="quantity"
+                          max="999"
+                          defaultValue={val?.quantity}
+                          disabled
+                          onChange={(e) =>
+                            handleQuantity(index, ind, e.target.value)
+                          }
+                        />
+
+                        <span
+                          className="quantity-button-handler"
+                          // key={`${ind}${index}`}
+                          onClick={() => handleQuantityPlus(index, ind)}
+                        >
+                          +
+                        </span>
+                      </div>
+                    </form> */}
                   </div>
                 </div>
               </div>

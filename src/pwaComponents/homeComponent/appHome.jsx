@@ -51,7 +51,7 @@ function AppHome() {
 
   const getProductList = async () => {
     const { data } = await homeSearch({
-      search: search?.replace(".", ""),
+      search: search?.replace(""),
       limit: 8,
     });
     if (!data.error) {
@@ -95,7 +95,9 @@ function AppHome() {
   const getBrandList = async () => {
     const { data } = await getBrands();
     if (!data.error) {
-      setBrand(data.results);
+      let dataSS = data.results;
+      let newData = dataSS?.filter((itm, idx) => !(idx > 14));
+      setBrand(newData);
       setLoading(false);
     }
   };
