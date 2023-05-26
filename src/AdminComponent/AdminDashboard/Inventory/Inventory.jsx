@@ -881,14 +881,6 @@ const Inventory = () => {
                       >
                         Import Inventory
                       </a>
-                      <a
-                        data-bs-toggle="modal"
-                        id="modal-toggle66"
-                        data-bs-target="#staticBackdrop68"
-                        className="comman_btn2 text-decoration-none"
-                      >
-                        Edit Inventory
-                      </a>
                     </div>
                   </div>
                   <form
