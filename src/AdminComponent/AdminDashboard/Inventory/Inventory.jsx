@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { useForm } from "react-hook-form";
 import Starlogo from "../../../assets/img/logo.png";
@@ -12,6 +12,7 @@ import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
 import Compressor from "compressorjs";
+import swal from "sweetalert";
 
 const Inventory = () => {
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
@@ -25,6 +26,7 @@ const Inventory = () => {
   const prodStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/productStatus`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
   const inventorySort = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/sortProducts`;
+  const exportEdit = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/exportForEdit`;
   const [NewMessage, setNewMessage] = useState("");
   const [compressedFile, setCompressedFile] = useState(null);
   const scrollBy = useScrollBy();
@@ -46,6 +48,9 @@ const Inventory = () => {
   const [ux, setUx] = useState("");
   const [loader, setLoader] = useState(false);
   const [activePage, setActivePage] = useState(1);
+  const [isCheck, setIsCheck] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState([
     {
       productType: [],
@@ -77,6 +82,26 @@ const Inventory = () => {
 
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+
+  const exportProducts = async () => {
+    if (selected?.length) {
+      const { data } = await axios.post(exportEdit, {
+        id: selected?.map((item) => item.productId),
+      });
+      if (!data.error) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = data.results.file;
+        downloadLink.download = "doc";
+        downloadLink.click();
+      }
+    } else {
+      Swal.fire({
+        text: "Please Select atleast One Product!",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+    }
+  };
 
   const getBrands = async () => {
     await axios
@@ -438,6 +463,22 @@ const Inventory = () => {
   //     setAllProducts(filter);
   //   });
   // };
+  const handleClickSelect = (e, productId, i) => {
+    const { id, checked } = e.target;
+    console.log(id, checked);
+    if (checked) {
+      let Array = [...selected];
+      Array.push({ productId });
+      setSelected(Array);
+    }
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter((item) => item !== id));
+      setSelected(selected.filter((item) => item?.productId !== productId));
+    }
+  };
+  console.log(selected);
+
   var today = new Date().toISOString().split("T")[0];
   document.getElementsByName("to")[0]?.setAttribute("max", today);
   document.getElementsByName("from")[0]?.setAttribute("max", today);
@@ -1144,8 +1185,8 @@ const Inventory = () => {
                     <div className="col-auto">
                       <h2>Inventory Management</h2>
                     </div>
-                    <div className="col-4 d-flex justify-content-end">
-                      <div className="form-design">
+                    <div className="col-auto d-flex justify-content-end">
+                      <div className="form-design mt-1 mx-1">
                         <div className="form-group mb-0 position-relative icons_set">
                           <input
                             type="text"
@@ -1159,7 +1200,15 @@ const Inventory = () => {
                           />
                         </div>
                       </div>
-                      <div className="dropdown  mt-1">
+                      <div className="col-auto">
+                        <button
+                          className="comman_btn2 mx-1"
+                          onClick={() => exportProducts()}
+                        >
+                          Export <i class="fa-solid fa-file-export"></i>
+                        </button>
+                      </div>
+                      <div className="dropdown  mt-1 col-auto">
                         <div>
                           <div class="dropdown_sort">
                             <button class="dropdown-btn_sort">
@@ -1268,6 +1317,7 @@ const Inventory = () => {
                         <table className="table mb-0">
                           <thead>
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
+                              <th>Select</th>
                               <th>S.No.</th>
                               <th>Product Name</th>
                               <th>Brand</th>
@@ -1282,6 +1332,19 @@ const Inventory = () => {
                           <tbody>
                             {(allProducts || [])?.map((User, index) => (
                               <tr key={index} className="">
+                                <td className="border">
+                                  <input
+                                    type="checkbox"
+                                    key={User?._id}
+                                    name={index}
+                                    id={User?._id}
+                                    onChange={(e) =>
+                                      handleClickSelect(e, User?._id, index)
+                                    }
+                                    checked={isCheck?.includes(User?._id)}
+                                    class="checkbox-in"
+                                  />
+                                </td>
                                 <td className="border">
                                   {(activePage - 1) * 20 + (index + 1)}.
                                 </td>

@@ -39,14 +39,13 @@ function AppProductBySearch() {
 
   const getProductList = async () => {
     const { data } = await homeSearch({
-      search: search.replace("") ? search.replace("") : preSearch,
+      search: search.trim() ? search.trim() : preSearch,
       limit: 8,
     });
     if (!data.error) {
       setProduct(data.results);
     }
   };
-  console.log(search);
 
   if (!browserSupportsSpeechRecognition) {
     return console.log("Browser doesn't support speech recognition.");

@@ -51,7 +51,7 @@ function AppHome() {
 
   const getProductList = async () => {
     const { data } = await homeSearch({
-      search: search?.replace(""),
+      search: search?.trim(),
       limit: 8,
     });
     if (!data.error) {
@@ -96,7 +96,7 @@ function AppHome() {
     const { data } = await getBrands();
     if (!data.error) {
       let dataSS = data.results;
-      let newData = dataSS?.filter((itm, idx) => !(idx > 14));
+      let newData = dataSS?.filter((itm, idx) => !(idx > 20));
       setBrand(newData);
       setLoading(false);
     }

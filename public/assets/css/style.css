@@ -14026,6 +14026,15 @@ figure.effect-ming:hover img {
   transform: rotate(45deg);
 }
 
+.checkbox-in {
+  left: 9px;
+  top: 4px;
+  width: 1rem;
+  height: 1rem;
+  color: #fff !important;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+}
 .nine h1 {
   text-align: center;
   font-size: 50px;

@@ -23,10 +23,12 @@ const ProductBySubCate = () => {
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [activePage, setActivePage] = useState();
   const [maxPage, setMaxPage] = useState(1);
+  const [filtr, setFltr] = useState(false);
   useEffect(() => {
     getProducts();
     GetBrands();
   }, [location, heart, activePage]);
+
   useEffect(() => {
     setActivePage(1);
   }, [location]);
@@ -40,11 +42,13 @@ const ProductBySubCate = () => {
         setBrands(res?.data.results);
       });
   };
+
   const getProducts = async () => {
     await axios
       .post(getProduct, {
         subCategory: location.state?.name,
         page: activePage,
+        brand: filtr && brandName,
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -59,13 +63,16 @@ const ProductBySubCate = () => {
         subCategory: location.state?.name,
         brand: brandName,
         sortBy: sortValue,
-        page: activePage,
+        page: 1,
       })
       .then((res) => {
         setProducts(res.data?.results.products);
         setMaxPage(res.data?.results?.totalPages);
+        setFltr(true);
+        setActivePage(1);
       });
   };
+  console.log(brandName);
 
   const clearFilters = (e) => {
     e.preventDefault();
@@ -208,7 +215,7 @@ const ProductBySubCate = () => {
                   </div>
                 </div>
                 <div class="singleproduct--btns mt-4">
-                  <a type="reset" onClick={getProducts}>
+                  <a type="reset" onClick={clearFilters}>
                     Clear All
                   </a>
                   <a onClick={filterProduct}>Apply Filter</a>

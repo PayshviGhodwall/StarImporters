@@ -17,9 +17,11 @@ function AppBuyAgain() {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(false);
   const [quantity, setQuantity] = useState();
+
   useEffect(() => {
     getProducts();
   }, []);
+
   const getProducts = async () => {
     await axios.post(products).then((res) => {
       setPurchasedProd(res?.data.results.products);
@@ -218,8 +220,8 @@ function AppBuyAgain() {
                       .map((val, ind) => (
                         <div className="col-12 mb-2 card" key={index}>
                           <div className="horizontal-product-card py-2">
-                            <div className="d-flex align-items-center">
-                              <div className="product-thumbnail-side">
+                            <div className="d-flex align-items-center mt-2">
+                              <div className="product-thumbnail-side mt-2">
                                 <Link
                                   className="product-thumbnail shadow-sm d-block"
                                   to={`/app/product-detail/${val?.productId?._id}`}
@@ -354,9 +356,9 @@ function AppBuyAgain() {
                   {(purchasedProd || [])?.map((item, index) =>
                     item.products?.map((val, ind) => (
                       <div className="col-12 mb-2 card" key={`${ind}${index}`}>
-                        <div className="horizontal-product-card py-2">
-                          <div className="d-flex align-items-center">
-                            <div className="product-thumbnail-side">
+                        <div className="horizontal-product-card py-1">
+                          <div className="d-flex align-items-center mt-2">
+                            <div className="product-thumbnail-side mt-2">
                               <Link
                                 className="product-thumbnail shadow-sm d-block"
                                 to={`/app/product-detail/${val?.productId?._id}`}

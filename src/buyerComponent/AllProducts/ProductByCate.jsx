@@ -23,6 +23,8 @@ const ProductByCate = () => {
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const navigate = useNavigate();
+  const [filtr, setFltr] = useState(false);
+
   useEffect(() => {
     getProducts();
     GetBrands();
@@ -38,6 +40,7 @@ const ProductByCate = () => {
       .post(getProduct, {
         category: location.state?.name,
         page: activePage,
+        brand: filtr && brandName,
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -52,11 +55,13 @@ const ProductByCate = () => {
         category: location.state?.name,
         brand: brandName,
         sortBy: sortValue,
-        page: activePage,
+        page: 1,
       })
       .then((res) => {
         setProducts(res.data?.results.products);
         setMaxPage(res.data?.results.totalPages);
+        setFltr(true);
+        setActivePage(1);
       });
   };
 
@@ -64,6 +69,7 @@ const ProductByCate = () => {
     e.preventDefault();
     window.location.reload(false);
   };
+
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
@@ -212,7 +218,7 @@ const ProductByCate = () => {
                   </div>
                 </div>
                 <div class="singleproduct--btns mt-4">
-                  <a type="reset" onClick={getProducts}>
+                  <a type="reset" onClick={clearFilters}>
                     Clear All
                   </a>
                   <a onClick={filterProduct}>Apply Filter</a>
