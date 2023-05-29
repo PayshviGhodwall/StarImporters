@@ -46,6 +46,7 @@ const Inventory = () => {
   const [uploadError, setUploadError] = useState("");
   const [set, setSet] = useState(true);
   const [ux, setUx] = useState("");
+  const [uE, setUE] = useState("");
   const [loader, setLoader] = useState(false);
   const [activePage, setActivePage] = useState(1);
   const [isCheck, setIsCheck] = useState([]);
@@ -89,6 +90,8 @@ const Inventory = () => {
         id: selected?.map((item) => item.productId),
       });
       if (!data.error) {
+        setSelected([]);
+        setIsCheck([]);
         const downloadLink = document.createElement("a");
         downloadLink.href = data.results.file;
         downloadLink.download = "doc";
@@ -382,9 +385,9 @@ const Inventory = () => {
 
   const onUploadEdit = async () => {
     const formData = new FormData();
-    formData.append("csvFilePath", editFile);
+    formData.append("inventoryFile", editFile);
     await axios
-      .post(importInvent, formData)
+      .post(editInvent, formData)
       .then((res) => {
         if (res?.error) {
           Swal.fire({
@@ -393,33 +396,26 @@ const Inventory = () => {
             confirmButtonText: "ok",
           });
         }
-        if (res?.data.message === "Imported Successfully") {
+        if (!res?.data.error) {
           Swal.fire({
-            title: "Products Imported successfully",
+            title: res?.data.message,
             icon: "success",
-            confirmButtonText: "ok",
+            confirmButtonText: "okay",
           });
-          window.location.reload(false);
-        } else if (res?.data.message === "Error in File") {
+        } else if (res?.data.message === "Products has been modified") {
           Swal.fire({
-            title: "Item Number or Product Name Error in CSV",
-            text: res?.data.results?.catError.map((item) => item),
-            icon: "error",
+            title: "Products has been modified",
+            icon: "success",
             focusConfirm: false,
+            confirmButtonText: "okay",
           });
-        } else if (res?.data.message === "Error in file") {
-          Swal.fire({
-            title: "Item Number or Product Name Error in CSV",
-            text: res?.data.results?.itemNumErr.map((item) => item),
-            icon: "error",
-            focusConfirm: false,
-          });
+          document.getElementById("modalCloseN44").click();
         }
       })
       .catch((err) => {
         if (err) {
           Swal.fire({
-            title: "Error in csv!",
+            title: "Error in Excel!",
             icon: "error",
             focusConfirm: false,
           });
@@ -436,6 +432,7 @@ const Inventory = () => {
   const onFileSelectionEdit = (e) => {
     let file = e.target.files[0];
     setEditFile(file);
+    setUE("uploaded");
   };
   const ProductStatus = async (id) => {
     await axios.post(prodStatus + "/" + id).then((res) => {
@@ -873,14 +870,23 @@ const Inventory = () => {
                   <div className="row comman_header justify-content-between">
                     <div className="col-12 d-flex justify-content-between">
                       <h2 className="mt-3">Add New Inventory</h2>
-                      <a
-                        data-bs-toggle="modal"
-                        id="modal-toggle66"
-                        data-bs-target="#staticBackdrop66"
-                        className="comman_btn2 text-decoration-none"
-                      >
-                        Import Inventory
-                      </a>
+                      <div>
+                        <a
+                          data-bs-toggle="modal"
+                          id="modal-toggle66"
+                          data-bs-target="#staticBackdrop66"
+                          className="comman_btn2 text-decoration-none"
+                        >
+                          Import Inventory
+                        </a>
+                        <a
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop68"
+                          className="comman_btn2 text-decoration-none mx-2"
+                        >
+                          Edit Inventory
+                        </a>
+                      </div>
                     </div>
                   </div>
                   <form
@@ -1565,9 +1571,11 @@ const Inventory = () => {
                 data-bs-dismiss="modal"
                 aria-label="Close"
                 onClick={() => {
-                  window.location.reload(false);
+                  setEditFile("");
+                  setUE("");
+                  GetProducts();
                 }}
-                id="modal-close66"
+                id="modalCloseN44"
               />
 
               <div>
@@ -1577,7 +1585,7 @@ const Inventory = () => {
                       <header>
                         <h4>Choose Edit File here</h4>
                       </header>
-                      <p>Files Supported: CSV</p>
+                      <p>Files Supported: Excel</p>
                       <p className="text-dark bg-light p-2">
                         {editFile?.name}{" "}
                         <button
@@ -1595,18 +1603,30 @@ const Inventory = () => {
                       <p className="text-danger fw-bold">{uploadError}</p>
                       <input
                         type="file"
-                        accept=".csv"
+                        accept=".xlsx"
                         id="fileEditID"
                         style={{ display: "none" }}
                         onChange={onFileSelectionEdit}
                       />
-                      <button
-                        className="comman_btn"
-                        htmlFor=""
-                        onClick={onUploadEdit}
-                      >
-                        Upload
-                      </button>
+                      {uE !== "" ? (
+                        <button
+                          className="comman_btn"
+                          htmlFor=""
+                          onClick={onUploadEdit}
+                        >
+                          Upload
+                        </button>
+                      ) : (
+                        <button
+                          className="comman_btn2"
+                          htmlFor=""
+                          onClick={() => {
+                            editInput.click();
+                          }}
+                        >
+                          Choose File
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
