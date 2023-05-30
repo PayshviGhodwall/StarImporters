@@ -402,6 +402,7 @@ const Inventory = () => {
             icon: "success",
             confirmButtonText: "okay",
           });
+          setUE("");
         } else if (res?.data.message === "Products has been modified") {
           Swal.fire({
             title: "Products has been modified",
@@ -415,10 +416,11 @@ const Inventory = () => {
       .catch((err) => {
         if (err) {
           Swal.fire({
-            title: "Error in Excel!",
+            title: "Error in Importing Excel.",
             icon: "error",
             focusConfirm: false,
           });
+          setUE("");
         }
       });
     document.getElementById("reUpload").hidden = false;
@@ -879,13 +881,13 @@ const Inventory = () => {
                         >
                           Import Inventory
                         </a>
-                        <a
+                        {/* <a
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop68"
                           className="comman_btn2 text-decoration-none mx-2"
                         >
                           Edit Inventory
-                        </a>
+                        </a> */}
                       </div>
                     </div>
                   </div>

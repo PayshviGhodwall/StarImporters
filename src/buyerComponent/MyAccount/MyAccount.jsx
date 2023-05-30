@@ -21,9 +21,7 @@ const MyAccount = () => {
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("loginToken");
   let token = localStorage.getItem("token-user");
-
   const navigate = useNavigate();
-
   useEffect(() => {
     const GetOrders = async () => {
       await axios.get(getOrder).then((res) => {

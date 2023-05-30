@@ -82,7 +82,21 @@ const Profile = () => {
         </div>
         <div class="col">
           <div class="myacct_detail position-relative">
-            <a class="edit_btnns text-decoration-none">Edit</a>
+            <input
+              type="File"
+              className="d-none"
+              name="fileToUpload"
+              id="fileToUpload"
+              onChange={(e) => changeProfile(e, "fileToUpload")}
+            />
+            <a
+              class="edit_btnns text-decoration-none"
+              onClick={() => {
+                document.getElementById("fileToUpload").click();
+              }}
+            >
+              Edit
+            </a>
             <h2>
               {users?.companyName ? users?.companyName : "Login to continue!"}
             </h2>
