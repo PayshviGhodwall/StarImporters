@@ -132,7 +132,14 @@ const Navbar = ({ NState, LoginState }) => {
             <div className="col-auto">
               <Link className="header_logo mx-2" to="/app/home">
                 <Fade left>
-                  <img src={Starlogo} alt="" />
+                  <img
+                    src={Starlogo}
+                    onClick={() => {
+                      setSearch();
+                      document.getElementById("search").value = "";
+                    }}
+                    alt=""
+                  />
                 </Fade>
               </Link>
             </div>

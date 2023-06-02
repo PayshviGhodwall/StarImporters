@@ -41,6 +41,7 @@ const ProductByCate = () => {
         category: location.state?.name,
         page: activePage,
         brand: filtr && brandName,
+        sortBy: sortValue ? sortValue : "",
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -190,7 +191,6 @@ const ProductByCate = () => {
                       <div class="form-group col-12 mb-3 custom_radio">
                         <input
                           type="radio"
-                          defaultChecked
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"
@@ -296,7 +296,7 @@ const ProductByCate = () => {
                               />
                             </a>
                             <a class="favvv---icon" href="javascript:;">
-                              {item?.favourite ? (
+                              {item?.products.favourite ? (
                                 <i
                                   class="fa fa-heart"
                                   onClick={() => {

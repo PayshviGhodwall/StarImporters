@@ -4,17 +4,21 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
+import Swal from "sweetalert2";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [heart, setHeart] = useState(false);
 
   useEffect(() => {
     GetProducts();
-  }, [activePage]);
+  }, [activePage, heart]);
 
   const GetProducts = async () => {
     await axios
@@ -26,6 +30,30 @@ const FeaturedProducts = () => {
         setMaxPage(res?.data.results?.totalPages);
       });
   };
+
+  const addToFav = async (id) => {
+    await axios
+      .post(addFav, {
+        productId: id,
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          });
+        }
+      });
+    setHeart(!heart);
+  };
+  const rmvFromFav = async (id) => {
+    await axios.post(rmvFav, {
+      productId: id,
+    });
+    setHeart(!heart);
+  };
+
   return (
     <div>
       <Navbar />
@@ -131,7 +159,26 @@ const FeaturedProducts = () => {
                                 }}
                               />
                             </a>
-
+                            <a class="favvv---icon" href="javascript:;">
+                              {item?.favourite ? (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    rmvFromFav(item?._id);
+                                  }}
+                                  style={{ color: "#3e4093 " }}
+                                />
+                              ) : (
+                                <i
+                                  class="fa fa-heart"
+                                  onClick={() => {
+                                    addToFav(item?._id);
+                                  }}
+                                  style={{ color: "#E1E1E1 " }}
+                                />
+                              )}
+                              {/* <img src="assets/images/Vector.png" alt="" /> */}
+                            </a>
                             <span
                               onClick={() => {
                                 navigate(`/AllProducts/Product/${item?._id}`, {

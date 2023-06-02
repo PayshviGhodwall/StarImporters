@@ -293,7 +293,7 @@ function AppProductCategory() {
                           <div class="card-body">
                             {token?.length ? (
                               <a class="wishlist-btn">
-                                {item?.favourite ? (
+                                {item?.products?.favourite ? (
                                   <i
                                     class="fa fa-heart"
                                     onClick={() => {

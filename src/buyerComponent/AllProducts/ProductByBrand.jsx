@@ -38,6 +38,7 @@ const ProductByBrand = () => {
       .post(getProductData, {
         brand: location.state?.name,
         page: activePage,
+        sortBy: sortValue ? sortValue : "",
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -56,6 +57,7 @@ const ProductByBrand = () => {
       .then((res) => {
         setProducts(res.data?.results.products);
         setMaxPage(res.data?.results.totalPages);
+        setActivePage(1);
       });
   };
 
@@ -105,7 +107,6 @@ const ProductByBrand = () => {
                       <div class="form-group col-12 mb-3 custom_radio">
                         <input
                           type="radio"
-                          defaultChecked
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"
