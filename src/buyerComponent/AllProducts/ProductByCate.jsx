@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
-import { Panel, PanelGroup, Placeholder } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
+import { pageCategory } from "../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 const ProductByCate = () => {
+  const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
+  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const location = useLocation();
   const [sortValue, setSortValue] = useState();
   const [brands, setBrands] = useState([]);
   const [message, setMessage] = useState();
   const [brandName, setBrandName] = useState();
-  const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
-  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
-  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const navigate = useNavigate();
   const [filtr, setFltr] = useState(false);
+  const setPage = useSetRecoilState(pageCategory);
+  const page = useRecoilValue(pageCategory);
+  const [activePage, setActivePage] = useState(page);
 
   useEffect(() => {
     getProducts();
@@ -283,6 +286,7 @@ const ProductByCate = () => {
                                 }
                                 alt="Product"
                                 onClick={() => {
+                                  setPage(activePage);
                                   navigate(
                                     `/AllProducts/Product/${item?.products?._id}`,
                                     {
@@ -317,6 +321,8 @@ const ProductByCate = () => {
                             </a>
                             <span
                               onClick={() => {
+                                setPage(activePage);
+
                                 navigate(
                                   `/AllProducts/Product/${item?.products?._id}`,
                                   {

@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
 import Swal from "sweetalert2";
+import { pageFeature } from "../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -12,13 +14,16 @@ const FeaturedProducts = () => {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const navigate = useNavigate();
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [heart, setHeart] = useState(false);
+  const setPage = useSetRecoilState(pageFeature);
+  const page = useRecoilValue(pageFeature);
+  const [activePage, setActivePage] = useState(page);
 
   useEffect(() => {
     GetProducts();
   }, [activePage, heart]);
+  console.log(page);
 
   const GetProducts = async () => {
     await axios
@@ -147,6 +152,7 @@ const FeaturedProducts = () => {
                                 }
                                 alt="Product"
                                 onClick={() => {
+                                  setPage(activePage);
                                   navigate(
                                     `/AllProducts/Product/${item?._id}`,
                                     {
@@ -181,6 +187,7 @@ const FeaturedProducts = () => {
                             </a>
                             <span
                               onClick={() => {
+                                setPage(activePage);
                                 navigate(`/AllProducts/Product/${item?._id}`, {
                                   state: {
                                     id: item?._id,

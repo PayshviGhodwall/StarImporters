@@ -8,6 +8,8 @@ import { Panel, PanelGroup } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
+import { pageSubCategory } from "../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ProductBySubCate = () => {
   const location = useLocation();
@@ -21,17 +23,20 @@ const ProductBySubCate = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-  const [activePage, setActivePage] = useState();
   const [maxPage, setMaxPage] = useState(1);
   const [filtr, setFltr] = useState(false);
+  const setPage = useSetRecoilState(pageSubCategory);
+  const page = useRecoilValue(pageSubCategory);
+  const [activePage, setActivePage] = useState(page);
+  const [ObjectId, setObjectId] = useState();
   useEffect(() => {
     getProducts();
     GetBrands();
-  }, [location, heart, activePage]);
+  }, [location, heart, activePage, page]);
 
   useEffect(() => {
-    setActivePage(1);
-  }, [location]);
+    setActivePage(page);
+  }, [page]);
 
   const GetBrands = async () => {
     await axios
@@ -73,7 +78,7 @@ const ProductBySubCate = () => {
         setActivePage(1);
       });
   };
-  console.log(brandName);
+  console.log(page);
 
   const clearFilters = (e) => {
     e.preventDefault();
@@ -280,6 +285,7 @@ const ProductBySubCate = () => {
                                 }
                                 alt="Product"
                                 onClick={() => {
+                                  setPage(activePage);
                                   navigate(
                                     `/AllProducts/Product/${item?.products?._id}`,
                                     {
@@ -315,6 +321,7 @@ const ProductBySubCate = () => {
                             </a>
                             <span
                               onClick={() => {
+                                setPage(activePage);
                                 navigate(
                                   `/AllProducts/Product/${item?.products?._id}`,
                                   {

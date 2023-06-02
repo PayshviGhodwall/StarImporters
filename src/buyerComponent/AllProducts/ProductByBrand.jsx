@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import { pageBrand } from "../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ProductByBrand = () => {
   const location = useLocation();
@@ -14,9 +16,11 @@ const ProductByBrand = () => {
   const [brands, setBrands] = useState([]);
   const [sortValue, setSortValue] = useState("");
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [chnge, setChnge] = useState(false);
+  const setPage = useSetRecoilState(pageBrand);
+  const page = useRecoilValue(pageBrand);
+  const [activePage, setActivePage] = useState(page);
 
   useEffect(() => {
     GetBrands();
@@ -202,6 +206,7 @@ const ProductByBrand = () => {
                                 }
                                 alt="Product"
                                 onClick={() => {
+                                  setPage(activePage);
                                   navigate(
                                     `/AllProducts/Product/${item?.products?._id}`,
                                     {
@@ -237,6 +242,7 @@ const ProductByBrand = () => {
                             </a> */}
                             <span
                               onClick={() => {
+                                setPage(activePage);
                                 navigate(
                                   `/AllProducts/Product/${item?.products?._id}`,
                                   {

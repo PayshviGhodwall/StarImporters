@@ -8,8 +8,8 @@ import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/hom
 import Fade from "react-reveal/Fade";
 import Zoom from "react-reveal/Zoom";
 import Pulse from "react-reveal/Pulse";
-import { useRecoilValue } from "recoil";
-import { CartCount } from "../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CartCount, pageCategory, pageSubCategory } from "../../atom";
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
@@ -27,6 +27,9 @@ const Navbar = ({ NState, LoginState }) => {
   const [notifications, setNotifications] = useState();
   const [products, setProducts] = useState([]);
   const alert = useRecoilValue(CartCount);
+  const setPage = useSetRecoilState(pageCategory);
+  const setPage2 = useSetRecoilState(pageSubCategory);
+
   const ref = useRef(null);
   useEffect(() => {
     AllProducts();
@@ -136,6 +139,8 @@ const Navbar = ({ NState, LoginState }) => {
                     src={Starlogo}
                     onClick={() => {
                       setSearch();
+                      setPage(1);
+                      setPage2(1);
                       document.getElementById("search").value = "";
                     }}
                     alt=""
@@ -289,15 +294,16 @@ const Navbar = ({ NState, LoginState }) => {
                         >
                           <a
                             className="new_dropdown_link"
-                            onClick={() =>
+                            onClick={() => {
+                              setPage2(1);
                               navigate("/app/subCategories", {
                                 state: {
                                   id: item?._id,
                                   name: item?.categoryName,
                                   image: item?.background,
                                 },
-                              })
-                            }
+                              });
+                            }}
                           >
                             {item?.categoryName}
                           </a>
@@ -307,13 +313,14 @@ const Navbar = ({ NState, LoginState }) => {
                               .map((item, index) => (
                                 <a
                                   key={index}
-                                  onClick={() =>
+                                  onClick={() => {
+                                    setPage2(1);
                                     navigate("/SubCategory/Products", {
                                       state: {
                                         name: item?.subCategoryName,
                                       },
-                                    })
-                                  }
+                                    });
+                                  }}
                                 >
                                   {item?.subCategoryName}
                                 </a>

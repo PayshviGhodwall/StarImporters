@@ -19,6 +19,8 @@ import DOMPurify from "dompurify";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { useSetRecoilState } from "recoil";
+import { pageBrand, pageCategory, pageSubCategory } from "../../atom";
 
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
@@ -32,6 +34,9 @@ const Homepage = () => {
   const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
+  const setPage = useSetRecoilState(pageCategory);
+  const setPage2 = useSetRecoilState(pageSubCategory);
+  const setPage3 = useSetRecoilState(pageBrand);
   const [activePage, setActivePage] = useState(1);
   const ModalClose = document.getElementById("age_close");
   const navigate = useNavigate();
@@ -53,6 +58,9 @@ const Homepage = () => {
     getHeaders();
     getBrands();
     AllProducts();
+    setPage(1);
+    setPage2(1);
+    setPage3(1);
     setTimeout(() => {
       setLoading(false);
     }, 8000);

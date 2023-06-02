@@ -4,13 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
+import { useSetRecoilState } from "recoil";
+import { pageCategory } from "../../atom";
 
 const AllCategories = () => {
   const [categories, setCategories] = useState([]);
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
+  const setPage = useSetRecoilState(pageCategory);
 
   useEffect(() => {
     GetCategories();
+    setPage(1);
   }, []);
 
   const GetCategories = async () => {
@@ -66,7 +70,7 @@ const AllCategories = () => {
                   {(categories || [])?.map((item, index) => (
                     <div class="col-lg-3 col-md-4 mb-5">
                       <a class="categorynew_box text-decoration-none">
-                        <Link 
+                        <Link
                           to="/CategoryProducts"
                           state={{ name: item?.categoryName }}
                         >

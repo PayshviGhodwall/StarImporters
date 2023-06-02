@@ -956,9 +956,10 @@ const EditUser = () => {
                             Expires on :
                             <input
                               type="date"
-                              className=" border rounded"
+                              className="border rounded"
                               id="expiryDate"
                               onChange={(e) => setNewExpiry(e.target.value)}
+                              value={newExpiry}
                             ></input>
                           </strong>
                         </div>

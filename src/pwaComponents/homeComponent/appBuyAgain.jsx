@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import { browserName } from "react-device-detect";
-import { charCountState } from "../../selecter";
 
 function AppBuyAgain() {
   const products = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/purchasedProducts`;
@@ -16,7 +15,6 @@ function AppBuyAgain() {
   const [selected, setSelected] = useState([]);
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(false);
-  const [quantity, setQuantity] = useState();
 
   useEffect(() => {
     getProducts();

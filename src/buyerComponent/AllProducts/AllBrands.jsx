@@ -4,13 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
+import { useSetRecoilState } from "recoil";
+import { pageBrand } from "../../atom";
 
 const AllBrands = () => {
   const [brands, setBrands] = useState([]);
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const setPage3 = useSetRecoilState(pageBrand);
 
   useEffect(() => {
     GetBrands();
+    setPage3(1);
   }, []);
 
   const GetBrands = async () => {

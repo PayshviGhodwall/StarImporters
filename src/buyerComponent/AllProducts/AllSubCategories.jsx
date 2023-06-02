@@ -4,18 +4,22 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
+import { pageSubCategory } from "../../atom";
+import { useSetRecoilState } from "recoil";
 
 const SubCategories = () => {
   const [categories, setCategories] = useState([]);
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/subCatbyCat`;
   const [objectId, setObjectID] = useState();
   let location = useLocation();
+  const setPage = useSetRecoilState(pageSubCategory);
 
   if (objectId !== location?.state?.id) {
     setObjectID(location?.state?.id);
   }
   useEffect(() => {
     GetSubCategories();
+    setPage(1);
   }, [objectId]);
 
   const GetSubCategories = async () => {
