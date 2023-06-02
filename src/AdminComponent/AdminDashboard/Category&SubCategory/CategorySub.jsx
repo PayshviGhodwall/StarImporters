@@ -381,17 +381,7 @@ const CategorySub = () => {
       });
   };
   // instant image preview //
-  document.getElementById("catUpImg")?.addEventListener("change", function () {
-    if (this.files[0]) {
-      var picture = new FileReader();
-      picture.readAsDataURL(this.files[0]);
-      picture.addEventListener("load", function (event) {
-        document
-          .getElementById("catImg")
-          .setAttribute("src", event.target.result);
-      });
-    }
-  });
+  
   document
     .getElementById("subCatUpImg")
     ?.addEventListener("change", function () {

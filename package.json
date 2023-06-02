@@ -76,6 +76,7 @@
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
+    "react-scroll-to-top": "^3.0.0",
     "react-search-autocomplete": "^8.2.1",
     "react-select": "^5.7.0",
     "react-speech-recognition": "^3.10.0",

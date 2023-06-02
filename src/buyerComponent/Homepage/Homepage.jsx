@@ -39,7 +39,6 @@ const Homepage = () => {
     localStorage.getItem("token-user");
   let token = localStorage.getItem("token-user");
   let NewUser = sessionStorage.getItem("new");
-  console.log(NewUser);
 
   useEffect(() => {
     if (!token) {
@@ -83,8 +82,7 @@ const Homepage = () => {
           ? JSON.parse(localStorage.getItem("slides"))
           : res?.data.results
       );
-
-      console.log(image?.bottomImage);
+      // console.log(image?.bottomImage);
       var background =
         document.getElementById("bottom-image")?.style.backgroundImage;
       if (image) {
@@ -142,7 +140,7 @@ const Homepage = () => {
       <Navbar />
       {loading ? (
         <div className="load_position">
-          <div class="loader_new"></div>
+          <div className="loader_new"></div>
         </div>
       ) : (
         <div>
@@ -254,7 +252,6 @@ const Homepage = () => {
                     autoPlay
                     loop
                     muted
-                    allowfullscreen=""
                   >
                     <source src={require("../../assets/img/videoN.MP4")} />
                   </video>
@@ -268,7 +265,6 @@ const Homepage = () => {
                     autoPlay
                     loop
                     muted
-                    allowfullscreen=""
                     preload="auto"
                   >
                     <source src={require("../../assets/img/videoSugar.mp4")} />
@@ -500,12 +496,12 @@ const Homepage = () => {
             items={1}
           >
             {/* <div
-              class="banner_section item"
+              className="banner_section item"
               style={{ backgroundImage: "url(assets/img/01.jpg)" }}
             >
-              <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-md-9 banner_content">
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="col-md-9 banner_content">
                     <h1>You can #Buy, #Sell, #Booking anything from here.</h1>
                     <p>
                       Buy and sell everything from used cars to mobile phones
@@ -570,7 +566,6 @@ const Homepage = () => {
                 autoPlay
                 loop
                 muted
-                allowfullscreen=""
               >
                 <source src={require("../../assets/img/videoN.MP4")} />
               </video>
@@ -583,7 +578,6 @@ const Homepage = () => {
                 autoPlay
                 loop
                 muted
-                allowfullscreen=""
                 preload="auto"
               >
                 <source src={require("../../assets/img/videoSugar.mp4")} />
@@ -773,17 +767,17 @@ const Homepage = () => {
               </div>
             </div>
           </OwlCarousel>
-          <section class="category_newdesign">
-            <div class="container">
-              <div class="row newdesign_main bg-white">
+          <section className="category_newdesign">
+            <div className="container">
+              <div className="row newdesign_main bg-white">
                 <a
-                  class="view_all"
+                  className="view_all"
                   onClick={() => navigate("/app/Categories", { state: "hii" })}
                 >
                   View All
                 </a>
-                <div class="col-12 mb-3">
-                  <div class="comn_heads mb-5">
+                <div className="col-12 mb-3">
+                  <div className="comn_heads mb-5">
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.categoryTitle
@@ -804,8 +798,8 @@ const Homepage = () => {
                     <SwiperSlide key={index}>
                       <div className="col-12 px-4">
                         <div className="categorynew_slider sliderbtns_design">
-                          <a class="categorynew_box">
-                            <div class="categorynew_img p-2">
+                          <a className="categorynew_box">
+                            <div className="categorynew_img p-2">
                               <Link
                                 to={{
                                   pathname: "/CategoryProducts",
@@ -833,19 +827,19 @@ const Homepage = () => {
             </div>
           </section>
 
-          <section class="featuredproduct">
-            <div class="container">
-              <div class="row featuredproduct_slider">
+          <section className="featuredproduct">
+            <div className="container">
+              <div className="row featuredproduct_slider">
                 <a
-                  class="view_all"
+                  className="view_all"
                   onClick={() =>
                     navigate("/app/featured-products", { state: "hii" })
                   }
                 >
                   View All
                 </a>
-                <div class="col-12 mb-3">
-                  <div class="comn_heads mb-5">
+                <div className="col-12 mb-3">
+                  <div className="comn_heads mb-5">
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.featuredTitle
@@ -877,7 +871,7 @@ const Homepage = () => {
                               })
                             }
                           >
-                            <a class="featuredproduct_box p-2">
+                            <a className="featuredproduct_box p-2">
                               <div className="featuredproduct_img ">
                                 <img
                                   src={
@@ -888,7 +882,7 @@ const Homepage = () => {
                                   alt="Product"
                                 />
                               </div>
-                              <div class="featuredproduct_details p-2">
+                              <div className="featuredproduct_details p-2">
                                 <span
                                   onClick={() =>
                                     navigate(
@@ -943,17 +937,17 @@ const Homepage = () => {
             </div>
           </section>
 
-          <section class="brandsnew">
-            <div class="container">
-              <div class="row featuredproduct_slider">
+          <section className="brandsnew">
+            <div className="container">
+              <div className="row featuredproduct_slider">
                 <a
-                  class="view_all"
+                  className="view_all"
                   onClick={() => navigate("/app/brands", { state: "hii" })}
                 >
                   View All
                 </a>
-                <div class="col-12 mb-3">
-                  <div class="comn_heads mb-5">
+                <div className="col-12 mb-3">
+                  <div className="comn_heads mb-5">
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.brandTitle
@@ -972,8 +966,8 @@ const Homepage = () => {
                 >
                   {(brands || [])?.map((item, index) => (
                     <SwiperSlide key={index} className="px-4">
-                      <div class="col-12">
-                        <div class="categorynew_slider sliderbtns_design">
+                      <div className="col-12">
+                        <div className="categorynew_slider sliderbtns_design">
                           <Link
                             to="/Brands/Products"
                             state={{ name: item?.brandName }}
@@ -1004,7 +998,7 @@ const Homepage = () => {
           <div
             className="modal "
             id="exampleModal"
-            tabindex="-1"
+            // tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >

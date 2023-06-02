@@ -4,6 +4,7 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { AiFillLinkedin } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Link, useNavigate } from "react-router-dom";
+import ScrollToTop from "react-scroll-to-top";
 
 const Footer = () => {
   const [state, setState] = useState(false);
@@ -196,7 +197,7 @@ const Footer = () => {
                 </p>
               </div>
 
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <ul className="dwn-ul text-end text-md-end">
                   <a
                     target="_blank"
@@ -222,11 +223,45 @@ const Footer = () => {
                     </div>
                   </li>
                 </ul>
+              </div> */}
+              <div className="col-md-4 d-flex ">
+                <div className="col-auto mx-2">
+                  <a
+                    className="appdownload_btn"
+                    target="_blank"
+                    href="https://play.google.com/store/apps/details?id=com.star_importers"
+                  >
+                    <img
+                      src={require("../../assets/img/play-store.png")}
+                      alt=""
+                    />
+                  </a>
+                </div>
+                <div className="col-auto">
+                  <a className="appdownload_btn" href="javscript:;">
+                    <img
+                      src={require("../../assets/img/app-store.png")}
+                      alt=""
+                    />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+      <ScrollToTop
+        smooth
+        color="#fff"
+        top={1000}
+        style={{
+          background: "#eb3237",
+          borderRadius: "50%",
+          height: "40px",
+          width: "45px",
+          zIndex: "999",
+        }}
+      />
     </div>
   );
 };

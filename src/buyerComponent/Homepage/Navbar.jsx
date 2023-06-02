@@ -137,9 +137,9 @@ const Navbar = ({ NState, LoginState }) => {
               </Link>
             </div>
 
-            <div class="col ps-5 head_search">
+            <div className="col ps-5 head_search">
               <form
-                class="header_newsearch"
+                className="header_newsearch"
                 autoComplete="off"
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -147,7 +147,7 @@ const Navbar = ({ NState, LoginState }) => {
                   setSearch();
                 }}
               >
-                <div class="form-group position-relative">
+                <div className="form-group position-relative">
                   <input
                     onChange={(e) => {
                       e.preventDefault();
@@ -157,11 +157,11 @@ const Navbar = ({ NState, LoginState }) => {
                     type="text"
                     id="search"
                     name="search"
-                    class="form-control shadow-none"
+                    className="form-control shadow-none"
                     placeholder="Search in Star Importers"
                   />
 
-                  <button class="search_ibtn">
+                  <button className="search_ibtn">
                     <Fade left>
                       <img
                         src={require("../../assets/img/searchPng.png")}
@@ -173,8 +173,8 @@ const Navbar = ({ NState, LoginState }) => {
               </form>
             </div>
 
-            <div class="col-auto px-5 head_cart">
-              <a class="cart_header">
+            <div className="col-auto px-5 head_cart">
+              <a className="cart_header">
                 {NState ? (
                   // <Animate>
                   <Link to="/app/Cart" state={{ key: "hii" }}>
@@ -201,7 +201,7 @@ const Navbar = ({ NState, LoginState }) => {
             <div className="col-auto text-end">
               {UserAuth ? (
                 <div className="header_tabs ">
-                  <div class="dropdown">
+                  <div className="dropdown">
                     <Link
                       to="/MyAccount"
                       state={"jii"}
@@ -211,7 +211,7 @@ const Navbar = ({ NState, LoginState }) => {
                         <Fade left>My Account</Fade>
                       </button>
                     </Link>
-                    <div class="dropdown-content">
+                    <div className="dropdown-content">
                       <Link
                         to=""
                         className="login_btns mt-3 text-decoration-none"
@@ -232,15 +232,16 @@ const Navbar = ({ NState, LoginState }) => {
                 <div className="d-flex mt-2 mx-3">
                   <Link
                     to="/app/login"
+                    state={{ kii: "nj" }}
                     // className="login_btns mt-2 text-decoration-none"
-                    class="Loginb text-decoration-none"
+                    className="Loginb text-decoration-none"
                     onClick={() => setSearch()}
                   >
                     <Fade left>Login</Fade>
                   </Link>
                   <Link to="/app/register" style={{ textDecoration: "none" }}>
                     <div className="btn-group ">
-                      <button class="Signupb text-decoration-none">
+                      <button className="Signupb text-decoration-none">
                         <Fade left>Sign Up</Fade>
                       </button>
                     </div>
@@ -252,11 +253,11 @@ const Navbar = ({ NState, LoginState }) => {
         </div>
 
         <div className="row">
-          <div class="col-12 header_bottom ">
-            <div class="container-fluid">
-              <div class="row header_row">
-                <div class="col-12">
-                  <ul class="header_menuss mb-0 ps-0">
+          <div className="col-12 header_bottom ">
+            <div className="container-fluid">
+              <div className="row header_row">
+                <div className="col-12">
+                  <ul className="header_menuss mb-0 ps-0">
                     <li>
                       <a
                         className="mx-2 p-3"
@@ -275,12 +276,12 @@ const Navbar = ({ NState, LoginState }) => {
                       ?.filter((item, idx) => idx < 8)
                       .map((item, index) => (
                         <li
-                          class="new_dropdown"
+                          className="new_dropdown"
                           key={index}
                           // className="zindex-1"
                         >
                           <a
-                            class="new_dropdown_link"
+                            className="new_dropdown_link"
                             onClick={() =>
                               navigate("/app/subCategories", {
                                 state: {
@@ -293,7 +294,7 @@ const Navbar = ({ NState, LoginState }) => {
                           >
                             {item?.categoryName}
                           </a>
-                          <div class="new_dropdown_inner">
+                          <div className="new_dropdown_inner">
                             {(item?.subcategories || [])
                               ?.filter((item, idx) => idx < 9)
                               .map((item, index) => (
@@ -322,7 +323,7 @@ const Navbar = ({ NState, LoginState }) => {
                                 }
                               >
                                 View all
-                                <i class="fa fa-arrow-up-right-from-square mx-2"></i>
+                                <i className="fa fa-arrow-up-right-from-square mx-2"></i>
                               </a>
                             ) : (
                               <a>No Results....</a>
@@ -452,7 +453,7 @@ const Navbar = ({ NState, LoginState }) => {
                 <div className="product_single_right row p-2">
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
-                      <a class="featuredproduct_box p-2">
+                      <a className="featuredproduct_box p-2">
                         <div className="featuredproduct_img ">
                           <img
                             src={
@@ -474,7 +475,7 @@ const Navbar = ({ NState, LoginState }) => {
                             }}
                           />
                         </div>
-                        <div class="featuredproduct_details p-2">
+                        <div className="featuredproduct_details p-2">
                           <span
                             onClick={() => {
                               navigate(`/app/product-details/${item?._id}`, {

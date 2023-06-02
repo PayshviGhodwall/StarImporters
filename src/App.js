@@ -106,6 +106,7 @@ import UserLogin from "./buyerComponent/LoginRegister/UserLogin";
 import UserLoginPass from "./buyerComponent/LoginRegister/UserLoginPass";
 import UserForgotPass from "./buyerComponent/LoginRegister/UserForgotPass";
 import UserUpdatePassword from "./buyerComponent/LoginRegister/UserUpdatePassword";
+import UserOtpValidate from "./buyerComponent/LoginRegister/UserOtpValidate";
 import AppBuyAgain from "./pwaComponents/homeComponent/appBuyAgain";
 import AppDocs from "./pwaComponents/homeComponent/appDocs";
 import AppRedirectWeb from "./pwaComponents/homeComponent/appRedirectWeb";
@@ -292,6 +293,12 @@ function App() {
             <Route
               path="/app/homeGuest"
               element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/otp"
+              element={
+                width < 999 ? <AppOtpVerification /> : <UserOtpValidate />
+              }
             />
             <Route
               path="/app/redirect/constantRedirect99/:id"

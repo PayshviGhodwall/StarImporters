@@ -41,7 +41,7 @@ const UserOtpValidate = () => {
             Swal.fire({
               title: "OTP Verified Successfully.",
               text: "",
-            icon: "success",
+              icon: "success",
               confirmButtonText: "OK",
             });
             navigate("/app/update-password", { state: email });

@@ -17,8 +17,9 @@ const UserForgotPass = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  let email = localStorage.getItem("userEmail");
+
   const onSubmit = (data) => {
+    localStorage.setItem("userEmail", data?.email);
     data
       ? axios
           .post(apiUrl, {
