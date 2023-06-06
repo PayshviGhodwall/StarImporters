@@ -8,7 +8,7 @@ import { Panel, PanelGroup } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
-import { pageSubCategory } from "../../atom";
+import { chngeFilter, pageSubCategory, pageSubCategoryData } from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ProductBySubCate = () => {
@@ -21,14 +21,19 @@ const ProductBySubCate = () => {
   const [products, setProducts] = useState([]);
   const [heart, setHeart] = useState(false);
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getBySubCategory`;
+  const getFilteredBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/filterBrands`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [maxPage, setMaxPage] = useState(1);
   const [filtr, setFltr] = useState(false);
+  const setData = useSetRecoilState(pageSubCategoryData);
   const setPage = useSetRecoilState(pageSubCategory);
   const page = useRecoilValue(pageSubCategory);
+  const pageData = useRecoilValue(pageSubCategoryData);
+  const filters = useRecoilValue(chngeFilter);
   const [activePage, setActivePage] = useState(page);
   const [ObjectId, setObjectId] = useState();
+
   useEffect(() => {
     getProducts();
     GetBrands();
@@ -38,13 +43,37 @@ const ProductBySubCate = () => {
     setActivePage(page);
   }, [page]);
 
+  useEffect(() => {
+    filtr && clearFilters();
+  }, [filters]);
+
+  // useEffect(() => {
+  //   if (pageData[0]?.filtr) {
+  //     const filterProduct = async () => {
+  //       await axios
+  //         .post(getProduct, {
+  //           subCategory: pageData[0]?.subCategory,
+  //           brand: pageData[0]?.brand,
+  //           sortBy: pageData[0]?.sortBy,
+  //           page: pageData[0]?.page,
+  //         })
+  //         .then((res) => {
+  //           setProducts(res.data?.results.products);
+  //           setMaxPage(res.data?.results?.totalPages);
+  //         });
+  //     };
+  //     filterProduct();
+  //   }
+  // }, [pageData]);
+
+  console.log(pageData, "klnljnlk");
   const GetBrands = async () => {
     await axios
-      .get(getBrands, {
-        page: 1,
+      .post(getFilteredBrands, {
+        subCategory: location.state?.name,
       })
       .then((res) => {
-        setBrands(res?.data.results);
+        setBrands(res?.data.results?.brands);
       });
   };
 
@@ -81,8 +110,12 @@ const ProductBySubCate = () => {
   console.log(page);
 
   const clearFilters = (e) => {
-    e.preventDefault();
-    window.location.reload(false);
+    document.getElementById("reset1").click();
+    document.getElementById("reset2").click();
+    setBrandName("");
+    setSortValue("");
+    setActivePage(1);
+    getProducts();
   };
 
   const addToFav = async (index) => {
@@ -164,19 +197,22 @@ const ProductBySubCate = () => {
                               <input
                                 class="d-none"
                                 type="radio"
-                                value={item?.brandName}
-                                id={item?._id}
+                                value={item?.brand?.brandName}
+                                id={item?.brand?._id}
                                 name="check5"
                                 onChange={(e) => {
-                                  setBrandName(item?._id);
+                                  setBrandName(item?.brand?._id);
                                 }}
                               />
-                              <label htmlFor={item?._id}>
-                                {item?.brandName}
+                              <label htmlFor={item?.brand?._id}>
+                                {item?.brand?.brandName}
                               </label>
                             </div>
                           ))}
                       </div>
+                      <button className="d-none" id="reset1" type="reset">
+                        reset
+                      </button>
                     </form>
                     <a
                       class="moreee d-flex mt-3 text-decoration-none"
@@ -216,6 +252,9 @@ const ProductBySubCate = () => {
                           Alphabetically: Z to A
                         </label>
                       </div>
+                      <button className="d-none" type="reset" id="reset2">
+                        reset
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -272,74 +311,81 @@ const ProductBySubCate = () => {
                   ) : null}
 
                   <div class="col-12 mt-3">
-                    <div class="row singleproduct---show">
-                      {(products || [{}])?.map((item, index) => (
-                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
-                          <div class="singleproduct-box">
-                            <a href="javascript:;" class="singleproduct--img">
-                              <img
-                                src={
-                                  item?.products?.productImage
-                                    ? item?.products?.productImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                                alt="Product"
+                    {products?.length ? (
+                      <div class="row singleproduct---show">
+                        {(products || [{}])?.map((item, index) => (
+                          <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
+                            <div class="singleproduct-box">
+                              <a href="javascript:;" class="singleproduct--img">
+                                <img
+                                  src={
+                                    item?.products?.productImage
+                                      ? item?.products?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  alt="Product"
+                                  onClick={() => {
+                                    filtr ? setPage(1) : setPage(activePage);
+                                    navigate(
+                                      `/AllProducts/Product/${item?.products?._id}`,
+                                      {
+                                        state: {
+                                          id: item?.products?._id,
+                                          image: item?.background,
+                                          CateName: item?.categoryName,
+                                        },
+                                      }
+                                    );
+                                  }}
+                                />
+                              </a>
+                              <a class="favvv---icon" href="javascript:;">
+                                {item?.products?.favourite ? (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      rmvFromFav(index);
+                                    }}
+                                    style={{ color: "#3e4093 " }}
+                                  />
+                                ) : (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      addToFav(index);
+                                    }}
+                                    style={{ color: "#E1E1E1 " }}
+                                  />
+                                )}
+                                {/* <img src="assets/images/Vector.png" alt="" /> */}
+                              </a>
+                              <span
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
                                     `/AllProducts/Product/${item?.products?._id}`,
                                     {
+                                      replace: true,
                                       state: {
                                         id: item?.products?._id,
-                                        image: item?.background,
                                         CateName: item?.categoryName,
                                       },
                                     }
                                   );
                                 }}
-                              />
-                            </a>
-                            <a class="favvv---icon" href="javascript:;">
-                              {item?.products?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                              {/* <img src="assets/images/Vector.png" alt="" /> */}
-                            </a>
-                            <span
-                              onClick={() => {
-                                setPage(activePage);
-                                navigate(
-                                  `/AllProducts/Product/${item?.products?._id}`,
-                                  {
-                                    replace: true,
-                                    state: {
-                                      id: item?.products?._id,
-                                      CateName: item?.categoryName,
-                                    },
-                                  }
-                                );
-                              }}
-                            >
-                              {item?.products?.unitName}
-                            </span>
+                              >
+                                {item?.products?.unitName}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="row justify-content-center mt-5">
+                        {" "}
+                        <h1 className="col-auto center_art">No results...</h1>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

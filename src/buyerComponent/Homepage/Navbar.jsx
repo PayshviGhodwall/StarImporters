@@ -9,7 +9,12 @@ import Fade from "react-reveal/Fade";
 import Zoom from "react-reveal/Zoom";
 import Pulse from "react-reveal/Pulse";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, pageCategory, pageSubCategory } from "../../atom";
+import {
+  CartCount,
+  chngeFilter,
+  pageCategory,
+  pageSubCategory,
+} from "../../atom";
 const Navbar = ({ NState, LoginState }) => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
@@ -29,6 +34,7 @@ const Navbar = ({ NState, LoginState }) => {
   const alert = useRecoilValue(CartCount);
   const setPage = useSetRecoilState(pageCategory);
   const setPage2 = useSetRecoilState(pageSubCategory);
+  const setFilter = useSetRecoilState(chngeFilter);
 
   const ref = useRef(null);
   useEffect(() => {
@@ -315,6 +321,7 @@ const Navbar = ({ NState, LoginState }) => {
                                   key={index}
                                   onClick={() => {
                                     setPage2(1);
+                                    setFilter(item?._id);
                                     navigate("/SubCategory/Products", {
                                       state: {
                                         name: item?.subCategoryName,

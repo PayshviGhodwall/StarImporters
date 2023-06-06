@@ -30,6 +30,17 @@ export const pageBrand = atom({
   key: "pageBrand", // unique ID (with respect to other atoms/selectors)
   default: 1, // default value (aka initial value)
 });
+export const pageSubCategoryData = atom({
+  key: "pageSubCategoryData", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      subCategory: "",
+      brand: "",
+      sortBy: "",
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
 export const pageSubCategory = atom({
   key: "pageSubCategory", // unique ID (with respect to other atoms/selectors)
   default: 1, // default value (aka initial value)
@@ -37,4 +48,8 @@ export const pageSubCategory = atom({
 export const pageFeature = atom({
   key: "pageFeature", // unique ID (with respect to other atoms/selectors)
   default: 1, // default value (aka initial value)
+});
+export const chngeFilter = atom({
+  key: "chngeFilter", // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
 });

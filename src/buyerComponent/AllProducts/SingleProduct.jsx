@@ -320,11 +320,31 @@ const SingleProduct = () => {
                       >
                         Home <span className="arrow mx-1 ">&#9679;</span>{" "}
                       </Link>
-                      <a className="text-decoration-none text-white fs-6  ">
+                      <a
+                        className="text-decoration-none text-white fs-6  "
+                        onClick={() => {
+                          navigate("/app/subCategories", {
+                            state: {
+                              id: product?.category?._id,
+                              name: product?.category?.categoryName,
+                              image: product?.category?.background,
+                            },
+                          });
+                        }}
+                      >
                         {product?.category?.categoryName}
                         <span className="arrow mx-1 ">&#9679;</span>
                       </a>
-                      <a className="text-decoration-none text-white fs-6  ">
+                      <a
+                        className="text-decoration-none text-white fs-6  "
+                        onClick={() => {
+                          navigate("/SubCategory/Products", {
+                            state: {
+                              name: product?.subCategory?.subCategoryName,
+                            },
+                          });
+                        }}
+                      >
                         {product?.subCategory?.subCategoryName}
                         <span className="arrow mx-1 ">&#9679;</span>
                       </a>

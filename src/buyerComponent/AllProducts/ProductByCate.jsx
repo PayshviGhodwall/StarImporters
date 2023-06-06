@@ -9,9 +9,11 @@ import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
 import { pageCategory } from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+
 const ProductByCate = () => {
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getByCategory`;
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const getFilteredBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/filterBrands`;
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const location = useLocation();
@@ -34,10 +36,15 @@ const ProductByCate = () => {
   }, [location, heart, activePage]);
 
   const GetBrands = async () => {
-    await axios.get(getBrands).then((res) => {
-      setBrands(res?.data.results);
-    });
+    await axios
+      .post(getFilteredBrands, {
+        category: location.state?.name,
+      })
+      .then((res) => {
+        setBrands(res?.data.results.brands);
+      });
   };
+
   const getProducts = async () => {
     await axios
       .post(getProduct, {
@@ -70,8 +77,12 @@ const ProductByCate = () => {
   };
 
   const clearFilters = (e) => {
-    e.preventDefault();
-    window.location.reload(false);
+    document.getElementById("reset1").click();
+    document.getElementById("reset2").click();
+    setBrandName("");
+    setSortValue("");
+    setActivePage(1);
+    getProducts();
   };
 
   const addToFav = async (index) => {
@@ -156,7 +167,7 @@ const ProductByCate = () => {
                     <form class="singleproduct-form row" action="">
                       <div className="">
                         {(brands || [])
-                          ?.filter((item, idx) => idx < 5)
+                          ?.filter((item, idx) => idx < 6 && idx != 0)
                           .map((item, index) => (
                             <div
                               className="form-group col-12 mb-3 custom_radio"
@@ -165,19 +176,22 @@ const ProductByCate = () => {
                               <input
                                 class="d-none"
                                 type="radio"
-                                value={item?.brandName}
-                                id={item?._id}
+                                value={item?.brand?.brandName}
+                                id={item?.brand?._id}
                                 name="check5"
                                 onChange={(e) => {
-                                  setBrandName(item?._id);
+                                  setBrandName(item?.brand?._id);
                                 }}
                               />
-                              <label htmlFor={item?._id}>
-                                {item?.brandName}
+                              <label htmlFor={item?.brand?._id}>
+                                {item?.brand?.brandName}
                               </label>
                             </div>
                           ))}
                       </div>
+                      <button className="d-none" id="reset1" type="reset">
+                        reset
+                      </button>
                     </form>
                     <a
                       class="moreee d-flex mt-3 text-decoration-none"
@@ -217,6 +231,9 @@ const ProductByCate = () => {
                           Alphabetically: Z to A
                         </label>
                       </div>
+                      <button className="d-none" id="reset2" type="reset">
+                        reset
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -273,74 +290,81 @@ const ProductByCate = () => {
                   ) : null}
 
                   <div class="col-12 mt-3">
-                    <div class="row singleproduct---show">
-                      {(products || [{}])?.map((item, index) => (
-                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
-                          <div class="singleproduct-box">
-                            <a href="javascript:;" class="singleproduct--img">
-                              <img
-                                src={
-                                  item?.products?.productImage
-                                    ? item?.products?.productImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                                alt="Product"
+                    {products?.length ? (
+                      <div class="row singleproduct---show">
+                        {(products || [{}])?.map((item, index) => (
+                          <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
+                            <div class="singleproduct-box">
+                              <a href="javascript:;" class="singleproduct--img">
+                                <img
+                                  src={
+                                    item?.products?.productImage
+                                      ? item?.products?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  alt="Product"
+                                  onClick={() => {
+                                    setPage(activePage);
+                                    navigate(
+                                      `/AllProducts/Product/${item?.products?._id}`,
+                                      {
+                                        state: {
+                                          id: item?.products?._id,
+                                          image: item?.background,
+                                        },
+                                      }
+                                    );
+                                  }}
+                                />
+                              </a>
+                              <a class="favvv---icon" href="javascript:;">
+                                {item?.products.favourite ? (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      rmvFromFav(index);
+                                    }}
+                                    style={{ color: "#3e4093 " }}
+                                  />
+                                ) : (
+                                  <i
+                                    class="fa fa-heart"
+                                    onClick={() => {
+                                      addToFav(index);
+                                    }}
+                                    style={{ color: "#E1E1E1 " }}
+                                  />
+                                )}
+                                {/* <img src="assets/images/Vector.png" alt="" /> */}
+                              </a>
+                              <span
                                 onClick={() => {
                                   setPage(activePage);
+
                                   navigate(
                                     `/AllProducts/Product/${item?.products?._id}`,
                                     {
+                                      replace: true,
                                       state: {
                                         id: item?.products?._id,
-                                        image: item?.background,
+                                        CateName: item?.categoryName,
                                       },
                                     }
                                   );
                                 }}
-                              />
-                            </a>
-                            <a class="favvv---icon" href="javascript:;">
-                              {item?.products.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                              {/* <img src="assets/images/Vector.png" alt="" /> */}
-                            </a>
-                            <span
-                              onClick={() => {
-                                setPage(activePage);
-
-                                navigate(
-                                  `/AllProducts/Product/${item?.products?._id}`,
-                                  {
-                                    replace: true,
-                                    state: {
-                                      id: item?.products?._id,
-                                      CateName: item?.categoryName,
-                                    },
-                                  }
-                                );
-                              }}
-                            >
-                              {item?.products?.unitName}
-                            </span>
+                              >
+                                {item?.products?.unitName}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="row justify-content-center mt-5">
+                        {" "}
+                        <h1 className="col-auto center_art">No results...</h1>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

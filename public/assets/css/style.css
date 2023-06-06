@@ -16042,3 +16042,9 @@ figure.effect-ming:hover img {
   width: 100% !important;
   max-height: 640px !important;
 }
+
+.center_art {
+  position: relative;
+  top: 40% !important;
+  color: gray;
+}
