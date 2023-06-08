@@ -123,9 +123,12 @@ const EditOrder = () => {
             title: "New Product Added!",
             icon: "success",
             confirmButtonText: "Ok",
+            timer: 1000,
           });
-          document.getElementById("Modal").click();
           OrderDetails();
+          setSelectedProduct({ usersSelected: null });
+          setProducts([]);
+          setQuantity(0);
         }
       });
   };
@@ -854,6 +857,7 @@ const EditOrder = () => {
                   <input
                     type="number"
                     className="form-control-sub border"
+                    value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                   />
                 </div>

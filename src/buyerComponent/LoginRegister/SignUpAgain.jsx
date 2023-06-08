@@ -137,6 +137,10 @@ const SignUpAgain = () => {
                         value: 4,
                         message: "Minimium 4 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
                       },
+                      pattern: {
+                        value: /^[A-Z][a-z0-9_-]{3,19}$/,
+                        message: "First Letter Should be in UpperCase!",
+                      },
                     })}
                   />
                   {errors.companyName && (

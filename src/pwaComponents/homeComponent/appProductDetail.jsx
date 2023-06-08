@@ -191,6 +191,7 @@ function AppProductDetail() {
   };
   const onHoverMain = (ind) => {
     setFlavour(productDetail.type[ind - 1]);
+    setQuantity(1);
   };
   return (
     <>
@@ -341,6 +342,7 @@ function AppProductDetail() {
                               e.preventDefault();
                               setFlavour(item);
                               setFInd(index);
+                              setQuantity(1);
                               setItemNo(index + 1);
                               document.getElementById("product-image").src =
                                 item?.flavourImage;

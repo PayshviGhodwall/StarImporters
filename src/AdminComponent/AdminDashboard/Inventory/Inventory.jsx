@@ -307,7 +307,7 @@ const Inventory = () => {
 
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
-    if (e.key !== "Tab") return;
+    if (e.key !== "Enter") return;
     // Get the value of the input
     const value = e.target.value;
     // If the value is empty, return

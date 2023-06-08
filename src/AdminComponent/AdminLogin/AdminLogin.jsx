@@ -115,7 +115,7 @@ const AdminLogin = () => {
                           htmlFor="floatingUsername"
                           className="mx-2 fw-bold text-secondary"
                         >
-                          User Name or Email
+                          Email Address
                         </label>
                       </div>
                       <div className="form-floating mb-4">

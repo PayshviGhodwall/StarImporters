@@ -42,7 +42,7 @@ const Search = () => {
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
-      if (Dd) {
+      if (Dd?.length) {
         const { data } = await searchByBarcode({
           barcode: Dd,
         });

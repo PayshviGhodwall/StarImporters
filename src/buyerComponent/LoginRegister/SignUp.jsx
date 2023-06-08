@@ -176,9 +176,13 @@ const SignUp = () => {
                         value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
                         message: "Special Character not allowed",
                       },
+                      pattern: {
+                        value: /^[A-Z][a-z0-9_-]{3,19}$/,
+                        message: "First Letter Should be in UpperCase!",
+                      },
                       minLength: {
-                        value: 4,
-                        message: "Minimium 4 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
+                        value: 2,
+                        message: "Minimium 2 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
                       },
                     })}
                   />

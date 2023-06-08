@@ -7,7 +7,11 @@ import Footer from "../Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import backGround from "../../assets/img/banner_img2.jpg";
-import { pageCategory } from "../../atom";
+import {
+  pageCategory,
+  pageCategoryData,
+  pageSubCategoryData,
+} from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ProductByCate = () => {
@@ -29,11 +33,27 @@ const ProductByCate = () => {
   const setPage = useSetRecoilState(pageCategory);
   const page = useRecoilValue(pageCategory);
   const [activePage, setActivePage] = useState(page);
+  const pageData = useRecoilValue(pageCategoryData);
+  const setData = useSetRecoilState(pageCategoryData);
 
   useEffect(() => {
     getProducts();
+  }, [location, heart, activePage, page]);
+
+  useEffect(() => {
     GetBrands();
-  }, [location, heart, activePage]);
+  }, [location]);
+
+  useEffect(() => {
+    if (pageData[0]?.filtr) {
+      console.log(pageData, "newww");
+      setBrandName(pageData[0]?.brand);
+      setSortValue(pageData[0]?.sortValue);
+      setActivePage(pageData[0]?.page);
+      setFltr(pageData[0]?.filtr);
+      // setData([]);
+    }
+  }, [pageData]);
 
   const GetBrands = async () => {
     await axios
@@ -48,10 +68,16 @@ const ProductByCate = () => {
   const getProducts = async () => {
     await axios
       .post(getProduct, {
-        category: location.state?.name,
-        page: activePage,
-        brand: filtr && brandName,
-        sortBy: sortValue ? sortValue : "",
+        category: pageData[0]?.category
+          ? pageData[0]?.category
+          : location.state?.name,
+        page: pageData[0]?.page ? pageData[0]?.page : activePage,
+        brand: pageData[0]?.brand ? pageData[0]?.brand : filtr && brandName,
+        sortBy: pageData[0]?.sortBy
+          ? pageData[0]?.sortBy
+          : sortValue
+          ? sortValue
+          : "",
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -178,7 +204,12 @@ const ProductByCate = () => {
                                 type="radio"
                                 value={item?.brand?.brandName}
                                 id={item?.brand?._id}
-                                name="check5"
+                                defaultChecked={
+                                  pageData[0]?.brand == item?.brand?._id
+                                    ? true
+                                    : false
+                                }
+                                name={item?.brand?._id * index}
                                 onChange={(e) => {
                                   setBrandName(item?.brand?._id);
                                 }}
@@ -211,6 +242,9 @@ const ProductByCate = () => {
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"
+                          defaultChecked={
+                            pageData[0]?.sortBy == 1 ? true : false
+                          }
                           value="1"
                           onChange={(e) => setSortValue(1)}
                         />
@@ -225,6 +259,9 @@ const ProductByCate = () => {
                           id="Alphabetically1"
                           name="Alphabetically"
                           value="0"
+                          defaultChecked={
+                            pageData[0]?.sortBy == -1 ? true : false
+                          }
                           onChange={(e) => setSortValue(-1)}
                         />
                         <label for="Alphabetically1">
@@ -261,6 +298,7 @@ const ProductByCate = () => {
                               activePage <= 1
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
+                              setData({ page: activePage });
                             }}
                           >
                             <img
@@ -276,6 +314,7 @@ const ProductByCate = () => {
                               activePage === maxPage
                                 ? setActivePage(maxPage)
                                 : setActivePage(activePage + 1);
+                              setData({ page: activePage });
                             }}
                           >
                             Next{" "}
@@ -304,7 +343,17 @@ const ProductByCate = () => {
                                   }
                                   alt="Product"
                                   onClick={() => {
-                                    setPage(activePage);
+                                    filtr
+                                      ? setData([
+                                          {
+                                            category: location?.state?.name,
+                                            brand: brandName,
+                                            sortBy: sortValue,
+                                            filtr: filtr,
+                                            page: activePage,
+                                          },
+                                        ])
+                                      : setPage(activePage);
                                     navigate(
                                       `/AllProducts/Product/${item?.products?._id}`,
                                       {

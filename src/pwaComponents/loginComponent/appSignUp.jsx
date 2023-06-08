@@ -908,7 +908,7 @@ function AppSignUp() {
                           id="phoneNumber"
                           name="phoneNumber"
                           {...register("phoneNumber", {
-                            required: true,
+                            required: false,
                             maxLength: 12,
                             minLength: 10,
                           })}

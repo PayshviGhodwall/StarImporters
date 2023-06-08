@@ -16048,3 +16048,21 @@ figure.effect-ming:hover img {
   top: 40% !important;
   color: gray;
 }
+.custom_date {
+  position: relative;
+  top: -30px !important;
+  left: 80% !important;
+  z-index: 99 !important;
+  border: 0;
+  text-indent: -441100000000000000000px;
+  background-color: #fff;
+  height: 15px;
+  width: 25px;
+  display: flex;
+  border-radius: 0px;
+  cursor: pointer;
+  transform: scale(1.4);
+}
+.custom_date:focus {
+  outline: none;
+}

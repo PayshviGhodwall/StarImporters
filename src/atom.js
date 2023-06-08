@@ -30,11 +30,23 @@ export const pageBrand = atom({
   key: "pageBrand", // unique ID (with respect to other atoms/selectors)
   default: 1, // default value (aka initial value)
 });
+
 export const pageSubCategoryData = atom({
   key: "pageSubCategoryData", // unique ID (with respect to other atoms/selectors)
   default: [
     {
       subCategory: "",
+      brand: "",
+      sortBy: "",
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
+export const pageCategoryData = atom({
+  key: "pageSubCategoryData", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      category: "",
       brand: "",
       sortBy: "",
       filtr: false,

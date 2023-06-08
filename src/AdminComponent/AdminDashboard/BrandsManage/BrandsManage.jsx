@@ -59,51 +59,60 @@ const BrandsManage = () => {
   };
   const saveBrands = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("brandImage", files?.brandImg);
-    formData.append("brandName", brandName.trim());
-
-    await axios
-      .post(addBrands, formData)
-      .then((res) => {
-        if (res?.data.message === "Brand Added Successfully") {
-          document.getElementById("resetBrand").click();
-          setChange(!change);
-        }
-        if (res?.data.message === "Invalid Image format") {
-          Swal.fire({
-            title: "Invalid Image format!",
-            icon: "warning",
-            confirmButtonText: "ok",
-          });
-          document.getElementById("resetSubCat").click();
-        }
-        if (res?.data.message === "Please provide brand name") {
-          setLoader(false);
-          Swal.fire({
-            title: "Please provide brand name",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-        if (res?.data.message === "Error in adding brand") {
-          setLoader(false);
-          Swal.fire({
-            title: "Error in adding brand",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          Swal.fire({
-            title: "Error in adding brand",
-            icon: "error",
-            focusConfirm: false,
-          });
-        }
+    if (!files?.brandImg) {
+      Swal.fire({
+        title: "Choose Brand Image!",
+        icon: "warning",
+        timer: 1000,
+        confirmButtonText: "ok",
       });
+    } else {
+      const formData = new FormData();
+      formData.append("brandImage", files?.brandImg);
+      formData.append("brandName", brandName.trim());
+
+      await axios
+        .post(addBrands, formData)
+        .then((res) => {
+          if (res?.data.message === "Brand Added Successfully") {
+            document.getElementById("resetBrand").click();
+            setChange(!change);
+          }
+          if (res?.data.message === "Invalid Image format") {
+            Swal.fire({
+              title: "Choose Valid Image!",
+              icon: "warning",
+              confirmButtonText: "ok",
+            });
+            document.getElementById("resetSubCat").click();
+          }
+          if (res?.data.message === "Please provide brand name") {
+            setLoader(false);
+            Swal.fire({
+              title: "Please provide brand name",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+          if (res?.data.message === "Error in adding brand") {
+            setLoader(false);
+            Swal.fire({
+              title: "Error in adding brand",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            Swal.fire({
+              title: "Error in adding brand",
+              icon: "error",
+              focusConfirm: false,
+            });
+          }
+        });
+    }
   };
 
   const onEditBrands = async (id) => {

@@ -189,22 +189,23 @@ const EditInventory = () => {
       });
   };
 
-  function handleKeyDown(i, e) {
-    // If user did not press enter key, return
-    if (e.key !== "Enter") return;
-    // Get the value of the input
-    const value = e.target.value;
-    // If the value is empty, return
-    if (!value.trim()) return;
-    // Add the value to the tags array
-    setBarcodes([...barcodes, value.replace(/(\r\n|\n|\r)/gm, "")]);
-    let newFormValues = { ...formValues };
-    newFormValues[i][e.target.name] = [
-      ...(formValues[i]?.barcode || []),
-      value.replace(/(\r\n|\n|\r)/gm, ""),
-    ];
-    e.target.value = "";
-  }
+  // function handleKeyDown(i, e) {
+  //   // If user did not press enter key, return
+  //   if (e.key !== "Enter") return;
+  //   // Get the value of the input
+  //   const value = e.target.value;
+  //   // If the value is empty, return
+  //   if (!value.trim()) return;
+  //   // Add the value to the tags array
+  //   setBarcodes([...barcodes, value.replace(/(\r\n|\n|\r)/gm, "")]);
+  //   let newFormValues = { ...formValues };
+  //   newFormValues[i][e.target.name] = [
+  //     ...(formValues[i]?.barcode || []),
+  //     value.replace(/(\r\n|\n|\r)/gm, ""),
+  //   ];
+  //   e.target.value = "";
+  // }
+
   const flavourImageSelection = (e, index) => {
     const formData = new FormData();
 
@@ -231,7 +232,7 @@ const EditInventory = () => {
   };
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
-    if (e.key !== "Tab") return;
+    if ( e.key !== "Enter") return;
     // Get the value of the input
     const value = e.target.value;
     // If the value is empty, return

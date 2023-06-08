@@ -36,37 +36,33 @@ const ProductBySubCate = () => {
 
   useEffect(() => {
     getProducts();
-    GetBrands();
-  }, [location, heart, activePage, page]);
+  }, [location, heart, activePage]);
 
   useEffect(() => {
     setActivePage(page);
   }, [page]);
 
   useEffect(() => {
+    GetBrands();
+  }, [location]);
+
+  useEffect(() => {
     filtr && clearFilters();
   }, [filters]);
 
-  // useEffect(() => {
-  //   if (pageData[0]?.filtr) {
-  //     const filterProduct = async () => {
-  //       await axios
-  //         .post(getProduct, {
-  //           subCategory: pageData[0]?.subCategory,
-  //           brand: pageData[0]?.brand,
-  //           sortBy: pageData[0]?.sortBy,
-  //           page: pageData[0]?.page,
-  //         })
-  //         .then((res) => {
-  //           setProducts(res.data?.results.products);
-  //           setMaxPage(res.data?.results?.totalPages);
-  //         });
-  //     };
-  //     filterProduct();
-  //   }
-  // }, [pageData]);
+  console.log(pageData);
 
-  console.log(pageData, "klnljnlk");
+  useEffect(() => {
+    if (pageData[0]?.filtr) {
+      console.log(pageData, "newww");
+      setBrandName(pageData[0]?.brand);
+      setSortValue(pageData[0]?.sortValue);
+      setActivePage(pageData[0]?.page);
+      setFltr(pageData[0]?.filtr);
+      // setData([]);
+    }
+  }, [pageData]);
+
   const GetBrands = async () => {
     await axios
       .post(getFilteredBrands, {
@@ -78,12 +74,19 @@ const ProductBySubCate = () => {
   };
 
   const getProducts = async () => {
+    console.log("apopop");
     await axios
       .post(getProduct, {
-        subCategory: location.state?.name,
-        page: activePage,
-        brand: filtr && brandName,
-        sortBy: sortValue ? sortValue : "",
+        subCategory: pageData[0]?.subCategory
+          ? pageData[0]?.subCategory
+          : location.state?.name,
+        page: pageData[0]?.page ? pageData[0]?.page : activePage,
+        brand: pageData[0]?.brand ? pageData[0]?.brand : filtr && brandName,
+        sortBy: pageData[0]?.sortBy
+          ? pageData[0]?.sortBy
+          : sortValue
+          ? sortValue
+          : "",
       })
       .then((res) => {
         setProducts(res.data?.results.products);
@@ -110,12 +113,14 @@ const ProductBySubCate = () => {
   console.log(page);
 
   const clearFilters = (e) => {
-    document.getElementById("reset1").click();
-    document.getElementById("reset2").click();
-    setBrandName("");
-    setSortValue("");
-    setActivePage(1);
-    getProducts();
+    // document.getElementById("reset1").click();
+    // document.getElementById("reset2").click();
+    // setBrandName("");
+    // setSortValue("");
+    // setActivePage(1);
+    // getProducts();
+    // setPage([]);
+    window.location.reload();
   };
 
   const addToFav = async (index) => {
@@ -196,10 +201,15 @@ const ProductBySubCate = () => {
                             >
                               <input
                                 class="d-none"
+                                defaultChecked={
+                                  pageData[0]?.brand == item?.brand?._id
+                                    ? true
+                                    : false
+                                }
                                 type="radio"
                                 value={item?.brand?.brandName}
                                 id={item?.brand?._id}
-                                name="check5"
+                                name={item?.brand?._id * index}
                                 onChange={(e) => {
                                   setBrandName(item?.brand?._id);
                                 }}
@@ -232,6 +242,9 @@ const ProductBySubCate = () => {
                           class="d-none"
                           id="Alphabetically"
                           name="Alphabetically"
+                          defaultChecked={
+                            pageData[0]?.sortBy == 1 ? true : false
+                          }
                           value="1"
                           onChange={(e) => setSortValue(1)}
                         />
@@ -246,6 +259,9 @@ const ProductBySubCate = () => {
                           id="Alphabetically1"
                           name="Alphabetically"
                           value="0"
+                          defaultChecked={
+                            pageData[0]?.sortBy == -1 ? true : false
+                          }
                           onChange={(e) => setSortValue(-1)}
                         />
                         <label for="Alphabetically1">
@@ -325,7 +341,17 @@ const ProductBySubCate = () => {
                                   }
                                   alt="Product"
                                   onClick={() => {
-                                    filtr ? setPage(1) : setPage(activePage);
+                                    filtr
+                                      ? setData([
+                                          {
+                                            subCategory: location?.state?.name,
+                                            brand: brandName,
+                                            sortBy: sortValue,
+                                            filtr: filtr,
+                                            page: activePage,
+                                          },
+                                        ])
+                                      : setPage(activePage);
                                     navigate(
                                       `/AllProducts/Product/${item?.products?._id}`,
                                       {

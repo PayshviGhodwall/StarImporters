@@ -27,7 +27,8 @@ const EditUser = () => {
     salesTaxId: "",
     accountOwnerId: "",
   });
-  const [newExpiry, setNewExpiry] = useState();
+  const [newExpiry, setNewExpiry] = useState("");
+  const [newExpiry2, setNewExpiry2] = useState();
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [prodImg, setProdImg] = useState();
@@ -82,7 +83,7 @@ const EditUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
     formData.append("istobaccoLicenceExpired", data?.License);
-    formData.append("tobaccoLicenceExpiry", newExpiry ? newExpiry : "");
+    formData.append("tobaccoLicenceExpiry", newExpiry ? newExpiry : newExpiry2);
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
@@ -954,13 +955,37 @@ const EditUser = () => {
                           <strong>
                             {" "}
                             Expires on :
-                            <input
-                              type="date"
-                              className="border rounded"
-                              id="expiryDate"
-                              onChange={(e) => setNewExpiry(e.target.value)}
-                              value={newExpiry}
-                            ></input>
+                            <div>
+                              {console.log(newExpiry, newExpiry2)}
+
+                              <input
+                                type="tel"
+                                maxLength={10}
+                                key={newExpiry}
+                                defaultValue={
+                                  newExpiry
+                                    ? newExpiry
+                                    : user?.tobaccoLicenceExpiry?.slice(0,10)
+                                }
+                                className="form-control"
+                                placeholder="mm/dd/yyyy"
+                                onChange={(e) => {
+                                  setNewExpiry2(e.target.value);
+                                  setNewExpiry("");
+                                }}
+                              ></input>
+                              <input
+                                type="date"
+                                id="expiryDate"
+                                name="dateExpiry"
+                                className="custom_date"
+                                onChange={(e) => {
+                                  setNewExpiry(e.target.value);
+                                  setNewExpiry2("");
+                                }}
+                                value={newExpiry}
+                              ></input>
+                            </div>
                           </strong>
                         </div>
                       </div>

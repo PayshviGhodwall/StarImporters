@@ -112,10 +112,10 @@ function AppHome() {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
       console.log(Dd, "barcode");
-      if (Dd) {
+      if (Dd?.length) {
         const { data } = await searchByBarcode({
           barcode: Dd,
-        });
+        });  
         if (!data.error) {
           if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]?._id}`, {
@@ -138,6 +138,7 @@ function AppHome() {
       }
     }
   };
+
   const redirectToWeb = async () => {
     console.log("testing");
     try {

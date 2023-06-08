@@ -40,7 +40,7 @@ const MyAccount = () => {
   console.log(users);
   return (
     <div className="main_myaccount">
-      <Navbar  />
+      <Navbar />
 
       <section
         class="comman_banner _banner marginTop"

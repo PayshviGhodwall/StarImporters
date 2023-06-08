@@ -173,7 +173,7 @@ const Account = () => {
     let y = document.getElementById("password-input2");
     if (y.type === "password") {
       y.type = "text";
-    } else {
+    } else { 
       y.type = "password";
     }
     // if (x.type === "password") {
@@ -259,17 +259,17 @@ const Account = () => {
                 >
                   <span>Federal Tax ID</span>
                   <div class="drag_box">
+                    {users.federalTaxId ? (
+                      <FaFileDownload size={25} color="black" />
+                    ) : (
+                      <FaFileUpload size={25} color="red" />
+                    )}
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.federalTaxId);
                       }}
                     >
-                      {users.federalTaxId ? (
-                        <FaFileDownload size={25} color="black" />
-                      ) : (
-                        <FaFileUpload size={25} color="red" />
-                      )}
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.federalTaxId?.name
                           ? files?.federalTaxId?.name
@@ -314,17 +314,17 @@ const Account = () => {
                 >
                   <span>Tobacco License</span>
                   <div class="drag_box">
+                    {users.tobaccoLicence ? (
+                      <FaFileDownload size={25} color="black" />
+                    ) : (
+                      <FaFileUpload size={25} color="red" />
+                    )}
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.tobaccoLicence);
                       }}
                     >
-                      {users.tobaccoLicence ? (
-                        <FaFileDownload size={25} color="black" />
-                      ) : (
-                        <FaFileUpload size={25} color="red" />
-                      )}
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.tobaccoLicence?.name
                           ? files?.tobaccoLicence?.name
