@@ -43,7 +43,7 @@ export const pageSubCategoryData = atom({
   ], // default value (aka initial value)
 });
 export const pageCategoryData = atom({
-  key: "pageSubCategoryData", // unique ID (with respect to other atoms/selectors)
+  key: "pageCategoryData", // unique ID (with respect to other atoms/selectors)
   default: [
     {
       category: "",
@@ -78,6 +78,17 @@ export const pageInventoryData = atom({
       page: 1,
       searchKey: "",
       sortBy: "",
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
+export const pageUserData = atom({
+  key: "pageUserData", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      searchKey: "",
+      sortBy: 1,
       filtr: false,
     },
   ], // default value (aka initial value)

@@ -31,6 +31,8 @@ const EditInventory = () => {
   const typeDisable = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/flavourStatus`;
   const deleteImg = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteImage`;
   const EditProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/updateProduct`;
+  const removeFlavour = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/deleteFlavour`;
+
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
@@ -178,13 +180,12 @@ const EditInventory = () => {
         if (
           res?.data.message === "Flavour Price Status is changed Successfully"
         ) {
-          navigate("/Inventory");
-
           Swal.fire({
             title: "Price Successfully Enabled",
             icon: "success",
             button: "Ok",
           });
+          window.location.reload();
         }
       });
   };
@@ -232,7 +233,7 @@ const EditInventory = () => {
   };
   function handleKeyDown(i, e) {
     // If user did not press enter key, return
-    if ( e.key !== "Enter") return;
+    if (e.key !== "Enter") return;
     // Get the value of the input
     const value = e.target.value;
     // If the value is empty, return
@@ -295,6 +296,28 @@ const EditInventory = () => {
       .then((res) => {
         GetProducts();
       });
+  };
+
+  const deleteFlavour = async (id, fId) => {
+    const { data } = await axios.post(removeFlavour + "/" + id, {
+      flavourId: fId,
+    });
+    if (data.errors) {
+      Swal.fire({
+        title: data.message,
+        text: "error",
+        timer: 1000,
+      });
+    }
+    if (!data.errors) {
+      GetProducts();
+      Swal.fire({
+        title: "Flavour Removed Successfully!",
+        text: "",
+        icon: "success",
+        timer: 2000,
+      });
+    }
   };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -827,7 +850,7 @@ const EditInventory = () => {
                               className="form-group mb-0 col-lg-12 col-md-12"
                               key={index}
                             >
-                              <div className="row">
+                              <div className="row bg-light mb-3 p-2 border rounded">
                                 <div className="form-group col-lg-3 col-md-3">
                                   <label htmlFor="">Type</label>
                                   <input
@@ -859,7 +882,7 @@ const EditInventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-3">
+                                <div className="form-group mb-2 col-lg-3">
                                   <label htmlFor="" className="d-flex">
                                     Price:
                                     <Toggle
@@ -885,7 +908,18 @@ const EditInventory = () => {
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-lg-5 col-md-5">
+                                <div className="form-group col-4">
+                                  <label htmlFor="">Description</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="description"
+                                    placeholder="Enter Product Description"
+                                    defaultValue={item?.description}
+                                    onChange={(e) => handleChange(index, e)}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-lg-4 col-md-5">
                                   <label htmlFor="">Barcode</label>
                                   <div className="tags-input-container">
                                     {(item?.barcode || [])?.map((tag, ind) => (
@@ -907,17 +941,6 @@ const EditInventory = () => {
                                       onKeyDown={(e) => handleKeyDown(index, e)}
                                     />
                                   </div>
-                                </div>
-                                <div className="form-group col-4">
-                                  <label htmlFor="">Description</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="description"
-                                    placeholder="Enter Product Description"
-                                    defaultValue={item?.description}
-                                    onChange={(e) => handleChange(index, e)}
-                                  />
                                 </div>
                                 <div className="form-group mb-2  col-lg-2 col-md-2 mt-1 ">
                                   <label className="mx-2">Flavour Image</label>
@@ -988,6 +1011,18 @@ const EditInventory = () => {
                                     </label>
                                   </div>
                                 </div>
+                                <label
+                                  htmlFor=""
+                                  className="text-danger fs-6 "
+                                  onClick={() =>
+                                    deleteFlavour(
+                                      allProducts[0]?._id,
+                                      item?._id
+                                    )
+                                  }
+                                >
+                                  <i className="fa fa-trash"></i> Remove
+                                </label>
                               </div>
                             </div>
                           ))}

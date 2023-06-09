@@ -12,7 +12,6 @@ import { BiEdit } from "react-icons/bi";
 import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
 import Compressor from "compressorjs";
-import swal from "sweetalert";
 import { pageInventoryData } from "../../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -908,13 +907,13 @@ const Inventory = () => {
                         >
                           Import Inventory
                         </a>
-                        {/* <a
+                        <a
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop68"
                           className="comman_btn2 text-decoration-none mx-2"
                         >
                           Edit Inventory
-                        </a> */}
+                        </a>
                       </div>
                     </div>
                   </div>

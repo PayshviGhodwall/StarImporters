@@ -12,6 +12,8 @@ import axios from "axios";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { pageUserData } from "../../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 //
 const UserManage = () => {
@@ -38,7 +40,6 @@ const UserManage = () => {
   const importInput = document.getElementById("fileID");
   const [crenditials, setCrenditials] = useState([]);
   const [errEmails, setErrorEmails] = useState([]);
-  const [activeApprovePage, setActiveApprovePage] = useState(1);
   const [activePendingPage, setActivePendingPage] = useState(1);
   const [activeReturnedPage, setActiveReturnedPage] = useState(1);
   const [maxAppPage, setMaxAppPage] = useState(1);
@@ -46,25 +47,32 @@ const UserManage = () => {
   const [maxRetPage, setMaxRetPage] = useState(1);
   const [searchType, setSearchType] = useState("companyName");
   const [userType, setUserType] = useState("APPROVED");
-
+  const pageData = useRecoilValue(pageUserData);
+  const setPageData = useSetRecoilState(pageUserData);
+  const [activeApprovePage, setActiveApprovePage] = useState(pageData[0]?.page);
+  const [sortingData, setSortingData] = useState(pageData[0]?.sortBy);
   useEffect(() => {
     GetUserCount();
     getPendingUser();
-    getApprovedUser();
     getRejectedUser();
-  }, [search, activeApprovePage, activePendingPage, activeReturnedPage]);
+    pageData[0]?.searchKey
+      ? userSearch(pageData[0]?.searchKey)
+      : getApprovedUser();
+  }, [activeApprovePage, activePendingPage, activeReturnedPage]);
 
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
     setUx(true);
   };
+
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
-  const userSearch = async (e) => {
-    let string = e.target.value;
+  const userSearch = async (key) => {
+    let string = key;
+    setSearch(key);
     if (string !== "") {
       await axios
         .post(searchUser, {
@@ -77,6 +85,7 @@ const UserManage = () => {
             setApprovedUsers(res?.data.results.users);
             setPendingUsers(res?.data.results.users);
             setRejectedUsers(res?.data.results.users);
+            // setActiveApprovePage(1);
           }
         });
     } else {
@@ -87,6 +96,7 @@ const UserManage = () => {
   };
 
   const sorting = async (i) => {
+    console.log(i);
     await axios
       .post(apiUrl, {
         type: "PENDING",
@@ -122,6 +132,7 @@ const UserManage = () => {
     setPendingUsers(res.data.results.usersList);
     return res.data;
   };
+
   const getApprovedUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "APPROVED",
@@ -130,6 +141,7 @@ const UserManage = () => {
     setApprovedUsers(res?.data.results.usersList);
     setMaxAppPage(res?.data.results.totalPages);
   };
+
   const getRejectedUser = async () => {
     const res = await axios.post(apiUrl, {
       type: "REJECTED",
@@ -159,7 +171,6 @@ const UserManage = () => {
             button: "ok",
           });
         }
-
         if (res?.data.message === "Imported details") {
           setSet(!set);
           setUm(true);
@@ -254,6 +265,9 @@ const UserManage = () => {
                     className={
                       User?.access?.includes("Dashboard") ? "" : "d-none"
                     }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
                   >
                     <Link
                       className=""
@@ -277,6 +291,9 @@ const UserManage = () => {
                   <li
                     className={
                       User?.access?.includes("User Management") ? "" : "d-none"
+                    }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
                   >
                     <Link
@@ -305,6 +322,9 @@ const UserManage = () => {
                         ? ""
                         : "d-none"
                     }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
                   >
                     <Link
                       className=""
@@ -327,6 +347,9 @@ const UserManage = () => {
                       User?.access?.includes("Inventory Management")
                         ? ""
                         : "d-none"
+                    }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
                   >
                     <Link
@@ -351,6 +374,9 @@ const UserManage = () => {
                         ? ""
                         : "d-none"
                     }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
                   >
                     <Link
                       className=""
@@ -371,6 +397,9 @@ const UserManage = () => {
                   <li
                     className={
                       User?.access?.includes("Sub-Admin") ? "" : "d-none"
+                    }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
                   >
                     <Link
@@ -398,6 +427,9 @@ const UserManage = () => {
                         ? ""
                         : "d-none"
                     }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
                   >
                     <Link
                       className=""
@@ -422,6 +454,9 @@ const UserManage = () => {
                     className={
                       User?.access?.includes("Orders Request") ? "" : "d-none"
                     }
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
                   >
                     <Link
                       className=""
@@ -439,7 +474,12 @@ const UserManage = () => {
                       Order Management
                     </Link>
                   </li>
-                  <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                    className={User?.access?.includes("CMS") ? "" : "d-none"}
+                  >
                     <Link
                       className=""
                       to="/Cms"
@@ -456,7 +496,11 @@ const UserManage = () => {
                       CMS
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminLogin"
@@ -477,7 +521,11 @@ const UserManage = () => {
                 </ul>
               ) : (
                 <ul className="list-unstyled ps-1 m-0">
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminDashboard"
@@ -497,7 +545,11 @@ const UserManage = () => {
                       Dashboard
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className="bg-white"
                       to="/UserManage"
@@ -518,7 +570,11 @@ const UserManage = () => {
                       User Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/CategorySub"
@@ -535,7 +591,11 @@ const UserManage = () => {
                       Category &amp; Sub Category
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/Inventory"
@@ -555,7 +615,11 @@ const UserManage = () => {
                       Inventory Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/brandsManage"
@@ -572,7 +636,11 @@ const UserManage = () => {
                       Brands Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/Admin/SubAdmin"
@@ -592,7 +660,11 @@ const UserManage = () => {
                       Sub-Admin Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/Gallery-Management"
@@ -612,7 +684,11 @@ const UserManage = () => {
                       Gallery Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/OrderRequest"
@@ -629,7 +705,11 @@ const UserManage = () => {
                       Order Management
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/Cms"
@@ -646,7 +726,11 @@ const UserManage = () => {
                       CMS
                     </Link>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminLogin"
@@ -754,10 +838,11 @@ const UserManage = () => {
                             type="text"
                             className="form-control bg-white"
                             placeholder="Search"
+                            defaultValue={pageData[0]?.searchKey}
                             name="name"
                             id="Search"
                             onChange={(e) => {
-                              userSearch(e);
+                              userSearch(e.target.value);
                             }}
                           />
                         </div>
@@ -817,6 +902,9 @@ const UserManage = () => {
                                 getPendingUser();
                                 document.getElementById("Search").value = "";
                                 setUserType("PENDING");
+                                setPageData([
+                                  { page: 1, searchKey: "", sortBy: "1" },
+                                ]);
                               }}
                             >
                               Pending{" "}
@@ -858,6 +946,9 @@ const UserManage = () => {
                                 getRejectedUser();
                                 document.getElementById("Search").value = "";
                                 setUserType("REJECTED");
+                                setPageData([
+                                  { page: 1, searchKey: "", sortBy: "1" },
+                                ]);
                               }}
                             >
                               Returned{" "}
@@ -1186,6 +1277,13 @@ const UserManage = () => {
                                                   to="/UserManage/ApprovedView"
                                                   id={index}
                                                   onClick={() => {
+                                                    setPageData([
+                                                      {
+                                                        page: activeApprovePage,
+                                                        sortBy: sorting,
+                                                        searchKey: search,
+                                                      },
+                                                    ]);
                                                     onApprovedView(index);
                                                   }}
                                                 >
