@@ -218,7 +218,7 @@ const Cart = () => {
                                             className="col-auto"
                                             onClick={() =>
                                               navigate(
-                                                `/AllProducts/Product/${item?.products?._id}`,
+                                                `/AllProducts/Product/Product-Details`,
                                                 {
                                                   state: {
                                                     id: item?.productId?._id,
@@ -251,7 +251,7 @@ const Cart = () => {
                                                   className="text-decoration-none text-dark"
                                                   onClick={() =>
                                                     navigate(
-                                                      `/AllProducts/Product/${item?.productId?._id}`,
+                                                      `/AllProducts/Product/Product-Details`,
                                                       {
                                                         state: {
                                                           id: item?.productId
@@ -275,7 +275,7 @@ const Cart = () => {
                                                   className="text-decoration-none text-dark"
                                                   onClick={() =>
                                                     navigate(
-                                                      `/AllProducts/Product/${item?.productId?._id}`,
+                                                      `/AllProducts/Product/Product-Details`,
                                                       {
                                                         state: {
                                                           id: item?.productId

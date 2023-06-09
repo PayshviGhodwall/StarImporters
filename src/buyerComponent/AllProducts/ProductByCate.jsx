@@ -122,7 +122,7 @@ const ProductByCate = () => {
             title: "Please Login To Continue!",
             icon: "warning",
             button: "cool",
-          });
+          }).then(() => navigate("/app/login"));
         }
       });
     setMessage("Added to Favourites!");
@@ -355,7 +355,7 @@ const ProductByCate = () => {
                                         ])
                                       : setPage(activePage);
                                     navigate(
-                                      `/AllProducts/Product/${item?.products?._id}`,
+                                      `/AllProducts/Product/Product-Details`,
                                       {
                                         state: {
                                           id: item?.products?._id,
@@ -391,7 +391,7 @@ const ProductByCate = () => {
                                   setPage(activePage);
 
                                   navigate(
-                                    `/AllProducts/Product/${item?.products?._id}`,
+                                    `/AllProducts/Product/Product-Details`,
                                     {
                                       replace: true,
                                       state: {

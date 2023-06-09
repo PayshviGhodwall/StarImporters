@@ -273,6 +273,15 @@ const SingleProduct = () => {
             confirmButtonText: "Okay",
           });
         }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          }).then(() => navigate("/app/login"));
+        }
       });
   };
   const rmvFromFav = async (index) => {
@@ -365,39 +374,38 @@ const SingleProduct = () => {
             <div className="row comman_divvision mx-0">
               <div className="col-md-6">
                 <div className="prdct_singleneww">
-                  {token?.length ? (
-                    <a class="wishlist-btn">
-                      {product?.favourite ? (
-                        <i
-                          class="fa fa-heart"
-                          onClick={() => {
-                            rmvFromFav();
-                          }}
-                          style={{
-                            color: "#3e4093 ",
-                            position: "relative",
-                            top: "30px",
-                            left: "6px",
-                            fontSize: "1.4rem",
-                          }}
-                        />
-                      ) : (
-                        <i
-                          class="fa fa-heart"
-                          onClick={() => {
-                            addToFav();
-                          }}
-                          style={{
-                            color: "#E1E1E1 ",
-                            position: "relative",
-                            top: "30px",
-                            left: "6px",
-                            fontSize: "1.4rem",
-                          }}
-                        />
-                      )}
-                    </a>
-                  ) : null}
+                  <a class="wishlist-btn">
+                    {product?.favourite ? (
+                      <i
+                        class="fa fa-heart"
+                        onClick={() => {
+                          rmvFromFav();
+                        }}
+                        style={{
+                          color: "#3e4093 ",
+                          position: "relative",
+                          top: "30px",
+                          left: "6px",
+                          fontSize: "1.4rem",
+                        }}
+                      />
+                    ) : (
+                      <i
+                        class="fa fa-heart"
+                        onClick={() => {
+                          addToFav();
+                        }}
+                        style={{
+                          color: "#E1E1E1 ",
+                          position: "relative",
+                          top: "30px",
+                          left: "6px",
+                          fontSize: "1.4rem",
+                        }}
+                      />
+                    )}
+                  </a>
+
                   <div className="prdct_singleshowimg">
                     <Zoom>
                       <img

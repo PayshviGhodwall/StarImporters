@@ -11,6 +11,8 @@ import { FaFileUpload } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import moment from "moment";
 import swal from "sweetalert";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userPassword } from "../../atom";
 
 const Account = () => {
   const editProfile = `${process.env.REACT_APP_APIENDPOINTNEW}user/editProfile`;
@@ -28,6 +30,9 @@ const Account = () => {
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState("");
   const [change, setChange] = useState(false);
+  const setPass = useSetRecoilState(userPassword);
+  const password = useRecoilValue(userPassword);
+  const [errMsg, setErrorMsg] = useState("");
   const [files, setFiles] = useState({
     federalTaxId: "",
     businessLicense: "",
@@ -148,6 +153,19 @@ const Account = () => {
     }
   };
 
+  console.log(password);
+  const checkPassword = (e) => {
+    let oldPass = e.target.value;
+
+    if (oldPass !== password) {
+      if (oldPass?.length >= 6) {
+        setErrorMsg("Wrong Old Password!");
+      }
+    } else {
+      setErrorMsg("Password Matched!");
+    }
+  };
+
   const editDocs = async (e, file, name) => {
     e.preventDefault();
     let formData = new FormData();
@@ -165,7 +183,9 @@ const Account = () => {
   };
 
   const fileDownload = (url) => {
-    saveAs(url);
+    let url1 = url;
+    let url2 = url1.replace("http", "https");
+    saveAs(url2);
   };
 
   const togglePassword = () => {
@@ -173,7 +193,7 @@ const Account = () => {
     let y = document.getElementById("password-input2");
     if (y.type === "password") {
       y.type = "text";
-    } else { 
+    } else {
       y.type = "password";
     }
     // if (x.type === "password") {
@@ -259,11 +279,20 @@ const Account = () => {
                 >
                   <span>Federal Tax ID</span>
                   <div class="drag_box">
-                    {users.federalTaxId ? (
-                      <FaFileDownload size={25} color="black" />
-                    ) : (
-                      <FaFileUpload size={25} color="red" />
-                    )}
+                    <div className="text-center pt-3">
+                      {users.federalTaxId ? (
+                        <FaFileDownload
+                          size={25}
+                          color="black"
+                          onClick={() => {
+                            fileDownload(users?.federalTaxId);
+                          }}
+                        />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                    </div>
+
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
@@ -303,6 +332,7 @@ const Account = () => {
                   ) : null}
                 </div>
               </div>
+
               <div class="col-lg-4 col-md-6 form-group d-flex align-items-stretch mb-4">
                 <div
                   class="upload_document w-100"
@@ -314,11 +344,20 @@ const Account = () => {
                 >
                   <span>Tobacco License</span>
                   <div class="drag_box">
-                    {users.tobaccoLicence ? (
-                      <FaFileDownload size={25} color="black" />
-                    ) : (
-                      <FaFileUpload size={25} color="red" />
-                    )}
+                    <div className="text-center pt-3">
+                      {users.tobaccoLicence ? (
+                        <FaFileDownload
+                          size={25}
+                          color="black"
+                          onClick={() => {
+                            fileDownload(users?.tobaccoLicence);
+                          }}
+                        />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                    </div>
+
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
@@ -369,17 +408,26 @@ const Account = () => {
                 >
                   <span>Sales Tax ID</span>
                   <div class="drag_box">
+                    <div className="text-center pt-3">
+                      {users.salesTaxId ? (
+                        <FaFileDownload
+                          size={25}
+                          color="black"
+                          onClick={() => {
+                            fileDownload(users?.salesTaxId);
+                          }}
+                        />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                    </div>
+
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.salesTaxId);
                       }}
                     >
-                      {users.salesTaxId ? (
-                        <FaFileDownload size={25} color="black" />
-                      ) : (
-                        <FaFileUpload size={25} color="red" />
-                      )}
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.salesTaxId?.name
                           ? files?.salesTaxId?.name
@@ -424,17 +472,25 @@ const Account = () => {
                 >
                   <span>Business License ID</span>
                   <div class="drag_box">
+                    <div className="text-center pt-3">
+                      {users.businessLicense ? (
+                        <FaFileDownload
+                          size={25}
+                          color="black"
+                          onClick={() => {
+                            fileDownload(users?.businessLicense);
+                          }}
+                        />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                    </div>
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.businessLicense);
                       }}
                     >
-                      {users.businessLicense ? (
-                        <FaFileDownload size={25} color="black" />
-                      ) : (
-                        <FaFileUpload size={25} color="red" />
-                      )}
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.businessLicense?.name
                           ? files?.businessLicense?.name
@@ -479,17 +535,25 @@ const Account = () => {
                 >
                   <span>Account Owner ID</span>
                   <div class="drag_box">
+                    <div className="text-center pt-3">
+                      {users.accountOwnerId ? (
+                        <FaFileDownload
+                          size={25}
+                          color="black"
+                          onClick={() => {
+                            fileDownload(users?.accountOwnerId);
+                          }}
+                        />
+                      ) : (
+                        <FaFileUpload size={25} color="red" />
+                      )}
+                    </div>
                     <a
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.accountOwnerId);
                       }}
                     >
-                      {users.accountOwnerId ? (
-                        <FaFileDownload size={25} color="black" />
-                      ) : (
-                        <FaFileUpload size={25} color="red" />
-                      )}
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.accountOwnerId?.name
                           ? files?.accountOwnerId?.name
@@ -808,31 +872,41 @@ const Account = () => {
                         className="form-control shadow-none px-3"
                         defaultValue={users?.email}
                         id="floatingInput"
-                        placeholder=" "
+                        placeholder="email"
                         name="email"
+                        disabled
                         onChange={UpdatedData}
                       />
+                      {console.log(users?.email)}
                       <label htmlFor="floatingInput">Email Address</label>
                     </div>
                     <div className="form-floating col-6 mb-4 position-relative">
                       <input
                         type="password"
                         name="Oldpassword"
-                        defaultValue=""
                         className="form-control shadow-none px-3"
                         id="password-input2"
+                        onChange={checkPassword}
                       />
                       <label htmlFor="password-field">Old Password</label>
                       <span
                         onClick={togglePassword}
                         className="fa fa-fw fa-eye field-icon toggle-password"
                       />
+                      <small
+                        className={
+                          errMsg === "Password Matched!"
+                            ? "text-success"
+                            : " text-danger"
+                        }
+                      >
+                        {errMsg}
+                      </small>
                     </div>
                     <div className="form-floating col-6 mb-4 position-relative">
                       <input
                         type="password"
                         name="password"
-                        defaultValue=""
                         className="form-control shadow-none px-3"
                         id="password-input"
                         onChange={UpdatedData}

@@ -882,7 +882,7 @@ const Homepage = () => {
                           <div
                             className="categorynew_slider sliderbtns_design"
                             onClick={() =>
-                              navigate(`/AllProducts/Product/${item?._id}`, {
+                              navigate(`/AllProducts/Product/Product-Details`, {
                                 state: {
                                   id: item?._id,
                                 },
@@ -904,7 +904,7 @@ const Homepage = () => {
                                 <span
                                   onClick={() =>
                                     navigate(
-                                      `/AllProducts/Product/${item?._id}`,
+                                      `/AllProducts/Product/Product-Details`,
                                       {
                                         state: {
                                           id: item?._id,

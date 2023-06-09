@@ -65,3 +65,20 @@ export const chngeFilter = atom({
   key: "chngeFilter", // unique ID (with respect to other atoms/selectors)
   default: false, // default value (aka initial value)
 });
+
+export const userPassword = atom({
+  key: "userPassword", // unique ID (with respect to other atoms/selectors)
+  default: "", // default value (aka initial value)
+});
+
+export const pageInventoryData = atom({
+  key: "pageInventoryData", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      searchKey: "",
+      sortBy: "",
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});

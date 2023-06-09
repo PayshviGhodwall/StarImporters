@@ -14,6 +14,7 @@ import moment from "moment";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
+
 const ApprovedView = () => {
   const [msg, setMsg] = useState("");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -732,12 +733,11 @@ const ApprovedView = () => {
                           <strong>
                             {" "}
                             Expires on :{" "}
-                            {moment(
-                              user?.tobaccoLicenceExpiry?.slice(0, 10)
-                            ).format("MM/DD/YYYY")}
+                            {user?.tobaccoLicenceExpiry?.slice(0, 10)}
                           </strong>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div
                           className={
@@ -787,6 +787,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div
                           className={

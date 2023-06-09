@@ -12586,7 +12586,7 @@ a:hover {
 }
 .recent_orders_invent {
   overflow-y: scroll !important;
-  max-height: 30rem !important;
+  max-height: 32rem !important;
   padding: 0 !important;
 }
 .recent_orders_cate {
@@ -13856,7 +13856,9 @@ figure.effect-ming:hover img {
   justify-content: center;
   align-items: center;
 }
+
 .SaveBtn {
+  margin-top: 8px;
   background-color: #3e4093;
   border: 1px solid #3e4093;
   position: relative;
@@ -13870,6 +13872,7 @@ figure.effect-ming:hover img {
   justify-content: center;
   align-items: center;
 }
+
 .recent_orders_user {
   overflow-y: scroll;
   max-height: 32rem !important;
@@ -15641,10 +15644,9 @@ figure.effect-ming:hover img {
 }
 .drag_box {
   background-color: #fff;
-  display: flex;
   align-items: center;
   justify-content: center;
-  height: 96px;
+  height: 110px;
   border-radius: 10px;
   margin-bottom: 18px;
 }

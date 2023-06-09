@@ -208,7 +208,7 @@ const ProductByBrand = () => {
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
-                                    `/AllProducts/Product/${item?.products?._id}`,
+                                    `/AllProducts/Product/Product-Details`,
                                     {
                                       state: {
                                         id: item?.products?._id,
@@ -244,7 +244,7 @@ const ProductByBrand = () => {
                               onClick={() => {
                                 setPage(activePage);
                                 navigate(
-                                  `/AllProducts/Product/${item?.products?._id}`,
+                                  `/AllProducts/Product/Product-Details`,
                                   {
                                     replace: true,
                                     state: {

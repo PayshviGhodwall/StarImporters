@@ -47,7 +47,7 @@ const FeaturedProducts = () => {
             title: "Please Login To Continue!",
             icon: "warning",
             button: "cool",
-          });
+          }).then(() => navigate("/app/login"));
         }
       });
     setHeart(!heart);
@@ -154,7 +154,7 @@ const FeaturedProducts = () => {
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
-                                    `/AllProducts/Product/${item?._id}`,
+                                    `/AllProducts/Product/Product-Details`,
                                     {
                                       state: {
                                         id: item?._id,
@@ -188,12 +188,15 @@ const FeaturedProducts = () => {
                             <span
                               onClick={() => {
                                 setPage(activePage);
-                                navigate(`/AllProducts/Product/${item?._id}`, {
-                                  state: {
-                                    id: item?._id,
-                                    CateName: item?.categoryName,
-                                  },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/Product-Details`,
+                                  {
+                                    state: {
+                                      id: item?._id,
+                                      CateName: item?.categoryName,
+                                    },
+                                  }
+                                );
                               }}
                             >
                               {item?.unitName}

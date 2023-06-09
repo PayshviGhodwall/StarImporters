@@ -71,9 +71,12 @@ const ProductBySearch = () => {
                               className="text-center fs-6 fw-bolder text-uppercase"
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate(`/app/product-details/${item?._id}`, {
-                                  state: { id: item?._id, type: item?.type },
-                                });
+                                navigate(
+                                  `/AllProducts/Product/Product-Details`,
+                                  {
+                                    state: { id: item?._id, type: item?.type },
+                                  }
+                                );
                               }}
                             >
                               {item?.type.flavour

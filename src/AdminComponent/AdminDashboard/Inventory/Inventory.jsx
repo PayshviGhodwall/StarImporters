@@ -13,6 +13,8 @@ import { useScrollBy } from "react-use-window-scroll";
 import { Button } from "rsuite";
 import Compressor from "compressorjs";
 import swal from "sweetalert";
+import { pageInventoryData } from "../../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const Inventory = () => {
   const addProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/addProduct`;
@@ -48,10 +50,15 @@ const Inventory = () => {
   const [ux, setUx] = useState("");
   const [uE, setUE] = useState("");
   const [loader, setLoader] = useState(false);
-  const [activePage, setActivePage] = useState(1);
+  const pageData = useRecoilValue(pageInventoryData);
+  const setPageData = useSetRecoilState(pageInventoryData);
+  const [activePage, setActivePage] = useState(
+    pageData[0]?.page ? pageData[0]?.page : 1
+  );
   const [isCheck, setIsCheck] = useState([]);
   const [selected, setSelected] = useState([]);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const [formValues, setFormValues] = useState([
     {
       productType: [],
@@ -78,7 +85,9 @@ const Inventory = () => {
   });
   useEffect(() => {
     getBrands();
-    GetProducts();
+    pageData[0]?.searchKey
+      ? InventSearch(pageData[0]?.searchKey)
+      : GetProducts();
   }, [change, activePage]);
 
   axios.defaults.headers.common["x-auth-token-admin"] =
@@ -118,10 +127,12 @@ const Inventory = () => {
       setBrands(res?.data.results.brands);
     });
   };
+
   const GetProducts = async () => {
+    setPageData([{ searchKey: "" }]);
     await axios
       .post(getProducts, {
-        page: activePage,
+        page: activePage ? activePage : 1,
       })
       .then((res) => {
         let data = res?.data.results.products;
@@ -129,6 +140,7 @@ const Inventory = () => {
         setMaxPage(res?.data.results.allPages);
       });
   };
+
   console.log(subCategories);
   const sorting = async (i) => {
     await axios
@@ -159,20 +171,25 @@ const Inventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
-  const InventSearch = async (e) => {
-    let string = e.target.value;
+
+  const InventSearch = async (key) => {
+    let string = key;
+    setSearch(key);
+    console.log(key);
     string !== ""
       ? await axios
           .post(inventorySearch, {
-            search: e.target.value,
+            search: string,
           })
           .then((res) => {
             if (!res.error) {
               setAllProducts(res?.data.results.results);
+              // setActivePage(1);
             }
           })
       : GetProducts();
   };
+
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
@@ -497,6 +514,7 @@ const Inventory = () => {
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
                   }
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                 >
                   <Link
                     className=""
@@ -514,6 +532,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
                   }
@@ -553,6 +572,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => window.location.reload(false)}
                   className={
                     User?.access?.includes("Inventory Management")
                       ? ""
@@ -576,6 +596,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
                   }
@@ -593,6 +614,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
                   }
@@ -613,6 +635,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
                   }
@@ -633,6 +656,7 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
                   }
@@ -649,7 +673,10 @@ const Inventory = () => {
                     Order Management
                   </Link>
                 </li>
-                <li className={User?.access?.includes("CMS") ? "" : "d-none"}>
+                <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
+                  className={User?.access?.includes("CMS") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Cms"
@@ -679,7 +706,7 @@ const Inventory = () => {
               </ul>
             ) : (
               <ul className="list-unstyled ps-1 m-0">
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/AdminDashboard"
@@ -695,7 +722,7 @@ const Inventory = () => {
                     Dashboard
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/UserManage"
@@ -708,7 +735,7 @@ const Inventory = () => {
                     User Management
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/CategorySub"
@@ -721,7 +748,7 @@ const Inventory = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => window.location.reload(false)}>
                   <Link
                     className="bg-white"
                     to="/Inventory"
@@ -738,7 +765,7 @@ const Inventory = () => {
                     Inventory Management
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/brandsManage"
@@ -767,7 +794,7 @@ const Inventory = () => {
                     Sub-Admin Management
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -783,7 +810,7 @@ const Inventory = () => {
                     Gallery Management
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/OrderRequest"
@@ -796,7 +823,7 @@ const Inventory = () => {
                     Order Management
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
                     to="/Cms"
@@ -1193,9 +1220,10 @@ const Inventory = () => {
                             className="form-control bg-white "
                             placeholder="Search"
                             name="name"
+                            defaultValue={pageData[0]?.searchKey}
                             id="search"
                             onChange={(e) => {
-                              InventSearch(e);
+                              InventSearch(e.target.value);
                             }}
                           />
                         </div>
@@ -1312,13 +1340,66 @@ const Inventory = () => {
                     </div>
                   </form>
                   <div className="row recent_orders_invent">
+                    {allProducts?.length ? (
+                      <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                        <span className="totalPage">
+                          ( Total Pages : {maxPage} )
+                        </span>
+                        <ul id="pagination">
+                          <li>
+                            <a
+                              class="fs-5"
+                              href="#"
+                              onClick={() =>
+                                activePage <= 1
+                                  ? setActivePage(1)
+                                  : setActivePage(activePage - 1)
+                              }
+                            >
+                              «
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#" className="active">
+                              {activePage ? activePage : 1}
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+                          <li>
+                            <a href="#">.</a>
+                          </li>
+
+                          <li>
+                            <a
+                              className="fs-5"
+                              href="#"
+                              onClick={() =>
+                                activePage === maxPage
+                                  ? setActivePage(maxPage)
+                                  : setActivePage(activePage + 1)
+                              }
+                            >
+                              »
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    ) : null}
                     <div className="col-12 comman_table_design ">
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>Select</th>
-                              <th>S.No.</th>
                               <th>Product Name</th>
                               <th>Brand</th>
                               <th>Category</th>
@@ -1345,9 +1426,14 @@ const Inventory = () => {
                                     class="checkbox-in"
                                   />
                                 </td>
-                                <td className="border">
-                                  {(activePage - 1) * 20 + (index + 1)}.
-                                </td>
+                                {/* <td className="border">
+                                  {(pageData[0]?.page
+                                    ? pageData[0]?.page
+                                    : 1 - 1) *
+                                    20 +
+                                    (index + 1)}
+                                  .
+                                </td> */}
                                 <td className="border">{User?.unitName}</td>
                                 <td className="border">
                                   {User?.brand?.brandName}
@@ -1391,11 +1477,17 @@ const Inventory = () => {
                                     to={{
                                       pathname: "/Inventory/View-Edit",
                                     }}
+                                    onClick={() => {
+                                      setPageData([
+                                        { page: activePage, searchKey: search },
+                                      ]);
+                                    }}
                                     state={{ id: User?._id }}
                                     id={index}
                                   >
                                     View
                                   </Link>
+                                  {console.log(pageData)}
                                 </td>
                               </tr>
                             ))}
@@ -1430,7 +1522,7 @@ const Inventory = () => {
                             </li>
                             <li>
                               <a href="#" className="active">
-                                {activePage}
+                                {activePage ? activePage : 1}
                               </a>
                             </li>
                             <li>

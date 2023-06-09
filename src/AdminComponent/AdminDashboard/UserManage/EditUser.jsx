@@ -83,7 +83,10 @@ const EditUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
     formData.append("istobaccoLicenceExpired", data?.License);
-    formData.append("tobaccoLicenceExpiry", newExpiry ? newExpiry : newExpiry2);
+    formData.append(
+      "tobaccoLicenceExpiry",
+      newExpiry ? newExpiry : newExpiry2 || user?.tobaccoLicenceExpiry
+    );
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
@@ -954,7 +957,7 @@ const EditUser = () => {
 
                           <strong>
                             {" "}
-                            Expires on :
+                            Expires on :(mm-dd-yyyy)
                             <div>
                               {console.log(newExpiry, newExpiry2)}
 
@@ -965,7 +968,7 @@ const EditUser = () => {
                                 defaultValue={
                                   newExpiry
                                     ? newExpiry
-                                    : user?.tobaccoLicenceExpiry?.slice(0,10)
+                                    : user?.tobaccoLicenceExpiry?.slice(0, 10)
                                 }
                                 className="form-control"
                                 placeholder="mm/dd/yyyy"

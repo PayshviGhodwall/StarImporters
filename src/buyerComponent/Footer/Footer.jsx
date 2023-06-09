@@ -182,6 +182,10 @@ const Footer = () => {
                       <i className="fas fa-phone-alt" />
                       <p>+1 770-908-0404</p>
                     </li>
+                    <li>
+                      <i className="fa fa-envelope" />
+                      <p>websupport@starimporters.com</p>
+                    </li>
                   </ul>
                 </div>
               </div>

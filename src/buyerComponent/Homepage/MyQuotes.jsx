@@ -185,7 +185,7 @@ const MyQuotes = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/${item?.productId?._id}`,
+                                                        `/AllProducts/Product/Product-Details`,
                                                         {
                                                           state: {
                                                             id: item?.productId
@@ -212,7 +212,7 @@ const MyQuotes = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/${item?.productId?._id}`,
+                                                        `/AllProducts/Product/Product-Details`,
                                                         {
                                                           state: {
                                                             id: item?.productId

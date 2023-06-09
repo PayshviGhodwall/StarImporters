@@ -266,6 +266,15 @@ const SingleProdBySearch = () => {
             confirmButtonText: "Okay",
           });
         }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          }).then(() => navigate("/app/login"));
+        }
       });
   };
   const rmvFromFav = async (index) => {
