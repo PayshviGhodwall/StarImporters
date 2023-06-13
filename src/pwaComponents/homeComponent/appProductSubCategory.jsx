@@ -12,21 +12,25 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import Search from "./search";
+import { appSubProd } from "../../atom";
 
 function AppProductSubCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
+  const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/filterBrands`;
   const [product, setProduct] = useState([]);
   const [brands, setBrands] = useState([]);
   const [heart, setHeart] = useState(false);
   const [category, setCategory] = useState([]);
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-
+  const pageData = useRecoilValue(appSubProd);
+  const setData = useSetRecoilState(appSubProd);
+  const [activePage, setActivePage] = useState(pageData[0]?.page);
+  const [sortValue, setSortValue] = useState(pageData[0]?.sortBy);
+  const [filterBrand, setFilterBrand] = useState();
   let ref = useRef();
   let { id } = useParams();
   const navigate = useNavigate();
@@ -39,12 +43,17 @@ function AppProductSubCategory() {
     getCategoryList();
     getProductList();
     GetBrands();
+    setData([{ page: activePage, sortBy: sortValue, brand: filterBrand }]);
   }, [activePage]);
 
   const GetBrands = async () => {
-    await axios.get(getBrands).then((res) => {
-      setBrands(res?.data.results);
-    });
+    await axios
+      .post(getBrands, {
+        subCategory: id,
+      })
+      .then((res) => {
+        setBrands(res?.data.results.brands);
+      });
   };
   const getCategoryList = async () => {
     const { data } = await getSubCategories();
@@ -53,20 +62,21 @@ function AppProductSubCategory() {
     }
   };
 
-  const getProductList = async (idd) => {
+  const getProductList = async (idd, page, sort) => {
     const { data } = await getBySubCategory({
       subCategory: id,
-      brand: idd,
-      page: activePage,
+      brand: pageData[0]?.brand ? pageData[0]?.brand : idd ? idd : filterBrand,
+      page: page ? page : activePage,
+      sortBy: sort ? sort : sortValue,
     });
     if (!data.error) {
       setProduct(data.results?.products);
       setMaxPage(data?.results.totalPages);
-      document.getElementById("checkbox").checked = false;
     }
   };
 
   const sortProducts = async (e) => {
+    setSortValue(parseInt(e.target.value));
     const { data } = await getBySubCategory({
       subCategory: id,
       sortBy: parseInt(e.target.value),
@@ -182,12 +192,14 @@ function AppProductSubCategory() {
                               id="checkbox"
                               name="check5"
                               onChange={() => {
-                                let brandId = item?._id;
-                                getProductList(brandId);
+                                let brandId = item?.brand?._id;
+                                setActivePage(1);
+                                setFilterBrand(brandId);
+                                getProductList(brandId, 1);
                               }}
                             />
                             <label class="form-check-label" for="zara">
-                              {item?.brandName}
+                              {item?.brand?.brandName}
                             </label>
                           </div>
                         ))}
@@ -203,6 +215,18 @@ function AppProductSubCategory() {
                       >
                         More
                       </p>
+                    </div>
+                    <div
+                      className="comman_btn"
+                      onClick={() => {
+                        setData([{ page: 1, sortBy: 1 }]);
+                        document.getElementById("checkbox").checked = false;
+                        setFilterBrand();
+                        getProductList();
+                        window.location.reload(false);
+                      }}
+                    >
+                      Clear Filters
                     </div>
                   </div>
                 </div>
@@ -275,75 +299,82 @@ function AppProductSubCategory() {
                     </div>
                   </div>
                 ) : null}
-                <div class="row g-2 product_list_main">
-                  {(product || [])?.map((item, index) => {
-                    return (
-                      <div
-                        class="col-6 col-md-4 d-flex align-items-stretch"
-                        key={index}
-                      >
-                        <div class="card product-card w-100">
-                          <div class="card-body">
-                            {token?.length ? (
-                              <a class="wishlist-btn">
-                                {item?.products?.favourite ? (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      rmvFromFav(index);
-                                    }}
-                                    style={{ color: "#3e4093 " }}
-                                  />
-                                ) : (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      addToFav(index);
-                                    }}
-                                    style={{ color: "#E1E1E1 " }}
-                                  />
-                                )}
-                              </a>
-                            ) : null}
-                            <Link
-                              class="product-thumbnail d-block"
-                              to={`/app/product-detail/${item?.products?._id}`}
-                              state={{ type: item?.products?.type[0] }}
-                            >
-                              <img
-                                class="mb-2"
-                                src={
-                                  item?.products?.type[0]?.flavourImage
-                                    ? item?.products?.type[0]?.flavourImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                                alt=""
-                              />
-                            </Link>
-                            <div class="row mt-1 d-flex align-items-center justify-content-between">
-                              <div class="col">
-                                <a class="product-title" href="javascript:;">
-                                  {item?.products?.unitName +
-                                    "-" +
-                                    item?.products?.type[0]?.flavour}
+                {product?.length ? (
+                  <div class="row g-2 product_list_main">
+                    {(product || [])?.map((item, index) => {
+                      return (
+                        <div
+                          class="col-6 col-md-4 d-flex align-items-stretch"
+                          key={index}
+                        >
+                          <div class="card product-card w-100">
+                            <div class="card-body">
+                              {token?.length ? (
+                                <a class="wishlist-btn">
+                                  {item?.products?.favourite ? (
+                                    <i
+                                      class="fa fa-heart"
+                                      onClick={() => {
+                                        rmvFromFav(index);
+                                      }}
+                                      style={{ color: "#3e4093 " }}
+                                    />
+                                  ) : (
+                                    <i
+                                      class="fa fa-heart"
+                                      onClick={() => {
+                                        addToFav(index);
+                                      }}
+                                      style={{ color: "#E1E1E1 " }}
+                                    />
+                                  )}
                                 </a>
-                              </div>
-                              {/* <div class="col-auto">
+                              ) : null}
                               <Link
-                                class="cart_bttn"
-                                to=""
-                                onClick={() => addToCartt(item?.products?._id)}
+                                onClick={() =>
+                                  setData([
+                                    {
+                                      page: activePage,
+                                      sortBy: sortValue,
+                                      brand: filterBrand,
+                                    },
+                                  ])
+                                }
+                                class="product-thumbnail d-block"
+                                to={`/app/product-detail/${item?.products?._id}`}
+                                state={{ type: item?.products?.type[0] }}
                               >
-                                <i class="fa-light fa-plus"></i>
+                                <img
+                                  class="mb-2"
+                                  src={
+                                    item?.products?.type[0]?.flavourImage
+                                      ? item?.products?.type[0]?.flavourImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  alt=""
+                                />
                               </Link>
-                            </div> */}
+                              <div class="row mt-1 d-flex align-items-center justify-content-between">
+                                <div class="col">
+                                  <a class="product-title" href="javascript:;">
+                                    {item?.products?.unitName +
+                                      "-" +
+                                      item?.products?.type[0]?.flavour}
+                                  </a>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="d-flex justify-content-center">
+                    <h3 className="mt-5">NO Results...</h3>
+                  </div>
+                )}
+
                 {product?.length ? (
                   <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
                     <div

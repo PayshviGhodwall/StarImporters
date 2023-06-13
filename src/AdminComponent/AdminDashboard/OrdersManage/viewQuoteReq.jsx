@@ -272,7 +272,7 @@ const ViewQuoteReq = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
                 <li>
@@ -422,7 +422,20 @@ const ViewQuoteReq = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>

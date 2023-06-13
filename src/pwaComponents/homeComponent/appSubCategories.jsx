@@ -10,14 +10,17 @@ import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import Search from "./search";
+import { appSubProd } from "../../atom";
 
 function AppSubCategories() {
   const [categories, setCategories] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const setData = useSetRecoilState(appSubProd);
+
   let { id } = useParams();
   const [pop, setPopup] = useState(true);
   const navigate = useNavigate();
@@ -51,6 +54,7 @@ function AppSubCategories() {
 
   useEffect(() => {
     getCategoryList();
+    setData([{ page: 1, sortBy: 1 }]);
   }, [activePage]);
 
   const getCategoryList = async () => {

@@ -70,6 +70,52 @@ export const userPassword = atom({
   key: "userPassword", // unique ID (with respect to other atoms/selectors)
   default: "", // default value (aka initial value)
 });
+export const appCateProd = atom({
+  key: "appCateProd", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      searchKey: "",
+      brand: "",
+      sortBy: 1,
+      filtr: false,
+    },
+  ],
+});
+
+export const appSubProd = atom({
+  key: "appSubProd", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      searchKey: "",
+      brand: "",
+      sortBy: 1,
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
+export const appBrandProd = atom({
+  key: "appBrandProd", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      brand: "",
+      sortBy: 1,
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
+export const appFeaturedProd = atom({
+  key: "appFeaturedProd", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      sortBy: 1,
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
 
 export const pageInventoryData = atom({
   key: "pageInventoryData", // unique ID (with respect to other atoms/selectors)
@@ -84,6 +130,18 @@ export const pageInventoryData = atom({
 });
 export const pageUserData = atom({
   key: "pageUserData", // unique ID (with respect to other atoms/selectors)
+  default: [
+    {
+      page: 1,
+      searchKey: "",
+      sortBy: 1,
+      filtr: false,
+    },
+  ], // default value (aka initial value)
+});
+
+export const orderPageData = atom({
+  key: "orderPageData", // unique ID (with respect to other atoms/selectors)
   default: [
     {
       page: 1,

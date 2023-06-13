@@ -85,12 +85,22 @@ const EditUser = () => {
     formData.append("istobaccoLicenceExpired", data?.License);
     formData.append(
       "tobaccoLicenceExpiry",
-      newExpiry ? newExpiry : newExpiry2 || user?.tobaccoLicenceExpiry
+      newExpiry
+        ? newExpiry
+        : newExpiry2 || user?.tobaccoLicenceExpiry.replaceAll("/", "-")
     );
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
-      .then((res) => {
+    .then((res) => {
+        if (res?.data.error) {
+          Swal.fire({
+            title: res.data.message,
+            icon: "error",
+            button: "Okay",
+          });
+          setLoader(false);
+        }
         if (res?.data.message === "User Deatils Updated Successfully") {
           setLoader(false);
           navigate("/UserManage/ApprovedView");
@@ -374,7 +384,7 @@ const EditUser = () => {
                       }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
                 <li>
@@ -560,7 +570,20 @@ const EditUser = () => {
                       }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>

@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import WebHeader2 from "./webHeader2";
 import Swal from "sweetalert2";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import Search from "./search";
 import { browserName } from "react-device-detect";
+import { appFeaturedProd } from "../../atom";
 
 function AppProductList() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -24,9 +25,11 @@ function AppProductList() {
   const [brandName, setBrandName] = useState();
   const [heart, setHeart] = useState(false);
   const navigate = useNavigate();
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-
+  const pageData = useRecoilValue(appFeaturedProd);
+  const setData = useSetRecoilState(appFeaturedProd);
+  const [activePage, setActivePage] = useState(pageData[0]?.page);
+  const [sortValue, setSortValue] = useState(pageData[0]?.sortBy);
   let ref = useRef();
   let { id } = useParams();
   let token = localStorage.getItem("token-user");
@@ -109,7 +112,12 @@ function AppProductList() {
         <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
-              <Link to="/app/home">
+              <Link
+                to="/app/home"
+                onClick={() => {
+                  setData([{ page: activePage }]);
+                }}
+              >
                 <i className="fa-solid fa-house"></i>
               </Link>
             </div>
@@ -139,11 +147,11 @@ function AppProductList() {
           {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div>
               {searchKey?.length ? null : (
-                <div class="py-3">
+                <div class="container">
                   <button className="bg-white fw-bold border rounded-end">
                     {activePage}
                   </button>
-                  <div class="container">
+                  <div class="">
                     {product?.length ? (
                       <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
                         <div
@@ -292,14 +300,13 @@ function AppProductList() {
               )}
             </div>
           ) : (
-            <div>
+            <div className="container">
               {searchKey?.length ? null : (
                 <div class="py-3">
                   <button className="bg-white fw-bold border rounded-end">
                     {activePage}
                   </button>
-
-                  <div class="container">
+                  <div class="">
                     {product?.length ? (
                       <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
                         <div
@@ -368,6 +375,9 @@ function AppProductList() {
                                   </a>
                                 ) : null}
                                 <Link
+                                  onClick={() => {
+                                    setData([{ page: activePage }]);
+                                  }}
                                   class="product-thumbnail d-block"
                                   to={`/app/product-detail/${item?._id}`}
                                   state={{ type: item?.type[0] }}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/adminMain.css";
 import Starlogo from "../../assets/img/logo.png";
-import profile from "../../assets/img/profile_img1.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import ProfileBar from "./ProfileBar";
@@ -225,7 +224,20 @@ const ChangePassword = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -371,7 +383,7 @@ const ChangePassword = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
                 <li>

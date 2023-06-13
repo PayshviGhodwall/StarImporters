@@ -1,54 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import AppFooter from "./appFooter";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import {
-  addToCart,
   getBrands,
   getByBrands,
-  getByCategory,
-  getSubCategories,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import WebHeader2 from "./webHeader2";
-import Swal from "sweetalert2";
 import Search from "./search";
 import { charSearchKey } from "../../selecter";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { appBrandProd } from "../../atom";
 
 function AppProductBrands() {
-  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
-  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
-  const [product, setProduct] = useState([]);
-  const [heart, setHeart] = useState(false);
-  const [brands, setBrands] = useState([]);
-  const [activePage, setActivePage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
-  const [bName, setBName] = useState("");
   let location = useLocation();
+  const [product, setProduct] = useState([]);
+  const [maxPage, setMaxPage] = useState(1);
   const navigate = useNavigate();
   let ref = useRef();
-  const name = location.state?.name;
-  let token = localStorage.getItem("token-user");
   const searchKey = useRecoilValue(charSearchKey);
-  console.log(searchKey);
-
+  const pageData = useRecoilValue(appBrandProd);
+  const setData = useSetRecoilState(appBrandProd);
+  const [activePage, setActivePage] = useState(pageData[0]?.page);
+  const [sortValue, setSortValue] = useState(pageData[0]?.sortBy);
+  let { id } = useParams();
+  console.log(id);
   useEffect(() => {
-    getBrandsList();
     getProductList();
-  }, []);
-
-  const getBrandsList = async () => {
-    const { data } = await getBrands();
-    if (!data?.error) {
-      setBrands(data.results);
-    }
-  };
+    setData([{ page: activePage, sortBy: sortValue }]);
+  }, [activePage]);
 
   const sortProducts = async (e) => {
+    setSortValue(parseInt(e.target.value));
     const { data } = await getByBrands({
-      brand: name ? name : bName,
+      brand: id,
       sortBy: parseInt(e.target.value),
       page: activePage,
     });
@@ -59,44 +45,45 @@ function AppProductBrands() {
 
   const getProductList = async () => {
     const { data } = await getByBrands({
-      brand: name,
+      brand: id,
       page: activePage,
+      sortBy: sortValue,
     });
     if (!data.error) {
       setProduct(data.results.products);
+      setMaxPage(data?.results.totalPages);
     }
   };
 
-  const addToFav = async (index) => {
-    await axios
-      .post(addFav, {
-        productId: product[index]?.products?._id,
-        flavour: product[index]?.products?.type[0],
-      })
-      .then((res) => {
-        Swal.fire({
-          title: res?.data.message,
-          button: "ok",
-        });
-      });
-    getProductList();
-    setBName(name);
-  };
-  const rmvFromFav = async (index) => {
-    await axios
-      .post(rmvFav, {
-        productId: product[index]?.products?._id,
-        flavour: product[index]?.products?.type[0],
-      })
-      .then((res) => {
-        Swal.fire({
-          title: res?.data.message,
-          button: "ok",
-        });
-      });
-    getProductList();
-    setBName(name);
-  };
+  // const addToFav = async (index) => {
+  //   await axios
+  //     .post(addFav, {
+  //       productId: product[index]?.products?._id,
+  //       flavour: product[index]?.products?.type[0],
+  //     })
+  //     .then((res) => {
+  //       Swal.fire({
+  //         title: res?.data.message,
+  //         button: "ok",
+  //       });
+  //     });
+  //   getProductList();
+  // };
+  // const rmvFromFav = async (index) => {
+  //   await axios
+  //     .post(rmvFav, {
+  //       productId: product[index]?.products?._id,
+  //       flavour: product[index]?.products?.type[0],
+  //     })
+  //     .then((res) => {
+  //       Swal.fire({
+  //         title: res?.data.message,
+  //         button: "ok",
+  //       });
+  //     });
+  //   getProductList();
+  //   setBName(name);
+  // };
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
@@ -120,7 +107,7 @@ function AppProductBrands() {
             </div>
 
             <div class="page-heading">
-              <h6 class="mb-0">{name}</h6>
+              <h6 class="mb-0">{id}</h6>
             </div>
 
             <div
@@ -146,7 +133,12 @@ function AppProductBrands() {
             <div class="container mt-2">
               {searchKey?.length ? null : (
                 <div>
-                  <div class="row g-1 align-items-center justify-content-end mb-1 mt-1 ">
+                  <div class="row g-1 align-items-center justify-content-between mb-1 mt-1 ">
+                    <div className="col-auto">
+                      <button className="bg-white fw-bold border rounded-end">
+                        {activePage}
+                      </button>
+                    </div>
                     <div class="col-auto">
                       <div class="custom_select_design">
                         <select
@@ -166,9 +158,7 @@ function AppProductBrands() {
                     <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-1 mb-1">
                       <div
                         class={
-                          activePage <= 1
-                            ? "opacity-0"
-                            : "back-button me-2 me-2 "
+                          activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
                         }
                       >
                         <Link
@@ -202,77 +192,76 @@ function AppProductBrands() {
                       </div>
                     </div>
                   ) : null}
-                  <div class="row g-2 product_list_main">
-                    {(product || []).map((item, index) => {
-                      return (
-                        <div class="col-6 col-md-4 d-flex align-items-stretch">
-                          <div class="card product-card w-100">
-                            <div class="card-body">
-                              {/* {token?.length ? (
-                              <a class="wishlist-btn" href="#">
-                                {item?.products?.favourities ? (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      rmvFromFav(index);
-                                    }}
-                                    style={{ color: "#3e4093 " }}
-                                  />
-                                ) : (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      addToFav(index);
-                                    }}
-                                    style={{ color: "#E1E1E1 " }}
-                                  />
-                                )}
-                              </a>
-                            ) : null} */}
-                              <Link
-                                class="product-thumbnail d-block"
-                                to={`/app/product-detail/${item?.products?._id}`}
-                                state={{ type: item?.products?.type[0] }}
-                              >
-                                <img
-                                  class="mb-2"
-                                  src={
-                                    item?.products?.productImage
-                                      ? item?.products?.productImage
-                                      : require("../../assets/img/product.jpg")
-                                  }
-                                  alt=""
-                                />
-                              </Link>
-                              <div class="row mt-1 d-flex align-items-center justify-content-between">
-                                <div class="col">
-                                  <a class="product-title" href="javascript:;">
-                                    {item.products.unitName}
-                                  </a>
-                                </div>
-                                {/* <div class="col-auto">
+                  {product?.length ? (
+                    <div class="row g-2 product_list_main">
+                      {(product || []).map((item, index) => {
+                        return (
+                          <div class="col-6 col-md-4 d-flex align-items-stretch">
+                            <div class="card product-card w-100">
+                              <div class="card-body">
+                                {/* {token?.length ? (
+                             <a class="wishlist-btn" href="#">
+                               {item?.products?.favourities ? (
+                                 <i
+                                   class="fa fa-heart"
+                                   onClick={() => {
+                                     rmvFromFav(index);
+                                   }}
+                                   style={{ color: "#3e4093 " }}
+                                 />
+                               ) : (
+                                 <i
+                                   class="fa fa-heart"
+                                   onClick={() => {
+                                     addToFav(index);
+                                   }}
+                                   style={{ color: "#E1E1E1 " }}
+                                 />
+                               )}
+                             </a>
+                           ) : null} */}
                                 <Link
-                                  class="cart_bttn"
-                                  to=""
-                                  onClick={() => addToCartt(item?.products?._id)}
+                                  class="product-thumbnail d-block"
+                                  to={`/app/product-detail/${item?.products?._id}`}
+                                  state={{ type: item?.products?.type[0] }}
                                 >
-                                  <i class="fa-light fa-plus"></i>
+                                  <img
+                                    class="mb-2"
+                                    src={
+                                      item?.products?.productImage
+                                        ? item?.products?.productImage
+                                        : require("../../assets/img/product.jpg")
+                                    }
+                                    alt=""
+                                  />
                                 </Link>
-                              </div> */}
+                                <div class="row mt-1 d-flex align-items-center justify-content-between">
+                                  <div class="col">
+                                    <a
+                                      class="product-title"
+                                      href="javascript:;"
+                                    >
+                                      {item.products.unitName}
+                                    </a>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {/* {product?.length ? (
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <h3 className="mt-5">NO Results...</h3>
+                    </div>
+                  )}
+
+                  {product?.length ? (
                     <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
                       <div
                         class={
-                          activePage <= 1
-                            ? "opacity-0"
-                            : "back-button me-2 me-2 "
+                          activePage <= 1 ? "d-none" : "back-button me-2 me-2 "
                         }
                       >
                         <Link
@@ -305,7 +294,7 @@ function AppProductBrands() {
                         </Link>
                       </div>
                     </div>
-                  ) : null} */}
+                  ) : null}
                 </div>
               )}
             </div>

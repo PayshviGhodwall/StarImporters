@@ -9,6 +9,8 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import ViewProduct from "../ViewProduct";
 import moment from "moment";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { orderPageData } from "../../../atom";
 
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
@@ -36,7 +38,12 @@ const OrderReq = () => {
   const [product, setProducts] = useState({});
   const [addType, setAddType] = useState("");
   const [address, setAddress] = useState("");
-
+  const [maxPage, setMaxPage] = useState(1);
+  const pageData = useRecoilValue(orderPageData);
+  const setPageData = useSetRecoilState(orderPageData);
+  const [activePage, setActivePage] = useState(
+    pageData[0]?.page ? pageData[0]?.page : 1
+  );
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -53,7 +60,7 @@ const OrderReq = () => {
   useEffect(() => {
     OrderRequest();
     QuoteRequest();
-  }, []);
+  }, [activePage]);
 
   useEffect(() => {
     createOptions();
@@ -64,8 +71,9 @@ const OrderReq = () => {
   }, [searchUserKey]);
 
   const OrderRequest = async () => {
-    await axios.post(orderList).then((res) => {
+    await axios.post(orderList, { page: activePage }).then((res) => {
       setOrders(res?.data.results?.orders);
+      setMaxPage(res?.data.results?.toatalPages);
     });
   };
   const QuoteRequest = async () => {
@@ -75,6 +83,7 @@ const OrderReq = () => {
   };
 
   const createOptions = async () => {
+    setActivePage(1);
     await axios
       .post(inventorySearch, {
         search: searchKey,
@@ -246,6 +255,7 @@ const OrderReq = () => {
   };
 
   const OrderSearch = async (e) => {
+    setActivePage(1);
     let string = e.target.value;
     string !== ""
       ? await axios
@@ -481,7 +491,7 @@ const OrderReq = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
                 <li>
@@ -631,7 +641,20 @@ const OrderReq = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -993,6 +1016,60 @@ const OrderReq = () => {
                                 </div>
                               </form>
                               <div className="row recent_orders_order">
+                                {orders?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
                                     <table className="table mb-0">
@@ -1054,6 +1131,60 @@ const OrderReq = () => {
                                     </table>
                                   </div>
                                 </div>
+                                {orders?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }
+                                        >
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }
+                                        >
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                           </div>

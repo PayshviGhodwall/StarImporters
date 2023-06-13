@@ -190,7 +190,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
         </div>
         <div className="bottom_footer border-top-tran text-white">
           <div className="container">

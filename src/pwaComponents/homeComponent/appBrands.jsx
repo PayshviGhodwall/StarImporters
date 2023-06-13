@@ -1,20 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import { getBrands } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
 import Search from "./search";
 import WebHeader2 from "./webHeader2";
 import { browserName } from "react-device-detect";
+import { appBrandProd } from "../../atom";
 
 function AppBrands() {
   const [brand, setBrand] = useState([]);
   let ref = useRef();
+  const setData = useSetRecoilState(appBrandProd);
   const searchKey = useRecoilValue(charSearchKey);
 
   useEffect(() => {
     getBrandList();
+    setData([{ page: 1, sortBy: 1 }]);
   }, []);
 
   const getBrandList = async () => {
@@ -99,13 +102,12 @@ function AppBrands() {
               {searchKey?.length ? null : (
                 <div className="brands_section pt-3">
                   <div className="row mx-0">
-                    {brand.map((item, index) => {
+                    {brand?.map((item, index) => {
                       return (
                         <div className="col-6 mb-3 pe-2">
                           <Link
                             className="brands_box shadow"
-                            to="/app/productBrands"
-                            state={{ name: item?.brandName }}
+                            to={`/app/productBrands/${item?.brandName}`}
                           >
                             <img
                               src={item?.brandImage}

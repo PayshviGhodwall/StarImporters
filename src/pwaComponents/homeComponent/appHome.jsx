@@ -16,6 +16,13 @@ import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import { browserName } from "react-device-detect";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import {
+  appBrandProd,
+  appCateProd,
+  appFeaturedProd,
+  appSubProd,
+} from "../../atom";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -32,11 +39,20 @@ function AppHome() {
   const [tokenWeb, setTokenWeb] = useState(
     "6245268ah78a79a98da98da977d9d98d9898ad9d8ad"
   );
+  const setData = useSetRecoilState(appCateProd);
+  const setData2 = useSetRecoilState(appSubProd);
+  const setData3 = useSetRecoilState(appBrandProd);
+  const setData4 = useSetRecoilState(appFeaturedProd);
+
   useEffect(() => {
     getBanner();
     getCategoryList();
     getTopProductList();
     getBrandList();
+    setData([{ page: 1, sortBy: 1 }]);
+    setData2([{ page: 1, sortBy: 1 }]);
+    setData3([{ page: 1, sortBy: 1 }]);
+    setData4([{ page: 1, sortBy: 1 }]);
   }, []);
 
   useEffect(() => {
@@ -115,7 +131,7 @@ function AppHome() {
       if (Dd?.length) {
         const { data } = await searchByBarcode({
           barcode: Dd,
-        });  
+        });
         if (!data.error) {
           if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]?._id}`, {

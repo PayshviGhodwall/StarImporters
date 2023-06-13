@@ -5,12 +5,16 @@ import {
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
 import { browserName } from "react-device-detect";
+import { appCateProd } from "../../atom";
+import { useSetRecoilState } from "recoil";
 
 function AppHeader({ cartCount }) {
   const [detail, setDetail] = useState("");
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const navigate = useNavigate();
+  const setData = useSetRecoilState(appCateProd);
+
   useEffect(() => {
     getUserDetail();
     getCartCount();
@@ -49,7 +53,12 @@ function AppHeader({ cartCount }) {
         <div className="header-area " id="headerArea" ref={ref}>
           <div className="container py-2 h-100 d-flex align -items-center justify-content-between d-flex rtl-flex-d-row-r">
             <div className="logo-wrapper">
-              <Link to="/app/home">
+              <Link
+                to="/app/home"
+                onClick={() => {
+                  setData([{ page: 1, sortBy: 1 }]);
+                }}
+              >
                 <img src={require("../../assets/img/logo2.png")} alt="" />
               </Link>
             </div>

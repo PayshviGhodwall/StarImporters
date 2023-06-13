@@ -12,7 +12,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Search from "./search";
 import { charSearchKey } from "../../selecter";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import { appCateProd } from "../../atom";
 
 function AppProductCategory() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -23,8 +24,14 @@ function AppProductCategory() {
   const [pop, setPopup] = useState(true);
   const [heart, setHeart] = useState(false);
   const [category, setCategory] = useState([]);
-  const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const pageData = useRecoilValue(appCateProd);
+  const setData = useSetRecoilState(appCateProd);
+  const resetData = useResetRecoilState(appCateProd);
+  console.log(pageData);
+  const [activePage, setActivePage] = useState(pageData[0]?.page);
+  const [sortValue, setSortValue] = useState(pageData[0]?.sortBy);
+  const [filterBrand, setFilterBrand] = useState();
   let ref = useRef();
   let { id } = useParams();
   const navigate = useNavigate();
@@ -52,16 +59,17 @@ function AppProductCategory() {
     }
   };
 
-  const getProductList = async (idd) => {
+  const getProductList = async (idd, sort, page) => {
     const { data } = await getByCategory({
       category: id,
-      brand: idd,
-      page: activePage,
+      brand: pageData[0]?.brand ? pageData[0]?.brand : idd ? idd : filterBrand,
+      page: page ? page : activePage,
+      sortBy: sort ? sort : sortValue,
     });
     if (!data.error) {
       setProduct(data.results?.products);
       setMaxPage(data?.results.totalPages);
-      document.getElementById("checkbox").checked = false;
+      // document.getElementById("checkbox").checked = false;
     }
   };
 
@@ -73,6 +81,7 @@ function AppProductCategory() {
     }
   };
   const sortProducts = async (e) => {
+    setSortValue(parseInt(e.target.value));
     const { data } = await getByCategory({
       category: id,
       sortBy: parseInt(e.target.value),
@@ -82,6 +91,7 @@ function AppProductCategory() {
       setProduct(data.results?.products);
     }
   };
+
   const addToFav = async (index) => {
     await axios
       .post(addFav, {
@@ -138,7 +148,12 @@ function AppProductCategory() {
         <div class="header-area" id="headerArea" ref={ref}>
           <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <div class="back-button me-2">
-              <Link to="/app/home">
+              <Link
+                to="/app/home"
+                onClick={() => {
+                  setData([{ page: 1, sortBy: 1 }]);
+                }}
+              >
                 <i className="fa-solid fa-house"></i>
               </Link>
             </div>
@@ -190,7 +205,9 @@ function AppProductCategory() {
                               name="check5"
                               onChange={() => {
                                 let brandId = item?._id;
-                                getProductList(brandId);
+                                setActivePage(1);
+                                setFilterBrand(brandId);
+                                getProductList(brandId, 1);
                               }}
                             />
                             <label class="form-check-label" for="zara">
@@ -210,6 +227,16 @@ function AppProductCategory() {
                       >
                         More
                       </p>
+                    </div>
+                    <div
+                      className="comman_btn"
+                      onClick={() => {
+                        setData([{ page: 1, sortBy: 1 }]);
+                        document.getElementById("checkbox").checked = false;
+                        setActivePage(1);
+                      }}
+                    >
+                      Clear Filters
                     </div>
                   </div>
                 </div>
@@ -314,6 +341,15 @@ function AppProductCategory() {
                             ) : null}
                             <Link
                               class="product-thumbnail d-block"
+                              onClick={() =>
+                                setData([
+                                  {
+                                    page: activePage,
+                                    sortBy: sortValue,
+                                    brand: filterBrand,
+                                  },
+                                ])
+                              }
                               to={`/app/product-detail/${item?.products?._id}`}
                               state={{ type: item?.products?.type[0] }}
                             >

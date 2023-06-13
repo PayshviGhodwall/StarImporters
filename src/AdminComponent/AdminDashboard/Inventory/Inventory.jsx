@@ -195,7 +195,7 @@ const Inventory = () => {
       {
         productType: "",
         flavour: [],
-        flavourImage: [],
+        flavourImage: "",
         barcode: [],
         flavourPrice: "",
         description: "",
@@ -265,6 +265,14 @@ const Inventory = () => {
         type: formValues,
       })
       .then((res) => {
+        if (res?.data.error) {
+          setLoader(false);
+          Swal.fire({
+            title: res.data.message,
+            icon: "warning",
+            confirmButtonText: "ok",
+          });
+        }
         if (res?.data.message === "Product Added Successfully") {
           setLoader(false);
           window.location.reload(false);
@@ -685,7 +693,7 @@ const Inventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
                 <li>
@@ -832,7 +840,20 @@ const Inventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>

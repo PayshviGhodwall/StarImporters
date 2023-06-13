@@ -40,7 +40,7 @@ const EditInventory = () => {
     {
       productType: [],
       flavour: [],
-      flavourImage: [],
+      flavourImage: "",
       barcode: [],
       flavourPrice: Number,
     },
@@ -145,13 +145,20 @@ const EditInventory = () => {
         brand: data?.brands,
         description: data?.desc,
         productPriceStatus: data?.productPriceStatus,
-        productImage: productImage,
+        productImage: productImage ? productImage : "",
         type: formValues,
       })
       .then((res) => {
-        if (res?.data.message == "Successfully Updated") {
-          navigate("/Inventory");
+        if (res?.data.error) {
+          Swal.fire({
+            title: res.data.message,
+            icon: "error",
+            button: "Ok",
+            timer: 2000,
+          });
+        }
 
+        if (res?.data.message == "Successfully Updated") {
           Swal.fire({
             title: "Details Successfully Updated",
             icon: "success",
@@ -272,7 +279,7 @@ const EditInventory = () => {
       {
         productType: "",
         flavour: [],
-        flavourImage: [],
+        flavourImage: "",
         barcode: [],
         flavourPrice: "",
         flavourStatus: true,
@@ -640,6 +647,7 @@ const EditInventory = () => {
                     Order Management
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     className=""
@@ -650,9 +658,24 @@ const EditInventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
+                  </Link>
+                </li>
+
                 <li>
                   <Link
                     className=""
@@ -816,7 +839,7 @@ const EditInventory = () => {
                         <option selected="">
                           {allProducts[0]?.subCategory?.subCategoryName}
                         </option>
-                        {(subCategories || []).map((item, index) => (
+                        {(subCategories || [])?.map((item, index) => (
                           <option value={item.subcategories?._id} key={index}>
                             {item?.subcategories?.subCategoryName}
                           </option>
@@ -845,7 +868,7 @@ const EditInventory = () => {
                     <div className="form-group col-lg-12 col-md-10   mt-2 mb-4">
                       <form className="">
                         <div className="row flavour_box align-items-end mx-0 py-4 px-3">
-                          {(formValues || []).map((item, index) => (
+                          {(formValues || [])?.map((item, index) => (
                             <div
                               className="form-group mb-0 col-lg-12 col-md-12"
                               key={index}

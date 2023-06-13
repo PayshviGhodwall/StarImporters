@@ -111,6 +111,7 @@ import AppBuyAgain from "./pwaComponents/homeComponent/appBuyAgain";
 import AppDocs from "./pwaComponents/homeComponent/appDocs";
 import AppRedirectWeb from "./pwaComponents/homeComponent/appRedirectWeb";
 import ProductsByFilter from "./buyerComponent/AllProducts/ProductsByFilter";
+import ContactSupport from "./AdminComponent/AdminDashboard/Contact and Support/ContactSupport";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -207,6 +208,7 @@ function App() {
             <Route path="/BrandsManage" element={<BrandsManage />} />
             <Route path="/Gallery-Management" element={<GalleryMain />} />
             <Route path="/Cms" element={<Cms />} />
+            <Route path="/Contact&Support" element={<ContactSupport />} />
             <Route path="/OrderRequest" element={<OrderReq />} />
             <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
             <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
@@ -398,7 +400,7 @@ function App() {
               element={<AppProductSubCategory />}
             />
             <Route
-              path="/app/productBrands"
+              path="/app/productBrands/:id"
               element={width < 999 ? <AppProductBrands /> : <AllBrands />}
             />
             <Route path="/app/product-list" element={<AppProductList />} />
