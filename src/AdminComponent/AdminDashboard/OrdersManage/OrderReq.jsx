@@ -11,6 +11,7 @@ import ViewProduct from "../ViewProduct";
 import moment from "moment";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { orderPageData } from "../../../atom";
+import { setDate } from "rsuite/esm/utils/dateUtils";
 
 const OrderReq = () => {
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
@@ -41,9 +42,7 @@ const OrderReq = () => {
   const [maxPage, setMaxPage] = useState(1);
   const pageData = useRecoilValue(orderPageData);
   const setPageData = useSetRecoilState(orderPageData);
-  const [activePage, setActivePage] = useState(
-    pageData[0]?.page ? pageData[0]?.page : 1
-  );
+  const [activePage, setActivePage] = useState(pageData[0]?.page);
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -240,6 +239,7 @@ const OrderReq = () => {
         }
       });
   };
+
   const exporQuotation = async (e) => {
     e.preventDefault();
     await axios
@@ -324,7 +324,12 @@ const OrderReq = () => {
           </div>
           <div className="sidebar_menus">
             {User?.type === "SubAdmin" ? (
-              <ul className="list-unstyled ps-1 m-0">
+              <ul
+                className="list-unstyled ps-1 m-0"
+                onClick={() => {
+                  setPageData([{ page: 1 }]);
+                }}
+              >
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
@@ -510,7 +515,12 @@ const OrderReq = () => {
                 </li>
               </ul>
             ) : (
-              <ul className="list-unstyled ps-1 m-0">
+              <ul
+                className="list-unstyled ps-1 m-0"
+                onClick={() => {
+                  setPageData([{ page: 1 }]);
+                }}
+              >
                 <li>
                   <Link
                     className=""
@@ -1112,6 +1122,9 @@ const OrderReq = () => {
                                               <button
                                                 className="comman_btn table_viewbtn"
                                                 onClick={() => {
+                                                  setPageData([
+                                                    { page: activePage },
+                                                  ]);
                                                   navigate(
                                                     "/OrderRequest/ViewOrder",
                                                     {
