@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import axios from "axios";
 import Footer from "../Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/contact`;
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,10 +21,10 @@ const Contact = () => {
     const getData = async () => {
       let response = await axios
         .post(apiUrl, {
-          firstName: data.firstName,
+          fullName: data.firstName,
           email: data.email,
           subject: data.subject,
-          textArea: data.textArea,
+          messageTextArea: data.textArea,
         })
         .then((res) => {
           console.log(res?.data.message);
@@ -33,6 +34,8 @@ const Contact = () => {
               text: "We'll contact you ",
               icon: "success",
               button: "Go Back",
+            }).then((res) => {
+              navigate("/app/home");
             });
           }
         })

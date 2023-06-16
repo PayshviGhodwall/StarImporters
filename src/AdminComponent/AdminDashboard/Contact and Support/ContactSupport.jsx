@@ -8,17 +8,41 @@ import ViewProduct from "../ViewProduct";
 import moment from "moment";
 
 const ContactSupport = () => {
-  const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
-  const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
-  const [orders, setOrders] = useState([]);
-  const [quoteReq, setQuoteReq] = useState([]);
+  const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAllContacts `;
+  const newsLetterList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/activeNewsLetterUsers`;
+  const [contacts, setContacts] = useState([]);
+  const [newsLetters, setNewsLetter] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const [values, setValues] = useState({ from: "", to: "" });
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
+  const [activePage, setActivePage] = useState(1);
+  const [activePage2, setActivePage2] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [maxPage2, setMaxPage2] = useState(1);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getAllContacts();
+    getAllNewsLetter();
+  }, []);
 
+  const getAllContacts = async () => {
+    const { data } = await axios.post(contactList, { page: 1 });
+    if (!data.error) {
+      setContacts(data.results.queries);
+      setMaxPage(data.results.totalPages);
+    }
+  };
+
+  const getAllNewsLetter = async () => {
+    const { data } = await axios.post(newsLetterList, {
+      page: activePage2,
+    });
+    if (!data.error) {
+      setNewsLetter(data.results.users);
+      setMaxPage2(data.results.totalPages);
+    }
+  };
   const handleDate = async () => {};
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -455,7 +479,6 @@ const ContactSupport = () => {
                             aria-selected="true"
                           >
                             Contact Us
-                            <span className="circle_count">0</span>
                           </button>
                           <button
                             className="nav-link"
@@ -468,7 +491,6 @@ const ContactSupport = () => {
                             aria-selected="false"
                           >
                             Newsletter Subscription
-                            <span className="circle_count">0</span>
                           </button>
                         </div>
                       </nav>
@@ -481,11 +503,11 @@ const ContactSupport = () => {
                         >
                           <div className="row mx-0">
                             <div className="col-12">
-                              <form
-                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                              {/* <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end "
                                 action=""
                               >
-                                <div className="form-group mb-0 col-3">
+                                <div className="form-group mb-0 col-5">
                                   <label htmlFor="">From</label>
                                   <input
                                     type="date"
@@ -496,7 +518,7 @@ const ContactSupport = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-3">
+                                <div className="form-group mb-0 col-5">
                                   <label htmlFor="">To</label>
                                   <input
                                     type="date"
@@ -507,7 +529,7 @@ const ContactSupport = () => {
                                     onChange={handleDate}
                                   />
                                 </div>
-                                <div className="form-group mb-0 col-1 text-center">
+                                <div className="form-group mb-0 col-auto text-center">
                                   <button
                                     className="comman_btn rounded"
                                     // onClick={}
@@ -515,7 +537,7 @@ const ContactSupport = () => {
                                     Search
                                   </button>
                                 </div>
-                              </form>
+                              </form> */}
 
                               <div className="row recent_orders_order">
                                 <div className="col-12 comman_table_design px-0">
@@ -526,58 +548,91 @@ const ContactSupport = () => {
                                           style={{ backgroundColor: "#f2f2f2" }}
                                         >
                                           <th>Date</th>
-                                          <th>User Name</th>
-                                          <th>Mobile Number</th>
+                                          <th>Name</th>
                                           <th>Email</th>
-                                          <th>Order ID</th>
-                                          <th>Status</th>
-                                          <th>Order Details</th>
+                                          <th>Subject</th>
+                                          <th>Message(Query)</th>
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(orders || [])?.map((item, index) => (
-                                          <tr key={index}>
-                                            <td>
-                                              {moment(
-                                                item?.createdAt?.slice(0, 10)
-                                              ).format("MM/DD/YYYY")}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.firstName ||
-                                                item?.user?.firstName}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.phoneNumber ||
-                                                item?.user?.phoneNumber}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.email ||
-                                                item?.user?.email}
-                                            </td>
-                                            <td>{item?.orderId}</td>
-                                            <td>{item?.status}</td>
-                                            <td>
-                                              <button
-                                                className="comman_btn table_viewbtn"
-                                                onClick={() => {
-                                                  navigate(
-                                                    "/OrderRequest/ViewOrder",
-                                                    {
-                                                      state: {
-                                                        id: item?._id,
-                                                      },
-                                                    }
-                                                  );
-                                                }}
-                                              >
-                                                View
-                                              </button>
-                                            </td>
-                                          </tr>
-                                        ))}
+                                        {(contacts || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                {moment(
+                                                  item?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
+                                              <td>{item?.fullName}</td>
+
+                                              <td>{item?.email}</td>
+                                              <td>{item?.subject}</td>
+                                              <td>{item?.messageTextArea}</td>
+                                              {/* <td>
+                                                <button
+                                                  className="comman_btn table_viewbtn"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      "/OrderRequest/ViewOrder",
+                                                      {
+                                                        state: {
+                                                          id: item?._id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}
+                                                >
+                                                  View
+                                                </button>
+                                              </td> */}
+                                            </tr>
+                                          )
+                                        )}
                                       </tbody>
                                     </table>
                                   </div>
+                                  {contacts?.length ? (
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        Total Pages : {maxPage}
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage <= 1
+                                                ? setActivePage(1)
+                                                : setActivePage(activePage - 1)
+                                            }
+                                          >
+                                            «<small>prev</small>
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage === maxPage
+                                                ? setActivePage(maxPage)
+                                                : setActivePage(activePage + 1)
+                                            }
+                                          >
+                                            <small>next</small>»
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>
@@ -591,66 +646,6 @@ const ContactSupport = () => {
                         >
                           <div className="row mx-0 ">
                             <div className="col-12">
-                              <form
-                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                action=""
-                              >
-                                <div className="form-group mb-0 col-3">
-                                  <label htmlFor="">From</label>
-                                  <input
-                                    type="date"
-                                    className="form-control"
-                                    name="from"
-                                    id="reqFrom"
-                                    value={values.from}
-                                    onChange={handleDate}
-                                  />
-                                </div>
-                                <div className="form-group mb-0 col-3">
-                                  <label htmlFor="">To</label>
-                                  <input
-                                    type="date"
-                                    className="form-control"
-                                    name="to"
-                                    id="reqTo"
-                                    value={values.to}
-                                    onChange={handleDate}
-                                  />
-                                </div>
-                                <div className="form-group mb-0 col-1 text-center">
-                                  <button
-                                    className="comman_btn rounded"
-                                    // onClick={onQuoteSearch}
-                                  >
-                                    Search
-                                  </button>
-                                </div>
-                                <div className="col-2 text-center">
-                                  <button
-                                    className="comman_btn2 rounded"
-                                    // onClick={exporQuotation}
-                                  >
-                                    Export <i class="fa fa-download"></i>
-                                  </button>
-                                </div>
-                                <div className=" d -flex col-3">
-                                  <form className="form-design" action="">
-                                    <div className="form-group mb-0 position-relative icons_set">
-                                      <input
-                                        type="text"
-                                        className="form-control bg-white "
-                                        placeholder="Search by Quote
-                                         ID/Customer Name"
-                                        name="name"
-                                        id="name"
-                                        // onChange={(e) => {
-                                        //   QuoteSearch(e);
-                                        // }}
-                                      />
-                                    </div>
-                                  </form>
-                                </div>
-                              </form>
                               <div className="row recent_orders_order  ">
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
@@ -659,62 +654,94 @@ const ContactSupport = () => {
                                         <tr
                                           style={{ backgroundColor: "#f2f2f2" }}
                                         >
-                                          <th>Date</th>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
-                                          <th>Request Id</th>
-                                          <th>Status</th>
-                                          <th>QUOTATION REQUEST</th>
+                                          <th>Address</th>
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(quoteReq || [])?.map(
+                                        {(newsLetters || [])?.map(
                                           (item, index) => (
                                             <tr key={index}>
+                                              <td>{item?.firstName}</td>
+                                              <td>{item?.phoneNumber}</td>
+                                              <td>{item?.email}</td>
                                               <td>
-                                                {moment(
-                                                  item?.createdAt?.slice(0, 10)
-                                                ).format("MM/DD/YYYY")}
+                                                {item?.city +
+                                                  "-" +
+                                                  item?.zipcode}
                                               </td>
-                                              <td>
-                                                {item?.userId?.firstName ||
-                                                  item?.user?.firstName}
-                                              </td>
-                                              <td>
-                                                {item?.userId?.phoneNumber ||
-                                                  item?.user?.phoneNumber}
-                                              </td>
-                                              <td>
-                                                {item?.userId?.email ||
-                                                  item?.user?.email}
-                                              </td>
-                                              <td>{item?.quoteId}</td>
-
-                                              <td>{item?.status}</td>
-                                              <td>
+                                              {/* <td>
                                                 <button
                                                   className="comman_btn table_viewbtn"
                                                   onClick={() => {
                                                     navigate(
-                                                      "/OrderRequest/ViewQuotationRequest",
+                                                      "/UserManage/ApprovedView",
                                                       {
                                                         state: {
                                                           id: item?._id,
                                                         },
                                                       }
                                                     );
-                                                  }}
+                                                  }
+                                                }
                                                 >
                                                   View
                                                 </button>
-                                              </td>
+                                              </td> */}
                                             </tr>
                                           )
                                         )}
                                       </tbody>
                                     </table>
                                   </div>
+                                  {newsLetters?.length ? (
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        Total Pages : {maxPage2}
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 <= 1
+                                                ? setActivePage2(1)
+                                                : setActivePage2(
+                                                    activePage2 - 1
+                                                  )
+                                            }
+                                          >
+                                            «<small>prev</small>
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage2}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 === maxPage2
+                                                ? setActivePage2(maxPage2)
+                                                : setActivePage2(
+                                                    activePage2 + 1
+                                                  )
+                                            }
+                                          >
+                                            <small>next</small>»
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>

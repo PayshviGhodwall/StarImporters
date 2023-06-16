@@ -263,11 +263,11 @@ const EditInventory = () => {
       })
       .then((res) => {
         if (res.data.message === "Flavour is changed Successfully") {
-          navigate("/Inventory");
           Swal.fire({
             title: "Flavour Status Changed!",
             icon: "success",
             button: "Ok",
+            timer: 2000,
           });
         }
       });

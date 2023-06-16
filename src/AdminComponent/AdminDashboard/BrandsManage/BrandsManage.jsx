@@ -765,8 +765,6 @@ const BrandsManage = () => {
                                         </td>
                                         <td>
                                           <Link
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop "
                                             className="comman_btn2 text-white text-decoration-none"
                                             key={index}
                                             onClick={() => {
