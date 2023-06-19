@@ -190,7 +190,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-          </div> 
+          </div>
         </div>
         <div className="bottom_footer border-top-tran text-white">
           <div className="container">
@@ -242,7 +242,11 @@ const Footer = () => {
                   </a>
                 </div>
                 <div className="col-auto">
-                  <a className="appdownload_btn" href="javscript:;">
+                  <a
+                    className="appdownload_btn"
+                    target="_blank"
+                    href="https://apps.apple.com/app/star-importers-wholesalers/id6447689704"
+                  >
                     <img
                       src={require("../../assets/img/app-store.png")}
                       alt=""
