@@ -86,13 +86,13 @@ const EditUser = () => {
     formData.append(
       "tobaccoLicenceExpiry",
       newExpiry
-        ? newExpiry
+        ? newExpiry.replaceAll("/", "-")
         : newExpiry2 || user?.tobaccoLicenceExpiry.replaceAll("/", "-")
     );
 
     await axios
       .post(apiUrl2 + "/" + objectId, formData)
-    .then((res) => {
+      .then((res) => {
         if (res?.data.error) {
           Swal.fire({
             title: res.data.message,
@@ -1006,7 +1006,9 @@ const EditUser = () => {
                                 name="dateExpiry"
                                 className="custom_date"
                                 onChange={(e) => {
-                                  setNewExpiry(e.target.value);
+                                  let date = moment(e.target.value).format("L");
+                                  console.log(date);
+                                  setNewExpiry(date);
                                   setNewExpiry2("");
                                 }}
                                 value={newExpiry}
