@@ -7266,10 +7266,16 @@ background-color: #3e4093;
     color: #3e4093;
   }
 
-  .logo-wrapper a {
+  .logo-wrapper {
     display: block;
   }
-
+  .logo-wrapper img {
+    position: relative;
+    top: 20%;
+    left: 20%;
+    max-width: 4rem !important;
+    height: 1.6rem;
+  }
   /* Footer CSS */
   .footer-nav-area {
     position: fixed;

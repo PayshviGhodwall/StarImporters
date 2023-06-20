@@ -4,7 +4,12 @@ import {
   countProducts,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
-import { browserName, browserVersion } from "react-device-detect";
+import {
+  browserName,
+  browserVersion,
+  deviceDetect,
+  deviceType,
+} from "react-device-detect";
 import { appCateProd } from "../../atom";
 import { useSetRecoilState } from "recoil";
 
@@ -59,17 +64,22 @@ function AppHeader({ cartCount }) {
                   setData([{ page: 1, sortBy: 1 }]);
                 }}
               >
-                <img src={require("../../assets/img/logo2.png")} alt="" />
+                <img src={require("../../assets/img/logo.png")} alt="" />
               </Link>
             </div>
-            {(browserName, browserVersion)}
-            {browserName === "WebKit" ||
-            browserName === "Chrome WebView" ? null : (
-              <div
-                onClick={() => {
-                  navigate("/app/downloads");
-                }}
-              >
+            {browserName !== "Mobile Safari" ? null : (
+              <div>
+                <a
+                  className="appdownload_btn "
+                  target="_blank"
+                  href="https://apps.apple.com/app/star-importers-wholesalers/id6447689704"
+                >
+                  <img src={require("../../assets/img/app-store.png")} alt="" />
+                </a>
+              </div>
+            )}
+            {browserName !== "Chrome" ? null : (
+              <div>
                 <a
                   className="appdownload_btn"
                   target="_blank"
