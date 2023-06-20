@@ -926,14 +926,14 @@ const Inventory = () => {
                           data-bs-target="#staticBackdrop66"
                           className="comman_btn2 text-decoration-none"
                         >
-                          Import Inventory
+                          Import New Inventory
                         </a>
                         <a
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop68"
                           className="comman_btn2 text-decoration-none mx-2"
                         >
-                          Edit Inventory
+                          Import Existing Inventory
                         </a>
                       </div>
                     </div>

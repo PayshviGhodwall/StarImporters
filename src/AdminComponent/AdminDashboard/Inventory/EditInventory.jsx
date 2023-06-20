@@ -164,6 +164,7 @@ const EditInventory = () => {
             icon: "success",
             button: "Ok",
           });
+          navigate("/Inventory");
         }
         if (
           res?.data.message ==

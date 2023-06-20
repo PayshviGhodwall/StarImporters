@@ -4,7 +4,7 @@ import {
   countProducts,
   getUserProfile,
 } from "../httpServices/homeHttpService/homeHttpService";
-import { browserName } from "react-device-detect";
+import { browserName, browserVersion } from "react-device-detect";
 import { appCateProd } from "../../atom";
 import { useSetRecoilState } from "recoil";
 
@@ -62,17 +62,24 @@ function AppHeader({ cartCount }) {
                 <img src={require("../../assets/img/logo2.png")} alt="" />
               </Link>
             </div>
+            {(browserName, browserVersion)}
             {browserName === "WebKit" ||
             browserName === "Chrome WebView" ? null : (
               <div
-                class="download-app android-app "
                 onClick={() => {
                   navigate("/app/downloads");
                 }}
               >
-                <i class="fa-solid fa-circle-down fa fa-2x"></i>
-                <span class="df">Download Our</span>
-                <span class="dfn text-start">App</span>
+                <a
+                  className="appdownload_btn"
+                  target="_blank"
+                  href="https://play.google.com/store/apps/details?id=com.star_importers"
+                >
+                  <img
+                    src={require("../../assets/img/play-store.png")}
+                    alt=""
+                  />
+                </a>
               </div>
             )}
 
