@@ -29,10 +29,58 @@ function AppSignUp() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    for (const item in data) {
-      formData.append(item, data[item?.trim()]);
-      console.log(data[item]);
-    }
+    formData.append(
+      "companyName",
+      data?.companyName?.charAt(0).toUpperCase() +
+        data?.companyName?.slice(1).trim()
+    );
+    formData.append(
+      "dba",
+      data?.dba?.charAt(0).toUpperCase() + data?.dba?.slice(1).trim()
+    );
+    formData.append(
+      "addressLine1",
+      data?.addressLine1?.charAt(0).toUpperCase() +
+        data?.addressLine1?.slice(1).trim()
+    );
+    formData.append(
+      "addressLine2",
+      data?.addressLine2
+        ? data?.addressLine2?.charAt(0).toUpperCase() +
+            data?.addressLine2?.slice(1).trim()
+        : ""
+    );
+    formData.append(
+      "city",
+      data?.city?.charAt(0).toUpperCase() + data?.city?.slice(1).trim()
+    );
+    formData.append(
+      "state",
+      data?.state?.charAt(0).toUpperCase() + data?.state?.slice(1).trim()
+    );
+    formData.append("zipcode", data?.zipcode?.trim());
+    formData.append(
+      "firstName",
+      data?.firstName?.charAt(0).toUpperCase() +
+        data?.firstName?.slice(1).trim()
+    );
+    formData.append(
+      "lastName",
+      data?.lastName?.charAt(0).toUpperCase() + data?.lastName?.slice(1).trim()
+    );
+    formData.append("email", data?.email?.trim());
+    formData.append(
+      "wholesaleConfirmation",
+      data?.wholeSale ? data?.wholeSale : false
+    );
+    // formData.append("newsLetter", data?.subscribe);
+    formData.append("phoneNumber", data?.phoneNumber?.trim());
+    formData.append("businessPhoneNumber", data?.businessPhoneNumber);
+    formData.append("heardAboutUs", data?.heardAboutUs);
+    formData.append(
+      "comments",
+      data?.comments?.charAt(0).toUpperCase() + data?.comments?.slice(1).trim()
+    );
 
     if (selectedFile1) {
       formData.append("federalTaxId", selectedFile1, selectedFile1.name);

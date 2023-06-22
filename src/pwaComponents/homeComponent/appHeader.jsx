@@ -10,7 +10,13 @@ import {
   deviceDetect,
   deviceType,
 } from "react-device-detect";
-import { appCateProd } from "../../atom";
+import {
+  appBrandProd,
+  appCateProd,
+  appFeaturedProd,
+  appSubProd,
+  searchKeyRemove,
+} from "../../atom";
 import { useSetRecoilState } from "recoil";
 
 function AppHeader({ cartCount }) {
@@ -19,6 +25,10 @@ function AppHeader({ cartCount }) {
   const ref = useRef(null);
   const navigate = useNavigate();
   const setData = useSetRecoilState(appCateProd);
+  const setData2 = useSetRecoilState(appSubProd);
+  const setData3 = useSetRecoilState(appBrandProd);
+  const setData4 = useSetRecoilState(appFeaturedProd);
+  const setSearchkey = useSetRecoilState(searchKeyRemove);
 
   useEffect(() => {
     getUserDetail();
@@ -61,6 +71,10 @@ function AppHeader({ cartCount }) {
               <Link
                 to="/app/home"
                 onClick={() => {
+                  setSearchkey(true);
+                  setData2([{ page: 1, sortBy: 1 }]);
+                  setData3([{ page: 1, sortBy: 1 }]);
+                  setData4([{ page: 1, sortBy: 1 }]);
                   setData([{ page: 1, sortBy: 1 }]);
                 }}
               >

@@ -113,7 +113,7 @@ function AppSubCategories() {
               <div className="row mx-0 justify-content-center">
                 {categories.map((item, index) => {
                   return (
-                    <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-3 brands_box shadow">
+                    <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-1 brands_box shadow">
                       <Link
                         className="text-center mt-4"
                         to={`/app/product-subCategory/${item?.subCategoryName}`}
@@ -128,7 +128,7 @@ function AppSubCategories() {
                             alt=""
                           />
                         </div>
-                        <p className="text-center mt-2">
+                        <p className="text-center mt-2 fs-6">
                           {item?.subCategoryName}
                         </p>
                       </Link>

@@ -519,55 +519,59 @@ const SingleProdBySearch = () => {
                     ) : null}
                     <div className="falvor_main mt-4">
                       <div className="row m-1">
-                        {(product?.type || []).map((item, ind) => {
-                          return flavour?.flavour === item?.flavour ? (
-                            <div className="col-md-4 mb-lg-4 mb-md-3">
-                              <a
-                                className="flavor_design selected_flavor text-decoration-none"
-                                key={ind}
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title={item?.flavour}
-                                style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#3e4093",
-                                }}
-                              >
-                                {flavour?.flavour?.slice(0, 18)}
-                              </a>
-                            </div>
-                          ) : (
-                            <div className="col-md-4 mb-lg-4 mb-md-3">
-                              <a
-                                className="flavor_design text-decoration-none"
-                                key={ind}
-                                onMouseMove={onMouseOut}
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title={item?.flavour}
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  document.getElementById(
-                                    "productMainImg"
-                                  ).src = item?.flavourImage;
+                        {(product?.type || [])
+                          .sort((a, b) => {
+                            return a.flavour.localeCompare(b.flavour);
+                          })
+                          .map((item, ind) => {
+                            return flavour?.flavour === item?.flavour ? (
+                              <div className="col-md-4 mb-lg-4 mb-md-3">
+                                <a
+                                  className="flavor_design selected_flavor text-decoration-none"
+                                  key={ind}
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title={item?.flavour}
+                                  style={{
+                                    cursor: "pointer",
+                                    backgroundColor: "#3e4093",
+                                  }}
+                                >
+                                  {flavour?.flavour?.slice(0, 18)}
+                                </a>
+                              </div>
+                            ) : (
+                              <div className="col-md-4 mb-lg-4 mb-md-3">
+                                <a
+                                  className="flavor_design text-decoration-none"
+                                  key={ind}
+                                  onMouseMove={onMouseOut}
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title={item?.flavour}
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    document.getElementById(
+                                      "productMainImg"
+                                    ).src = item?.flavourImage;
 
-                                  setErrMsg();
-                                  setTypeObj();
-                                  setFlavour(item);
-                                  setUnitCount(1);
-                                  document.getElementById(
-                                    "flavour_box"
-                                  ).className = "offers_box_main ";
-                                  document.getElementById(
-                                    "productMainImg"
-                                  ).className = "selected-img";
-                                }}
-                              >
-                                <span>{item?.flavour?.slice(0, 18)}</span>
-                              </a>
-                            </div>
-                          );
-                        })}
+                                    setErrMsg();
+                                    setTypeObj();
+                                    setFlavour(item);
+                                    setUnitCount(1);
+                                    document.getElementById(
+                                      "flavour_box"
+                                    ).className = "offers_box_main ";
+                                    document.getElementById(
+                                      "productMainImg"
+                                    ).className = "selected-img";
+                                  }}
+                                >
+                                  <span>{item?.flavour?.slice(0, 18)}</span>
+                                </a>
+                              </div>
+                            );
+                          })}
                       </div>
                     </div>
                   </div>
@@ -647,7 +651,7 @@ const SingleProdBySearch = () => {
           </div>
         </section>
 
-        <section class="product_describeee bg-white comman_padding">
+        <section class="product_describeee bg-white comman_paddings">
           <div class="container">
             <div class="row comman_divvision mx-0">
               <div class="col-12 mb-3">

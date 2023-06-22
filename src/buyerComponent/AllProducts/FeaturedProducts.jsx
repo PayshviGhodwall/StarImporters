@@ -91,7 +91,7 @@ const FeaturedProducts = () => {
         </div>
       </section>
       <>
-        <section className="singleproduct-page comman_padding">
+        <section className="singleproduct-page comman_paddings">
           <div className="container">
             <div className="row">
               <div className="col singleproduct_divvision mx-0">

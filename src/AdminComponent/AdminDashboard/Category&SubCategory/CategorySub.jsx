@@ -47,11 +47,11 @@ const CategorySub = () => {
   const [activePage2, setActivePage2] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [maxPage2, setMaxPage2] = useState(1);
-
+  const [order, setOrder] = useState("");
   useEffect(() => {
     getCategories();
     getSubCategories();
-  }, [change, activePage2, activePage]);
+  }, [change, activePage2]);
 
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
@@ -161,15 +161,11 @@ const CategorySub = () => {
   };
 
   const getCategories = async () => {
-    await axios
-      .post(categoryApi, {
-        page: activePage,
-      })
-      .then((res) => {
-        console.log(res);
-        setAllCategories(res?.data.results?.categories);
-        setMaxPage(res?.data.results.totalPages);
-      });
+    await axios.post(categoryApi).then((res) => {
+      console.log(res);
+      setAllCategories(res?.data.results?.categories);
+      setMaxPage(res?.data.results.totalPages);
+    });
   };
 
   const getSubCategories = async () => {
@@ -224,6 +220,7 @@ const CategorySub = () => {
     formData.append("categoryImage", files?.newCategoryImg);
     formData.append("background", files?.background);
     formData.append("categoryName", editCateName.trim());
+    formData.append("listingOrder", order);
 
     await axios.post(editCategory + "/" + categoryId, formData).then((res) => {
       console.log(res);
@@ -381,7 +378,7 @@ const CategorySub = () => {
       });
   };
   // instant image preview //
-  
+
   document
     .getElementById("subCatUpImg")
     ?.addEventListener("change", function () {
@@ -738,7 +735,7 @@ const CategorySub = () => {
                     Content Management
                   </Link>
                 </li>
-                  <li>
+                <li>
                   <Link
                     className=""
                     to="/Contact&Support"
@@ -814,8 +811,10 @@ const CategorySub = () => {
                 <div className="col-6">
                   <h2 className="main_headers">Categories Management</h2>
                 </div>
+
                 <div className="col-6 form-design d-flex justify-content-end">
                   {/* <form className="form-design" action=""> */}
+
                   <div className="form-group mb-0 position-relative icons_set">
                     <input
                       type="text"
@@ -1508,10 +1507,7 @@ const CategorySub = () => {
                       ></i>
                     ) : null}
                   </div>
-                  <div
-                    className="form-group col-12"
-                    key={EditCategories?.categoryName}
-                  >
+                  <div className="form-group col-6">
                     <label htmlFor="">Category Name</label>
                     <input
                       type="text"
@@ -1522,7 +1518,29 @@ const CategorySub = () => {
                       }}
                     />
                   </div>
-
+                  <div className="form-group col-6 mb-4">
+                    <label htmlFor="">Listing order</label>
+                    <select
+                      key={EditCategories?.listingOrder}
+                      className="form-select form-control"
+                      aria-label="Default select example"
+                      onChange={(e) => {
+                        setOrder(e.target.value);
+                      }}
+                    >
+                      <option selected value={EditCategories?.listingOrder}>
+                        {EditCategories?.listingOrder}
+                      </option>
+                      <option value="0">1</option>
+                      <option value="1">2</option>
+                      <option value="2">3</option>
+                      <option value="3">4</option>
+                      <option value="4">5</option>
+                      <option value="5">6</option>
+                      <option value="6">7</option>
+                      <option value="7">8</option>
+                    </select>
+                  </div>
                   <div className="form-group mb-0 col-auto mt-3">
                     <button className="comman_btn" onClick={onEditSaveCategory}>
                       Save

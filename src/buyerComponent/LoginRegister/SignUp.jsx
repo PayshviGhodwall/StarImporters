@@ -33,15 +33,44 @@ const SignUp = () => {
     setLoader(true);
     const SignUpData = async (e) => {
       const formData = new FormData();
-      formData.append("companyName", data?.companyName?.trim());
-      formData.append("dba", data?.dba?.trim());
-      formData.append("addressLine1", data?.addressLine1?.trim());
-      formData.append("addressLine2", data?.addressLine2?.trim());
-      formData.append("city", data?.city?.trim());
-      formData.append("state", data?.state);
+      formData.append(
+        "companyName",
+        data?.companyName?.charAt(0).toUpperCase() +
+          data?.companyName?.slice(1).trim()
+      );
+      formData.append(
+        "dba",
+        data?.dba?.charAt(0).toUpperCase() + data?.dba?.slice(1).trim()
+      );
+      formData.append(
+        "addressLine1",
+        data?.addressLine1?.charAt(0).toUpperCase() +
+          data?.addressLine1?.slice(1).trim()
+      );
+      formData.append(
+        "addressLine2",
+        data?.addressLine2?.charAt(0).toUpperCase() +
+          data?.addressLine2?.slice(1).trim()
+      );
+      formData.append(
+        "city",
+        data?.city?.charAt(0).toUpperCase() + data?.city?.slice(1).trim()
+      );
+      formData.append(
+        "state",
+        data?.state?.charAt(0).toUpperCase() + data?.state?.slice(1).trim()
+      );
       formData.append("zipcode", data?.zipcode?.trim());
-      formData.append("firstName", data?.firstName?.trim());
-      formData.append("lastName", data?.lastName?.trim());
+      formData.append(
+        "firstName",
+        data?.firstName?.charAt(0).toUpperCase() +
+          data?.firstName?.slice(1).trim()
+      );
+      formData.append(
+        "lastName",
+        data?.lastName?.charAt(0).toUpperCase() +
+          data?.lastName?.slice(1).trim()
+      );
       formData.append("email", data?.email?.trim());
       formData.append("wholesaleConfirmation", data?.wholeSale);
       formData.append("newsLetter", data?.subscribe);
@@ -53,7 +82,11 @@ const SignUp = () => {
       formData.append("salesTaxId", files?.salesTaxId);
       formData.append("accountOwnerId", files?.accountOwnerId);
       formData.append("heardAboutUs", data?.heardAboutUs);
-      formData.append("comments", data?.comments);
+      formData.append(
+        "comments",
+        data?.comments?.charAt(0).toUpperCase() +
+          data?.comments?.slice(1).trim()
+      );
 
       await axios
         .post(apiUrl, formData)
@@ -176,10 +209,7 @@ const SignUp = () => {
                         value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
                         message: "Special Character not allowed",
                       },
-                      pattern: {
-                        value: /^[A-Z][a-z0-9_-]{3,19}$/,
-                        message: "First Letter Should be in UpperCase!",
-                      },
+
                       minLength: {
                         value: 2,
                         message: "Minimium 2 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string

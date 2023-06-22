@@ -68,12 +68,12 @@ const ProductByBrand = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner  marginTopSec">
+      <section className="comman_banner  marginTop">
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12 mt-4">
               <h1>{location.state?.name}</h1>
-              <div className="breadcrumbs mt-2">
+              <div className="breadcrumbs ">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb mb-0">
                     <li className="item_nanner">
@@ -100,7 +100,7 @@ const ProductByBrand = () => {
         </div>
       </section>
       <>
-        <section class="singleproduct-page comman_padding">
+        <section class="singleproduct-page comman_paddings">
           <div class="container">
             <div class="row singleproduct_divvision mx-0">
               <div class="col-xl-3 col-lg-4 col-md-4 ps-0 mt-4">

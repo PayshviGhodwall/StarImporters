@@ -16,12 +16,13 @@ import TopProduct from "./appTopProductComponent";
 import { useNavigate } from "react-router-dom";
 import { browserName } from "react-device-detect";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   appBrandProd,
   appCateProd,
   appFeaturedProd,
   appSubProd,
+  searchKeyRemove,
 } from "../../atom";
 
 function AppHome() {
@@ -43,7 +44,8 @@ function AppHome() {
   const setData2 = useSetRecoilState(appSubProd);
   const setData3 = useSetRecoilState(appBrandProd);
   const setData4 = useSetRecoilState(appFeaturedProd);
-
+  const searchKey = useRecoilValue(searchKeyRemove);
+  const setSearchKeyRemove = useSetRecoilState(searchKeyRemove);
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -55,9 +57,15 @@ function AppHome() {
     setData4([{ page: 1, sortBy: 1 }]);
   }, []);
 
+  console.log(searchKey);
+
   useEffect(() => {
     getProductList();
   }, [search]);
+
+  useEffect(() => {
+    searchKey && setSearch("");
+  }, [searchKey]);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
@@ -119,6 +127,7 @@ function AppHome() {
   };
 
   const searchProduct = async (e) => {
+    console.log("njkjk");
     e.preventDefault();
     navigate("/app/product-by-search", { state: { search: search } });
   };
@@ -165,6 +174,7 @@ function AppHome() {
     } catch (err) {
       console.log(err);
     }
+    document.getElementById("modalCLose").click();
   };
 
   const genToken = async () => {
@@ -221,6 +231,7 @@ function AppHome() {
                     placeholder={"   " + "Search in Star Importers"}
                     onChange={(e) => {
                       setSearch(e.target.value);
+                      setSearchKeyRemove(false);
                     }}
                   />
 
@@ -367,6 +378,22 @@ function AppHome() {
                   <div>
                     <div className="hero-wrapper">
                       <div className="container">
+                        {browserName === "WebKit" ||
+                        browserName === "Chrome WebView" ? (
+                          <div
+                            class="marquee"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"
+                            onClick={genToken}
+                          >
+                            <div class="marquee__inner ">
+                              <p class="marquee__line text-dark mt-2">
+                                <strong>Click here</strong> to buy Tobacco
+                                related Products from our website.
+                              </p>
+                            </div>
+                          </div>
+                        ) : null}
                         <div className="pt-3">
                           <OwlCarousel
                             className=" hero-slides "
@@ -389,16 +416,18 @@ function AppHome() {
                               ></img>
                               <div className="slide-content h-100 d-flex align-items-center"></div>
                             </div>
-                            {banner?.map((item) => {
-                              return (
-                                <div className="single-hero-slide item">
-                                  <img src={item?.banner}></img>
-                                  <div className="slide-content h-100 d-flex align-items-center">
-                                    {/* <div className="slide-text"></div> */}
+                            {banner
+                              ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                              .map((item) => {
+                                return (
+                                  <div className="single-hero-slide item">
+                                    <img src={item?.banner}></img>
+                                    <div className="slide-content h-100 d-flex align-items-center">
+                                      {/* <div className="slide-text"></div> */}
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
                           </OwlCarousel>
                         </div>
                       </div>
@@ -580,16 +609,18 @@ function AppHome() {
                               ></img>
                               <div className="slide-content h-100 d-flex align-items-center"></div>
                             </div>
-                            {banner?.map((item) => {
-                              return (
-                                <div className="single-hero-slide item">
-                                  <img src={item?.banner}></img>
-                                  <div className="slide-content h-100 d-flex align-items-center">
-                                    <div className="slide-text"></div>
+                            {banner
+                              ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                              .map((item) => {
+                                return (
+                                  <div className="single-hero-slide item">
+                                    <img src={item?.banner}></img>
+                                    <div className="slide-content h-100 d-flex align-items-center">
+                                      <div className="slide-text"></div>
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
                           </OwlCarousel>
                         </div>
                       </div>

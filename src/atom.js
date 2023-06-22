@@ -151,3 +151,8 @@ export const orderPageData = atom({
     },
   ], // default value (aka initial value)
 });
+
+export const searchKeyRemove = atom({
+  key: "searchkeyRemove", // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});

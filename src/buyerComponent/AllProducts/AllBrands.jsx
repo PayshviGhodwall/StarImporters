@@ -53,7 +53,7 @@ const AllBrands = () => {
         </div>
       </section>
       <>
-        <section class="Sub-Categories-page comman_padding">
+        <section class="Sub-Categories-page comman_paddings">
           <div class="container">
             <div class="row comman_divvision mx-0">
               {/* <a class="view_all" href="javascript:;">

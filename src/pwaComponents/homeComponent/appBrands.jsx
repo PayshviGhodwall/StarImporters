@@ -81,8 +81,7 @@ function AppBrands() {
                           <div className="col-6 mb-3 pe-2">
                             <Link
                               className="brands_box shadow"
-                              to="/app/productBrands"
-                              state={{ name: item?.brandName }}
+                              to={`/app/productBrands/${item?.brandName}`}
                             >
                               <img
                                 src={item?.brandImage}

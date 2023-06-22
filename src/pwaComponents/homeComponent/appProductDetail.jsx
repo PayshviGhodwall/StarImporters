@@ -315,43 +315,47 @@ function AppProductDetail() {
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      {productDetail?.type?.map((item, index) =>
-                        flavour?.flavour === item?.flavour ? (
-                          <Link
-                            className="text-white"
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#3e4093",
-                            }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setFlavour(item);
-                              setFInd(index);
-                              setQuantity(1);
-                              setItemNo(index + 1);
-                              document.getElementById("product-image").src =
-                                item?.flavourImage;
-                            }}
-                          >
-                            {item?.flavour}
-                          </Link>
-                        ) : (
-                          <Link
-                            className=""
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setFlavour(item);
-                              setFInd(index);
-                              setQuantity(1);
-                              setItemNo(index + 1);
-                              document.getElementById("product-image").src =
-                                item?.flavourImage;
-                            }}
-                          >
-                            {item?.flavour}
-                          </Link>
-                        )
-                      )}
+                      {productDetail?.type
+                        ?.sort((a, b) => {
+                          return a.flavour.localeCompare(b.flavour);
+                        })
+                        .map((item, index) =>
+                          flavour?.flavour === item?.flavour ? (
+                            <Link
+                              className="text-white"
+                              style={{
+                                cursor: "pointer", 
+                                backgroundColor: "#3e4093",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setFlavour(item);
+                                setFInd(index);
+                                setQuantity(1);
+                                setItemNo(index + 1);
+                                document.getElementById("product-image").src =
+                                  item?.flavourImage;
+                              }}
+                            >
+                              {item?.flavour}
+                            </Link>
+                          ) : (
+                            <Link
+                              className=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setFlavour(item);
+                                setFInd(index);
+                                setQuantity(1);
+                                setItemNo(index + 1);
+                                document.getElementById("product-image").src =
+                                  item?.flavourImage;
+                              }}
+                            >
+                              {item?.flavour}
+                            </Link>
+                          )
+                        )}
                     </div>
                   </div>
                 </div>

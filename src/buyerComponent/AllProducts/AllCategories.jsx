@@ -25,7 +25,7 @@ const AllCategories = () => {
   return (
     <div>
       <Navbar />
-      <section className="comman_banner _banner marginTopSec">
+      <section className="comman_banner _banner marginTopSecx">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -54,7 +54,7 @@ const AllCategories = () => {
         </div>
       </section>
       <>
-        <section class="Sub-Categories-page comman_padding">
+        <section class="Sub-Categories-page comman_paddings">
           <div class="container">
             <div class="row comman_divvision mx-0">
               {/* <a class="view_all" href="javascript:;">
