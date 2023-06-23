@@ -52,6 +52,7 @@
     "react-barcode-reader": "^0.0.2",
     "react-barcode-scanner": "^1.0.2",
     "react-bootstrap-table-next": "^4.0.3",
+    "react-csv": "^2.2.2",
     "react-device-detect": "^2.2.3",
     "react-doc-viewer": "^0.1.5",
     "react-document-preview": "^1.0.1",

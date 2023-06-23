@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import moment from "moment";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -18,14 +19,21 @@ const ViewOrder = () => {
   const [orderStatus, setOrderStatus] = useState();
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
-
+  const [csvData, setCsvData] = useState([]);
   let id = location?.state?.id;
   const fileDownload = (url, name) => {
     saveAs(url, name);
   };
+  // const csvData = [
+  //   ["firstname", "lastname", "email"],
+  //   ["Ahmed", "Tomi", "ah@smthing.co.com"],
+  //   ["Raed", "Labes", "rl@smthing.co.com"],
+  //   ["Yezzi", "Min l3b", "ymin@cocococo.com"],
+  // ];
 
   useEffect(() => {
     OrderDetails();
+    exportOrder();
   }, []);
 
   const OrderDetails = async () => {
@@ -33,6 +41,7 @@ const ViewOrder = () => {
       setOrders(res?.data.results);
     });
   };
+
   const UpdateOrderStatus = async (e) => {
     e.preventDefault();
     await axios
@@ -49,13 +58,10 @@ const ViewOrder = () => {
         }
       });
   };
-  const exportOrder = async (e) => {
-    e.preventDefault();
-
+  const exportOrder = async () => {
     await axios.post(orderExport + "/" + id).then((res) => {
-      if (!res?.error) {
-        fileDownload(res?.data.results?.file, orders?.orderId);
-      }
+      console.log(res);
+      setCsvData(res.data.results.data);
     });
   };
   const exportOrderXls = async (e) => {
@@ -501,12 +507,9 @@ const ViewOrder = () => {
                         </button>
                         <div class="dropdown-contents">
                           <a href="#">
-                            <Link
-                              className="text-decoration-none"
-                              onClick={exportOrder}
-                            >
+                            <CSVLink data={csvData} filename={orders?.orderId}>
                               Export .csv
-                            </Link>
+                            </CSVLink>
                           </a>
                           <a href="#">
                             <Link
@@ -537,6 +540,7 @@ const ViewOrder = () => {
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Date - Time</span>
+
                             <div className="col">
                               <strong>
                                 {" "}
