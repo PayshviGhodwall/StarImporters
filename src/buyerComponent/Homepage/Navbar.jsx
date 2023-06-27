@@ -3,11 +3,8 @@ import Starlogo from "../../assets/img/logo.png";
 import "../../assets/css/main.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Animate from "../../Animate";
 import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/homeHttpService";
 import Fade from "react-reveal/Fade";
-import Zoom from "react-reveal/Zoom";
-import Pulse from "react-reveal/Pulse";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   CartCount,
@@ -113,7 +110,6 @@ const Navbar = ({ NState, LoginState }) => {
   const CartCounts = async () => {
     await axios.post(cart).then((res) => {
       console.log(res);
-
       setCartNum(res?.data.results?.productCount);
     });
   };
@@ -133,6 +129,7 @@ const Navbar = ({ NState, LoginState }) => {
       setScrolled(false);
     }
   };
+
   return (
     <div className="header_main" ref={ref}>
       <div className="">
@@ -290,68 +287,66 @@ const Navbar = ({ NState, LoginState }) => {
                         Home
                       </a>
                     </li>
-                    {(category || [])
-                      ?.filter((item, idx) => idx < 8)
-                      .map((item, index) => (
-                        <li
-                          className="new_dropdown"
-                          key={index}
-                          // className="zindex-1"
+                    {(category || []).map((item, index) => (
+                      <li
+                        className="new_dropdown"
+                        key={index}
+                        // className="zindex-1"
+                      >
+                        <a
+                          className="new_dropdown_link "
+                          onClick={() => {
+                            setPage2(1);
+                            navigate("/app/subCategories", {
+                              state: {
+                                id: item?._id,
+                                name: item?.categoryName,
+                                image: item?.background,
+                              },
+                            });
+                          }}
                         >
-                          <a
-                            className="new_dropdown_link"
-                            onClick={() => {
-                              setPage2(1);
-                              navigate("/app/subCategories", {
-                                state: {
-                                  id: item?._id,
-                                  name: item?.categoryName,
-                                  image: item?.background,
-                                },
-                              });
-                            }}
-                          >
-                            {item?.categoryName}
-                          </a>
-                          <div className="new_dropdown_inner">
-                            {(item?.subcategories || [])
-                              ?.filter((item, idx) => idx < 9)
-                              .map((item, index) => (
-                                <a
-                                  key={index}
-                                  onClick={() => {
-                                    setPage2(1);
-                                    setFilter(item?._id);
-                                    navigate("/SubCategory/Products", {
-                                      state: {
-                                        name: item?.subCategoryName,
-                                      },
-                                    });
-                                  }}
-                                >
-                                  {item?.subCategoryName}
-                                </a>
-                              ))}
-                            {item?.subcategories.length ? (
+                          {item?.categoryName}
+                        </a>
+                        <div className="new_dropdown_inner">
+                          {(item?.subcategories || [])
+                            ?.filter((item, idx) => idx < 9)
+                            .map((item, index) => (
                               <a
-                                onClick={() =>
-                                  navigate("/app/subCategories", {
+                                key={index}
+                                onClick={() => {
+                                  setPage2(1);
+                                  setFilter(item?._id);
+                                  navigate("/SubCategory/Products", {
                                     state: {
-                                      id: item?._id,
-                                      name: item?.categoryName,
+                                      name: item?.subCategoryName,
                                     },
-                                  })
-                                }
+                                  });
+                                }}
                               >
-                                View all
-                                <i className="fa fa-arrow-up-right-from-square mx-2"></i>
+                                {item?.subCategoryName}
                               </a>
-                            ) : (
-                              <a>No Results....</a>
-                            )}
-                          </div>
-                        </li>
-                      ))}
+                            ))}
+                          {item?.subcategories.length ? (
+                            <a
+                              onClick={() =>
+                                navigate("/app/subCategories", {
+                                  state: {
+                                    id: item?._id,
+                                    name: item?.categoryName,
+                                  },
+                                })
+                              }
+                            >
+                              View all
+                              <i className="fa fa-arrow-up-right-from-square mx-2"></i>
+                            </a>
+                          ) : (
+                            <a>No Results....</a>
+                          )}
+                        </div>
+                      </li>
+                    ))}
                     <li>
                       <Link
                         className="text-decoration-none mx-2 p-3"

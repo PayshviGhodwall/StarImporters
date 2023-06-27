@@ -14301,21 +14301,22 @@ figure.effect-ming:hover img {
   justify-content: center;
   align-items: center;
 }
+
 .header_menuss {
   display: flex;
   justify-content: center;
 }
 .header_menuss li > a {
   color: #fff;
-  font-size: 14px !important;
+  font-size: 13px !important;
   text-transform: capitalize;
   display: flex;
   align-items: center;
   position: relative;
   transition: 0.3s;
-  height: 52px;
+  height: 52px !important;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
 }
 .header_menuss li:hover > a {
   background-color: #fff;
@@ -14325,21 +14326,21 @@ figure.effect-ming:hover img {
 .new_dropdown {
   z-index: 999 !important;
 }
-.new_dropdown_link::after {
+/* .new_dropdown_link::after {
   content: "";
   position: absolute;
   background-image: url("../img/arrow.png") !important;
   height: 12px;
   width: 12px;
-  right: 16px;
+  right: 18px;
   text-decoration: none;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 18px;
   transition: 0.3s all;
-  top: 21px;
+  top: 32px;
   filter: brightness(20.5);
-}
+} */
 @keyframes list-anime {
   0% {
     opacity: 15%;
@@ -14356,7 +14357,7 @@ figure.effect-ming:hover img {
   transition: 2s ease-in !important;
 }
 .header_menuss li .new_dropdown_link {
-  padding: 15px 32px 15px 22px;
+  padding: 12px 15px 12px 15px;
 }
 .new_dropdown_inner {
   display: none;
@@ -14744,13 +14745,13 @@ figure.effect-ming:hover img {
 
 @media (max-width: 1199px) {
   .header_menuss li > a {
-    font-size: 13px;
-    padding: 12px 12px;
+    font-size: 11px !important;
+    padding: 8px 8px;
     transition: 0.3s;
     height: 42px;
   }
   .header_menuss li .new_dropdown_link {
-    padding: 12px 22px 12px 12px;
+    padding: 8px 18px 8px 8px !important;
   }
   .new_dropdown_link::after {
     height: 12px;
@@ -15698,7 +15699,7 @@ figure.effect-ming:hover img {
 
 @media (max-width: 1199px) {
   .header_menuss li > a {
-    font-size: 13px;
+    font-size: 10px;
     padding: 12px 12px;
     transition: 0.3s;
     height: 42px;
