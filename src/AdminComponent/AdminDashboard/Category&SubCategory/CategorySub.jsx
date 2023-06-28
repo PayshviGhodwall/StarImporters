@@ -1529,7 +1529,7 @@ const CategorySub = () => {
                       }}
                     >
                       <option selected value={EditCategories?.listingOrder}>
-                        {EditCategories?.listingOrder}
+                        {EditCategories?.listingOrder + 1}
                       </option>
                       <option value="0">1</option>
                       <option value="1">2</option>
@@ -1539,6 +1539,9 @@ const CategorySub = () => {
                       <option value="5">6</option>
                       <option value="6">7</option>
                       <option value="7">8</option>
+                      <option value="8">9</option>
+                      <option value="9">10</option>
+                      <option value="10">11</option>
                     </select>
                   </div>
                   <div className="form-group mb-0 col-auto mt-3">
