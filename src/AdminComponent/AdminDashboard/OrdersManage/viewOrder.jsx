@@ -64,6 +64,7 @@ const ViewOrder = () => {
       setCsvData(res.data.results.data);
     });
   };
+
   const exportOrderXls = async (e) => {
     e.preventDefault();
     await axios.post(orderExportXls + "/" + id).then((res) => {
@@ -507,7 +508,7 @@ const ViewOrder = () => {
                         </button>
                         <div class="dropdown-contents">
                           <a href="#">
-                            <CSVLink data={csvData} filename={orders?.orderId}>
+                            <CSVLink data={csvData} filename={orders?.orderId}   enclosingCharacter={true} >
                               Export .csv
                             </CSVLink>
                           </a>

@@ -121,6 +121,7 @@ const BrandsManage = () => {
     });
     setBrandId(id);
   };
+
   // const brandSearch = async (e) => {
   //   let string = e.target.value;
   //   string !== ""
@@ -766,6 +767,8 @@ const BrandsManage = () => {
                                         <td>
                                           <Link
                                             className="comman_btn2 text-white text-decoration-none"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop"
                                             key={index}
                                             onClick={() => {
                                               onEditBrands(item?._id);
