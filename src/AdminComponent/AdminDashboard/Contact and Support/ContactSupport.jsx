@@ -24,10 +24,10 @@ const ContactSupport = () => {
   useEffect(() => {
     getAllContacts();
     getAllNewsLetter();
-  }, []);
+  }, [activePage,activePage2]);
 
   const getAllContacts = async () => {
-    const { data } = await axios.post(contactList, { page: 1 });
+    const { data } = await axios.post(contactList, { page: activePage });
     if (!data.error) {
       setContacts(data.results.queries);
       setMaxPage(data.results.totalPages);

@@ -34,7 +34,7 @@ export const colourOptions = [
   },
   { value: "Brands Management", label: "Brands Management" },
   { value: "Inventory Management", label: "Inventory Management" },
-  { value: "Orders Request", label: "Order Management" },
+  { value: "Orders Management", label: "Orders Management" },
   { value: "CMS", label: "CMS" },
 ];
 

@@ -508,7 +508,7 @@ const ViewOrder = () => {
                         </button>
                         <div class="dropdown-contents">
                           <a href="#">
-                            <CSVLink data={csvData} filename={orders?.orderId}   enclosingCharacter={true} >
+                            <CSVLink data={csvData} filename={orders?.orderId}    >
                               Export .csv
                             </CSVLink>
                           </a>
@@ -672,14 +672,6 @@ const ViewOrder = () => {
                                   Order Placed
                                 </option>
                                 <option value="PROCESSING">Processing</option>
-                                <option value="RDF">
-                                  Ready for{" "}
-                                  {(orders?.type === "In-Store Pickup" &&
-                                    "Pickup") ||
-                                    (orders?.type === "Shipment" &&
-                                      "Shipping") ||
-                                    (orders?.type === "Delivery" && "Delivery")}
-                                </option>
                                 <option value="DELIVERED">Delivered</option>
                                 <option value="CANCEL">Canceled</option>
                               </select>

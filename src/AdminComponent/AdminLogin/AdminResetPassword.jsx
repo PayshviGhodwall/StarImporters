@@ -45,6 +45,11 @@ const AdminResetPassword = () => {
         })
         .then((res) => {
           if (res?.data.message === "Password Updated Sucessfully") {
+            Swal.fire({
+              title: "Password Updated Sucessfully!",
+              timer:2000,
+              icon: "success",
+            });
             navigate("/AdminLogin");
           }
         });

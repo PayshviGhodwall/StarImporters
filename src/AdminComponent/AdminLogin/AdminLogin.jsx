@@ -50,6 +50,14 @@ const AdminLogin = () => {
           });
           setPassError("Incorrect Password");
         }
+        else if (res?.data.message === "Your account is disabled by Admin") {
+          Swal.fire({
+            title: "Your account is disabled by Admin",
+            text: "Please Contact Admin!",
+            icon: "error",
+          });
+          setEmailError("Email is not Registered as Admin");
+        } 
       });
   };
   const togglePassword = () => {

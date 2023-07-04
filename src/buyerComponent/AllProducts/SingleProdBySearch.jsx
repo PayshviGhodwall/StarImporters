@@ -453,7 +453,7 @@ const SingleProdBySearch = () => {
                           </a>
                         </li>
                       </SwiperSlide>
-                      {(product?.type || [])?.map((item, index) => (
+                      {(product?.type || [])?.filter((itm,idx)=>itm?.flavourStatus === true).map((item, index) => (
                         <SwiperSlide key={index} className="me-0 ms-1">
                           <li className="image_button">
                             <a
@@ -526,6 +526,7 @@ const SingleProdBySearch = () => {
                           .map((item, ind) => {
                             return flavour?.flavour === item?.flavour ? (
                               <div className="col-md-4 mb-lg-4 mb-md-3">
+                                {item?.flavourStatus   && 
                                 <a
                                   className="flavor_design selected_flavor text-decoration-none"
                                   key={ind}
@@ -539,9 +540,12 @@ const SingleProdBySearch = () => {
                                 >
                                   {flavour?.flavour?.slice(0, 18)}
                                 </a>
+                          }
                               </div>
                             ) : (
                               <div className="col-md-4 mb-lg-4 mb-md-3">
+                                {item?.flavourStatus   && 
+
                                 <a
                                   className="flavor_design text-decoration-none"
                                   key={ind}
@@ -569,6 +573,7 @@ const SingleProdBySearch = () => {
                                 >
                                   <span>{item?.flavour?.slice(0, 18)}</span>
                                 </a>
+                          }
                               </div>
                             );
                           })}

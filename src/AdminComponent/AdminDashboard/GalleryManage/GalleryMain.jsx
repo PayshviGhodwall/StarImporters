@@ -51,28 +51,45 @@ const GalleryMain = () => {
           confirmButtonText: "Okay",
         });
       }
+      else {
+        Swal.fire({
+          title: "Enter Valid Details!",
+          text:"Please fill all fields with valid Data.",
+          icon: "error",
+          timer:2000,
+          confirmButtonText: "Okay",
+        });
+      }
     });
   };
 
   const saveCollection = async (e) => {
     e.preventDefault();
+    // if(editGalleryName != "" || )
     let formData = new FormData();
     formData.append("title", editGalleryName);
     formData.append("coverImage", files?.editCoverImage);
     multipleFiles?.dataImg?.map((item) => {
       formData.append("images", item?.gallery_images);
     });
-    await axios.post(editCollection + "/" + id, formData).then((res) => {
-      getCollection();
-      document.getElementById("Modal_gallery").click();
-      if (!res.data.error) {
-        Swal.fire({
-          title: "Gallery Modified Successfully!",
-          icon: "success",
-          confirmButtonText: "Okay",
-        });
-      }
-    });
+      await axios.post(editCollection + "/" + id, formData).then((res) => {
+        getCollection();
+        document.getElementById("Modal_gallery").click();
+        if (!res.data.error) {
+          Swal.fire({
+            title: "Gallery Modified Successfully!",
+            icon: "success",
+            confirmButtonText: "Okay",
+          });
+        } else {
+          Swal.fire({
+            title: "Enter Valid Details!",
+            icon: "error",
+            confirmButtonText: "Okay",
+          });
+        }
+      });
+   
   };
 
   const deleteImage = async (i, img) => {
@@ -605,20 +622,7 @@ const GalleryMain = () => {
                       />
                     </div>
                   </form>
-                  <div className="dropdown  mt-1">
-                    <div>
-                      <div class="dropdown_sort">
-                        <button class="dropdown-btn_sort">
-                          <img
-                            src={require("../../../assets/img/iconSort.png")}
-                            width={23}
-                            height={23}
-                            className="mx-3 mt-2"
-                          ></img>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
               <div className="row mx-0">
@@ -680,14 +684,8 @@ const GalleryMain = () => {
                               </div>
                               <div className="form-group mb-0 col-auto">
                                 <button
-                                  appearance="primary"
-                                  style={{
-                                    backgroundColor: "#eb3237",
-                                    fontSize: "20px",
-                                    position: "relative",
-                                    top: "-2px",
-                                  }}
-                                  className="comman_btn"
+                                  
+                                  className="comman_btn2"
                                   onClick={addGallery}
                                 >
                                   Save

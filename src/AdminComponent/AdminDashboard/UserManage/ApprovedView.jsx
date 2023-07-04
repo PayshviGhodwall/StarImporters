@@ -685,7 +685,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.federalTaxId}
+                                    {user?.federalTaxId?.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -736,7 +736,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.tobaccoLicence}
+                                    {user?.tobaccoLicence.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -792,7 +792,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.salesTaxId}
+                                    {user?.salesTaxId.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -844,7 +844,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.businessLicense}
+                                    {user?.businessLicense.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -921,7 +921,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.accountOwnerId}
+                                    {user?.accountOwnerId.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>

@@ -1117,7 +1117,7 @@ const CategorySub = () => {
                                         )}
                                       </tbody>
                                     </table>
-                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    {/* <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                       <span className="totalPage">
                                         ( Total Pages : {maxPage} )
                                       </span>
@@ -1156,7 +1156,7 @@ const CategorySub = () => {
                                           </a>
                                         </li>
                                       </ul>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>
@@ -1371,7 +1371,7 @@ const CategorySub = () => {
                                             href="#"
                                             onClick={() =>
                                               activePage2 === maxPage2
-                                                ? setActivePage2(maxPage)
+                                                ? setActivePage2(maxPage2)
                                                 : setActivePage2(
                                                     activePage2 + 1
                                                   )
