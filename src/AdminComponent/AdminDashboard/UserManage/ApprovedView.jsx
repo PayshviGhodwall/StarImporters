@@ -736,7 +736,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.tobaccoLicence.slice(0,40)}
+                                    {user?.tobaccoLicence?.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -792,7 +792,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.salesTaxId.slice(0,40)}
+                                    {user?.salesTaxId?.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -844,7 +844,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.businessLicense.slice(0,40)}
+                                    {user?.businessLicense?.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>
@@ -921,7 +921,7 @@ const ApprovedView = () => {
                                     className="mt-2"
                                     style={{ fontSize: "9px" }}
                                   >
-                                    {user?.accountOwnerId.slice(0,40)}
+                                    {user?.accountOwnerId?.slice(0,40)}
                                   </p>
                                 </Link>
                               </div>

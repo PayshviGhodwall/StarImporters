@@ -48,11 +48,21 @@ const AdminResetPassword = () => {
             Swal.fire({
               title: "Password Updated Sucessfully!",
               timer:2000,
-              icon: "success",
+              icon: "success", 
             });
             navigate("/AdminLogin");
           }
-        });
+         
+        }).catch((err)=>{
+          if(err.response.data.error){
+            Swal.fire({
+              title: "Trouble in Updating password!",
+              text:err.response.data.message,
+              timer:3000,
+              icon: "warning", 
+            });
+          }
+        })
     }
   };
 

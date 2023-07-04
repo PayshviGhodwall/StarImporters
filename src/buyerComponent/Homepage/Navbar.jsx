@@ -270,6 +270,8 @@ const Navbar = ({ NState, LoginState }) => {
         <div className="row">
           <div className="col-12 header_bottom ">
             <div className="container-fluid">
+
+            
               <div className="row header_row">
                 <div className="col-12">
                   <ul className="header_menuss mb-0 ps-0">
