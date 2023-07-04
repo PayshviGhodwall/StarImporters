@@ -420,13 +420,18 @@ const Inventory = () => {
             confirmButtonText: "ok",
           });
         }
-        if (!res?.data.error) {
+        if (res?.data.message === "Error in file") {
           Swal.fire({
             title: res?.data.message,
-            icon: "success",
+            text:res?.data.results?.itemNumErr.map((item) => item),
+            icon: "error",
             confirmButtonText: "okay",
-          });
+          }).then((res)=>{
+            window.location.reload()
+          })
           setUE("");
+          document.getElementById("modalCloseN44").click();
+          
         } else if (res?.data.message === "Products has been modified") {
           Swal.fire({
             title: "Products has been modified",

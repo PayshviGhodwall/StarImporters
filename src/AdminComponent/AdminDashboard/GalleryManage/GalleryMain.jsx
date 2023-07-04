@@ -44,7 +44,10 @@ const GalleryMain = () => {
 
     await axios.post(addCollection, formData).then((res) => {
       getCollection();
+      setTitle("")
       if (!res.data.error) {
+        document.getElementById("resetCatss").click();
+
         Swal.fire({
           title: "New Gallery Added!",
           icon: "success",
@@ -53,7 +56,7 @@ const GalleryMain = () => {
       }
       else {
         Swal.fire({
-          title: "Enter Valid Details!",
+          title: res?.data.message,
           text:"Please fill all fields with valid Data.",
           icon: "error",
           timer:2000,
@@ -692,7 +695,7 @@ const GalleryMain = () => {
                                 </button>
                                 <button
                                   className="comman_btn d-none"
-                                  id="resetCat"
+                                  id="resetCatss"
                                   type="reset"
                                 >
                                   Reset
