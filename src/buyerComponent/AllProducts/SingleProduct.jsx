@@ -524,14 +524,14 @@ const SingleProduct = () => {
                     ) : null}
                     <div className="falvor_main mt-4">
                       <div className="row">
-                        {(product?.type || [])
+                        {(product?.type || []).filter((itm,idx)=>itm.flavourStatus === true)
                           .sort((a, b) => {
                             return a.flavour.localeCompare(b.flavour);
                           })
                           .map((item, ind) => {
                             return flavour?.flavour === item?.flavour ? (
                               <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
-                                {item?.flavourStatus   &&  <a
+                            <a
                                 className="flavor_design selected_flavor text-decoration-none"
                                 data-toggle="tooltip"
                                 data-placement="top"
@@ -544,12 +544,10 @@ const SingleProduct = () => {
                               >
                                 {flavour?.flavour?.slice(0, 18)}
                               </a>
-                                }
                                
                               </div>
                             ) : (
                               <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
-                                {item?.flavourStatus   && 
                                 <a
                                   className="flavor_design text-decoration-none btn-animate"
                                   key={ind}
@@ -577,7 +575,6 @@ const SingleProduct = () => {
                                 >
                                   <span>{item?.flavour?.slice(0, 18)}</span>
                                 </a>
-                          }
                               </div>
                             );
                           })}

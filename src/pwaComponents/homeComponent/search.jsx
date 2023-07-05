@@ -77,6 +77,8 @@ const Search = () => {
         "openExternalBrowser",
         `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
       );
+
+      document.getElementById("modalCloseRD").click()
     } catch (err) {
       console.log(err);
     }
@@ -317,6 +319,8 @@ const Search = () => {
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+      id="modalCloseRD"
+
               ></button>
             </div>
             <div class="modal-body">Open website in External Browser.</div>

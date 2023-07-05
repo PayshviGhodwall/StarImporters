@@ -174,7 +174,7 @@ function AppHome() {
     } catch (err) {
       console.log(err);
     }
-    document.getElementById("modalCLose").click();
+    document.getElementById("modalCloseRD").click();
   };
 
   const genToken = async () => {
@@ -735,6 +735,7 @@ function AppHome() {
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  id="modalCloseRD"
                 ></button>
               </div>
               <div class="modal-body">Open website in External Browser.</div>

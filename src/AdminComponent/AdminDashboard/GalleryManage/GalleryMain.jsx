@@ -724,7 +724,7 @@ const GalleryMain = () => {
                                           <td className="border">
                                             {" "}
                                             {moment(
-                                              item?.updatedAt?.slice(0, 10)
+                                              item?.updatedAt
                                             ).format("MM/DD/YYYY")}
                                           </td>
                                           <td className="border">

@@ -12,14 +12,12 @@ import {
   updateQuote,
 } from "../httpServices/homeHttpService/homeHttpService";
 import AppFooter from "./appFooter";
-import AppHeader from "./appHeader";
 import WebHeader2 from "./webHeader2";
 
 function AppQuotes() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const productRemove = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/removeQuoteProducts`;
   const [quotes, setQuotes] = useState([]);
-  const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   let ref = useRef();
   useEffect(() => {

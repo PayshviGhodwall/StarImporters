@@ -328,8 +328,8 @@ function AppBuyAgain() {
             </div>
           ) : (
             <div className="py-3">
-              <div className="row mb-2 p-2">
-                <div className="col-5 mx-3 mx-xs-0 col-xs-6">
+              <div className="row mb-2 p-2 justify-content-between">
+                <div className="col-auto mx-3 mx-xs-0 col-xs-auto">
                   <label class="checkbox-label-all d-flex">
                     <input
                       type="checkbox"
@@ -343,7 +343,7 @@ function AppBuyAgain() {
                     <span className="select-text">Select All</span>
                   </label>
                 </div>
-                <div className="col-6 col-xs-6">
+                <div className="col-auto col-xs-auto">
                   <button onClick={(e) => AddtoCart(e)} className="comman_btn">
                     Add to Cart
                   </button>
