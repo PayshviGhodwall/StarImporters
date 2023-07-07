@@ -64,7 +64,7 @@ const SingleProduct = () => {
         setUserDetail(res?.data?.results);
       });
     };
-
+console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
@@ -89,7 +89,15 @@ const SingleProduct = () => {
 
   const AddtoCart = async () => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
-      if (!userDetail?.istobaccoLicenceExpired) {
+      if (userDetail?.istobaccoLicenceExpired) {
+        Swal.fire({
+          title: "Your Tobacco licence is Expired/Invalid!",
+          text: "*Licence is Required for this product.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        });
+       
+      } else {
         if (flavour) {
           setLoader(true);
           cartProduct.push(objectId);
@@ -156,13 +164,6 @@ const SingleProduct = () => {
             "offers_box_main_afterSelect ";
           setErrMsg("Please Select a Flavour.");
         }
-      } else {
-        Swal.fire({
-          title: "Your Tobacco licence is Expired/Invalid!",
-          text: "*Licence is Required for this product.",
-          icon: "warning",
-          confirmButtonText: "Okay",
-        });
       }
     } else {
       if (flavour) {

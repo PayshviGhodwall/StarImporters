@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { searchKey } from "../../atom";
 import {
+  deleteCart,
   homeSearch,
   searchByBarcode,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -217,7 +218,7 @@ const Search = () => {
                                     }
                                     alt=""
                                   />
-                                </Link>
+                                </Link>     
 
                                 <Link
                                   className="product-title"
@@ -225,7 +226,7 @@ const Search = () => {
                                   state={{ type: item?.type }}
                                 >
                                   {item.unitName + "-" + item?.type.flavour}
-                                </Link>
+                                </Link> 
                               </div>
                             </div>
                           </div>

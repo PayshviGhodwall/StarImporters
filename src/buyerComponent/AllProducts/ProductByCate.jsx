@@ -332,7 +332,7 @@ const ProductByCate = () => {
                     {products?.length ? (
                       <div class="row singleproduct---show">
                         {(products || [{}])?.map((item, index) => (
-                          <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
+                          <div class="col-xl-3 col-lg-3 col-md-3 mb-lg-4 mb-md-4">
                             <div class="singleproduct-box">
                               <a href="javascript:;" class="singleproduct--img">
                                 <img

@@ -44,6 +44,7 @@ const UserLoginPass = ({ otpEmail }) => {
             icon: "success",
             showCloseButton: true,
             focusConfirm: false,
+            timer:1000
           });
           navigate("/app/home");
         }
@@ -74,6 +75,8 @@ const UserLoginPass = ({ otpEmail }) => {
             text: "Try again or click ‘Forgot password’ to reset it.",
             icon: "error",
             confirmButtonText: "Try again",
+            timer:2000
+
           });
         }
         if (res?.data.message === "First Time Login") {
@@ -82,6 +85,7 @@ const UserLoginPass = ({ otpEmail }) => {
         }
       });
   };
+  
   const togglePassword = () => {
     let x = document.getElementById("Password-2");
     if (x.type === "password") {

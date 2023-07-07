@@ -60,99 +60,116 @@ const EditUser = () => {
   console.log(newExpiry);
   const onSubmit = async (data) => {
     setLoader(true);
-    const formData = new FormData();
-    formData.append("profileImage", files?.imageProfile);
-    formData.append("companyName", data?.companyName?.trim());
-    formData.append("dba", data?.dba?.trim());
-    formData.append("addressLine1", data?.addressLine1?.trim());
-    formData.append("addressLine2", data?.addressLine2?.trim());
-    formData.append("city", data?.city?.trim());
-    formData.append("state", data?.state);
-    formData.append("zipcode", data?.zipcode);
-    formData.append("firstName", data?.firstName?.trim());
-    formData.append("lastName", data?.lastName?.trim());
-    formData.append("email", data?.email?.trim());
-    formData.append("phoneNumber", data?.phoneNumber);
-    formData.append("businessPhoneNumber", data?.businessNumber);
-    formData.append("businessNumber", data?.businessNumber);
-    formData.append("federalTaxId", files?.federalTaxId);
-    formData.append("businessLicense", files?.businessLicense);
-    formData.append("tobaccoLicence", files?.tobaccoLicence);
-    formData.append("salesTaxId", files?.salesTaxId);
-    formData.append("accountOwnerId", files?.accountOwnerId);
-    formData.append("heardAboutUs", data?.heardAboutUs);
-    formData.append("quotation", data?.quotation);
-    formData.append("istobaccoLicenceExpired", data?.License);
-    formData.append(
-      "tobaccoLicenceExpiry",
-      newExpiry
-        ? newExpiry.replaceAll("/", "-")
-        : newExpiry2 || user?.tobaccoLicenceExpiry.replaceAll("/", "-")
-    );
 
-    await axios
-      .post(apiUrl2 + "/" + objectId, formData)
-      .then((res) => {
-        if (res?.data.error) {
-          Swal.fire({
-            title: res.data.message,
-            icon: "error",
-            button: "Okay",
-          });
+//     var today = new Date();
+// var dd = String(today.getDate()).padStart(2, '0');
+// var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+// var yyyy = today.getFullYear();
+
+// let Ntoday = mm + '/' + dd + '/' + yyyy;
+//     if(user?.tobaccoLicenceExpiry && newExpiry  <= Ntoday ){
+//       Swal.fire({
+//         title: "Expiry date should be a Future Date!",
+//         icon: "error",
+//         button: "Ok",
+//       });
+//       setLoader(false)  
+//     }
+//     else{
+      const formData = new FormData();
+      formData.append("profileImage", files?.imageProfile);
+      formData.append("companyName", data?.companyName?.trim());
+      formData.append("dba", data?.dba?.trim());
+      formData.append("addressLine1", data?.addressLine1?.trim());
+      formData.append("addressLine2", data?.addressLine2?.trim());
+      formData.append("city", data?.city?.trim());
+      formData.append("state", data?.state);
+      formData.append("zipcode", data?.zipcode);
+      formData.append("firstName", data?.firstName?.trim());
+      formData.append("lastName", data?.lastName?.trim());
+      formData.append("email", data?.email?.trim());
+      formData.append("phoneNumber", data?.phoneNumber);
+      formData.append("businessPhoneNumber", data?.businessNumber);
+      formData.append("businessNumber", data?.businessNumber);
+      formData.append("federalTaxId", files?.federalTaxId);
+      formData.append("businessLicense", files?.businessLicense);
+      formData.append("tobaccoLicence", files?.tobaccoLicence);
+      formData.append("salesTaxId", files?.salesTaxId);
+      formData.append("accountOwnerId", files?.accountOwnerId);
+      formData.append("heardAboutUs", data?.heardAboutUs);
+      formData.append("quotation", data?.quotation);
+      formData.append("istobaccoLicenceExpired", data?.License);
+      formData.append(
+        "tobaccoLicenceExpiry",
+       newExpiry.replaceAll("/", "-")
+          || newExpiry2 || user?.tobaccoLicenceExpiry.replaceAll("/", "-")
+      );
+  
+      await axios
+        .post(apiUrl2 + "/" + objectId, formData)
+        .then((res) => {
+          if (res?.data.error) {
+            Swal.fire({
+              title: res.data.message,
+              icon: "error",
+              button: "Okay",
+            });
+            setLoader(false);
+          }
+          if (res?.data.message === "User Deatils Updated Successfully") {
+            setLoader(false);
+            navigate("/UserManage/ApprovedView");
+          }
+          if (res?.data.message === "Invalid file format") {
+            setLoader(false);
+            Swal.fire({
+              title: "Invalid File Format!",
+              text: "Only images/pdf/docs are allowed.",
+              icon: "error",
+              button: "Ok",
+            });
+            setFiles(null);
+            getUser();
+          }
+          if (res?.data.message === "Email is already registered") {
+            setLoader(false);
+            Swal.fire({
+              title: "Email is Already registered!",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          if (res?.data.message === "Phone is already registered") {
+            setLoader(false);
+            Swal.fire({
+              title: "Phone is already registered!",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          if (res?.data.message === "Please provide proper date") {
+            setLoader(false);
+            Swal.fire({
+              title: "Please provide proper date!",
+              text: "Give further date from today",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
           setLoader(false);
-        }
-        if (res?.data.message === "User Deatils Updated Successfully") {
-          setLoader(false);
-          navigate("/UserManage/ApprovedView");
-        }
-        if (res?.data.message === "Invalid file format") {
-          setLoader(false);
-          Swal.fire({
-            title: "Invalid File Format!",
-            text: "Only images/pdf/docs are allowed.",
-            icon: "error",
-            button: "Ok",
-          });
-          setFiles(null);
-          getUser();
-        }
-        if (res?.data.message === "Email is already registered") {
-          setLoader(false);
-          Swal.fire({
-            title: "Email is Already registered!",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-        if (res?.data.message === "Phone is already registered") {
-          setLoader(false);
-          Swal.fire({
-            title: "Phone is already registered!",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-        if (res?.data.message === "Please provide proper date") {
-          setLoader(false);
-          Swal.fire({
-            title: "Please provide proper date!",
-            text: "Give further date from today",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoader(false);
-        if (err.response.data.error) {
-          Swal.fire({
-            title: "Error!",
-            icon: "error",
-            button: "Ok",
-          });
-        }
-      });
+          if (err.response.data.error) {
+            Swal.fire({
+              title: "Error!",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+        });
+    
+   
   };
 
   useEffect(() => {
@@ -165,7 +182,6 @@ const EditUser = () => {
     console.log(date);
     setUser(res.data.results);
     document.getElementById("expiryDate").defaultValue = date.slice(0, 10);
-
     return res.data;
   };
 
@@ -1015,6 +1031,7 @@ const EditUser = () => {
                               ></input>
                             </div>
                           </strong>
+                          
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">

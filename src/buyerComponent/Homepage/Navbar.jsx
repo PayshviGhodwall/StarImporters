@@ -312,7 +312,7 @@ const Navbar = ({ NState, LoginState }) => {
                         </a>
                         <div className="new_dropdown_inner">
                           {(item?.subcategories || [])
-                            ?.filter((item, idx) => idx < 9)
+                            ?.filter((item, idx) => idx < 9)  
                             .map((item, index) => (
                               <a
                                 key={index}

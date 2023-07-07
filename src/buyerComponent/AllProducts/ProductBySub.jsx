@@ -186,7 +186,7 @@ const ProductBySubCate = () => {
         <section class="singleproduct-page comman_paddings">
           <div class="container">
             <div class="row singleproduct_divvision mx-0">
-              <div class="col-xl-3 col-lg-4 col-md-4 ps-0">
+              <div class="col-xl-3 col-lg-3 col-md-3 ps-0">
                 <div class="singleproduct-left">
                   <div class="singleproduct-left-box border-bottom border-dark mt-4">
                     <h2>Top Brands</h2>
@@ -326,11 +326,11 @@ const ProductBySubCate = () => {
                     </div>
                   ) : null}
 
-                  <div class="col-12 mt-3">
+                  <div class="col-12 ">
                     {products?.length ? (
                       <div class="row singleproduct---show">
                         {(products || [{}])?.map((item, index) => (
-                          <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
+                          <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-4 mb-md-4">
                             <div class="singleproduct-box">
                               <a href="javascript:;" class="singleproduct--img">
                                 <img

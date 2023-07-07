@@ -1161,7 +1161,7 @@
   }
   .newsletter_section {
     background: #eb3237;
-    padding: 35px 0;
+    padding: 25px 0 !important;
   }
 
   /*===================================*
@@ -14420,10 +14420,10 @@ figure.effect-ming:hover img {
   background: #ffffff;
   box-shadow: 4px 4px 54px rgba(223, 229, 235, 0.58);
   border-radius: 10px;
-  padding: 40px 40px;
+  padding: 20px 20px !important;
 }
 .comman_paddings {
-  padding: 35px 0 !important;
+  padding: 25px 0 25px !important;
 }
 .comman_padding {
   padding: 80px 0 !important;
@@ -14545,11 +14545,11 @@ figure.effect-ming:hover img {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 15px;
+  margin: 0 auto 10px;
 }
 .singleproduct-box {
   position: relative;
-  margin: 0 22px;
+  margin: 0 12px !important;
 }
 .singleproduct--img img {
   max-width: 100%;

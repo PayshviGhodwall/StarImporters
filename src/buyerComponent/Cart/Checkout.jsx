@@ -92,7 +92,7 @@ const Checkout = () => {
       <section className="comman_banner _banner marginTop">
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12 pt-4">
               <h1>Checkout</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
@@ -215,9 +215,13 @@ const Checkout = () => {
                   )}
                 </div>
               </div>
-              <div className="col-12 pt-3 mb-4">
+              <div className="col-12 pt-1 mb-4">
+                {
+                  delevryChoice == "Shipment" && <strong>(Shipment charges will be applicable)</strong>  || 
+                  delevryChoice == "Delivery" && <strong>(Your schedule delivery date is X day)</strong>
+                }
                 {delevryChoice == "Shipment" || delevryChoice == "Delivery" ? (
-                  <div className="row mx-0 Checkout_address">
+                  <div className="row mx-0 Checkout_address mt-3">
                     <span>Address :</span>
                     <h2>{users?.firstName}</h2>
                     <p className="mb-0">
