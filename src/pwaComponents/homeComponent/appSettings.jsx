@@ -11,7 +11,7 @@ function AppSettings() {
     e.preventDefault();
     Swal.fire({
       title: "<strong>Are you sure ?</strong>",
-      html: "Your account will be deactivated in <b>48hours</b>.</br>Any logging activity into your account from any device will cancel Deactivation request.",
+      html: "Your account will be deleted in <b>48hours</b>.</br>Any logging activity into your account from any device will cancel Deactivation request.",
       icon: "info",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -101,7 +101,7 @@ function AppSettings() {
                     <div className="title">
                       <i class="fa-solid fa-ban"></i>
                       <span>
-                        Deactivate My Account<span></span>
+                        Delete My Account<span></span>
                       </span>
                     </div>
                     <div className="data-content">

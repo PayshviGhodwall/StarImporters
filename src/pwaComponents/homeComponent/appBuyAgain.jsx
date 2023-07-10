@@ -301,6 +301,7 @@ function AppBuyAgain() {
                                     key={val?.flavour?._id}
                                     name={ind}
                                     id={val?.flavour?._id}
+                                    disabled
                                     onChange={(e) =>
                                       handleClick(
                                         e,

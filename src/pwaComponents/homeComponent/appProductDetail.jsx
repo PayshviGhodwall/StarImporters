@@ -219,7 +219,7 @@ function AppProductDetail() {
                     id="product-image"
                   />
                 </div>
-                {productDetail?.type.map((item) => (
+                {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true).map((item) => (
                   <div className="single-product-slide item">
                     <img
                       src={item?.flavourImage ? item?.flavourImage : null}
@@ -315,8 +315,7 @@ function AppProductDetail() {
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      {productDetail?.type
-                        ?.sort((a, b) => {
+                      {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true).sort((a, b) => {
                           return a.flavour.localeCompare(b.flavour);
                         })
                         .map((item, index) =>

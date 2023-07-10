@@ -47,7 +47,8 @@ const GalleryMain = () => {
       setTitle("")
       if (!res.data.error) {
         document.getElementById("resetCatss").click();
-
+              setFiles([])
+              setMultipleFiles([])
         Swal.fire({
           title: "New Gallery Added!",
           icon: "success",

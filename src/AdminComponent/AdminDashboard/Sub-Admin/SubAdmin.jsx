@@ -35,7 +35,10 @@ export const colourOptions = [
   { value: "Brands Management", label: "Brands Management" },
   { value: "Inventory Management", label: "Inventory Management" },
   { value: "Orders Management", label: "Orders Management" },
+  { value: "Gallery", label: "Gallery Management" },
+  { value: "Contact", label: "Contact & Support" },
   { value: "CMS", label: "CMS" },
+  
 ];
 
 const SubAdmin = () => {
