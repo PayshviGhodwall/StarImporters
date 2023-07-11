@@ -150,7 +150,7 @@ const BrandsManage = () => {
         document.getElementById("closeModal").click();
         document.getElementById("brandImg").setAttribute("src", null);
         Swal.fire({
-          title: "Successfully Modilfied!",
+          title: "Successfully Modified!",
           icon: "success",
           confirmButtonText: "ok",
         });

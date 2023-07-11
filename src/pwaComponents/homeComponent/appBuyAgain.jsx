@@ -291,8 +291,11 @@ function AppBuyAgain() {
                                         +
                                       </span>
                                     </div>
+
                                   </form>
+                                  
                                 )}
+
                               </div>
                               <div>
                                 <label class="checkbox-label mb-3">

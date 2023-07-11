@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { searchKey } from "../../atom";
 import {
-  deleteCart,
   homeSearch,
   searchByBarcode,
 } from "../httpServices/homeHttpService/homeHttpService";
@@ -51,7 +50,7 @@ const Search = () => {
           if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]?._id}`, {
               state: {
-                flavour: data.results[0]?.type,
+                flavour: data?.results[0]?.type,
               },
             });
           console.log(data);
@@ -71,6 +70,7 @@ const Search = () => {
       }
     }
   };
+
   const redirectToWeb = async () => {
     console.log("testing");
     try {
@@ -94,6 +94,7 @@ const Search = () => {
   return (
     <div>
       <div className="container mt-0">
+
         <div
           className={
             browserName === "WebKit" || browserName === "Chrome WebView"
@@ -101,6 +102,7 @@ const Search = () => {
               : "search-new pt-3 "
           }
         >
+
           <form className="" action="#" style={{ width: "100%" }}>
             <input
               className="form-control"

@@ -440,13 +440,13 @@ export async function searchByBarcode(formData) {
       `,
       formData
     );
-    if (!data.error) {
-      Swal.fire({
-        title: "Product Added to Cart.",
-        icon: "success",
-        confirmButtonText: "Okay",
-      });
-    }
+    // if (!data.error) {
+    //   Swal.fire({
+    //     title: "Product Added to Cart.",
+    //     icon: "success",
+    //     confirmButtonText: "Okay",
+    //   });
+    // }
     console.log(data);
     if (data.error) {
       Swal.fire({
