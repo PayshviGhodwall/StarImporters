@@ -450,7 +450,7 @@ export async function searchByBarcode(formData) {
     console.log(data);
     if (data.error) {
       Swal.fire({
-        title: "Invalid barcode",
+        title: data?.message,
         icon: "error",
         confirmButtonText: "Okay",
       });
