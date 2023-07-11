@@ -72,6 +72,12 @@ function AppCart() {
           barcode: Dd,
         });
         if (!data.error) {
+          Swal.fire({
+                title: "Product Added to Cart.",
+                icon: "success",
+                timer:1000,
+                confirmButtonText: "Okay",
+              });
           const productDetail = data?.results[0];
           const addToCartt = async () => {
             if (
