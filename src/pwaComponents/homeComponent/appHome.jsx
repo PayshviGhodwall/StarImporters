@@ -79,7 +79,7 @@ function AppHome() {
       limit: 8,
     });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results.products);
     }
   };
 
@@ -339,9 +339,10 @@ function AppHome() {
                                         <img
                                           className="mb-2"
                                           src={
-                                            item?.type.flavourImage
-                                              ? item?.type.flavourImage
-                                              : item?.productImage ||
+                                            // item?.type.flavourImage
+                                            //   ? item?.type.flavourImage
+                                            //   :
+                                               item?.productImage ||
                                                 require("../../assets/img/product.jpg")
                                           }
                                           alt=""
@@ -353,9 +354,10 @@ function AppHome() {
                                         to={`/app/product-detail/${item._id}`}
                                         state={{ type: item?.type }}
                                       >
-                                        {item.unitName +
+                                        {/* {item.unitName +
                                           "-" +
-                                          item?.type.flavour}
+                                          item?.type.flavour} */}
+                                          {item?.unitName}
                                       </Link>
                                     </div>
                                   </div>
@@ -550,9 +552,10 @@ function AppHome() {
                                       <img
                                         className="mb-2"
                                         src={
-                                          item?.type.flavourImage
-                                            ? item?.type.flavourImage
-                                            : item?.productImage ||
+                                          // item?.type.flavourImage
+                                          //   ? item?.type.flavourImage
+                                          //   : 
+                                            item?.productImage ||
                                               require("../../assets/img/product.jpg")
                                         }
                                         alt=""
@@ -564,7 +567,8 @@ function AppHome() {
                                       to={`/app/product-detail/${item._id}`}
                                       state={{ type: item?.type }}
                                     >
-                                      {item.unitName + "-" + item?.type.flavour}
+                                      {/* {item.unitName + "-" + item?.type.flavour} */}
+                                      {item?.unitName}
                                     </Link>
                                   </div>
                                 </div>

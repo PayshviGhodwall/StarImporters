@@ -57,7 +57,7 @@ const Navbar = ({ NState, LoginState }) => {
         limit: 6,
       });
       if (!data.error) {
-        let dataList = data?.results;
+        let dataList = data?.results.products;
         setProducts(dataList?.slice(0, 6));
       }
     }
@@ -377,90 +377,7 @@ const Navbar = ({ NState, LoginState }) => {
               </div>
             </div>
           </div>
-          {/* <div className="col-12 header_bottom ">
-            <ul className="header_menus mb-0 ps-0">
-              <li>
-                <Link className="text-decoration-none" to="/app/home">
-                  Home
-                </Link>
-              </li>
-              {(category || [])
-                ?.filter((item, idx) => idx < 10)
-                .map((item, index) => (
-                  <li key={index + 1} className="zindex-1">
-                    <Link
-                      to={{
-                        pathname: "/app/subCategories",
-                      }}
-                      state={{
-                        id: item?._id,
-                        name: item?.categoryName,
-                        image: item?.background,
-                      }}
-                      className="dropdown-toggle text-decoration-none"
-                      href="Javascript:;"
-                    >
-                      {item?.categoryName}
-                    </Link>
-                    <div className="dropdown-menu maga_drop_down py-lg-3 py-md-3 shadow mb-0">
-                      <div className="container-fluid px-0 ">
-                        <div className="row w-100 justify-content-center">
-                          {(item?.subcategories || [])
-                            ?.filter((item, idx) => idx < 24)
-                            .map((item, index) => (
-                              <div
-                                className="mega_dropp col-lg-auto col-md-6"
-                                key={index}
-                              >
-                                <div className="maga_drop__menus">
-                                  <Link
-                                    className="text-decoration-none"
-                                    to={{
-                                      pathname: "/SubCategory/Products",
-                                    }}
-                                    state={{
-                                      name: item?.subCategoryName,
-                                    }}
-                                  >
-                                    <h3 className="dropdown_heading">
-                                      {item?.subCategoryName}
-                                    </h3>
-                                  </Link>
-                                </div>
-                              </div>
-                            ))}
-                          <div className="col-lg-12 d-flex text-center mt-1 mb-0">
-                            <p
-                              className="dropViewAll"
-                              onClick={() =>
-                                navigate("/app/subCategories", {
-                                  state: {
-                                    id: item?._id,
-                                    name: item?.categoryName,
-                                  },
-                                })
-                              }
-                            >
-                              View all
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-
-              <li>
-                <Link
-                  className="text-decoration-none"
-                  to="/app/Categories"
-                  state={"kooo"}
-                >
-                  More
-                </Link>
-              </li>
-            </ul>
-          </div> */}
+         
         </div>
       </div>
       {search?.length ? (
@@ -475,10 +392,11 @@ const Navbar = ({ NState, LoginState }) => {
                         <div className="featuredproduct_img ">
                           <img
                             src={
-                              item?.type.flavour
-                                ? item?.type?.flavourImage ||
-                                  require("../../assets/img/product.jpg")
-                                : item?.productImage ||
+                              // item?.type.flavour
+                              //   ? item?.type?.flavourImage ||
+                              //     require("../../assets/img/product.jpg")
+                              //   : 
+                                item?.productImage ||
                                   require("../../assets/img/product.jpg")
                             }
                             alt="Product"
@@ -506,13 +424,15 @@ const Navbar = ({ NState, LoginState }) => {
                               setSearch();
                             }}
                           >
-                            {item?.type.flavour
+                            {/* {item?.type.flavour
                               ? item?.unitName + "-" + item?.type?.flavour
-                              : item?.unitName}
+                              :  */}
+                              
+                              {item?.unitName}
                           </span>
                         </div>
                       </a>
-                    </div>
+                    </div>  
                   ))}
                 </div>
                 <div className="col-lg-12 d-flex text-center mt-1 mb-0">

@@ -30,7 +30,7 @@ const Search = () => {
       limit: 8,
     });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data?.results.products);
     }
   };
 
@@ -79,7 +79,7 @@ const Search = () => {
         `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
       );
 
-      document.getElementById("modalCloseRD").click()
+      document.getElementById("modalCloseRD").click();
     } catch (err) {
       console.log(err);
     }
@@ -94,15 +94,12 @@ const Search = () => {
   return (
     <div>
       <div className="container mt-0">
-
         <div
           className={
             browserName === "WebKit" || browserName === "Chrome WebView"
               ? "search-form pt-3 "
               : "search-new pt-3 "
-          }
-        >
-
+          }>
           <form className="" action="#" style={{ width: "100%" }}>
             <input
               className="form-control"
@@ -127,8 +124,7 @@ const Search = () => {
               <Link
                 className="comman_btn text-white ms-1"
                 to=""
-                onClick={microphoneSearch}
-              >
+                onClick={microphoneSearch}>
                 <i className="fa-solid fa-microphone"></i>
               </Link>
               <a className="comman_btn2 ms-1" onClick={() => cameraScan()}>
@@ -181,8 +177,7 @@ const Search = () => {
                         data-bs-toggle="modal"
                         className="fw-bold mx-2"
                         data-bs-target="#staticBackdrop"
-                        onClick={genToken}
-                      >
+                        onClick={genToken}>
                         Click Here
                       </a>
                       to buy this product from our website.{" "}
@@ -208,27 +203,28 @@ const Search = () => {
                                 <Link
                                   className="product-thumbnail d-block"
                                   to={`/app/product-detail/${item._id}`}
-                                  state={{ type: item?.type }}
-                                >
+                                  state={{ type: item?.type }}>
                                   <img
                                     className="mb-2"
                                     src={
-                                      item?.type.flavourImage
-                                        ? item?.type.flavourImage
-                                        : item?.productImage ||
-                                          require("../../assets/img/product.jpg")
+                                      // item?.type.flavourImage
+                                      //   ? item?.type.flavourImage
+                                      //   :
+
+                                      item?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                     }
                                     alt=""
                                   />
-                                </Link>     
+                                </Link>
 
                                 <Link
                                   className="product-title"
                                   to={`/app/product-detail/${item._id}`}
-                                  state={{ type: item?.type }}
-                                >
-                                  {item.unitName + "-" + item?.type.flavour}
-                                </Link> 
+                                  state={{ type: item?.type }}>
+                                  {/* {item.unitName + "-" + item?.type.flavour} */}
+                                  {item?.unitName}
+                                </Link>
                               </div>
                             </div>
                           </div>
@@ -264,15 +260,15 @@ const Search = () => {
                               <Link
                                 className="product-thumbnail d-block"
                                 to={`/app/product-detail/${item._id}`}
-                                state={{ type: item?.type }}
-                              >
+                                state={{ type: item?.type }}>
                                 <img
                                   className="mb-2"
                                   src={
-                                    item?.type.flavourImage
-                                      ? item?.type.flavourImage
-                                      : item?.productImage ||
-                                        require("../../assets/img/product.jpg")
+                                    // item?.type.flavourImage
+                                    //   ? item?.type.flavourImage
+                                    //   :
+                                    item?.productImage ||
+                                    require("../../assets/img/product.jpg")
                                   }
                                   alt=""
                                 />
@@ -281,9 +277,9 @@ const Search = () => {
                               <Link
                                 className="product-title"
                                 to={`/app/product-detail/${item._id}`}
-                                state={{ type: item?.type }}
-                              >
-                                {item.unitName + "-" + item?.type.flavour}
+                                state={{ type: item?.type }}>
+                                {/* {item.unitName + "-" + item?.type.flavour} */}
+                                {item?.unitName}
                               </Link>
                             </div>
                           </div>
@@ -309,8 +305,7 @@ const Search = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -322,9 +317,7 @@ const Search = () => {
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-      id="modalCloseRD"
-
-              ></button>
+                id="modalCloseRD"></button>
             </div>
             <div class="modal-body">Open website in External Browser.</div>
             <div class="modal-footer">
@@ -332,8 +325,7 @@ const Search = () => {
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-                id="modalCLose"
-              >
+                id="modalCLose">
                 Close
               </button>
               <Link
@@ -342,8 +334,7 @@ const Search = () => {
                   redirectToWeb();
                   // document.getElementById("modalClose").click();
                 }}
-                class="btn btn-primary"
-              >
+                class="btn btn-primary">
                 Confirm
               </Link>
             </div>

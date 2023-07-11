@@ -197,7 +197,7 @@ function AppProductDetail() {
     <>
       <div className="star_imp_app">
         <AppHeader cartCount={cartCount} />
-
+        
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper" key={itemNo}>
             {productDetail ? (
@@ -232,10 +232,11 @@ function AppProductDetail() {
               ""
             )}
           </div>
+
           <div className="product-description pb-3">
             <div className="product-title-meta-data bg-white mb-2 py-3">
               <div className="container d-flex justify-content-between rtl-flex-d-row-r">
-                <div className="p-title-price">
+                <div className="p-title-price mb-0 title_product">
                   <h5 className="">{productDetail?.unitName}</h5>
                 </div>
                 {token?.length ? (
@@ -315,9 +316,7 @@ function AppProductDetail() {
                   </p>
                   <div className="row offers_box_main">
                     <div className="col-12 flavour_box py-2">
-                      {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true).sort((a, b) => {
-                          return a.flavour.localeCompare(b.flavour);
-                        })
+                      {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true)
                         .map((item, index) =>
                           flavour?.flavour === item?.flavour ? (
                             <Link

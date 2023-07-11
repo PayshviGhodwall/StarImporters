@@ -21,7 +21,7 @@ const ProductBySearch = () => {
       limit: 20,
     });
     if (!data.error) {
-      setProducts(data.results);
+      setProducts(data?.results.products);
     }
   };
   console.log(products);
@@ -47,10 +47,11 @@ const ProductBySearch = () => {
                         <div className="partsproduct_img">
                           <img
                             src={
-                              item?.type.flavour
-                                ? item?.type?.flavourImage ||
-                                  require("../../assets/img/product.jpg")
-                                : item?.productImage ||
+                              // item?.type.flavour
+                              //   ? item?.type?.flavourImage ||
+                              //     require("../../assets/img/product.jpg")
+                              //   :
+                                 item?.productImage ||
                                   require("../../assets/img/product.jpg")
                             }
                             alt=""
@@ -79,9 +80,9 @@ const ProductBySearch = () => {
                                 );
                               }}
                             >
-                              {item?.type.flavour
-                                ? item?.unitName + "-" + item?.type?.flavour
-                                : item?.unitName}
+                              {/* {item?.type.flavour
+                                ? item?.unitName + "-" + item?.type?.flavour } */}
+                                { item?.unitName}
                             </h1>
                           </div>
                         </div>

@@ -209,7 +209,7 @@ function AppBuyAgain() {
                 </div>
               </div>
               <div className="container ">
-                <div className="row mt-0 buyAgain">
+                <div className="row mt-0 buyAgain px-3 py-2">
                   {(purchasedProd || [])?.map((item, index) =>
                     item.products
                       ?.filter(
@@ -353,8 +353,8 @@ function AppBuyAgain() {
                   </button>
                 </div>
               </div>
-              <div className="container ">
-                <div className="row mt-0 buyAgain">
+              <div className="container px-2">
+                <div className="row mt-0 buyAgain px-3 py-2">
                   {(purchasedProd || [])?.map((item, index) =>
                     item.products?.map((val, ind) => (
                       <div className="col-12 mb-2 card" key={`${ind}${index}`}>
