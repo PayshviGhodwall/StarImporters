@@ -257,10 +257,7 @@ function AppOrderDetail() {
                           <div className="order-text">
                             <h6>
                             
-                              {(orders?.type === "In-Store Pickup" &&
-                                "Picked up") ||
-                                (orders?.type === "Shipment" && "Shipped") ||
-                                (orders?.type === "Delivery" && "Delivery")}
+                              Picked Up
                             </h6>
                           </div>
                           <div className="order-status">
