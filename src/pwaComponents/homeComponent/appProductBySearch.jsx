@@ -227,9 +227,7 @@ function AppProductBySearch() {
                                   <img
                                     className="mb-2"
                                     src={
-                                      item?.type.flavourImage
-                                        ? item?.type.flavourImage
-                                        : item?.productImage ||
+                                     item?.productImage ||
                                           require("../../assets/img/product.jpg")
                                     }
                                     alt=""
@@ -239,7 +237,7 @@ function AppProductBySearch() {
                                   className="product-title"
                                   to={`/app/product-detail/${item._id}`}
                                 >
-                                  {item.unitName + "-" + item?.type.flavour}
+                                  {item.unitName}
                                 </Link>
                               </div>
                             </div>
@@ -255,6 +253,7 @@ function AppProductBySearch() {
                 )}
               </div>
             ) : (
+
               <div className="container">
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
                   <h6> Showing results for "{search ? search : preSearch}"</h6>
@@ -273,9 +272,7 @@ function AppProductBySearch() {
                                 <img
                                   className="mb-2"
                                   src={
-                                    item?.type.flavourImage
-                                      ? item?.type.flavourImage
-                                      : item?.productImage ||
+                                     item?.productImage ||
                                         require("../../assets/img/product.jpg")
                                   }
                                   alt=""
@@ -285,7 +282,7 @@ function AppProductBySearch() {
                                 className="product-title"
                                 to={`/app/product-detail/${item._id}`}
                               >
-                                {item.unitName + "-" + item?.type.flavour}
+                                {item.unitName}
                               </Link>
                             </div>
                           </div>
