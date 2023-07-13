@@ -7942,6 +7942,7 @@ background-color: #3e4093;
     z-index: 1;
     width: 100%;
     height: 80% !important;
+    max-height: 10rem !important;
     background-position: center center;
     background-size: cover;
     border-radius: 10px;

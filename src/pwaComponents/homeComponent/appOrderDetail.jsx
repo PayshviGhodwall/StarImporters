@@ -256,10 +256,10 @@ function AppOrderDetail() {
                           </div>
                           <div className="order-text">
                             <h6>
-                              Ready for{" "}
+                            
                               {(orders?.type === "In-Store Pickup" &&
-                                "Pick up") ||
-                                (orders?.type === "Shipment" && "Shipment") ||
+                                "Picked up") ||
+                                (orders?.type === "Shipment" && "Shipped") ||
                                 (orders?.type === "Delivery" && "Delivery")}
                             </h6>
                           </div>
@@ -282,10 +282,7 @@ function AppOrderDetail() {
                           <div className="order-text">
                             <h6>
                               {" "}
-                              {(orders?.type === "In-Store Pickup" &&
-                                "Picked up") ||
-                                (orders?.type === "Shipment" && "Shipped") ||
-                                (orders?.type === "Delivery" && "Delivered")}
+                              Delivered
                             </h6>
                           </div>
                           <div className="order-status">
