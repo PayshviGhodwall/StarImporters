@@ -73,9 +73,9 @@ function AppProductBySearch() {
         window.location.reload();
       }
     }
-
     setScan(false);
   };
+
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
@@ -92,6 +92,7 @@ function AppProductBySearch() {
       }
     }
   };
+  
   const microphoneSearch = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
@@ -139,11 +140,11 @@ function AppProductBySearch() {
                 : "search-new pt-3 "
             }
           >
-            <form action="#">
+            <form action="#" key={search}>
               <input
                 className="form-control"
                 type="text"
-                value={search.trim() ? search.trim() : preSearch}
+                value={search}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}
                 autoFocus
