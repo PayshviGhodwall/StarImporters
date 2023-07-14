@@ -160,13 +160,14 @@ function AppHome() {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
-      if (Dd) {
-        navigate("/app/product-by-search", { state: { search: Dd?.trim() } });
+      if (Dd?.length) {
+        navigate("/app/product-by-search", { state: { search: Dd } });
       }else {
         Swal.fire({
-          title:"Error in Fetching",
+          title:"Trouble in fetching product!",
           icon:"error",
-          button:"okay"
+          timer:1000,
+          confirmButtonText:'okay'
         })
       }
     }

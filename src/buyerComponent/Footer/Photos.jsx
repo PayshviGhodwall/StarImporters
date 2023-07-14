@@ -45,7 +45,7 @@ const Photos = () => {
       <Navbar />
       <section class="photos">
         <div className="container">
-          <div className="mt-5">
+          <div className="mt-2">
             <div class="nine">
               <h1>
                 {gallery?.title}
@@ -53,16 +53,16 @@ const Photos = () => {
               </h1>
             </div>
           </div>
-          <div className="row  mt-5 mb-5   comman_divvision">
+          <div className="row  mt-1 mb-5   comman_divvision">
             {(gallery?.images || [])?.map((item, ind) => (
-              <div class="col-sm-6 col-md-6 col-lg-4">
+              <div class="col-auto">
                 <a>
                   <img
                     onClick={() => {
                       getSlides(item);
                       // setOpen(true);
                     }}
-                    className="m-3"
+                    className="photo_gallery"
                     src={item}
                   />
                 </a>

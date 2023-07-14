@@ -16121,3 +16121,9 @@ figure.effect-ming:hover img {
   top: 5px;
   align-items: center;
 }
+
+.photo_gallery{
+  max-width: 20rem;
+  max-height: 15rem;
+  background-color: #000000 !important;
+}

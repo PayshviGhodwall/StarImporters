@@ -40,10 +40,9 @@ function AppProductBySearch() {
   const getProductList = async () => {
     const { data } = await homeSearch({
       search: search.trim() ? search.trim() : preSearch,
-      limit: 8,
     });
     if (!data.error) {
-      setProduct(data.results);
+      setProduct(data.results.products);
     }
   };
 
