@@ -160,7 +160,7 @@ function AppHome() {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
-      if (Dd != null && Dd != ""  ) {
+      if (Dd) {
         navigate("/app/product-by-search", { state: { search: Dd?.trim() } });
       }else {
         Swal.fire({
