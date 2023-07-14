@@ -24,6 +24,8 @@ import {
   appSubProd,
   searchKeyRemove,
 } from "../../atom";
+import Swal from "sweetalert2";
+import swal from "sweetalert";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -158,8 +160,14 @@ function AppHome() {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
-      if (Dd?.length) {
-        navigate("/app/product-by-search", { state: { search: Dd } });
+      if (Dd != null && Dd != ""  ) {
+        navigate("/app/product-by-search", { state: { search: Dd?.trim() } });
+      }else {
+        Swal.fire({
+          title:"Error in Fetching",
+          icon:"error",
+          button:"okay"
+        })
       }
     }
   };
