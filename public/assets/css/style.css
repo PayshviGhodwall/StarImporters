@@ -16125,5 +16125,8 @@ figure.effect-ming:hover img {
 .photo_gallery{
   max-width: 20rem;
   max-height: 15rem;
-  background-color: #000000 !important;
+  min-height: 15rem;
+  border: 2px solid #000;
+  border-radius: 10%;
+  margin: 10px;
 }

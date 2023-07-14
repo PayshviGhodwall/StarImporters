@@ -55,7 +55,7 @@ const Photos = () => {
           </div>
           <div className="row  mt-1 mb-5   comman_divvision">
             {(gallery?.images || [])?.map((item, ind) => (
-              <div class="col-auto">
+              <div class="col-4">
                 <a>
                   <img
                     onClick={() => {
