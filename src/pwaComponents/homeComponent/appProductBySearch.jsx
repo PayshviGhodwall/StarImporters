@@ -33,9 +33,10 @@ function AppProductBySearch() {
   } = useSpeechRecognition();
 
   let preSearch = location?.state?.search;
+
   useEffect(() => {
     getProductList();
-  }, [search, scan]);
+  }, [search, scan, preSearch]);
 
   const getProductList = async () => {
     const { data } = await homeSearch({
@@ -73,9 +74,9 @@ function AppProductBySearch() {
         window.location.reload();
       }
     }
+
     setScan(false);
   };
-
   const cameraScan = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("scanBarcode");
@@ -92,7 +93,6 @@ function AppProductBySearch() {
       }
     }
   };
-  
   const microphoneSearch = async () => {
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
@@ -138,13 +138,12 @@ function AppProductBySearch() {
               browserName === "WebKit" || browserName === "Chrome WebView"
                 ? "search-form pt-3 "
                 : "search-new pt-3 "
-            }
-          >
-            <form action="#" key={search}>
+            }>
+            <form action="#">
               <input
                 className="form-control"
                 type="text"
-                value={search}
+                value={search.trim() ? search.trim() : preSearch}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}
                 autoFocus
@@ -153,20 +152,19 @@ function AppProductBySearch() {
                 <i className="fa-solid fa-magnifying-glass"></i>
               </button>
             </form>
+            {console.log(preSearch)}
 
             {browserName === "WebKit" || browserName === "Chrome WebView" ? (
               <div className="alternative-search-options">
                 <button
                   className="comman_btn text-white ms-1"
-                  onClick={microphoneSearch}
-                >
+                  onClick={microphoneSearch}>
                   <i className="fa-solid fa-microphone"></i>
                 </button>
                 <Link
                   className="comman_btn2 ms-1"
                   to=""
-                  onClick={() => cameraScan()}
-                >
+                  onClick={() => cameraScan()}>
                   <i className="fa fa-qrcode"></i>
                 </Link>
               </div>
@@ -177,7 +175,11 @@ function AppProductBySearch() {
             {browserName === "WebKit" || browserName === "Chrome WebView" ? (
               <div className="container">
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
-                  <h6> Showing results for "{search}"</h6>
+                  <h6>
+                    {" "}
+                    Showing results for "
+                    {search.trim() ? search.trim() : preSearch}"
+                  </h6>
                   {search === "Tobacco" ||
                   search === "Tobacco " ||
                   search === "tobacco" ||
@@ -197,8 +199,7 @@ function AppProductBySearch() {
                         data-bs-toggle="modal"
                         className="fw-bold mx-2"
                         data-bs-target="#staticBackdrop"
-                        onClick={genToken}
-                      >
+                        onClick={genToken}>
                         Click Here
                       </a>
                       to buy this product from our website.{" "}
@@ -222,21 +223,19 @@ function AppProductBySearch() {
                               <div className="card-body">
                                 <Link
                                   className="product-thumbnail d-block"
-                                  to={`/app/product-detail/${item._id}`}
-                                >
+                                  to={`/app/product-detail/${item._id}`}>
                                   <img
                                     className="mb-2"
                                     src={
-                                     item?.productImage ||
-                                          require("../../assets/img/product.jpg")
+                                      item?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                     }
                                     alt=""
                                   />
                                 </Link>
                                 <Link
                                   className="product-title"
-                                  to={`/app/product-detail/${item._id}`}
-                                >
+                                  to={`/app/product-detail/${item._id}`}>
                                   {item.unitName}
                                 </Link>
                               </div>
@@ -253,7 +252,6 @@ function AppProductBySearch() {
                 )}
               </div>
             ) : (
-
               <div className="container">
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl">
                   <h6> Showing results for "{search ? search : preSearch}"</h6>
@@ -267,21 +265,19 @@ function AppProductBySearch() {
                             <div className="card-body">
                               <Link
                                 className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item._id}`}
-                              >
+                                to={`/app/product-detail/${item._id}`}>
                                 <img
                                   className="mb-2"
                                   src={
-                                     item?.productImage ||
-                                        require("../../assets/img/product.jpg")
+                                    item?.productImage ||
+                                    require("../../assets/img/product.jpg")
                                   }
                                   alt=""
                                 />
                               </Link>
                               <Link
                                 className="product-title"
-                                to={`/app/product-detail/${item._id}`}
-                              >
+                                to={`/app/product-detail/${item._id}`}>
                                 {item.unitName}
                               </Link>
                             </div>
@@ -309,8 +305,7 @@ function AppProductBySearch() {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-body py-4">
@@ -320,8 +315,7 @@ function AppProductBySearch() {
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  id="close"
-                ></button>
+                  id="close"></button>
                 <div class="col-12">
                   <div class="voice_box">
                     {!listening && !transcript ? (
@@ -339,8 +333,7 @@ function AppProductBySearch() {
                         ? "voice_box_btn didnt_hear"
                         : "voice_box_btn hear"
                     }
-                    onClick={SpeechRecognition.startListening}
-                  >
+                    onClick={SpeechRecognition.startListening}>
                     <a href="javscript::">
                       <i class="fa-solid fa-microphone"> </i>
                     </a>
@@ -358,8 +351,7 @@ function AppProductBySearch() {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -370,8 +362,7 @@ function AppProductBySearch() {
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div class="modal-body">Open website in External Browser.</div>
             <div class="modal-footer">
@@ -379,8 +370,7 @@ function AppProductBySearch() {
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-                id="modalCLose"
-              >
+                id="modalCLose">
                 Close
               </button>
               <Link
@@ -389,8 +379,7 @@ function AppProductBySearch() {
                   redirectToWeb();
                   // document.getElementById("modalClose").click();
                 }}
-                class="btn btn-primary"
-              >
+                class="btn btn-primary">
                 Confirm
               </Link>
             </div>
