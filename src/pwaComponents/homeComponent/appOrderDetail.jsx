@@ -243,9 +243,9 @@ function AppOrderDetail() {
                           </div>
                         </div>
 
-                        <div
+                        {/* <div
                           className={
-                            orders?.status === "SHIPPED" ||
+                            orders?.status === "PROCESSING" ||
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
                               : "single-order-status"
@@ -263,11 +263,32 @@ function AppOrderDetail() {
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
                           </div>
-                        </div>
+                        </div> */}
 
                         <div
                           className={
                             orders?.status === "SHIPPED" ||
+                            orders?.status === "DELIVERED"
+                              ? "single-order-status active"
+                              : "single-order-status"
+                          }
+                        >
+                          <div className="order-icon">
+                            <i className="fa-solid fa-truck"></i>
+                          </div>
+                          <div className="order-text">
+                            <h6>
+                            
+                              Shipped
+                            </h6>
+                          </div>
+                          <div className="order-status">
+                            <i className="fa-solid fa-circle-check"></i>
+                          </div>
+                        </div>
+
+                        <div
+                          className={
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
                               : "single-order-status"
@@ -287,46 +308,34 @@ function AppOrderDetail() {
                           </div>
                         </div>
 
-                        {/* <div
-                          className={
-                            orders?.status === "DELIVERED"
-                              ? "single-order-status active"
-                              : "single-order-status"
-                          }
-                        >
-                          <div className="order-icon">
-                            <i className="fa-solid fa-store"></i>
-                          </div>
-                          <div className="order-text">
-                            <h6>Dropped in the delivery station</h6>
-                          </div>
-                          <div className="order-status">
-                            <i className="fa-solid fa-circle-check"></i>
-                          </div>
-                        </div>
-
-                        <div
-                          className={
-                            orders?.status === "DELIVERED"
-                              ? "single-order-status active"
-                              : "single-order-status"
-                          }
-                        >
-                          <div className="order-icon">
-                            <i className="fa-solid fa-heart-circle-check"></i>
-                          </div>
-                          <div className="order-text">
-                            <h6>Delivered</h6>
-                          </div>
-                          <div className="order-status">
-                            <i className="fa-solid fa-circle-check"></i>
-                          </div>
-                        </div> */}
+                     
                       </div>
                     )}
                   </div>
+
                 </div>
               </div>
+
+
+              
+              <div className="col-12 mb-3">
+                <div className="row mx-0 border rounded py-3 px-1 position-relative bg-white shadow">
+                  <span className="small_header">Status Comments:</span>
+                  <div className="col-12 mb-1">
+                    <div className="row">
+                      <div className="col-12 d-flex">
+                        <span className="data_main">Admin Comments:</span>
+                        <span className="data_submain mx-2">
+                          {orders?.statusComment ? orders?.statusComment : "No Comments!" }
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                
+                </div>
+              </div>
+
 
               <div className="col-12 mb-3">
                 <div className="row mx-0 border rounded py-3 px-1 position-relative bg-white shadow">

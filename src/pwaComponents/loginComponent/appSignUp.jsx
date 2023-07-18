@@ -458,8 +458,7 @@ function AppSignUp() {
                           id="firstName"
                           {...register("firstName", {
                             pattern: {
-                              required: "Required",
-
+                            required: "Required",
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
                             },
@@ -485,9 +484,9 @@ function AppSignUp() {
                           id="lastName"
                           {...register("lastName", {
                             pattern: {
-                              required: "Required",
-
-                              value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
+                            required: "Required",
+                            
+                              value:/^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
                             },
                           })}
@@ -1024,9 +1023,10 @@ function AppSignUp() {
                           type="text"
                           placeholder=""
                           name="firstName"
-                          id="firstName"
+                          // id="firstName"
                           {...register("firstName", {
                             required: "Required",
+                            
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
@@ -1052,9 +1052,10 @@ function AppSignUp() {
                           type="text"
                           placeholder=""
                           name="lastName"
-                          id="lastName"
+                          // id="lastName"
                           {...register("lastName", {
                             required: "Required",
+                            
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",

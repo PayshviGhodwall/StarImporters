@@ -240,7 +240,7 @@ const OrderDetails = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-12 mt-3 mb-5">
+                              <div className="col-12 mt-3 mb-4">
                                 <div className="row mx-0 border  rounded pt-5 p-3 position-relative">
                                   <span className="small_header">
                                     Track Your Order
@@ -277,22 +277,25 @@ const OrderDetails = () => {
                                         <span className="track_circle" />
                                         Order Processing
                                       </li>
+                               
+
                                       <li
-                                        className={
-                                          orderDetails?.status === "DELIVERED"
-                                            ? "active"
-                                            : ""
-                                        }
+                                       className={
+                                        orderDetails?.status === "DELIVERED"
+                                          ? "active"
+                                          : ""
+                                      }
                                       >
-                                        <span className="track_circle" />
-                                        {(orderDetails?.type ===
-                                          "In-Store Pickup" &&
-                                          "Picked up") ||
-                                          (orderDetails?.type === "Shipment" &&
-                                            "Shipped") ||
-                                          (orderDetails?.type === "Delivery" &&
-                                            "Delivered")}
+                                        <span
+                                          className={
+                                            orderDetails?.status === "SHIPPED"
+                                              ? "track_circle fw-bold text-success"
+                                              : "track_circle"
+                                          }
+                                        />
+                                        SHIPPED
                                       </li>
+
 
                                       <li>
                                         <span
@@ -308,6 +311,32 @@ const OrderDetails = () => {
                                   )}
                                 </div>
                               </div>
+
+                              <div className="col-12 mb-4">
+                                <div className="row mx-0 border rounded pt-4 p-3 position-relative">
+                                  <span className="small_header">
+                                    Status Comment
+                                  </span>
+                                  <div className="col-6 mb-2">
+                                    <div className="row">
+                                      <div className="col-6">
+                                        <span className="data_main">
+                                          Admin Comment :
+                                        </span>
+                                      </div>
+                                      <div className="col-6">
+                                        <span className="data_submain">
+                                          {orderDetails?.statusComment ? orderDetails?.statusComment : "No Comments."
+                                           }
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                 
+                                </div>
+                              </div>
+
+
                               <div className="col-12 mb-4">
                                 <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                                   <span className="small_header">
@@ -373,6 +402,8 @@ const OrderDetails = () => {
                                   </div>
                                 </div>
                               </div>
+
+                              
                             </div>
                           </div>
                         </div>

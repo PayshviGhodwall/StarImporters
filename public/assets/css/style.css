@@ -14355,7 +14355,23 @@ figure.effect-ming:hover img {
 }
 .new_dropdown:hover .new_dropdown_inner {
   display: block;
+  max-height:240px ;
+  overflow-y: scroll !important;
 }
+.new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar {
+  width: 6px !important;
+  margin-left: 2px !important;
+}
+.new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar-track {
+  /* background-color: #3e4093; */
+  border-radius: 10px;
+}
+.new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar-thumb {
+  background-color: #3e4093 !important;
+  border-radius: 30px;
+  cursor: pointer !important;
+}
+
 .header_menuss li {
   list-style: none;
   padding: 0;
@@ -14765,7 +14781,7 @@ figure.effect-ming:hover img {
   .new_dropdown:hover .new_dropdown_inner {
     top: 42px;
     width: 210px;
-    height: 240px;
+    max-height: 240px;
   }
   .new_dropdown_inner a {
     padding: 10px 20px;

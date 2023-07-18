@@ -17,8 +17,8 @@ function AppOtpVerification() {
   } = useForm();
 
   const location = useLocation();
-
   const navigate = useNavigate();
+  
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
