@@ -7,7 +7,7 @@ import { verifyOTP } from "../httpServices/loginHttpService/loginHttpService";
 
 function AppOtpVerification() {
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(60);
   const [error, setError] = useState("");
 
   const {

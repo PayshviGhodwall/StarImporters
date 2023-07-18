@@ -20,7 +20,9 @@ const GalleryMain = () => {
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [open, setOpen] = useState(false);
   const [sideBar, setSideBar] = useState(true);
+  const [allVideos,setAllVideos] = useState()
   const [files, setFiles] = useState([]);
+  const [video, setVideo] = useState([]);
   const [multipleFiles, setMultipleFiles] = useState([]);
   const [title, setTitle] = useState("");
   const [galleries, setGalleries] = useState([]);
@@ -38,29 +40,29 @@ const GalleryMain = () => {
     let formData = new FormData();
     formData.append("title", title);
     formData.append("coverImage", files?.coverImage);
+    formData.append("videos", video?.video);
     multipleFiles?.dataImg?.map((item) => {
       formData.append("images", item?.images);
     });
 
     await axios.post(addCollection, formData).then((res) => {
       getCollection();
-      setTitle("")
+      setTitle("");
       if (!res.data.error) {
         document.getElementById("resetCatss").click();
-              setFiles([])
-              setMultipleFiles([])
+        setFiles([]);
+        setMultipleFiles([]);
         Swal.fire({
           title: "New Gallery Added!",
           icon: "success",
           confirmButtonText: "Okay",
         });
-      }
-      else {
+      } else {
         Swal.fire({
           title: res?.data.message,
-          text:"Please fill all fields with valid Data.",
+          text: "Please fill all fields with valid Data.",
           icon: "error",
-          timer:2000,
+          timer: 2000,
           confirmButtonText: "Okay",
         });
       }
@@ -73,30 +75,31 @@ const GalleryMain = () => {
     let formData = new FormData();
     formData.append("title", editGalleryName);
     formData.append("coverImage", files?.editCoverImage);
+    formData.append("videos", video?.videoEdit);
     multipleFiles?.dataImg?.map((item) => {
       formData.append("images", item?.gallery_images);
     });
-      await axios.post(editCollection + "/" + id, formData).then((res) => {
-        getCollection();
-        document.getElementById("Modal_gallery").click();
-        if (!res.data.error) {
-          Swal.fire({
-            title: "Gallery Modified Successfully!",
-            icon: "success",
-            confirmButtonText: "Okay",
-          });
-        } else {
-          Swal.fire({
-            title: "Enter Valid Details!",
-            icon: "error",
-            confirmButtonText: "Okay",
-          });
-        }
-      });
-   
+    await axios.post(editCollection + "/" + id, formData).then((res) => {
+      getCollection();
+      document.getElementById("Modal_gallery").click();
+      if (!res.data.error) {
+        Swal.fire({
+          title: "Gallery Modified Successfully!",
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      } else {
+        Swal.fire({
+          title: "Enter Valid Details!",
+          icon: "error",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
 
   const deleteImage = async (i, img) => {
+    console.log(img, "delete");
     // images?.splice(i, 1);
     let formData = new FormData();
     formData.append("imageKey", img);
@@ -112,6 +115,7 @@ const GalleryMain = () => {
     if (!data.error) {
       setEditGalleryData(data?.results?.gallery);
       setImages(data?.results?.gallery?.images);
+      setAllVideos(data?.results?.gallery?.videos);
     }
   };
   console.log(editGalleryData);
@@ -123,6 +127,7 @@ const GalleryMain = () => {
     }
   };
   // instant image preview //
+
   document.getElementById("image_up")?.addEventListener("change", function () {
     if (this.files[0]) {
       var picture = new FileReader();
@@ -143,6 +148,13 @@ const GalleryMain = () => {
       },
     });
   };
+
+  const onFileSelectionVideo = (e, key) => {
+    let video = e.target.files[0];
+
+    setVideo({ ...files, [key]: video });
+  };
+  console.log(video, "vieo");
 
   const onFileSelection2 = (e, key) => {
     let image = [e.target.files];
@@ -220,40 +232,34 @@ const GalleryMain = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -262,20 +268,17 @@ const GalleryMain = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -284,54 +287,45 @@ const GalleryMain = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -339,8 +333,7 @@ const GalleryMain = () => {
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/Gallery-Management"
@@ -348,29 +341,24 @@ const GalleryMain = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -378,12 +366,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -392,12 +378,10 @@ const GalleryMain = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -411,12 +395,10 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -424,12 +406,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -440,12 +420,10 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -456,12 +434,10 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -469,12 +445,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -485,12 +459,10 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -502,12 +474,10 @@ const GalleryMain = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -515,12 +485,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -528,12 +496,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -541,12 +507,10 @@ const GalleryMain = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -555,12 +519,10 @@ const GalleryMain = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -580,8 +542,7 @@ const GalleryMain = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -592,8 +553,7 @@ const GalleryMain = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -626,7 +586,6 @@ const GalleryMain = () => {
                       />
                     </div>
                   </form>
-                 
                 </div>
               </div>
               <div className="row mx-0">
@@ -638,9 +597,8 @@ const GalleryMain = () => {
                           <div className="col-12">
                             <form
                               className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                              action=""
-                            >
-                              <div className="form-group mb-0 col-4">
+                              action="">
+                              <div className="form-group mb-0 col-3">
                                 <label htmlFor="">Title</label>
                                 <input
                                   type="text"
@@ -651,7 +609,7 @@ const GalleryMain = () => {
                                   }}
                                 />
                               </div>
-                              <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
                                 <span>Cover Image</span>{" "}
                                 <label htmlFor="upload_video">
                                   <i class="fa fa-camera me-1"></i>
@@ -668,7 +626,7 @@ const GalleryMain = () => {
                                   }
                                 />
                               </div>
-                              <div className="form-group mb-0 col choose_fileAdmin position-relative">
+                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
                                 <span>Gallery Images</span>{" "}
                                 <label htmlFor="upload_video">
                                   <i class="fa fa-camera me-1"></i>
@@ -686,19 +644,35 @@ const GalleryMain = () => {
                                   multiple
                                 />
                               </div>
-                              <div className="form-group mb-0 col-auto">
+
+                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                <span>Add Video</span>{" "}
+                                <label htmlFor="upload_video">
+                                  <i class="fa fa-camera me-1"></i>
+                                  Choose File
+                                </label>
+                                <input
+                                  type="file"
+                                  className="form-control shadow-none"
+                                  defaultValue=""
+                                  accept="video/*"
+                                  name="images"
+                                  onChange={(e) =>
+                                    onFileSelectionVideo(e, "video")
+                                  }
+                                />
+                              </div>
+
+                              <div className="form-group mb-0 col-12 text-center mt-4">
                                 <button
-                                  
                                   className="comman_btn2"
-                                  onClick={addGallery}
-                                >
-                                  Save
+                                  onClick={addGallery}>
+                                  Save Collection
                                 </button>
                                 <button
                                   className="comman_btn d-none"
                                   id="resetCatss"
-                                  type="reset"
-                                >
+                                  type="reset">
                                   Reset
                                 </button>
                               </div>
@@ -709,8 +683,7 @@ const GalleryMain = () => {
                                   <table className="table mb-0">
                                     <thead>
                                       <tr
-                                        style={{ backgroundColor: "#f2f2f2" }}
-                                      >
+                                        style={{ backgroundColor: "#f2f2f2" }}>
                                         <th>Date</th>
                                         <th>Title</th>
                                         <th>Cover Image</th>
@@ -724,9 +697,9 @@ const GalleryMain = () => {
                                         <tr>
                                           <td className="border">
                                             {" "}
-                                            {moment(
-                                              item?.updatedAt
-                                            ).format("MM/DD/YYYY")}
+                                            {moment(item?.updatedAt).format(
+                                              "MM/DD/YYYY"
+                                            )}
                                           </td>
                                           <td className="border">
                                             {item?.title}
@@ -738,8 +711,7 @@ const GalleryMain = () => {
                                                 item?.coverImage
                                                   ? item?.coverImage
                                                   : require("../../../assets/img/product.jpg")
-                                              }
-                                            ></img>
+                                              }></img>
                                           </td>
                                           <td className="border">
                                             <img
@@ -747,8 +719,7 @@ const GalleryMain = () => {
                                                 getSlides(item?.images)
                                               }
                                               className="previewImages"
-                                              src={require("../../../assets/img/preview2.png")}
-                                            ></img>
+                                              src={require("../../../assets/img/preview2.png")}></img>
                                             <br />
                                             <small>CLick to preview</small>
                                           </td>
@@ -771,6 +742,7 @@ const GalleryMain = () => {
                                               </label>
                                             </div>
                                           </td>
+                                        
                                           <td className="border">
                                             <a
                                               data-bs-toggle="modal"
@@ -785,8 +757,7 @@ const GalleryMain = () => {
                                               key={index}
                                               onClick={() => {
                                                 onEditGallery(item?._id);
-                                              }}
-                                            >
+                                              }}>
                                               Edit
                                             </a>
                                           </td>
@@ -794,46 +765,6 @@ const GalleryMain = () => {
                                       ))}
                                     </tbody>
                                   </table>
-                                  {/* <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                                    <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
-                                    </span>
-                                    <ul id="pagination">
-                                      <li>
-                                        <a
-                                          class="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
-                                          }
-                                        >
-                                          «
-                                        </a>
-                                      </li>
-
-                                      <li>
-                                        <a href="#" className="active">
-                                          {activePage}
-                                        </a>
-                                      </li>
-
-                                      <li>
-                                        <a
-                                          className="fs-5"
-                                          href="#"
-                                          onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
-                                          }
-                                        >
-                                          »
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -856,9 +787,8 @@ const GalleryMain = () => {
           data-bs-keyboard="false"
           tabIndex={-1}
           aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered modal-lg shadow">
+          aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-xl shadow">
             <div className="modal-content border-0">
               <div className="modal-header">
                 <h5 className="modal-title" id="staticBackdropLabel">
@@ -883,12 +813,10 @@ const GalleryMain = () => {
               <div className="modal-body shadow">
                 <form
                   className="form-design px-2 py-2 help-support-form  row  justify-content-center"
-                  action=""
-                >
+                  action="">
                   <div
-                    className="form-group col-4 mt-2"
-                    key={editGalleryData?.title}
-                  >
+                    className="form-group col-2 mt-2"
+                    key={editGalleryData?.title}>
                     <label htmlFor="">Title</label>
                     <input
                       type="text"
@@ -915,6 +843,24 @@ const GalleryMain = () => {
                       multiple
                     />
                   </div>
+                  
+                  <div className="form-group mb-0 col choose_fileAdmin position-relative mt-2">
+                                <span>Add Video</span>{" "}
+                                <label htmlFor="upload_video">
+                                  <i class="fa fa-camera me-1"></i>
+                                  Choose File
+                                </label>
+                                <input
+                                  type="file"
+                                  className="form-control shadow-none"
+                                  defaultValue=""
+                                  accept="video/*"
+                                  name="videoEdit"
+                                  onChange={(e) =>
+                                    onFileSelectionVideo(e, "videoEdit")
+                                  }
+                                />
+                              </div>
                   <div className="form-group col-4 p-2 ">
                     <label htmlFor="" className="mx-3">
                       Cover Image
@@ -946,43 +892,114 @@ const GalleryMain = () => {
                           />
                         </div>
                       </div>
-                      {/* {EditCategories?.categoryImage ? (
-                      <i
-                        class="fa fa-trash mx-2 text-danger deleteBtnC
-                        at"
-                        aria-hidden="true"
-                        onClick={deleteCatImage}
-                      ></i>
-                    ) : null} */}
+                    </div>
+                  </div>
+                  <nav>
+                    <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                      <button
+                        className="nav-link active"
+                        id="nav-home-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#nav-home"
+                        type="button"
+                        role="tab"
+                        aria-controls="nav-home"
+                        aria-selected="true"
+                        // onClick={() => {
+                        //   document.getElementById("Search").value = "";
+                        //   getCategories();
+                        // }}
+                      >
+                        Images
+                      </button>
+                      <button
+                        className="nav-link"
+                        id="nav-profile-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#nav-profile"
+                        type="button"
+                        role="tab"
+                        aria-controls="nav-profile"
+                        aria-selected="false"
+                        // onClick={() => {
+                        //   document.getElementById("Search").value = "";
+                        //   getSubCategories();
+                        // }}
+                      >
+                        Videos
+                      </button>
+                    </div>
+                  </nav>
+                  <div
+                    className="tab-content recent_orders_cate"
+                    id="nav-tabContent">
+                    <div
+                      className="tab-pane fade show active"
+                      id="nav-home"
+                      role="tabpanel"
+                      aria-labelledby="nav-home-tab">
+                      <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
+                        {images?.map((item, ind) => (
+                          <div className="col-3 mb-3" key={ind}>
+                            <div className="image_box">
+                              <i
+                                className="fas fa-close closeIcon"
+                                onClick={() => deleteImage(ind, item)}></i>
+                              <img
+                                className="gallery_uploads"
+                                src={
+                                  item
+                                    ? item
+                                    : require("../../../assets/img/product.jpg")
+                                }
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div
+                      className="tab-pane fade show"
+                      id="nav-profile"
+                      role="tabpanel"
+                      aria-labelledby="nav-profile-tab">
+                      <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
+                        {allVideos?.map((item, ind) => (
+                          <div className="col-3 mb-3" key={ind}>
+                            <div className="image_box">
+                              <i
+                                className="fas fa-close closeIcon"
+                                onClick={() => deleteImage(ind, item)}></i>
+                                 <video
+                                            id="frameOne"
+                                            className="gallery_uploads"
+                                            autoPlay
+                                            loop
+                                            muted
+                                            allowfullscreen=""
+                                          >
+                                            {console.log(item,"vido")}
+                                            <source
+                                              src={
+                                                item
+                                                ? item
+                                                : require("../../../assets/img/product.jpg")
+                                              }
+                                            />
+                                          </video>
+                             
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
-                    {images?.map((item, ind) => (
-                      <div className="col-3 mb-3" key={ind}>
-                        <div className="image_box">
-                          <i
-                            className="fas fa-close closeIcon"
-                            onClick={() => deleteImage(ind, item)}
-                          ></i>
-                          <img
-                            className=" subCatImages2 rounded"
-                            src={
-                              item
-                                ? item
-                                : require("../../../assets/img/product.jpg")
-                            }
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                   <div className="form-group mb-0 col-auto mt-3">
                     <button
                       className="comman_btn d-none"
                       type="reset"
-                      id="gallery_cat"
-                    >
+                      id="gallery_cat">
                       reset
                     </button>
                   </div>

@@ -2616,17 +2616,7 @@
     overflow-y: scroll;
     max-height: 23rem;
   }
-  .closeIcon {
-    background-color: #eb3237;
-    color: #fff;
-    border-radius: 50%;
-    padding: 8px;
-    font-size: 10px;
-    position: relative;
-    top: 16px !important;
-    left: 8.2rem;
-    cursor: pointer;
-  }
+
   .order_tabs .nav-item .nav-link {
     border: 0;
     border-radius: 0;
@@ -16122,11 +16112,67 @@ figure.effect-ming:hover img {
   align-items: center;
 }
 
+
+
 .photo_gallery{
-  max-width: 20rem;
-  max-height: 15rem;
-  min-height: 15rem;
-  border: 2px solid #000;
-  border-radius: 10%;
-  margin: 10px;
+  max-width: 15rem;
+  /* max-height: 18rem; */
+  /* min-height: 18rem; */
+  aspect-ratio: 4/3;
+  /* border: 2px solid #000; */
+  border-radius: 3%;
+  margin:10px;
+  cursor:zoom-in;
 }
+.photo_gallery:hover{
+  opacity: 50%;
+}
+
+@media (min-width: 1400px) {
+  .photo_gallery{
+    max-width: 20rem;
+    max-height: 18rem;
+    min-height: 18rem;
+    aspect-ratio: 4/3;
+    /* border: 2px solid #000; */
+    border-radius: 3%;
+    margin:10px;
+    cursor:zoom-in;
+  }
+  .photo_gallery:hover{
+    opacity: 50%;
+  }
+}
+
+.gallery_uploads{
+  max-width: 12rem;
+  max-height: 8rem;
+  min-height: 8rem;
+  aspect-ratio: 4/3;
+  border: 2px solid grey;
+  border-radius: 3%;
+  margin:5px !important;
+}
+.gallery_uploads_web{
+  max-width: 35rem;
+  max-height: 18rem;
+  min-height: 18rem;
+  aspect-ratio: 4/3;
+  /* border: 2px solid grey; */
+  border-radius: 3%;
+  margin:5px !important;
+}
+
+
+.closeIcon {
+  background-color: #eb3237;
+  color: #fff;
+  border-radius: 50%;
+  padding: 8px;
+  font-size: 12px;
+  position: relative;
+  top: -3.8rem !important;
+  left: 1.2rem;
+  cursor: pointer;
+}
+

@@ -11,9 +11,8 @@ import { useEffect } from "react";
 const AdminSendOtp = ({ AdminEmail }) => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/forgetPassword`;
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(60);
   const [success, setSuccess] = useState("");
-
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [email, setEmail] = useState();
@@ -22,9 +21,11 @@ const AdminSendOtp = ({ AdminEmail }) => {
     const AdminEmail = localStorage.getItem("AdminEmail");
     setEmail(AdminEmail);
   }, []);
+
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
+
   const {
     register,
     handleSubmit,
@@ -36,7 +37,6 @@ const AdminSendOtp = ({ AdminEmail }) => {
   const onSubmit = async (data) => {
     const tempOtp = data.number1 + data.number2 + data.number3 + data.number4;
     const otp = parseInt(tempOtp);
-
     const VerifyUser = () => {
       axios
         .post(apiUrl, {

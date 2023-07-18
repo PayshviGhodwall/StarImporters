@@ -202,7 +202,7 @@ function AppSignUp() {
                           name="companyName"
                           id="companyName"
                           {...register("companyName", {
-                            required: false,
+                            required: "Required",
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
@@ -248,7 +248,7 @@ function AppSignUp() {
                           name="addressLine1"
                           id="addressLine1"
                           {...register("addressLine1", {
-                            required: false,
+                            required: "Required",
 
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
@@ -303,7 +303,7 @@ function AppSignUp() {
                           name="city"
                           id="city"
                           {...register("city", {
-                            required: false,
+                            required: "Required",
 
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
@@ -433,7 +433,7 @@ function AppSignUp() {
                           name="zipcode"
                           id="zipcode"
                           {...register("zipcode", {
-                            required: false,
+                            required: "Required",
 
                             maxLength: 10,
                           })}
@@ -458,7 +458,7 @@ function AppSignUp() {
                           id="firstName"
                           {...register("firstName", {
                             pattern: {
-                              required: false,
+                              required: "Required",
 
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
@@ -485,7 +485,7 @@ function AppSignUp() {
                           id="lastName"
                           {...register("lastName", {
                             pattern: {
-                              required: false,
+                              required: "Required",
 
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
@@ -538,7 +538,7 @@ function AppSignUp() {
                           id="phoneNumber"
                           name="phoneNumber"
                           {...register("phoneNumber", {
-                            required: false,
+                            required: "Required",
 
                             maxLength: 12,
                             minLength: 10,
@@ -1109,7 +1109,7 @@ function AppSignUp() {
                           id="phoneNumber"
                           name="phoneNumber"
                           {...register("phoneNumber", {
-                            required: false,
+                            required: true,
                             maxLength: 12,
                             minLength: 10,
                           })}
@@ -1279,7 +1279,7 @@ function AppSignUp() {
                           id="hear"
                           name="heardAboutUs"
                           {...register("heardAboutUs", {
-                            required: true,
+                            required: false,
                           })}
                         >
                           <option value="">Select</option>

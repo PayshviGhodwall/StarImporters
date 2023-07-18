@@ -11,7 +11,7 @@ const UserOtpValidate = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/verifyOtp`;
   const sendOtp = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
   const [error, setError] = useState("");
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(60);
   const navigate = useNavigate();
   const [OTP, setOTP] = useState("");
   let email = localStorage.getItem("userEmail");
@@ -134,6 +134,7 @@ const UserOtpValidate = () => {
                         Check Email
                       </a>
                     ) : (
+                    
                       <a
                         className="text-decoration-none"
                         style={{ color: "#3b4093", cursor: "pointer" }}
@@ -141,6 +142,7 @@ const UserOtpValidate = () => {
                       >
                         Resend OTP
                       </a>
+
                     )}
                   </span>
                 </div>

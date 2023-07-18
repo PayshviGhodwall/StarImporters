@@ -745,7 +745,10 @@ const BrandsManage = () => {
                                           <img
                                             className="subCatImages"
                                             height={55}
-                                            src={item?.brandImage}
+                                            src={item?.brandImage ? item?.brandImage
+                                             :
+                                             require("../../../assets/img/product.jpg")
+                                            }
                                           ></img>
                                         </td>
                                         <td>
