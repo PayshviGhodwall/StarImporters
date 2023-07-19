@@ -646,6 +646,30 @@ const Inventory = () => {
                     Sub-Admin Management
                   </Link>
                 </li>
+
+                <li
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
+
+                  className={
+                    User?.access?.includes("Puller") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
+                  </Link>
+                </li>
+
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
@@ -807,6 +831,24 @@ const Inventory = () => {
                   </Link>
                 </li>
                 <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
+                
+                  <Link
+                    className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
+                  </Link>
+                </li>
+                <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
+                
                   <Link
                     className=""
                     to="/Gallery-Management"

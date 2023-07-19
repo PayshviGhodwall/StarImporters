@@ -112,6 +112,8 @@ import AppDocs from "./pwaComponents/homeComponent/appDocs";
 import AppRedirectWeb from "./pwaComponents/homeComponent/appRedirectWeb";
 import ProductsByFilter from "./buyerComponent/AllProducts/ProductsByFilter";
 import ContactSupport from "./AdminComponent/AdminDashboard/Contact and Support/ContactSupport";
+import PullerManagement from "./AdminComponent/AdminDashboard/Puller Manage/PullerManagement";
+import ViewPuller from "./AdminComponent/AdminDashboard/Puller Manage/viewPuller";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -203,6 +205,8 @@ function App() {
             <Route path="/UserManage/AddUser" element={<AddUser />} />
             <Route path="/CategorySub" element={<CategorySub />} />
             <Route path="/Inventory" element={<Inventory />} />
+            <Route path="/Puller-Management" element={<PullerManagement />} />
+            <Route path="/Puller-Management/Puller-details/:id" element={<ViewPuller />} />
             <Route path="/Inventory/View" element={<ViewProduct />} />
             <Route path="/Inventory/View-Edit" element={<EditInventory />} />
             <Route path="/BrandsManage" element={<BrandsManage />} />

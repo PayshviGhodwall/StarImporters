@@ -176,18 +176,42 @@ const ViewOrder = () => {
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+
+                <li
+                  className={
+                    User?.access?.includes("Puller") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
                   </Link>
                 </li>
                 <li
@@ -329,14 +353,32 @@ const ViewOrder = () => {
                 <li>
                   <Link
                     className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>

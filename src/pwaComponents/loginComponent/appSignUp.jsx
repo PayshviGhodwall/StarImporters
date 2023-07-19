@@ -455,10 +455,11 @@ function AppSignUp() {
                           type="text"
                           placeholder=""
                           name="firstName"
-                          id="firstName"
+                          id="username"
                           {...register("firstName", {
                             pattern: {
                             required: "Required",
+
                               value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
                             },
@@ -473,7 +474,7 @@ function AppSignUp() {
                       </div>
                       <div className="form-group text-start mb-4">
                         <span>Contact Last Name</span>
-                        <label for="username">
+                        <label for="lastname">
                           <i className="fa-solid fa-user"></i>
                         </label>
                         <input
@@ -485,7 +486,6 @@ function AppSignUp() {
                           {...register("lastName", {
                             pattern: {
                             required: "Required",
-                            
                               value:/^[^*|\":<>[\]{}`\\()';@&$]+$/,
                               message: "Special Character not allowed",
                             },

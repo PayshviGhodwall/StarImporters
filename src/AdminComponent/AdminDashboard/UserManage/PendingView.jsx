@@ -247,7 +247,7 @@ const PendingView = () => {
                     Brands Management
                   </Link>
                 </li>
-                <li
+                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
                   }
@@ -269,6 +269,27 @@ const PendingView = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+
+                <li
+                  className={
+                    User?.access?.includes("Puller") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
                   </Link>
                 </li>
                 <li
@@ -463,6 +484,22 @@ const PendingView = () => {
                       class="fas fa-user-cog"
                     ></i>{" "}
                     Sub-Admin Management
+                  </Link>
+                </li>
+                     <li>
+                  <Link
+                    className=""
+                    to="/Puller-Management"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management
                   </Link>
                 </li>
                 <li>
