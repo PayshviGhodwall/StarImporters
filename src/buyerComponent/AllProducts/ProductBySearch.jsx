@@ -8,9 +8,10 @@ import { homeSearch } from "../../pwaComponents/httpServices/homeHttpService/hom
 const ProductBySearch = () => {
   const [products, setProducts] = useState([]);
   let params = useParams();
-
   const [search, setSearch] = useState("");
+
   let navigate = useNavigate();
+  
   if (search !== params?.id) {
     setSearch(params?.id);
   }

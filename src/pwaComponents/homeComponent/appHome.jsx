@@ -25,7 +25,6 @@ import {
   searchKeyRemove,
 } from "../../atom";
 import Swal from "sweetalert2";
-import swal from "sweetalert";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -64,10 +63,6 @@ function AppHome() {
   useEffect(() => {
     getProductList();
   }, [search]);
-
-  useEffect(() => {
-    searchKey && setSearch("");
-  }, [searchKey]);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
@@ -237,7 +232,7 @@ function AppHome() {
                   <input
                     className="form-control"
                     type="search"
-                    value={search}
+                    defaultValue={search}
                     placeholder={"   " + "Search in Star Importers"}
                     onChange={(e) => {
                       setSearch(e.target.value);

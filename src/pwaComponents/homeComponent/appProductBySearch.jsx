@@ -143,7 +143,7 @@ function AppProductBySearch() {
               <input
                 className="form-control"
                 type="text"
-                value={search.trim() ? search.trim() : preSearch}
+                defaultValue={search}
                 placeholder="Search in Star Importers"
                 onChange={(e) => setSearch(e.target.value)}
                 autoFocus

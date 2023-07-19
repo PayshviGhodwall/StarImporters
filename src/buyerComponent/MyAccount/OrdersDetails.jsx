@@ -315,7 +315,7 @@ const OrderDetails = () => {
                               <div className="col-12 mb-4">
                                 <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                                   <span className="small_header">
-                                    Status Comment
+                                  Comment:
                                   </span>
                                   <div className="col-6 mb-2">
                                     <div className="row">

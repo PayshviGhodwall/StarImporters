@@ -47,7 +47,7 @@ const ViewOrder = () => {
     e.preventDefault();
     await axios
       .post(updateOrder + "/" + id, {
-        status: orderStatus,
+        status: orderStatus ? orderStatus : orders?.status,
         statusComment: statusComment,
       })
       .then((res) => {

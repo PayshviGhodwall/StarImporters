@@ -105,7 +105,7 @@ const Search = () => {
             <input
               className="form-control"
               type="text"
-              value={search}
+              defaultValue={search}
               placeholder={"  " + "Search in Star Importers"}
               onChange={(e) => {
                 setSearch(e.target.value);
