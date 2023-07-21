@@ -16,6 +16,7 @@ const Photos = () => {
   let id = useParams();
   const [slide, setSlide] = useState([]);
   const [videoSlide, setVideoSlide] = useState([]);
+  const [preload, setPreload] = React.useState("");
 
   useEffect(() => {
     getPhotos();
@@ -43,25 +44,30 @@ const Photos = () => {
     setOpen(true);
   };
 
-  const getVideoSlides = () => {
+  const getVideoSlides = (vid) => {
     console.log("okauuuuuuuuuuuuuuuuuuuuuuuuu");
     let slide = [];
-    setOpen2(true);
-    (galleries?.videos || [])?.map((item) => {
+    if (vid) {
+      slide?.unshift({
+        type: "video",
+        width: 1280,
+        height: 720,
+        poster: "",
+        sources: [{ src: vid, width: 1200, height: 800, type: "video/mp4" }],
+      });
+    }
+      (gallery?.videos || [])?.map((item) => {
         slide?.push({
           type: "video",
           width: 1280,
           height: 720,
           poster: "",
-          sources: [
-            { src: item, width: 1200, height: 800, type: "video/mp4" },
-          ],
+          sources: [{ src: item, width: 1200, height: 800, type: "video/mp4" }],
         });
-    });
-    console.log(slide,"bbkkj");
-    return slide;
+      });
+    setVideoSlide(slide);
+    setOpen2(true)
   };
-
 
   return (
     <div>
@@ -78,7 +84,10 @@ const Photos = () => {
           </div>
 
           <nav>
-            <div className="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+            <div
+              className="nav nav-tabs justify-content-center"
+              id="nav-tab"
+              role="tablist">
               <button
                 className="nav-link active"
                 id="nav-home-tab"
@@ -145,22 +154,23 @@ const Photos = () => {
               <div className="row  mt-1   comman_divvision">
                 {(gallery?.videos || [])?.map((item, ind) => (
                   <div class="col-xl-4 col-sm-6 col-md-4 p-0">
-                      <video
-                      onClick={()=>setOpen2(true)}
-                        className="gallery_uploads_web"
-                        autoPlay
-                        loop
-                        muted
-                        allowfullscreen="">
-                        {console.log(item, "vido")}
-                        <source
-                          src={
-                            item
-                              ? item
-                              : require("../../assets/img/no-data.gif")
-                          }
-                        />
-                      </video>
+                    <video
+                      onClick={() => {
+                        getVideoSlides(item);
+                        // setOpen2(true);
+                      }}
+                      className="gallery_uploads_web"
+                      autoPlay
+                      loop
+                      muted
+                      allowfullscreen="">
+                      {console.log(item, "vido")}
+                      <source
+                        src={
+                          item ? item : require("../../assets/img/no-data.gif")
+                        }
+                      />
+                    </video>
                   </div>
                 ))}
               </div>
@@ -173,8 +183,14 @@ const Photos = () => {
       <Lightbox
         open={open2}
         close={() => setOpen2(false)}
-        slides={getVideoSlides}
+        slides={videoSlide}
         plugins={[Video]}
+        video={{
+          controls: true,
+          autoPlay: true,
+          loop: true,
+          preload,
+        }}
       />
     </div>
   );

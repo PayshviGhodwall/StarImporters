@@ -15,6 +15,7 @@ const SignUp = () => {
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/register`;
   const [text, setText] = useRecoilState(textState);
+  const [cities, setCities] = useState([]);
   const {
     register,
     handleSubmit,
@@ -27,6 +28,20 @@ const SignUp = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
   console.log(files);
+
+  const handleCities = async (state) => {
+    const { data } = await axios.post(
+      "https://countriesnow.space/api/v0.1/countries/state/cities",
+      {
+        country: "United States",
+        state: state,
+      }
+    );
+    if (!data.error) {
+      setCities(data?.data);
+    }
+  };
+  console.log(cities);
 
   const onSubmit = (data) => {
     setLoader(true);
@@ -176,8 +191,7 @@ const SignUp = () => {
           <div className="col-lg-8">
             <form
               className=" mt-5 bg-white p-5 mb-5 shadow"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+              onSubmit={handleSubmit(onSubmit)}>
               <div className="row">
                 <h2 className=" mt-1 mb-2 fw-bold  fs-1 text-center text-dark">
                   CREATE MY ACCOUNT
@@ -222,8 +236,7 @@ const SignUp = () => {
                   )}
                   <label
                     htmlFor="floatingInput3"
-                    className="mx-2 fw-bolder text-dark"
-                  >
+                    className="mx-2 fw-bolder text-dark">
                     Company <span className="text-danger">*</span>
                   </label>
                 </div>
@@ -302,7 +315,139 @@ const SignUp = () => {
                     </label>
                   </div> */}
                 </div>
-                <div className="form-floating col-4 mb-4">
+
+                <div className="form-floating col-4 mb-4 select_dropdown ">
+                  <select
+                    className={classNames(
+                      "form-select border border-secondary signup_fields fw-bolder",
+                      { "is-invalid": errors.state }
+                    )}
+                    id="floatingSelect1"
+                    aria-label="Floating label select example"
+                    name="state"
+                    {...register("state", {
+                      required: "State is Required*",
+                      onChange: (e) => {
+                        handleCities(e.target.value);
+                      },
+                    })}>
+                    <option value="">Select a state/province...</option>
+                    <option value="Alabama">Alabama</option>
+                    <option value="Alaska">Alaska</option>
+                    <option value="American Samoa">American Samoa</option>
+                    <option value="Arizona">Arizona</option>
+                    <option value="Arkansas">Arkansas</option>
+                    <option value="California">California</option>
+                    <option value="Colorado">Colorado</option>
+                    <option value="Connecticut">Connecticut</option>
+                    <option value="Delaware">Delaware</option>
+                    <option value="District of Columbia">
+                      District of Columbia
+                    </option>
+                    <option value="Federated States of Micronesia">
+                      Federated States of Micronesia
+                    </option>
+                    <option value="Florida">Florida</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Guam">Guam</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Idaho">Idaho</option>
+                    <option value="Illinois">Illinois</option>
+                    <option value="Indiana">Indiana</option>
+                    <option value="Iowa">Iowa</option>
+                    <option value="Kansas">Kansas</option>
+                    <option value="Kentucky">Kentucky</option>
+                    <option value="Louisiana">Louisiana</option>
+                    <option value="Maine">Maine</option>
+                    <option value="Marshall Islands">Marshall Islands</option>
+                    <option value="Maryland">Maryland</option>
+                    <option value="Massachusetts">Massachusetts</option>
+                    <option value="Michigan">Michigan</option>
+                    <option value="Minnesota">Minnesota</option>
+                    <option value="Mississippi">Mississippi</option>
+                    <option value="Missouri">Missouri</option>
+                    <option value="Montana">Montana</option>
+                    <option value="Nebraska">Nebraska</option>
+                    <option value="Nevada">Nevada</option>
+                    <option value="New Hampshire">New Hampshire</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New Mexico">New Mexico</option>
+                    <option value="New York">New York</option>
+                    <option value="North Carolina">North Carolina</option>
+                    <option value="North Dakota">North Dakota</option>
+                    <option value="Northern Mariana Islands">
+                      Northern Mariana Islands
+                    </option>
+                    <option value="Ohio">Ohio</option>
+                    <option value="Oklahoma">Oklahoma</option>
+                    <option value="Oregon">Oregon</option>
+                    <option value="Palau">Palau</option>
+                    <option value="Pennsylvania">Pennsylvania</option>
+                    <option value="Puerto Rico">Puerto Rico</option>
+                    <option value="Rhode Island">Rhode Island</option>
+                    <option value="South Carolina">South Carolina</option>
+                    <option value="South Dakota">South Dakota</option>
+                    <option value="Tennessee">Tennessee</option>
+                    <option value="Texas">Texas</option>
+                    <option value="Utah">Utah</option>
+                    <option value="Vermont">Vermont</option>
+                    <option value="Virginia">Virginia</option>
+                    <option value="Washington">Washington</option>
+                    <option value="West Virginia">West Virginia</option>
+                    <option value="Wisconsin">Wisconsin</option>
+                    <option value="Wyoming">Wyoming</option>
+                    <option value="Virgin Islands">Virgin Islands</option>
+                    <option value="Armed Forces Americas">
+                      Armed Forces Americas
+                    </option>
+                    <option value="Armed Forces Europe">
+                      Armed Forces Europe
+                    </option>
+                    <option value="Armed Forces Pacific">
+                      Armed Forces Pacific
+                    </option>
+                  </select>
+                  {errors.state && (
+                    <small className="errorText mx-1 fw-bold">
+                      {errors.state?.message}
+                    </small>
+                  )}
+
+                  <label htmlFor="floatingSelect6" className="mx-2 fw-bolder">
+                    State/Province
+                  </label>
+                </div>
+
+                <div className="form-floating col-4 mb-4 select_dropdown ">
+                  <select
+                    className={classNames(
+                      "form-select border border-secondary signup_fields fw-bolder",
+                      { "is-invalid": errors.city }
+                    )}
+                    id="floatingSelect1"
+                    aria-label="Floating label select example"
+                    name="city"
+                    disabled={cities?.length ? false : true}
+                    {...register("city", {
+                      required: "City is Required*",
+                    })}>
+                    <option value="">Select City</option>
+                    {(cities || [])?.map((item, ind) => (
+                      <option value={item}>{item}</option>
+                    ))}
+                  </select>
+                  {errors.city && (
+                    <small className="errorText mx-1 fw-bold">
+                      {errors.city?.message}
+                    </small>
+                  )}
+
+                  <label htmlFor="floatingSelect6" className="mx-2 fw-bolder">
+                    City
+                  </label>
+                </div>
+
+                {/* <div className="form-floating col-4 mb-4">
                   <input
                     type="text"
                     className={classNames(
@@ -328,107 +473,8 @@ const SignUp = () => {
                   <label htmlFor="floatingInput5" className="mx-2 fw-bolder">
                     City <span className="text-danger">*</span>
                   </label>
-                </div>
+                </div> */}
                 <>
-                  <div className="form-floating col-4 mb-4 select_dropdown ">
-                    <select
-                      className={classNames(
-                        "form-select border border-secondary signup_fields fw-bolder",
-                        { "is-invalid": errors.state }
-                      )}
-                      id="floatingSelect1"
-                      aria-label="Floating label select example"
-                      name="state"
-                      {...register("state", {
-                        required: "State is Required*",
-                      })}
-                    >
-                      <option value="">Select a state/province...</option>
-                      <option value="Alabama">Alabama</option>
-                      <option value="Alaska">Alaska</option>
-                      <option value="American Samoa">American Samoa</option>
-                      <option value="Arizona">Arizona</option>
-                      <option value="Arkansas">Arkansas</option>
-                      <option value="California">California</option>
-                      <option value="Colorado">Colorado</option>
-                      <option value="Connecticut">Connecticut</option>
-                      <option value="Delaware">Delaware</option>
-                      <option value="District of Columbia">
-                        District of Columbia
-                      </option>
-                      <option value="Federated States of Micronesia">
-                        Federated States of Micronesia
-                      </option>
-                      <option value="Florida">Florida</option>
-                      <option value="Georgia">Georgia</option>
-                      <option value="Guam">Guam</option>
-                      <option value="Hawaii">Hawaii</option>
-                      <option value="Idaho">Idaho</option>
-                      <option value="Illinois">Illinois</option>
-                      <option value="Indiana">Indiana</option>
-                      <option value="Iowa">Iowa</option>
-                      <option value="Kansas">Kansas</option>
-                      <option value="Kentucky">Kentucky</option>
-                      <option value="Louisiana">Louisiana</option>
-                      <option value="Maine">Maine</option>
-                      <option value="Marshall Islands">Marshall Islands</option>
-                      <option value="Maryland">Maryland</option>
-                      <option value="Massachusetts">Massachusetts</option>
-                      <option value="Michigan">Michigan</option>
-                      <option value="Minnesota">Minnesota</option>
-                      <option value="Mississippi">Mississippi</option>
-                      <option value="Missouri">Missouri</option>
-                      <option value="Montana">Montana</option>
-                      <option value="Nebraska">Nebraska</option>
-                      <option value="Nevada">Nevada</option>
-                      <option value="New Hampshire">New Hampshire</option>
-                      <option value="New Jersey">New Jersey</option>
-                      <option value="New Mexico">New Mexico</option>
-                      <option value="New York">New York</option>
-                      <option value="North Carolina">North Carolina</option>
-                      <option value="North Dakota">North Dakota</option>
-                      <option value="Northern Mariana Islands">
-                        Northern Mariana Islands
-                      </option>
-                      <option value="Ohio">Ohio</option>
-                      <option value="Oklahoma">Oklahoma</option>
-                      <option value="Oregon">Oregon</option>
-                      <option value="Palau">Palau</option>
-                      <option value="Pennsylvania">Pennsylvania</option>
-                      <option value="Puerto Rico">Puerto Rico</option>
-                      <option value="Rhode Island">Rhode Island</option>
-                      <option value="South Carolina">South Carolina</option>
-                      <option value="South Dakota">South Dakota</option>
-                      <option value="Tennessee">Tennessee</option>
-                      <option value="Texas">Texas</option>
-                      <option value="Utah">Utah</option>
-                      <option value="Vermont">Vermont</option>
-                      <option value="Virginia">Virginia</option>
-                      <option value="Washington">Washington</option>
-                      <option value="West Virginia">West Virginia</option>
-                      <option value="Wisconsin">Wisconsin</option>
-                      <option value="Wyoming">Wyoming</option>
-                      <option value="Virgin Islands">Virgin Islands</option>
-                      <option value="Armed Forces Americas">
-                        Armed Forces Americas
-                      </option>
-                      <option value="Armed Forces Europe">
-                        Armed Forces Europe
-                      </option>
-                      <option value="Armed Forces Pacific">
-                        Armed Forces Pacific
-                      </option>
-                    </select>
-                    {errors.state && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.state?.message}
-                      </small>
-                    )}
-
-                    <label htmlFor="floatingSelect6" className="mx-2 fw-bolder">
-                      State/Province
-                    </label>
-                  </div>
                   <div className="form-floating col-4 mb-4">
                     <input
                       type="numer"
@@ -571,8 +617,7 @@ const SignUp = () => {
                     )}
                     <label
                       htmlFor="floatingPassword3"
-                      className="mx-2 fw-bolder"
-                    >
+                      className="mx-2 fw-bolder">
                       Phone Number <span className="text-danger">*</span>
                     </label>
                   </div>
@@ -713,8 +758,7 @@ const SignUp = () => {
                       id="floatingSelect2"
                       aria-label="Floating label select example"
                       name="heardAboutUs"
-                      {...register("heardAboutUs")}
-                    >
+                      {...register("heardAboutUs")}>
                       <option value="Email Flyer">Email Flyer</option>
                       <option value="Search Engine (Google, Yahoo, Bing, Etc.)">
                         Search Engine (Google, Yahoo, Bing, Etc.)
@@ -755,8 +799,7 @@ const SignUp = () => {
                     )}
                     <label
                       htmlFor="floatingPassword11"
-                      className="mx-2 fw-bolder"
-                    >
+                      className="mx-2 fw-bolder">
                       Business Number
                     </label>
                   </div>
@@ -775,8 +818,7 @@ const SignUp = () => {
                     />
                     <label
                       htmlFor="floatingComment"
-                      className="mx-2 fw-bolder text-secondary"
-                    >
+                      className="mx-2 fw-bolder text-secondary">
                       Comments (optional)
                     </label>
                   </div>
@@ -793,8 +835,7 @@ const SignUp = () => {
                     />
                     <label
                       className="form-check-label fs-6 text-secondary fw-bold "
-                      for="flexCheckDefault"
-                    >
+                      for="flexCheckDefault">
                       Wholesale Confirmation
                     </label>
                   </div>
@@ -811,8 +852,7 @@ const SignUp = () => {
                     />
                     <label
                       className="form-check-label fs-6 text-secondary fw-bold "
-                      for="flexCheckDefault"
-                    >
+                      for="flexCheckDefault">
                       Subscribe to our email newsletter
                     </label>
                   </div>
@@ -823,8 +863,7 @@ const SignUp = () => {
                       onClick={() => {
                         navigate("/app/home");
                       }}
-                      style={{ backgroundColor: "#eb3237", color: "#fff" }}
-                    >
+                      style={{ backgroundColor: "#eb3237", color: "#fff" }}>
                       Cancel
                     </Button>
                     <Button
@@ -832,8 +871,7 @@ const SignUp = () => {
                       appearance="primary"
                       className="comman_btn mx-2 fw-bold"
                       type="submit"
-                      style={{ backgroundColor: "#3e4093", color: "#fff" }}
-                    >
+                      style={{ backgroundColor: "#3e4093", color: "#fff" }}>
                       Submit
                     </Button>
                   </div>
@@ -843,8 +881,7 @@ const SignUp = () => {
                     <Link
                       to="/Terms&Condition"
                       state={"jiij"}
-                      className="text-decoration-none"
-                    >
+                      className="text-decoration-none">
                       Terms and Conditions.
                     </Link>
                   </p>
