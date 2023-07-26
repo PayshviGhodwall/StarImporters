@@ -27,6 +27,7 @@ import {
   pageSubCategory,
   pageSubCategoryData,
 } from "../../atom";
+import { height } from "@mui/system";
 
 const Homepage = () => {
   const [allSlides, setAllSlides] = useState([]);
@@ -37,6 +38,8 @@ const Homepage = () => {
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCategory`;
   const brandApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
+  const getVideoSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getVideoSlides`;
+  const [videos, setVideos] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -71,12 +74,14 @@ const Homepage = () => {
     setPage3(1);
     setData([]);
     setData2([]);
+    VideoSlidesGet();
     setTimeout(() => {
       setLoading(false);
     }, 8000);
   }, []);
 
   let image = JSON.parse(localStorage?.getItem("imageBg"));
+
   const AllProducts = async () => {
     await axios
       .post(allProd, {
@@ -91,6 +96,12 @@ const Homepage = () => {
       });
   };
 
+  const VideoSlidesGet = async () => {
+    await axios.get(getVideoSlides).then((res) => {
+      setVideos(res?.data.results?.videoSlide);
+    });
+  };
+
   const getSlides = async () => {
     await axios.get(slidesApi).then((res) => {
       localStorage.setItem("slides", JSON.stringify(res?.data.results));
@@ -100,7 +111,6 @@ const Homepage = () => {
           ? JSON.parse(localStorage.getItem("slides"))
           : res?.data.results
       );
-      // console.log(image?.bottomImage);
       var background =
         document.getElementById("bottom-image")?.style.backgroundImage;
       if (image) {
@@ -534,14 +544,55 @@ const Homepage = () => {
                         <div className="col-12">
                           <div
                             className="categorynew_slider sliderbtns_design"
-                            onClick={() =>
-                              navigate(`/AllProducts/Product/Product-Details`, {
-                                state: {
-                                  id: item?._id,
-                                },
-                              })
-                            }>
-                            <a className="featuredproduct_box p-2">
+                           >
+                            <div class="Fcard shadow">
+                              <div class="imgBox">
+                                <img
+                                  className="mt-5"
+                                  src={
+                                    item?.productImage
+                                      ? item?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  style={{
+                                    width: "10rem",
+                                    borderRadius: "2rem",
+                                    height: "10rem",
+                                  }}
+                                />
+                              </div>
+
+                              <div class="contentBox">
+                                <a  class="buy"
+                                 onClick={() =>
+                                  navigate(`/AllProducts/Product/Product-Details`, {
+                                    state: {
+                                      id: item?._id,
+                                    },
+                                  })
+                                }
+                                >
+                                  Buy Now
+                                </a>
+                              </div>
+                              <div className="text-center">
+                                <span
+                                  className="mt-5 title_prod"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/Product-Details`,
+                                      {
+                                        state: {
+                                          id: item?._id,
+                                        },
+                                      }
+                                    )
+                                  }>
+                                  {item?.unitName}
+                                </span>
+                              </div>
+                            </div>
+                            {/* <a className="featuredproduct_box p-2">
                               <div className="featuredproduct_img ">
                                 <img
                                   src={
@@ -567,7 +618,7 @@ const Homepage = () => {
                                   {item?.unitName}
                                 </span>
                               </div>
-                            </a>
+                            </a> */}
                           </div>
                         </div>
                       </SwiperSlide>
@@ -630,7 +681,7 @@ const Homepage = () => {
                   className="mySwiper px-4 py-2">
                   {(brands || [])?.map((item, index) => (
                     <SwiperSlide key={index} className="px-4">
-                      <div className="col-12">
+                      <div className="col-auto shadow">
                         <div className="categorynew_slider sliderbtns_design">
                           <Link
                             to="/Brands/Products"
