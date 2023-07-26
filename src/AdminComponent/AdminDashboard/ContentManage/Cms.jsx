@@ -119,7 +119,16 @@ const Cms = () => {
     let formData = new FormData();
     formData.append("video", videoFile?.video1);
     const { data } = await axios.post(editVideo + "/" + id, formData);
-    console.log(data);
+    if(!data.error){
+     window.location.reload(false)
+      Swal.fire({
+        title: 'Video Updated!',
+        timer: 2000,
+        icon:"success"
+
+      })
+
+    }
   };
 
   const onEditorTitleStateChange = async (editorTitleState) => {
@@ -1398,41 +1407,36 @@ const Cms = () => {
                                           className="form-design row"
                                           action="">
                                           <div className="form-group col-12 ">
-                                            <label
-                                              htmlFor=""
-                                              className="labels">
-                                              Video Slide 1
-                                            </label>
+                                           
 
                                             <div className="account_profile position-relative d-inline-block">
-                                              <div className="cmsSlide">
-                                                <video
-                                                  id="frameOne"
-                                                  className=" border"
-                                                  autoPlay
-                                                  loop
-                                                  muted
-                                                  allowfullscreen="">
-                                                  {console.log(videoSlides)}
-                                                  <source
-                                                    src={videoSlides[0]?.video}
-                                                  />
-                                                </video>
+                                              <div className="fw-bold">
+                                                <label className="fs-5 fw-bold">
+                                                  Video Link :{" "}
+                                                  {videoSlides[0]?.video}
+                                                </label>
                                               </div>
-                                              <div className="p-image">
-                                                <i className="upload-button fas fa-camera" />
+                                              <div className="form-group col-12 choose_fileInvent position-relative mt-4">
+                                                <span className="fw-bolder">Change Video </span>
+                                                <label
+                                                  htmlFor="upload_video"
+                                                  className="inputText">
+                                                  <i className="fa fa-camera me-1" />
+                                                  Choose File
+                                                </label>{" "}
                                                 <input
-                                                  className="file-uploads"
                                                   type="file"
-                                                  name="video1"
-                                                  accept="video/*"
-                                                  id="vidSlide2"
-                                                  onChange={(e) =>
-                                                    onFileSelectionVideo(
-                                                      e,
-                                                      "video1"
-                                                    )
-                                                  }
+                                                  className=
+                                                    "form-control  border border-secondary"
+                                                    name="video1"
+                                                    accept="video/*"
+                                                    id="vidSlide1"
+                                                    onChange={(e) =>
+                                                      onFileSelectionVideo(
+                                                        e,
+                                                        "video1"
+                                                      )
+                                                    }
                                                 />
                                               </div>
                                             </div>
@@ -1467,40 +1471,36 @@ const Cms = () => {
                                           className="form-design row"
                                           action="">
                                           <div className="form-group col-12 ">
-                                            <label
-                                              htmlFor=""
-                                              className="labels">
-                                              Video Slide 2
-                                            </label>
+                                          
 
                                             <div className="account_profile position-relative d-inline-block">
-                                              <div className="cmsSlide">
-                                                <video
-                                                  id="frameTwo"
-                                                  className=" border"
-                                                  autoPlay
-                                                  loop
-                                                  muted
-                                                  allowfullscreen="">
-                                                  <source
-                                                    src={videoSlides[1]?.video}
-                                                  />
-                                                </video>
+                                              <div className="fw-bold">
+                                                <label className="fs-5 fw-bold">
+                                                  Video Link :{" "}
+                                                  {videoSlides[1]?.video}
+                                                </label>
                                               </div>
-                                              <div className="p-image">
-                                                <i className="upload-button fas fa-camera" />
+                                              <div className="form-group col-12 choose_fileInvent position-relative mt-4">
+                                                <span className="fw-bolder">Change Video </span>
+                                                <label
+                                                  htmlFor="upload_video"
+                                                  className="inputText">
+                                                  <i className="fa fa-camera me-1" />
+                                                  Choose File
+                                                </label>{" "}
                                                 <input
-                                                  className="file-uploads"
                                                   type="file"
-                                                  name="video2"
-                                                  accept="video/*"
-                                                  id="vidSlide2"
-                                                  onChange={(e) =>
-                                                    onFileSelectionVideo(
-                                                      e,
-                                                      "video2"
-                                                    )
-                                                  }
+                                                  className=
+                                                    "form-control  border border-secondary"
+                                                    name="video1"
+                                                    accept="video/*"
+                                                    id="vidSlide2"
+                                                    onChange={(e) =>
+                                                      onFileSelectionVideo(
+                                                        e,
+                                                        "video2"
+                                                      )
+                                                    }
                                                 />
                                               </div>
                                             </div>
@@ -2690,4 +2690,4 @@ const Cms = () => {
   );
 };
 
-export default Cms;
+export default Cms

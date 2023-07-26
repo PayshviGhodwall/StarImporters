@@ -1492,6 +1492,113 @@
     font-weight: 500;
     font-size: 15px;
   }
+  .Fcard {
+    position: relative;
+    max-width: 100%;
+    height: 16rem;
+    width: auto !important;
+    background: #eb3237 !important;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .Fcard::before {
+    content: "";
+    position: absolute; 
+    top: -50%;
+    width: 100%;
+    height: 100%;
+    background: #3b4093 !important;
+    transform: skewY(345deg);
+    transition: 0.5s;
+  }
+  
+  .Fcard:hover::before {
+    top: -50%;
+    transform: skewY(390deg);
+  }
+  
+  .Fcard::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-weight: 600;
+    font-size: 6em;
+    color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .Fcard .imgBox {
+    position: relative;
+    max-width: 100%;
+    max-height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    z-index: 1;
+  }
+  
+  /* .Fcard .imgBox img {
+      max-width: 4rem;
+      
+      transition: .5s;
+  }
+  
+  .Fcard:hover .imgBox img {
+      max-width: 50%;
+        
+  } */
+  
+  .Fcard .contentBox {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+  }
+  
+  .title_prod {
+    font-size: 17px;
+    position: relative;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .Fcard:hover .title_prod{
+    opacity: 0;
+    
+  }
+  
+  .Fcard .contentBox .price {
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  .Fcard .contentBox .buy {
+    position: relative;
+    top: 100px;
+    opacity: 0;
+    padding: 10px 30px;
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+    background: #f2f2f2 !important;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.5s;
+  }
+  
+  .Fcard:hover .contentBox .buy {
+    top: 60px !important; 
+    opacity: 1;
+  }
+  
   .brand_box {
     display: flex;
     background-color: #eff3ff;

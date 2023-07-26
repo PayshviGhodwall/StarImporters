@@ -238,7 +238,7 @@ const Homepage = () => {
               <video id="frameOne" className="main_video bg-dark" autoPlay loop>
                 <source
                   src={
-                    "http://starimporters-media.s3.amazonaws.com/1689664772623--videoplayback.webm"
+                    videos[0]?.video
                   }
                 />
               </video>
@@ -254,7 +254,8 @@ const Homepage = () => {
                 preload="auto">
                 <source
                   src={
-                    "http://starimporters-media.s3.amazonaws.com/1689664787067--river_creek_stream_nature_flowing_821.mp4"
+                    videos[1]?.video
+                  
                   }
                 />
               </video>
