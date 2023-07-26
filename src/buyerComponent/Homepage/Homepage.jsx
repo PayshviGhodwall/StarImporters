@@ -162,344 +162,6 @@ const Homepage = () => {
         </div>
       ) : (
         <div>
-          {/* <section className="home ">
-            <div
-              id="carouselExampleControls"
-              className="carousel slide "
-              data-bs-ride="carousel"
-              data-interval="8000"
-            >
-              <div className="carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="0"
-                  className="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="1"
-                  aria-label="Slide 2"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="2"
-                  aria-label="Slide 3"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="3"
-                  aria-label="Slide 4"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="4"
-                  aria-label="Slide 5"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="5"
-                  aria-label="Slide 6"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide-to="6"
-                  aria-label="Slide 7"
-                ></button>
-              </div>
-              <div className="carousel-inner banner_box">
-                <div className="carousel-item active">
-                  <img
-                    src={allSlides[1]?.banner ? allSlides[1]?.banner : ""}
-                    className="d-block w-100 banner_slide"
-                    alt="No image"
-                  />
-                  <div
-                    className={
-                      (allSlides[1]?.position === "One" &&
-                        "carousel-caption mt-5") ||
-                      (allSlides[1]?.position === "Two" &&
-                        "carousel-caption banner-titles mx-3 mt-5") ||
-                      (allSlides[1]?.position === "Three" &&
-                        "carousel-caption bannerTitle2")
-                    }
-                  >
-                    <h5
-                      className={
-                        (allSlides[1]?.position === "One" &&
-                          "text-start bannerTxt") ||
-                        (allSlides[1]?.position === "Two" &&
-                          " text-center  Bannertext") ||
-                        (allSlides[1]?.position === "Three" &&
-                          " text-end bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[1]?.title
-                      )}
-                    ></h5>
-                    <p
-                      className={
-                        (allSlides[1]?.position === "One" &&
-                          " text-start fs-6 bannerTxt") ||
-                        (allSlides[1]?.position === "Two" &&
-                          "d-flex text-center fs-6 bannerTxt") ||
-                        (allSlides[1]?.position === "Three" &&
-                          "d-flex text-end fs-6 bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[1]?.description
-                      )}
-                    ></p>
-
-             
-                  </div>
-                </div>
-
-                <div className="carousel-item">
-                  <video
-                    id="frameOne"
-                    className="main_video bg-dark"
-                    autoPlay
-                    loop
-                    muted
-                  >
-                    <source src={require("../../assets/img/videoN.MP4")} />
-                  </video>
-                
-                </div>
-
-                <div className="carousel-item">
-                  <video
-                    id="frameOne"
-                    className="main_video bg-dark"
-                    autoPlay
-                    loop
-                    muted
-                    preload="auto"
-                  >
-                    <source src={require("../../assets/img/videoSugar.mp4")} />
-                  </video>
-                </div>
-
-                <div className="carousel-item ">
-                  <img
-                    src={allSlides[2]?.banner}
-                    className="d-block w-100 banner_slide"
-                    alt="..."
-                  />
-                  <div
-                    className={
-                      (allSlides[2]?.position === "One" &&
-                        "carousel-caption ") ||
-                      (allSlides[2]?.position === "Two" &&
-                        "carousel-caption banner-titles mx-3") ||
-                      (allSlides[2]?.position === "Three" &&
-                        "carousel-caption bannerTitle2")
-                    }
-                  >
-                    <h5
-                      className={
-                        (allSlides[2]?.position === "One" &&
-                          "text-start bannerTxt") ||
-                        (allSlides[2]?.position === "Two" &&
-                          " text-center  Bannertext") ||
-                        (allSlides[2]?.position === "Three" &&
-                          " text-end bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[2]?.title
-                      )}
-                    ></h5>
-                    <p
-                      className={
-                        (allSlides[2]?.position === "One" &&
-                          " text-start fs-6 bannerTxt") ||
-                        (allSlides[2]?.position === "Two" &&
-                          "d-flex text-center fs-6 bannerTxt") ||
-                        (allSlides[2]?.position === "Three" &&
-                          "d-flex text-end fs-6 bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[2]?.description
-                      )}
-                    ></p>
-                  </div>
-                </div>
-                <div className="carousel-item ">
-                  <img
-                    src={allSlides[3]?.banner}
-                    className="d-block w-100 banner_slide"
-                    alt="No image"
-                  />
-                  <div
-                    className={
-                      (allSlides[3]?.position === "One" &&
-                        "carousel-caption ") ||
-                      (allSlides[3]?.position === "Two" &&
-                        "carousel-caption banner-titles mx-3") ||
-                      (allSlides[3]?.position === "Three" &&
-                        "carousel-caption bannerTitle2")
-                    }
-                  >
-                    <h5
-                      className={
-                        (allSlides[3]?.position === "One" &&
-                          "text-start bannerTxt") ||
-                        (allSlides[3]?.position === "Two" &&
-                          " text-center  Bannertext") ||
-                        (allSlides[3]?.position === "Three" &&
-                          " text-end bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[3]?.title
-                      )}
-                    ></h5>
-                    <p
-                      className={
-                        (allSlides[3]?.position === "One" &&
-                          " text-start fs-6 bannerTxt") ||
-                        (allSlides[3]?.position === "Two" &&
-                          "d-flex text-center fs-6 bannerTxt") ||
-                        (allSlides[3]?.position === "Three" &&
-                          "d-flex text-end fs-6 bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[3]?.description
-                      )}
-                    ></p>
-
-                  </div>
-                </div>
-                <div className="carousel-item ">
-                  <img
-                    src={allSlides[4]?.banner}
-                    className="d-block w-100 banner_slide"
-                    alt="No image"
-                  />
-                  <div
-                    className={
-                      (allSlides[4]?.position === "One" &&
-                        "carousel-caption mt-3") ||
-                      (allSlides[4]?.position === "Two" &&
-                        "carousel-caption banner-titles mx-3") ||
-                      (allSlides[4]?.position === "Three" &&
-                        "carousel-caption bannerTitle2")
-                    }
-                  >
-                    <h5
-                      className={
-                        (allSlides[4]?.position === "One" &&
-                          "text-start bannerTxt") ||
-                        (allSlides[4]?.position === "Two" &&
-                          " text-center  Bannertext") ||
-                        (allSlides[4]?.position === "Three" &&
-                          " text-end bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[4]?.title
-                      )}
-                    ></h5>
-                    <p
-                      className={
-                        (allSlides[4]?.position === "One" &&
-                          " text-start fs-6 bannerTxt") ||
-                        (allSlides[4]?.position === "Two" &&
-                          "d-flex text-center fs-6 bannerTxt") ||
-                        (allSlides[4]?.position === "Three" &&
-                          "d-flex text-end fs-6 bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[4]?.description
-                      )}
-                    ></p>
-
-                  
-                  </div>
-                </div>
-                <div className="carousel-item ">
-                  <img
-                    src={allSlides[5]?.banner}
-                    className="d-block w-100 banner_slide"
-                    alt="No image"
-                  />
-                  <div
-                    className={
-                      (allSlides[5]?.position === "One" &&
-                        "carousel-caption mt-3") ||
-                      (allSlides[5]?.position === "Two" &&
-                        "carousel-caption banner-titles mx-5 mt-3") ||
-                      (allSlides[5]?.position === "Three" &&
-                        "carousel-caption bannerTitle2 mt-3")
-                    }
-                  >
-                    <h5
-                      className={
-                        (allSlides[5]?.position === "One" &&
-                          "text-start bannerTxt") ||
-                        (allSlides[5]?.position === "Two" &&
-                          " text-center  Bannertext") ||
-                        (allSlides[5]?.position === "Three" &&
-                          " text-end bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[5]?.title
-                      )}
-                    ></h5>
-                    <p
-                      className={
-                        (allSlides[5]?.position === "One" &&
-                          " text-start fs-6 bannerTxt") ||
-                        (allSlides[5]?.position === "Two" &&
-                          "d-flex text-center fs-6 bannerTxt") ||
-                        (allSlides[5]?.position === "Three" &&
-                          "d-flex text-end fs-6 bannerTxt")
-                      }
-                      dangerouslySetInnerHTML={createMarkup(
-                        allSlides[5]?.description
-                      )}
-                    ></p>
-
-                  
-                  </div>
-                </div>
-              </div>
-              <button
-                className="carousel-control-prev "
-                style={{ opacity: "100" }}
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev"
-              >
-                <button
-                  className="carousel-control-prev-icon p-4 slideBtn "
-                  aria-hidden="true"
-                ></button>
-
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                style={{ opacity: "90" }}
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon p-4 slideBtn"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-          </section> */}
           <OwlCarousel
             className="banner_slider"
             autoplay={true}
@@ -511,26 +173,12 @@ const Homepage = () => {
             nav={true}
             video={true}
             lazyLoad={true}
-            items={1}
-          >
-            {/* <div
+            items={1}>
+            <div
               className="banner_section item"
-              style={{ backgroundImage: "url(assets/img/01.jpg)" }}
-            >
-              <div className="container">
-                <div className="row justify-content-center">
-                  <div className="col-md-9 banner_content">
-                    <h1>You can #Buy, #Sell, #Booking anything from here.</h1>
-                    <p>
-                      Buy and sell everything from used cars to mobile phones
-                      and computers, or search for property, jobs and more in
-                      the world.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            <div className="banner_section item">
+              onClick={() => {
+                window.location.href = allSlides[1]?.url;
+              }}>
               <img
                 src={
                   allSlides[1]?.banner
@@ -548,8 +196,7 @@ const Homepage = () => {
                     "carousel-caption banner-titles mx-3 mt-5") ||
                   (allSlides[1]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
-                }
-              >
+                }>
                 <h5
                   className={
                     (allSlides[1]?.position === "One" &&
@@ -559,8 +206,9 @@ const Homepage = () => {
                     (allSlides[1]?.position === "Three" &&
                       " text-end bannerTxt")
                   }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[1]?.title)}
-                ></h5>
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[1]?.title
+                  )}></h5>
                 <p
                   className={
                     (allSlides[1]?.position === "One" &&
@@ -572,20 +220,17 @@ const Homepage = () => {
                   }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[1]?.description
-                  )}
-                ></p>
+                  )}></p>
               </div>
             </div>
 
             <div className="banner_section item">
-              <video
-                id="frameOne"
-                className="main_video bg-dark"
-                autoPlay
-                loop
-                muted
-              >
-                <source src={require("../../assets/img/videoN.MP4")} />
+              <video id="frameOne" className="main_video bg-dark" autoPlay loop>
+                <source
+                  src={
+                    "http://starimporters-media.s3.amazonaws.com/1689664772623--videoplayback.webm"
+                  }
+                />
               </video>
             </div>
 
@@ -596,13 +241,20 @@ const Homepage = () => {
                 autoPlay
                 loop
                 muted
-                preload="auto"
-              >
-                <source src={require("../../assets/img/videoSugar.mp4")} />
+                preload="auto">
+                <source
+                  src={
+                    "http://starimporters-media.s3.amazonaws.com/1689664787067--river_creek_stream_nature_flowing_821.mp4"
+                  }
+                />
               </video>
             </div>
 
-            <div className="banner_section item ">
+            <div
+              className="banner_section item "
+              onClick={() => {
+                window.location.href = allSlides[2]?.url;
+              }}>
               <img
                 src={
                   allSlides[2]?.banner
@@ -619,8 +271,7 @@ const Homepage = () => {
                     "carousel-caption banner-titles mx-3") ||
                   (allSlides[2]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
-                }
-              >
+                }>
                 <h5
                   className={
                     (allSlides[2]?.position === "One" &&
@@ -630,8 +281,9 @@ const Homepage = () => {
                     (allSlides[2]?.position === "Three" &&
                       " text-end bannerTxt")
                   }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[2]?.title)}
-                ></h5>
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[2]?.title
+                  )}></h5>
                 <p
                   className={
                     (allSlides[2]?.position === "One" &&
@@ -643,11 +295,14 @@ const Homepage = () => {
                   }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[2]?.description
-                  )}
-                ></p>
+                  )}></p>
               </div>
             </div>
-            <div className="banner_section item">
+            <div
+              className="banner_section item"
+              onClick={() => {
+                window.location.href = allSlides[3]?.url;
+              }}>
               <img
                 src={
                   allSlides[3]?.banner
@@ -664,8 +319,7 @@ const Homepage = () => {
                     "carousel-caption banner-titles mx-3") ||
                   (allSlides[3]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
-                }
-              >
+                }>
                 <h5
                   className={
                     (allSlides[3]?.position === "One" &&
@@ -675,8 +329,9 @@ const Homepage = () => {
                     (allSlides[3]?.position === "Three" &&
                       " text-end bannerTxt")
                   }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[3]?.title)}
-                ></h5>
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[3]?.title
+                  )}></h5>
                 <p
                   className={
                     (allSlides[3]?.position === "One" &&
@@ -688,11 +343,14 @@ const Homepage = () => {
                   }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[3]?.description
-                  )}
-                ></p>
+                  )}></p>
               </div>
             </div>
-            <div className="banner_section item ">
+            <div
+              className="banner_section item "
+              onClick={() => {
+                window.location.href = allSlides[4]?.url;
+              }}>
               <img
                 src={
                   allSlides[4]?.banner
@@ -710,8 +368,7 @@ const Homepage = () => {
                     "carousel-caption banner-titles mx-3") ||
                   (allSlides[4]?.position === "Three" &&
                     "carousel-caption bannerTitle2")
-                }
-              >
+                }>
                 <h5
                   className={
                     (allSlides[4]?.position === "One" &&
@@ -721,8 +378,9 @@ const Homepage = () => {
                     (allSlides[4]?.position === "Three" &&
                       " text-end bannerTxt")
                   }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[4]?.title)}
-                ></h5>
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[4]?.title
+                  )}></h5>
                 <p
                   className={
                     (allSlides[4]?.position === "One" &&
@@ -734,11 +392,14 @@ const Homepage = () => {
                   }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[4]?.description
-                  )}
-                ></p>
+                  )}></p>
               </div>
             </div>
-            <div className="banner_section item">
+            <div
+              className="banner_section item"
+              onClick={() => {
+                window.location.href = allSlides[5]?.url;
+              }}>
               <img
                 src={
                   allSlides[5]?.banner
@@ -756,8 +417,7 @@ const Homepage = () => {
                     "carousel-caption banner-titles mx-5 mt-3") ||
                   (allSlides[5]?.position === "Three" &&
                     "carousel-caption bannerTitle2 mt-3")
-                }
-              >
+                }>
                 <h5
                   className={
                     (allSlides[5]?.position === "One" &&
@@ -767,8 +427,9 @@ const Homepage = () => {
                     (allSlides[5]?.position === "Three" &&
                       " text-end bannerTxt")
                   }
-                  dangerouslySetInnerHTML={createMarkup(allSlides[5]?.title)}
-                ></h5>
+                  dangerouslySetInnerHTML={createMarkup(
+                    allSlides[5]?.title
+                  )}></h5>
                 <p
                   className={
                     (allSlides[5]?.position === "One" &&
@@ -780,8 +441,7 @@ const Homepage = () => {
                   }
                   dangerouslySetInnerHTML={createMarkup(
                     allSlides[5]?.description
-                  )}
-                ></p>
+                  )}></p>
               </div>
             </div>
           </OwlCarousel>
@@ -790,8 +450,7 @@ const Homepage = () => {
               <div className="row newdesign_main bg-white">
                 <a
                   className="view_all"
-                  onClick={() => navigate("/app/Categories", { state: "hii" })}
-                >
+                  onClick={() => navigate("/app/Categories", { state: "hii" })}>
                   View All
                 </a>
                 <div className="col-12 mb-3">
@@ -799,8 +458,7 @@ const Homepage = () => {
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.categoryTitle
-                      )}
-                    ></h2>
+                      )}></h2>
                   </div>
                 </div>
                 <Swiper
@@ -810,8 +468,7 @@ const Homepage = () => {
                   autoplay={true}
                   loop={true}
                   modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                  className="mySwiper px-4 py-2"
-                >
+                  className="mySwiper px-4 py-2">
                   {(category || [])?.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="col-12 px-4">
@@ -825,8 +482,7 @@ const Homepage = () => {
                                 state={{
                                   name: item?.categoryName,
                                   image: item?.background,
-                                }}
-                              >
+                                }}>
                                 <img
                                   src={item?.categoryImage}
                                   className=""
@@ -852,8 +508,7 @@ const Homepage = () => {
                   className="view_all"
                   onClick={() =>
                     navigate("/app/featured-products", { state: "hii" })
-                  }
-                >
+                  }>
                   View All
                 </a>
                 <div className="col-12 mb-3">
@@ -861,8 +516,7 @@ const Homepage = () => {
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.featuredTitle
-                      )}
-                    ></h2>
+                      )}></h2>
                   </div>
                 </div>
                 <div className="">
@@ -874,8 +528,7 @@ const Homepage = () => {
                     loop={true}
                     style={{ padding: "30px" }}
                     modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                    className="mySwiper  py-3 "
-                  >
+                    className="mySwiper  py-3 ">
                     {(featured || [])?.map((item, index) => (
                       <SwiperSlide key={index} className="px-3">
                         <div className="col-12">
@@ -887,8 +540,7 @@ const Homepage = () => {
                                   id: item?._id,
                                 },
                               })
-                            }
-                          >
+                            }>
                             <a className="featuredproduct_box p-2">
                               <div className="featuredproduct_img ">
                                 <img
@@ -911,8 +563,7 @@ const Homepage = () => {
                                         },
                                       }
                                     )
-                                  }
-                                >
+                                  }>
                                   {item?.unitName}
                                 </span>
                               </div>
@@ -930,8 +581,7 @@ const Homepage = () => {
           <section
             className="product_show_home"
             id="bottom-image"
-            style={{ backgroundImage: `url(${image?.bottomImage})` }}
-          >
+            style={{ backgroundImage: `url(${image?.bottomImage})` }}>
             <div className="container">
               <div className="row justify-content-center">
                 <div className="col-12">
@@ -946,8 +596,7 @@ const Homepage = () => {
                     className="comman_btn2"
                     to={`/app/ProductSearch/${"sugar" + " " + "daddy"}`}
                     state={"loo"}
-                    targe=""
-                  >
+                    targe="">
                     Shop Now
                   </Link>
                 </div>
@@ -960,8 +609,7 @@ const Homepage = () => {
               <div className="row featuredproduct_slider">
                 <a
                   className="view_all"
-                  onClick={() => navigate("/app/brands", { state: "hii" })}
-                >
+                  onClick={() => navigate("/app/brands", { state: "hii" })}>
                   View All
                 </a>
                 <div className="col-12 mb-3">
@@ -969,8 +617,7 @@ const Homepage = () => {
                     <h2
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.brandTitle
-                      )}
-                    ></h2>
+                      )}></h2>
                   </div>
                 </div>
                 <Swiper
@@ -980,8 +627,7 @@ const Homepage = () => {
                   navigation={true}
                   autoplay={true}
                   modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                  className="mySwiper px-4 py-2"
-                >
+                  className="mySwiper px-4 py-2">
                   {(brands || [])?.map((item, index) => (
                     <SwiperSlide key={index} className="px-4">
                       <div className="col-12">
@@ -989,8 +635,7 @@ const Homepage = () => {
                           <Link
                             to="/Brands/Products"
                             state={{ name: item?.brandName }}
-                            className="brandsnew_box"
-                          >
+                            className="brandsnew_box">
                             <img src={item?.brandImage} alt="" />
                           </Link>
                         </div>
@@ -1008,8 +653,7 @@ const Homepage = () => {
             id="age_modal"
             className="btn btn-primary d-none"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
+            data-bs-target="#exampleModal">
             Launch demo modal
           </button>
 
@@ -1018,8 +662,7 @@ const Homepage = () => {
             id="exampleModal"
             // tabindex="-1"
             aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             <div className="modal-dialog  modal-fullscreen">
               <div className="modal-content">
                 <div className="modal-header modalHeadBg">
@@ -1028,8 +671,7 @@ const Homepage = () => {
                       src={require("../../assets/img/logo.png")}
                       width="170"
                       height="80"
-                      alt="Brand"
-                    ></img>
+                      alt="Brand"></img>
                   </h2>
 
                   <button
@@ -1037,8 +679,7 @@ const Homepage = () => {
                     className="btn-close fs-2 bg-white mx-0 d-none"
                     id="age_close"
                     data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                    aria-label="Close"></button>
                 </div>
                 <div className="modalContent">
                   <AgeVerification ModalClose={ModalClose} />

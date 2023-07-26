@@ -1407,7 +1407,7 @@ const Inventory = () => {
                     </div>
                   </form>
                   <div className="row recent_orders_invent">
-                    {allProducts?.length ? (
+                    {allProducts?.length && !search?.length ? (
                       <div className="col-11 d-flex justify-content-between py-2 mx-5">
                         <span className="totalPage">
                           ( Total Pages : {maxPage} )
@@ -1461,7 +1461,7 @@ const Inventory = () => {
                         </ul>
                       </div>
                     ) : null}
-                    <div className="col-12 comman_table_design ">
+                    <div className="col-12 comman_table_design pb-3">
                       <div className="table-responsive">
                         <table className="table mb-0">
                           <thead>
@@ -1561,7 +1561,7 @@ const Inventory = () => {
                           </tbody>
                         </table>
                       </div>
-                      {allProducts?.length ? (
+                      {allProducts?.length && !search?.length ? (
                         <div className="col-11 d-flex justify-content-between py-2 mx-5">
                           <span className="totalPage">
                             ( Total Pages : {maxPage} )

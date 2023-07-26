@@ -17,6 +17,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import styled from "styled-components";
 
 function AppProductDetail() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -37,6 +38,22 @@ function AppProductDetail() {
   let location = useLocation();
   let ref = useRef();
   const [cartCount, setCartCount] = useState(false);
+
+  const ScrollContainer = styled.div`
+    height: 4.6rem;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #3e4093 !important;
+      border-radius: 30px;
+      cursor: pointer !important;
+    }
+  `;
 
   if (objectId !== id) {
     setObjectID(id);
@@ -197,7 +214,7 @@ function AppProductDetail() {
     <>
       <div className="star_imp_app">
         <AppHeader cartCount={cartCount} />
-        
+
         <div className="page-content-wrapper">
           <div className="product-slide-wrapper" key={itemNo}>
             {productDetail ? (
@@ -206,8 +223,7 @@ function AppProductDetail() {
                 showIndicators={false}
                 onChange={onHoverMain}
                 autoFocus={false}
-                selectedItem={itemNo}
-              >
+                selectedItem={itemNo}>
                 <div className="single-product-slide item">
                   <img
                     src={
@@ -219,14 +235,16 @@ function AppProductDetail() {
                     id="product-image"
                   />
                 </div>
-                {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true).map((item) => (
-                  <div className="single-product-slide item">
-                    <img
-                      src={item?.flavourImage ? item?.flavourImage : null}
-                      alt=""
-                    />
-                  </div>
-                ))}
+                {productDetail?.type
+                  ?.filter((itm, idx) => itm?.flavourStatus === true)
+                  .map((item) => (
+                    <div className="single-product-slide item">
+                      <img
+                        src={item?.flavourImage ? item?.flavourImage : null}
+                        alt=""
+                      />
+                    </div>
+                  ))}
               </Carousel>
             ) : (
               ""
@@ -263,10 +281,10 @@ function AppProductDetail() {
                   </div>
                 ) : null}
               </div>
-              <div className="product-ratings ">
+              <div className="product-ratings mt-1">
                 <div className="container d-flex flex-wrap align-items-center justify-content-between rtl-flex-d-row-r">
                   {flavour?.flavour ? (
-                    <div className="col-12 mt-3">
+                    <div className="col-12 ">
                       <p className="fw-bold">
                         {flavour?.flavourPriceStatus
                           ? "Price : $" + flavour?.flavourPrice
@@ -281,8 +299,7 @@ function AppProductDetail() {
                         key={quantity}
                         onClick={() => {
                           if (quantity > 1) setQuantity(quantity - 1);
-                        }}
-                      >
+                        }}>
                         -
                       </span>
                       <input
@@ -299,8 +316,7 @@ function AppProductDetail() {
                         onClick={() => {
                           document.getElementById("quanInput").stepUp(1);
                           setQuantity(+quantity + 1);
-                        }}
-                      >
+                        }}>
                         +
                       </span>
                     </div>
@@ -314,15 +330,16 @@ function AppProductDetail() {
                   <p className="mb-1 font-weight-bold">
                     Flavor: {flavour?.flavour}
                   </p>
-                  <div className="row offers_box_main">
-                    <div className="col-12 flavour_box py-2">
-                      {productDetail?.type?.filter((itm,idx)=>itm?.flavourStatus === true)
+                  <div className="row ">
+                    <ScrollContainer className="flavour_box">
+                      {productDetail?.type
+                        ?.filter((itm, idx) => itm?.flavourStatus === true)
                         .map((item, index) =>
                           flavour?.flavour === item?.flavour ? (
                             <Link
                               className="text-white"
                               style={{
-                                cursor: "pointer", 
+                                cursor: "pointer",
                                 backgroundColor: "#3e4093",
                               }}
                               onClick={(e) => {
@@ -333,8 +350,7 @@ function AppProductDetail() {
                                 setItemNo(index + 1);
                                 document.getElementById("product-image").src =
                                   item?.flavourImage;
-                              }}
-                            >
+                              }}>
                               {item?.flavour}
                             </Link>
                           ) : (
@@ -348,13 +364,12 @@ function AppProductDetail() {
                                 setItemNo(index + 1);
                                 document.getElementById("product-image").src =
                                   item?.flavourImage;
-                              }}
-                            >
+                              }}>
                               {item?.flavour}
                             </Link>
                           )
                         )}
-                    </div>
+                    </ScrollContainer>
                   </div>
                 </div>
               </div>
@@ -366,8 +381,7 @@ function AppProductDetail() {
                     <button
                       className="comman_btn mb-2"
                       type="submit"
-                      onClick={() => addToCartt()}
-                    >
+                      onClick={() => addToCartt()}>
                       Add Cart to Order
                     </button>
                   ) : (

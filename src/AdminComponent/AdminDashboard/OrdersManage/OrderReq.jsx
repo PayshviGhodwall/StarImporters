@@ -1125,7 +1125,7 @@ const OrderReq = () => {
                                           style={{ backgroundColor: "#f2f2f2" }}
                                         >
                                           <th>Date</th>
-                                          <th>User Name</th>
+                                          <th>Company Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
                                           <th>Order ID</th>
@@ -1142,8 +1142,8 @@ const OrderReq = () => {
                                               ).format("MM/DD/YYYY")}
                                             </td>
                                             <td>
-                                              {item?.userId?.firstName ||
-                                                item?.user?.firstName}
+                                              {item?.userId?.companyName ||
+                                                item?.user?.companyName}
                                             </td>
                                             <td>
                                               {item?.userId?.phoneNumber ||

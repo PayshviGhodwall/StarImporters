@@ -151,9 +151,9 @@ const GalleryMain = () => {
 
   const onFileSelectionVideo = (e, key) => {
     let video = e.target.files[0];
-
     setVideo({ ...files, [key]: video });
   };
+  
   console.log(video, "vieo");
 
   const onFileSelection2 = (e, key) => {

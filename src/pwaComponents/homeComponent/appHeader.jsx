@@ -66,7 +66,7 @@ function AppHeader({ cartCount }) {
     <>
       <div className="star_imp_app">
         <div className="header-area " id="headerArea" ref={ref}>
-          <div className="container py-2 h-100 d-flex align -items-center justify-content-between d-flex rtl-flex-d-row-r">
+          <div className="container py-2  h-100 d-flex align-items-center justify-content-between d-flex rtl-flex-d-row-r">
             <div className="logo-wrapper">
               <Link
                 to="/app/home"
@@ -76,8 +76,7 @@ function AppHeader({ cartCount }) {
                   setData3([{ page: 1, sortBy: 1 }]);
                   setData4([{ page: 1, sortBy: 1 }]);
                   setData([{ page: 1, sortBy: 1 }]);
-                }}
-              >
+                }}>
                 <img src={require("../../assets/img/logo.png")} alt="" />
               </Link>
             </div>
@@ -86,9 +85,12 @@ function AppHeader({ cartCount }) {
                 <a
                   className="appdownload_btn "
                   target="_blank"
-                  href="https://apps.apple.com/app/star-importers-wholesalers/id6447689704"
-                >
-                  <img src={require("../../assets/img/app-store.png")} alt="" />
+                  href="https://apps.apple.com/app/star-importers-wholesalers/id6447689704">
+                  <img
+                    src={require("../../assets/img/app-store.png")}
+                    className="dwn_btn"
+                    alt=""
+                  />
                 </a>
               </div>
             )}
@@ -97,11 +99,14 @@ function AppHeader({ cartCount }) {
                 <a
                   className="appdownload_btn"
                   target="_blank"
-                  href="https://play.google.com/store/apps/details?id=com.star_importers"
-                >
+                  href="https://play.google.com/store/apps/details?id=com.star_importers">
                   <img
+                    className="dwn_btn"
                     src={require("../../assets/img/play-store.png")}
                     alt=""
+                    style={{
+                      width:"6rem"
+                    }}
                   />
                 </a>
               </div>
@@ -135,8 +140,7 @@ function AppHeader({ cartCount }) {
                 className="suha-navbar-toggler ms-2"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#suhaOffcanvas"
-                aria-controls="suhaOffcanvas"
-              >
+                aria-controls="suhaOffcanvas">
                 <div>
                   <span></span>
                   <span></span>
@@ -150,15 +154,13 @@ function AppHeader({ cartCount }) {
           className="offcanvas offcanvas-start suha-offcanvas-wrap"
           tabindex="-1"
           id="suhaOffcanvas"
-          aria-labelledby="suhaOffcanvasLabel"
-        >
+          aria-labelledby="suhaOffcanvasLabel">
           <button
             className="btn-close btn-close-white"
             type="button"
             id="closeModal"
             data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+            aria-label="Close"></button>
 
           <div className="offcanvas-body">
             <div className="">

@@ -136,7 +136,7 @@ const Navbar = ({ NState, LoginState }) => {
         <div className="container">
           <div className="row Newheader align-items-center ">
             <div className="col-auto">
-              <Link className="header_logo mx-2" to="/app/home">
+              <Link className="header_logo mx-1" to="/app/home">
                 <Fade left>
                   <img
                     src={Starlogo}

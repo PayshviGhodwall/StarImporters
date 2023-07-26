@@ -50,7 +50,7 @@ const Search = () => {
           if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]?._id}`, {
               state: {
-                flavour: data?.results[0]?.type,
+                type: data?.results[0]?.type,
               },
             });
           console.log(data);

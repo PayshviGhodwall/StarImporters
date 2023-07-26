@@ -60,22 +60,6 @@ const EditUser = () => {
   console.log(newExpiry);
   const onSubmit = async (data) => {
     setLoader(true);
-
-//     var today = new Date();
-// var dd = String(today.getDate()).padStart(2, '0');
-// var mm = String(today.getMonth() + 1).padStart(2, '0'); 
-// var yyyy = today.getFullYear();
-
-// let Ntoday = mm + '/' + dd + '/' + yyyy;
-//     if(user?.tobaccoLicenceExpiry && newExpiry  <= Ntoday ){
-//       Swal.fire({
-//         title: "Expiry date should be a Future Date!",
-//         icon: "error",
-//         button: "Ok",
-//       });
-//       setLoader(false)  
-//     }
-//     else{
       const formData = new FormData();
       formData.append("profileImage", files?.imageProfile);
       formData.append("companyName", data?.companyName?.trim());

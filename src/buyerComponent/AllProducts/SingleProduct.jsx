@@ -64,7 +64,7 @@ const SingleProduct = () => {
         setUserDetail(res?.data?.results);
       });
     };
-console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
+    console.log(userDetail?.istobaccoLicenceExpired, "Keeiiii", product);
     const NewProducts = async () => {
       await axios.get(getProduct + "/" + objectId).then((res) => {
         console.log(res);
@@ -96,7 +96,6 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
           icon: "warning",
           confirmButtonText: "Okay",
         });
-       
       } else {
         if (flavour) {
           setLoader(true);
@@ -314,8 +313,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
           backgroundImage: `url(${
             location?.state.image ? location?.state.image : backGround
           })`,
-        }}
-      >
+        }}>
         <div className="container ">
           <div className="row">
             <div className="col-12">
@@ -326,8 +324,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-1 ">&#9679;</span>{" "}
                       </Link>
                       <a
@@ -340,8 +337,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                               image: product?.category?.background,
                             },
                           });
-                        }}
-                      >
+                        }}>
                         {product?.category?.categoryName}
                         <span className="arrow mx-1 ">&#9679;</span>
                       </a>
@@ -353,8 +349,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                               name: product?.subCategory?.subCategoryName,
                             },
                           });
-                        }}
-                      >
+                        }}>
                         {product?.subCategory?.subCategoryName}
                         <span className="arrow mx-1 ">&#9679;</span>
                       </a>
@@ -430,8 +425,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                       navigation={true}
                       autoplay={true}
                       modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                      className="mySwiper"
-                    >
+                      className="mySwiper">
                       <SwiperSlide>
                         <li>
                           <a
@@ -446,8 +440,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                                   : require("../../assets/img/product.jpg");
 
                               setFlavour();
-                            }}
-                          >
+                            }}>
                             <img
                               src={
                                 product?.productImage
@@ -459,38 +452,40 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                           </a>
                         </li>
                       </SwiperSlide>
-                      {(product?.type || [])?.filter((itm,idx)=>itm?.flavourStatus === true).map((item, index) => (
-                        <SwiperSlide key={index} className="me-0 ms-1">
-                          <li className="image_button">
-                            <a
-                              key={index}
-                              type="button"
-                              onMouseOver={() => onHover(item)}
-                              onMouseOut={onMouseOut}
-                              onClick={() => {
-                                document.getElementById("productMainImg").src =
-                                  item?.flavourImage
+                      {(product?.type || [])
+                        ?.filter((itm, idx) => itm?.flavourStatus === true)
+                        .map((item, index) => (
+                          <SwiperSlide key={index} className="me-0 ms-1">
+                            <li className="image_button">
+                              <a
+                                key={index}
+                                type="button"
+                                onMouseOver={() => onHover(item)}
+                                onMouseOut={onMouseOut}
+                                onClick={() => {
+                                  document.getElementById(
+                                    "productMainImg"
+                                  ).src = item?.flavourImage
                                     ? item?.flavourImage
                                     : require("../../assets/img/product.jpg");
-                                document.getElementById(
-                                  "productMainImg"
-                                ).className = "selected-img";
-                                setFlavour(item);
-                                setUnitCount(1);
-                              }}
-                            >
-                              <img
-                                src={
-                                  item?.flavourImage
-                                    ? item?.flavourImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                                alt=""
-                              />
-                            </a>
-                          </li>
-                        </SwiperSlide>
-                      ))}
+                                  document.getElementById(
+                                    "productMainImg"
+                                  ).className = "selected-img";
+                                  setFlavour(item);
+                                  setUnitCount(1);
+                                }}>
+                                <img
+                                  src={
+                                    item?.flavourImage
+                                      ? item?.flavourImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  alt=""
+                                />
+                              </a>
+                            </li>
+                          </SwiperSlide>
+                        ))}
                     </Swiper>
                   </ul>
                 </div>
@@ -504,8 +499,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                         errMsg
                           ? "col-12 offers_head text-danger"
                           : "col-12 offers_head "
-                      }
-                    >
+                      }>
                       <div className="prdct---falvor">
                         Flavour:{" "}
                         <a href="javascript:;" className="text-decoration-none">
@@ -525,27 +519,26 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                     ) : null}
                     <div className="falvor_main mt-4">
                       <div className="row">
-                        {(product?.type || []).filter((itm,idx)=>itm.flavourStatus === true)
+                        {(product?.type || [])
+                          .filter((itm, idx) => itm.flavourStatus === true)
                           .sort((a, b) => {
                             return a.flavour.localeCompare(b.flavour);
                           })
                           .map((item, ind) => {
                             return flavour?.flavour === item?.flavour ? (
                               <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
-                            <a
-                                className="flavor_design selected_flavor text-decoration-none"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title={item?.flavour}
-                                key={ind}
-                                style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#3e4093",
-                                }}
-                              >
-                                {flavour?.flavour?.slice(0, 18)}
-                              </a>
-                               
+                                <a
+                                  className="flavor_design selected_flavor text-decoration-none"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title={item?.flavour}
+                                  key={ind}
+                                  style={{
+                                    cursor: "pointer",
+                                    backgroundColor: "#3e4093",
+                                  }}>
+                                  {flavour?.flavour?.slice(0, 18)}
+                                </a>
                               </div>
                             ) : (
                               <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
@@ -572,8 +565,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                                     document.getElementById(
                                       "productMainImg"
                                     ).className = "selected-img";
-                                  }}
-                                >
+                                  }}>
                                   <span>{item?.flavour?.slice(0, 18)}</span>
                                 </a>
                               </div>
@@ -592,8 +584,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                             setUnitCount(unitCount - 1);
                             document.getElementById("quanInput").stepDown(1);
                           }
-                        }}
-                      >
+                        }}>
                         -
                       </span>
                       <input
@@ -608,8 +599,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                         onClick={() => {
                           document.getElementById("quanInput").stepUp(1);
                           setUnitCount(+unitCount + 1);
-                        }}
-                      >
+                        }}>
                         +
                       </span>
                     </div>
@@ -627,8 +617,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                           paddingLeft: "20px",
                           paddingRight: "20px",
                         }}
-                        onClick={AddtoCart}
-                      >
+                        onClick={AddtoCart}>
                         Add to Cart
                       </Button>
                     ) : (
@@ -641,8 +630,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                         }}
                         onClick={() => {
                           navigate("/app/login");
-                        }}
-                      >
+                        }}>
                         Please Login to add to cart!
                       </div>
                     )}
@@ -691,8 +679,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
               loop={true}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper px-5 py-2"
-            >
+              className="mySwiper px-5 py-2">
               {(simProducts || [])?.map((item, index) => (
                 <SwiperSlide key={index}>
                   <div className="p-3 mb-2">
@@ -706,7 +693,7 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                           }
                           alt="Product"
                           onClick={() => {
-                            navigate(`/AllProducts/Product/${item?._id}`, {
+                            navigate(`/AllProducts/Product/Product-Details`, {
                               state: { id: item?._id },
                             });
                             window.scrollTo({
@@ -719,15 +706,14 @@ console.log(userDetail?.istobaccoLicenceExpired ,"Keeiiii",product);
                       <span
                         class="text-decoration-none"
                         onClick={() => {
-                          navigate(`/AllProducts/Product/${item?._id}`, {
+                          navigate(`/AllProducts/Product/Product-Details`, {
                             state: { id: item?._id },
                           });
                           window.scrollTo({
                             top: 0,
                             behavior: "smooth",
                           });
-                        }}
-                      >
+                        }}>
                         {item?.unitName}
                       </span>
                     </a>

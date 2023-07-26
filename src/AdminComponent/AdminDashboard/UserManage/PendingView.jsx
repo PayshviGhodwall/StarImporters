@@ -134,32 +134,28 @@ const PendingView = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/UserManage"
@@ -167,16 +163,14 @@ const PendingView = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -185,21 +179,18 @@ const PendingView = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -208,128 +199,108 @@ const PendingView = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
-                 <li
+                <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -337,16 +308,14 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -355,16 +324,14 @@ const PendingView = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -378,16 +345,14 @@ const PendingView = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -399,16 +364,14 @@ const PendingView = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -416,16 +379,14 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -436,16 +397,14 @@ const PendingView = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -453,16 +412,14 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -473,32 +430,28 @@ const PendingView = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                     <li>
+                <li>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -509,12 +462,10 @@ const PendingView = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -522,16 +473,14 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -539,16 +488,14 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -556,12 +503,10 @@ const PendingView = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -570,16 +515,14 @@ const PendingView = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -599,8 +542,7 @@ const PendingView = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -611,8 +553,7 @@ const PendingView = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -715,8 +656,7 @@ const PendingView = () => {
                             user.federalTaxId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }
-                        >
+                          }>
                           <span className="fw-bold">Federal Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -731,8 +671,9 @@ const PendingView = () => {
                                 {user?.federalTaxId ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={() => preview(user?.federalTaxId)}
-                                  ></i>
+                                    onClick={() =>
+                                      preview(user?.federalTaxId)
+                                    }></i>
                                 ) : null}
 
                                 <a
@@ -741,8 +682,7 @@ const PendingView = () => {
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.federalTaxId);
-                                  }}
-                                >
+                                  }}>
                                   {user?.federalTaxId ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
@@ -763,8 +703,7 @@ const PendingView = () => {
                             user?.tobaccoLicence
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }
-                        >
+                          }>
                           <span className="fw-bold">Tobacco License:</span>
                           <div className="col img_box_show">
                             <input
@@ -781,8 +720,7 @@ const PendingView = () => {
                                     class="fa fa-eye preview_icon"
                                     onClick={() =>
                                       preview(user?.tobaccoLicence)
-                                    }
-                                  ></i>
+                                    }></i>
                                 ) : null}
 
                                 <a
@@ -791,8 +729,7 @@ const PendingView = () => {
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.tobaccoLicence);
-                                  }}
-                                >
+                                  }}>
                                   {user?.tobaccoLicence ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
@@ -814,8 +751,7 @@ const PendingView = () => {
                             user?.salesTaxId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }
-                        >
+                          }>
                           <span className="fw-bold">Sales Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -830,8 +766,9 @@ const PendingView = () => {
                                 {user?.salesTaxId ? (
                                   <i
                                     class="fa fa-eye preview_icon"
-                                    onClick={() => preview(user?.salesTaxId)}
-                                  ></i>
+                                    onClick={() =>
+                                      preview(user?.salesTaxId)
+                                    }></i>
                                 ) : null}
 
                                 <a
@@ -840,8 +777,7 @@ const PendingView = () => {
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.salesTaxId);
-                                  }}
-                                >
+                                  }}>
                                   {user.salesTaxId ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
@@ -863,8 +799,7 @@ const PendingView = () => {
                             user?.businessLicense
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }
-                        >
+                          }>
                           <span className="fw-bold">Business License:</span>
                           <div className="col img_box_show">
                             <input
@@ -881,8 +816,7 @@ const PendingView = () => {
                                     class="fa fa-eye preview_icon"
                                     onClick={() =>
                                       preview(user?.businessLicense)
-                                    }
-                                  ></i>
+                                    }></i>
                                 ) : null}
                                 <a
                                   // href={user?.businessLicense}
@@ -890,8 +824,7 @@ const PendingView = () => {
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.businessLicense);
-                                  }}
-                                >
+                                  }}>
                                   {user?.businessLicense ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
@@ -938,8 +871,7 @@ const PendingView = () => {
                             user?.accountOwnerId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }
-                        >
+                          }>
                           <span className="fw-bold">Account Owner ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -956,8 +888,7 @@ const PendingView = () => {
                                     class="fa fa-eye preview_icon2"
                                     onClick={() =>
                                       preview(user?.accountOwnerId)
-                                    }
-                                  ></i>
+                                    }></i>
                                 ) : null}
 
                                 <a
@@ -966,8 +897,7 @@ const PendingView = () => {
                                   className="text-decoration-none"
                                   onClick={() => {
                                     fileDownload(user?.accountOwnerId);
-                                  }}
-                                >
+                                  }}>
                                   {user.accountOwnerId ? (
                                     <FaFileDownload size={25} color="black" />
                                   ) : (
@@ -1041,8 +971,7 @@ const PendingView = () => {
                             color: "#fff",
                             fontWeight: "500",
                             borderRadius: "30px",
-                          }}
-                        >
+                          }}>
                           Approve
                         </Button>
                         <Button
@@ -1054,8 +983,7 @@ const PendingView = () => {
                           }}
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop21"
-                          className="comman_btn2 ms-2 text-decoration-none"
-                        >
+                          className="comman_btn2 ms-2 text-decoration-none">
                           Decline
                         </Button>
                       </div>
@@ -1075,8 +1003,7 @@ const PendingView = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -1096,8 +1023,7 @@ const PendingView = () => {
                 <div className="row justify-content-center ">
                   <form
                     className="p-2"
-                    onSubmit={handleSubmit2(onSubmitApprove)}
-                  >
+                    onSubmit={handleSubmit2(onSubmitApprove)}>
                     <h5 className="fw-bold">Enter Reason :</h5>
 
                     <textarea
@@ -1123,8 +1049,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Federal Tax Id
                               </label>
                             </div>
@@ -1140,8 +1065,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Sales Tax Id
                               </label>
                             </div>
@@ -1157,8 +1081,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                htmlFor="flexCheckDefault"
-                              >
+                                htmlFor="flexCheckDefault">
                                 Tobacco Licence
                               </label>
                             </div>
@@ -1174,8 +1097,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Business Licence
                               </label>
                             </div>
@@ -1192,8 +1114,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Account Owner Id
                               </label>
                             </div>
@@ -1204,8 +1125,7 @@ const PendingView = () => {
                         <button
                           className="comman_btn2 rounded"
                           onClick={approveUser}
-                          type="submit"
-                        >
+                          type="submit">
                           Approve
                         </button>
                       </div>
@@ -1225,8 +1145,7 @@ const PendingView = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -1250,9 +1169,11 @@ const PendingView = () => {
                     <textarea
                       className="w-100 fs-6 p-2"
                       style={{ height: "8rem" }}
-                      defaultValue="Thank you for registering.
-                      Your account is on hold for approval. Kindly update the required documents and resubmit the form.
-                      For any questions please email at websupport@starimporters.com"
+                      defaultValue={
+                        "Thank you for registering." +
+                        "Your account is on hold for approval. Kindly update the required documents and resubmit the form or you can send the documents on" +" " + 
+                        "websupport@starimporters.com."
+                      }
                       name="reason"
                       {...register("reason")}
                     />
@@ -1272,8 +1193,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Company Name
                               </label>
                             </div>
@@ -1289,8 +1209,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 DBA
                               </label>
                             </div>
@@ -1306,8 +1225,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Address Line
                               </label>
                             </div>
@@ -1323,8 +1241,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                htmlFor="flexCheckDefault"
-                              >
+                                htmlFor="flexCheckDefault">
                                 City
                               </label>
                             </div>
@@ -1340,8 +1257,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 State
                               </label>
                             </div>
@@ -1357,8 +1273,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Zipcode
                               </label>
                             </div>
@@ -1378,8 +1293,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Federal Tax Id
                               </label>
                             </div>
@@ -1395,8 +1309,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Sales Tax Id
                               </label>
                             </div>
@@ -1412,8 +1325,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                htmlFor="flexCheckDefault"
-                              >
+                                htmlFor="flexCheckDefault">
                                 Tobacco Licence
                               </label>
                             </div>
@@ -1429,8 +1341,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Business Licence
                               </label>
                             </div>
@@ -1446,8 +1357,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 First Name
                               </label>
                             </div>
@@ -1464,8 +1374,7 @@ const PendingView = () => {
                               />
                               <label
                                 class="form-check-label mx-1"
-                                for="flexCheckDefault"
-                              >
+                                for="flexCheckDefault">
                                 Account Owner Id
                               </label>
                             </div>
@@ -1491,8 +1400,7 @@ const PendingView = () => {
         class="btn btn-primary d-none"
         id="preview_modal"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
+        data-bs-target="#exampleModal">
         Launch demo modal
       </button>
       <div
@@ -1500,8 +1408,7 @@ const PendingView = () => {
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header comman_modal">
@@ -1510,8 +1417,7 @@ const PendingView = () => {
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <strong id="PdfHeader"></strong>
@@ -1519,15 +1425,13 @@ const PendingView = () => {
                 src={user?.federalTaxId}
                 type="application/pdf"
                 className="preview_image"
-                id="preview_images"
-              ></img>
+                id="preview_images"></img>
             </div>
             <div class="modal-footer">
               <button
                 type="button"
                 class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+                data-bs-dismiss="modal">
                 Close
               </button>
             </div>

@@ -100,24 +100,21 @@ const Checkout = () => {
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="item_nanner">
                       <Link
                         to="/app/cart"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Cart <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6"
-                      >
+                        className="text-decoration-none text-white fs-6">
                         Checkout
                       </Link>
                     </li>
@@ -216,10 +213,17 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="col-12 pt-1 mb-4">
-                {
-                  delevryChoice == "Shipment" && <strong>(Shipment charges will be applicable)</strong>  || 
-                  delevryChoice == "Delivery" && <strong>(Your schedule delivery date is X day)</strong>
-                }
+                {(delevryChoice == "Shipment" && (
+                  <strong>(Shipment charges will be applicable)</strong>
+                )) ||
+                  (delevryChoice == "Delivery" && (
+                    <strong>
+                      (Your schedule delivery date is X day.)
+                      <br />
+                      Minimum invoice amount of $1000 is required for delivery
+                      (Excluding Tobacco products).
+                    </strong>
+                  ))}
                 {delevryChoice == "Shipment" || delevryChoice == "Delivery" ? (
                   <div className="row mx-0 Checkout_address mt-3">
                     <span>Address :</span>

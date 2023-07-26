@@ -25,7 +25,7 @@ import {
   searchKeyRemove,
 } from "../../atom";
 import Swal from "sweetalert2";
-
+import PullToRefresh from "react-simple-pull-to-refresh";
 function AppHome() {
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
@@ -142,7 +142,7 @@ function AppHome() {
           if (data?.results?.length)
             navigate(`/app/product-detail/${data.results[0]?._id}`, {
               state: {
-                flavour: data.results[0]?.type,
+                type: data.results[0]?.type,
               },
             });
           console.log(data);
@@ -152,19 +152,19 @@ function AppHome() {
   };
 
   const microphoneSearch = async () => {
-    setSearch("")
+    setSearch("");
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
       if (Dd?.length) {
         navigate("/app/product-by-search", { state: { search: Dd } });
-      }else {
+      } else {
         Swal.fire({
-          title:"Trouble in fetching product!",
-          icon:"error",
-          timer:1000,
-          confirmButtonText:'okay'
-        })
+          title: "Trouble in fetching product!",
+          icon: "error",
+          timer: 1000,
+          confirmButtonText: "okay",
+        });
       }
     }
   };
@@ -208,66 +208,94 @@ function AppHome() {
       });
   };
 
+  const handleRefresh = () => {
+    setTimeout(() => {
+      window.location.reload(false);
+    }, [2000]);
+  };
   return (
     <>
-      <div className="star_imp_app">
-        <div>
-          <AppHeader />
-        </div>
-        {loading ? (
-          <div className="load_position">
-            <div class="loader_new"></div>
+      <PullToRefresh
+        className="mb-0 pb-0"
+        onRefresh={handleRefresh}
+        pullDownThreshold={70}
+        maxPullDownDistance={110}
+        pullingContent={
+          <div className="text-center mt-2">
+            {" "}
+            <i class="fa-solid fa-arrow-down mx-2 mt-1"></i>Pull Down to Refresh
           </div>
-        ) : (
-          <div className="page-content-wrapper">
-            <div className="container ">
-              <div
-                className={
-                  browserName === "WebKit" || browserName === "Chrome WebView"
-                    ? "search-form pt-3 "
-                    : "search-new pt-3 "
-                }
-              >
-                <form className="" style={{ width: "100%" }}>
-                  <input
-                    className="form-control"
-                    type="search"
-                    defaultValue={search}
-                    placeholder={"   " + "Search in Star Importers"}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setSearchKeyRemove(false);
-                    }}
-                  />
+        }
+        resistance={7}
+        refreshingContent={
+          <div className=" pt-4">
+            <div class="lds-roller ">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        }>
+        <div className="star_imp_app mt-0 ">
+          <div>
+            <AppHeader />
+          </div>
+          {loading ? (
+            <div className="load_position">
+              <div class="loader_new"></div>
+            </div>
+          ) : (
+            <div className="page-content-wrapper">
+              <div className="container ">
+                <div
+                  className={
+                    browserName === "WebKit" || browserName === "Chrome WebView"
+                      ? "search-form pt-3 "
+                      : "search-new pt-3 "
+                  }>
+                  <form className="" style={{ width: "100%" }}>
+                    <input
+                      className="form-control"
+                      type="search"
+                      defaultValue={search}
+                      placeholder={"   " + "Search in Star Importers"}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setSearchKeyRemove(false);
+                      }}
+                    />
 
-                  <button onClick={searchProduct} className="me-5">
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                  </button>
-                  <button type="reset" id="resetBtn" className="d-none">
-                    reset
-                  </button>
-                </form>
+                    <button onClick={searchProduct} className="me-5">
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button type="reset" id="resetBtn" className="d-none">
+                      reset
+                    </button>
+                  </form>
 
-                {browserName === "WebKit" ||
-                browserName === "Chrome WebView" ? (
-                  <div className="alternative-search-options">
-                    <Link
-                      className="comman_btn text-white ms-1"
-                      to=""
-                      onClick={microphoneSearch}
-                    >
-                      <i className="fa-solid fa-microphone"></i>
-                    </Link>
-                    <a
-                      className="comman_btn2 ms-1"
-                      onClick={() => cameraScan()}
-                    >
-                      <i className="fa fa-qrcode"></i>
-                    </a>
-                  </div>
-                ) : (
-                  <div className="alternative-search-options">
-                    {/* <a className="comman_btn2 ms-1">
+                  {browserName === "WebKit" ||
+                  browserName === "Chrome WebView" ? (
+                    <div className="alternative-search-options">
+                      <Link
+                        className="comman_btn text-white ms-1"
+                        to=""
+                        onClick={microphoneSearch}>
+                        <i className="fa-solid fa-microphone"></i>
+                      </Link>
+                      <a
+                        className="comman_btn2 ms-1"
+                        onClick={() => cameraScan()}>
+                        <i className="fa fa-qrcode"></i>
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="alternative-search-options">
+                      {/* <a className="comman_btn2 ms-1">
                       <i className="fa fa-qrcode">
                         <input
                           className="barScanner"
@@ -278,60 +306,266 @@ function AppHome() {
                         />
                       </i>
                     </a> */}
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            {browserName === "WebKit" || browserName === "Chrome WebView" ? (
-              <div>
-                {search?.length ? (
-                  <div className="top-products-area py-1">
-                    <div className="container">
-                      <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                        <p className="mt-0 mb-4">
-                          Showing results for "{search}"
-                        </p>
-                      </div>
-                      {search === "Tobacco" ||
-                      search === "Tobacco " ||
-                      search === "tobacco" ||
-                      search === "Tobacc " ||
-                      search === "Tobacc " ||
-                      search === "tobaco" ||
-                      search === "tobacco " ||
-                      search === "tobac" ||
-                      search === "tobacc" ||
-                      search === "smoke" ||
-                      search === "cigars" ||
-                      search === "Cigerettes" ||
-                      search === "vapes" ? (
-                        <div className="text-center">
-                          <img
-                            src={require("../../assets/img/noitem.png")}
-                          ></img>
-                          <a
-                            data-bs-toggle="modal"
-                            className="fw-bold mx-2"
-                            data-bs-target="#staticBackdrop"
-                            onClick={genToken}
-                          >
-                            Click Here
-                          </a>
-                          to buy this product from our website.{" "}
+              {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+                <div>
+                  {search?.length ? (
+                    <div className="top-products-area py-1">
+                      <div className="container">
+                        <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
+                          <p className="mt-0 mb-4">
+                            Showing results for "{search}"
+                          </p>
                         </div>
-                      ) : null}
+                        {search === "Tobacco" ||
+                        search === "Tobacco " ||
+                        search === "tobacco" ||
+                        search === "Tobacc " ||
+                        search === "Tobacc " ||
+                        search === "tobaco" ||
+                        search === "tobacco " ||
+                        search === "tobac" ||
+                        search === "tobacc" ||
+                        search === "smoke" ||
+                        search === "cigars" ||
+                        search === "Cigerettes" ||
+                        search === "vapes" ? (
+                          <div className="text-center">
+                            <img
+                              src={require("../../assets/img/noitem.png")}></img>
+                            <a
+                              data-bs-toggle="modal"
+                              className="fw-bold mx-2"
+                              data-bs-target="#staticBackdrop"
+                              onClick={genToken}>
+                              Click Here
+                            </a>
+                            to buy this product from our website.{" "}
+                          </div>
+                        ) : null}
 
-                      {product?.length ? (
-                        <div className="row g-2">
-                          {(product || [])
-                            ?.filter(
-                              (itm, idx) =>
-                                itm.category != "639a042ff2f72167b43774de" &&
-                                idx < 10 &&
-                                itm.category != "639a7617f2f72167b4377754" &&
-                                itm.isTobaccoProduct != true
-                            )
-                            .map((item, index) => {
+                        {product?.length ? (
+                          <div className="row g-2">
+                            {(product || [])
+                              ?.filter(
+                                (itm, idx) =>
+                                  itm.category != "639a042ff2f72167b43774de" &&
+                                  idx < 10 &&
+                                  itm.category != "639a7617f2f72167b4377754" &&
+                                  itm.isTobaccoProduct != true
+                              )
+                              .map((item, index) => {
+                                return (
+                                  <div className="col-6 col-md-4" key={index}>
+                                    <div className="card product-card">
+                                      <div className="card-body">
+                                        <Link
+                                          className="product-thumbnail d-block"
+                                          to={`/app/product-detail/${item._id}`}
+                                          state={{ type: item?.type }}>
+                                          <img
+                                            className="mb-2"
+                                            src={
+                                              // item?.type.flavourImage
+                                              //   ? item?.type.flavourImage
+                                              //   :
+                                              item?.productImage ||
+                                              require("../../assets/img/product.jpg")
+                                            }
+                                            alt=""
+                                          />
+                                        </Link>
+
+                                        <Link
+                                          className="product-title"
+                                          to={`/app/product-detail/${item._id}`}
+                                          state={{ type: item?.type }}>
+                                          {/* {item.unitName +
+                                          "-" +
+                                          item?.type.flavour} */}
+                                          {item?.unitName}
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        ) : (
+                          <div>
+                            <img
+                              className="no-data"
+                              src="../assets/img/no-data.gif"
+                            />
+                            <h1 className="text-center"> No Results</h1>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="hero-wrapper">
+                        <div className="container">
+                          {browserName === "WebKit" ||
+                          browserName === "Chrome WebView" ? (
+                            <div
+                              class="marquee text-center mb-0"
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop"
+                              onClick={genToken}>
+                              <div class="marquee__inner mb-0">
+                                <p class="text-dark mt-2">
+                                  <strong>Click here</strong> to buy Tobacco
+                                  related Products from our website.
+                                </p>
+                              </div>
+                            </div>
+                          ) : null}
+                          <div className="pt-0">
+                            <OwlCarousel
+                              className=" hero-slides "
+                              autoplay={true}
+                              autoplayHoverPause={false}
+                              autoplayTimeout={5000}
+                              dots={true}
+                              loop={true}
+                              nav={false}
+                              fade={true}
+                              items={1}>
+                              <div className="single-hero-slide item">
+                                <img
+                                  src={
+                                    banner[1]?.banner
+                                      ? banner[1]?.banner
+                                      : require("../../assets/img/staticBg.png")
+                                  }></img>
+                                <div className="slide-content h-100 d-flex align-items-center"></div>
+                              </div>
+                              {banner
+                                ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                                .map((item) => {
+                                  return (
+                                    <div className="single-hero-slide item">
+                                      <img src={item?.banner}></img>
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        {/* <div className="slide-text"></div> */}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                            </OwlCarousel>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="product-catagories-wrapper py-3">
+                        <div className="container">
+                          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                            <h2 className="fs-5">Top Categories</h2>
+                            <Link className="btn p-0" to="/app/Categories">
+                              View All
+                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                            </Link>
+                          </div>
+                          <div className="row g-2 rtl-flex-d-row-r">
+                            {category
+                              .filter(
+                                (itm, idx) =>
+                                  itm._id != "639a042ff2f72167b43774de" &&
+                                  idx < 8 &&
+                                  itm._id != "639a7617f2f72167b4377754" &&
+                                  itm.isTobacco != true
+                              )
+                              .map((item, index) => {
+                                return (
+                                  <div className="col-4 d-flex align-items-stretch">
+                                    <div className="card catagory-card w-100">
+                                      <div className="card-body px-2">
+                                        <Link
+                                          to={`/app/Sub-Categories/${item._id}`}>
+                                          <img
+                                            src={item?.categoryImage}
+                                            alt=""
+                                          />
+                                          <span>{item?.categoryName}</span>
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      </div>
+                      <TopProduct />
+                      <div className="flash-sale-wrapper mt-3">
+                        <div className="container">
+                          <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
+                            <h6 className="fs-5">Popular Brands</h6>
+                            <Link className="btn p-0" to="/app/brands">
+                              View All
+                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                            </Link>
+                          </div>
+                          {brand.length ? (
+                            <OwlCarousel
+                              className="flash-sale-slide"
+                              autoplay={true}
+                              autoplayHoverPause={false}
+                              autoplayTimeout={5000}
+                              dots={false}
+                              loop={true}
+                              nav={false}
+                              fade={false}
+                              items={3}
+                              margin={10}>
+                              {brand
+                                ?.filter((itm, idx) => itm.isTobacco != true)
+                                .map((item, index) => {
+                                  return (
+                                    <div
+                                      className="card flash-sale-card item"
+                                      key={index}>
+                                      <div className="card-body">
+                                        <Link to="/app/brands">
+                                          <img
+                                            width={40}
+                                            src={item?.brandImage}
+                                            alt=""
+                                          />
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                            </OwlCarousel>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                        {/* <small>{deviceId}</small> */}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  {search?.length ? (
+                    <div className="top-products-area py-1">
+                      <div className="container">
+                        <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
+                          <p className="mt-0 mb-4">
+                            {" "}
+                            Showing results for "{search}"
+                          </p>
+                        </div>
+
+                        {product?.length ? (
+                          <div className="row g-2">
+                            {(product || [])?.map((item, index) => {
                               return (
                                 <div className="col-6 col-md-4" key={index}>
                                   <div className="card product-card">
@@ -339,16 +573,15 @@ function AppHome() {
                                       <Link
                                         className="product-thumbnail d-block"
                                         to={`/app/product-detail/${item._id}`}
-                                        state={{ type: item?.type }}
-                                      >
+                                        state={{ type: item?.type }}>
                                         <img
                                           className="mb-2"
                                           src={
                                             // item?.type.flavourImage
                                             //   ? item?.type.flavourImage
                                             //   :
-                                               item?.productImage ||
-                                                require("../../assets/img/product.jpg")
+                                            item?.productImage ||
+                                            require("../../assets/img/product.jpg")
                                           }
                                           alt=""
                                         />
@@ -357,157 +590,128 @@ function AppHome() {
                                       <Link
                                         className="product-title"
                                         to={`/app/product-detail/${item._id}`}
-                                        state={{ type: item?.type }}
-                                      >
-                                        {/* {item.unitName +
-                                          "-" +
-                                          item?.type.flavour} */}
-                                          {item?.unitName}
+                                        state={{ type: item?.type }}>
+                                        {/* {item.unitName + "-" + item?.type.flavour} */}
+                                        {item?.unitName}
                                       </Link>
                                     </div>
                                   </div>
                                 </div>
                               );
                             })}
-                        </div>
-                      ) : (
-                        <div>
-                          <img
-                            className="no-data"
-                            src="../assets/img/no-data.gif"
-                          />
-                          <h1 className="text-center"> No Results</h1>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="hero-wrapper">
-                      <div className="container">
-                        {browserName === "WebKit" ||
-                        browserName === "Chrome WebView" ? (
-                          <div
-                            class="marquee"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"
-                            onClick={genToken}
-                          >
-                            <div class="marquee__inner ">
-                              <p class="marquee__line text-dark mt-2">
-                                <strong>Click here</strong> to buy Tobacco
-                                related Products from our website.
-                              </p>
-                            </div>
                           </div>
-                        ) : null}
-                        <div className="pt-3">
-                          <OwlCarousel
-                            className=" hero-slides "
-                            autoplay={true}
-                            autoplayHoverPause={false}
-                            autoplayTimeout={5000}
-                            dots={true}
-                            loop={true}
-                            nav={false}
-                            fade={true}
-                            items={1}
-                          >
-                            <div className="single-hero-slide item">
-                              <img
-                                src={
-                                  banner[1]?.banner
-                                    ? banner[1]?.banner
-                                    : require("../../assets/img/staticBg.png")
-                                }
-                              ></img>
-                              <div className="slide-content h-100 d-flex align-items-center"></div>
-                            </div>
-                            {banner
-                              ?.filter((itm, idx) => idx !== 1 && idx !== 0)
-                              .map((item) => {
+                        ) : (
+                          <div>
+                            <img
+                              className="no-data"
+                              src="../assets/img/no-data.gif"
+                            />
+                            <h1 className="text-center"> No Results</h1>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="hero-wrapper">
+                        <div className="container">
+                          <div className="pt-3">
+                            <OwlCarousel
+                              className=" hero-slides "
+                              autoplay={true}
+                              autoplayHoverPause={false}
+                              autoplayTimeout={5000}
+                              dots={true}
+                              loop={true}
+                              nav={false}
+                              fade={false}
+                              items={1}>
+                              <div className="single-hero-slide item">
+                                <img
+                                  src={
+                                    banner[1]?.banner
+                                      ? banner[1]?.banner
+                                      : require("../../assets/img/staticBg.png")
+                                  }></img>
+                                <div className="slide-content h-100 d-flex align-items-center"></div>
+                              </div>
+                              {banner
+                                ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                                .map((item) => {
+                                  return (
+                                    <div className="single-hero-slide item">
+                                      <img src={item?.banner}></img>
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text"></div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                            </OwlCarousel>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="product-catagories-wrapper py-3">
+                        <div className="container">
+                          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                            <h2 className="fs-5">Top Categories</h2>
+                            <Link className="btn p-0" to="/app/Categories">
+                              View All
+                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                            </Link>
+                          </div>
+                          <div className="row g-2 rtl-flex-d-row-r">
+                            {category
+                              .filter((itm, idx) => idx < 6)
+                              .map((item, index) => {
                                 return (
-                                  <div className="single-hero-slide item">
-                                    <img src={item?.banner}></img>
-                                    <div className="slide-content h-100 d-flex align-items-center">
-                                      {/* <div className="slide-text"></div> */}
+                                  <div className="col-4 d-flex align-items-stretch">
+                                    <div className="card catagory-card w-100">
+                                      <div className="card-body px-2">
+                                        <Link
+                                          to={`/app/Sub-Categories/${item._id}`}>
+                                          <img
+                                            src={item?.categoryImage}
+                                            alt=""
+                                          />
+                                          <span>{item?.categoryName}</span>
+                                        </Link>
+                                      </div>
                                     </div>
                                   </div>
                                 );
                               })}
-                          </OwlCarousel>
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="product-catagories-wrapper py-3">
-                      <div className="container">
-                        <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                          <h2 className="fs-5">Top Categories</h2>
-                          <Link className="btn p-0" to="/app/Categories">
-                            View All
-                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                          </Link>
-                        </div>
-                        <div className="row g-2 rtl-flex-d-row-r">
-                          {category
-                            .filter(
-                              (itm, idx) =>
-                                itm._id != "639a042ff2f72167b43774de" &&
-                                idx < 8 &&
-                                itm._id != "639a7617f2f72167b4377754" &&
-                                itm.isTobacco != true
-                            )
-                            .map((item, index) => {
-                              return (
-                                <div className="col-4 d-flex align-items-stretch">
-                                  <div className="card catagory-card w-100">
-                                    <div className="card-body px-2">
-                                      <Link
-                                        to={`/app/Sub-Categories/${item._id}`}
-                                      >
-                                        <img src={item?.categoryImage} alt="" />
-                                        <span>{item?.categoryName}</span>
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    </div>
-                    <TopProduct />
-                    <div className="flash-sale-wrapper mt-3">
-                      <div className="container">
-                        <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
-                          <h6 className="fs-5">Popular Brands</h6>
-                          <Link className="btn p-0" to="/app/brands">
-                            View All
-                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                          </Link>
-                        </div>
-                        {brand.length ? (
-                          <OwlCarousel
-                            className="flash-sale-slide"
-                            autoplay={true}
-                            autoplayHoverPause={false}
-                            autoplayTimeout={5000}
-                            dots={false}
-                            loop={true}
-                            nav={false}
-                            fade={false}
-                            items={3}
-                            margin={10}
-                          >
-                            {brand
-                              ?.filter((itm, idx) => itm.isTobacco != true)
-                              .map((item, index) => {
+                      <TopProduct />
+                      <div className="flash-sale-wrapper mt-3">
+                        <div className="container">
+                          <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
+                            <h6 className="fs-5">Popular Brands</h6>
+                            <Link className="btn p-0" to="/app/brands">
+                              View All
+                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                            </Link>
+                          </div>
+                          {brand.length ? (
+                            <OwlCarousel
+                              className="flash-sale-slide"
+                              autoplay={true}
+                              autoplayHoverPause={false}
+                              autoplayTimeout={5000}
+                              dots={false}
+                              loop={true}
+                              nav={false}
+                              fade={false}
+                              items={3}
+                              margin={10}>
+                              {brand.map((item, index) => {
                                 return (
                                   <div
                                     className="card flash-sale-card item"
-                                    key={index}
-                                  >
+                                    key={index}>
                                     <div className="card-body">
                                       <Link to="/app/brands">
                                         <img
@@ -520,258 +724,68 @@ function AppHome() {
                                   </div>
                                 );
                               })}
-                          </OwlCarousel>
-                        ) : (
-                          ""
-                        )}
+                            </OwlCarousel>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                        {/* <small>{deviceId}</small> */}
                       </div>
-                      {/* <small>{deviceId}</small> */}
                     </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div>
-                {search?.length ? (
-                  <div className="top-products-area py-1">
-                    <div className="container">
-                      <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                        <p className="mt-0 mb-4">
-                          {" "}
-                          Showing results for "{search}"
-                        </p>
-                      </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
-                      {product?.length ? (
-                        <div className="row g-2">
-                          {(product || [])?.map((item, index) => {
-                            return (
-                              <div className="col-6 col-md-4" key={index}>
-                                <div className="card product-card">
-                                  <div className="card-body">
-                                    <Link
-                                      className="product-thumbnail d-block"
-                                      to={`/app/product-detail/${item._id}`}
-                                      state={{ type: item?.type }}
-                                    >
-                                      <img
-                                        className="mb-2"
-                                        src={
-                                          // item?.type.flavourImage
-                                          //   ? item?.type.flavourImage
-                                          //   : 
-                                            item?.productImage ||
-                                              require("../../assets/img/product.jpg")
-                                        }
-                                        alt=""
-                                      />
-                                    </Link>
-
-                                    <Link
-                                      className="product-title"
-                                      to={`/app/product-detail/${item._id}`}
-                                      state={{ type: item?.type }}
-                                    >
-                                      {/* {item.unitName + "-" + item?.type.flavour} */}
-                                      {item?.unitName}
-                                    </Link>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div>
-                          <img
-                            className="no-data"
-                            src="../assets/img/no-data.gif"
-                          />
-                          <h1 className="text-center"> No Results</h1>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="hero-wrapper">
-                      <div className="container">
-                        <div className="pt-3">
-                          <OwlCarousel
-                            className=" hero-slides "
-                            autoplay={true}
-                            autoplayHoverPause={false}
-                            autoplayTimeout={5000}
-                            dots={true}
-                            loop={true}
-                            nav={false}
-                            fade={false}
-                            items={1}
-                          >
-                            <div className="single-hero-slide item">
-                              <img
-                                src={
-                                  banner[1]?.banner
-                                    ? banner[1]?.banner
-                                    : require("../../assets/img/staticBg.png")
-                                }
-                              ></img>
-                              <div className="slide-content h-100 d-flex align-items-center"></div>
-                            </div>
-                            {banner
-                              ?.filter((itm, idx) => idx !== 1 && idx !== 0)
-                              .map((item) => {
-                                return (
-                                  <div className="single-hero-slide item">
-                                    <img src={item?.banner}></img>
-                                    <div className="slide-content h-100 d-flex align-items-center">
-                                      <div className="slide-text"></div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                          </OwlCarousel>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="product-catagories-wrapper py-3">
-                      <div className="container">
-                        <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                          <h2 className="fs-5">Top Categories</h2>
-                          <Link className="btn p-0" to="/app/Categories">
-                            View All
-                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                          </Link>
-                        </div>
-                        <div className="row g-2 rtl-flex-d-row-r">
-                          {category
-                            .filter((itm, idx) => idx < 6)
-                            .map((item, index) => {
-                              return (
-                                <div className="col-4 d-flex align-items-stretch">
-                                  <div className="card catagory-card w-100">
-                                    <div className="card-body px-2">
-                                      <Link
-                                        to={`/app/Sub-Categories/${item._id}`}
-                                      >
-                                        <img src={item?.categoryImage} alt="" />
-                                        <span>{item?.categoryName}</span>
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    </div>
-                    <TopProduct />
-                    <div className="flash-sale-wrapper mt-3">
-                      <div className="container">
-                        <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
-                          <h6 className="fs-5">Popular Brands</h6>
-                          <Link className="btn p-0" to="/app/brands">
-                            View All
-                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                          </Link>
-                        </div>
-                        {brand.length ? (
-                          <OwlCarousel
-                            className="flash-sale-slide"
-                            autoplay={true}
-                            autoplayHoverPause={false}
-                            autoplayTimeout={5000}
-                            dots={false}
-                            loop={true}
-                            nav={false}
-                            fade={false}
-                            items={3}
-                            margin={10}
-                          >
-                            {brand.map((item, index) => {
-                              return (
-                                <div
-                                  className="card flash-sale-card item"
-                                  key={index}
-                                >
-                                  <div className="card-body">
-                                    <Link to="/app/brands">
-                                      <img
-                                        width={40}
-                                        src={item?.brandImage}
-                                        alt=""
-                                      />
-                                    </Link>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </OwlCarousel>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                      {/* <small>{deviceId}</small> */}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+          <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
+            <AppFooter />
           </div>
-        )}
-
-        <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
-          <AppFooter />
-        </div>
-        <div
-          class="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">
-                  Please Confirm !
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  id="modalCloseRD"
-                ></button>
-              </div>
-              <div class="modal-body">Open website in External Browser.</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  id="modalCLose"
-                >
-                  Close
-                </button>
-                <Link
-                  // to={}
-                  onClick={() => {
-                    redirectToWeb();
-                    // document.getElementById("modalClose").click();
-                  }}
-                  class="btn btn-primary"
-                >
-                  Confirm
-                </Link>
+          <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">
+                    Please Confirm !
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    id="modalCloseRD"></button>
+                </div>
+                <div class="modal-body">Open website in External Browser.</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    id="modalCLose">
+                    Close
+                  </button>
+                  <Link
+                    // to={}
+                    onClick={() => {
+                      redirectToWeb();
+                      // document.getElementById("modalClose").click();
+                    }}
+                    class="btn btn-primary">
+                    Confirm
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </PullToRefresh>
     </>
   );
 }
