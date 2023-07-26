@@ -235,29 +235,27 @@ const Homepage = () => {
             </div>
 
             <div className="banner_section item">
-              <video id="frameOne" className="main_video bg-dark" autoPlay loop>
-                <source
-                  src={
-                    videos[0]?.video
-                  }
-                />
-              </video>
-            </div>
-
-            <div className="banner_section item">
               <video
                 id="frameOne"
                 className="main_video bg-dark"
                 autoPlay
                 loop
                 muted
+                preload="auto"
+                >
+                <source src={videos[0]?.video} />
+              </video>
+            </div>
+
+            <div className="banner_section item">
+              <video
+                id="frameTwo"
+                className="main_video bg-dark"
+                autoPlay
+                loop
+                muted
                 preload="auto">
-                <source
-                  src={
-                    videos[1]?.video
-                  
-                  }
-                />
+                <source src={videos[1]?.video} />
               </video>
             </div>
 
@@ -543,9 +541,7 @@ const Homepage = () => {
                     {(featured || [])?.map((item, index) => (
                       <SwiperSlide key={index} className="px-3">
                         <div className="col-12">
-                          <div
-                            className="categorynew_slider sliderbtns_design"
-                           >
+                          <div className="categorynew_slider sliderbtns_design">
                             <div class="Fcard shadow">
                               <div class="imgBox">
                                 <img
@@ -564,15 +560,18 @@ const Homepage = () => {
                               </div>
 
                               <div class="contentBox">
-                                <a  class="buy"
-                                 onClick={() =>
-                                  navigate(`/AllProducts/Product/Product-Details`, {
-                                    state: {
-                                      id: item?._id,
-                                    },
-                                  })
-                                }
-                                >
+                                <a
+                                  class="buy"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/Product-Details`,
+                                      {
+                                        state: {
+                                          id: item?._id,
+                                        },
+                                      }
+                                    )
+                                  }>
                                   Buy Now
                                 </a>
                               </div>

@@ -114,10 +114,10 @@ const Cms = () => {
     }
   };
 
-  const saveVideo = async (e, id) => {
+  const saveVideo = async (e, id,no) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("video", videoFile?.video1);
+    formData.append("video",no == 1 ? videoFile?.video1 : videoFile?.video2);
     const { data } = await axios.post(editVideo + "/" + id, formData);
     if(!data.error){
      window.location.reload(false)
@@ -1448,7 +1448,7 @@ const Cms = () => {
                                               onClick={(e) =>
                                                 saveVideo(
                                                   e,
-                                                  videoSlides[0]?._id
+                                                  videoSlides[0]?._id,1
                                                 )
                                               }>
                                               Save
@@ -1512,7 +1512,7 @@ const Cms = () => {
                                               onClick={(e) =>
                                                 saveVideo(
                                                   e,
-                                                  videoSlides[1]?._id
+                                                  videoSlides[1]?._id,2
                                                 )
                                               }>
                                               Save
