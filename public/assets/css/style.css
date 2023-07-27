@@ -5467,6 +5467,9 @@ background-color: #3e4093;
   .category_management .user-management-tabs .nav-tabs .nav-link {
     width: 50%;
   }
+   .order_tab .nav-link {
+    width: 33.3% !important;
+  }
 
   .flavour_box .comman_btn {
     padding: 13px 18px;

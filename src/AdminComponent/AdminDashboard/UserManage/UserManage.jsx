@@ -17,7 +17,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 
 //
-import classNames from "classnames";
 
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
@@ -26,10 +25,6 @@ const UserManage = () => {
   const genCrendentials = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendUsersCredentials`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/usersCount`;
   const searchUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
-  const editCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editCity`;
-  const apiCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCities `;
-
-  const [cities, setCities] = useState([]);
   const [values, setValues] = useState({ from: "", to: "" });
   const [search, setSearch] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,7 +53,6 @@ const UserManage = () => {
   const setPageData = useSetRecoilState(pageUserData);
   const [activeApprovePage, setActiveApprovePage] = useState(pageData[0]?.page);
   const [sortingData, setSortingData] = useState(pageData[0]?.sortBy);
-  const [selectedCity, setSelectedCity] = useState();
   const {
     register,
     handleSubmit,
@@ -67,7 +61,6 @@ const UserManage = () => {
   } = useForm();
 
   useEffect(() => {
-    getCities();
     GetUserCount();
     getPendingUser();
     getRejectedUser();
@@ -76,15 +69,6 @@ const UserManage = () => {
       : getApprovedUser();
   }, [activeApprovePage, activePendingPage, activeReturnedPage]);
 
-  const getCities = async (state) => {
-    const { data } = await axios.get(apiCities);
-
-    if (!data.error) {
-      setCities(data?.results.delivery);
-    }
-  };
-
-  console.log(cities);
   const onFileSelection = (e) => {
     let file = e.target.files[0];
     setImpFile(file);
@@ -95,21 +79,7 @@ const UserManage = () => {
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
-  const onSubmitDays = async (data) => {
-    const res = await axios.post(editCities + "/" + selectedCity, {
-      day: data?.day,
-      state: data?.state,
-    });
-    console.log(res);
-    if (!res.data.error) {
-      document.getElementById("modalClose1").click()
-      Swal.fire({
-        title: res?.data.message,
-        icon: "success",
-        timer: 1000,
-      });
-    }
-  };
+ 
 
   const userSearch = async (key) => {
     let string = key;
@@ -284,11 +254,7 @@ const UserManage = () => {
       });
   };
 
-  // document.getElementById("appFrom")?.setAttribute("max", today);
-  // document.getElementById("penFrom")?.setAttribute("max", today);
-  // document.getElementById("penTo")?.setAttribute("max", today);
-  // document.getElementById("rejFrom")?.setAttribute("max", today);
-  // document.getElementById("rejTo")?.setAttribute("max", today);
+
   return (
     <div className={sideBar ? "  admin_main" : "row expanded_main"}>
       <div className="">
@@ -849,14 +815,7 @@ const UserManage = () => {
                       className="comman_btn2 ms-2 text-decoration-none">
                       Add User
                     </Link>
-                    <button
-                      data-bs-toggle="modal"
-                      id="modal-toggle"
-                      data-bs-target="#staticBackdrop33"
-                      href="javscript:;"
-                      className="comman_btn2 text-decoration-none mx-2 text-white">
-                      Set Delevery Days
-                    </button>
+                
                   </div>
                   <div className="col-12 design_outter_comman  shadow">
                     <div className="row comman_header justify-content-between px-2">
@@ -1706,235 +1665,7 @@ const UserManage = () => {
         </div>
       </div>
 
-      <div
-        className="modal comman_modal_form forms_modal"
-        id="staticBackdrop33"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content border-0 rounded-0  rounded-top">
-            <div className="modal-body">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                id="modalClose1"
-                onClick={() => {
-                   getApprovedUser()
-document.getElementById("resetBtn").click()
-                }}     
-              />
-
-              <div>
-                <div className="container">
-                  <div className="row justify-content-center p-2">
-                    <div className="col-11 text-center mt-2">
-                      <form onSubmit={handleSubmit(onSubmitDays)}>
-                        <div className="form-floating col-12 mb-4 select_dropdown ">
-                          <select
-                            className={classNames(
-                              "form-select border border-secondary signup_fields fw-bolder",
-                              { "is-invalid": errors.state }
-                            )}
-                            id="floatingSelect1"
-                            aria-label="Floating label select example"
-                            name="state"
-                            {...register("state", {
-                              required: "State is Required*",
-                              onChange: (e) => {
-                                getCities(e.target.value);
-                              },
-                            })}>
-                            <option value="Alabama">Alabama</option>
-                            <option value="Alaska">Alaska</option>
-                            <option value="American Samoa">
-                              American Samoa
-                            </option>
-                            <option value="Arizona">Arizona</option>
-                            <option value="Arkansas">Arkansas</option>
-                            <option value="California">California</option>
-                            <option value="Colorado">Colorado</option>
-                            <option value="Connecticut">Connecticut</option>
-                            <option value="Delaware">Delaware</option>
-                            <option value="District of Columbia">
-                              District of Columbia
-                            </option>
-                            <option value="Federated States of Micronesia">
-                              Federated States of Micronesia
-                            </option>
-                            <option value="Florida">Florida</option>
-                            <option value="Georgia" selected="Georgia">
-                              Georgia
-                            </option>
-                            <option value="Guam">Guam</option>
-                            <option value="Hawaii">Hawaii</option>
-                            <option value="Idaho">Idaho</option>
-                            <option value="Illinois">Illinois</option>
-                            <option value="Indiana">Indiana</option>
-                            <option value="Iowa">Iowa</option>
-                            <option value="Kansas">Kansas</option>
-                            <option value="Kentucky">Kentucky</option>
-                            <option value="Louisiana">Louisiana</option>
-                            <option value="Maine">Maine</option>
-                            <option value="Marshall Islands">
-                              Marshall Islands
-                            </option>
-                            <option value="Maryland">Maryland</option>
-                            <option value="Massachusetts">Massachusetts</option>
-                            <option value="Michigan">Michigan</option>
-                            <option value="Minnesota">Minnesota</option>
-                            <option value="Mississippi">Mississippi</option>
-                            <option value="Missouri">Missouri</option>
-                            <option value="Montana">Montana</option>
-                            <option value="Nebraska">Nebraska</option>
-                            <option value="Nevada">Nevada</option>
-                            <option value="New Hampshire">New Hampshire</option>
-                            <option value="New Jersey">New Jersey</option>
-                            <option value="New Mexico">New Mexico</option>
-                            <option value="New York">New York</option>
-                            <option value="North Carolina">
-                              North Carolina
-                            </option>
-                            <option value="North Dakota">North Dakota</option>
-                            <option value="Northern Mariana Islands">
-                              Northern Mariana Islands
-                            </option>
-                            <option value="Ohio">Ohio</option>
-                            <option value="Oklahoma">Oklahoma</option>
-                            <option value="Oregon">Oregon</option>
-                            <option value="Palau">Palau</option>
-                            <option value="Pennsylvania">Pennsylvania</option>
-                            <option value="Puerto Rico">Puerto Rico</option>
-                            <option value="Rhode Island">Rhode Island</option>
-                            <option value="South Carolina">
-                              South Carolina
-                            </option>
-                            <option value="South Dakota">South Dakota</option>
-                            <option value="Tennessee">Tennessee</option>
-                            <option value="Texas">Texas</option>
-                            <option value="Utah">Utah</option>
-                            <option value="Vermont">Vermont</option>
-                            <option value="Virginia">Virginia</option>
-                            <option value="Washington">Washington</option>
-                            <option value="West Virginia">West Virginia</option>
-                            <option value="Wisconsin">Wisconsin</option>
-                            <option value="Wyoming">Wyoming</option>
-                            <option value="Virgin Islands">
-                              Virgin Islands
-                            </option>
-                            <option value="Armed Forces Americas">
-                              Armed Forces Americas
-                            </option>
-                            <option value="Armed Forces Europe">
-                              Armed Forces Europe
-                            </option>
-                            <option value="Armed Forces Pacific">
-                              Armed Forces Pacific
-                            </option>
-                          </select>
-                          {errors.state && (
-                            <small className="errorText mx-1 fw-bold">
-                              {errors.state?.message}
-                            </small>
-                          )}
-
-                          <label
-                            htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
-                            State/Province
-                          </label>
-                        </div>
-
-                        <div className="form-floating col-12 mb-4 select_dropdown ">
-                          <select
-                            className={classNames(
-                              "form-select border border-secondary signup_fields fw-bolder",
-                              { "is-invalid": errors.city }
-                            )}
-                            id="floatingSelect1"
-                            aria-label="Floating label select example"
-                            name="city"
-                            disabled={cities?.length ? false : true}
-                            {...register("city", {
-                              required: "City is Required*",
-
-                              onChange: (e) => {
-                                setSelectedCity(e.target.value);
-                              },
-                            })}>
-                            {cities?.length ? (
-                              <option value="">Select City</option>
-                            ) : (
-                              <option value="">*Please Select State</option>
-                            )}
-                            {(cities || [])?.map((item, ind) => (
-                              <option value={item._id}>{item?.city}</option>
-                            ))}
-                          </select>
-
-                          <label
-                            htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
-                            City
-                          </label>
-                        </div>
-
-                        <div className="form-floating col-12 mb-4 select_dropdown ">
-                          <select
-                            className={classNames(
-                              "form-select border border-secondary signup_fields fw-bolder",
-                              { "is-invalid": errors.day }
-                            )}
-                            id="floatingSelect1"
-                            aria-label="Floating label select example"
-                            name="day"
-                            {...register("day", {
-                              required: "day is Required*",
-                            })}>
-                            {(cities || [])
-                              ?.filter((itm) => itm._id === selectedCity)
-                              .map((item, ind) => (
-                                <option value={item.day} selected={item?.day}>
-                                  {item?.day}:(Pre-selected)
-                                </option>
-                              ))}
-                            <option>Select a Day</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                          </select>
-
-                          <label
-                            htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
-                            Day
-                          </label>
-                        </div>
-                        <div>
-                          <button className="comman_btn2 " type="submit">
-                            Save
-                          </button>
-                          <button className="comman_btn2 d-none" type="reset" id="resetBtn">
-                            Reset
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     
 
       <Link
         data-bs-toggle="modal"
