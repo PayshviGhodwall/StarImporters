@@ -169,12 +169,12 @@ function AppHome() {
     }
   };
 
-  const redirectToWeb = async () => {
+  const redirectToWeb = async (token) => {
     console.log("testing");
     try {
       await window.flutter_inappwebview.callHandler(
         "openExternalBrowser",
-        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb}`
+        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb || token}`
       );
     } catch (err) {
       console.log(err);
@@ -182,10 +182,14 @@ function AppHome() {
     document.getElementById("modalCloseRD").click();
   };
 
+
   const genToken = async () => {
     const token = await axios.post(TempToken);
     console.log(token.data.results.token);
     setTokenWeb(token.data.results.token);
+    if(token?.data.results.token){
+      redirectToWeb(token?.data.results.token)
+    }
   };
 
   const handleOutsideClick = (event) => {
@@ -337,9 +341,7 @@ function AppHome() {
                             <img
                               src={require("../../assets/img/noitem.png")}></img>
                             <a
-                              data-bs-toggle="modal"
                               className="fw-bold mx-2"
-                              data-bs-target="#staticBackdrop"
                               onClick={genToken}>
                               Click Here
                             </a>
@@ -418,10 +420,7 @@ function AppHome() {
                                 <p class=" mt-2">
                                   <strong
                                     className="text-primary"
-                                    onClick={() => {
-                                      redirectToWeb();
-                                      // document.getElementById("modalClose").click();
-                                    }}>
+                                   >
                                     Click here
                                   </strong>{" "}
                                   to buy Tobacco related Products from our
