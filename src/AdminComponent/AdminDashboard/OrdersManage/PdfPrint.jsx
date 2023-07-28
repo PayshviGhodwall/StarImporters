@@ -345,15 +345,14 @@ const PdfPrint = () => {
                                             <span
                                               style={{
                                                 display: "block",
-                                                backgroundColor: "#f2f2f2",
                                                 borderRadius: 10,
-                                                padding: "17px 20px",
+                                                padding: "2px 20px",
                                               }}
                                             >
                                               <img
                                                 style={{
                                                   display: "block",
-                                                  maxWidth: 50,
+                                                  maxWidth: 55,
                                                   margin: "0 auto",
                                                 }}
                                                 src={
@@ -363,6 +362,7 @@ const PdfPrint = () => {
                                                     : item?.productId
                                                         ?.productImage
                                                 }
+                                                className="shadow"
                                                 alt=""
                                               />
                                             </span>{" "}
