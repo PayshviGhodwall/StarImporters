@@ -309,7 +309,7 @@ const PdfPrint = () => {
                                                   item?.flavour?.barcode || []
                                                 )?.map(
                                                   (item, ind) =>
-                                                    ind <= 2 && (
+                                                    ind <= 0 && (
                                                       <tr>
                                                         <td
                                                           style={{
@@ -353,7 +353,7 @@ const PdfPrint = () => {
                                               <img
                                                 style={{
                                                   display: "block",
-                                                  maxWidth: 90,
+                                                  maxWidth: 50,
                                                   margin: "0 auto",
                                                 }}
                                                 src={

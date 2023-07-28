@@ -20,6 +20,24 @@ const AddUser = () => {
   const [loader, setLoader] = useState("");
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
+  const [cities, setCities] = useState([]);
+
+  const handleCities = async (state) => {
+    const { data } = await axios.post(
+      "https://countriesnow.space/api/v0.1/countries/state/cities",
+      {
+        country: "United States",
+        state: state ? state : "Georgia",
+      }
+    );
+    if (!data.error) {
+      setCities(data?.data);
+    }
+  };
+
+  useEffect(()=>{
+    handleCities()
+  },[])
 
   const {
     register,
@@ -126,32 +144,28 @@ const AddUser = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/UserManage"
@@ -159,16 +173,14 @@ const AddUser = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -177,21 +189,18 @@ const AddUser = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -200,87 +209,73 @@ const AddUser = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                
+
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -288,41 +283,35 @@ const AddUser = () => {
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -330,16 +319,14 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -347,12 +334,10 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -361,16 +346,14 @@ const AddUser = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -384,16 +367,14 @@ const AddUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -405,16 +386,14 @@ const AddUser = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -422,16 +401,14 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -442,16 +419,14 @@ const AddUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -459,16 +434,14 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -479,32 +452,28 @@ const AddUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                     <li>
+                <li>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -515,12 +484,10 @@ const AddUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -528,16 +495,14 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -545,16 +510,14 @@ const AddUser = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -563,16 +526,14 @@ const AddUser = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -592,8 +553,7 @@ const AddUser = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -604,8 +564,7 @@ const AddUser = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -637,12 +596,11 @@ const AddUser = () => {
                   <div className="col-12 p-4 Pending-view-main">
                     <form
                       className="row py-2 form-design"
-                      onSubmit={handleSubmit(onSubmit)}
-                    >
-                      <div className="col-4 text-center mb-2 mt-2">
-                        <div className="form-group col-auto choose_fil">
+                      onSubmit={handleSubmit(onSubmit)}>
+                      <div className="form-group col-3 text-center mb-0 mt-2">
+                        <div className="col-auto choose_fil">
                           <div className="account_profile position-relative d-inline-block">
-                            <div className="form-group mt-4 ">
+                            <div className=" mt-4 ">
                               <label htmlFor="" className="">
                                 <i className="fa fa-file me-1" />
                                 Choose File
@@ -669,7 +627,7 @@ const AddUser = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-0">
                         <label htmlFor="" className="fw-bold fs-6">
                           Company
                         </label>
@@ -701,7 +659,7 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-0">
                         <label htmlFor="DBA" className="fw-bold fs-6">
                           DBA
                         </label>
@@ -716,7 +674,30 @@ const AddUser = () => {
                           {...register("dba")}
                         />
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-3 mb-0">
+                        <label htmlFor="" className="fw-bold fs-6">
+                          Zip/Postal Code
+                        </label>
+                        <input
+                          type="number"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields",
+                            { "is-invalid": errors.zipcode }
+                          )}
+                          name="zipcode"
+                          id="name"
+                          {...register("zipcode", {
+                            required: "Required and max-length is 10",
+                            maxLength: 10,
+                          })}
+                        />
+                        {errors.zipcode && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.zipcode?.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="form-group col-3 mb-5">
                         <label htmlFor="address" className="fw-bold fs-6">
                           Company Address Line 1
                         </label>
@@ -748,7 +729,8 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Company Address Line 2
                         </label>
@@ -760,47 +742,23 @@ const AddUser = () => {
                           {...register("addressLine2")}
                         />
                       </div>
-                      <div className="form-group col-4 mb-4">
-                        <label htmlFor="city" className="fw-bold fs-6">
-                          City
-                        </label>
-                        <input
-                          type="text"
-                          className={classNames(
-                            "form-control  border border-secondary signup_fields",
-                            { "is-invalid": errors.city }
-                          )}
-                          name="city"
-                          id="city"
-                          {...register("city", {
-                            required: "City is Required*",
-                            pattern: {
-                              value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
-                              message: "Special Character not allowed",
-                            },
-                          })}
-                        />
-                        {errors.city && (
-                          <small className="errorText mx-1 fw-bold">
-                            {errors.city?.message}
-                          </small>
-                        )}
-                      </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           State
                         </label>
                         <select
                           className={classNames(
-                            "form-select border border-secondary",
+                            "form-control border border-secondary",
                             { "is-invalid": errors.state }
                           )}
                           aria-label="Default select example"
                           name="state"
                           {...register("state", {
                             required: "State is Required*",
-                          })}
-                        >
+                            onChange: (e) => {
+                              handleCities(e.target.value);
+                            },
+                          })}>
                           <option value="">Select a state/province...</option>
                           <option value="Alabama">Alabama</option>
                           <option value="Alabama">Alabama</option>
@@ -821,7 +779,7 @@ const AddUser = () => {
                             Federated States of Micronesia
                           </option>
                           <option value="Florida">Florida</option>
-                          <option value="Georgia">Georgia</option>
+                          <option value="Georgia" selected>Georgia</option>
                           <option value="Guam">Guam</option>
                           <option value="Hawaii">Hawaii</option>
                           <option value="Idaho">Idaho</option>
@@ -888,29 +846,35 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-4 mb-4">
-                        <label htmlFor="" className="fw-bold fs-6">
-                          Zip/Postal Code
+
+                      <div className="form-group col-3 mb-4  ">
+                        <label htmlFor="" className="mx-2 fw-bolder">
+                          City
                         </label>
-                        <input
-                          type="number"
+                        <select
                           className={classNames(
-                            "form-control  border border-secondary signup_fields",
-                            { "is-invalid": errors.zipcode }
+                            "form-control border border-secondary  fw-bolder",
+                            { "is-invalid": errors.city }
                           )}
-                          name="zipcode"
-                          id="name"
-                          {...register("zipcode", {
-                            required: "Required and max-length is 10",
-                            maxLength: 10,
-                          })}
-                        />
-                        {errors.zipcode && (
+                          id=""
+                          name="city"
+                          disabled={cities?.length ? false : true}
+                          {...register("city", {
+                            required: "City is Required*",
+                          })}>
+                          <option value="">Select City</option>
+                          {(cities || [])?.map((item, ind) => (
+                            <option value={item}>{item}</option>
+                          ))}
+                        </select>
+                        {errors.city && (
                           <small className="errorText mx-1 fw-bold">
-                            {errors.zipcode?.message}
+                            {errors.city?.message}
                           </small>
                         )}
                       </div>
+
+                     
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">Federal Tax ID:</span>
@@ -1070,7 +1034,6 @@ const AddUser = () => {
                           name="lastName"
                           id="name"
                           {...register("lastName", {
-                            required: "Enter Your Last Name*",
                             pattern: {
                               value: /^[^*|\":<>[\]{}`\\()';%!#@&$]+$/,
                               message: "Special Character not allowed",
@@ -1212,8 +1175,7 @@ const AddUser = () => {
                           id="reference"
                           {...register("heardAboutUs", {
                             required: "This field is Required",
-                          })}
-                        >
+                          })}>
                           {errors.heardAboutUs && (
                             <small className="errorText mx-1 fw-bold">
                               {errors.heardAboutUs?.message}
@@ -1235,8 +1197,7 @@ const AddUser = () => {
                           loading={loader}
                           className="comman_btn mx-2"
                           style={{ backgroundColor: "#eb3237", color: "#FFF" }}
-                          type="submit"
-                        >
+                          type="submit">
                           Submit
                         </Button>
                       </div>
