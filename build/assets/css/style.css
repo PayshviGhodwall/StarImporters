@@ -82,8 +82,8 @@
   }
   .comman_btn {
     background-color: #3e4093;
-    padding: 14px 32px;
-    font-size: 15px;
+    padding: 12px 28px;
+    font-size: 14px !important;
     font-weight: 600;
     transition: 0.5s all;
     color: #fff;
@@ -379,7 +379,7 @@
   }
 
   .section-title h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     position: relative;
@@ -697,9 +697,9 @@
   /* welcome end */
   .comman_btn2 {
     background-color: #3e4093 !important;
-    padding: 14px 32px;
+    padding: 12px 28px !important;
     text-decoration: none !important;
-    font-size: 15px;
+    font-size: 14px !important;
     font-weight: 600;
     transition: 0.5s all;
     color: #fff;
@@ -891,7 +891,7 @@
   }
   .forms_modal_content .form-group label {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px !important;
     color: #000;
     display: block;
     margin: 0 0 4px;
@@ -900,7 +900,7 @@
     border-radius: 3px;
     border: 1px solid #ddd7d7;
     height: 46px;
-    font-size: 13px;
+    font-size: 11px;
     padding: 0 19px;
     box-shadow: unset !important;
   }
@@ -1095,7 +1095,7 @@
   .form-design .form-control {
     background: transparent;
     padding: 0 20px;
-    font-size: 13px;
+    font-size: 12px !important;
     height: 52px;
     border: 1px solid #3d3d3d7a;
   }
@@ -1114,7 +1114,7 @@
     justify-content: center;
     text-align: center;
     border-radius: 4px 0 0 4px;
-    font-size: 12px !important;
+    font-size: 11px !important;
     cursor: pointer;
   }
   .choose_file span {
@@ -1148,7 +1148,7 @@
     font-size: 19px;
   }
   .form-heading p {
-    font-size: 13px;
+    font-size: 12px !important;
   }
 
   .newsletter_form {
@@ -1645,7 +1645,7 @@
     background-color: #fff;
   }
   .forms_modal .form-design .form-floating > label {
-    font-size: 13px;
+    font-size: 12px;
     color: #3d3d3d;
     font-weight: 500;
     left: 8px;
@@ -2442,10 +2442,10 @@
   }
   .form_design .form-select,
   .form_design .form-control {
-    height: 50px;
+    height: 40px !important;
     border: 1px solid;
-    padding: 0 22px;
-    font-size: 14px;
+    padding: 0 18px !important;
+    font-size: 12px !important;
     font-weight: 500;
     box-shadow: unset !important;
   }

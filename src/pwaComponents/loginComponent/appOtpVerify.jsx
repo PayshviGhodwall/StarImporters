@@ -24,6 +24,7 @@ function AppOtpVerification() {
   }, [counter]);
 
   const onSubmit = async (data) => {
+
     let otp = Object.values(data);
     otp = otp.join("");
     console.log(otp);

@@ -748,7 +748,7 @@ const AddUser = () => {
                         </label>
                         <select
                           className={classNames(
-                            "form-control border border-secondary",
+                            " form-select border border-secondary",
                             { "is-invalid": errors.state }
                           )}
                           aria-label="Default select example"
@@ -853,7 +853,7 @@ const AddUser = () => {
                         </label>
                         <select
                           className={classNames(
-                            "form-control border border-secondary  fw-bolder",
+                            "form-select border border-secondary  fw-bolder",
                             { "is-invalid": errors.city }
                           )}
                           id=""

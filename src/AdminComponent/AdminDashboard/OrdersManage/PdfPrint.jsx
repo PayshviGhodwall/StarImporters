@@ -42,8 +42,7 @@ const PdfPrint = () => {
         <img width={100} src={require("../../../assets/img/logo.png")} />
         <button
           className="border text-dark fw-bold text-end"
-          onClick={printPdf}
-        >
+          onClick={printPdf}>
           <i class="fa fa-print" aria-hidden="true"></i> Print
         </button>
       </p>
@@ -51,17 +50,14 @@ const PdfPrint = () => {
       <section className="px-3 mt-0">
         <table
           width="100%"
-          style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}
-        >
+          style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}>
           <tbody>
             <tr>
               <td
-                style={{ padding: 0, borderSpacing: 0, verticalAlign: "top" }}
-              >
+                style={{ padding: 0, borderSpacing: 0, verticalAlign: "top" }}>
                 <table
                   width="100%"
-                  style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}
-                >
+                  style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}>
                   <tbody>
                     {/* <tr>
                       <td style={{ paddingBottom: 25 }}>
@@ -96,16 +92,14 @@ const PdfPrint = () => {
                           padding: "5px 0 8px",
                           border: "2px solid #000",
                           backgroundColor: "#f2f2f2",
-                        }}
-                      >
+                        }}>
                         <table
                           width="100%"
                           style={{
                             margin: "0 auto",
                             border: 0,
                             borderSpacing: 0,
-                          }}
-                        >
+                          }}>
                           <tbody>
                             <tr>
                               <td style={{ paddingBottom: 5 }}>
@@ -115,8 +109,7 @@ const PdfPrint = () => {
                                     margin: "0 auto",
                                     border: 0,
                                     borderSpacing: 0,
-                                  }}
-                                >
+                                  }}>
                                   <tbody>
                                     <tr>
                                       <td
@@ -127,8 +120,7 @@ const PdfPrint = () => {
                                           textAlign: "center",
                                           textTransform: "uppercase",
                                           borderSpacing: 0,
-                                        }}
-                                      >
+                                        }}>
                                         - Order Details -
                                       </td>
                                     </tr>
@@ -189,8 +181,7 @@ const PdfPrint = () => {
                             margin: "0 auto",
                             border: 0,
                             borderSpacing: 0,
-                          }}
-                        >
+                          }}>
                           <tbody>
                             <tr>
                               <td style={{ paddingBottom: 15 }}>
@@ -201,8 +192,7 @@ const PdfPrint = () => {
                                     margin: "0 auto",
                                     border: 0,
                                     borderSpacing: 0,
-                                  }}
-                                >
+                                  }}>
                                   <thead>
                                     <tr>
                                       <th
@@ -215,8 +205,7 @@ const PdfPrint = () => {
                                           border: "2px solid #000",
                                           padding: "10px 20px",
                                           borderBottom: 0,
-                                        }}
-                                      >
+                                        }}>
                                         Part Number
                                       </th>
                                       <th
@@ -230,8 +219,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                           borderBottom: 0,
-                                        }}
-                                      >
+                                        }}>
                                         Product Image
                                       </th>
                                       <th
@@ -245,8 +233,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                           borderBottom: 0,
-                                        }}
-                                      >
+                                        }}>
                                         Description
                                       </th>
                                       <th
@@ -260,8 +247,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                           borderBottom: 0,
-                                        }}
-                                      >
+                                        }}>
                                         Ordered
                                       </th>
                                       <th
@@ -275,8 +261,7 @@ const PdfPrint = () => {
                                           padding: "10px 20px",
                                           borderLeft: 0,
                                           borderBottom: 0,
-                                        }}
-                                      >
+                                        }}>
                                         Pick Qty
                                       </th>
                                     </tr>
@@ -294,16 +279,14 @@ const PdfPrint = () => {
                                               border: "2px solid #000",
                                               padding: "10px 20px",
                                               borderBottom: 0,
-                                            }}
-                                          >
+                                            }}>
                                             <table
                                               width="100%"
                                               style={{
                                                 margin: "0 auto",
                                                 border: 0,
                                                 borderSpacing: 0,
-                                              }}
-                                            >
+                                              }}>
                                               <tbody>
                                                 {(
                                                   item?.flavour?.barcode || []
@@ -317,8 +300,7 @@ const PdfPrint = () => {
                                                             fontWeight: 500,
                                                             textAlign: "start",
                                                             color: "#000",
-                                                          }}
-                                                        >
+                                                          }}>
                                                           {" "}
                                                           {item}
                                                         </td>
@@ -339,16 +321,14 @@ const PdfPrint = () => {
                                               borderLeft: 0,
                                               borderBottom: 0,
                                               verticalAlign: "middle",
-                                            }}
-                                          >
+                                            }}>
                                             {" "}
                                             <span
                                               style={{
                                                 display: "block",
                                                 borderRadius: 10,
                                                 padding: "2px 20px",
-                                              }}
-                                            >
+                                              }}>
                                               <img
                                                 style={{
                                                   display: "block",
@@ -377,13 +357,18 @@ const PdfPrint = () => {
                                               padding: "10px 20px",
                                               borderLeft: 0,
                                               borderBottom: 0,
-                                            }}
-                                          >
+                                            }}>
                                             {item?.flavour?._id
                                               ? item?.productId?.unitName +
                                                 "-" +
-                                                item?.flavour?.flavour
-                                              : item?.productId?.unitName}
+                                                item?.flavour?.flavour +"-" + 
+                                                "-" +
+                                                (item?.productId?.category
+                                                  ?.categoryName)
+                                              : item?.productId?.unitName +
+                                                "-" +
+                                                (item?.productId?.category
+                                                  ?.categoryName)}
                                           </td>
                                           <td
                                             style={{
@@ -395,8 +380,7 @@ const PdfPrint = () => {
                                               padding: "10px 20px",
                                               borderLeft: 0,
                                               borderBottom: 0,
-                                            }}
-                                          >
+                                            }}>
                                             {item?.quantity}
                                           </td>
                                           <td
@@ -436,8 +420,7 @@ const PdfPrint = () => {
                                           padding: 12,
                                           borderLeft: 0,
                                           verticalAlign: "middle",
-                                        }}
-                                      >
+                                        }}>
                                         {" "}
                                         {/* <span
                                           style={{
@@ -467,8 +450,7 @@ const PdfPrint = () => {
                                           border: "2px solid #000",
                                           padding: "10px 20px",
                                           borderLeft: 0,
-                                        }}
-                                      ></td>
+                                        }}></td>
                                       <td
                                         style={{
                                           fontSize: 16,
@@ -478,8 +460,7 @@ const PdfPrint = () => {
                                           border: "2px solid #000",
                                           padding: "10px 20px",
                                           borderLeft: 0,
-                                        }}
-                                      ></td>
+                                        }}></td>
                                       <td
                                         style={{
                                           fontSize: 16,
@@ -507,8 +488,7 @@ const PdfPrint = () => {
                           padding: "5px 4px 8px",
                           border: "2px solid #000",
                           backgroundColor: "#f2f2f2",
-                        }}
-                      >
+                        }}>
                         <tbody>
                           <tr className=" text-center px-2">
                             <th
@@ -519,8 +499,7 @@ const PdfPrint = () => {
                                 textAlign: "center",
                                 textTransform: "uppercase",
                                 borderSpacing: 0,
-                              }}
-                            >
+                              }}>
                               Order Comments:
                             </th>
                             <tr>
@@ -531,8 +510,7 @@ const PdfPrint = () => {
                                   textAlign: "start",
                                   color: "#3b4093",
                                   padding: "5px 10px",
-                                }}
-                              >
+                                }}>
                                 {orders?.comments
                                   ? orders?.comments
                                   : "No comments!"}

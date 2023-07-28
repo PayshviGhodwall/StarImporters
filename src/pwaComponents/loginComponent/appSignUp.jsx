@@ -507,7 +507,6 @@ function AppSignUp() {
                         // id="lastName"
                         {...register("lastName", {
                           required: "Required",
-
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
                             message: "Special Character not allowed",

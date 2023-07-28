@@ -612,19 +612,19 @@ const ApprovedView = () => {
                 <div className="row">
                   <div className="col-12 p-4 Pending-view-main">
                     <div className="row py-2">
-                      <div className="col-12 text-center mb-4">
+                      <div className="col-12 text-center mb-5">
                         <div className="Pending-view_img">
                           <img
-                            className="UserImage"
+                            className="UserImage mb-3"
                             src={
                               user?.profileImage ? user?.profileImage : Starlogo
                             }
                             alt="Image not Uploaded"
                           />
                         </div>
-                        <h4 className="user_name">{user?.firstName}</h4>
+                        <h4 className="user_name mt-5">{user?.firstName}</h4>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Company:</span>
                           <div className="col">
@@ -632,7 +632,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">DBA:</span>
                           <div className="col">
@@ -640,7 +640,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">
                             Company Address Line 1:
@@ -650,7 +650,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-3 mb-3 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">
                             Company Address Line 2:
@@ -660,15 +660,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
-                          <span className="fw-bold">City:</span>
-                          <div className="col">
-                            <strong>{user?.city}</strong>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-3 mb-3 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">State:</span>
                           <div className="col">
@@ -676,7 +668,16 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">City:</span>
+                          <div className="col">
+                            <strong>{user?.city}</strong>
+                          </div>
+                        </div>
+                      </div>
+                     
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Zip/Postal Code:</span>
                           <div className="col">
