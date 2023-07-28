@@ -413,13 +413,19 @@ function AppHome() {
                           browserName === "Chrome WebView" ? (
                             <div
                               class="marquee text-center mb-0"
-                              data-bs-toggle="modal"
-                              data-bs-target="#staticBackdrop"
                               onClick={genToken}>
                               <div class="marquee__inner mb-0">
-                                <p class="text-dark mt-2">
-                                  <strong>Click here</strong> to buy Tobacco
-                                  related Products from our website.
+                                <p class=" mt-2">
+                                  <strong
+                                    className="text-primary"
+                                    onClick={() => {
+                                      redirectToWeb();
+                                      // document.getElementById("modalClose").click();
+                                    }}>
+                                    Click here
+                                  </strong>{" "}
+                                  to buy Tobacco related Products from our
+                                  website.
                                 </p>
                               </div>
                             </div>
@@ -742,7 +748,7 @@ function AppHome() {
             <AppFooter />
           </div>
           <div
-            class="modal fade"
+            class="modal "
             id="staticBackdrop"
             data-bs-backdrop="static"
             data-bs-keyboard="false"
@@ -773,10 +779,7 @@ function AppHome() {
                   </button>
                   <Link
                     // to={}
-                    onClick={() => {
-                      redirectToWeb();
-                      // document.getElementById("modalClose").click();
-                    }}
+
                     class="btn btn-primary">
                     Confirm
                   </Link>
