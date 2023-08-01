@@ -13,6 +13,7 @@ import {
   pageSubCategory,
 } from "../../atom";
 const Navbar = ({ NState, LoginState }) => {
+  const width = window.innerWidth;
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const cart = `${process.env.REACT_APP_APIENDPOINTNEW}user/countCartProducts`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
@@ -28,6 +29,7 @@ const Navbar = ({ NState, LoginState }) => {
   const [cartNum, setCartNum] = useState(0);
   const [notifications, setNotifications] = useState();
   const [products, setProducts] = useState([]);
+  const [relateCate, setRelateCate] = useState([]);
   const alert = useRecoilValue(CartCount);
   const setPage = useSetRecoilState(pageCategory);
   const setPage2 = useSetRecoilState(pageSubCategory);
@@ -59,6 +61,7 @@ const Navbar = ({ NState, LoginState }) => {
       if (!data.error) {
         let dataList = data?.results.products;
         setProducts(dataList?.slice(0, 6));
+        setRelateCate(data?.results.subCategories);
       }
     }
   };
@@ -160,8 +163,7 @@ const Navbar = ({ NState, LoginState }) => {
                   e.preventDefault();
                   navigate(`/app/ProductSearch/${search}`);
                   setSearch();
-                }}
-              >
+                }}>
                 <div className="form-group position-relative">
                   <input
                     onChange={(e) => {
@@ -220,8 +222,7 @@ const Navbar = ({ NState, LoginState }) => {
                     <Link
                       to="/MyAccount"
                       state={"jii"}
-                      className="text-decoration-none mx-1"
-                    >
+                      className="text-decoration-none mx-1">
                       <button className="Signupb mt-2">
                         <Fade left>My Account</Fade>
                       </button>
@@ -236,8 +237,7 @@ const Navbar = ({ NState, LoginState }) => {
                         href="#"
                         onClick={() => {
                           LogOut();
-                        }}
-                      >
+                        }}>
                         Logout
                       </Link>
                     </div>
@@ -250,8 +250,7 @@ const Navbar = ({ NState, LoginState }) => {
                     state={{ kii: "nj" }}
                     // className="login_btns mt-2 text-decoration-none"
                     className="Loginb text-decoration-none"
-                    onClick={() => setSearch()}
-                  >
+                    onClick={() => setSearch()}>
                     <Fade left>Login</Fade>
                   </Link>
                   <Link to="/app/register" style={{ textDecoration: "none" }}>
@@ -270,8 +269,6 @@ const Navbar = ({ NState, LoginState }) => {
         <div className="row">
           <div className="col-12 header_bottom ">
             <div className="container-fluid">
-
-            
               <div className="row header_row">
                 <div className="col-12">
                   <ul className="header_menuss mb-0 ps-0">
@@ -284,12 +281,11 @@ const Navbar = ({ NState, LoginState }) => {
                               id: "kiiii",
                             },
                           })
-                        }
-                      >
+                        }>
                         Home
                       </a>
                     </li>
-                    {(category || []).map((item, index) => (
+                    {(category || [])?.filter((itm,ind)=> width <= 1400 ? ind < 7 : ind ).map((item, index) => (
                       <li
                         className="new_dropdown"
                         key={index}
@@ -306,27 +302,25 @@ const Navbar = ({ NState, LoginState }) => {
                                 image: item?.background,
                               },
                             });
-                          }}
-                        >
+                          }}>
                           {item?.categoryName}
                         </a>
                         <div className="new_dropdown_inner">
                           {(item?.subcategories || [])?.map((item, index) => (
-                              <a
-                                key={index}
-                                onClick={() => {
-                                  setPage2(1);
-                                  setFilter(item?._id);
-                                  navigate("/SubCategory/Products", {
-                                    state: {
-                                      name: item?.subCategoryName,
-                                    },
-                                  });
-                                }}
-                              >
-                                {item?.subCategoryName}
-                              </a>
-                            ))}
+                            <a
+                              key={index}
+                              onClick={() => {
+                                setPage2(1);
+                                setFilter(item?._id);
+                                navigate("/SubCategory/Products", {
+                                  state: {
+                                    name: item?.subCategoryName,
+                                  },
+                                });
+                              }}>
+                              {item?.subCategoryName}
+                            </a>
+                          ))}
                           {item?.subcategories.length ? (
                             <a
                               onClick={() =>
@@ -336,8 +330,7 @@ const Navbar = ({ NState, LoginState }) => {
                                     name: item?.categoryName,
                                   },
                                 })
-                              }
-                            >
+                              }>
                               View all
                               <i className="fa fa-arrow-up-right-from-square mx-2"></i>
                             </a>
@@ -351,31 +344,16 @@ const Navbar = ({ NState, LoginState }) => {
                       <Link
                         className="text-decoration-none mx-2 p-3"
                         to="/app/Categories"
-                        state={"kooo"}
-                      >
+                        state={"kooo"}>
                         More
                       </Link>
                     </li>
-                    {/* <li class="new_dropdown">
-                      <a class="new_dropdown_link" href="javascript:;">
-                        Tabacoo
-                      </a>
-                      <div class="new_dropdown_inner">
-                        <a href="javascript:;">Cigars</a>
-                        <a href="javascript:;">Cigrates</a>
-                        <a href="javascript:;">Pipe Tabacoo</a>
-                        <a href="javascript:;">Little Cigars</a>
-                        <a href="javascript:;">Chewing Tabacoo</a>
-                        <a href="javascript:;">Snuff</a>
-                        <a href="javascript:;">Leaf</a>
-                      </div>
-                    </li> */}
+                   
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-         
         </div>
       </div>
       {search?.length ? (
@@ -384,6 +362,30 @@ const Navbar = ({ NState, LoginState }) => {
             <div>
               <div className="col w-100">
                 <div className="product_single_right row p-2">
+                  <div className="col-12 d-flex ">
+                    {relateCate?.length != 0 && (
+                      <span className="search_head2 p-0 mb-3 mx-2">
+                        Related Sub-Categories :
+                      </span>
+                    )}
+                    {relateCate?.map((itm, ind) => (
+                      <div>
+                        <p className="subCateSearch"
+                         onClick={() => {
+                          setPage2(1);
+                          setFilter(itm?._id);
+                          navigate("/SubCategory/Products", {
+                            state: {
+                              name: itm?.subCategoryName,
+                            },
+                          });
+                        }}
+                        >
+                          {" " + itm?.subCategoryName},{" "}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                   {(products || [])?.map((item, index) => (
                     <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
                       <a className="featuredproduct_box p-2">
@@ -393,9 +395,9 @@ const Navbar = ({ NState, LoginState }) => {
                               // item?.type.flavour
                               //   ? item?.type?.flavourImage ||
                               //     require("../../assets/img/product.jpg")
-                              //   : 
-                                item?.productImage ||
-                                  require("../../assets/img/product.jpg")
+                              //   :
+                              item?.productImage ||
+                              require("../../assets/img/product.jpg")
                             }
                             alt="Product"
                             onClick={() => {
@@ -420,17 +422,16 @@ const Navbar = ({ NState, LoginState }) => {
                               });
 
                               setSearch();
-                            }}
-                          >
+                            }}>
                             {/* {item?.type.flavour
                               ? item?.unitName + "-" + item?.type?.flavour
                               :  */}
-                              
-                              {item?.unitName}
+
+                            {item?.unitName}
                           </span>
                         </div>
                       </a>
-                    </div>  
+                    </div>
                   ))}
                 </div>
                 <div className="col-lg-12 d-flex text-center mt-1 mb-0">
@@ -439,8 +440,7 @@ const Navbar = ({ NState, LoginState }) => {
                     onClick={() => {
                       setSearch();
                       navigate(`/app/ProductSearch/${search}`);
-                    }}
-                  >
+                    }}>
                     View all results
                   </p>
                 </div>

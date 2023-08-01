@@ -1672,10 +1672,12 @@
     z-index: 1;
     position: relative;
   }
-  /* .verification_content{
-    background-color: rgb(106, 105, 105);
-    opacity: 0.5;
-  } */
+  .verification_content{
+    background-color: rgb(35, 34, 34);
+    opacity: 0.8;
+    border-radius: 1rem;
+    padding: 2rem !important;
+  }
   .verification_content h2 {
     color: #fff;
     font-weight: 700;
@@ -1713,6 +1715,7 @@
     border: 2px dashed #f2f2f263;
     padding: 32px 20px;
   }
+  
   .view_category {
     display: flex;
     align-items: center;
@@ -13940,6 +13943,14 @@ figure.effect-ming:hover img {
   text-decoration: none !important;
   display: block;
 }
+.search_head2 {
+  position: relative;
+  top:2px !important;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none !important;
+}
 .Newrating span {
   color: #ffd000;
   font-size: 11px;
@@ -16557,7 +16568,119 @@ figure.effect-ming:hover img {
   }
 }
 
-
+@media (max-width: 1400px) {
+  .Fcard {
+    position: relative;
+    max-width: 100%;
+    height: 16rem !important;
+    width: auto !important;
+    background: #eb3237 !important;
+    border-radius: 15px;
+    overflow: hidden;
+    align-items: center !important;
+  }
+  .Fcard::before {
+    content: "";
+    position: absolute; 
+    top: -50%;
+    width: 100%;
+    height: 100%;
+    background: #3b4093 !important;
+    transform: skewY(345deg);
+    transition: 0.5s;
+  }
+  .Fcard:hover::before {
+    top: -70%; 
+    transform: skewY(390deg);
+  }
+  
+  .Fcard::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-weight: 400;
+    font-size: 3em !important;
+    color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .Fcard .imgBox {
+    position: relative;
+    left: 8%;
+    top: 4%;
+    max-width: 84% !important;
+    max-height: 5rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px !important;
+    z-index: 1;
+  }
+  .Fcard .main_image{
+    height: 3rem;
+    width: 100%;
+  }
+  .Fcard .contentBox {
+    position: relative;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+  }
+  
+  .title_prod {
+    font-size: 12px !important;
+    position: relative;
+    color: white;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .Fcard:hover .title_prod{
+    opacity: 0;
+    
+  }
+  
+  .Fcard .contentBox .price {
+    font-size: 14px;
+    color: #000;
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+  
+  .Fcard .contentBox .buy {
+    position: relative;
+    top: 100px;
+    opacity: 0;
+    padding: 8px 15px !important;
+    margin-top: 10px;
+    color: #000;
+    text-decoration: none;
+    background: #f2f2f2 !important;
+    border-radius: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.5s;
+  }
+  
+  .Fcard:hover .contentBox .buy {
+    top: 60px !important; 
+    opacity: 1;
+  }
+  .banner_section img {
+    width: 100% !important;
+    max-height: 500px !important;
+  }
+  .banner_section video {
+    width: 100% !important;
+    max-height: 500px !important;
+  }
+  
+  .banner_section {
+    cursor: pointer !important;
+  }
+}
 
 .Fcard {
   position: relative;
@@ -16666,5 +16789,14 @@ figure.effect-ming:hover img {
   opacity: 1;
 }
 
+.subCateSearch{
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-
+.subCateSearch:hover{
+ color: #3b4093;
+ transition: ease-out;
+ transform: scale3d(1.1);
+}

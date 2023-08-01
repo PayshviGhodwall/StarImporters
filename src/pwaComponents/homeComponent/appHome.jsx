@@ -450,7 +450,7 @@ function AppHome() {
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
-                                ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 && idx !== 7 && idx !== 6 )
                                 .map((item) => {
                                   return (
                                     <div className="single-hero-slide item">
@@ -641,7 +641,7 @@ function AppHome() {
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
-                                ?.filter((itm, idx) => idx !== 1 && idx !== 0)
+                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 && idx !== 7 && idx !== 6 )
                                 .map((item) => {
                                   return (
                                     <div className="single-hero-slide item">

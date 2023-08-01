@@ -46,9 +46,9 @@ function AppDocs() {
       Swal.fire({
         title: "Document Modified Successfully!",
         icon: "success",
+        timer: 1000,
         confirmButtonText: "Okay",
       });
-      setFiles([]);
     }
   };
   const fileDownload = (url) => {
@@ -104,8 +104,7 @@ function AppDocs() {
                         className="title d-flex align-items-center"
                         onClick={() => {
                           fileDownload(detail?.federalTaxId);
-                        }}
-                      >
+                        }}>
                         <i className="fa fa-file"></i>
                         <span>Federal Tax ID</span>
                       </div>
@@ -117,8 +116,7 @@ function AppDocs() {
                             className=" "
                             onClick={() => {
                               document.getElementById("fileFT").click();
-                            }}
-                          >
+                            }}>
                             Re-upload Document
                           </small>
                         )}
@@ -132,8 +130,7 @@ function AppDocs() {
                         className="SaveBtn mt-0"
                         onClick={(e) =>
                           editDocs(e, files?.federalTaxId, "federalTaxId")
-                        }
-                      >
+                        }>
                         Save
                       </Button>
                     ) : null}
@@ -157,8 +154,7 @@ function AppDocs() {
                         className="title d-flex align-items-center"
                         onClick={() => {
                           fileDownload(detail?.tobaccoLicence);
-                        }}
-                      >
+                        }}>
                         <i className="fa fa-file"></i>
                         <span>Tobacco License ID</span>
                       </div>
@@ -170,8 +166,7 @@ function AppDocs() {
                             className=" "
                             onClick={() => {
                               document.getElementById("fileTL").click();
-                            }}
-                          >
+                            }}>
                             Re-upload Document
                           </small>
                         )}
@@ -185,8 +180,7 @@ function AppDocs() {
                         className="SaveBtn mt-0"
                         onClick={(e) =>
                           editDocs(e, files?.tobaccoLicence, "federalTaxId")
-                        }
-                      >
+                        }>
                         Save
                       </Button>
                     ) : null}
@@ -210,8 +204,7 @@ function AppDocs() {
                         className="title d-flex align-items-center"
                         onClick={() => {
                           fileDownload(detail?.salesTaxId);
-                        }}
-                      >
+                        }}>
                         <i className="fa fa-file"></i>
                         <span>Sales Tax ID</span>
                       </div>
@@ -223,8 +216,7 @@ function AppDocs() {
                             className=" "
                             onClick={() => {
                               document.getElementById("fileST").click();
-                            }}
-                          >
+                            }}>
                             Re-upload Document
                           </small>
                         )}
@@ -238,8 +230,7 @@ function AppDocs() {
                         className="SaveBtn mt-0"
                         onClick={(e) =>
                           editDocs(e, files?.salesTaxId, "salesTaxId")
-                        }
-                      >
+                        }>
                         Save
                       </Button>
                     ) : null}
@@ -265,8 +256,7 @@ function AppDocs() {
                         className="title d-flex align-items-center"
                         onClick={() => {
                           fileDownload(detail?.businessLicense);
-                        }}
-                      >
+                        }}>
                         <i className="fa fa-file"></i>
                         <span>Business License ID</span>
                       </div>
@@ -278,8 +268,7 @@ function AppDocs() {
                             className=" "
                             onClick={() => {
                               document.getElementById("fileBL").click();
-                            }}
-                          >
+                            }}>
                             Re-upload Document
                           </small>
                         )}
@@ -293,8 +282,7 @@ function AppDocs() {
                         className="SaveBtn mt-0"
                         onClick={(e) =>
                           editDocs(e, files?.businessLicense, "businessLicense")
-                        }
-                      >
+                        }>
                         Save
                       </Button>
                     ) : null}
@@ -318,8 +306,7 @@ function AppDocs() {
                         className="title d-flex align-items-center"
                         onClick={() => {
                           fileDownload(detail?.accountOwnerId);
-                        }}
-                      >
+                        }}>
                         <i className="fa fa-file"></i>
                         <span>Account Owner ID</span>
                       </div>
@@ -331,25 +318,21 @@ function AppDocs() {
                             className=" "
                             onClick={() => {
                               document.getElementById("fileAc").click();
-                            }}
-                          >
+                            }}>
                             Re-upload Document
                           </small>
                         )}
                       </div>
                     </div>
                     {files?.accountOwnerId?.name ? (
-                      <Button
-                        loading={loader}
-                        appearance="primary"
+                      <button
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
                         onClick={(e) =>
                           editDocs(e, files?.accountOwnerId, "accountOwnerId")
-                        }
-                      >
+                        }>
                         Save
-                      </Button>
+                      </button>
                     ) : null}
                   </div>
                   {/* <div className="edit-profile-btn mt-3">

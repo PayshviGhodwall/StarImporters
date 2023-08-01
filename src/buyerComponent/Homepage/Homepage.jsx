@@ -30,6 +30,7 @@ import {
 import { height } from "@mui/system";
 
 const Homepage = () => {
+  const width = window.innerWidth;
   const [allSlides, setAllSlides] = useState([]);
   const [allHeaders, setAllHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -164,6 +165,7 @@ const Homepage = () => {
   };
 
   return (
+    
     <div className="home_page">
       <Navbar />
       {loading ? (
@@ -187,7 +189,7 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[1]?.url;
+                window.location.href = allSlides[1]?.url ? allSlides[1]?.url : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -262,7 +264,7 @@ const Homepage = () => {
             <div
               className="banner_section item "
               onClick={() => {
-                window.location.href = allSlides[2]?.url;
+                window.location.href =allSlides[2]?.url ? allSlides[2]?.url : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -310,7 +312,7 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[3]?.url;
+                window.location.href = allSlides[3]?.url ? allSlides[3]?.url : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -358,7 +360,7 @@ const Homepage = () => {
             <div
               className="banner_section item "
               onClick={() => {
-                window.location.href = allSlides[4]?.url;
+                window.location.href = allSlides[4]?.url ? allSlides[4]?.url : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -407,7 +409,7 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[5]?.url;
+                window.location.href = allSlides[5]?.url ? allSlides[5]?.url : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -530,7 +532,7 @@ const Homepage = () => {
                 </div>
                 <div className="">
                   <Swiper
-                    slidesPerView={4}
+                    slidesPerView={width <= 1400 ? 3 : 4}
                     spaceBetween={30}
                     navigation={true}
                     autoplay={true}
@@ -545,7 +547,7 @@ const Homepage = () => {
                             <div class="Fcard shadow">
                               <div class="imgBox">
                                 <img
-                                  className="mt-5"
+                                  className="mt-5 main_image"
                                   src={
                                     item?.productImage
                                       ? item?.productImage
