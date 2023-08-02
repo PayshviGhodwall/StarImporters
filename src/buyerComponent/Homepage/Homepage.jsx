@@ -165,7 +165,6 @@ const Homepage = () => {
   };
 
   return (
-    
     <div className="home_page">
       <Navbar />
       {loading ? (
@@ -189,7 +188,9 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[1]?.url ? allSlides[1]?.url : "https://starimporters.com/app/home";
+                window.location.href = allSlides[1]?.url
+                  ? allSlides[1]?.url
+                  : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -243,8 +244,7 @@ const Homepage = () => {
                 autoPlay
                 loop
                 muted
-                preload="auto"
-                >
+                preload="auto">
                 <source src={videos[0]?.video} />
               </video>
             </div>
@@ -264,7 +264,9 @@ const Homepage = () => {
             <div
               className="banner_section item "
               onClick={() => {
-                window.location.href =allSlides[2]?.url ? allSlides[2]?.url : "https://starimporters.com/app/home";
+                window.location.href = allSlides[2]?.url
+                  ? allSlides[2]?.url
+                  : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -312,7 +314,9 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[3]?.url ? allSlides[3]?.url : "https://starimporters.com/app/home";
+                window.location.href = allSlides[3]?.url
+                  ? allSlides[3]?.url
+                  : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -360,7 +364,9 @@ const Homepage = () => {
             <div
               className="banner_section item "
               onClick={() => {
-                window.location.href = allSlides[4]?.url ? allSlides[4]?.url : "https://starimporters.com/app/home";
+                window.location.href = allSlides[4]?.url
+                  ? allSlides[4]?.url
+                  : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -409,7 +415,9 @@ const Homepage = () => {
             <div
               className="banner_section item"
               onClick={() => {
-                window.location.href = allSlides[5]?.url ? allSlides[5]?.url : "https://starimporters.com/app/home";
+                window.location.href = allSlides[5]?.url
+                  ? allSlides[5]?.url
+                  : "https://starimporters.com/app/home";
               }}>
               <img
                 src={
@@ -566,12 +574,7 @@ const Homepage = () => {
                                   class="buy"
                                   onClick={() =>
                                     navigate(
-                                      `/AllProducts/Product/Product-Details`,
-                                      {
-                                        state: {
-                                          id: item?._id,
-                                        },
-                                      }
+                                      `/AllProducts/Product/:${item?.slug}`
                                     )
                                   }>
                                   Buy Now
@@ -582,12 +585,7 @@ const Homepage = () => {
                                   className="mt-5 title_prod"
                                   onClick={() =>
                                     navigate(
-                                      `/AllProducts/Product/Product-Details`,
-                                      {
-                                        state: {
-                                          id: item?._id,
-                                        },
-                                      }
+                                      `/AllProducts/Product/:${item?.slug}`
                                     )
                                   }>
                                   {item?.unitName}

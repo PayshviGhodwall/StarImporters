@@ -38,7 +38,7 @@ const Gallery = () => {
           ) : (
             <div>
               <div
-                class="main-banner product_show_home_Gallery"
+                class="main-banner product_show_home_Gallery main_video"
                 style={{ backgroundImage: `url(${image})` }}
               >
                 <div class="container">
@@ -68,7 +68,7 @@ const Gallery = () => {
                               to="collection"
                               spy={true}
                               smooth={true}
-                              offset={-70}
+                              offset={-50}
                               duration={100}
                             >
                               <div class="container_swipe">

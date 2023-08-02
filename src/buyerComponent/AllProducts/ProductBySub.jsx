@@ -352,16 +352,17 @@ const ProductBySubCate = () => {
                                           },
                                         ])
                                       : setPage(activePage);
-                                    navigate(
-                                      `/AllProducts/Product/Product-Details`,
-                                      {
-                                        state: {
-                                          id: item?.products?._id,
-                                          image: item?.background,
-                                          CateName: item?.categoryName,
-                                        },
-                                      }
-                                    );
+
+                                      navigate(
+                                        `/AllProducts/Product/:${item?.products?.slug}`,
+                                        {
+                                          state: {
+                                            image: item?.background,
+                                            CateName: item?.categoryName,
+                                          },
+                                        }
+                                      );
+                                   
                                   }}
                                 />
                               </a>
@@ -389,15 +390,15 @@ const ProductBySubCate = () => {
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
-                                    `/AllProducts/Product/Product-Details`,
+                                    `/AllProducts/Product/:${item?.products?.slug}`,
                                     {
-                                      replace: true,
                                       state: {
-                                        id: item?.products?._id,
+                                        image: item?.background,
                                         CateName: item?.categoryName,
                                       },
                                     }
                                   );
+                                
                                 }}
                               >
                                 {item?.products?.unitName}

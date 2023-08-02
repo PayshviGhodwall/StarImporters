@@ -147,8 +147,7 @@ const ProductByCate = () => {
           backgroundImage: `url(${
             location?.state.image ? location?.state.image : backGround
           })`,
-        }}
-      >
+        }}>
         <div className="container">
           <div className="row">
             <div className="col-12 mt-4">
@@ -159,16 +158,14 @@ const ProductByCate = () => {
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="item_nanner">
                       <Link
                         to="/app/Categories"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Categories <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
@@ -197,8 +194,7 @@ const ProductByCate = () => {
                           .map((item, index) => (
                             <div
                               className="form-group col-12 mb-3 custom_radio"
-                              key={index}
-                            >
+                              key={index}>
                               <input
                                 class="d-none"
                                 type="radio"
@@ -228,8 +224,7 @@ const ProductByCate = () => {
                       class="moreee d-flex mt-3 text-decoration-none"
                       onClick={() => {
                         navigate("/app/brands");
-                      }}
-                    >
+                      }}>
                       More Brands
                     </a>
                   </div>
@@ -299,8 +294,7 @@ const ProductByCate = () => {
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
                               setData({ page: activePage });
-                            }}
-                          >
+                            }}>
                             <img
                               src={require("../../assets/img/arrow.png")}
                               alt=""
@@ -315,8 +309,7 @@ const ProductByCate = () => {
                                 ? setActivePage(maxPage)
                                 : setActivePage(activePage + 1);
                               setData({ page: activePage });
-                            }}
-                          >
+                            }}>
                             Next{" "}
                             <img
                               src={require("../../assets/img/arrow.png")}
@@ -355,10 +348,9 @@ const ProductByCate = () => {
                                         ])
                                       : setPage(activePage);
                                     navigate(
-                                      `/AllProducts/Product/Product-Details`,
+                                      `/AllProducts/Product/:${item?.products?.slug}`,
                                       {
                                         state: {
-                                          id: item?.products?._id,
                                           image: item?.background,
                                         },
                                       }
@@ -389,19 +381,15 @@ const ProductByCate = () => {
                               <span
                                 onClick={() => {
                                   setPage(activePage);
-
                                   navigate(
-                                    `/AllProducts/Product/Product-Details`,
+                                    `/AllProducts/Product/:${item?.products?.slug}`,
                                     {
-                                      replace: true,
                                       state: {
-                                        id: item?.products?._id,
-                                        CateName: item?.categoryName,
+                                        image: item?.background,
                                       },
                                     }
                                   );
-                                }}
-                              >
+                                }}>
                                 {item?.products?.unitName}
                               </span>
                             </div>

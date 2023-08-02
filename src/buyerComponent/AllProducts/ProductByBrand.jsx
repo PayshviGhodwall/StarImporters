@@ -79,8 +79,7 @@ const ProductByBrand = () => {
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-1">&#9679;</span>
                       </Link>
                     </li>
@@ -161,8 +160,7 @@ const ProductByBrand = () => {
                               activePage <= 1
                                 ? setActivePage(1)
                                 : setActivePage(activePage - 1);
-                            }}
-                          >
+                            }}>
                             <img
                               src={require("../../assets/img/arrow.png")}
                               alt=""
@@ -176,8 +174,7 @@ const ProductByBrand = () => {
                               activePage === maxPage
                                 ? setActivePage(maxPage)
                                 : setActivePage(activePage + 1);
-                            }}
-                          >
+                            }}>
                             Next{" "}
                             <img
                               src={require("../../assets/img/arrow.png")}
@@ -194,8 +191,7 @@ const ProductByBrand = () => {
                       {(products || [{}])?.map((item, index) => (
                         <div
                           class="col-xl-3 col-lg-3 col-md-3 mb-lg-4 mb-md-4"
-                          key={index}
-                        >
+                          key={index}>
                           <div class="singleproduct-box">
                             <a href="javascript:;" class="singleproduct--img">
                               <img
@@ -208,10 +204,9 @@ const ProductByBrand = () => {
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
-                                    `/AllProducts/Product/Product-Details`,
+                                    `/AllProducts/Product/:${item?.products?.slug}`,
                                     {
                                       state: {
-                                        id: item?.products?._id,
                                         image: item?.background,
                                         CateName: item?.categoryName,
                                       },
@@ -220,41 +215,20 @@ const ProductByBrand = () => {
                                 }}
                               />
                             </a>
-                            {/* <a class="favvv---icon" href="javascript:;">
-                              {item?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                              <img src="assets/images/Vector.png" alt="" />
-                            </a> */}
+
                             <span
                               onClick={() => {
                                 setPage(activePage);
                                 navigate(
-                                  `/AllProducts/Product/Product-Details`,
+                                  `/AllProducts/Product/:${item?.products?.slug}`,
                                   {
-                                    replace: true,
                                     state: {
-                                      id: item?.products?._id,
+                                      image: item?.background,
                                       CateName: item?.categoryName,
                                     },
                                   }
                                 );
-                              }}
-                            >
+                              }}>
                               {item?.products?.unitName}
                             </span>
                           </div>

@@ -154,10 +154,9 @@ const FeaturedProducts = () => {
                                 onClick={() => {
                                   setPage(activePage);
                                   navigate(
-                                    `/AllProducts/Product/Product-Details`,
+                                    `/AllProducts/Product/:${item?.slug}`,
                                     {
                                       state: {
-                                        id: item?._id,
                                         CateName: item?.categoryName,
                                       },
                                     }
@@ -189,10 +188,9 @@ const FeaturedProducts = () => {
                               onClick={() => {
                                 setPage(activePage);
                                 navigate(
-                                  `/AllProducts/Product/Product-Details`,
+                                  `/AllProducts/Product/:${item?.slug}`,
                                   {
                                     state: {
-                                      id: item?._id,
                                       CateName: item?.categoryName,
                                     },
                                   }

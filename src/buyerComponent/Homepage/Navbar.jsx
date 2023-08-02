@@ -401,12 +401,7 @@ const Navbar = ({ NState, LoginState }) => {
                             }
                             alt="Product"
                             onClick={() => {
-                              navigate(`/AllProducts/Product/Product-Details`, {
-                                state: {
-                                  id: item?._id,
-                                  type: item?.type,
-                                },
-                              });
+                              navigate(`/AllProducts/Product/:${item?.slug}`);
                               setSearch();
                             }}
                           />
@@ -414,12 +409,8 @@ const Navbar = ({ NState, LoginState }) => {
                         <div className="featuredproduct_details p-2">
                           <span
                             onClick={() => {
-                              navigate(`/AllProducts/Product/Product-Details`, {
-                                state: {
-                                  id: item?._id,
-                                  type: item?.type,
-                                },
-                              });
+                              navigate(`/AllProducts/Product/:${item?.slug}`);
+
 
                               setSearch();
                             }}>

@@ -11,7 +11,7 @@ const ProductBySearch = () => {
   const [search, setSearch] = useState("");
 
   let navigate = useNavigate();
-  
+
   if (search !== params?.id) {
     setSearch(params?.id);
   }
@@ -52,17 +52,12 @@ const ProductBySearch = () => {
                               //   ? item?.type?.flavourImage ||
                               //     require("../../assets/img/product.jpg")
                               //   :
-                                 item?.productImage ||
-                                  require("../../assets/img/product.jpg")
+                              item?.productImage ||
+                              require("../../assets/img/product.jpg")
                             }
                             alt=""
                             onClick={() => {
-                              navigate(`/app/product-details/${item?._id}`, {
-                                state: {
-                                  id: item?._id,
-                                  type: item?.type,
-                                },
-                              });
+                              navigate(`/AllProducts/Product/:${item?.slug}`);
                             }}
                           />
                         </div>
@@ -73,17 +68,11 @@ const ProductBySearch = () => {
                               className="text-center fs-6 fw-bolder text-uppercase"
                               style={{ position: "relative", left: "0px" }}
                               onClick={() => {
-                                navigate(
-                                  `/AllProducts/Product/Product-Details`,
-                                  {
-                                    state: { id: item?._id, type: item?.type },
-                                  }
-                                );
-                              }}
-                            >
+                                navigate(`/AllProducts/Product/:${item?.slug}`);
+                              }}>
                               {/* {item?.type.flavour
                                 ? item?.unitName + "-" + item?.type?.flavour } */}
-                                { item?.unitName}
+                              {item?.unitName}
                             </h1>
                           </div>
                         </div>

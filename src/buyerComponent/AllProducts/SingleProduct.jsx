@@ -49,15 +49,7 @@ const SingleProduct = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
-
   let token = localStorage.getItem("token-user");
-
-  if (objectId !== location?.state?.id) {
-    setObjectID(location?.state?.id);
-    setFlavour(location?.state?.type);
-  }
-
-  console.log(unitCount);
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -65,27 +57,31 @@ const SingleProduct = () => {
       });
     };
     console.log(userDetail?.istobaccoLicenceExpired, "Keeiiii", product);
-    const NewProducts = async () => {
-      await axios.get(getProduct + "/" + objectId).then((res) => {
-        console.log(res);
-        axios
-          .post(similarProduct, {
-            category: res.data?.results?.category?.categoryName,
-          })
-          .then((res) => {
-            setSimProducts(res?.data.results);
-          });
-
-        setProduct(res?.data.results);
-        setFlavour(res?.data.results.type[0]);
-        setProductImages(res.data.results?.productImage);
-        setProductImages({ ...productImages }, res.data.results?.type);
-      });
-    };
-
     userInfo();
     NewProducts();
-  }, [change, objectId]);
+  }, [change, id]);
+
+  useEffect(() => {
+    NewProducts();
+  }, []);
+
+  const NewProducts = async () => {
+    console.log(id?.slice(0, 1));
+    await axios.get(getProduct + "/" + id.slice(1)).then((res) => {
+      console.log(res);
+      axios
+        .post(similarProduct, {
+          category: res.data?.results?.category?.categoryName,
+        })
+        .then((res) => {
+          setSimProducts(res?.data.results);
+        });
+      setProduct(res?.data.results);
+      setFlavour(res?.data.results.type[0]);
+      setProductImages(res.data.results?.productImage);
+      setProductImages({ ...productImages }, res.data.results?.type);
+    });
+  };
 
   const AddtoCart = async () => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
@@ -311,7 +307,7 @@ const SingleProduct = () => {
         className="comman_banner _banner marginTopSec"
         style={{
           backgroundImage: `url(${
-            location?.state.image ? location?.state.image : backGround
+            location?.state?.image ? location?.state?.image : backGround
           })`,
         }}>
         <div className="container ">
@@ -693,9 +689,9 @@ const SingleProduct = () => {
                           }
                           alt="Product"
                           onClick={() => {
-                            navigate(`/AllProducts/Product/Product-Details`, {
-                              state: { id: item?._id },
-                            });
+                            navigate(
+                              `/AllProducts/Product/:${item?.slug}`
+                            )
                             window.scrollTo({
                               top: 0,
                               behavior: "smooth",
@@ -706,9 +702,9 @@ const SingleProduct = () => {
                       <span
                         class="text-decoration-none"
                         onClick={() => {
-                          navigate(`/AllProducts/Product/Product-Details`, {
-                            state: { id: item?._id },
-                          });
+                          navigate(
+                            `/AllProducts/Product/:${item?.slug}`
+                          )
                           window.scrollTo({
                             top: 0,
                             behavior: "smooth",

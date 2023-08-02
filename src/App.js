@@ -128,13 +128,16 @@ function App() {
 
   return (
     <div className="App">
-     
       <ToastContainer />
       <RecoilRoot>
         <Router>
           <ScrollToTop />
-         
+
           <Routes>
+            <Route
+              path="*"
+              element={width < 999 ? <AppHome /> : <Homepage />}
+            />
             <Route
               path="/MyAccount"
               element={<MyAccount newData={GetData} apiData={apiData} />}
@@ -209,7 +212,10 @@ function App() {
             <Route path="/CategorySub" element={<CategorySub />} />
             <Route path="/Inventory" element={<Inventory />} />
             <Route path="/Puller-Management" element={<PullerManagement />} />
-            <Route path="/Puller-Management/Puller-details/:id" element={<ViewPuller />} />
+            <Route
+              path="/Puller-Management/Puller-details/:id"
+              element={<ViewPuller />}
+            />
             <Route path="/Inventory/View" element={<ViewProduct />} />
             <Route path="/Inventory/View-Edit" element={<EditInventory />} />
             <Route path="/BrandsManage" element={<BrandsManage />} />
