@@ -89,7 +89,7 @@ function AppProductDetail() {
       if (!userDetail?.istobaccoLicenceExpired) {
         if (flavour) {
           const formData = {
-            productId: id,
+            productId: productDetail?._id,
             quantity: quantity,
             flavour: flavour ? flavour : {},
           };
@@ -131,7 +131,7 @@ function AppProductDetail() {
     } else {
       if (flavour) {
         const formData = {
-          productId: id,
+          productId: productDetail?._id,
           quantity: quantity,
           flavour: flavour ? flavour : {},
         };

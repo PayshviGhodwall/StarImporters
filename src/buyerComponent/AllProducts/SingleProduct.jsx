@@ -82,6 +82,8 @@ const SingleProduct = () => {
       setProductImages({ ...productImages }, res.data.results?.type);
     });
   };
+  console.log(product?._id,"ddfsdf");
+
 
   const AddtoCart = async () => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
@@ -95,12 +97,11 @@ const SingleProduct = () => {
       } else {
         if (flavour) {
           setLoader(true);
-          cartProduct.push(objectId);
           cartProduct.push(unitCount);
 
           await axios
             .post(addCart, {
-              productId: cartProduct[0],
+              productId:product?._id ,
               quantity: unitCount,
               flavour: flavour,
             })
@@ -108,14 +109,42 @@ const SingleProduct = () => {
               if (res.data?.message === "Product Added") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
-
+                Swal.fire({
+                  title: "Product Added to Cart",
+                  icon: "success",
+                  timer: 2000,
+                  showCloseButton: true,
+                  showCancelButton: true,
+                  focusConfirm: false,
+                  confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                  confirmButtonAriaLabel: "Thumbs up, Okay!",
+                  cancelButtonText: "Close",
+                }).then((res) => {
+                  if (res.isConfirmed) {
+                    navigate("/app/cart");
+                  }
+                });
                 setNState(!NState);
               }
               if (res.data?.message === "Product modified") {
                 setLoader(false);
                 setSuccesMsg("Product added to Cart!");
                 // document.getElementById("req-modal2").click();
-
+                Swal.fire({
+                  title: "Product Added to Cart",
+                  icon: "success",
+                  timer: 2000,
+                  showCloseButton: true,
+                  showCancelButton: true,
+                  focusConfirm: false,
+                  confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                  confirmButtonAriaLabel: "Thumbs up, Okay!",
+                  cancelButtonText: "Close",
+                }).then((res) => {
+                  if (res.isConfirmed) {
+                    navigate("/app/cart");
+                  }
+                });
                 setNState(!NState);
               }
             })
@@ -163,12 +192,11 @@ const SingleProduct = () => {
     } else {
       if (flavour) {
         setLoader(true);
-        cartProduct.push(objectId);
         cartProduct.push(unitCount);
 
         await axios
           .post(addCart, {
-            productId: cartProduct[0],
+            productId: product?._id,
             quantity: unitCount,
             flavour: flavour,
           })
@@ -177,12 +205,41 @@ const SingleProduct = () => {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
               setNState(!NState);
+              Swal.fire({
+                title: "Product Added to Cart",
+                icon: "success",
+                timer: 2000,
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                confirmButtonAriaLabel: "Thumbs up, Okay!",
+                cancelButtonText: "Close",
+              }).then((res) => {
+                if (res.isConfirmed) {
+                  navigate("/app/cart");
+                }
+              });
             }
             if (res.data?.message === "Product modified") {
               setLoader(false);
               setSuccesMsg("Product added to Cart!");
               // document.getElementById("req-modal2").click();
-
+              Swal.fire({
+                title: "Product Added to Cart",
+                icon: "success",
+                timer: 2000,
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                confirmButtonAriaLabel: "Thumbs up, Okay!",
+                cancelButtonText: "Close",
+              }).then((res) => {
+                if (res.isConfirmed) {
+                  navigate("/app/cart");
+                }
+              });
               setNState(!NState);
             }
           })
