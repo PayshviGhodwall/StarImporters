@@ -285,61 +285,65 @@ const Navbar = ({ NState, LoginState }) => {
                         Home
                       </a>
                     </li>
-                    {(category || [])?.filter((itm,ind)=> width <= 1400 ? ind < 7 : ind ).map((item, index) => (
-                      <li
-                        className="new_dropdown"
-                        key={index}
-                        // className="zindex-1"
-                      >
-                        <a
-                          className="new_dropdown_link "
-                          onClick={() => {
-                            setPage2(1);
-                            navigate("/app/subCategories", {
-                              state: {
-                                id: item?._id,
-                                name: item?.categoryName,
-                                image: item?.background,
-                              },
-                            });
-                          }}>
-                          {item?.categoryName}
-                        </a>
-                        <div className="new_dropdown_inner">
-                          {(item?.subcategories || [])?.map((item, index) => (
-                            <a
-                              key={index}
-                              onClick={() => {
-                                setPage2(1);
-                                setFilter(item?._id);
-                                navigate("/SubCategory/Products", {
-                                  state: {
-                                    name: item?.subCategoryName,
-                                  },
-                                });
-                              }}>
-                              {item?.subCategoryName}
-                            </a>
-                          ))}
-                          {item?.subcategories.length ? (
-                            <a
-                              onClick={() =>
-                                navigate("/app/subCategories", {
-                                  state: {
-                                    id: item?._id,
-                                    name: item?.categoryName,
-                                  },
-                                })
-                              }>
-                              View all
-                              <i className="fa fa-arrow-up-right-from-square mx-2"></i>
-                            </a>
-                          ) : (
-                            <a>No Results....</a>
-                          )}
-                        </div>
-                      </li>
-                    ))}
+                    {(category || [])
+                      ?.filter((itm, ind) =>
+                        width <= 1400 ? ind < 7 : ind < 11
+                      )
+                      .map((item, index) => (
+                        <li
+                          className="new_dropdown"
+                          key={index}
+                          // className="zindex-1"
+                        >
+                          <a
+                            className="new_dropdown_link "
+                            onClick={() => {
+                              setPage2(1);
+                              navigate("/app/subCategories", {
+                                state: {
+                                  id: item?._id,
+                                  name: item?.categoryName,
+                                  image: item?.background,
+                                },
+                              });
+                            }}>
+                            {item?.categoryName}
+                          </a>
+                          <div className="new_dropdown_inner">
+                            {(item?.subcategories || [])?.map((item, index) => (
+                              <a
+                                key={index}
+                                onClick={() => {
+                                  setPage2(1);
+                                  setFilter(item?._id);
+                                  navigate("/SubCategory/Products", {
+                                    state: {
+                                      name: item?.subCategoryName,
+                                    },
+                                  });
+                                }}>
+                                {item?.subCategoryName}
+                              </a>
+                            ))}
+                            {item?.subcategories.length ? (
+                              <a
+                                onClick={() =>
+                                  navigate("/app/subCategories", {
+                                    state: {
+                                      id: item?._id,
+                                      name: item?.categoryName,
+                                    },
+                                  })
+                                }>
+                                View all
+                                <i className="fa fa-arrow-up-right-from-square mx-2"></i>
+                              </a>
+                            ) : (
+                              <a>No Results....</a>
+                            )}
+                          </div>
+                        </li>
+                      ))}
                     <li>
                       <Link
                         className="text-decoration-none mx-2 p-3"
@@ -348,7 +352,6 @@ const Navbar = ({ NState, LoginState }) => {
                         More
                       </Link>
                     </li>
-                   
                   </ul>
                 </div>
               </div>
@@ -370,17 +373,17 @@ const Navbar = ({ NState, LoginState }) => {
                     )}
                     {relateCate?.map((itm, ind) => (
                       <div>
-                        <p className="subCateSearch"
-                         onClick={() => {
-                          setPage2(1);
-                          setFilter(itm?._id);
-                          navigate("/SubCategory/Products", {
-                            state: {
-                              name: itm?.subCategoryName,
-                            },
-                          });
-                        }}
-                        >
+                        <p
+                          className="subCateSearch"
+                          onClick={() => {
+                            setPage2(1);
+                            setFilter(itm?._id);
+                            navigate("/SubCategory/Products", {
+                              state: {
+                                name: itm?.subCategoryName,
+                              },
+                            });
+                          }}>
                           {" " + itm?.subCategoryName},{" "}
                         </p>
                       </div>
@@ -410,7 +413,6 @@ const Navbar = ({ NState, LoginState }) => {
                           <span
                             onClick={() => {
                               navigate(`/AllProducts/Product/:${item?.slug}`);
-
 
                               setSearch();
                             }}>
