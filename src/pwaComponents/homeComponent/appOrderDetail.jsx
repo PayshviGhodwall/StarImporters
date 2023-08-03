@@ -95,8 +95,7 @@ function AppOrderDetail() {
                                 item?.productId?.isTobaccoProduct
                                   ? "filter"
                                   : ""
-                              }
-                            >
+                              }>
                               <td>
                                 <div className="cart_icon">
                                   <img
@@ -110,7 +109,7 @@ function AppOrderDetail() {
                                 <div className="order_items">
                                   <Link
                                     to={`/app/product-detail/${item?.productId?.slug}`}
-                                  >
+                                    state={{ type: item?.flavour }}>
                                     {item?.productId?.unitName +
                                       "-" +
                                       item?.flavour.flavour}
@@ -157,7 +156,7 @@ function AppOrderDetail() {
                                 <div className="order_items">
                                   <Link
                                     to={`/app/product-detail/${item?.productId?.slug}`}
-                                  >
+                                    state={{ type: item?.flavour }}>
                                     {item?.productId?.unitName +
                                       "-" +
                                       item?.flavour.flavour}
@@ -206,8 +205,7 @@ function AppOrderDetail() {
                         orders?.status === "CANCEL"
                           ? "single-order-status active"
                           : "d-none"
-                      }
-                    >
+                      }>
                       <div className="order-icon text-dark">
                         <i className="fa-solid fa-bag-shopping"></i>
                       </div>
@@ -230,8 +228,7 @@ function AppOrderDetail() {
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
                               : "single-order-status"
-                          }
-                        >
+                          }>
                           <div className="order-icon">
                             <i className="fa-solid fa-box-open"></i>
                           </div>
@@ -271,16 +268,12 @@ function AppOrderDetail() {
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
                               : "single-order-status"
-                          }
-                        >
+                          }>
                           <div className="order-icon">
                             <i className="fa-solid fa-truck"></i>
                           </div>
                           <div className="order-text">
-                            <h6>
-                            
-                              Shipped
-                            </h6>
+                            <h6>Shipped</h6>
                           </div>
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
@@ -292,32 +285,23 @@ function AppOrderDetail() {
                             orders?.status === "DELIVERED"
                               ? "single-order-status active"
                               : "single-order-status"
-                          }
-                        >
+                          }>
                           <div className="order-icon">
                             <i className="fa-solid fa-truck-fast"></i>
                           </div>
                           <div className="order-text">
-                            <h6>
-                              {" "}
-                              Delivered
-                            </h6>
+                            <h6> Delivered</h6>
                           </div>
                           <div className="order-status">
                             <i className="fa-solid fa-circle-check"></i>
                           </div>
                         </div>
-
-                     
                       </div>
                     )}
                   </div>
-
                 </div>
               </div>
 
-
-              
               <div className="col-12 mb-3">
                 <div className="row mx-0 border rounded py-3 px-1 position-relative bg-white shadow">
                   <span className="small_header">Comments:</span>
@@ -326,16 +310,15 @@ function AppOrderDetail() {
                       <div className="col-12 d-flex">
                         <span className="data_main">Admin Comments:</span>
                         <span className="data_submain mx-2">
-                          {orders?.statusComment ? orders?.statusComment : "No Comments!" }
+                          {orders?.statusComment
+                            ? orders?.statusComment
+                            : "No Comments!"}
                         </span>
                       </div>
                     </div>
                   </div>
-
-                
                 </div>
               </div>
-
 
               <div className="col-12 mb-3">
                 <div className="row mx-0 border rounded py-3 px-1 position-relative bg-white shadow">

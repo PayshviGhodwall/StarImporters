@@ -291,11 +291,11 @@ function AppCart() {
                                       />
                                     </div>
                                   </td>
-                                  <td
-                                    >
+                                  <td>
                                     {item?.flavour?._id ? (
                                       <Link
                                         to={`/app/product-detail/${item?.productId?.slug}`}
+                                        state={{ type: item?.flavour }}
                                         className={
                                           item?.isTobacco ? "filter" : ""
                                         }>
@@ -414,7 +414,8 @@ function AppCart() {
                                   <td>
                                     {item?.flavour?._id ? (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                        state={{ type: item?.flavour }}>
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}

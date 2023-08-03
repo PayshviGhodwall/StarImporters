@@ -98,9 +98,9 @@ const Favourites = () => {
               <div
                 className="partsproduct_img"
                 onClick={() => {
-                  navigate(`/AllProducts/Product/${item?.productId?._id}`, {
+                  navigate(`/AllProducts/Product/:${item?.productId?.slug}`, {
                     state: {
-                      id: item?.productId?._id,
+                      id: item?.productId?.slug,
                     },
                   });
                 }}
@@ -110,9 +110,9 @@ const Favourites = () => {
               <div
                 className="product_content mt-3 text-center mb-0"
                 onClick={() => {
-                  navigate(`/AllProducts/Product/${item?.productId?._id}`, {
+                  navigate(`/AllProducts/Product/:${item?.productId?.slug}`, {
                     state: {
-                      id: item?.productId?._id,
+                      id: item?.productId?.slug,
                     },
                   });
                 }}

@@ -237,10 +237,10 @@ const BuyAgain = () => {
                     <img
                       onClick={() => {
                         navigate(
-                          `/AllProducts/Product/${val?.productId?._id}`,
+                          `/AllProducts/Product/:${val?.productId?.slug}`,
                           {
                             state: {
-                              id: val?.productId?._id,
+                              id: val?.productId?.slug,
                             },
                           }
                         );
@@ -280,10 +280,10 @@ const BuyAgain = () => {
                       <span
                         onClick={() => {
                           navigate(
-                            `/AllProducts/Product/${val?.productId?._id}`,
+                            `/AllProducts/Product/:${val?.productId?.slug}`,
                             {
                               state: {
-                                id: val?.productId?._id,
+                                id: val?.productId?.slug,
                               },
                             }
                           );

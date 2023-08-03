@@ -222,7 +222,7 @@ function AppBuyAgain() {
                               <div className="product-thumbnail-side mt-2">
                                 <Link
                                   className="product-thumbnail shadow-sm d-block"
-                                  to={`/app/product-detail/${val?.productId?._id}`}
+                                  to={`/app/product-detail/${val?.productId?.slug}`}
                                   state={{ type: val?.flavour }}
                                 >
                                   <img
@@ -241,7 +241,7 @@ function AppBuyAgain() {
                               <div className="p-3">
                                 <Link
                                   className="product-title d-block  mb-3"
-                                  to={`/app/product-detail/${val?.productId?._id}`}
+                                  to={`/app/product-detail/${val?.productId?.slug}`}
                                   state={{ type: val?.flavour }}
                                 >
                                   {val?.productId?.unitName}
@@ -363,7 +363,7 @@ function AppBuyAgain() {
                             <div className="product-thumbnail-side mt-2">
                               <Link
                                 className="product-thumbnail shadow-sm d-block"
-                                to={`/app/product-detail/${val?.productId?._id}`}
+                                to={`/app/product-detail/${val?.productId?.slug}`}
                                 state={{ type: val?.flavour }}
                               >
                                 <img
@@ -382,7 +382,7 @@ function AppBuyAgain() {
                             <div className="p-3">
                               <Link
                                 className="product-title d-block  mb-3"
-                                to={`/app/product-detail/${val?.productId?._id}`}
+                                to={`/app/product-detail/${val?.productId?.slug}`}
                                 state={{ type: val?.flavour }}
                               >
                                 {val?.productId?.unitName}
