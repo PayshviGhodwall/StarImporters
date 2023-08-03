@@ -86,7 +86,7 @@ function AppProductBySearch() {
         });
         if (!data.error) {
           if (data.results.length)
-            navigate(`/app/product-detail/${data.results[0]._id}`);
+            navigate(`/app/product-detail/${data.results[0]?.slug}`);
           // navigate(`/app/product-by-search/${data.results[0]._id}`)
           window.location.reload();
         }
@@ -223,7 +223,7 @@ function AppProductBySearch() {
                               <div className="card-body">
                                 <Link
                                   className="product-thumbnail d-block"
-                                  to={`/app/product-detail/${item._id}`}>
+                                  to={`/app/product-detail/${item?.slug}`}>
                                   <img
                                     className="mb-2"
                                     src={
@@ -235,7 +235,7 @@ function AppProductBySearch() {
                                 </Link>
                                 <Link
                                   className="product-title"
-                                  to={`/app/product-detail/${item._id}`}>
+                                  to={`/app/product-detail/${item?.slug}`}>
                                   {item.unitName}
                                 </Link>
                               </div>
@@ -265,7 +265,7 @@ function AppProductBySearch() {
                             <div className="card-body">
                               <Link
                                 className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item._id}`}>
+                                to={`/app/product-detail/${item.slug}`}>
                                 <img
                                   className="mb-2"
                                   src={
@@ -277,7 +277,7 @@ function AppProductBySearch() {
                               </Link>
                               <Link
                                 className="product-title"
-                                to={`/app/product-detail/${item._id}`}>
+                                to={`/app/product-detail/${item.slug}`}>
                                 {item.unitName}
                               </Link>
                             </div>

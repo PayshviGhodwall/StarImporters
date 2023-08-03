@@ -140,7 +140,7 @@ function AppHome() {
         });
         if (!data.error) {
           if (data?.results?.length)
-            navigate(`/app/product-detail/${data.results[0]?._id}`, {
+            navigate(`/app/product-detail/${data?.results[0]?.slug}`, {
               state: {
                 type: data.results[0]?.type,
               },
@@ -366,7 +366,7 @@ function AppHome() {
                                       <div className="card-body">
                                         <Link
                                           className="product-thumbnail d-block"
-                                          to={`/app/product-detail/${item._id}`}
+                                          to={`/app/product-detail/${item?.slug}`}
                                           state={{ type: item?.type }}>
                                           <img
                                             className="mb-2"
@@ -383,7 +383,7 @@ function AppHome() {
 
                                         <Link
                                           className="product-title"
-                                          to={`/app/product-detail/${item._id}`}
+                                          to={`/app/product-detail/${item.slug}`}
                                           state={{ type: item?.type }}>
                                           {/* {item.unitName +
                                           "-" +
@@ -577,7 +577,7 @@ function AppHome() {
                                     <div className="card-body">
                                       <Link
                                         className="product-thumbnail d-block"
-                                        to={`/app/product-detail/${item._id}`}
+                                        to={`/app/product-detail/${item.slug}`}
                                         state={{ type: item?.type }}>
                                         <img
                                           className="mb-2"
@@ -594,7 +594,7 @@ function AppHome() {
 
                                       <Link
                                         className="product-title"
-                                        to={`/app/product-detail/${item._id}`}
+                                        to={`/app/product-detail/${item?.slug}`}
                                         state={{ type: item?.type }}>
                                         {/* {item.unitName + "-" + item?.type.flavour} */}
                                         {item?.unitName}
@@ -641,7 +641,7 @@ function AppHome() {
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
-                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 )
+                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 && idx !== 7 && idx !== 6 )
                                 .map((item) => {
                                   return (
                                     <div className="single-hero-slide item">

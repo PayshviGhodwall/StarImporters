@@ -188,7 +188,7 @@ function AppQuotes() {
                               <td>
                                 {item?.flavour?._id ? (
                                   <Link
-                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                    to={`/app/product-detail/${item?.productId?.slug}`}
                                   >
                                     {item?.productId?.unitName +
                                       "-" +
@@ -196,7 +196,7 @@ function AppQuotes() {
                                   </Link>
                                 ) : (
                                   <Link
-                                    to={`/app/product-detail/${item?.productId?._id}`}
+                                    to={`/app/product-detail/${item?.productId?.slug}`}
                                   >
                                     {item?.productId?.unitName}
                                   </Link>

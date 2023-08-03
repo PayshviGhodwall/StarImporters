@@ -341,7 +341,7 @@ function AppProductSubCategory() {
                                   ])
                                 }
                                 class="product-thumbnail d-block"
-                                to={`/app/product-detail/${item?.products?._id}`}
+                                to={`/app/product-detail/${item?.products?.slug}`}
                                 state={{ type: item?.products?.type[0] }}
                               >
                                 <img

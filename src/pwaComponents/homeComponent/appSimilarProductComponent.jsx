@@ -68,7 +68,7 @@ function SimlarProduct({ categoryName }) {
                   <div className="card flash-sale-card item" key={index}>
                     <div className="card-body">
                       <Link
-                        to={`/app/product-detail/${item?._id}`}
+                        to={`/app/product-detail/${item?.slug}`}
                         state={{ type: item?.type[0] }}
                       >
                         <img
@@ -84,7 +84,7 @@ function SimlarProduct({ categoryName }) {
                         <div class="col">
                           <Link
                             class="product-title text-center"
-                            to={`/app/product-detail/${item?._id}`}
+                            to={`/app/product-detail/${item?.slug}`}
                             state={{ type: item?.type[0] }}
                           >
                             {item?.unitName + "-" + item.type[0]?.flavour}

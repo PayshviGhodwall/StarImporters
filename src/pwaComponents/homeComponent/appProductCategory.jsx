@@ -350,7 +350,7 @@ function AppProductCategory() {
                                   },
                                 ])
                               }
-                              to={`/app/product-detail/${item?.products?._id}`}
+                              to={`/app/product-detail/${item?.products?.slug}`}
                               state={{ type: item?.products?.type[0] }}
                             >
                               <img
@@ -371,15 +371,7 @@ function AppProductCategory() {
                                     item?.products?.type[0]?.flavour}
                                 </a>
                               </div>
-                              {/* <div class="col-auto">
-                              <Link
-                                class="cart_bttn"
-                                to=""
-                                onClick={() => addToCartt(item?.products?._id)}
-                              >
-                                <i class="fa-light fa-plus"></i>
-                              </Link>
-                            </div> */}
+                            
                             </div>
                           </div>
                         </div>

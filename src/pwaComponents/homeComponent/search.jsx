@@ -48,7 +48,7 @@ const Search = () => {
         });
         if (!data.error) {
           if (data?.results?.length)
-            navigate(`/app/product-detail/${data.results[0]?._id}`, {
+            navigate(`/app/product-detail/${data.results[0]?.slug}`, {
               state: {
                 type: data?.results[0]?.type,
               },
@@ -203,7 +203,7 @@ const Search = () => {
                               <div className="card-body">
                                 <Link
                                   className="product-thumbnail d-block"
-                                  to={`/app/product-detail/${item._id}`}
+                                  to={`/app/product-detail/${item.slug}`}
                                   state={{ type: item?.type }}>
                                   <img
                                     className="mb-2"
@@ -221,7 +221,7 @@ const Search = () => {
 
                                 <Link
                                   className="product-title"
-                                  to={`/app/product-detail/${item._id}`}
+                                  to={`/app/product-detail/${item.slug}`}
                                   state={{ type: item?.type }}>
                                   {/* {item.unitName + "-" + item?.type.flavour} */}
                                   {item?.unitName}
@@ -260,7 +260,7 @@ const Search = () => {
                             <div className="card-body">
                               <Link
                                 className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item._id}`}
+                                to={`/app/product-detail/${item.slug}`}
                                 state={{ type: item?.type }}>
                                 <img
                                   className="mb-2"
@@ -277,7 +277,7 @@ const Search = () => {
 
                               <Link
                                 className="product-title"
-                                to={`/app/product-detail/${item._id}`}
+                                to={`/app/product-detail/${item?.slug}`}
                                 state={{ type: item?.type }}>
                                 {/* {item.unitName + "-" + item?.type.flavour} */}
                                 {item?.unitName}

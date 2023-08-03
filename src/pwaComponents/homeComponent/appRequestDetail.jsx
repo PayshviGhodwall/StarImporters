@@ -104,7 +104,7 @@ function AppRequestDetail() {
                                 <td>
                                   <div className="order_items">
                                     <Link
-                                      to={`/app/product-detail/${item?.productId?._id}`}
+                                      to={`/app/product-detail/${item?.productId?.slug}`}
                                     >
                                       {item?.productId?.unitName}
                                     </Link>
@@ -170,7 +170,7 @@ function AppRequestDetail() {
                                 <td>
                                   <div className="order_items">
                                     <Link
-                                      to={`/app/product-detail/${item?.productId?._id}`}
+                                      to={`/app/product-detail/${item?.productId?.slug}`}
                                     >
                                       {item?.productId?.unitName}
                                     </Link>

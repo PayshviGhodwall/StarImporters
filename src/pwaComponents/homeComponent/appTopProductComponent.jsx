@@ -169,7 +169,7 @@ function TopProduct() {
 
                           <Link
                             class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item?._id}`}
+                            to={`/app/product-detail/${item?.slug}`}
                             state={{ type: item?.type[0] }}
                           >
                             <img
@@ -186,7 +186,7 @@ function TopProduct() {
                             <div class="col">
                               <Link
                                 class="product-title"
-                                to={`/app/product-detail/${item?._id}`}
+                                to={`/app/product-detail/${item?.slug}`}
                                 state={{ type: item?.type[0] }}
                               >
                                 {item?.unitName + "-" + item.type[0]?.flavour}
@@ -239,7 +239,7 @@ function TopProduct() {
 
                         <Link
                           class="product-thumbnail d-block"
-                          to={`/app/product-detail/${item?._id}`}
+                          to={`/app/product-detail/${item?.slug}`}
                           state={{ type: item?.type[0] }}
                         >
                           <img
@@ -256,7 +256,7 @@ function TopProduct() {
                           <div class="col-auto">
                             <Link
                               class="product-title"
-                              to={`/app/product-detail/${item?._id}`}
+                              to={`/app/product-detail/${item?.slug}`}
                               state={{ type: item?.type[0] }}
                             >
                               {item?.unitName + "-" + item.type[0]?.flavour}

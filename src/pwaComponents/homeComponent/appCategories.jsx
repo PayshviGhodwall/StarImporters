@@ -140,6 +140,7 @@ function AppCategories() {
                       </div>
                     </div>
                   ) : null}
+                  
                 </div>
               ) : (
                 <div className="row mx-0 justify-content-center">

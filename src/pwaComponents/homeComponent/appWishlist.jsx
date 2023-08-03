@@ -88,7 +88,7 @@ function AppWishlist() {
                             <div className="product-thumbnail-side">
                               <Link
                                 className="product-thumbnail shadow-sm d-block"
-                                to={`/app/product-detail/${item?.productId?._id}`}
+                                to={`/app/product-detail/${item?.productId?.slug}`}
                                 state={{ type: item?.flavour }}
                               >
                                 <img
@@ -107,7 +107,7 @@ function AppWishlist() {
                             <div className="">
                               <Link
                                 className="product-title d-block fs-5 mb-3"
-                                to={`/app/product-detail/${item?.productId?._id}`}
+                                to={`/app/product-detail/${item?.productId?.slug}`}
                                 state={{ type: item?.flavour }}
                               >
                                 {item?.productId?.unitName}
@@ -155,7 +155,7 @@ function AppWishlist() {
                           <div className="product-thumbnail-side">
                             <Link
                               className="product-thumbnail shadow-sm d-block"
-                              to={`/app/product-detail/${item?.productId?._id}`}
+                              to={`/app/product-detail/${item?.productId?.slug}`}
                               state={{ type: item?.flavour }}
                             >
                               <img
@@ -174,7 +174,7 @@ function AppWishlist() {
                           <div className="">
                             <Link
                               className="product-title d-block fs-5 mb-3"
-                              to={`/app/product-detail/${item?.productId?._id}`}
+                              to={`/app/product-detail/${item?.productId?.slug}`}
                               state={{ type: item?.flavour }}
                             >
                               {item?.productId?.unitName}
@@ -217,7 +217,6 @@ function AppWishlist() {
             </div>
           </div>
         </div>
-
         <AppFooter />
       </div>
     </>

@@ -295,7 +295,7 @@ function AppCart() {
                                     >
                                     {item?.flavour?._id ? (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?._id}`}
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
                                         className={
                                           item?.isTobacco ? "filter" : ""
                                         }>
@@ -305,7 +305,7 @@ function AppCart() {
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?._id}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}>
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}
@@ -414,14 +414,14 @@ function AppCart() {
                                   <td>
                                     {item?.flavour?._id ? (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?._id}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}>
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?._id}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}>
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}

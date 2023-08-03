@@ -227,7 +227,7 @@ function AppProductList() {
                                   ) : null}
                                   <Link
                                     class="product-thumbnail d-block"
-                                    to={`/app/product-detail/${item?._id}`}
+                                    to={`/app/product-detail/${item?.slug}`}
                                     state={{ type: item?.type[0] }}
                                   >
                                     <img
@@ -379,7 +379,7 @@ function AppProductList() {
                                     setData([{ page: activePage }]);
                                   }}
                                   class="product-thumbnail d-block"
-                                  to={`/app/product-detail/${item?._id}`}
+                                  to={`/app/product-detail/${item?.slug}`}
                                   state={{ type: item?.type[0] }}
                                 >
                                   <img

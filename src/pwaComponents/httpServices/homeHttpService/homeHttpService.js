@@ -199,13 +199,24 @@ export async function editProfile(formData) {
       formData
     );
     console.log(data);
-    // if (!data.error) {
-    //   toast.success(data.message);
-    // } else toast.error(data.message);
+    if (!data.error) {
+      // toast.success(data.message);
+    } else
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        button: "ok",
+      });
 
     return { data };
   } catch (error) {
-    if (error.response) console.log(error.response.data.message);
+    if (error.response) {
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+        button: "ok",
+      });
+    }
     return { error };
   }
 }
