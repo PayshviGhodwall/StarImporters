@@ -81,7 +81,7 @@ const Homepage = () => {
     }, 8000);
   }, []);
 
-  let image = JSON.parse(localStorage?.getItem("imageBg"));
+  let image = ""
 
   const AllProducts = async () => {
     await axios
