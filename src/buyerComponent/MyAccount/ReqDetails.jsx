@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import moment from "moment";
@@ -11,7 +11,7 @@ const RequestDetails = () => {
   const [quoteDetails, setQuoteDetails] = useState([]);
 
   let location = useLocation();
-  let id = location?.state?.id;
+  let {id} = useParams();
 
   useEffect(() => {
     const GetQuote = async () => {
@@ -36,19 +36,19 @@ const RequestDetails = () => {
               <h1>My Account</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb mb-0">
+                <ol class="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
                         to=""
                         className="text-decoration-none text-white fs-6  "
                       >
-                        Home <span className="arrow">&#62;</span>{" "}
+                        Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-2"
+                        className="text-decoration-none text-white fs-6 mx-1"
                       >
                         My Account
                       </Link>

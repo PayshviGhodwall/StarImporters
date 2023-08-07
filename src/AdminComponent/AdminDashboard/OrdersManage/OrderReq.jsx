@@ -260,6 +260,7 @@ const OrderReq = () => {
       .post(orderList, {
         from: values.from,
         to: values.to,
+        page:1,
       })
       .then((res) => {
         setOrders(res?.data.results?.orders);

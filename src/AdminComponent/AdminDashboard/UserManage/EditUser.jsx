@@ -1009,7 +1009,12 @@ const EditUser = () => {
                         )}
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            files?.federalTaxId || user?.federalTaxId
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }>
                           <span className="fw-bold fs-6">Federal Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -1048,7 +1053,12 @@ const EditUser = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            files?.tobaccoLicence || user?.tobaccoLicence
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }>
                           <span className="fw-bold fs-6">Tobacco License:</span>
                           <div className="col img_box_show">
                             <input
@@ -1124,7 +1134,12 @@ const EditUser = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            files?.salesTaxId || user?.salesTaxId
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }>
                           <span className="fw-bold fs-6">Sales Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -1155,7 +1170,12 @@ const EditUser = () => {
                         </div>
                       </div>
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            files?.businessLicense || user?.businessLicense
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }>
                           <span className="fw-bold fs-6">
                             Business License:
                           </span>
@@ -1238,7 +1258,12 @@ const EditUser = () => {
                         />
                       </div>
                       <div className="col-md-12 mb-4 mt-2 d-flex align-items-stretch">
-                        <div className="row view-inner-box border mx-0 w-100">
+                        <div
+                          className={
+                            files?.accountOwnerId || user?.accountOwnerId
+                              ? "row view-inner-box border  mx-0 w-100"
+                              : "row view-inner-box border border-danger text-danger mx-0 w-100"
+                          }>
                           <span className="fw-bold fs-6">
                             Account Owner ID:
                           </span>

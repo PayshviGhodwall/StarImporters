@@ -47,6 +47,8 @@ function AppHome() {
   const setData4 = useSetRecoilState(appFeaturedProd);
   const searchKey = useRecoilValue(searchKeyRemove);
   const setSearchKeyRemove = useSetRecoilState(searchKeyRemove);
+  const [relateCate, setRelateCate] = useState([]);
+
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -174,7 +176,9 @@ function AppHome() {
     try {
       await window.flutter_inappwebview.callHandler(
         "openExternalBrowser",
-        `https://starimporters.com/app/redirect/constantRedirect99/${tokenWeb || token}`
+        `https://starimporters.com/app/redirect/constantRedirect99/${
+          tokenWeb || token
+        }`
       );
     } catch (err) {
       console.log(err);
@@ -182,13 +186,12 @@ function AppHome() {
     document.getElementById("modalCloseRD").click();
   };
 
-
   const genToken = async () => {
     const token = await axios.post(TempToken);
     console.log(token.data.results.token);
     setTokenWeb(token.data.results.token);
-    if(token?.data.results.token){
-      redirectToWeb(token?.data.results.token)
+    if (token?.data.results.token) {
+      redirectToWeb(token?.data.results.token);
     }
   };
 
@@ -324,6 +327,28 @@ function AppHome() {
                             Showing results for "{search}"
                           </p>
                         </div>
+                        <div className="col-12 d-flex ">
+                          {relateCate?.length != 0 && (
+                            <span className="search_head2 p-0 mb-3 mx-2">
+                              Related Sub-Categories :
+                            </span>
+                          )}
+                          {relateCate?.map((itm, ind) => (
+                            <div>
+                              <p
+                                className="subCateSearch"
+                                onClick={() => {
+                                  navigate("/SubCategory/Products", {
+                                    state: {
+                                      name: itm?.subCategoryName,
+                                    },
+                                  });
+                                }}>
+                                {" " + itm?.subCategoryName},{" "}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                         {search === "Tobacco" ||
                         search === "Tobacco " ||
                         search === "tobacco" ||
@@ -340,9 +365,7 @@ function AppHome() {
                           <div className="text-center">
                             <img
                               src={require("../../assets/img/noitem.png")}></img>
-                            <a
-                              className="fw-bold mx-2"
-                              onClick={genToken}>
+                            <a className="fw-bold mx-2" onClick={genToken}>
                               Click Here
                             </a>
                             to buy this product from our website.{" "}
@@ -418,9 +441,7 @@ function AppHome() {
                               onClick={genToken}>
                               <div class="marquee__inner mb-0">
                                 <p class=" mt-2">
-                                  <strong
-                                    className="text-primary"
-                                   >
+                                  <strong className="text-primary">
                                     Click here
                                   </strong>{" "}
                                   to buy Tobacco related Products from our
@@ -450,7 +471,13 @@ function AppHome() {
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
-                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 && idx !== 7 && idx !== 6 )
+                                ?.filter(
+                                  (itm, idx) =>
+                                    idx !== 1 &&
+                                    idx !== 0 &&
+                                    idx !== 7 &&
+                                    idx !== 6
+                                )
                                 .map((item) => {
                                   return (
                                     <div className="single-hero-slide item">
@@ -641,7 +668,13 @@ function AppHome() {
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
-                                ?.filter((itm, idx) => idx !== 1 && idx !== 0 && idx !== 7 && idx !== 6 )
+                                ?.filter(
+                                  (itm, idx) =>
+                                    idx !== 1 &&
+                                    idx !== 0 &&
+                                    idx !== 7 &&
+                                    idx !== 6
+                                )
                                 .map((item) => {
                                   return (
                                     <div className="single-hero-slide item">

@@ -71,7 +71,7 @@ const AllBrands = () => {
                     <div class="col-lg-3 col-md-4 mb-5 ">
                       <a class="categorynew_box text-decoration-none">
                         <Link
-                          to="/Brands/Products"
+                          to={`/Brands/${item?.slug}`}
                           state={{ name: item?.brandName }}
                         >
                           <div class="categorynew_img">
@@ -95,30 +95,7 @@ const AllBrands = () => {
           </div>
         </section>
 
-        {/* <section className="brands_page py-5 ">
-          <div className="container">
-            <div className="row">
-              <div className="col-12 bg-white px-0 ">
-                <ul class="brands_ul list-unstyled mb-0">
-                  {(brands || [])?.map((item, index) => (
-                    <li key={index}>
-                      <Link
-                        to={{
-                          pathname: "/Brands/Products",
-                          search: "",
-                          hash: "",
-                        }}
-                        state={{ name: item?.brandName }}
-                      >
-                        <img src={item?.brandImage} alt="" width={150} />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section> */}
+    
       </>
       <Footer />
     </div>

@@ -42,6 +42,7 @@ const SingleProduct = () => {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
   const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [heart, setHeart] = useState();
+  const [loaderM, setLoaderM] = useState(true);
   const GetChange = (data) => {
     setChange(data);
   };
@@ -63,6 +64,9 @@ const SingleProduct = () => {
 
   useEffect(() => {
     NewProducts();
+    setTimeout(() => {
+      setLoaderM(false);
+    }, 5000);
   }, []);
 
   const NewProducts = async () => {
@@ -80,10 +84,10 @@ const SingleProduct = () => {
       setFlavour(res?.data.results.type[0]);
       setProductImages(res.data.results?.productImage);
       setProductImages({ ...productImages }, res.data.results?.type);
+      setLoaderM(false);
     });
   };
-  console.log(product?._id,"ddfsdf");
-
+  console.log(product?._id, "ddfsdf");
 
   const AddtoCart = async () => {
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
@@ -101,7 +105,7 @@ const SingleProduct = () => {
 
           await axios
             .post(addCart, {
-              productId:product?._id ,
+              productId: product?._id,
               quantity: unitCount,
               flavour: flavour,
             })
@@ -116,7 +120,8 @@ const SingleProduct = () => {
                   showCloseButton: true,
                   showCancelButton: true,
                   focusConfirm: false,
-                  confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                  confirmButtonText:
+                    '<i class="fa fa-shopping-cart"></i> Cart!',
                   confirmButtonAriaLabel: "Thumbs up, Okay!",
                   cancelButtonText: "Close",
                 }).then((res) => {
@@ -137,7 +142,8 @@ const SingleProduct = () => {
                   showCloseButton: true,
                   showCancelButton: true,
                   focusConfirm: false,
-                  confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+                  confirmButtonText:
+                    '<i class="fa fa-shopping-cart"></i> Cart!',
                   confirmButtonAriaLabel: "Thumbs up, Okay!",
                   cancelButtonText: "Close",
                 }).then((res) => {
@@ -359,178 +365,151 @@ const SingleProduct = () => {
   return (
     <div className="">
       <Navbar NState={NState} GetChange={GetChange} LoginState={LoginState} />
-
-      <section
-        className="comman_banner _banner marginTopSec"
-        style={{
-          backgroundImage: `url(${
-            location?.state?.image ? location?.state?.image : backGround
-          })`,
-        }}>
-        <div className="container ">
-          <div className="row">
-            <div className="col-12">
-              <h1>{product?.unitName}</h1>
-              <div className="breadcrumbs mt-2">
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb mb-0">
-                    <li className="item_nanner">
-                      <Link
-                        to="/app/home"
-                        className="text-decoration-none text-white fs-6  ">
-                        Home <span className="arrow mx-1 ">&#9679;</span>{" "}
-                      </Link>
-                      <a
-                        className="text-decoration-none text-white fs-6  "
-                        onClick={() => {
-                          navigate("/app/subCategories", {
-                            state: {
-                              id: product?.category?._id,
-                              name: product?.category?.categoryName,
-                              image: product?.category?.background,
-                            },
-                          });
-                        }}>
-                        {product?.category?.categoryName}
-                        <span className="arrow mx-1 ">&#9679;</span>
-                      </a>
-                      <a
-                        className="text-decoration-none text-white fs-6  "
-                        onClick={() => {
-                          navigate("/SubCategory/Products", {
-                            state: {
-                              name: product?.subCategory?.subCategoryName,
-                            },
-                          });
-                        }}>
-                        {product?.subCategory?.subCategoryName}
-                        <span className="arrow mx-1 ">&#9679;</span>
-                      </a>
-                      <a className="text-decoration-none text-white fs-6  ">
-                        {product?.unitName}
-                      </a>
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
+      {loaderM ? (
+        <div className="load_position">
+          <div className="loader_new"></div>
         </div>
-      </section>
-      <>
-        <section className="prdct_single_main comman_paddings">
-          <div className="container">
-            <div className="row comman_divvision mx-0">
-              <div className="col-md-6">
-                <div className="prdct_singleneww">
-                  <a class="wishlist-btn">
-                    {product?.favourite ? (
-                      <i
-                        class="fa fa-heart"
-                        onClick={() => {
-                          rmvFromFav();
-                        }}
-                        style={{
-                          color: "#3e4093 ",
-                          position: "relative",
-                          top: "30px",
-                          left: "6px",
-                          fontSize: "1.4rem",
-                        }}
-                      />
-                    ) : (
-                      <i
-                        class="fa fa-heart"
-                        onClick={() => {
-                          addToFav();
-                        }}
-                        style={{
-                          color: "#E1E1E1 ",
-                          position: "relative",
-                          top: "30px",
-                          left: "6px",
-                          fontSize: "1.4rem",
-                        }}
-                      />
-                    )}
-                  </a>
-
-                  <div className="prdct_singleshowimg">
-                    <Zoom>
-                      <img
-                        src={
-                          flavour?.flavour
-                            ? flavour?.flavourImage ||
-                              require("../../assets/img/product.jpg")
-                            : product?.productImage ||
-                              require("../../assets/img/product.jpg")
-                        }
-                        id="productMainImg"
-                        alt="..."
-                      />
-                    </Zoom>
-                  </div>
-                  <ul className="list-unstyled p-0 m-0">
-                    <Swiper
-                      slidesPerView={3}
-                      spaceBetween={5}
-                      loop={true}
-                      navigation={true}
-                      autoplay={true}
-                      modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                      className="mySwiper">
-                      <SwiperSlide>
-                        <li>
+      ) : (
+        <>
+          <section
+            className="comman_banner _banner marginTopSec"
+            style={{
+              backgroundImage: `url(${
+                location?.state?.image ? location?.state?.image : backGround
+              })`,
+            }}>
+            <div className="container ">
+              <div className="row">
+                <div className="col-12">
+                  <h1>{product?.unitName}</h1>
+                  <div className="breadcrumbs mt-2">
+                    <nav aria-label="breadcrumb">
+                      <ol className="breadcrumb mb-0">
+                        <li className="item_nanner">
+                          <Link
+                            to="/app/home"
+                            className="text-decoration-none text-white fs-6  ">
+                            Home <span className="arrow mx-1 ">&#9679;</span>{" "}
+                          </Link>
                           <a
-                            type="button"
-                            onMouseOver={() =>
-                              onHoverMain(product?.productImage)
-                            }
+                            className="text-decoration-none text-white fs-6  "
                             onClick={() => {
-                              document.getElementById("productMainImg").src =
-                                product?.productImage
-                                  ? product?.productImage
-                                  : require("../../assets/img/product.jpg");
-
-                              setFlavour();
+                              navigate("/app/subCategories", {
+                                state: {
+                                  id: product?.category?._id,
+                                  name: product?.category?.categoryName,
+                                  image: product?.category?.background,
+                                },
+                              });
                             }}>
-                            <img
-                              src={
-                                product?.productImage
-                                  ? product?.productImage
-                                  : require("../../assets/img/product.jpg")
-                              }
-                              alt=""
-                            />
+                            {product?.category?.categoryName}
+                            <span className="arrow mx-1 ">&#9679;</span>
+                          </a>
+                          <a
+                            className="text-decoration-none text-white fs-6  "
+                            onClick={() => {
+                              navigate(`/Category/Sub-Category/${product?.subCategory?.slug}`, {
+                                state: {
+                                  name: product?.subCategory?.subCategoryName,
+                                },
+                              });
+                            }}>
+                            {product?.subCategory?.subCategoryName}
+                            <span className="arrow mx-1 ">&#9679;</span>
+                          </a>
+                          <a className="text-decoration-none text-white fs-6  ">
+                            {product?.unitName}
                           </a>
                         </li>
-                      </SwiperSlide>
-                      {(product?.type || [])
-                        ?.filter((itm, idx) => itm?.flavourStatus === true)
-                        .map((item, index) => (
-                          <SwiperSlide key={index} className="me-0 ms-1">
-                            <li className="image_button">
+                      </ol>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <>
+            <section className="prdct_single_main comman_paddings">
+              <div className="container">
+                <div className="row comman_divvision mx-0">
+                  <div className="col-md-6">
+                    <div className="prdct_singleneww">
+                      <a class="wishlist-btn">
+                        {product?.favourite ? (
+                          <i
+                            class="fa fa-heart"
+                            onClick={() => {
+                              rmvFromFav();
+                            }}
+                            style={{
+                              color: "#3e4093 ",
+                              position: "relative",
+                              top: "30px",
+                              left: "6px",
+                              fontSize: "1.4rem",
+                            }}
+                          />
+                        ) : (
+                          <i
+                            class="fa fa-heart"
+                            onClick={() => {
+                              addToFav();
+                            }}
+                            style={{
+                              color: "#E1E1E1 ",
+                              position: "relative",
+                              top: "30px",
+                              left: "6px",
+                              fontSize: "1.4rem",
+                            }}
+                          />
+                        )}
+                      </a>
+
+                      <div className="prdct_singleshowimg">
+                        <Zoom>
+                          <img
+                            src={
+                              flavour?.flavour
+                                ? flavour?.flavourImage ||
+                                  require("../../assets/img/product.jpg")
+                                : product?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                            }
+                            id="productMainImg"
+                            alt="..."
+                          />
+                        </Zoom>
+                      </div>
+                      <ul className="list-unstyled p-0 m-0">
+                        <Swiper
+                          slidesPerView={3}
+                          spaceBetween={5}
+                          loop={true}
+                          navigation={true}
+                          autoplay={true}
+                          modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                          className="mySwiper">
+                          <SwiperSlide>
+                            <li>
                               <a
-                                key={index}
                                 type="button"
-                                onMouseOver={() => onHover(item)}
-                                onMouseOut={onMouseOut}
+                                onMouseOver={() =>
+                                  onHoverMain(product?.productImage)
+                                }
                                 onClick={() => {
                                   document.getElementById(
                                     "productMainImg"
-                                  ).src = item?.flavourImage
-                                    ? item?.flavourImage
+                                  ).src = product?.productImage
+                                    ? product?.productImage
                                     : require("../../assets/img/product.jpg");
-                                  document.getElementById(
-                                    "productMainImg"
-                                  ).className = "selected-img";
-                                  setFlavour(item);
-                                  setUnitCount(1);
+
+                                  setFlavour();
                                 }}>
                                 <img
                                   src={
-                                    item?.flavourImage
-                                      ? item?.flavourImage
+                                    product?.productImage
+                                      ? product?.productImage
                                       : require("../../assets/img/product.jpg")
                                   }
                                   alt=""
@@ -538,246 +517,281 @@ const SingleProduct = () => {
                               </a>
                             </li>
                           </SwiperSlide>
-                        ))}
-                    </Swiper>
-                  </ul>
+                          {(product?.type || [])
+                            ?.filter((itm, idx) => itm?.flavourStatus === true)
+                            .map((item, index) => (
+                              <SwiperSlide key={index} className="me-0 ms-1">
+                                <li className="image_button">
+                                  <a
+                                    key={index}
+                                    type="button"
+                                    onMouseOver={() => onHover(item)}
+                                    onMouseOut={onMouseOut}
+                                    onClick={() => {
+                                      document.getElementById(
+                                        "productMainImg"
+                                      ).src = item?.flavourImage
+                                        ? item?.flavourImage
+                                        : require("../../assets/img/product.jpg");
+                                      document.getElementById(
+                                        "productMainImg"
+                                      ).className = "selected-img";
+                                      setFlavour(item);
+                                      setUnitCount(1);
+                                    }}>
+                                    <img
+                                      src={
+                                        item?.flavourImage
+                                          ? item?.flavourImage
+                                          : require("../../assets/img/product.jpg")
+                                      }
+                                      alt=""
+                                    />
+                                  </a>
+                                </li>
+                              </SwiperSlide>
+                            ))}
+                        </Swiper>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-md-6 ps-lg-5 ps-md-4">
+                    <div className="prdct_comtenT">
+                      <h2>{product?.unitName}</h2>
+                      <div className="prdct_comtenT_falvor">
+                        <div
+                          className={
+                            errMsg
+                              ? "col-12 offers_head text-danger"
+                              : "col-12 offers_head "
+                          }>
+                          <div className="prdct---falvor">
+                            Flavour:{" "}
+                            <a
+                              href="javascript:;"
+                              className="text-decoration-none">
+                              {" "}
+                              {errMsg ? errMsg : flavour?.flavour}
+                            </a>
+                          </div>
+                        </div>
+                        {flavour ? (
+                          <div className="col-12">
+                            <p className="fw-bold">
+                              {flavour?.flavourPriceStatus
+                                ? "Price : $" + flavour?.flavourPrice
+                                : null}
+                            </p>
+                          </div>
+                        ) : null}
+                        <div className="falvor_main mt-4">
+                          <div className="row">
+                            {(product?.type || [])
+                              .filter((itm, idx) => itm.flavourStatus === true)
+                              .sort((a, b) => {
+                                return a.flavour.localeCompare(b.flavour);
+                              })
+                              .map((item, ind) => {
+                                return flavour?.flavour === item?.flavour ? (
+                                  <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
+                                    <a
+                                      className="flavor_design selected_flavor text-decoration-none"
+                                      data-toggle="tooltip"
+                                      data-placement="top"
+                                      title={item?.flavour}
+                                      key={ind}
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "#3e4093",
+                                      }}>
+                                      {flavour?.flavour?.slice(0, 18)}
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
+                                    <a
+                                      className="flavor_design text-decoration-none btn-animate"
+                                      key={ind}
+                                      data-toggle="tooltip"
+                                      data-placement="top"
+                                      title={item?.flavour}
+                                      onMouseMove={onMouseOut}
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => {
+                                        document.getElementById(
+                                          "productMainImg"
+                                        ).src = item?.flavourImage;
+
+                                        setErrMsg();
+                                        setTypeObj();
+                                        setFlavour(item);
+                                        setUnitCount(1);
+                                        document.getElementById(
+                                          "flavour_box"
+                                        ).className = "offers_box_main ";
+                                        document.getElementById(
+                                          "productMainImg"
+                                        ).className = "selected-img";
+                                      }}>
+                                      <span>{item?.flavour?.slice(0, 18)}</span>
+                                    </a>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="prdct_bottom mt-3 d-flex align-items-center">
+                        <div className="number">
+                          <span
+                            className="minus"
+                            style={{ userSelect: "none" }}
+                            onClick={() => {
+                              if (unitCount > 1) {
+                                setUnitCount(unitCount - 1);
+                                document
+                                  .getElementById("quanInput")
+                                  .stepDown(1);
+                              }
+                            }}>
+                            -
+                          </span>
+                          <input
+                            type="number"
+                            id="quanInput"
+                            value={unitCount}
+                            onChange={(e) => setUnitCount(e.target.value)}
+                          />
+                          <span
+                            className="plus"
+                            style={{ userSelect: "none" }}
+                            onClick={() => {
+                              document.getElementById("quanInput").stepUp(1);
+                              setUnitCount(+unitCount + 1);
+                            }}>
+                            +
+                          </span>
+                        </div>
+                        {token ? (
+                          <Button
+                            className="cartt--btn  ms-3"
+                            loading={loader}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#3e4093",
+                              color: "#fff",
+                              fontSize: "14px",
+                              fontWeight: "500px",
+                              padding: "10px",
+                              paddingLeft: "20px",
+                              paddingRight: "20px",
+                            }}
+                            onClick={AddtoCart}>
+                            Add to Cart
+                          </Button>
+                        ) : (
+                          <div
+                            className="cartt--btn me-2 rounded mx-4"
+                            style={{
+                              color: "#FFF",
+                              cursor: "pointer",
+                              backgroundColor: "#eb3237",
+                            }}
+                            onClick={() => {
+                              navigate("/app/login");
+                            }}>
+                            Please Login to add to cart!
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-success fw-bold">
+                        {" "}
+                        <i className="'fas fa-check-circle'"> </i>
+                        {succesMsg}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="col-md-6 ps-lg-5 ps-md-4">
-                <div className="prdct_comtenT">
-                  <h2>{product?.unitName}</h2>
-                  <div className="prdct_comtenT_falvor">
-                    <div
-                      className={
-                        errMsg
-                          ? "col-12 offers_head text-danger"
-                          : "col-12 offers_head "
-                      }>
-                      <div className="prdct---falvor">
-                        Flavour:{" "}
-                        <a href="javascript:;" className="text-decoration-none">
-                          {" "}
-                          {errMsg ? errMsg : flavour?.flavour}
+            </section>
+
+            <section class="product_describeee bg-white comman_padding">
+              <div class="container">
+                <div class="row comman_divvision mx-0">
+                  <div class="col-12 mb-3">
+                    <div class="comn_heads mb-5">
+                      <h2>PRODUCT DESCRIPTION</h2>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="describe_main text-center">
+                      <p>
+                        {flavour
+                          ? flavour?.description
+                          : "Please Select Any Flavour/Type to see details."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="brandsnew SIMILAR_prrodct ">
+              <div className="container mb-4">
+                <div className="col-12 comman_head mt-1 mb-5 text-center ">
+                  <h2>Similar Products</h2>
+                </div>
+
+                <Swiper
+                  slidesPerView={4}
+                  spaceBetween={35}
+                  loop={true}
+                  navigation={true}
+                  modules={[Pagination, Navigation]}
+                  className="mySwiper px-5 py-2">
+                  {(simProducts || [])?.map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="p-3 mb-2">
+                        <a href="javascript:;" class="categorynew_box">
+                          <div class="categorynew_img">
+                            <img
+                              src={
+                                item?.productImage
+                                  ? item?.productImage
+                                  : require("../../assets/img/product.jpg")
+                              }
+                              alt="Product"
+                              onClick={() => {
+                                navigate(`/AllProducts/Product/:${item?.slug}`);
+                                window.scrollTo({
+                                  top: 0,
+                                  behavior: "smooth",
+                                });
+                              }}
+                            />
+                          </div>
+                          <span
+                            class="text-decoration-none"
+                            onClick={() => {
+                              navigate(`/AllProducts/Product/:${item?.slug}`);
+                              window.scrollTo({
+                                top: 0,
+                                behavior: "smooth",
+                              });
+                            }}>
+                            {item?.unitName}
+                          </span>
                         </a>
                       </div>
-                    </div>
-                    {flavour ? (
-                      <div className="col-12">
-                        <p className="fw-bold">
-                          {flavour?.flavourPriceStatus
-                            ? "Price : $" + flavour?.flavourPrice
-                            : null}
-                        </p>
-                      </div>
-                    ) : null}
-                    <div className="falvor_main mt-4">
-                      <div className="row">
-                        {(product?.type || [])
-                          .filter((itm, idx) => itm.flavourStatus === true)
-                          .sort((a, b) => {
-                            return a.flavour.localeCompare(b.flavour);
-                          })
-                          .map((item, ind) => {
-                            return flavour?.flavour === item?.flavour ? (
-                              <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
-                                <a
-                                  className="flavor_design selected_flavor text-decoration-none"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title={item?.flavour}
-                                  key={ind}
-                                  style={{
-                                    cursor: "pointer",
-                                    backgroundColor: "#3e4093",
-                                  }}>
-                                  {flavour?.flavour?.slice(0, 18)}
-                                </a>
-                              </div>
-                            ) : (
-                              <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
-                                <a
-                                  className="flavor_design text-decoration-none btn-animate"
-                                  key={ind}
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title={item?.flavour}
-                                  onMouseMove={onMouseOut}
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    document.getElementById(
-                                      "productMainImg"
-                                    ).src = item?.flavourImage;
-
-                                    setErrMsg();
-                                    setTypeObj();
-                                    setFlavour(item);
-                                    setUnitCount(1);
-                                    document.getElementById(
-                                      "flavour_box"
-                                    ).className = "offers_box_main ";
-                                    document.getElementById(
-                                      "productMainImg"
-                                    ).className = "selected-img";
-                                  }}>
-                                  <span>{item?.flavour?.slice(0, 18)}</span>
-                                </a>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="prdct_bottom mt-3 d-flex align-items-center">
-                    <div className="number">
-                      <span
-                        className="minus"
-                        style={{ userSelect: "none" }}
-                        onClick={() => {
-                          if (unitCount > 1) {
-                            setUnitCount(unitCount - 1);
-                            document.getElementById("quanInput").stepDown(1);
-                          }
-                        }}>
-                        -
-                      </span>
-                      <input
-                        type="number"
-                        id="quanInput"
-                        value={unitCount}
-                        onChange={(e) => setUnitCount(e.target.value)}
-                      />
-                      <span
-                        className="plus"
-                        style={{ userSelect: "none" }}
-                        onClick={() => {
-                          document.getElementById("quanInput").stepUp(1);
-                          setUnitCount(+unitCount + 1);
-                        }}>
-                        +
-                      </span>
-                    </div>
-                    {token ? (
-                      <Button
-                        className="cartt--btn  ms-3"
-                        loading={loader}
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor: "#3e4093",
-                          color: "#fff",
-                          fontSize: "14px",
-                          fontWeight: "500px",
-                          padding: "10px",
-                          paddingLeft: "20px",
-                          paddingRight: "20px",
-                        }}
-                        onClick={AddtoCart}>
-                        Add to Cart
-                      </Button>
-                    ) : (
-                      <div
-                        className="cartt--btn me-2 rounded mx-4"
-                        style={{
-                          color: "#FFF",
-                          cursor: "pointer",
-                          backgroundColor: "#eb3237",
-                        }}
-                        onClick={() => {
-                          navigate("/app/login");
-                        }}>
-                        Please Login to add to cart!
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-success fw-bold">
-                    {" "}
-                    <i className="'fas fa-check-circle'"> </i>
-                    {succesMsg}
-                  </p>
-                </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="product_describeee bg-white comman_padding">
-          <div class="container">
-            <div class="row comman_divvision mx-0">
-              <div class="col-12 mb-3">
-                <div class="comn_heads mb-5">
-                  <h2>PRODUCT DESCRIPTION</h2>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="describe_main text-center">
-                  <p>
-                    {flavour
-                      ? flavour?.description
-                      : "Please Select Any Flavour/Type to see details."}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="brandsnew SIMILAR_prrodct ">
-          <div className="container mb-4">
-            <div className="col-12 comman_head mt-1 mb-5 text-center ">
-              <h2>Similar Products</h2>
-            </div>
-
-            <Swiper
-              slidesPerView={4}
-              spaceBetween={35}
-              loop={true}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-              className="mySwiper px-5 py-2">
-              {(simProducts || [])?.map((item, index) => (
-                <SwiperSlide key={index}>
-                  <div className="p-3 mb-2">
-                    <a href="javascript:;" class="categorynew_box">
-                      <div class="categorynew_img">
-                        <img
-                          src={
-                            item?.productImage
-                              ? item?.productImage
-                              : require("../../assets/img/product.jpg")
-                          }
-                          alt="Product"
-                          onClick={() => {
-                            navigate(
-                              `/AllProducts/Product/:${item?.slug}`
-                            )
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
-                          }}
-                        />
-                      </div>
-                      <span
-                        class="text-decoration-none"
-                        onClick={() => {
-                          navigate(
-                            `/AllProducts/Product/:${item?.slug}`
-                          )
-                          window.scrollTo({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }}>
-                        {item?.unitName}
-                      </span>
-                    </a>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </section>
-      </>
-      <Footer />
+            </section>
+          </>
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

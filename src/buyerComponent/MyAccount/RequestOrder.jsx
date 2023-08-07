@@ -33,7 +33,7 @@ const RequestOrders = () => {
           <div class="col-md-6 mb-4">
             <div
               class="order-new-box"
-              onClick={() => navigate(`/app/order-detail/${item?.quoteId}`)}
+              onClick={() => navigate(`/app/request-detail/${item?.quoteId}`)}
               // state={{ id: item?._id }}
             >
               <div class="row">

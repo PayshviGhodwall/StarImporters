@@ -771,7 +771,6 @@ const QuotePdf = () => {
                                           borderLeft: 0,
                                         }}
                                       >
-                                        SHIPPING &amp; HANDLEING/SAIA2127633
                                       </td>
                                       <td
                                         style={{
@@ -784,7 +783,6 @@ const QuotePdf = () => {
                                           borderLeft: 0,
                                         }}
                                       >
-                                        1
                                       </td>
                                       <td
                                         style={{

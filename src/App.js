@@ -160,19 +160,23 @@ function App() {
             <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
             <Route path="/Terms&Condition" element={<TermsCondition />} />
             <Route path="/AboutUs" element={<AboutUs />} />
+
             <Route
-              path="/CategoryProducts"
+              path="/Category/:id"
               element={<ProductByCate CateName={cateName} />}
             />
+
             <Route
-              path="/SubCategory/Products"
+              path="/Category/Sub-Category/:id"
               element={<ProductBySubCate />}
             />
+
+            <Route path="/Brands/:id" element={<ProductByBrand />} />
+
             <Route path="/Products/Filter" element={<ProductsByFilter />} />
             <Route path="/app/verify" element={<AgeVerification />} />
             <Route path="/Admin/SubAdmin" element={<SubAdmin />} />
             <Route path="/user/viewDocs" element={<ViewDocs />} />
-            <Route path="/Brands/Products" element={<ProductByBrand />} />
             <Route
               path="/AllProducts/Product/:id"
               element={<SingleProduct />}

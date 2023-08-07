@@ -81,7 +81,7 @@ const Homepage = () => {
     }, 8000);
   }, []);
 
-  let image = ""
+  let image = require("../../assets/img/banner_2.png");
 
   const AllProducts = async () => {
     await axios
@@ -495,9 +495,7 @@ const Homepage = () => {
                           <a className="categorynew_box">
                             <div className="categorynew_img p-2">
                               <Link
-                                to={{
-                                  pathname: "/CategoryProducts",
-                                }}
+                                to={`/Category/${item?.slug}`}
                                 state={{
                                   name: item?.categoryName,
                                   image: item?.background,
@@ -574,7 +572,10 @@ const Homepage = () => {
                                   class="buy"
                                   onClick={() =>
                                     navigate(
-                                      `/AllProducts/Product/:${item?.slug}`
+                                      `/AllProducts/Product/:${item?.slug}`,
+                                      {
+                                        state: "jkkj",
+                                      }
                                     )
                                   }>
                                   Buy Now
@@ -684,7 +685,7 @@ const Homepage = () => {
                       <div className="col-auto shadow">
                         <div className="categorynew_slider sliderbtns_design">
                           <Link
-                            to="/Brands/Products"
+                            to={`/Brands/${item?.slug}`}
                             state={{ name: item?.brandName }}
                             className="brandsnew_box">
                             <img src={item?.brandImage} alt="" />
