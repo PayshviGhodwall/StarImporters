@@ -1213,7 +1213,7 @@ const OrderReq = () => {
                                                     { page: activePage },
                                                   ]);
                                                   navigate(
-                                                    "/OrderRequest/ViewOrder",
+                                                    `/OrderRequest/ViewOrder/${item?._id}`,
                                                     {
                                                       state: {
                                                         id: item?._id,

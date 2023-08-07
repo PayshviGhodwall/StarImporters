@@ -113,11 +113,12 @@ const Cart = () => {
       if (!res?.error) {
         Swal.fire({
           title: "Your Quotation Request Has Submitted!",
-          text: "Check Status here",
+          text: "We will share our response on your registered email.",
           icon: "success",
-          button: "Ok",
+          button: "Okay",
+          timer:2000
         });
-        navigate("/RequestOrder");
+        navigate("/app/home");
       }
     });
   };

@@ -145,7 +145,7 @@ function App() {
             <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
             <Route path="/RequestOrder" element={<RequestOrders />} />
             <Route path="/OrderDetails" element={<OrderDetails />} />
-            <Route path="/RequestDetails" element={<RequestDetails />} />
+            <Route path="/app/request-detail/:id" element={<RequestDetails />} />
             <Route path="/MainMenu" element={<MainMenu />} />
             <Route path="/Address" element={<Address />} />
             <Route path="/Account" element={<Account />} />
@@ -230,7 +230,7 @@ function App() {
             <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
             <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
             <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
-            <Route path="/OrderRequest/ViewOrder" element={<ViewOrder />} />
+            <Route path="/OrderRequest/ViewOrder/:id" element={<ViewOrder />} />
             <Route
               path="/OrderRequest/ViewOrder/Edit"
               element={<EditOrder />}

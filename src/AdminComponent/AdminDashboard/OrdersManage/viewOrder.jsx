@@ -1,12 +1,29 @@
 import axios from "axios";
 import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
+import { components } from "react-select";
 import moment from "moment";
 import { CSVLink, CSVDownload } from "react-csv";
+import Select from "react-select";
+const Option = (props) => {
+  return (
+    <div>
+      <components.Option {...props} className="d-flex ">
+        <input
+          type="checkbox"
+          className="border border-secondary"
+          checked={props.isSelected}
+          onChange={() => null}
+        />{" "}
+        <label className="mx-2 mt-1">{props.label}</label>
+      </components.Option>
+    </div>
+  );
+};
 
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -15,13 +32,19 @@ const ViewOrder = () => {
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
   const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
+  const allPullers = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
+  const assign = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/assignPuller`;
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const [statusComment, setStatusComment] = useState("");
+  const [options, setOptions] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
+  const [selectedPuller, setSelectedPuller] = useState([]);
+
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [csvData, setCsvData] = useState([]);
-  let id = location?.state?.id;
+  let { id } = useParams();
   const fileDownload = (url, name) => {
     saveAs(url, name);
   };
@@ -60,6 +83,7 @@ const ViewOrder = () => {
         }
       });
   };
+
   const exportOrder = async () => {
     await axios.post(orderExport + "/" + id).then((res) => {
       console.log(res);
@@ -75,12 +99,63 @@ const ViewOrder = () => {
       }
     });
   };
+  useEffect(() => {
+    createOptions();
+  }, [searchKey]);
+
+  const createOptions = async () => {
+    await axios.get(allPullers).then((res) => {
+      if (!res.error) {
+        let data = res?.data.results.pullers;
+        const optionList = data?.map((item, index) => ({
+          value: item?._id,
+          label: item?.fullName,
+        }));
+        setOptions(optionList);
+      }
+    });
+  };
+
+  const handleInputChange = (inputValue) => {
+    console.log("lkjkl");
+    setSearchKey(inputValue);
+  };
+  const handleChange = (selected) => {
+    setSelectedPuller({
+      puller: selected,
+    });
+  };
+
+  const assignPuller = async (e) => {
+    e.preventDefault();
+    console.log(selectedPuller);
+    const { data } = await axios.post(assign + "/" + orders?._id, {
+      pullerId: selectedPuller?.puller?.value,
+    });
+    if (!data.error) {
+      document.getElementById("modalP").click();
+      Swal.fire({
+        title: "Puller Assigned!",
+        icon: "success",
+        timer: 2000,
+        confirmButtonText: "Okay",
+      });
+    } else {
+      Swal.fire({
+        title: "401 Error!",
+        icon: "error",
+        timer: 2000,
+        confirmButtonText: "Okay",
+      });
+    }
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -176,41 +251,33 @@ const ViewOrder = () => {
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -357,12 +424,10 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -373,12 +438,10 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -483,6 +546,23 @@ const ViewOrder = () => {
                     </div>
                     <div className="col-auto"></div>
                     <div className="col-auto">
+                      {orders?.pullStatus === "Assigned" ? (
+                        <button
+                          class="dropdown-btns comman_btn mx-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdropAdmin">
+                          Puller: {orders?.puller?.fullName}{" "}
+                          <i class="fas fa-user-gear"></i>
+                        </button>
+                      ) : (
+                        <button
+                          class="dropdown-btns comman_btn2 mx-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdropAdmin">
+                          Assign Puller <i class="fas fa-user-gear"></i>
+                        </button>
+                      )}
+
                       <button
                         class="dropdown-btns comman_btn2 mx-2"
                         onClick={() =>
@@ -668,24 +748,24 @@ const ViewOrder = () => {
                                 <option value="CANCEL">Canceled</option>
                               </select>
                             </div>
-                            {orders?.status === "SHIPPED" || orderStatus === "SHIPPED" ? (
+                            {orders?.status === "SHIPPED" ||
+                            orderStatus === "SHIPPED" ? (
                               <div className="form-group mb-0 col">
                                 <label htmlFor="">Comment if(any)</label>
                                 <textarea
                                   type="text"
                                   name="statusComment"
                                   defaultValue={orders?.statusComment}
-                                  placeholder="Add your comment here."  
+                                  placeholder="Add your comment here."
                                   className="form-control"
                                   onChange={(e) => {
                                     setStatusComment(e.target.value);
                                   }}
                                 />
                               </div>
-                            )
-                          :
-                          ""
-                          }
+                            ) : (
+                              ""
+                            )}
 
                             <div className="form-group mb-0 col-auto">
                               <button
@@ -712,6 +792,7 @@ const ViewOrder = () => {
                                   />
                                 </th>
                                 <th>Quantity</th>
+                                <th>Pull Status</th>
                               </tr>
                             </thead>
                             <tbody className="border">
@@ -764,6 +845,18 @@ const ViewOrder = () => {
                                       {item?.quantity}
                                     </span>
                                   </td>
+                                  <td className="border rounded">
+                                    {item?.scanned ? (
+                                      <span className="fs-5  p-2 px-3 rounded">
+                                        <img
+                                          src={require("../../../assets/img/Group 427322975.png")}></img>
+                                      </span>
+                                    ) : (
+                                      <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                        Pending
+                                      </span>
+                                    )}
+                                  </td>
                                 </tr>
                               ))}
                             </tbody>
@@ -774,6 +867,55 @@ const ViewOrder = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade comman_modal"
+        id="staticBackdropAdmin"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Assign Puller
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                id="modalP"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body shadow">
+              <form className="form-design row p-2" action="">
+                <div className="form-group col-12">
+                  <label htmlFor="">Select Puller</label>
+                  <Select
+                    options={options}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    components={{
+                      Option,
+                    }}
+                    onChange={handleChange}
+                    onInputChange={handleInputChange}
+                    value={selectedPuller?.puller}
+                  />
+                </div>
+
+                <div className="form-group mb-0 col-12 text-center ">
+                  <button className="comman_btn2" onClick={assignPuller}>
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

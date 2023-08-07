@@ -8,8 +8,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 
-
-
 const PullerManagement = () => {
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -21,22 +19,18 @@ const PullerManagement = () => {
   const [maxPage, setMaxPage] = useState(1);
   const [files,setFiles] = useState([])
   const [activePage,setActivePage] = useState(0)
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const onFileSelection = (e, key) => {
     let image = e.target.files[0];
         setFiles({ ...files, [key]: image });
   };
-
   useEffect(() => {
     getPullers();
   }, []);
-
   const getPullers = async () => {
     await axios.get(getPullerApi).then((res) => {
       setAllPullers(res?.data.results.pullers);
@@ -729,9 +723,7 @@ const PullerManagement = () => {
                           <tbody>
                             {(allPullers || [])?.map((item, index) => (
                               <tr key={index} className="border ">
-                                {/* <td className="border">
-                                  {(activePage - 1) * 20 + (index + 1)}.
-                                </td> */}
+                              
                                 <td>{index+1}</td>
                                 <td className="border">
                                   {moment(item?.craetedAt?.slice(0, 10)).format(
