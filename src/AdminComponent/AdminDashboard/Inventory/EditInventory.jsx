@@ -1025,7 +1025,7 @@ const EditInventory = () => {
                                           width: "130px",
                                           marginLeft: "0",
                                         }}
-                                        src={item?.flavourImage}
+                                        src={item?.flavourImage ? item?.flavourImage : require("../../../assets/img/product.jpg") }
                                       />
                                     </div>
                                     <div className="p-image">

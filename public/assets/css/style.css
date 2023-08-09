@@ -2800,6 +2800,18 @@
     justify-content: center;
     position: relative;
   }
+  @media screen and (min-device-width: 768px) and (max-device-width: 2500px){
+.track_order li::after {
+    position: absolute;
+    content: "";
+    height: 4px;
+    width: 150px;
+    background-color: #f2f2f2;
+    left: 81px;
+    top: 4px;
+    z-index: 0;
+}
+}
   .track_order li::after {
     position: absolute;
     content: "";
@@ -2814,9 +2826,9 @@
     position: absolute;
     content: "";
     height: 4px;
-    width: 160px;
+    width: 170px !important;
     background-color: #3e4093;
-    left: 69px;
+    left: 81px !important;
     top: 4px;
     z-index: 1;
     opacity: 0;
@@ -5422,6 +5434,7 @@ background-color: #3e4093;
     position: absolute;
     background-color: #eb3237;
     height: 50px;
+    left: 4px !important;
     color: #fff;
     display: flex !important;
     align-items: center;
@@ -5438,6 +5451,7 @@ background-color: #3e4093;
     background-color: #3e4093;
     height: 50px;
     color: #fff;
+    left: 4px !important;
     display: flex !important;
     align-items: center;
     width: 110px;
@@ -12108,7 +12122,6 @@ background-color: #3e4093;
     position: absolute;
     top: 22px !important;
     background-color: #eb3237;
-    left: 0 !important;
     height: 34px;
     color: #fff;
     display: flex !important;
@@ -15899,7 +15912,6 @@ figure.effect-ming:hover img {
   height: 35px;
   top: 0;
   position: absolute;
-  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;

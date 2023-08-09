@@ -153,7 +153,7 @@ const Account = () => {
     }
   };
 
-  console.log(password);
+  console.log(password, "sdf");
   const checkPassword = (e) => {
     let oldPass = e.target.value;
 
@@ -161,7 +161,7 @@ const Account = () => {
       if (oldPass?.length >= 6) {
         setErrorMsg("Wrong Old Password!");
       }
-    } else {
+    } else if (oldPass === password) {
       setErrorMsg("Password Matched!");
     }
   };
@@ -275,8 +275,7 @@ const Account = () => {
                     users.federalTaxId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
-                  }
-                >
+                  }>
                   <span>Federal Tax ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
@@ -297,8 +296,7 @@ const Account = () => {
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.federalTaxId);
-                      }}
-                    >
+                      }}>
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.federalTaxId?.name
                           ? files?.federalTaxId?.name
@@ -310,6 +308,7 @@ const Account = () => {
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
+                        className="mx-1"
                         name="federalTaxId"
                         id="upld"
                         accept="image/jpeg,image/png,application/pdf,image/x-eps"
@@ -325,8 +324,7 @@ const Account = () => {
                       className="SaveBtn"
                       onClick={(e) =>
                         editDocs(e, files?.federalTaxId, "federalTaxId")
-                      }
-                    >
+                      }>
                       Save
                     </button>
                   ) : null}
@@ -340,8 +338,7 @@ const Account = () => {
                     users.tobaccoLicence != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
-                  }
-                >
+                  }>
                   <span>Tobacco License</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
@@ -362,8 +359,7 @@ const Account = () => {
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.tobaccoLicence);
-                      }}
-                    >
+                      }}>
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.tobaccoLicence?.name
                           ? files?.tobaccoLicence?.name
@@ -375,6 +371,7 @@ const Account = () => {
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
+                        className="mx-1"
                         name="tobaccoLicence"
                         id="upld"
                         accept="image/jpeg,image/png,application/pdf,image/x-eps"
@@ -390,8 +387,7 @@ const Account = () => {
                       className="SaveBtn"
                       onClick={(e) =>
                         editDocs(e, files?.tobaccoLicence, "tobaccoLicence")
-                      }
-                    >
+                      }>
                       Save
                     </button>
                   ) : null}
@@ -404,8 +400,7 @@ const Account = () => {
                     users.salesTaxId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
-                  }
-                >
+                  }>
                   <span>Sales Tax ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
@@ -426,8 +421,7 @@ const Account = () => {
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.salesTaxId);
-                      }}
-                    >
+                      }}>
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.salesTaxId?.name
                           ? files?.salesTaxId?.name
@@ -440,6 +434,7 @@ const Account = () => {
                       <input
                         type="file"
                         name="salesTaxId"
+                        className="mx-1"
                         id="upld"
                         accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         {...register("salesTaxId")}
@@ -454,8 +449,7 @@ const Account = () => {
                       className="SaveBtn"
                       onClick={(e) =>
                         editDocs(e, files?.salesTaxId, "salesTaxId")
-                      }
-                    >
+                      }>
                       Save
                     </button>
                   ) : null}
@@ -468,8 +462,7 @@ const Account = () => {
                     users.businessLicense != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
-                  }
-                >
+                  }>
                   <span>Business License ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
@@ -489,8 +482,7 @@ const Account = () => {
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.businessLicense);
-                      }}
-                    >
+                      }}>
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.businessLicense?.name
                           ? files?.businessLicense?.name
@@ -503,6 +495,7 @@ const Account = () => {
                       <input
                         type="file"
                         name="businessLicense"
+                        className="mx-1"
                         id="upld"
                         accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         {...register("businessLicense")}
@@ -517,8 +510,7 @@ const Account = () => {
                       className="SaveBtn"
                       onClick={(e) =>
                         editDocs(e, files?.businessLicense, "businessLicense")
-                      }
-                    >
+                      }>
                       Save
                     </button>
                   ) : null}
@@ -531,8 +523,7 @@ const Account = () => {
                     users.accountOwnerId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
-                  }
-                >
+                  }>
                   <span>Account Owner ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
@@ -552,8 +543,7 @@ const Account = () => {
                       className="text-decoration-none text-center"
                       onClick={() => {
                         fileDownload(users?.accountOwnerId);
-                      }}
-                    >
+                      }}>
                       <p className="mt-3" style={{ fontSize: "9px" }}>
                         {files?.accountOwnerId?.name
                           ? files?.accountOwnerId?.name
@@ -566,6 +556,7 @@ const Account = () => {
                       <input
                         type="file"
                         name="accountOwnerId"
+                        className="mx-1"
                         id="upld"
                         accept="image/jpeg,image/png,application/pdf,image/x-eps"
                         {...register("accountOwnerId")}
@@ -580,12 +571,10 @@ const Account = () => {
                       className="SaveBtn"
                       onClick={(e) =>
                         editDocs(e, files?.accountOwnerId, "accountOwnerId")
-                      }
-                    >
+                      }>
                       Save
                     </button>
                   ) : null}
-                  
                 </div>
               </div>
             </form>
@@ -600,8 +589,7 @@ const Account = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered ">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body shadow">
@@ -642,8 +630,7 @@ const Account = () => {
                     className="col-12 text-center mt-3"
                     data-bs-toggle="modal"
                     id="modal-toggle"
-                    data-bs-target="#staticBackdrop9"
-                  >
+                    data-bs-target="#staticBackdrop9">
                     <button className="comman_btn2" onClick={SendOtp}>
                       Send Otp
                     </button>
@@ -662,8 +649,7 @@ const Account = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0">
             <div className="modal-body shadow">
@@ -686,8 +672,7 @@ const Account = () => {
                   <form
                     className="forms_modal_content otp_part"
                     onSubmit={handleSubmit(onSubmit)}
-                    autocomplete="off"
-                  >
+                    autocomplete="off">
                     {error}
                     <div className="form-group mb-3 d-flex justify-content-center">
                       <input
@@ -775,16 +760,14 @@ const Account = () => {
                         {counter ? (
                           <a
                             className="text-decoration-none "
-                            style={{ color: "#3b4093" }}
-                          >
+                            style={{ color: "#3b4093" }}>
                             Check Email
                           </a>
                         ) : (
                           <a
                             className="text-decoration-none"
                             style={{ color: "#3b4093", cursor: "pointer" }}
-                            onClick={ResendOtp}
-                          >
+                            onClick={ResendOtp}>
                             Resend OTP
                           </a>
                         )}
@@ -796,8 +779,7 @@ const Account = () => {
                     id="modal-toggle"
                     data-bs-target="#staticBackdrop4"
                     href="javscript:;"
-                    className="comman_btn text-decoration-none d-none"
-                  >
+                    className="comman_btn text-decoration-none d-none">
                     Ssdfd
                   </a>
                 </div>
@@ -811,8 +793,7 @@ const Account = () => {
         id="modal-toggle11"
         data-bs-target="#staticBackdrop11"
         href="javscript:;"
-        className="comman_btn text-decoration-none d-none"
-      >
+        className="comman_btn text-decoration-none d-none">
         Ssdfd
       </a>
       <div
@@ -822,8 +803,7 @@ const Account = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0">
             <div className="modal-body shadow">
@@ -881,30 +861,8 @@ const Account = () => {
                       {console.log(users?.email)}
                       <label htmlFor="floatingInput">Email Address</label>
                     </div>
-                    <div className="form-floating col-6 mb-4 position-relative">
-                      <input
-                        type="password"
-                        name="Oldpassword"
-                        className="form-control shadow-none px-3"
-                        id="password-input2"
-                        onChange={checkPassword}
-                      />
-                      <label htmlFor="password-field">Old Password</label>
-                      <span
-                        onClick={togglePassword}
-                        className="fa fa-fw fa-eye field-icon toggle-password"
-                      />
-                      <small
-                        className={
-                          errMsg === "Password Matched!"
-                            ? "text-success"
-                            : " text-danger"
-                        }
-                      >
-                        {errMsg}
-                      </small>
-                    </div>
-                    <div className="form-floating col-6 mb-4 position-relative">
+
+                    <div className="form-floating col-12 mb-4 position-relative">
                       <input
                         type="password"
                         name="password"
@@ -912,7 +870,7 @@ const Account = () => {
                         id="password-input"
                         onChange={UpdatedData}
                       />
-                      <label htmlFor="password-field">New Password</label>
+                      <label htmlFor="password-field">Enter New Password</label>
                       <span
                         onClick={togglePassword2}
                         className="fa fa-fw fa-eye field-icon toggle-password"
@@ -921,8 +879,7 @@ const Account = () => {
                     <div className="form-floating col-12 text-center">
                       <button
                         className="text-center my-2 comman_btn"
-                        onClick={SaveProfile}
-                      >
+                        onClick={SaveProfile}>
                         Save
                       </button>
                     </div>

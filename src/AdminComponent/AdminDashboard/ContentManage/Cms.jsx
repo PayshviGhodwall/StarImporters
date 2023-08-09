@@ -1416,18 +1416,18 @@ const Cms = () => {
                                                   {videoSlides[0]?.video}
                                                 </label>
                                               </div>
-                                              <div className="form-group col-12 choose_fileInvent position-relative mt-4">
+                                              <div className="form-group col-12 choose_file position-relative mt-4">
                                                 <span className="fw-bolder">Change Video </span>
                                                 <label
                                                   htmlFor="upload_video"
-                                                  className="inputText">
+                                                  >
                                                   <i className="fa fa-camera me-1" />
                                                   Choose File
                                                 </label>{" "}
                                                 <input
                                                   type="file"
                                                   className=
-                                                    "form-control  border border-secondary"
+                                                    "form-control  border border-secondary mx-2"
                                                     name="video1"
                                                     accept="video/*"
                                                     id="vidSlide1"
@@ -1480,18 +1480,18 @@ const Cms = () => {
                                                   {videoSlides[1]?.video}
                                                 </label>
                                               </div>
-                                              <div className="form-group col-12 choose_fileInvent position-relative mt-4">
+                                              <div className="form-group col-12 choose_file position-relative mt-4">
                                                 <span className="fw-bolder">Change Video </span>
                                                 <label
                                                   htmlFor="upload_video"
-                                                  className="inputText">
-                                                  <i className="fa fa-camera me-1" />
+                                                  >
+                                                  <i className="fa fa-camera me-1 mx-2" />
                                                   Choose File
-                                                </label>{" "}
+                                                </label>
                                                 <input
                                                   type="file"
                                                   className=
-                                                    "form-control  border border-secondary"
+                                                    "form-control  border border-secondary mx-2"
                                                     name="video1"
                                                     accept="video/*"
                                                     id="vidSlide2"

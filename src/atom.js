@@ -68,8 +68,9 @@ export const chngeFilter = atom({
 
 export const userPassword = atom({
   key: "userPassword", // unique ID (with respect to other atoms/selectors)
-  default: "", // default value (aka initial value)
+  default: "star@321", // default value (aka initial value)
 });
+
 export const appCateProd = atom({
   key: "appCateProd", // unique ID (with respect to other atoms/selectors)
   default: [
