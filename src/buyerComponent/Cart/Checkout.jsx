@@ -288,7 +288,17 @@ const Checkout = () => {
                 )) ||
                   (delevryChoice == "Delivery" && (
                     <strong>
-                      (Your schedule delivery date is X day.)
+                      {users?.cityAndState?.day?.length ? (
+                        <>
+                          (Your schedule delivery date is{" "}
+                          {users?.cityAndState?.day}.)
+                        </>
+                      ) : (
+                        <>
+                          (Unfortunately we dont deliver to this location please
+                          select In-store pick up or shipment.)
+                        </>
+                      )}
                       <br />
                       Minimum invoice amount of $1000 is required for delivery
                       (Excluding Tobacco products).
@@ -336,17 +346,43 @@ const Checkout = () => {
                 </div>
               </div>
               {console.log(location)}
-              <div className="col-12 text-start">
-                <button
-                  className="comman_btn"
-                  onClick={
-                    location?.state?.type === "quote"
-                      ? createQuoteOrder
-                      : createOrder
-                  }>
-                  Place Order
-                </button>
-              </div>
+              {delevryChoice == "Delivery" ? (
+                <div className="col-12 text-start">
+                  {users?.cityAndState?.day?.length ? (
+                    <button
+                      className="comman_btn"
+                      onClick={
+                        location?.state?.type === "quote"
+                          ? createQuoteOrder
+                          : createOrder
+                      }>
+                      Place Order
+                    </button>
+                  ) : (
+                    <button
+                      className="comman_btn text-grey"
+                      style={{
+                        backgroundColor: "GrayText",
+                        textDecoration: "line-through ",
+                        cursor: "not-allowed",
+                      }}>
+                      Place Order
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="col-12 text-start">
+                  <button
+                    className="comman_btn"
+                    onClick={
+                      location?.state?.type === "quote"
+                        ? createQuoteOrder
+                        : createOrder
+                    }>
+                    Place Order
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </section>
