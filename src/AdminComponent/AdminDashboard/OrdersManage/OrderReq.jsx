@@ -75,6 +75,7 @@ const OrderReq = () => {
   // const [selectedProduct, setSelectedProduct] = useState({ products: [] });
   const [selectedUser, setSelectedUser] = useState([]);
   const [searchKey, setSearchKey] = useState("");
+  const [searchKeyPull, setSearchKeyPull] = useState("");
   const [searchUserKey, setSearchUserKey] = useState("");
   const [product, setProducts] = useState({});
   const [addType, setAddType] = useState("");
@@ -84,8 +85,11 @@ const OrderReq = () => {
   const setPageData = useSetRecoilState(orderPageData);
   const [activePage, setActivePage] = useState(pageData[0]?.page);
   const apiCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCities`;
+  const allPullers = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
+  const assign = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/assignPuller`;
   const [cities, setCities] = useState([]);
   const [citySearch, setCitySearch] = useState([]);
+  const [pullOrderId, setPullOrderId] = useState();
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -93,6 +97,7 @@ const OrderReq = () => {
       Quantity: [],
     },
   ]);
+  const [selectedPuller, setSelectedPuller] = useState([]);
 
   const handleChangeEdit = (selected) => {
     setSelectEditOptions({
@@ -130,11 +135,11 @@ const OrderReq = () => {
       return item?.city.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
     setCities(updatedList);
-    if(val<=2){
-      getCities()
+    if (val <= 2) {
+      getCities();
     }
   };
- 
+
   const onSubmitDays = async (data) => {
     const res = await axios.post(editCities + "/" + city, {
       day: (selectEditOptions?.optionSelected || [])?.map(
@@ -260,7 +265,7 @@ const OrderReq = () => {
       .post(orderList, {
         from: values.from,
         to: values.to,
-        page:1,
+        page: 1,
       })
       .then((res) => {
         setOrders(res?.data.results?.orders);
@@ -414,6 +419,58 @@ const OrderReq = () => {
     }
   };
   console.log(selectedCity);
+
+  useEffect(() => {
+    createOptionsPull();
+  }, [searchKeyPull]);
+
+  const createOptionsPull = async () => {
+    await axios.get(allPullers).then((res) => {
+      if (!res.error) {
+        let data = res?.data.results.pullers;
+        const optionList = data?.map((item, index) => ({
+          value: item?._id,
+          label: item?.fullName,
+        }));
+        setOptions(optionList);
+      }
+    });
+  };
+
+  const handleInputChangePull = (inputValue) => {
+    console.log("lkjkl");
+    setSearchKey(inputValue);
+  };
+  const handleChange = (selected) => {
+    setSelectedPuller({
+      puller: selected,
+    });
+  };
+
+  const assignPuller = async (e) => {
+    e.preventDefault();
+    console.log(selectedPuller);
+    const { data } = await axios.post(assign + "/" + pullOrderId, {
+      pullerId: selectedPuller?.puller?.value,
+    });
+    if (!data.error) {
+      OrderRequest()
+      document.getElementById("modalP").click();
+      Swal.fire({
+        title: "Puller Assigned!",
+        icon: "success",
+        timer: 2000,
+        confirmButtonText: "Okay",
+      });
+    } else {
+      Swal.fire({
+        title: "401 Error!",
+        icon: "error",
+        timer: 2000,
+        confirmButtonText: "Okay",
+      });
+    }
+  };
 
   const removeFormFields = (index) => {
     let newFormValues = [...formValues];
@@ -1179,7 +1236,7 @@ const OrderReq = () => {
                                           <th>Mobile Number</th>
                                           <th>Email</th>
                                           <th>Order ID</th>
-                                          <th>Status</th>
+                                          <th>Puller</th>
                                           <th>Order Details</th>
                                         </tr>
                                       </thead>
@@ -1204,7 +1261,21 @@ const OrderReq = () => {
                                                 item?.user?.email}
                                             </td>
                                             <td>{item?.orderId}</td>
-                                            <td>{item?.status}</td>
+                                            {item?.pullStatus === "Pending" ? (
+                                              <td>
+                                                <button
+                                                  class=" comman_btn2 mx-1 border rounded"
+                                                  data-bs-toggle="modal"
+                                                  onClick={()=>{
+                                                    setPullOrderId(item?._id)
+                                                  }}
+                                                  data-bs-target="#staticBackdropAdmin">
+                                                  Assign Puller
+                                                </button>
+                                              </td>
+                                            ) : (
+                                              <td>{item?.puller?.fullName}</td>
+                                            )}
                                             <td>
                                               <button
                                                 className="comman_btn table_viewbtn"
@@ -1360,7 +1431,7 @@ const OrderReq = () => {
                                             backgroundColor: "#f2f2f2",
                                           }}>
                                           <th>Date</th>
-                                          <th>User Name</th>
+                                          <th>Company Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
                                           <th>Request Id</th>
@@ -1378,8 +1449,8 @@ const OrderReq = () => {
                                                 ).format("MM/DD/YYYY")}
                                               </td>
                                               <td>
-                                                {item?.userId?.firstName ||
-                                                  item?.user?.firstName}
+                                                {item?.userId?.companyName ||
+                                                  item?.user?.companyName}
                                               </td>
                                               <td>
                                                 {item?.userId?.phoneNumber ||
@@ -1650,6 +1721,56 @@ const OrderReq = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade comman_modal"
+        id="staticBackdropAdmin"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Assign Puller
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                id="modalP"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body shadow">
+              <form className="form-design row p-2" action="">
+                <div className="form-group col-12">
+                  <label htmlFor="">Select Puller</label>
+                  <Select
+                    options={options}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    components={{
+                      Option,
+                    }}
+                    onChange={handleChange}
+                    onInputChange={handleInputChangePull}
+                    value={selectedPuller?.puller}
+                  />
+                </div>
+
+                <div className="form-group mb-0 col-12 text-center ">
+                  <button className="comman_btn2" onClick={assignPuller}>
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

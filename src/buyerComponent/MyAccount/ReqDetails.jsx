@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../assets/css/main.css";
 import axios from "axios";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const RequestDetails = () => {
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
+  const addInCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/quoteToCart`;
+  const placeOrder = `${process.env.REACT_APP_APIENDPOINTNEW}/user/quotes/quoteToCart/`;
   const [quoteDetails, setQuoteDetails] = useState([]);
-
   let location = useLocation();
-  let {id} = useParams();
+  let navigate = useNavigate();
+  let { id } = useParams();
 
   useEffect(() => {
     const GetQuote = async () => {
@@ -26,6 +29,28 @@ const RequestDetails = () => {
     GetQuote();
   }, []);
 
+  const addToCart = async () => {
+    const { data } = await axios.get(addInCart + "/" + quoteDetails?._id);
+    if (!data.error) {
+      navigate("/app/cart");
+      Swal.fire({
+        title: "Product Added to Cart",
+        icon: "success",
+        timer: 2000,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+        confirmButtonAriaLabel: "Thumbs up, Okay!",
+        cancelButtonText: "Close",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/app/cart");
+        }
+      });
+    }
+  };
+
   return (
     <div className="main_myaccount">
       <Navbar />
@@ -36,20 +61,18 @@ const RequestDetails = () => {
               <h1>My Account</h1>
               <div className="breadcrumbs mt-2">
                 <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
+                  <ol class="breadcrumb mb-0">
                     <li className="item_nanner">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-1"
-                      >
+                        className="text-decoration-none text-white fs-6 mx-1">
                         My Account
                       </Link>
                     </li>
@@ -62,17 +85,32 @@ const RequestDetails = () => {
       </section>
 
       <div className="myaccount mb-4 ">
-        <div className="container container-sm">
-          <div className="row mt-5  justify-content-center">
+        <div className="container container-sm ">
+          <div className="row mt-5  justify-content-center ">
             <div className="col-xl-12 col-md-12 col-sm-9 ">
-              <div className="bg-white p-4 ">
+              <div className="col-12  justify-content-between mb-3">
+                <Link
+                  className="comman_btn2 text-decoration-none fs-6"
+                  to="/app/checkout"
+                  state={{ type: "quote", id: quoteDetails?._id }}>
+                  Place your Order
+                </Link>
+
+                <a>
+                  <Link
+                    className="comman_btn2 text-decoration-none mx-2 fs-6"
+                    onClick={addToCart}>
+                    Add to Cart
+                  </Link>
+                </a>
+              </div>
+              <div className="bg-white p-4 shadow">
                 <div className="tab-content" id="nav-tabContent">
                   <div
                     className="tab-pane fade show active"
                     id="nav-home"
                     role="tabpanel"
-                    aria-labelledby="nav-home-tab"
-                  >
+                    aria-labelledby="nav-home-tab">
                     <div className="col-xl-12 justify content center">
                       <div className="bg-white p-4">
                         <div className="tab-content" id="nav-tabContent">
@@ -80,8 +118,7 @@ const RequestDetails = () => {
                             className="tab-pane fade show active"
                             id="nav-home"
                             role="tabpanel"
-                            aria-labelledby="nav-home-tab"
-                          >
+                            aria-labelledby="nav-home-tab">
                             <div className="row">
                               <div className="col-12 mb-3">
                                 <div className="order_heading">

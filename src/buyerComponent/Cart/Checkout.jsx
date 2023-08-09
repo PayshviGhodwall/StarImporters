@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
@@ -8,10 +8,12 @@ import Navbar from "../Homepage/Navbar";
 const Checkout = () => {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
+  const quoteOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/quoteToOrder`;
   const [users, setUsers] = useState();
   const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
   const navigate = useNavigate();
+  const location = useLocation();
   const autoClose = () => {
     document.getElementById("close").click();
   };
@@ -24,6 +26,7 @@ const Checkout = () => {
     };
     getUser();
   }, []);
+
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
       await axios
@@ -86,6 +89,73 @@ const Checkout = () => {
     }
   };
 
+  const createQuoteOrder = async () => {
+    if (delevryChoice == "Shipment") {
+      await axios
+        .post(quoteOrder, {
+          type: "Shipment",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Order Placed!",
+              text: "You can Track your order on my account",
+              icon: "success",
+              confirmButtonText: "View Order",
+              timer: 2000,
+            }).then((data) => {
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
+            });
+          }
+        });
+    } else if (delevryChoice == "Delivery") {
+      await axios
+        .post(quoteOrder, {
+          type: "Delivery",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Order Placed!",
+              text: "You can Track your order on my account",
+
+              icon: "success",
+              confirmButtonText: "View Order",
+              timer: 2000,
+            }).then((data) => {
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
+            });
+          }
+        });
+    } else if (delevryChoice == "In-Store Pickup") {
+      await axios
+        .post(quoteOrder, {
+          type: "In-Store Pickup",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          if (!res.error) {
+            Swal.fire({
+              title: "Order Placed!",
+              text: "You can Track your order on my account",
+              icon: "success",
+              confirmButtonText: "View Order",
+              timer: 2000,
+            }).then((data) => {
+              navigate(`/app/order-detail/${res?.data.results?.order._id}`);
+            });
+          }
+        });
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -265,9 +335,15 @@ const Checkout = () => {
                   </div>
                 </div>
               </div>
-
+              {console.log(location)}
               <div className="col-12 text-start">
-                <button className="comman_btn" onClick={createOrder}>
+                <button
+                  className="comman_btn"
+                  onClick={
+                    location?.state?.type === "quote"
+                      ? createQuoteOrder
+                      : createOrder
+                  }>
                   Place Order
                 </button>
               </div>

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { charCountState } from "../../selecter";
 import { CartCount } from "../../atom";
 
 const BuyAgain = () => {

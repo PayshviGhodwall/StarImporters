@@ -481,17 +481,17 @@ const SingleProduct = () => {
                           />
                         </Zoom>
                       </div>
-                      <ul className="list-unstyled p-0 m-0">
+                      <ul className="list-unstyled thumbnails_box ">
                         <Swiper
                           slidesPerView={3}
-                          spaceBetween={5}
                           loop={true}
-                          navigation={true}
                           autoplay={true}
                           modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                          className="mySwiper">
+                          className="mySwiper px-5">
                           <SwiperSlide>
-                            <li>
+                            <li
+                            className="box"
+                            >
                               <a
                                 type="button"
                                 onMouseOver={() =>
