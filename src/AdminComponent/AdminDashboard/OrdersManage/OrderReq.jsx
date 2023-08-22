@@ -950,7 +950,7 @@ const OrderReq = () => {
             </div>
           </div>
         </div>
-        <div className="admin_panel_data_orders height_adjust">
+        <div className="admin_panel_data height_adjust">
           <div className="row category_management justify-content-center">
             <div className="col-12 text-end mb-4">
               {addForm ? (
