@@ -95,7 +95,11 @@ const OrderReq = () => {
   const [cities, setCities] = useState([]);
   const [citySearch, setCitySearch] = useState([]);
   const [pullOrderId, setPullOrderId] = useState();
-  const [count, setCount] = useState([]);
+  const [allCount, setAllCount] = useState();
+  const [compCount, setCompCount] = useState();
+  const [canCount, setCanCount] = useState();
+  const [sharedCount, setSharedCount] = useState();
+  const [quoteCount, setQuoteCount] = useState();
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -201,6 +205,7 @@ const OrderReq = () => {
       .then((res) => {
         setOrders(res?.data.results?.orders);
         setMaxPage(res?.data.results?.toatalPages);
+        setAllCount(res?.data.results?.count);
       });
   };
   const completedOrders = async () => {
@@ -209,6 +214,7 @@ const OrderReq = () => {
       .then((res) => {
         setCompOrders(res?.data.results?.orders);
         setMaxPage(res?.data.results?.toatalPages);
+        setCompCount(res?.data.results?.count);
       });
   };
 
@@ -218,21 +224,25 @@ const OrderReq = () => {
       .then((res) => {
         setCancelledOrders(res?.data.results?.orders);
         setMaxPage(res?.data.results?.toatalPages);
+        setCanCount(res?.data.results?.count);
       });
   };
+
   const sharedQuotations = async () => {
     await axios
       .post(quoteList, { page: activePage, status: "Completed" })
       .then((res) => {
         setSharedQ(res?.data.results.quotation);
+        setSharedCount(res?.data.results?.count);
       });
   };
 
   const QuoteRequest = async () => {
     await axios
-      .post(quoteList, { page: activePage, status: "Completed" })
+      .post(quoteList, { page: activePage, status: "Pending" })
       .then((res) => {
         setQuoteReq(res?.data.results.quotation);
+        setQuoteCount(res?.data.results?.count);
       });
   };
 
@@ -307,13 +317,14 @@ const OrderReq = () => {
     setSearchUserKey(inputValue);
   };
 
-  const onOrderSearch = async (e) => {
+  const onOrderSearch = async (e, type) => {
     e.preventDefault();
     await axios
       .post(orderList, {
         from: values.from,
         to: values.to,
         page: 1,
+        status: type,
       })
       .then((res) => {
         setOrders(res?.data.results?.orders);
@@ -431,10 +442,10 @@ const OrderReq = () => {
           })
           .then((res) => {
             if (!res.error) {
-              type === "All" && setOrders(res?.data.results.order);
-              type === "Completed" && setCompOrders(res?.data.results.order);
+              type === "All" && setOrders(res?.data.results.orders);
+              type === "Completed" && setCompOrders(res?.data.results.orders);
               type === "Cancelled" &&
-                setCancelledOrders(res?.data.results.order);
+                setCancelledOrders(res?.data.results.orders);
             }
           })
       : OrderRequest();
@@ -1140,7 +1151,7 @@ const OrderReq = () => {
                             aria-selected="true">
                             Orders
                             <span className="circle_count">
-                              {orders?.length ? orders?.length : 0}
+                              {allCount ? allCount : 0}
                             </span>
                           </button>
                           <button
@@ -1155,7 +1166,7 @@ const OrderReq = () => {
                             onClick={() => completedOrders()}>
                             Completed Orders{" "}
                             <span className="circle_count">
-                              {compOrders?.length ? compOrders?.length : 0}
+                              {compCount ? compCount : 0}
                             </span>
                           </button>
                           <button
@@ -1170,7 +1181,7 @@ const OrderReq = () => {
                             onClick={() => cancelledOrders()}>
                             Cancelled Orders
                             <span className="circle_count">
-                              {cancelled?.length ? cancelled?.length : 0}
+                              {canCount ? canCount : 0}
                             </span>
                           </button>
                           <button
@@ -1185,7 +1196,7 @@ const OrderReq = () => {
                             onClick={() => sharedQuotations()}>
                             Quotation Request
                             <span className="circle_count">
-                              {quoteReq?.length ? quoteReq?.length : 0}
+                              {quoteCount ? quoteCount : 0}
                             </span>
                           </button>
 
@@ -1200,7 +1211,7 @@ const OrderReq = () => {
                             aria-selected="false">
                             Shared Quotations
                             <span className="circle_count">
-                              {sharedQ?.length ? sharedQ?.length : 0}
+                              {sharedCount ? sharedCount : 0}
                             </span>
                           </button>
                           <button
@@ -1252,7 +1263,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={onOrderSearch}>
+                                    onClick={(e) => onOrderSearch(e, "All")}>
                                     Search
                                   </button>
                                 </div>
@@ -1502,7 +1513,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={onOrderSearch}>
+                                    onClick={(e)=> onOrderSearch(e,"Completed")}>
                                     Search
                                   </button>
                                 </div>
@@ -1747,7 +1758,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={onOrderSearch}>
+                                    onClick={(e)=> onOrderSearch(e,"Cancelled")}>
                                     Search
                                   </button>
                                 </div>
@@ -1965,7 +1976,7 @@ const OrderReq = () => {
                           <div className="row mx-0 ">
                             <div className="col-12">
                               <form
-                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
                                 action="">
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
@@ -1992,7 +2003,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={onQuoteSearch}>
+                                    onClick={() => onQuoteSearch()}>
                                     Search
                                   </button>
                                 </div>
@@ -2097,7 +2108,7 @@ const OrderReq = () => {
                           aria-labelledby="nav-shared-tab">
                           <div className="row mx-0 ">
                             <div className="col-12">
-                              <form
+                              {/* <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
                                 action="">
                                 <div className="form-group mb-0 col-3">
@@ -2153,7 +2164,7 @@ const OrderReq = () => {
                                     </div>
                                   </form>
                                 </div>
-                              </form>
+                              </form> */}
                               <div className="row recent_orders_order  ">
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
