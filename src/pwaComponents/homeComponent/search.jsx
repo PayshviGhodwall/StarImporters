@@ -18,6 +18,7 @@ const Search = () => {
     "6245268ah78a79a98da98da977d9d98d9898ad9d8ad"
   );
   const TempToken = `${process.env.REACT_APP_APIENDPOINTNEW}user/newAuthToken`;
+  const [relateCate, setRelateCate] = useState([]);
 
   useEffect(() => {
     getProductList();
@@ -31,6 +32,7 @@ const Search = () => {
     });
     if (!data.error) {
       setProduct(data?.results.products);
+      setRelateCate(data?.results?.subCategories);
     }
   };
 
@@ -62,7 +64,7 @@ const Search = () => {
   };
 
   const microphoneSearch = async () => {
-    setSearch("")
+    setSearch("");
     if (window.flutter_inappwebview) {
       let Dd = await window.flutter_inappwebview.callHandler("micSearch");
       console.log(Dd, "hyiioioio");
@@ -152,7 +154,7 @@ const Search = () => {
       </div>
       {browserName === "WebKit" || browserName === "Chrome WebView" ? (
         <div>
-          {search?.length ? (
+          {search?.length || relateCate?.length >= 1 ? (
             <div className="top-products-area py-1">
               <div className="container">
                 <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
@@ -185,12 +187,42 @@ const Search = () => {
                     </div>
                   ) : null}
                 </div>
-
+                {relateCate?.length >= 1 ? (
+                  <>
+                    Related Sub-Categories
+                    <div className=" mb-2">
+                      {relateCate
+                        ?.filter(
+                          (itm, idx) =>
+                            itm.categoryName != "639a042ff2f72167b43774de" &&
+                            itm.categoryName != "639a7617f2f72167b4377754" &&
+                            itm.isTobacco != true
+                        )
+                        .map((itm, ind) => (
+                          <span
+                            className=" text-primary  fw-bold"
+                            style={{
+                              fontSize: "12px",
+                            }}
+                            onClick={() => {
+                              navigate(
+                                `/app/product-subCategory/${itm?.subCategoryName}`,
+                                {}
+                              );
+                            }}>
+                            {itm?.subCategoryName && itm?.subCategoryName} ,
+                          </span>
+                        ))}
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
                 {product?.length ? (
                   <div className="row g-2 ">
                     {(product || [])
                       ?.filter(
-                      (itm, idx) =>
+                        (itm, idx) =>
                           itm.category != "639a042ff2f72167b43774de" &&
                           idx < 15 &&
                           itm.category != "639a7617f2f72167b4377754" &&
@@ -234,8 +266,11 @@ const Search = () => {
                   </div>
                 ) : (
                   <div>
-                    <img className="no-data" src="../assets/img/no-data.gif" />
-                    <h1 className="text-center"> No Results</h1>
+                    <img
+                      className="no-data"
+                      src={require("../../assets/img/no-data.gif")}
+                    />
+                    <h1 className="text-center"> No Product Results</h1>
                   </div>
                 )}
               </div>
@@ -244,13 +279,33 @@ const Search = () => {
         </div>
       ) : (
         <div>
-          {search?.length ? (
+          {search?.length || relateCate?.length >= 1 ? (
             <div className="top-products-area py-1">
               <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-2">
-                  <h6> Showing results for "{search}"</h6>
-                </div>
-
+                {relateCate?.length >= 1 ? (
+                  <>
+                    Related Sub-Categories
+                    <div className=" mb-2">
+                      {relateCate?.map((itm, ind) => (
+                        <span
+                          className=" text-primary  fw-bold"
+                          style={{
+                            fontSize: "12px",
+                          }}
+                          onClick={() => {
+                            navigate(
+                              `/app/product-subCategory/${itm?.subCategoryName}`,
+                              {}
+                            );
+                          }}>
+                          {itm?.subCategoryName && itm?.subCategoryName} ,
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
                 {product?.length ? (
                   <div className="row g-2 ">
                     {(product || [])?.map((item, index) => {
@@ -290,8 +345,11 @@ const Search = () => {
                   </div>
                 ) : (
                   <div>
-                    <img className="no-data" src="../assets/img/no-data.gif" />
-                    <h1 className="text-center"> No Results</h1>
+                    <img
+                      className="no-data"
+                      src={require("../../assets/img/no-data.gif")}
+                    />
+                    <h1 className="text-center"> No Products Results</h1>
                   </div>
                 )}
               </div>

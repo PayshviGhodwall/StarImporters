@@ -26,6 +26,10 @@ import {
 } from "../../atom";
 import Swal from "sweetalert2";
 import PullToRefresh from "react-simple-pull-to-refresh";
+import Skeleton from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 function AppHome() {
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
@@ -79,6 +83,7 @@ function AppHome() {
     });
     if (!data.error) {
       setProduct(data.results.products);
+      setRelateCate(data?.results?.subCategories);
     }
   };
 
@@ -253,8 +258,236 @@ function AppHome() {
             <AppHeader />
           </div>
           {loading ? (
-            <div className="load_position">
-              <div class="loader_new"></div>
+            <div className="">
+              <div className=" mt-0 ">
+                <div>
+                  <AppHeader />
+                </div>
+                <SkeletonTheme>
+                  <div className="page-content-wrapper">
+                    <div className="container ">
+                      <div className=" pt-3 ">
+                        <Skeleton height={28} />
+                        {/* <form className="" style={{ width: "100%" }}>
+                        <input
+                          className="form-control"
+                          type="search"
+                          placeholder="   Search in Star Importers"
+                          defaultValue=""
+                        />
+                        <button className="me-5">
+                          <i className="fa-solid fa-magnifying-glass" />
+                        </button>
+                        <button type="reset" id="resetBtn" className="d-none">
+                          reset
+                        </button>
+                      </form> */}
+                        <div className="alternative-search-options" />
+                      </div>
+                      {browserName === "WebKit" ||
+                        (browserName === "Chrome WebView" && (
+                          <div className="mt-2">
+                            <Skeleton height={28} count={2} />
+                          </div>
+                        ))}
+                    </div>
+                    <div>
+                      <div>
+                        <div className="hero-wrapper">
+                          <div className="container">
+                            <div className="pt-3">
+                              <Skeleton height={130} />
+
+                              {/* <div className="owl-carousel  hero-slides owl-loaded owl-drag">
+                              <div className="owl-stage-outer">
+                                <div
+                                  className="owl-stage"
+                                  style={{
+                                    transform: "translate3d(-1152px, 0px, 0px)",
+                                    transition: "all 0.25s ease 0s",
+                                    width: 3168,
+                                  }}>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344277591--02.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1679390489573--1677133364742--STAR%2BTRADE%2BSHOW.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1689269561889--Untitled-1.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center" />
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item active"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344255627--01.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344277591--02.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1679390489573--1677133364742--STAR%2BTRADE%2BSHOW.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1689269561889--Untitled-1.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center" />
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344255627--01.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="owl-item cloned"
+                                    style={{ width: 288 }}>
+                                    <div className="single-hero-slide item">
+                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
+                                      <div className="slide-content h-100 d-flex align-items-center">
+                                        <div className="slide-text" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="owl-nav disabled">
+                                <button
+                                  type="button"
+                                  role="presentation"
+                                  className="owl-prev">
+                                  <span aria-label="Previous">‹</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  role="presentation"
+                                  className="owl-next">
+                                  <span aria-label="Next">›</span>
+                                </button>
+                              </div>
+                              <div className="owl-dots">
+                                <button role="button" className="owl-dot">
+                                  <span />
+                                </button>
+                                <button
+                                  role="button"
+                                  className="owl-dot active">
+                                  <span />
+                                </button>
+                                <button role="button" className="owl-dot">
+                                  <span />
+                                </button>
+                                <button role="button" className="owl-dot">
+                                  <span />
+                                </button>
+                                <button role="button" className="owl-dot">
+                                  <span />
+                                </button>
+                              </div>
+                            </div> */}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="product-catagories-wrapper py-3">
+                          <div className="container">
+                            <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                              <h2 className="fs-5">Top Categories</h2>
+                              <a className="btn p-0" href="/app/Categories">
+                                View All
+                                <i className="ms-1 fa-solid fa-arrow-right-long" />
+                              </a>
+                            </div>
+                            <div className="row g-2 rtl-flex-d-row-r">
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                              <div className="col-4 ">
+                                <Skeleton height={120} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SkeletonTheme>
+              </div>
             </div>
           ) : (
             <div className="page-content-wrapper">
@@ -319,7 +552,7 @@ function AppHome() {
               </div>
               {browserName === "WebKit" || browserName === "Chrome WebView" ? (
                 <div>
-                  {search?.length ? (
+                  {search?.length || relateCate?.length >= 1 ? (
                     <div className="top-products-area py-1">
                       <div className="container">
                         <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
@@ -327,28 +560,7 @@ function AppHome() {
                             Showing results for "{search}"
                           </p>
                         </div>
-                        <div className="col-12 d-flex ">
-                          {relateCate?.length != 0 && (
-                            <span className="search_head2 p-0 mb-3 mx-2">
-                              Related Sub-Categories :
-                            </span>
-                          )}
-                          {relateCate?.map((itm, ind) => (
-                            <div>
-                              <p
-                                className="subCateSearch"
-                                onClick={() => {
-                                  navigate("/SubCategory/Products", {
-                                    state: {
-                                      name: itm?.subCategoryName,
-                                    },
-                                  });
-                                }}>
-                                {" " + itm?.subCategoryName},{" "}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
+
                         {search === "Tobacco" ||
                         search === "Tobacco " ||
                         search === "tobacco" ||
@@ -368,9 +580,46 @@ function AppHome() {
                             <a className="fw-bold mx-2" onClick={genToken}>
                               Click Here
                             </a>
-                            to buy this product from our website.{" "}
+                            to buy Tobacco & Vapes related Products from our
+                            website.
                           </div>
                         ) : null}
+
+                        {relateCate?.length >= 1 ? (
+                          <>
+                            Related Sub-Categories
+                            <div className=" mb-2">
+                              {relateCate
+                                ?.filter(
+                                  (itm, idx) =>
+                                    itm.categoryName !=
+                                      "639a042ff2f72167b43774de" &&
+                                    itm.categoryName !=
+                                      "639a7617f2f72167b4377754" &&
+                                    itm.isTobacco != true
+                                )
+                                .map((itm, ind) => (
+                                  <span
+                                    className=" text-primary  fw-bold"
+                                    style={{
+                                      fontSize: "12px",
+                                    }}
+                                    onClick={() => {
+                                      navigate(
+                                        `/app/product-subCategory/${itm?.subCategoryName}`,
+                                        {}
+                                      );
+                                    }}>
+                                    {itm?.subCategoryName &&
+                                      itm?.subCategoryName}{" "}
+                                    ,
+                                  </span>
+                                ))}
+                            </div>
+                          </>
+                        ) : (
+                          ""
+                        )}
 
                         {product?.length ? (
                           <div className="row g-2">
@@ -423,9 +672,9 @@ function AppHome() {
                           <div>
                             <img
                               className="no-data"
-                              src="../assets/img/no-data.gif"
+                              src={require("../../assets/img/no-data.gif")}
                             />
-                            <h1 className="text-center"> No Results</h1>
+                            <h1 className="text-center"> No Product Results</h1>
                           </div>
                         )}
                       </div>
@@ -444,8 +693,8 @@ function AppHome() {
                                   <strong className="text-primary">
                                     Click here
                                   </strong>{" "}
-                                  to buy Tobacco related Products from our
-                                  website.
+                                  to buy Tobacco & Vapes related Products from
+                                  our website.
                                 </p>
                               </div>
                             </div>
@@ -585,15 +834,34 @@ function AppHome() {
                 </div>
               ) : (
                 <div>
-                  {search?.length ? (
+                  {search?.length || relateCate?.length >= 1 ? (
                     <div className="top-products-area py-1">
                       <div className="container">
-                        <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                          <p className="mt-0 mb-4">
-                            {" "}
-                            Showing results for "{search}"
-                          </p>
-                        </div>
+                        {relateCate?.length >= 1 ? (
+                          <>
+                            Related Sub-Categories
+                            <div className=" mb-2">
+                              {relateCate?.map((itm, ind) => (
+                                <span
+                                  className=" text-primary  fw-bold"
+                                  style={{
+                                    fontSize: "12px",
+                                  }}
+                                  onClick={() => {
+                                    navigate(
+                                      `/app/product-subCategory/${itm?.subCategoryName}`,
+                                      {}
+                                    );
+                                  }}>
+                                  {itm?.subCategoryName && itm?.subCategoryName}{" "}
+                                  ,
+                                </span>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          ""
+                        )}
 
                         {product?.length ? (
                           <div className="row g-2">
@@ -636,9 +904,9 @@ function AppHome() {
                           <div>
                             <img
                               className="no-data"
-                              src="../assets/img/no-data.gif"
+                              src={require("../../assets/img/no-data.gif")}
                             />
-                            <h1 className="text-center"> No Results</h1>
+                            <h1 className="text-center"> No Product Results</h1>
                           </div>
                         )}
                       </div>

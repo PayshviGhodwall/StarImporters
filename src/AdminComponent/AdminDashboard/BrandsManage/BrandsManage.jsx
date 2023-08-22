@@ -16,6 +16,7 @@ const BrandsManage = () => {
   const addBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/addBrand`;
   const ViewBrand = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/viewBrands`;
   const TobaccoBrands = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/tobaccoBrand`;
+  const BraSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/brands/searchBrand`;
   const [searchTerm, setSearchTerm] = useState("");
   const [editBrandName, setEditBrandName] = useState("");
   const [change, setChange] = useState("");
@@ -54,6 +55,25 @@ const BrandsManage = () => {
         return res.data;
       });
   };
+
+  const BrandSearch = async (e) => {
+    let string = e.target.value;
+    setSearchTerm(e.target.value)
+    if (string !== "") {
+      await axios
+        .post(BraSearch, {
+          search: e.target.value,
+        })
+        .then((res) => {
+          if (!res.error) {
+            setAllBrands(res?.data.results?.brand);
+          }
+        });
+    } else {
+      getBrands();
+    }
+  };
+
   const onFileSelection = (e, key) => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
@@ -211,40 +231,34 @@ const BrandsManage = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -253,17 +267,14 @@ const BrandsManage = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -272,25 +283,21 @@ const BrandsManage = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/brandsManage"
@@ -298,75 +305,61 @@ const BrandsManage = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-"
-                    ></i>{" "}
+                      class="fas fa-users-"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
-
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -374,17 +367,14 @@ const BrandsManage = () => {
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -392,27 +382,22 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}
-                >
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-support"
-                    ></i>{" "}
+                      class="fa fa-support"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -421,12 +406,10 @@ const BrandsManage = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -440,12 +423,10 @@ const BrandsManage = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -453,12 +434,10 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -466,12 +445,10 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -482,12 +459,10 @@ const BrandsManage = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -499,12 +474,10 @@ const BrandsManage = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -515,28 +488,24 @@ const BrandsManage = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -547,12 +516,10 @@ const BrandsManage = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -561,12 +528,10 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -574,12 +539,10 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -587,12 +550,10 @@ const BrandsManage = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -601,12 +562,10 @@ const BrandsManage = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -626,8 +585,7 @@ const BrandsManage = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -638,8 +596,7 @@ const BrandsManage = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -667,7 +624,7 @@ const BrandsManage = () => {
                       name="name"
                       id="name"
                       onChange={(e) => {
-                        setSearchTerm(e.target.value);
+                        BrandSearch(e);
                       }}
                     />
                   </div>
@@ -682,8 +639,7 @@ const BrandsManage = () => {
                       <div className="col-12">
                         <form
                           className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                          action=""
-                        >
+                          action="">
                           <div className="form-group mb-0 col-5">
                             <label htmlFor="">Brand Name</label>
                             <input
@@ -722,15 +678,13 @@ const BrandsManage = () => {
                                 top: "-2px",
                               }}
                               className="comman_btn"
-                              onClick={saveBrands}
-                            >
+                              onClick={saveBrands}>
                               Save
                             </Button>
                             <button
                               className="comman_btn d-none"
                               id="resetBrand"
-                              type="reset"
-                            >
+                              type="reset">
                               Reset
                             </button>
                           </div>
@@ -744,8 +698,7 @@ const BrandsManage = () => {
                                     style={{
                                       backgroundColor: "#f2f2f2",
                                       fontWeight: "bold",
-                                    }}
-                                  >
+                                    }}>
                                     <th>S.No.</th>
                                     <th>Date</th>
                                     <th>Brand Name</th>
@@ -783,11 +736,11 @@ const BrandsManage = () => {
                                           <img
                                             className="subCatImages"
                                             height={55}
-                                            src={item?.brandImage ? item?.brandImage
-                                             :
-                                             require("../../../assets/img/product.jpg")
-                                            }
-                                          ></img>
+                                            src={
+                                              item?.brandImage
+                                                ? item?.brandImage
+                                                : require("../../../assets/img/product.jpg")
+                                            }></img>
                                         </td>
                                         <td>
                                           {" "}
@@ -813,8 +766,7 @@ const BrandsManage = () => {
                                             key={index}
                                             onClick={() => {
                                               onEditBrands(item?._id);
-                                            }}
-                                          >
+                                            }}>
                                             Edit
                                           </Link>
                                         </td>
@@ -822,6 +774,12 @@ const BrandsManage = () => {
                                     ))}
                                 </tbody>
                               </table>
+                              {
+                                searchTerm?.length >= 1 ?
+                                ""
+                                :
+
+                              
                               <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                 <span className="totalPage">
                                   ( Total Pages : {maxPage} )
@@ -835,8 +793,7 @@ const BrandsManage = () => {
                                         activePage <= 1
                                           ? setActivePage(1)
                                           : setActivePage(activePage - 1)
-                                      }
-                                    >
+                                      }>
                                       «
                                     </a>
                                   </li>
@@ -855,13 +812,13 @@ const BrandsManage = () => {
                                         activePage === maxPage
                                           ? setActivePage(maxPage)
                                           : setActivePage(activePage + 1)
-                                      }
-                                    >
+                                      }>
                                       »
                                     </a>
                                   </li>
                                 </ul>
                               </div>
+}
                             </div>
                           </div>
                         </div>
@@ -881,8 +838,7 @@ const BrandsManage = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 shadow">
             <div className="modal-header">
@@ -905,8 +861,7 @@ const BrandsManage = () => {
               <form
                 className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
                 action=""
-                onSubmit={handleSubmit(onSubmit)}
-              >
+                onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group col-auto">
                   <label htmlFor="">Brand Image</label>
                   <div className="account_profile position-relative border h-50">
@@ -954,8 +909,7 @@ const BrandsManage = () => {
                       top: "-2px",
                     }}
                     className="comman_btn"
-                    type="submit"
-                  >
+                    type="submit">
                     Save
                   </Button>
                   <button type="reset" className="d-none">

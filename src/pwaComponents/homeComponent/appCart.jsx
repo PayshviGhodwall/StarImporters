@@ -23,6 +23,7 @@ function AppCart() {
   const addQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/shareRequest`;
   const myCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/getMyCart`;
   let ref = useRef();
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     getCartss();
@@ -37,14 +38,21 @@ function AppCart() {
 
   const getCartss = async () => {
     await axios.post(myCart).then((res) => {
+      let data = res?.data.results?.cart.products;
       setCart(res?.data.results?.cart.products);
+      data?.map((item) => {
+        (!item?.flavour?.flavourStatus && setIsActive(true)) ||
+          (!item?.productId?.status && setIsActive(true));
+      });
     });
   };
+  console.log(isActive);
 
   const deleteProduct = async (id, flavour) => {
     setLoad(true);
     const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
+      setIsActive(false)
       setLoad(false);
       getCartss();
     }
@@ -257,8 +265,9 @@ function AppCart() {
                       <table className="table mb-0 ">
                         {cart?.length ? (
                           <tbody className="">
-                            {(cart || [])?.map((item, index) => {
-                              return (
+                            {(cart || [])?.map((item, index) =>
+                              item?.flavour?.flavourStatus &&
+                              item?.productId?.status ? (
                                 <tr key={index}>
                                   <th scope="">
                                     {item?.isTobacco ? (
@@ -357,8 +366,68 @@ function AppCart() {
                                     </div>
                                   </td>
                                 </tr>
-                              );
-                            })}
+                              ) : (
+                                <tr
+                                  key={index}
+                                  style={{ backgroundColor: "gray" }}>
+                                  <th scope="">
+                                    {item?.isTobacco ? (
+                                      <span class="refFilter text-center" />
+                                    ) : (
+                                      ""
+                                    )}
+                                    <Link
+                                      className="remove-product"
+                                      to=""
+                                      onClick={() =>
+                                        deleteProduct(
+                                          item?.productId._id,
+                                          item?.flavour
+                                        )
+                                      }>
+                                      <i className="fa-solid fa-xmark"></i>
+                                    </Link>
+                                  </th>
+                                  <td>
+                                    <div className="cart_icon">
+                                      <img
+                                        className=""
+                                        style={{ opacity: "20%" }}
+                                        src={
+                                          item?.flavour?._id
+                                            ? item?.flavour?.flavourImage
+                                            : item?.productId?.productImage
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {item?.flavour?._id ? (
+                                      <Link
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                        state={{ type: item?.flavour }}
+                                        className={
+                                          item?.isTobacco ? "filter" : ""
+                                        }>
+                                        {item?.productId?.unitName +
+                                          "-" +
+                                          item?.flavour?.flavour}
+                                      </Link>
+                                    ) : (
+                                      <Link
+                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        {item?.productId?.unitName}
+                                      </Link>
+                                    )}
+                                    <br />
+                                    <span className="text-dark">
+                                      This Product is not available now.
+                                    </span>
+                                  </td>
+                                </tr>
+                              )
+                            )}
                           </tbody>
                         ) : (
                           <tbody className="text-center">
@@ -383,7 +452,8 @@ function AppCart() {
                         {cart?.length ? (
                           <tbody className="">
                             {(cart || [])?.map((item, index) => {
-                              return (
+                              return item?.flavour?.flavourStatus &&
+                                item?.productId?.status ? (
                                 <tr key={index}>
                                   <th scope="">
                                     <Link
@@ -474,6 +544,58 @@ function AppCart() {
                                     </div>
                                   </td>
                                 </tr>
+                              ) : (
+                                <tr
+                                  key={index}
+                                  style={{ backgroundColor: "gray" }}>
+                                  <th scope="">
+                                    <Link
+                                      className="remove-product"
+                                      to=""
+                                      onClick={() =>
+                                        deleteProduct(
+                                          item?.productId._id,
+                                          item?.flavour
+                                        )
+                                      }>
+                                      <i className="fa-solid fa-xmark"></i>
+                                    </Link>
+                                  </th>
+                                  <td>
+                                    <div className="cart_icon">
+                                      <img
+                                        className=""
+                                        style={{ opacity: "20%" }}
+                                        src={
+                                          item?.flavour?._id
+                                            ? item?.flavour?.flavourImage
+                                            : item?.productId?.productImage
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                  </td>
+                                  <td className="text-small">
+                                    {item?.flavour?._id ? (
+                                      <Link
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                        state={{ type: item?.flavour }}>
+                                        {item?.productId?.unitName +
+                                          "-" +
+                                          item?.flavour?.flavour}
+                                      </Link>
+                                    ) : (
+                                      <Link
+                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        {item?.productId?.unitName}
+                                      </Link>
+                                    )}
+                                    <br />
+                                    <span className="text-dark">
+                                      This Product is not available now.
+                                    </span>
+                                  </td>
+                                </tr>
                               );
                             })}
                           </tbody>
@@ -496,9 +618,23 @@ function AppCart() {
             </div>
             {cart?.length ? (
               <div className="d-flex justify-content-between p-2 ">
-                <Link className="comman_btn2 " to="/app/checkout">
+                <a className="comman_btn2 "
+                 onClick={() => {
+                  if (isActive) {
+                    Swal.fire({
+                      title:
+                        "Please Remove Un-available products from cart!",
+                      icon: "warning",
+                      timer: 2000,
+                    });
+                  } else {
+                    navigate("/app/checkout");
+                  }
+                }}
+                
+                >
                   Place Order
-                </Link>
+                </a>
 
                 {userDetail?.quotation === true ? (
                   <Link

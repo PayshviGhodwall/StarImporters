@@ -103,17 +103,17 @@ function AppSubCategories() {
           </div>
         </div>
         <WebHeader2 />
-        <div className="page-content-wrapper">
+        <div className="page-content-wrapper container-fluid ">
           <Search />
           {searchKey?.length ? null : (
-            <div className="brands_section pt-3">
+            <div className="brands_section mt-3 p-0 ">
               {/* <button className="bg-white fw-bold border rounded-end">
               {activePage}
             </button> */}
-              <div className="row mx-0 justify-content-center">
+              <div className="row mx-0 justify-content-center align-items-end">
                 {categories.map((item, index) => {
                   return (
-                    <div className="col-sm-5 col-md-5 col-4 mb-2 p-1 m-1 brands_box shadow">
+                    <div className="col-sm-5 col-md-5 col-5 mb-2 p-2 m-2 brands_box shadow">
                       <Link
                         className="text-center mt-4"
                         to={`/app/product-subCategory/${item?.subCategoryName}`}

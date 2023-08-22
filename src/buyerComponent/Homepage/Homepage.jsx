@@ -562,7 +562,7 @@ const Homepage = () => {
                                   style={{
                                     width: "10rem",
                                     borderRadius: "2rem",
-                                    height: "10rem",
+                                    height: "7.5rem",
                                   }}
                                 />
                               </div>
@@ -633,7 +633,11 @@ const Homepage = () => {
           <section
             className="product_show_home"
             id="bottom-image"
-            style={{ backgroundImage: `url(${image?.bottomImage})` }}>
+            style={{
+              backgroundImage: `url(${
+                allHeaders?.bottomImage ? allHeaders?.bottomImage : image
+              })`,
+            }}>
             <div className="container">
               <div className="row justify-content-center">
                 <div className="col-12">

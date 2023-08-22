@@ -20,11 +20,11 @@ const ContactSupport = () => {
   const [activePage2, setActivePage2] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [maxPage2, setMaxPage2] = useState(1);
-
+  const [wrap, setWrap] = useState();
   useEffect(() => {
     getAllContacts();
     getAllNewsLetter();
-  }, [activePage,activePage2]);
+  }, [activePage, activePage2]);
 
   const getAllContacts = async () => {
     const { data } = await axios.post(contactList, { page: activePage });
@@ -65,40 +65,34 @@ const ContactSupport = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -107,17 +101,14 @@ const ContactSupport = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -126,103 +117,85 @@ const ContactSupport = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
-                 <li
+                <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/OrderRequest"
@@ -230,12 +203,10 @@ const ContactSupport = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -243,12 +214,10 @@ const ContactSupport = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -257,12 +226,10 @@ const ContactSupport = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -276,12 +243,10 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -289,12 +254,10 @@ const ContactSupport = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -302,12 +265,10 @@ const ContactSupport = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -318,12 +279,10 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -331,12 +290,10 @@ const ContactSupport = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -347,28 +304,24 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                     <li>
+                <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -379,12 +332,10 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -395,12 +346,10 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -408,12 +357,10 @@ const ContactSupport = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -425,12 +372,10 @@ const ContactSupport = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -439,12 +384,10 @@ const ContactSupport = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -464,12 +407,10 @@ const ContactSupport = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "4px" }}
-                      className="fa fa-bars"
-                    ></i>
+                      className="fa fa-bars"></i>
                   </h1>
                 </div>
               ) : (
@@ -479,8 +420,7 @@ const ContactSupport = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -503,8 +443,7 @@ const ContactSupport = () => {
                         <div
                           className="nav nav-tabs"
                           id="nav-tab"
-                          role="tablist"
-                        >
+                          role="tablist">
                           <button
                             className="nav-link active"
                             id="nav-home-tab"
@@ -513,8 +452,7 @@ const ContactSupport = () => {
                             type="button"
                             role="tab"
                             aria-controls="nav-home"
-                            aria-selected="true"
-                          >
+                            aria-selected="true">
                             Contact Us
                           </button>
                           <button
@@ -525,8 +463,7 @@ const ContactSupport = () => {
                             type="button"
                             role="tab"
                             aria-controls="nav-profile"
-                            aria-selected="false"
-                          >
+                            aria-selected="false">
                             Newsletter Subscription
                           </button>
                         </div>
@@ -536,8 +473,7 @@ const ContactSupport = () => {
                           className="tab-pane fade show active"
                           id="nav-home"
                           role="tabpanel"
-                          aria-labelledby="nav-home-tab"
-                        >
+                          aria-labelledby="nav-home-tab">
                           <div className="row mx-0">
                             <div className="col-12">
                               {/* <form
@@ -582,8 +518,9 @@ const ContactSupport = () => {
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
-                                          style={{ backgroundColor: "#f2f2f2" }}
-                                        >
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
                                           <th>Date</th>
                                           <th>Name</th>
                                           <th>Email</th>
@@ -604,7 +541,37 @@ const ContactSupport = () => {
 
                                               <td>{item?.email}</td>
                                               <td>{item?.subject}</td>
-                                              <td>{item?.messageTextArea}</td>
+                                              <td className="border text_area ">
+                                                {wrap === item?._id ? (
+                                                  <>
+                                                    {item?.messageTextArea}{" "}
+                                                    ....
+                                                    <a
+                                                      className="text-primary"
+                                                      onClick={() =>
+                                                        setWrap()
+                                                      }>
+                                                      read less
+                                                    </a>
+                                                  </>
+                                                ) : (
+                                                  <>
+                                                    {item?.messageTextArea?.slice(
+                                                      0,
+                                                      250
+                                                    )}
+
+                                                    <a
+                                                      className="text-primary text-decoration-none"
+                                                      onClick={() =>
+                                                        setWrap(item?._id)
+                                                      }>
+                                                      ....read more
+                                                    </a>
+                                                  </>
+                                                )}
+                                              </td>
+
                                               {/* <td>
                                                 <button
                                                   className="comman_btn table_viewbtn"
@@ -642,8 +609,7 @@ const ContactSupport = () => {
                                               activePage <= 1
                                                 ? setActivePage(1)
                                                 : setActivePage(activePage - 1)
-                                            }
-                                          >
+                                            }>
                                             «<small>prev</small>
                                           </a>
                                         </li>
@@ -662,8 +628,7 @@ const ContactSupport = () => {
                                               activePage === maxPage
                                                 ? setActivePage(maxPage)
                                                 : setActivePage(activePage + 1)
-                                            }
-                                          >
+                                            }>
                                             <small>next</small>»
                                           </a>
                                         </li>
@@ -679,8 +644,7 @@ const ContactSupport = () => {
                           className="tab-pane fade"
                           id="nav-profile"
                           role="tabpanel"
-                          aria-labelledby="nav-profile-tab"
-                        >
+                          aria-labelledby="nav-profile-tab">
                           <div className="row mx-0 ">
                             <div className="col-12">
                               <div className="row recent_orders_order  ">
@@ -689,8 +653,9 @@ const ContactSupport = () => {
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
-                                          style={{ backgroundColor: "#f2f2f2" }}
-                                        >
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
                                           <th>Email</th>
@@ -749,8 +714,7 @@ const ContactSupport = () => {
                                                 : setActivePage2(
                                                     activePage2 - 1
                                                   )
-                                            }
-                                          >
+                                            }>
                                             «<small>prev</small>
                                           </a>
                                         </li>
@@ -771,8 +735,7 @@ const ContactSupport = () => {
                                                 : setActivePage2(
                                                     activePage2 + 1
                                                   )
-                                            }
-                                          >
+                                            }>
                                             <small>next</small>»
                                           </a>
                                         </li>
@@ -800,8 +763,7 @@ const ContactSupport = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">

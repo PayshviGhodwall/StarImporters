@@ -216,15 +216,36 @@ function AppBuyAgain() {
                         (itm, idx) => itm.productId.isTobaccoProduct !== true
                       )
                       .map((val, ind) => (
-                        <div className="col-12 mb-2 card" key={index}>
+                        <div className="col-12  card" key={index}>
+                           <div>
+                          <label class="checkbox-label ">
+                            <input
+                              type="checkbox"
+                              key={val?.flavour?._id}
+                              name={ind}
+                              id={val?.flavour?._id}
+                              onChange={(e) =>
+                                handleClick(
+                                  e,
+                                  val?.flavour,
+                                  val?.productId?._id,
+                                  val?.quantity,
+                                  ind
+                                )
+                              }
+                              class="checkbox-input mb-2 mx-3"
+                              checked={isCheck?.includes(val?.flavour?._id)}
+                            />
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
                           <div className="horizontal-product-card py-2">
                             <div className="d-flex align-items-center mt-2">
-                              <div className="product-thumbnail-side mt-2">
+                              <div className="product-thumbnail-side mt-1">
                                 <Link
                                   className="product-thumbnail shadow-sm d-block"
                                   to={`/app/product-detail/${val?.productId?.slug}`}
-                                  state={{ type: val?.flavour }}
-                                >
+                                  state={{ type: val?.flavour }}>
                                   <img
                                     src={
                                       val?.flavour
@@ -242,8 +263,7 @@ function AppBuyAgain() {
                                 <Link
                                   className="product-title d-block  mb-3"
                                   to={`/app/product-detail/${val?.productId?.slug}`}
-                                  state={{ type: val?.flavour }}
-                                >
+                                  state={{ type: val?.flavour }}>
                                   {val?.productId?.unitName}
                                   {"-"}
                                   {val?.flavour ? val?.flavour?.flavour : null}
@@ -259,8 +279,7 @@ function AppBuyAgain() {
                                         // key={`${ind}${index}`}
                                         onClick={() =>
                                           handleQuantityMinus(index, ind)
-                                        }
-                                      >
+                                        }>
                                         -
                                       </span>
                                       <input
@@ -286,42 +305,14 @@ function AppBuyAgain() {
                                         // key={`${ind}${index}`}
                                         onClick={() =>
                                           handleQuantityPlus(index, ind)
-                                        }
-                                      >
+                                        }>
                                         +
                                       </span>
                                     </div>
-
                                   </form>
-                                  
                                 )}
-
                               </div>
-                              <div>
-                                <label class="checkbox-label mb-3">
-                                  <input
-                                    type="checkbox"
-                                    key={val?.flavour?._id}
-                                    name={ind}
-                                    id={val?.flavour?._id}
-                                    disabled
-                                    onChange={(e) =>
-                                      handleClick(
-                                        e,
-                                        val?.flavour,
-                                        val?.productId?._id,
-                                        val?.quantity,
-                                        ind
-                                      )
-                                    }
-                                    class="checkbox-input mb-2 mx-3"
-                                    checked={isCheck?.includes(
-                                      val?.flavour?._id
-                                    )}
-                                  />
-                                  <span class="checkmark"></span>
-                                </label>
-                              </div>
+                           
                             </div>
                           </div>
                         </div>
@@ -358,14 +349,35 @@ function AppBuyAgain() {
                   {(purchasedProd || [])?.map((item, index) =>
                     item.products?.map((val, ind) => (
                       <div className="col-12 mb-2 card" key={`${ind}${index}`}>
+                        <div>
+                          <label class="checkbox-label ">
+                            <input
+                              type="checkbox"
+                              key={val?.flavour?._id}
+                              name={ind}
+                              id={val?.flavour?._id}
+                              onChange={(e) =>
+                                handleClick(
+                                  e,
+                                  val?.flavour,
+                                  val?.productId?._id,
+                                  val?.quantity,
+                                  ind
+                                )
+                              }
+                              class="checkbox-input mb-2 mx-3"
+                              checked={isCheck?.includes(val?.flavour?._id)}
+                            />
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
                         <div className="horizontal-product-card py-1">
-                          <div className="d-flex align-items-center mt-2">
-                            <div className="product-thumbnail-side mt-2">
+                          <div className="d-flex align-items-center mt-2 mb-2">
+                            <div className="product-thumbnail-side mt-1">
                               <Link
                                 className="product-thumbnail shadow-sm d-block"
                                 to={`/app/product-detail/${val?.productId?.slug}`}
-                                state={{ type: val?.flavour }}
-                              >
+                                state={{ type: val?.flavour }}>
                                 <img
                                   src={
                                     val?.flavour
@@ -383,8 +395,7 @@ function AppBuyAgain() {
                               <Link
                                 className="product-title d-block  mb-3"
                                 to={`/app/product-detail/${val?.productId?.slug}`}
-                                state={{ type: val?.flavour }}
-                              >
+                                state={{ type: val?.flavour }}>
                                 {val?.productId?.unitName}
                                 {"-"}
                                 {val?.flavour ? val?.flavour?.flavour : null}
@@ -400,8 +411,7 @@ function AppBuyAgain() {
                                       // key={`${ind}${index}`}
                                       onClick={() =>
                                         handleQuantityMinus(index, ind)
-                                      }
-                                    >
+                                      }>
                                       -
                                     </span>
                                     <input
@@ -427,35 +437,12 @@ function AppBuyAgain() {
                                       // key={`${ind}${index}`}
                                       onClick={() =>
                                         handleQuantityPlus(index, ind)
-                                      }
-                                    >
+                                      }>
                                       +
                                     </span>
                                   </div>
                                 </form>
                               )}
-                            </div>
-                            <div>
-                              <label class="checkbox-label mb-3">
-                                <input
-                                  type="checkbox"
-                                  key={val?.flavour?._id}
-                                  name={ind}
-                                  id={val?.flavour?._id}
-                                  onChange={(e) =>
-                                    handleClick(
-                                      e,
-                                      val?.flavour,
-                                      val?.productId?._id,
-                                      val?.quantity,
-                                      ind
-                                    )
-                                  }
-                                  class="checkbox-input mb-2 mx-3"
-                                  checked={isCheck?.includes(val?.flavour?._id)}
-                                />
-                                <span class="checkmark"></span>
-                              </label>
                             </div>
                           </div>
                         </div>

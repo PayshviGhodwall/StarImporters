@@ -56,8 +56,7 @@ function AppBrands() {
               class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
               data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas"
-            >
+              aria-controls="suhaOffcanvas">
               <div>
                 <span></span>
                 <span></span>
@@ -67,7 +66,7 @@ function AppBrands() {
           </div>
         </div>
         <WebHeader2 />
-        <div className="page-content-wrapper">
+        <div className="page-content-wrapper container-fluid">
           <Search />
           {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div>
@@ -81,10 +80,13 @@ function AppBrands() {
                           <div className="col-6 mb-3 pe-2">
                             <Link
                               className="brands_box shadow"
-                              to={`/app/productBrands/${item?.brandName}`}
-                            >
+                              to={`/app/productBrands/${item?.brandName}`}>
                               <img
-                                src={item?.brandImage}
+                             src={
+                              item?.brandImage
+                                ? item.brandImage
+                                : require("../../assets/img/product.jpg")
+                            }
                                 className="p-2"
                                 alt=""
                               />
@@ -106,10 +108,13 @@ function AppBrands() {
                         <div className="col-6 mb-3 pe-2">
                           <Link
                             className="brands_box shadow"
-                            to={`/app/productBrands/${item?.brandName}`}
-                          >
+                            to={`/app/productBrands/${item?.brandName}`}>
                             <img
-                              src={item?.brandImage}
+                              src={
+                                item?.brandImage
+                                  ? item.brandImage
+                                  : require("../../assets/img/product.jpg")
+                              }
                               className="p-2"
                               alt=""
                             />

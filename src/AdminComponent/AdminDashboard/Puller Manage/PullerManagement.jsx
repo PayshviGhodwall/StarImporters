@@ -11,14 +11,14 @@ import moment from "moment";
 const PullerManagement = () => {
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
-  const [pullerId,setPullerId] = useState()
+  const [pullerId, setPullerId] = useState();
   const getPullerApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
   const pullerStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeStatus`;
   const createPuller = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createPuller`;
-  const [allPullers,setAllPullers] = useState()
+  const [allPullers, setAllPullers] = useState();
   const [maxPage, setMaxPage] = useState(1);
-  const [files,setFiles] = useState([])
-  const [activePage,setActivePage] = useState(0)
+  const [files, setFiles] = useState([]);
+  const [activePage, setActivePage] = useState(0);
   const {
     register,
     handleSubmit,
@@ -26,7 +26,7 @@ const PullerManagement = () => {
   } = useForm();
   const onFileSelection = (e, key) => {
     let image = e.target.files[0];
-        setFiles({ ...files, [key]: image });
+    setFiles({ ...files, [key]: image });
   };
   useEffect(() => {
     getPullers();
@@ -39,23 +39,24 @@ const PullerManagement = () => {
   };
 
   const onSubmit = async (data) => {
-    let formData = new FormData()
-    formData.append("fullName",data?.puller_name?.trim())
-    formData.append("email",data?.email?.trim())
-    formData.append("password",data?.password?.trim())
-    formData.append("image",files?.coverImage)
+    let formData = new FormData();
+    formData.append("fullName", data?.puller_name?.trim());
+    formData.append("email", data?.email?.trim());
+    formData.append("password", data?.password?.trim());
+    formData.append("phoneNumber", data?.phoneNumber?.trim());
+    formData.append("image", files?.coverImage);
     await axios
       .post(createPuller, formData)
       .then((res) => {
         if (res?.data?.message === "Pullers created") {
           getPullers();
-          setFiles([])
+          setFiles([]);
           document.getElementById("resetF").click();
           Swal.fire({
             title: res?.data?.message,
             text: "New Puller Created!",
             icon: "success",
-            timer:2000,
+            timer: 2000,
             confirmButtonText: "okay",
           });
         }
@@ -79,11 +80,10 @@ const PullerManagement = () => {
       });
   };
 
- 
   const PullerStatus = async (id) => {
     const { data } = await axios.get(pullerStatusChange + "/" + id);
     if (!data?.error) {
-      getPullers()
+      getPullers();
       Swal.fire({
         title: "Puller Status Changed!",
         icon: "success",
@@ -91,8 +91,6 @@ const PullerManagement = () => {
       });
     }
   };
-
-
 
   const togglePassword = () => {
     let x = document.getElementById("floatingPassword");
@@ -123,40 +121,34 @@ const PullerManagement = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -165,17 +157,14 @@ const PullerManagement = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -184,64 +173,50 @@ const PullerManagement = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
-
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
-
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className="bg-white"
                     to="/Puller-Management"
@@ -249,49 +224,41 @@ const PullerManagement = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -299,12 +266,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -313,12 +278,10 @@ const PullerManagement = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -332,12 +295,10 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -345,12 +306,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -358,12 +317,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -374,12 +331,10 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -387,12 +342,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -403,12 +356,10 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -420,12 +371,10 @@ const PullerManagement = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -436,12 +385,10 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -449,12 +396,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -462,12 +407,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -475,12 +418,10 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -489,12 +430,10 @@ const PullerManagement = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -514,8 +453,7 @@ const PullerManagement = () => {
                     className="mt-2 text-white"
                     onClick={() => {
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -525,8 +463,7 @@ const PullerManagement = () => {
                     <button
                       onClick={(e) => {
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -553,36 +490,35 @@ const PullerManagement = () => {
                   <form
                     className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between "
                     action=""
-                    onSubmit={handleSubmit(onSubmit)}
-                  >
-
-<div className="form-group mb-0 col-6 choose_fileAdmin position-relative">
-                                <span>Cover Image: {errors.coverImage && (
+                    onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-group mb-0 col-6 choose_fileAdmin position-relative">
+                      <span>
+                        Cover Image:{" "}
+                        {errors.coverImage && (
                           <small className="errorText mx-1 fw-bold">
                             *{errors.coverImage?.message}
                           </small>
-                        )}</span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>{" "}
-                                <input
-                                  type="file"
-                                  className="form-control shadow-none"
-                                  defaultValue=""
-                                  accept="image/*"
-                                  name="coverImage"
-                                  {...register('coverImage', {
-                                    required:"Image is Required",
-                                    onChange:(e) =>{
-                                      onFileSelection(e, "coverImage")
-                                    }
-                                    ,
-                                  })}
-                                 
-                                />
-                              </div>
-                              
+                        )}
+                      </span>{" "}
+                      <label htmlFor="upload_video">
+                        <i class="fa fa-camera me-1"></i>
+                        Choose File
+                      </label>{" "}
+                      <input
+                        type="file"
+                        className="form-control shadow-none"
+                        defaultValue=""
+                        accept="image/*"
+                        name="coverImage"
+                        {...register("coverImage", {
+                          required: "Image is Required",
+                          onChange: (e) => {
+                            onFileSelection(e, "coverImage");
+                          },
+                        })}
+                      />
+                    </div>
+
                     <div className="form-group col-6 mb-0">
                       <label htmlFor="puller">
                         Puller Name{" "}
@@ -613,11 +549,9 @@ const PullerManagement = () => {
                       />
                     </div>
 
-                   
                     <div
-                      className="form-group col-6 mb-5
-                    "
-                    >
+                      className="form-group col-4 mb-5
+                    ">
                       <label htmlFor="">
                         Email Address{" "}
                         {errors.email && (
@@ -646,7 +580,41 @@ const PullerManagement = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group col-6 pt-4">
+                    <div
+                      className="form-group col-4 mb-5
+                    ">
+                      <label htmlFor="">
+                        Phone Number{" "}
+                        {errors.phoneNumber && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.phoneNumber?.message}
+                          </small>
+                        )}
+                      </label>
+                      <input
+                        type="number"
+                        className={classNames(
+                          "form-control border border-secondary",
+                          {
+                            "is-invalid": errors.phoneNumber,
+                          }
+                        )}
+                        name="phoneNumber"
+                        placeholder="Enter Phone Number "
+                        {...register("phoneNumber", {
+                          required: "Phone Number is required!",
+                          maxLength: {
+                            value: 10,
+                            message: "maximium 10 Charcarters",
+                          },
+                          minLength: {
+                            value: 8,
+                            message: "minimium 8 Charcarters",
+                          },
+                        })}
+                      />
+                    </div>
+                    <div className="form-group col-4 pt-4">
                       <label htmlFor="">
                         Set Password{" "}
                         {errors.password && (
@@ -668,10 +636,10 @@ const PullerManagement = () => {
                         placeholder="************"
                         {...register("password", {
                           required: "Password is required!",
-                          maxLength :{
-                            value:15,
-                            message:"Cannot be more than 15 Characters"
-                          }
+                          maxLength: {
+                            value: 15,
+                            message: "Cannot be more than 15 Characters",
+                          },
                           // pattern: {
                           //   value:
                           //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
@@ -692,8 +660,7 @@ const PullerManagement = () => {
                       <button
                         className="comman_btn d-none"
                         type="reset"
-                        id="resetF"
-                      >
+                        id="resetF">
                         Reset
                       </button>
                     </div>
@@ -716,6 +683,7 @@ const PullerManagement = () => {
                               <th>Date</th>
                               <th>Image</th>
                               <th>Puller Name</th>
+                              <th>Phone Number</th>
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
@@ -723,24 +691,23 @@ const PullerManagement = () => {
                           <tbody>
                             {(allPullers || [])?.map((item, index) => (
                               <tr key={index} className="border ">
-                              
-                                <td>{index+1}</td>
+                                <td>{index + 1}</td>
                                 <td className="border">
-                                  {moment(item?.craetedAt?.slice(0, 10)).format(
+                                  {moment(item?.createdAt?.slice(0, 10)).format(
                                     "MM/DD/YYYY"
                                   )}
                                 </td>
                                 <td className="border">
-                                            <img
-                                              className="subCatImages"
-                                              src={
-                                                item?.image
-                                                  ? item?.image
-                                                  : require("../../../assets/img/product.jpg")
-                                              }></img>
-                                          </td>
+                                  <img
+                                    className="subCatImages"
+                                    src={
+                                      item?.image
+                                        ? item?.image
+                                        : require("../../../assets/img/product.jpg")
+                                    }></img>
+                                </td>
                                 <td className="border">{item?.fullName}</td>
-                               
+                                <td className="border">{item?.phoneNumber}</td>
 
                                 <td className=" border" key={item?.status}>
                                   {" "}
@@ -763,8 +730,7 @@ const PullerManagement = () => {
                                   <Link
                                     className="comman_btn2 text-white text-decoration-none"
                                     key={index}
-                                    to={`/Puller-Management/Puller-details/${item?._id}`}
-                                  >
+                                    to={`/Puller-Management/Puller-details/${item?._id}`}>
                                     View
                                   </Link>
                                 </td>
@@ -872,4 +838,3 @@ const PullerManagement = () => {
 };
 
 export default PullerManagement;
- 

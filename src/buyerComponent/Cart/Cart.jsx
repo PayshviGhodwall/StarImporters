@@ -20,13 +20,19 @@ const Cart = () => {
   const [load, setLoad] = useState(false);
   const [NState, setNState] = useState(false);
   const [userDetail, setUserDetail] = useState([]);
+  const [isActive, setIsActive] = useState(false);
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
   const getCart = async () => {
     await axios.post(getCartProducts).then((res) => {
+      let data = res?.data.results.cart?.products;
       setProduct(res?.data.results.cart?.products);
+      data?.map((item) => {
+        (!item?.flavour?.flavourStatus && setIsActive(true)) ||
+          (!item?.productId?.status && setIsActive(true));
+      });
     });
   };
 
@@ -42,6 +48,7 @@ const Cart = () => {
     getCart();
   }, []);
 
+  console.log(isActive, "jkhkjhk");
   const RemoveProduct = async (index) => {
     await axios
       .post(productRemove, {
@@ -50,6 +57,7 @@ const Cart = () => {
       })
       .then((res) => {
         if (res.data?.message === "Product has been removed") {
+          setIsActive(false);
           getCart();
           setNState(!NState);
         }
@@ -69,6 +77,7 @@ const Cart = () => {
       setLoad(false);
     }
   };
+
   const HandleDecrease = async (id) => {
     setLoad(true);
     const formData = {
@@ -116,7 +125,7 @@ const Cart = () => {
           text: "We will share our response on your registered email.",
           icon: "success",
           button: "Okay",
-          timer:2000
+          timer: 2000,
         });
         navigate("/app/home");
       }
@@ -127,10 +136,7 @@ const Cart = () => {
     <div>
       <Navbar NState={NState} />
       <Animate2>
-        <section
-          className="cart_page py-5 marginTop"
-          // style={{ backgroundColor: "#eef3ff" }}
-        >
+        <section className="cart_page py-4 marginTop ">
           {token ? (
             <div className="container user-management-tabs  px-5">
               <nav className="w-100 border rounded">
@@ -158,11 +164,22 @@ const Cart = () => {
                     </button>
                     <div>
                       {product?.length ? (
-                        <Link
+                        <a
                           className="comman_btn2 text-decoration-none fs-6"
-                          to="/app/checkout">
+                          onClick={() => {
+                            if (isActive) {
+                              Swal.fire({
+                                title:
+                                  "Please Remove Un-available products from cart!",
+                                icon: "warning",
+                                timer: 2000,
+                              });
+                            } else {
+                              navigate("/app/checkout");
+                            }
+                          }}>
                           Place your Order
-                        </Link>
+                        </a>
                       ) : null}
 
                       {product?.length ? (
@@ -204,143 +221,284 @@ const Cart = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {(product || []).map((item, index) => (
-                                    <tr
-                                      key={index}
-                                      style={{ backgroundColor: "#eef3ff" }}>
-                                      <td>
-                                        <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
-                                          <div className="col-auto">
-                                            <span className="cart_product bg-white">
-                                              <img
-                                                src={
-                                                  item?.flavour?._id
-                                                    ? item?.flavour
-                                                        ?.flavourImage ||
-                                                      require("../../assets/img/product.jpg")
-                                                    : item?.productId
-                                                        ?.productImage ||
-                                                      require("../../assets/img/product.jpg")
-                                                }
-                                                style={{ cursor: "pointer" }}
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
-                                          <div className="col">
-                                            <div className="cart_content">
-                                              {item?.flavour?._id ? (
-                                                <h1
-                                                  style={{ cursor: "pointer" }}
-                                                  className="text-decoration-none text-dark"
+                                  {(product || []).map((item, index) =>
+                                    item?.flavour?.flavourStatus && item?.productId?.status ? (
+                                      <tr
+                                        key={index}
+                                        style={{
+                                          backgroundColor: item?.flavour
+                                            ?.flavourStatus
+                                            ? "#eef3ff"
+                                            : "gray",
+                                        }}>
+                                        <td>
+                                          <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
+                                            <div className="col-auto">
+                                              <span className="cart_product bg-white">
+                                                <img
                                                   onClick={() =>
                                                     navigate(
                                                       `/AllProducts/Product/:${item?.productId?.slug}`,
                                                       {
                                                         state: {
-                                                          type:item?.flavour
-                                                        }
+                                                          type: item?.flavour,
+                                                        },
                                                       }
                                                     )
-                                                  }>
-                                                  {" "}
-                                                  <h3 className="fs-5">
-                                                    {item?.productId?.unitName +
-                                                      "-" +
-                                                      item?.flavour
-                                                        ?.flavour}{" "}
-                                                  </h3>
-                                                </h1>
-                                              ) : (
-                                                <h1
+                                                  }
+                                                  src={
+                                                    item?.flavour?._id
+                                                      ? item?.flavour
+                                                          ?.flavourImage ||
+                                                        require("../../assets/img/product.jpg")
+                                                      : item?.productId
+                                                          ?.productImage ||
+                                                        require("../../assets/img/product.jpg")
+                                                  }
                                                   style={{ cursor: "pointer" }}
-                                                  className="text-decoration-none text-dark"
-                                                  onClick={() =>
-                                                    navigate(
-                                                      `/AllProducts/Product/:${item?.productId?.slug}`
-                                                    )
-                                                  }>
-                                                  {" "}
-                                                  <h3 className="fs-5">
-                                                    {item?.productId?.unitName}{" "}
-                                                  </h3>
-                                                </h1>
-                                              )}
+                                                  alt=""
+                                                />
+                                              </span>
+                                            </div>
+                                            <div className="col">
+                                              <div className="cart_content">
+                                                {item?.flavour?._id ? (
+                                                  <h1
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    className="text-decoration-none text-dark"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                        {
+                                                          state: {
+                                                            type: item?.flavour,
+                                                          },
+                                                        }
+                                                      )
+                                                    }>
+                                                    {" "}
+                                                    <h3 className="fs-5">
+                                                      {item?.productId
+                                                        ?.unitName +
+                                                        "-" +
+                                                        item?.flavour
+                                                          ?.flavour}{" "}
+                                                    </h3>
+                                                  </h1>
+                                                ) : (
+                                                  <h1
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    className="text-decoration-none text-dark"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/AllProducts/Product/:${item?.productId?.slug}`
+                                                      )
+                                                    }>
+                                                    {" "}
+                                                    <h3 className="fs-5">
+                                                      {
+                                                        item?.productId
+                                                          ?.unitName
+                                                      }
+                                                    </h3>
+                                                  </h1>
+                                                )}
 
-                                              <p>
-                                                {item?.flavour?.description?.slice(
-                                                  0,
-                                                  150
-                                                ) + "...."}
-                                              </p>
+                                                <p>
+                                                  {item?.flavour?.description?.slice(
+                                                    0,
+                                                    150
+                                                  ) + "...."}
+                                                </p>
 
-                                              <a
-                                                className="text-decoration-none"
-                                                style={{
-                                                  marginTop: "-3px",
-                                                  color: "#eb3237",
-                                                  cursor: "pointer",
-                                                }}
-                                                onClick={() => {
-                                                  RemoveProduct(index);
-                                                }}>
-                                                <i
-                                                  class="fa fa-trash"
-                                                  aria-hidden="true"></i>{" "}
-                                                Remove
-                                              </a>
+                                                <a
+                                                  className="text-decoration-none"
+                                                  style={{
+                                                    marginTop: "-3px",
+                                                    color: "#eb3237",
+                                                    cursor: "pointer",
+                                                  }}
+                                                  onClick={() => {
+                                                    RemoveProduct(index);
+                                                  }}>
+                                                  <i
+                                                    class="fa fa-trash"
+                                                    aria-hidden="true"></i>{" "}
+                                                  Remove
+                                                </a>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="number me-md-4 mb-md-0 mb-3">
-                                          {item?.quantity <= 1 ? (
-                                            <i
-                                              class="fa fa-trash fs-6 text-danger"
-                                              onClick={() => {
-                                                RemoveProduct(index);
-                                              }}></i>
-                                          ) : (
+                                        </td>
+                                        <td>
+                                          <div className="number me-md-4 mb-md-0 mb-3">
+                                            {item?.quantity <= 1 ? (
+                                              <i
+                                                class="fa fa-trash fs-6 text-danger"
+                                                onClick={() => {
+                                                  RemoveProduct(index);
+                                                }}></i>
+                                            ) : (
+                                              <span
+                                                className="minus"
+                                                style={{
+                                                  userSelect: "none",
+                                                  border: "none",
+                                                }}
+                                                onClick={() => {
+                                                  HandleDecrease(index);
+                                                }}>
+                                                <i
+                                                  class="fa fa-minus fs-6"
+                                                  aria-hidden="true"></i>
+                                              </span>
+                                            )}
+                                            <input
+                                              key={item?.quantity}
+                                              className="p-1 border rounded quanityField"
+                                              defaultValue={item?.quantity}
+                                              onChange={(e) =>
+                                                updateQuantity(e, index)
+                                              }
+                                            />
                                             <span
-                                              className="minus"
+                                              className="plus"
                                               style={{
                                                 userSelect: "none",
                                                 border: "none",
                                               }}
                                               onClick={() => {
-                                                HandleDecrease(index);
+                                                HandleIncrease(index);
                                               }}>
                                               <i
-                                                class="fa fa-minus fs-6"
+                                                class="fa fa-plus fs-6"
                                                 aria-hidden="true"></i>
                                             </span>
-                                          )}
-                                          <input
-                                            key={item?.quantity}
-                                            className="p-1 border rounded quanityField"
-                                            defaultValue={item?.quantity}
-                                            onChange={(e) =>
-                                              updateQuantity(e, index)
-                                            }
-                                          />
-                                          <span
-                                            className="plus"
-                                            style={{
-                                              userSelect: "none",
-                                              border: "none",
-                                            }}
-                                            onClick={() => {
-                                              HandleIncrease(index);
-                                            }}>
-                                            <i
-                                              class="fa fa-plus fs-6"
-                                              aria-hidden="true"></i>
-                                          </span>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))}
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ) : (
+                                      <tr
+                                        key={index}
+                                        style={{ backgroundColor: "gray" }}>
+                                        <td>
+                                          <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-wrap">
+                                            <div className="col-auto">
+                                              <span className="cart_product bg-secondary">
+                                                <img
+                                                  style={{ opacity: "20%" }}
+                                                  onClick={() =>
+                                                    navigate(
+                                                      `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                      {
+                                                        state: {
+                                                          type: item?.flavour,
+                                                        },
+                                                      }
+                                                    )
+                                                  }
+                                                  src={
+                                                    item?.flavour?._id
+                                                      ? item?.flavour
+                                                          ?.flavourImage ||
+                                                        require("../../assets/img/product.jpg")
+                                                      : item?.productId
+                                                          ?.productImage ||
+                                                        require("../../assets/img/product.jpg")
+                                                  }
+                                                  alt=""
+                                                />
+                                              </span>
+                                            </div>
+                                            <div className="col">
+                                              <div className="cart_content">
+                                                {item?.flavour?._id ? (
+                                                  <h1
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    className="text-decoration-none text-dark"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                        {
+                                                          state: {
+                                                            type: item?.flavour,
+                                                          },
+                                                        }
+                                                      )
+                                                    }>
+                                                    {" "}
+                                                    <h3 className="fs-5">
+                                                      {item?.productId
+                                                        ?.unitName +
+                                                        "-" +
+                                                        item?.flavour
+                                                          ?.flavour}{" "}
+                                                    </h3>
+                                                  </h1>
+                                                ) : (
+                                                  <h1
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    className="text-decoration-none text-dark"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/AllProducts/Product/:${item?.productId?.slug}`
+                                                      )
+                                                    }>
+                                                    {" "}
+                                                    <h3 className="fs-5">
+                                                      {
+                                                        item?.productId
+                                                          ?.unitName
+                                                      }
+                                                    </h3>
+                                                  </h1>
+                                                )}
+
+                                                <p>
+                                                  {item?.flavour?.description?.slice(
+                                                    0,
+                                                    150
+                                                  ) + "...."}
+                                                </p>
+
+                                                <a
+                                                  className="text-decoration-none"
+                                                  style={{
+                                                    marginTop: "-3px",
+                                                    color: "#eb3237",
+                                                    cursor: "pointer",
+                                                    stroke: "#00000",
+                                                  }}
+                                                  onClick={() => {
+                                                    RemoveProduct(index);
+                                                  }}>
+                                                  <i
+                                                    class="fa fa-trash"
+                                                    aria-hidden="true"></i>{" "}
+                                                  Remove
+                                                </a>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div className=" me-md-4 mb-md-0 mb-3">
+                                            <h3 className="fs-5">
+                                              This Product is not available now.
+                                            </h3>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    )
+                                  )}
                                 </tbody>
                               </table>
                             </div>

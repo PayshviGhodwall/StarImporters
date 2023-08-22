@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
 function AppCheckout() {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
+  const quoteOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/quoteToOrder`;
   const [users, setUsers] = useState();
   const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
+  let location = useLocation();
 
   useEffect(() => {
     const getUser = async () => {
@@ -57,6 +59,43 @@ function AppCheckout() {
           if (!res.error) {
             console.log(res?.data.message);
           }
+        });
+    }
+  };
+
+  const createQuoteOrder = async () => {
+    if (delevryChoice == "Shipment") {
+      await axios
+        .post(quoteOrder, {
+          type: "Shipment",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } else if (delevryChoice == "Delivery") {
+      await axios
+        .post(quoteOrder, {
+          type: "Delivery",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } else if (delevryChoice == "In-Store Pickup") {
+      await axios
+        .post(quoteOrder, {
+          type: "In-Store Pickup",
+          address: users?.addressLine1 + users?.addressLine2,
+          comments: comments,
+          quoteId: location?.state?.id,
+        })
+        .then((res) => {
+          console.log(res);
         });
     }
   };
@@ -159,7 +198,9 @@ function AppCheckout() {
                               }}
                               defaultChecked="true"
                             />
-                            <label for="fastShipping">In-Store Pickup</label>
+                            <label for="fastShipping">
+                              <strong>IN-STORE PICKUP</strong>
+                            </label>
                             <div class="check"></div>
                           </li>
 
@@ -172,7 +213,21 @@ function AppCheckout() {
                                 setDelevryChoice("Delivery");
                               }}
                             />
-                            <label for="normalShipping">Delivery</label>
+                            <label for="normalShipping">
+                              <strong>DELIVERY-</strong>
+                              {users?.cityAndState?.day?.length ? (
+                                <>
+                                  (Your schedule delivery date is{" "}
+                                  {users?.cityAndState?.day}.)
+                                </>
+                              ) : (
+                                <>
+                                  (Unfortunately we dont deliver to this
+                                  location please select In-store pick up or
+                                  shipment.)
+                                </>
+                              )}
+                            </label>
                             <div class="check"></div>
                           </li>
                           <li>
@@ -185,10 +240,8 @@ function AppCheckout() {
                               }}
                             />
                             <label for="courier">
-                              Shipment{" "}
-                              <span>
-                                (Additional Shipping charges will be applied.)
-                              </span>
+                              <strong>SHIPMENT-</strong>
+                              (Additional Shipping charges will be applied.)
                             </label>
                             <div class="check"></div>
                           </li>
@@ -205,9 +258,7 @@ function AppCheckout() {
                               }}
                               defaultChecked="true"
                             />
-                            <label for="fastShipping">
-                              In-Store Pickup
-                            </label>
+                            <label for="fastShipping">In-Store Pickup</label>
                             <div class="check"></div>
                           </li>
                           <li>
@@ -253,13 +304,46 @@ function AppCheckout() {
                   </div>
                 </div>
               </div>
-              <Link
-                class="comman_btn mt-3 w-50 d-flex text-center"
-                to="/app/thankyou"
-                onClick={createOrder}
-              > 
-                Place Order
-              </Link>
+              {delevryChoice == "Delivery" ? (
+                <div className="col-12 text-start">
+                  {users?.cityAndState?.day?.length ? (
+                    <button
+                      className="comman_btn"
+                      onClick={
+                        location?.state?.type === "quote"
+                          ? createQuoteOrder
+                          : createOrder
+                      }>
+                      Place Order
+                    </button>
+                  ) : (
+                    <button
+                      className="comman_btn text-grey"
+                      style={{
+                        backgroundColor: "GrayText",
+                        textDecoration: "line-through ",
+                        cursor: "not-allowed",
+                      }}>
+                      Place Order
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="col-12 text-start">
+                  <Link
+                    class="comman_btn mt-3 d-flex text-center"
+                    to="/app/thankyou"
+                    onClick={
+                      location?.state?.type === "quote"
+                        ? createQuoteOrder
+                        : createOrder
+                    }>
+                    Place Order
+                  </Link>
+                </div>
+              )}
+
+              
             </div>
           </div>
         </div>

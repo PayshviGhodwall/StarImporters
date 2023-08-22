@@ -296,8 +296,8 @@ const EditOrder = () => {
                   }
                 >
                   <Link
-                    className=""
-                    to="/Puller-Management"
+                    className="d-none at"
+                    to="/Puller-Management" 
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
@@ -790,17 +790,11 @@ const EditOrder = () => {
                                             Barcodes:{" "}
                                             {item?.flavour?.barcode.map(
                                               (item) => (
-                                                <li>{item},</li>
+                                                <li>{item}</li>
                                               )
                                             )}
                                           </p>
-                                          <span className="ordertext my-2 d-block ">
-                                            Ordered On:{" "}
-                                            {item?.productId?.createdAt?.slice(
-                                              0,
-                                              10
-                                            )}
-                                          </span>
+                                         
                                         </div>
                                       </div>
                                     </div>

@@ -910,7 +910,7 @@ const Cms = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

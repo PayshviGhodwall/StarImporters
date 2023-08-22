@@ -114,7 +114,6 @@ import ProductsByFilter from "./buyerComponent/AllProducts/ProductsByFilter";
 import ContactSupport from "./AdminComponent/AdminDashboard/Contact and Support/ContactSupport";
 import PullerManagement from "./AdminComponent/AdminDashboard/Puller Manage/PullerManagement";
 import ViewPuller from "./AdminComponent/AdminDashboard/Puller Manage/viewPuller";
-import AutoResponsive from "autoresponsive-react";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -145,7 +144,6 @@ function App() {
             <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
             <Route path="/RequestOrder" element={<RequestOrders />} />
             <Route path="/OrderDetails" element={<OrderDetails />} />
-            <Route path="/app/request-detail/:id" element={<RequestDetails />} />
             <Route path="/MainMenu" element={<MainMenu />} />
             <Route path="/Address" element={<Address />} />
             <Route path="/Account" element={<Account />} />
@@ -400,7 +398,7 @@ function App() {
               element={width < 999 ? <AppProductBySearch /> : <Homepage />}
             />
             <Route
-              path="/app/request-detail"
+              path="/app/request-detail/:id"
               element={width < 999 ? <AppRequestDetail /> : <RequestDetails />}
             />
 

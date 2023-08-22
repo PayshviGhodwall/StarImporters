@@ -1501,10 +1501,10 @@
     border-radius: 15px;
     overflow: hidden;
   }
-  
+
   .Fcard::before {
     content: "";
-    position: absolute; 
+    position: absolute;
     top: -50%;
     width: 100%;
     height: 100%;
@@ -1512,12 +1512,12 @@
     transform: skewY(345deg);
     transition: 0.5s;
   }
-  
+
   .Fcard:hover::before {
     top: -50%;
     transform: skewY(390deg);
   }
-  
+
   .Fcard::after {
     position: absolute;
     bottom: 0;
@@ -1526,7 +1526,7 @@
     font-size: 6em;
     color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .Fcard .imgBox {
     position: relative;
     max-width: 100%;
@@ -1537,7 +1537,7 @@
     padding-top: 30px;
     z-index: 1;
   }
-  
+
   /* .Fcard .imgBox img {
       max-width: 4rem;
       
@@ -1548,7 +1548,7 @@
       max-width: 50%;
         
   } */
-  
+
   .Fcard .contentBox {
     position: relative;
     padding: 20px;
@@ -1558,7 +1558,7 @@
     flex-direction: column;
     z-index: 2;
   }
-  
+
   .title_prod {
     font-size: 17px;
     position: relative;
@@ -1567,18 +1567,17 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
-  .Fcard:hover .title_prod{
+  .Fcard:hover .title_prod {
     opacity: 0;
-    
   }
-  
+
   .Fcard .contentBox .price {
     font-size: 24px;
     color: #000;
     font-weight: 700;
     letter-spacing: 1px;
   }
-  
+
   .Fcard .contentBox .buy {
     position: relative;
     top: 100px;
@@ -1593,12 +1592,12 @@
     letter-spacing: 1px;
     transition: 0.5s;
   }
-  
+
   .Fcard:hover .contentBox .buy {
-    top: 60px !important; 
+    top: 60px !important;
     opacity: 1;
   }
-  
+
   .brand_box {
     display: flex;
     background-color: #eff3ff;
@@ -1672,7 +1671,7 @@
     z-index: 1;
     position: relative;
   }
-  .verification_content{
+  .verification_content {
     opacity: 0.9;
     border-radius: 1rem;
     padding: 2rem !important;
@@ -1717,7 +1716,7 @@
     border: 2px dashed #f2f2f263;
     padding: 32px 20px;
   }
-  
+
   .view_category {
     display: flex;
     align-items: center;
@@ -2097,8 +2096,6 @@
     border: 1px solid #ced4da;
     border-radius: 10px;
   }
-  
-
 
   .offers_box_main_afterSelect {
     border: 1.7px dashed #eb3237;
@@ -2135,7 +2132,6 @@
   .flavour_box .disabled {
     opacity: 0.5;
   }
- 
 
   .featured-details .accordion-button {
     border: 0;
@@ -2800,18 +2796,18 @@
     justify-content: center;
     position: relative;
   }
-  @media screen and (min-device-width: 768px) and (max-device-width: 2500px){
-.track_order li::after {
-    position: absolute;
-    content: "";
-    height: 4px;
-    width: 150px;
-    background-color: #f2f2f2;
-    left: 81px;
-    top: 4px;
-    z-index: 0;
-}
-}
+  @media screen and (min-device-width: 768px) and (max-device-width: 2500px) {
+    .track_order li::after {
+      position: absolute;
+      content: "";
+      height: 4px;
+      width: 150px;
+      background-color: #f2f2f2;
+      left: 81px;
+      top: 4px;
+      z-index: 0;
+    }
+  }
   .track_order li::after {
     position: absolute;
     content: "";
@@ -3834,20 +3830,21 @@
 
   /* Dropdown Content (Hidden by Default) */
   .dropdown-content {
-    display: none;
+    display: none;  
     position: absolute;
     list-style: none;
+    left: 3px;
     background-color: #f1f1f1;
-    min-width: 100px;
+    min-width: 105px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    border-radius: 20px;
+    border-radius: 4px;
   }
 
   /* Links inside the dropdown */
   .dropdown-content a {
     color: black;
-    padding: 8px 8px;
+    padding: 8px 4px;
     text-decoration: none;
     display: block;
     border-radius: 18px;
@@ -3895,6 +3892,10 @@
   .admin_panel_data {
     padding: 50px;
   }
+  .admin_panel_data_orders {
+    padding: 25px 50px !important;
+  }
+
 
   .height_adjust {
     height: calc(100vh - 70px);
@@ -3941,7 +3942,7 @@
     transition: 0.1s all;
     overflow-y: scroll;
   }
-  .siderbar_section::-webkit-scrollbar{
+  .siderbar_section::-webkit-scrollbar {
     display: none;
   }
   .vaccine_category {
@@ -4004,7 +4005,7 @@
     display: none;
   }
   .sidebar_menus ul li a {
-  position: relative;
+    position: relative;
   }
 
   .sidebar_menus ul li a {
@@ -4056,7 +4057,7 @@
     vertical-align: middle;
     border-bottom: 2px solid #f2f2f2;
     white-space: nowrap;
-}
+  }
   .dashboard_box {
     background-color: #3e4093;
     border-radius: 10px;
@@ -5504,7 +5505,7 @@ background-color: #3e4093;
   .category_management .user-management-tabs .nav-tabs .nav-link {
     width: 50%;
   }
-   .order_tab .nav-link {
+  .order_tab .nav-link {
     width: 33.3% !important;
   }
 
@@ -12068,7 +12069,7 @@ background-color: #3e4093;
     letter-spacing: 0.5px;
   }
   .my_order_new {
-    padding: 80px 0 80px;
+    padding: 60px 0 80px;
   }
   .my_orderbox {
     border: 3px solid #f2f2f2;
@@ -13746,7 +13747,6 @@ figure.effect-ming:hover img {
   color: #00bdfe;
 }
 
-
 .container_swipe {
   position: relative;
   width: 24px;
@@ -13873,7 +13873,7 @@ figure.effect-ming:hover img {
 .categorynew_img img {
   max-width: 100%;
   width: auto !important;
-  max-height: 120px;
+  max-height: 120px !important;
 }
 
 .categorynew_box span {
@@ -13961,7 +13961,7 @@ figure.effect-ming:hover img {
 }
 .search_head2 {
   position: relative;
-  top:2px !important;
+  top: 2px !important;
   font-size: 15px;
   font-weight: 700;
   color: #000;
@@ -13987,13 +13987,15 @@ figure.effect-ming:hover img {
   justify-content: center;
   border-radius: 12px;
   padding: 25px 15px;
+  max-height: 8rem !important;
+  min-height: 8rem !important;
 }
 .brandsnew_box img {
   max-width: 100%;
   width: auto !important;
-  
+
   /* min-height: 110px; */
-  max-height: 4rem !important;
+  max-height: 7rem !important;
 }
 .Newheader {
   padding: 20px 40px !important;
@@ -14148,9 +14150,8 @@ figure.effect-ming:hover img {
 }
 
 .checkbox-label {
-  position: absolute;
+  position: relative;
   top: 10px;
-  right: 10px;
   display: block;
   width: 24px;
   height: 24px;
@@ -14339,7 +14340,7 @@ figure.effect-ming:hover img {
 .categorynew_img img {
   max-width: 100%;
   width: auto !important;
-  max-height: 110px;
+  max-height: 120px !important;
 }
 .categorynew_box span {
   font-size: 14px;
@@ -14587,7 +14588,6 @@ figure.effect-ming:hover img {
   width: 10px !important;
   margin-left: 2px !important;
   cursor: pointer !important;
-
 }
 .new_dropdown:hover .new_dropdown_inner::-webkit-scrollbar-track {
   /* background-color: #3e4093; */
@@ -14994,7 +14994,7 @@ figure.effect-ming:hover img {
     background-size: 15px;
     top: 16px;
   }
- 
+
   .comman_divvision {
     padding: 50px 50px;
   }
@@ -15058,7 +15058,7 @@ figure.effect-ming:hover img {
     height: 42px;
     line-height: 16px;
   }
- 
+
   .singleproducttop---left,
   .singleproduct---paginationss a,
   .singleproduct---paginationss span {
@@ -15943,7 +15943,7 @@ figure.effect-ming:hover img {
     background-size: 15px;
     top: 16px;
   }
- 
+
   .comman_divvision {
     padding: 50px 50px;
   }
@@ -16282,7 +16282,6 @@ figure.effect-ming:hover img {
   max-height: 560px !important;
 }
 
-
 .banner_section {
   cursor: pointer !important;
 }
@@ -16596,7 +16595,7 @@ figure.effect-ming:hover img {
   }
   .Fcard::before {
     content: "";
-    position: absolute; 
+    position: absolute;
     top: -50%;
     width: 100%;
     height: 100%;
@@ -16605,10 +16604,10 @@ figure.effect-ming:hover img {
     transition: 0.5s;
   }
   .Fcard:hover::before {
-    top: -70%; 
+    top: -70%;
     transform: skewY(390deg);
   }
-  
+
   .Fcard::after {
     position: absolute;
     bottom: 0;
@@ -16617,7 +16616,7 @@ figure.effect-ming:hover img {
     font-size: 3em !important;
     color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .Fcard .imgBox {
     position: relative;
     left: 8%;
@@ -16630,7 +16629,7 @@ figure.effect-ming:hover img {
     padding-top: 20px !important;
     z-index: 1;
   }
-  .Fcard .main_image{
+  .Fcard .main_image {
     height: 3rem;
     width: 100%;
   }
@@ -16643,7 +16642,7 @@ figure.effect-ming:hover img {
     flex-direction: column;
     z-index: 2;
   }
-  
+
   .title_prod {
     font-size: 12px !important;
     position: relative;
@@ -16652,18 +16651,17 @@ figure.effect-ming:hover img {
     text-transform: uppercase;
     letter-spacing: 1px;
   }
-  .Fcard:hover .title_prod{
+  .Fcard:hover .title_prod {
     opacity: 0;
-    
   }
-  
+
   .Fcard .contentBox .price {
     font-size: 14px;
     color: #000;
     font-weight: 400;
     letter-spacing: 1px;
   }
-  
+
   .Fcard .contentBox .buy {
     position: relative;
     top: 100px;
@@ -16678,9 +16676,9 @@ figure.effect-ming:hover img {
     letter-spacing: 1px;
     transition: 0.5s;
   }
-  
+
   .Fcard:hover .contentBox .buy {
-    top: 60px !important; 
+    top: 60px !important;
     opacity: 1;
   }
   .banner_section img {
@@ -16689,9 +16687,9 @@ figure.effect-ming:hover img {
   }
   .banner_section video {
     width: 100% !important;
-    max-height:450px !important;
+    max-height: 450px !important;
   }
-  
+
   .banner_section {
     cursor: pointer !important;
   }
@@ -16709,7 +16707,7 @@ figure.effect-ming:hover img {
 
 .Fcard::before {
   content: "";
-  position: absolute; 
+  position: absolute;
   top: -50%;
   width: 100%;
   height: 100%;
@@ -16772,9 +16770,8 @@ figure.effect-ming:hover img {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.Fcard:hover .title_prod{
+.Fcard:hover .title_prod {
   opacity: 0;
-  
 }
 
 .Fcard .contentBox .price {
@@ -16800,20 +16797,20 @@ figure.effect-ming:hover img {
 }
 
 .Fcard:hover .contentBox .buy {
-  top: 60px !important; 
+  top: 60px !important;
   opacity: 1;
 }
 
-.subCateSearch{
+.subCateSearch {
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
 }
 
-.subCateSearch:hover{
- color: #3b4093;
- transition: ease-out;
- transform: scale3d(1.1);
+.subCateSearch:hover {
+  color: #3b4093;
+  transition: ease-out;
+  transform: scale3d(1.1);
 }
 
 .lds-facebook {
@@ -16852,7 +16849,8 @@ figure.effect-ming:hover img {
     top: 14px;
     height: 74px;
   }
-  50%, 100% {
+  50%,
+  100% {
     top: 24px;
     height: 32px;
   }
@@ -16860,9 +16858,28 @@ figure.effect-ming:hover img {
 .thumbnails_box {
   position: relative;
   width: 110%;
-  left: -5%;
+  padding: 10px 0 !important;
 }
-.thumbnails_box .box{
- width: 100%;
+.thumbnails_box .box {
+  width: 100%;
 }
 
+.text_area {
+  white-space: wrap !important;
+}
+
+.is-loading {
+  .image,
+  .one {
+    background: #eee !important;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 5px;
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+  }
+}
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}

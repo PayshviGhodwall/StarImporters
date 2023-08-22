@@ -16,8 +16,6 @@ import { pageUserData } from "../../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 
-//
-
 const UserManage = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allUsersList`;
   const uploadUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/importUsers`;
@@ -79,8 +77,7 @@ const UserManage = () => {
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
 
- 
-
+  console.log(search);
   const userSearch = async (key) => {
     let string = key;
     setSearch(key);
@@ -168,6 +165,7 @@ const UserManage = () => {
     });
   };
   const onUpload = async () => {
+    setLoader(true);
     const formData = new FormData();
     formData.append("csvFilePath", impFile);
     await axios
@@ -185,14 +183,17 @@ const UserManage = () => {
         if (res?.data.message === "Imported details") {
           setSet(!set);
           setUm(true);
+          setLoader(false);
           setCrenditials(res?.data.results?.userNameAndPassword);
         }
         if (res?.data.message === "Duplicte email OR Already Registered") {
           setUm(true);
           setErrorEmails(res?.data.results);
+          setLoader(false);
         }
       })
       .catch((err) => {
+        setLoader(false)
         if (err) {
           Swal.fire({
             title: "Error in file",
@@ -253,7 +254,6 @@ const UserManage = () => {
         }
       });
   };
-
 
   return (
     <div className={sideBar ? "  admin_main" : "row expanded_main"}>
@@ -651,7 +651,7 @@ const UserManage = () => {
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }>
                     <Link
-                      className=""
+                      className="d-none at"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
@@ -815,7 +815,6 @@ const UserManage = () => {
                       className="comman_btn2 ms-2 text-decoration-none">
                       Add User
                     </Link>
-                
                   </div>
                   <div className="col-12 design_outter_comman  shadow">
                     <div className="row comman_header justify-content-between px-2">
@@ -966,52 +965,59 @@ const UserManage = () => {
                             <div className="row">
                               <div className="col-12 comman_table_design ">
                                 <div className="table-responsive recent_orders_user">
-                                  {pendingUsers?.length ? (
-                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                                      <span className="totalPage">
-                                        Total Pages : {maxPenPage}
-                                      </span>
-                                      <ul id="pagination">
-                                        <li>
-                                          <a
-                                            class="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activePendingPage <= 1
-                                                ? setActivePendingPage(1)
-                                                : setActivePendingPage(
-                                                    activePendingPage - 1
-                                                  )
-                                            }>
-                                            «<small>prev</small>
-                                          </a>
-                                        </li>
+                                  {search?.length >= 1 ? (
+                                    ""
+                                  ) : (
+                                    <>
+                                      {pendingUsers?.length ? (
+                                        <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                          <span className="totalPage">
+                                            Total Pages : {maxPenPage}
+                                          </span>
+                                          <ul id="pagination">
+                                            <li>
+                                              <a
+                                                class="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activePendingPage <= 1
+                                                    ? setActivePendingPage(1)
+                                                    : setActivePendingPage(
+                                                        activePendingPage - 1
+                                                      )
+                                                }>
+                                                «<small>prev</small>
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a href="#" className="active">
-                                            {activePendingPage}
-                                          </a>
-                                        </li>
+                                            <li>
+                                              <a href="#" className="active">
+                                                {activePendingPage}
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a
-                                            className="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activePendingPage === maxPenPage
-                                                ? setActivePendingPage(
-                                                    maxPenPage
-                                                  )
-                                                : setActivePendingPage(
-                                                    activePendingPage + 1
-                                                  )
-                                            }>
-                                            <small>next</small>»
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  ) : null}
+                                            <li>
+                                              <a
+                                                className="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activePendingPage ===
+                                                  maxPenPage
+                                                    ? setActivePendingPage(
+                                                        maxPenPage
+                                                      )
+                                                    : setActivePendingPage(
+                                                        activePendingPage + 1
+                                                      )
+                                                }>
+                                                <small>next</small>»
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      ) : null}
+                                    </>
+                                  )}
 
                                   <table className="table mb-0  ">
                                     <thead>
@@ -1086,52 +1092,59 @@ const UserManage = () => {
                                         ))}
                                     </tbody>
                                   </table>
-                                  {pendingUsers?.length ? (
-                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                                      <span className="totalPage">
-                                        Total Pages : {maxPenPage}
-                                      </span>
-                                      <ul id="pagination">
-                                        <li>
-                                          <a
-                                            class="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activePendingPage <= 1
-                                                ? setActivePendingPage(1)
-                                                : setActivePendingPage(
-                                                    activePendingPage - 1
-                                                  )
-                                            }>
-                                            «<small>prev</small>
-                                          </a>
-                                        </li>
+                                  {search?.length >= 1 ? (
+                                    ""
+                                  ) : (
+                                    <>
+                                      {pendingUsers?.length ? (
+                                        <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                          <span className="totalPage">
+                                            Total Pages : {maxPenPage}
+                                          </span>
+                                          <ul id="pagination">
+                                            <li>
+                                              <a
+                                                class="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activePendingPage <= 1
+                                                    ? setActivePendingPage(1)
+                                                    : setActivePendingPage(
+                                                        activePendingPage - 1
+                                                      )
+                                                }>
+                                                «<small>prev</small>
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a href="#" className="active">
-                                            {activePendingPage}
-                                          </a>
-                                        </li>
+                                            <li>
+                                              <a href="#" className="active">
+                                                {activePendingPage}
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a
-                                            className="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activePendingPage === maxPenPage
-                                                ? setActivePendingPage(
-                                                    maxPenPage
-                                                  )
-                                                : setActivePendingPage(
-                                                    activePendingPage + 1
-                                                  )
-                                            }>
-                                            <small>next</small>»
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  ) : null}
+                                            <li>
+                                              <a
+                                                className="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activePendingPage ===
+                                                  maxPenPage
+                                                    ? setActivePendingPage(
+                                                        maxPenPage
+                                                      )
+                                                    : setActivePendingPage(
+                                                        activePendingPage + 1
+                                                      )
+                                                }>
+                                                <small>next</small>»
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      ) : null}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -1145,52 +1158,59 @@ const UserManage = () => {
                               <div className="row">
                                 <div className="col-12 comman_table_design ">
                                   <div className="table-responsive">
-                                    {approvedUsers.length ? (
-                                      <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
-                                        <span className="totalPage">
-                                          ( Total Pages : {maxAppPage} )
-                                        </span>
-                                        <ul id="pagination">
-                                          <li>
-                                            <a
-                                              class="fs-5"
-                                              href="#"
-                                              onClick={() =>
-                                                activeApprovePage === 1
-                                                  ? setActiveApprovePage(1)
-                                                  : setActiveApprovePage(
-                                                      activeApprovePage - 1
-                                                    )
-                                              }>
-                                              « <small>prev</small>
-                                            </a>
-                                          </li>
+                                    {search?.length >= 1 ? (
+                                      ""
+                                    ) : (
+                                      <>
+                                        {approvedUsers?.length ? (
+                                          <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                            <span className="totalPage">
+                                              ( Total Pages : {maxAppPage} )
+                                            </span>
+                                            <ul id="pagination">
+                                              <li>
+                                                <a
+                                                  class="fs-5"
+                                                  href="#"
+                                                  onClick={() =>
+                                                    activeApprovePage === 1
+                                                      ? setActiveApprovePage(1)
+                                                      : setActiveApprovePage(
+                                                          activeApprovePage - 1
+                                                        )
+                                                  }>
+                                                  « <small>prev</small>
+                                                </a>
+                                              </li>
 
-                                          <li>
-                                            <a href="#" className="active">
-                                              {activeApprovePage}
-                                            </a>
-                                          </li>
+                                              <li>
+                                                <a href="#" className="active">
+                                                  {activeApprovePage}
+                                                </a>
+                                              </li>
 
-                                          <li>
-                                            <a
-                                              className="fs-5"
-                                              href="#"
-                                              onClick={() =>
-                                                activeApprovePage === maxAppPage
-                                                  ? setActiveApprovePage(
-                                                      maxAppPage
-                                                    )
-                                                  : setActiveApprovePage(
-                                                      activeApprovePage + 1
-                                                    )
-                                              }>
-                                              <small>next</small>»
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    ) : null}
+                                              <li>
+                                                <a
+                                                  className="fs-5"
+                                                  href="#"
+                                                  onClick={() =>
+                                                    activeApprovePage ===
+                                                    maxAppPage
+                                                      ? setActiveApprovePage(
+                                                          maxAppPage
+                                                        )
+                                                      : setActiveApprovePage(
+                                                          activeApprovePage + 1
+                                                        )
+                                                  }>
+                                                  <small>next</small>»
+                                                </a>
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        ) : null}
+                                      </>
+                                    )}
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
@@ -1282,52 +1302,59 @@ const UserManage = () => {
                                       </tbody>
                                     </table>
                                   </div>
-                                  {approvedUsers.length ? (
-                                    <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
-                                      <span className="totalPage">
-                                        ( Total Pages : {maxAppPage} )
-                                      </span>
-                                      <ul id="pagination">
-                                        <li>
-                                          <a
-                                            class="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activeApprovePage === 1
-                                                ? setActiveApprovePage(1)
-                                                : setActiveApprovePage(
-                                                    activeApprovePage - 1
-                                                  )
-                                            }>
-                                            «<small>prev</small>
-                                          </a>
-                                        </li>
+                                  {search?.length >= 1 ? (
+                                    ""
+                                  ) : (
+                                    <>
+                                      {approvedUsers?.length ? (
+                                        <div className="col-11 d-flex justify-content-between py-2 mx-5 ">
+                                          <span className="totalPage">
+                                            ( Total Pages : {maxAppPage} )
+                                          </span>
+                                          <ul id="pagination">
+                                            <li>
+                                              <a
+                                                class="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activeApprovePage === 1
+                                                    ? setActiveApprovePage(1)
+                                                    : setActiveApprovePage(
+                                                        activeApprovePage - 1
+                                                      )
+                                                }>
+                                                « <small>prev</small>
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a href="#" className="active">
-                                            {activeApprovePage}
-                                          </a>
-                                        </li>
+                                            <li>
+                                              <a href="#" className="active">
+                                                {activeApprovePage}
+                                              </a>
+                                            </li>
 
-                                        <li>
-                                          <a
-                                            className="fs-5"
-                                            href="#"
-                                            onClick={() =>
-                                              activeApprovePage === maxAppPage
-                                                ? setActiveApprovePage(
-                                                    maxAppPage
-                                                  )
-                                                : setActiveApprovePage(
-                                                    activeApprovePage + 1
-                                                  )
-                                            }>
-                                            <small>next</small>»
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  ) : null}
+                                            <li>
+                                              <a
+                                                className="fs-5"
+                                                href="#"
+                                                onClick={() =>
+                                                  activeApprovePage ===
+                                                  maxAppPage
+                                                    ? setActiveApprovePage(
+                                                        maxAppPage
+                                                      )
+                                                    : setActiveApprovePage(
+                                                        activeApprovePage + 1
+                                                      )
+                                                }>
+                                                <small>next</small>»
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      ) : null}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -1664,8 +1691,6 @@ const UserManage = () => {
           </div>
         </div>
       </div>
-
-     
 
       <Link
         data-bs-toggle="modal"

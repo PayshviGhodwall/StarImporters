@@ -183,9 +183,7 @@ const Account = () => {
   };
 
   const fileDownload = (url) => {
-    let url1 = url;
-    let url2 = url1.replace("http", "https");
-    saveAs(url2);
+    saveAs(url);
   };
 
   const togglePassword = () => {

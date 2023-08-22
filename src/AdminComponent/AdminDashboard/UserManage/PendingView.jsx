@@ -86,9 +86,7 @@ const PendingView = () => {
   }, []);
 
   const fileDownload = (url) => {
-    let url1 = url;
-    let url2 = url1.replace("http", "https");
-    saveAs(url2);
+    saveAs(url);
   };
 
   const approveUser = async () => {
@@ -443,7 +441,7 @@ const PendingView = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

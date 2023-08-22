@@ -511,7 +511,7 @@ const SubAdmin = () => {
 
                      <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -800,7 +800,7 @@ const SubAdmin = () => {
                                   {(activePage - 1) * 20 + (index + 1)}.
                                 </td>
                                 <td className="border">
-                                  {moment(item?.craetedAt?.slice(0, 10)).format(
+                                  {moment(item?.createdAt?.slice(0, 10)).format(
                                     "MM/DD/YYYY"
                                   )}
                                 </td>

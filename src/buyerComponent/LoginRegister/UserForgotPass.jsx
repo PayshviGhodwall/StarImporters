@@ -71,11 +71,9 @@ const UserForgotPass = () => {
             <div class="col-lg-6 col-md-8">
               <form
                 className="row login-new-form"
-                onSubmit={handleSubmit(onSubmit)}
-              >
+                onSubmit={handleSubmit(onSubmit)}>
                 <div
-                  className={emailDiss ? "d-none" : "form-group mb-4 col-12"}
-                >
+                  className={emailDiss ? "d-none" : "form-group mb-4 col-12"}>
                   <input
                     type="email"
                     className={classNames("form-control", {
@@ -84,7 +82,9 @@ const UserForgotPass = () => {
                     id="floatingEmail"
                     name="email"
                     placeholder="Enter Your Email Address"
-                    {...register("email")}
+                    {...register("email", {
+                      required: "Required!",
+                    })}
                     onChange={(e) => {
                       let volue = e.target.value;
                       if (volue.length == 1) {
@@ -105,23 +105,23 @@ const UserForgotPass = () => {
                   <h5
                     className={
                       passDiss || emailDiss ? "d-none" : " fs-6 mt-2 mb-2"
-                    }
-                  >
+                    }>
                     or
                   </h5>
                 </div>
                 <div
-                  className={passDiss ? "d-none" : "form-group mb-4 col-12 "}
-                >
+                  className={passDiss ? "d-none" : "form-group mb-4 col-12 "}>
                   <input
                     type="Number"
                     className={classNames("form-control ", {
-                      "is-invalid": errors.email,
+                      "is-invalid": errors.phoneNumber,
                     })}
                     id="floatingNumber"
                     name="phoneNumber"
                     placeholder="Enter Your Phone Number"
-                    {...register("phoneNumber")}
+                    {...register("phoneNumber", {
+                      required: "Required!",
+                    })}
                     onChange={(e) => {
                       let number = e.target.value;
                       if (number.length == 1) {
@@ -131,9 +131,9 @@ const UserForgotPass = () => {
                       }
                     }}
                   />
-                  {errors.email && (
+                  {errors.phoneNumber && (
                     <small className="errorText mx-1 fw-bold">
-                      {errors.email?.message}
+                      {errors.phoneNumber?.message}
                     </small>
                   )}
                 </div>

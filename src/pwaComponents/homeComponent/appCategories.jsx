@@ -56,8 +56,7 @@ function AppCategories() {
               class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
               data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas"
-            >
+              aria-controls="suhaOffcanvas">
               <div>
                 <span></span>
                 <span></span>
@@ -67,10 +66,11 @@ function AppCategories() {
           </div>
         </div>
         <WebHeader2 />
-        <div className="page-content-wrapper container">
+        <div className="page-content-wrapper container-fluid">
           <Search />
+          
           {searchKey.length ? null : (
-            <div className="brands_section mt-2 p-0">
+            <div className="brands_section mt-3 p-0">
               {browserName === "WebKit" || browserName === "Chrome WebView" ? (
                 <div className="row mx-0 justify-content-center">
                   {categories
@@ -82,18 +82,16 @@ function AppCategories() {
                     )
                     .map((item, index) => {
                       return (
-                        <div className="col-sm-5 col-md-5 col-5 mb-2 p-1 m-1 brands_box shadow">
+                        <div className="col-sm-5 col-md-5 col-5 mb-2 p-2 m-2 brands_box shadow">
                           <Link
                             className="text-center mt-4"
-                            to={`/app/product-category/${item?.categoryName}`}
-                          >
+                            to={`/app/product-category/${item?.categoryName}`}>
                             <div>
                               <img src={item?.categoryImage} alt="" />
                             </div>
                             <p
                               className="text-center mt-2"
-                              style={{ fontSize: "13px" }}
-                            >
+                              style={{ fontSize: "13px" }}>
                               {item?.categoryName}
                             </p>
                           </Link>
@@ -107,16 +105,14 @@ function AppCategories() {
                           activePage <= 1
                             ? "opacity-0"
                             : "back-button me-2 me-2 "
-                        }
-                      >
+                        }>
                         <Link
                           state={{ naek: "ki" }}
                           onClick={() =>
                             activePage <= 1
                               ? setActivePage(1)
                               : setActivePage(activePage - 1)
-                          }
-                        >
+                          }>
                           <i class="fa-solid fa-arrow-left-long"></i> Previous
                         </Link>
                       </div>
@@ -125,39 +121,34 @@ function AppCategories() {
                           activePage === maxPage
                             ? "d-none"
                             : "back-button me-2 me-2 "
-                        }
-                      >
+                        }>
                         <Link
                           state={{ naek: "ki" }}
                           onClick={() =>
                             activePage === maxPage
                               ? setActivePage(maxPage)
                               : setActivePage(activePage + 1)
-                          }
-                        >
+                          }>
                           Next <i class="fa-solid fa-arrow-right-long"></i>
                         </Link>
                       </div>
                     </div>
                   ) : null}
-                  
                 </div>
               ) : (
                 <div className="row mx-0 justify-content-center">
                   {categories?.map((item, index) => {
                     return (
-                      <div className="col-sm-5 col-md-5 col-5 mb-2 p-1 m-1 brands_box shadow">
+                      <div className="col-sm-5 col-md-5 col-5 mb-2 p-2 m-2 brands_box shadow">
                         <Link
                           className="text-center mt-4"
-                          to={`/app/product-category/${item?.categoryName}`}
-                        >
+                          to={`/app/product-category/${item?.categoryName}`}>
                           <div>
                             <img src={item?.categoryImage} alt="" />
                           </div>
                           <p
                             className="text-center mt-2"
-                            style={{ fontSize: "13px" }}
-                          >
+                            style={{ fontSize: "13px" }}>
                             {item?.categoryName}
                           </p>
                         </Link>
@@ -171,16 +162,14 @@ function AppCategories() {
                           activePage <= 1
                             ? "opacity-0"
                             : "back-button me-2 me-2 "
-                        }
-                      >
+                        }>
                         <Link
                           state={{ naek: "ki" }}
                           onClick={() =>
                             activePage <= 1
                               ? setActivePage(1)
                               : setActivePage(activePage - 1)
-                          }
-                        >
+                          }>
                           <i class="fa-solid fa-arrow-left-long"></i> Previous
                         </Link>
                       </div>
@@ -189,16 +178,14 @@ function AppCategories() {
                           activePage === maxPage
                             ? "d-none"
                             : "back-button me-2 me-2 "
-                        }
-                      >
+                        }>
                         <Link
                           state={{ naek: "ki" }}
                           onClick={() =>
                             activePage === maxPage
                               ? setActivePage(maxPage)
                               : setActivePage(activePage + 1)
-                          }
-                        >
+                          }>
                           Next <i class="fa-solid fa-arrow-right-long"></i>
                         </Link>
                       </div>

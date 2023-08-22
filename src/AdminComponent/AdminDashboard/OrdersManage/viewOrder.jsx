@@ -419,7 +419,7 @@ const ViewOrder = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -825,17 +825,11 @@ const ViewOrder = () => {
                                             Barcodes:
                                             {item?.flavour?.barcode.map(
                                               (item) => (
-                                                <li>{item},</li>
+                                                <li>{item}</li>
                                               )
                                             )}
                                           </p>
-                                          <span className="ordertext my-2 d-block ">
-                                            Ordered On:{" "}
-                                            {item?.productId?.createdAt?.slice(
-                                              0,
-                                              10
-                                            )}
-                                          </span>
+                                         
                                         </div>
                                       </div>
                                     </div>

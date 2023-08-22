@@ -68,13 +68,13 @@ const AllBrands = () => {
               <div class="col-md-12">
                 <div class="row justify-content-center comman_product1">
                   {(brands || [])?.map((item, index) => (
-                    <div class="col-lg-3 col-md-4 mb-5 ">
+                    <div class="col-lg-3 col-md-4 mb-5">
                       <a class="categorynew_box text-decoration-none">
                         <Link
                           to={`/Brands/${item?.slug}`}
                           state={{ name: item?.brandName }}
                         >
-                          <div class="categorynew_img">
+                          <div class="categorynew_img p-2">
                             <img
                               src={
                                 item?.brandImage

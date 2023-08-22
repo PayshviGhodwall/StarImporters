@@ -17,6 +17,7 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
 const SingleProduct = () => {
+  const width = window.innerWidth;
   const getProduct = `${process.env.REACT_APP_APIENDPOINTNEW}user/product/getProduct`;
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
   const addQuote = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/addQuote`;
@@ -50,7 +51,9 @@ const SingleProduct = () => {
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+
   let token = localStorage.getItem("token-user");
+
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -90,6 +93,8 @@ const SingleProduct = () => {
   console.log(product?._id, "ddfsdf");
 
   const AddtoCart = async () => {
+
+    
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
       if (userDetail?.istobaccoLicenceExpired) {
         Swal.fire({
@@ -190,9 +195,13 @@ const SingleProduct = () => {
             setSuccesMsg();
           }, 3000);
         } else {
-          document.getElementById("flavour_box").className =
-            "offers_box_main_afterSelect ";
-          setErrMsg("Please Select a Flavour.");
+         
+          Swal.fire({
+            title: "Please Select Any Flavour!",
+            icon: "warning",
+            focusConfirm: false,
+            timer:1000
+          });
         }
       }
     } else {
@@ -286,9 +295,13 @@ const SingleProduct = () => {
           setSuccesMsg();
         }, 3000);
       } else {
-        document.getElementById("flavour_box").className =
-          "offers_box_main_afterSelect ";
-        setErrMsg("Please Select a Flavour.");
+        Swal.fire({
+          title: "Please Select Any Flavour!",
+          icon: "warning",
+          focusConfirm: false,
+          timer:1000
+
+        });
       }
     }
     setUnitCount(1);
@@ -408,11 +421,14 @@ const SingleProduct = () => {
                           <a
                             className="text-decoration-none text-white fs-6  "
                             onClick={() => {
-                              navigate(`/Category/Sub-Category/${product?.subCategory?.slug}`, {
-                                state: {
-                                  name: product?.subCategory?.subCategoryName,
-                                },
-                              });
+                              navigate(
+                                `/Category/Sub-Category/${product?.subCategory?.slug}`,
+                                {
+                                  state: {
+                                    name: product?.subCategory?.subCategoryName,
+                                  },
+                                }
+                              );
                             }}>
                             {product?.subCategory?.subCategoryName}
                             <span className="arrow mx-1 ">&#9679;</span>
@@ -465,94 +481,102 @@ const SingleProduct = () => {
                           />
                         )}
                       </a>
-
-                      <div className="prdct_singleshowimg">
-                        <Zoom>
-                          <img
-                            src={
-                              flavour?.flavour
-                                ? flavour?.flavourImage ||
-                                  require("../../assets/img/product.jpg")
-                                : product?.productImage ||
-                                  require("../../assets/img/product.jpg")
-                            }
-                            id="productMainImg"
-                            alt="..."
-                          />
-                        </Zoom>
-                      </div>
-                      <ul className="list-unstyled thumbnails_box ">
-                        <Swiper
-                          slidesPerView={3}
-                          loop={true}
-                          autoplay={true}
-                          modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                          className="mySwiper px-5">
-                          <SwiperSlide>
-                            <li
-                            className="box"
-                            >
-                              <a
-                                type="button"
-                                onMouseOver={() =>
-                                  onHoverMain(product?.productImage)
-                                }
-                                onClick={() => {
-                                  document.getElementById(
-                                    "productMainImg"
-                                  ).src = product?.productImage
-                                    ? product?.productImage
-                                    : require("../../assets/img/product.jpg");
-
-                                  setFlavour();
-                                }}>
-                                <img
-                                  src={
-                                    product?.productImage
-                                      ? product?.productImage
-                                      : require("../../assets/img/product.jpg")
+                      <div className="row">
+                        <div className="prdct_singleshowimg">
+                          <Zoom>
+                            <img
+                              src={
+                                flavour?.flavour
+                                  ? flavour?.flavourImage ||
+                                    require("../../assets/img/product.jpg")
+                                  : product?.productImage ||
+                                    require("../../assets/img/product.jpg")
+                              }
+                              id="productMainImg"
+                              alt="..."
+                            />
+                          </Zoom>
+                        </div>
+                        <ul className="list-unstyled thumbnails_box ">
+                          <Swiper
+                            slidesPerView={ width <= 1400 ? 2 : 3}
+                            loop={true}
+                            autoplay={true}
+                            modules={[
+                              FreeMode,
+                              Pagination,
+                              Autoplay,
+                              Navigation,
+                            ]}
+                            className="mySwiper">
+                            <SwiperSlide>
+                              <li className="box">
+                                <a
+                                  type="button"
+                                  onMouseOver={() =>
+                                    onHoverMain(product?.productImage)
                                   }
-                                  alt=""
-                                />
-                              </a>
-                            </li>
-                          </SwiperSlide>
-                          {(product?.type || [])
-                            ?.filter((itm, idx) => itm?.flavourStatus === true)
-                            .map((item, index) => (
-                              <SwiperSlide key={index} className="me-0 ms-1">
-                                <li className="image_button">
-                                  <a
-                                    key={index}
-                                    type="button"
-                                    onMouseOver={() => onHover(item)}
-                                    onMouseOut={onMouseOut}
-                                    onClick={() => {
-                                      document.getElementById(
-                                        "productMainImg"
-                                      ).src = item?.flavourImage
-                                        ? item?.flavourImage
+                                  onClick={() => {
+                                    document.getElementById(
+                                      "productMainImg"
+                                    ).src =
+                                      product?.productImage?.length >= 2
+                                        ? product?.productImage
                                         : require("../../assets/img/product.jpg");
-                                      document.getElementById(
-                                        "productMainImg"
-                                      ).className = "selected-img";
-                                      setFlavour(item);
-                                      setUnitCount(1);
-                                    }}>
-                                    <img
-                                      src={
-                                        item?.flavourImage
-                                          ? item?.flavourImage
-                                          : require("../../assets/img/product.jpg")
-                                      }
-                                      alt=""
-                                    />
-                                  </a>
-                                </li>
-                              </SwiperSlide>
-                            ))}
-                        </Swiper>
-                      </ul>
+
+                                    setFlavour();
+                                  }}>
+                                  <img
+                                    src={
+                                      product?.productImage?.length >= 2
+                                        ? product?.productImage
+                                        : require("../../assets/img/product.jpg")
+                                    }
+                                    alt=""
+                                  />
+                                </a>
+                              </li>
+                            </SwiperSlide>
+                            {(product?.type || [])
+                              ?.filter(
+                                (itm, idx) => itm?.flavourStatus === true
+                              )
+                              .map((item, index) => (
+                                <SwiperSlide key={index} className="me-0 ms-1">
+                                  <li className="image_button">
+                                    <a
+                                      key={index}
+                                      type="button"
+                                      onMouseOver={() => onHover(item)}
+                                      onMouseOut={onMouseOut}
+                                      onClick={() => {
+                                        document.getElementById(
+                                          "productMainImg"
+                                        ).src =
+                                          item?.flavourImage?.length >= 2
+                                            ? item?.flavourImage
+                                            : require("../../assets/img/product.jpg");
+                                        document.getElementById(
+                                          "productMainImg"
+                                        ).className = "selected-img";
+                                        setFlavour(item);
+                                        setUnitCount(1);
+                                      }}>
+                                      <img
+                                        src={
+                                          item?.flavourImage?.length >= 2
+                                            ? item?.flavourImage
+                                            : require("../../assets/img/product.jpg")
+                                        }
+                                        alt=""
+                                      />
+                                    </a>
+                                  </li>
+                                </SwiperSlide>
+                              ))}
+                          </Swiper>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6 ps-lg-5 ps-md-4">
@@ -584,7 +608,12 @@ const SingleProduct = () => {
                             </p>
                           </div>
                         ) : null}
-                        <div className="falvor_main mt-4">
+                        <div
+                          className={
+                            width <= 1400
+                              ? "falvor_main mt-2 border rounded p-3 "
+                              : "falvor_main mt-4 border rounded p-3 "
+                          }>
                           <div className="row">
                             {(product?.type || [])
                               .filter((itm, idx) => itm.flavourStatus === true)
@@ -593,7 +622,12 @@ const SingleProduct = () => {
                               })
                               .map((item, ind) => {
                                 return flavour?.flavour === item?.flavour ? (
-                                  <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
+                                  <div
+                                    className={
+                                      width <= 1400
+                                        ? "col-md-6 mb-lg-6 mb-md-6 mt-2"
+                                        : "col-md-4 mb-lg-4 mb-md-3 mt-2"
+                                    }>
                                     <a
                                       className="flavor_design selected_flavor text-decoration-none"
                                       data-toggle="tooltip"
@@ -608,7 +642,12 @@ const SingleProduct = () => {
                                     </a>
                                   </div>
                                 ) : (
-                                  <div className="col-md-4 mb-lg-4 mb-md-3 mt-2">
+                                  <div
+                                    className={
+                                      width <= 1400
+                                        ? "col-md-6 mb-lg-6 mb-md-6 mt-2"
+                                        : "col-md-4 mb-lg-4 mb-md-3 mt-2"
+                                    }>
                                     <a
                                       className="flavor_design text-decoration-none btn-animate"
                                       key={ind}
@@ -620,7 +659,10 @@ const SingleProduct = () => {
                                       onClick={() => {
                                         document.getElementById(
                                           "productMainImg"
-                                        ).src = item?.flavourImage;
+                                        ).src =
+                                          item?.flavourImage?.length >= 2
+                                            ? item?.flavourImage
+                                            : require("../../assets/img/product.jpg");
 
                                         setErrMsg();
                                         setTypeObj();

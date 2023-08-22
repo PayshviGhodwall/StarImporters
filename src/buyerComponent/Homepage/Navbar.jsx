@@ -234,7 +234,7 @@ const Navbar = ({ NState, LoginState }) => {
                     <div className="dropdown-content">
                       <Link
                         to=""
-                        className="login_btns mt-3 text-decoration-none"
+                        className="login_btns mt-3 text-decoration-none d-flex"
                         data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop1"
                         aria-current="page"
@@ -242,7 +242,7 @@ const Navbar = ({ NState, LoginState }) => {
                         onClick={() => {
                           LogOut();
                         }}>
-                        Logout
+                        <i class="fa fa-sign-out-alt mt-1 mx-1"></i>  Logout
                       </Link>
                     </div>
                   </div>
@@ -364,7 +364,7 @@ const Navbar = ({ NState, LoginState }) => {
       </div>
       {search?.length ? (
         <section className="brands_page p-2 shadow">
-          {products?.length ? (
+          {products?.length >= 1 || relateCate?.length >= 1 ? (
             <div>
               <div className="col w-100">
                 <div className="product_single_right row p-2">
@@ -381,7 +381,7 @@ const Navbar = ({ NState, LoginState }) => {
                           onClick={() => {
                             setPage2(1);
                             setFilter(itm?._id);
-                            navigate(`/Category/SubCategory/${itm?.slug}`, {
+                            navigate(`/Category/Sub-Category/${itm?.slug}`, {
                               state: {
                                 name: itm?.subCategoryName,
                               },
@@ -423,7 +423,9 @@ const Navbar = ({ NState, LoginState }) => {
                               ? item?.unitName + "-" + item?.type?.flavour
                               :  */}
 
-                            {item?.unitName}
+                            {item?.unitName?.length >= 46
+                              ? item?.unitName?.slice(0, 40) + "...."
+                              : item?.unitName?.slice(0, 40)}
                           </span>
                         </div>
                       </a>
@@ -431,14 +433,16 @@ const Navbar = ({ NState, LoginState }) => {
                   ))}
                 </div>
                 <div className="col-lg-12 d-flex text-center mt-1 mb-0">
-                  <p
-                    className=" dropViewAll"
-                    onClick={() => {
-                      setSearch();
-                      navigate(`/app/ProductSearch/${search}`);
-                    }}>
-                    View all results
-                  </p>
+                  {products?.length >= 3 && (
+                    <p
+                      className=" dropViewAll"
+                      onClick={() => {
+                        setSearch();
+                        navigate(`/app/ProductSearch/${search}`);
+                      }}>
+                      View all results
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

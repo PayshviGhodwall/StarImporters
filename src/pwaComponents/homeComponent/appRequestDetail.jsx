@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 import moment from "moment";
 import { browserName } from "react-device-detect";
+import Swal from "sweetalert2";
 
 function AppRequestDetail() {
   const getQuoteDetails = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/singleRequest`;
+  const addInCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/quotes/quoteToCart`;
   const [quoteDetails, setQuoteDetails] = useState([]);
-
-  let location = useLocation();
-  let id = location?.state?.id;
+  let navigate = useNavigate();
+  let {id} = useParams();
 
   useEffect(() => {
     const GetQuote = async () => {
@@ -26,6 +27,29 @@ function AppRequestDetail() {
     };
     GetQuote();
   }, []);
+
+  const addToCart = async () => {
+    const { data } = await axios.get(addInCart + "/" + quoteDetails?._id);
+    if (!data.error) {
+      navigate("/app/cart");
+      Swal.fire({
+        title: "Product Added to Cart",
+        icon: "success",
+        timer: 2000,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+        confirmButtonAriaLabel: "Thumbs up, Okay!",
+        cancelButtonText: "Close",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/app/cart");
+        }
+      });
+    }
+  };
+
   return (
     <>
       <div className="star_imp_app">
@@ -34,6 +58,21 @@ function AppRequestDetail() {
           <div className="container">
             <div className="row">
               <div className="col-12 mb-3">
+                <div className="d-flex justify-content-between px-1 mt-0">
+                  <Link
+                    className="comman_btn2 m-2"
+                    to="/app/checkout"
+                    state={{ type: "quote", id: quoteDetails?._id }}>
+                    Place Order
+                  </Link>
+
+                  <Link
+                    className="comman_btn2 text-decoration-none m-2"
+                    onClick={addToCart}
+                  >
+                    Add to Cart
+                  </Link>
+                </div>
                 <div className="row mx-0 border rounded py-3 px-1 position-relative bg-white shadow">
                   <span className="small_header">Request Details:</span>
                   <div className="col-12 mb-1">
@@ -90,8 +129,7 @@ function AppRequestDetail() {
                                   item?.productId?.isTobaccoProduct
                                     ? "filter"
                                     : ""
-                                }
-                              >
+                                }>
                                 <td>
                                   <div className="cart_icon">
                                     <img
@@ -104,8 +142,7 @@ function AppRequestDetail() {
                                 <td>
                                   <div className="order_items">
                                     <Link
-                                      to={`/app/product-detail/${item?.productId?.slug}`}
-                                    >
+                                      to={`/app/product-detail/${item?.productId?.slug}`}>
                                       {item?.productId?.unitName}
                                     </Link>
                                     {/* <div className="bar_code mt-1">
@@ -170,8 +207,7 @@ function AppRequestDetail() {
                                 <td>
                                   <div className="order_items">
                                     <Link
-                                      to={`/app/product-detail/${item?.productId?.slug}`}
-                                    >
+                                      to={`/app/product-detail/${item?.productId?.slug}`}>
                                       {item?.productId?.unitName}
                                     </Link>
                                     {/* <div className="bar_code mt-1">

@@ -42,7 +42,7 @@ function SimlarProduct({ categoryName }) {
 
   return (
     <>
-      <div className="related-product-wrapper bg-white py-3 mb-3">
+      <div className="related-product-wrapper bg-white py-3 mb-0">
         <div className="container -fluid">
           <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r">
             <h6 className="fs-5">Related Products</h6>

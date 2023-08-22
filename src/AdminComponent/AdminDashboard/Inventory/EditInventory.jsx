@@ -471,7 +471,7 @@ const EditInventory = () => {
                   }
                 >
                   <Link
-                    className=""
+                    className="d-none"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

@@ -77,6 +77,7 @@ const EditUser = () => {
   console.log(newExpiry);
   const onSubmit = async (data) => {
     setLoader(true);
+    console.log(data?.city);
     const formData = new FormData();
     formData.append("profileImage", files?.imageProfile);
     formData.append("companyName", data?.companyName?.trim());
@@ -518,7 +519,7 @@ const EditUser = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

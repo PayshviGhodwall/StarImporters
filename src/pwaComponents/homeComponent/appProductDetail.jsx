@@ -40,7 +40,7 @@ function AppProductDetail() {
   const [cartCount, setCartCount] = useState(false);
 
   const ScrollContainer = styled.div`
-    height: 4.6rem;
+    height: 5.2rem;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 8px;
@@ -408,7 +408,7 @@ function AppProductDetail() {
                 </div>
               </div>
             </div>
-            <div className="pb-3">
+            <div className="">
               <SimlarProduct categoryName={categoryName} />
             </div>
           </div>

@@ -23,15 +23,14 @@ function AppRequests() {
     <>
       <div className="star_imp_app">
         <AppHeader />
-        <div className="my_order_new">
+        <div className="my_order_new mt-2">
           <div className="container">
             {orderDetails?.length ? (
               <div className="row">
                 {(orderDetails || [])?.map((item, index) => (
                   <div className="col-12 mb-3" key={index}>
                     <Link
-                      to="/app/request-detail"
-                      state={{ id: item?.quoteId }}
+                      to={`/app/request-detail/${item?.quoteId}`}
                       className="my_orderbox position-relative shadow"
                     >
                       <div className="left_part">

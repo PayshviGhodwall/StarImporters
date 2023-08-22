@@ -62,15 +62,20 @@ const OrderReq = () => {
   const getUserDetails = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getUserAddress`;
   const editCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editCity`;
   const viewCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewCity`;
+  const [sort, setSort] = useState(1);
   const [selectedCity, setSelectedCity] = useState();
   const [selectEditOptions, setSelectEditOptions] = useState([]);
   const [city, setCity] = useState();
   const [orders, setOrders] = useState([]);
+  const [compOrders, setCompOrders] = useState([]);
+  const [cancelled, setCancelledOrders] = useState([]);
+  const [sharedQ, setSharedQ] = useState([]);
   const [quoteReq, setQuoteReq] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const [addForm, setAddForm] = useState(true);
   const [values, setValues] = useState({ from: "", to: "" });
   const [options, setOptions] = useState([]);
+  const [pullerOptions, setPullerOptions] = useState([]);
   const [UsersOptions, setUsersOptions] = useState([]);
   // const [selectedProduct, setSelectedProduct] = useState({ products: [] });
   const [selectedUser, setSelectedUser] = useState([]);
@@ -90,6 +95,7 @@ const OrderReq = () => {
   const [cities, setCities] = useState([]);
   const [citySearch, setCitySearch] = useState([]);
   const [pullOrderId, setPullOrderId] = useState();
+  const [count, setCount] = useState([]);
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -103,6 +109,16 @@ const OrderReq = () => {
     setSelectEditOptions({
       optionSelected: selected,
     });
+  };
+
+  const sortCities = (id) => {
+    if (id === 2) {
+      setSort(2);
+      cities?.sort().reverse();
+    } else if (id === 1) {
+      setSort(1);
+      getCities();
+    }
   };
 
   const {
@@ -161,6 +177,9 @@ const OrderReq = () => {
 
   useEffect(() => {
     getCities();
+    cancelledOrders();
+    completedOrders();
+    sharedQuotations();
   }, []);
 
   useEffect(() => {
@@ -177,15 +196,44 @@ const OrderReq = () => {
   }, [searchUserKey]);
 
   const OrderRequest = async () => {
-    await axios.post(orderList, { page: activePage }).then((res) => {
-      setOrders(res?.data.results?.orders);
-      setMaxPage(res?.data.results?.toatalPages);
-    });
+    await axios
+      .post(orderList, { page: activePage, status: "All" })
+      .then((res) => {
+        setOrders(res?.data.results?.orders);
+        setMaxPage(res?.data.results?.toatalPages);
+      });
   };
+  const completedOrders = async () => {
+    await axios
+      .post(orderList, { page: activePage, status: "Completed" })
+      .then((res) => {
+        setCompOrders(res?.data.results?.orders);
+        setMaxPage(res?.data.results?.toatalPages);
+      });
+  };
+
+  const cancelledOrders = async () => {
+    await axios
+      .post(orderList, { page: activePage, status: "Cancelled" })
+      .then((res) => {
+        setCancelledOrders(res?.data.results?.orders);
+        setMaxPage(res?.data.results?.toatalPages);
+      });
+  };
+  const sharedQuotations = async () => {
+    await axios
+      .post(quoteList, { page: activePage, status: "Completed" })
+      .then((res) => {
+        setSharedQ(res?.data.results.quotation);
+      });
+  };
+
   const QuoteRequest = async () => {
-    await axios.post(quoteList).then((res) => {
-      setQuoteReq(res?.data.results);
-    });
+    await axios
+      .post(quoteList, { page: activePage, status: "Completed" })
+      .then((res) => {
+        setQuoteReq(res?.data.results.quotation);
+      });
   };
 
   const createOptions = async () => {
@@ -278,37 +326,47 @@ const OrderReq = () => {
       return {
         productId: item?.productName.value,
         quantity: item?.Quantity,
-        flavour: JSON.parse(item?.flavour),
+        flavour: item?.flavour?.length && JSON.parse(item?.flavour),
       };
     });
-
-    await axios
-      .post(createOrder, {
-        userId: selectedUser?.userSelected.value,
-        type: addType,
-        products: dataArray,
-        address: address.addressLine1,
-      })
-      .then((res) => {
-        if (!res.error) {
-          OrderRequest();
-          document.getElementById("Exit").click();
-          Swal.fire({
-            title: "Order Added Successfully!",
-            icon: "success",
-            confirmButtonText: "Ok",
-          });
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          Swal.fire({
-            title: "Please Fill All Details Carefully!",
-            icon: "error",
-            confirmButtonText: "Ok",
-          });
-        }
+    if (selectedUser?.userSelected?.value) {
+      await axios
+        .post(createOrder, {
+          userId: selectedUser?.userSelected.value,
+          type: addType,
+          products: dataArray,
+          address: address.addressLine1,
+        })
+        .then((res) => {
+          if (!res.error) {
+            OrderRequest();
+            document.getElementById("Exit").click();
+            Swal.fire({
+              title: "Order Added Successfully!",
+              icon: "success",
+              confirmButtonText: "Okay",
+              timer: 3000,
+            }).then((res) => {
+              window.location.reload(false);
+            });
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            Swal.fire({
+              title: "Please Fill All Details Carefully!",
+              icon: "error",
+              confirmButtonText: "Ok",
+            });
+          }
+        });
+    } else {
+      Swal.fire({
+        title: "Please Fill All Details!",
+        icon: "error",
+        confirmButtonText: "Okay",
       });
+    }
   };
 
   let handleChangeFlavour = (e, i) => {
@@ -362,17 +420,21 @@ const OrderReq = () => {
       });
   };
 
-  const OrderSearch = async (e) => {
+  const OrderSearch = async (e, type) => {
     setActivePage(1);
     let string = e.target.value;
     string !== ""
       ? await axios
           .post(searchOrder, {
             search: e.target.value,
+            status: type,
           })
           .then((res) => {
             if (!res.error) {
-              setOrders(res?.data.results.order);
+              type === "All" && setOrders(res?.data.results.order);
+              type === "Completed" && setCompOrders(res?.data.results.order);
+              type === "Cancelled" &&
+                setCancelledOrders(res?.data.results.order);
             }
           })
       : OrderRequest();
@@ -432,7 +494,7 @@ const OrderReq = () => {
           value: item?._id,
           label: item?.fullName,
         }));
-        setOptions(optionList);
+        setPullerOptions(optionList);
       }
     });
   };
@@ -454,7 +516,7 @@ const OrderReq = () => {
       pullerId: selectedPuller?.puller?.value,
     });
     if (!data.error) {
-      OrderRequest()
+      OrderRequest();
       document.getElementById("modalP").click();
       Swal.fire({
         title: "Puller Assigned!",
@@ -761,7 +823,7 @@ const OrderReq = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -877,7 +939,7 @@ const OrderReq = () => {
             </div>
           </div>
         </div>
-        <div className="admin_panel_data height_adjust">
+        <div className="admin_panel_data_orders height_adjust">
           <div className="row category_management justify-content-center">
             <div className="col-12 text-end mb-4">
               {addForm ? (
@@ -924,7 +986,7 @@ const OrderReq = () => {
                   action=""
                   noValidate>
                   <div className="form-group col-6">
-                    <label htmlFor="">Select User</label>
+                    <label htmlFor="">Search User</label>
                     <Select
                       name="users"
                       options={UsersOptions}
@@ -934,6 +996,7 @@ const OrderReq = () => {
                       onChange={handleChangeUser}
                       onInputChange={handleInputChangeUser}
                       isClearable
+                      placeholder="Type any keyword to Search User"
                       required
                     />
                   </div>
@@ -974,6 +1037,7 @@ const OrderReq = () => {
                                   onInputChange={handleInputChange}
                                   isClearable
                                   required
+                                  placeholder="Type any keyword to Search Product"
                                 />
                               </div>
                               <div className="form-group col-4">
@@ -1074,27 +1138,73 @@ const OrderReq = () => {
                             role="tab"
                             aria-controls="nav-home"
                             aria-selected="true">
-                            Order
+                            Orders
                             <span className="circle_count">
                               {orders?.length ? orders?.length : 0}
                             </span>
                           </button>
                           <button
                             className="nav-link"
+                            id="nav-completed-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-completed"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-completed"
+                            aria-selected="false"
+                            onClick={() => completedOrders()}>
+                            Completed Orders{" "}
+                            <span className="circle_count">
+                              {compOrders?.length ? compOrders?.length : 0}
+                            </span>
+                          </button>
+                          <button
+                            className="nav-link "
+                            id="nav-cancelled-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-cancelled"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-cancelled"
+                            aria-selected="false"
+                            onClick={() => cancelledOrders()}>
+                            Cancelled Orders
+                            <span className="circle_count">
+                              {cancelled?.length ? cancelled?.length : 0}
+                            </span>
+                          </button>
+                          <button
+                            className="nav-link mt-1"
                             id="nav-profile-tab"
                             data-bs-toggle="tab"
                             data-bs-target="#nav-profile"
                             type="button"
                             role="tab"
                             aria-controls="nav-profile"
-                            aria-selected="false">
+                            aria-selected="false"
+                            onClick={() => sharedQuotations()}>
                             Quotation Request
                             <span className="circle_count">
                               {quoteReq?.length ? quoteReq?.length : 0}
                             </span>
                           </button>
+
                           <button
-                            className="nav-link"
+                            className="nav-link mt-1"
+                            id="nav-shared-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-shared"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-shared"
+                            aria-selected="false">
+                            Shared Quotations
+                            <span className="circle_count">
+                              {sharedQ?.length ? sharedQ?.length : 0}
+                            </span>
+                          </button>
+                          <button
+                            className="nav-link mt-1"
                             id="nav-day-tab"
                             data-bs-toggle="tab"
                             data-bs-target="#nav-day"
@@ -1115,7 +1225,7 @@ const OrderReq = () => {
                           <div className="row mx-0">
                             <div className="col-12">
                               <form
-                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
                                 action="">
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
@@ -1163,7 +1273,7 @@ const OrderReq = () => {
                                         name="name"
                                         id="name"
                                         onChange={(e) => {
-                                          OrderSearch(e);
+                                          OrderSearch(e, "All");
                                         }}
                                       />
                                     </div>
@@ -1266,8 +1376,8 @@ const OrderReq = () => {
                                                 <button
                                                   class=" comman_btn2 mx-1 border rounded"
                                                   data-bs-toggle="modal"
-                                                  onClick={()=>{
-                                                    setPullOrderId(item?._id)
+                                                  onClick={() => {
+                                                    setPullOrderId(item?._id);
                                                   }}
                                                   data-bs-target="#staticBackdropAdmin">
                                                   Assign Puller
@@ -1302,6 +1412,496 @@ const OrderReq = () => {
                                   </div>
                                 </div>
                                 {orders?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }>
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }>
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade show "
+                          id="nav-completed"
+                          role="tabpanel"
+                          aria-labelledby="nav-completed-tab">
+                          <div className="row mx-0">
+                            <div className="col-12">
+                              <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
+                                action="">
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">From</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
+                                    id="orderFrom"
+                                    value={values.from}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">To</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
+                                    id="orderTo"
+                                    value={values.to}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-1 text-center">
+                                  <button
+                                    className="comman_btn rounded"
+                                    onClick={onOrderSearch}>
+                                    Search
+                                  </button>
+                                </div>
+                                <div className="col-2 text-center">
+                                  <button
+                                    className="comman_btn2 rounded"
+                                    onClick={exportOrder}>
+                                    Export <i class="fa fa-download"></i>
+                                  </button>
+                                </div>
+                                <div className=" d -flex col-3">
+                                  <form className="form-design" action="">
+                                    <div className="form-group mb-0 position-relative icons_set">
+                                      <input
+                                        type="text"
+                                        className="form-control bg-white "
+                                        placeholder="Search by Order ID/Customer Name"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => {
+                                          OrderSearch(e, "Completed");
+                                        }}
+                                      />
+                                    </div>
+                                  </form>
+                                </div>
+                              </form>
+                              <div className="row recent_orders_order">
+                                {compOrders?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }>
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }>
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive">
+                                    <table className="table mb-0">
+                                      <thead>
+                                        <tr
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
+                                          <th>Date</th>
+                                          <th>Company Name</th>
+                                          <th>Mobile Number</th>
+                                          <th>Email</th>
+                                          <th>Order ID</th>
+                                          <th>Puller</th>
+                                          <th>Order Details</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {(compOrders || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                {moment(
+                                                  item?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.companyName ||
+                                                  item?.user?.companyName}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.phoneNumber ||
+                                                  item?.user?.phoneNumber}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.email ||
+                                                  item?.user?.email}
+                                              </td>
+                                              <td>{item?.orderId}</td>
+                                              {item?.pullStatus ===
+                                              "Pending" ? (
+                                                <td>Not Assigned</td>
+                                              ) : (
+                                                <td>
+                                                  {item?.puller?.fullName}
+                                                </td>
+                                              )}
+                                              <td>
+                                                <button
+                                                  className="comman_btn table_viewbtn"
+                                                  onClick={() => {
+                                                    setPageData([
+                                                      { page: activePage },
+                                                    ]);
+                                                    navigate(
+                                                      `/OrderRequest/ViewOrder/${item?._id}`,
+                                                      {
+                                                        state: {
+                                                          id: item?._id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}>
+                                                  View
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                {compOrders?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }>
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }>
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade show "
+                          id="nav-cancelled"
+                          role="tabpanel"
+                          aria-labelledby="nav-cancelled-tab">
+                          <div className="row mx-0">
+                            <div className="col-12">
+                              <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
+                                action="">
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">From</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
+                                    id="orderFrom"
+                                    value={values.from}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">To</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
+                                    id="orderTo"
+                                    value={values.to}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-1 text-center">
+                                  <button
+                                    className="comman_btn rounded"
+                                    onClick={onOrderSearch}>
+                                    Search
+                                  </button>
+                                </div>
+                                <div className="col-2 text-center">
+                                  <button
+                                    className="comman_btn2 rounded"
+                                    onClick={exportOrder}>
+                                    Export <i class="fa fa-download"></i>
+                                  </button>
+                                </div>
+                                <div className=" d -flex col-3">
+                                  <form className="form-design" action="">
+                                    <div className="form-group mb-0 position-relative icons_set">
+                                      <input
+                                        type="text"
+                                        className="form-control bg-white "
+                                        placeholder="Search by Order ID/Customer Name"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => {
+                                          OrderSearch(e, "Cancelled");
+                                        }}
+                                      />
+                                    </div>
+                                  </form>
+                                </div>
+                              </form>
+                              <div className="row recent_orders_order">
+                                {cancelled?.length ? (
+                                  <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                    <span className="totalPage">
+                                      ( Total Pages : {maxPage} )
+                                    </span>
+                                    <ul id="pagination">
+                                      <li>
+                                        <a
+                                          class="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage <= 1
+                                              ? setActivePage(1)
+                                              : setActivePage(activePage - 1)
+                                          }>
+                                          «
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#" className="active">
+                                          {activePage ? activePage : 1}
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+                                      <li>
+                                        <a href="#">.</a>
+                                      </li>
+
+                                      <li>
+                                        <a
+                                          className="fs-5"
+                                          href="#"
+                                          onClick={() =>
+                                            activePage === maxPage
+                                              ? setActivePage(maxPage)
+                                              : setActivePage(activePage + 1)
+                                          }>
+                                          »
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                ) : null}
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive">
+                                    <table className="table mb-0">
+                                      <thead>
+                                        <tr
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
+                                          <th>Date</th>
+                                          <th>Company Name</th>
+                                          <th>Mobile Number</th>
+                                          <th>Email</th>
+                                          <th>Order ID</th>
+                                          <th>Puller</th>
+                                          <th>Order Details</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {(cancelled || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                {moment(
+                                                  item?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.companyName ||
+                                                  item?.user?.companyName}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.phoneNumber ||
+                                                  item?.user?.phoneNumber}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.email ||
+                                                  item?.user?.email}
+                                              </td>
+                                              <td>{item?.orderId}</td>
+                                              {item?.pullStatus ===
+                                              "Pending" ? (
+                                                <td>Not Assigned.</td>
+                                              ) : (
+                                                <td>
+                                                  {item?.puller?.fullName}
+                                                </td>
+                                              )}
+                                              <td>
+                                                <button
+                                                  className="comman_btn table_viewbtn"
+                                                  onClick={() => {
+                                                    setPageData([
+                                                      { page: activePage },
+                                                    ]);
+                                                    navigate(
+                                                      `/OrderRequest/ViewOrder/${item?._id}`,
+                                                      {
+                                                        state: {
+                                                          id: item?._id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}>
+                                                  View
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                {cancelled?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPage} )
@@ -1492,6 +2092,137 @@ const OrderReq = () => {
                         </div>
                         <div
                           className="tab-pane fade"
+                          id="nav-shared"
+                          role="tabpanel"
+                          aria-labelledby="nav-shared-tab">
+                          <div className="row mx-0 ">
+                            <div className="col-12">
+                              <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
+                                action="">
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">From</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="from"
+                                    id="reqFrom"
+                                    value={values.from}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">To</label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    name="to"
+                                    id="reqTo"
+                                    value={values.to}
+                                    onChange={handleDate}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-1 text-center">
+                                  <button
+                                    className="comman_btn rounded"
+                                    onClick={onQuoteSearch}>
+                                    Search
+                                  </button>
+                                </div>
+                                <div className="col-2 text-center">
+                                  <button
+                                    className="comman_btn2 rounded"
+                                    onClick={exporQuotation}>
+                                    Export <i class="fa fa-download"></i>
+                                  </button>
+                                </div>
+                                <div className=" d -flex col-3">
+                                  <form className="form-design" action="">
+                                    <div className="form-group mb-0 position-relative icons_set">
+                                      <input
+                                        type="text"
+                                        className="form-control bg-white "
+                                        placeholder="Search by Quote
+                                         ID/Customer Name"
+                                        name="name"
+                                        id="name"
+                                        onChange={(e) => {
+                                          QuoteSearch(e);
+                                        }}
+                                      />
+                                    </div>
+                                  </form>
+                                </div>
+                              </form>
+                              <div className="row recent_orders_order  ">
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive">
+                                    <table className="table mb-0">
+                                      <thead>
+                                        <tr
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
+                                          <th>Date</th>
+                                          <th>Company Name</th>
+                                          <th>Mobile Number</th>
+                                          <th>Email</th>
+                                          <th>Request Id</th>
+                                          <th>Status</th>
+                                          <th>QUOTATION REQUEST</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {(sharedQ || [])?.map((item, index) => (
+                                          <tr key={index}>
+                                            <td>
+                                              {moment(
+                                                item?.createdAt?.slice(0, 10)
+                                              ).format("MM/DD/YYYY")}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.companyName ||
+                                                item?.user?.companyName}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.phoneNumber ||
+                                                item?.user?.phoneNumber}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.email ||
+                                                item?.user?.email}
+                                            </td>
+                                            <td>{item?.quoteId}</td>
+
+                                            <td>{item?.status}</td>
+                                            <td>
+                                              <button
+                                                className="comman_btn table_viewbtn"
+                                                onClick={() => {
+                                                  navigate(
+                                                    "/OrderRequest/ViewQuotationRequest",
+                                                    {
+                                                      state: {
+                                                        id: item?._id,
+                                                      },
+                                                    }
+                                                  );
+                                                }}>
+                                                View
+                                              </button>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade"
                           id="nav-day"
                           role="tabpanel"
                           aria-labelledby="nav-day-tab">
@@ -1500,21 +2231,36 @@ const OrderReq = () => {
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                 action="">
-                                <div className=" d -flex col-3">
-                                  <form className="form-design" action="">
-                                    <div className="form-group mb-0 position-relative icons_set">
-                                      <input
-                                        type="text"
-                                        className="form-control bg-white "
-                                        placeholder="Search by City"
-                                        name="name"
-                                        id="name"
-                                        onChange={(e) => {
-                                          CitySearch(e.target.value);
-                                        }}
-                                      />
-                                    </div>
-                                  </form>
+                                <div className=" d-flex col-12">
+                                  <div className="form-group mb-0 position-relative icons_set d-flex justify-content-between">
+                                    <a
+                                      className="fs-3 mt-2"
+                                      aria-expanded="false">
+                                      {sort === 1 ? (
+                                        <i
+                                          class="fa-solid fa-arrow-down-a-z"
+                                          onClick={() => {
+                                            sortCities(2);
+                                          }}></i>
+                                      ) : (
+                                        <i
+                                          class="fa-solid fa-arrow-up-z-a"
+                                          onClick={() => {
+                                            sortCities(1);
+                                          }}></i>
+                                      )}
+                                    </a>
+                                    <input
+                                      type="search"
+                                      className="form-control bg-white mx-2"
+                                      placeholder="Search by City"
+                                      name="name"
+                                      id="name"
+                                      onChange={(e) => {
+                                        CitySearch(e.target.value);
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </form>
                               <div className="row recent_orders_order  ">
@@ -1536,7 +2282,7 @@ const OrderReq = () => {
                                         {(cities || [])
                                           ?.filter(
                                             (items) =>
-                                              items?.state === "GEORGIA"
+                                              items?.state === "Georgia"
                                           )
                                           .map((item, index) => (
                                             <tr key={index}>
@@ -1753,7 +2499,7 @@ const OrderReq = () => {
                 <div className="form-group col-12">
                   <label htmlFor="">Select Puller</label>
                   <Select
-                    options={options}
+                    options={pullerOptions}
                     closeMenuOnSelect={false}
                     hideSelectedOptions={false}
                     components={{
