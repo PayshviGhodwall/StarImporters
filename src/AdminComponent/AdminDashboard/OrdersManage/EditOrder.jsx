@@ -5,7 +5,7 @@ import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import Select from "react-select";
 import Swal from "sweetalert2";
-import { Button, Loader } from "rsuite";
+import { Button, InputNumber, Loader } from "rsuite";
 import moment from "moment";
 
 const EditOrder = () => {
@@ -87,18 +87,21 @@ const EditOrder = () => {
         OrderDetails();
       });
   };
+
   const handleChange2 = (selected) => {
     setSelectedProduct({
       usersSelected: selected,
     });
     GetProducts(selected?.value);
   };
+
   const GetProducts = async (id) => {
     await axios.get(getProducts + "/" + id).then((res) => {
       console.log(res);
       setProducts(res?.data.results);
     });
   };
+
   console.log(flavour);
   const handleInputChange = (inputValue) => {
     setSearchKey(inputValue);
@@ -143,7 +146,7 @@ const EditOrder = () => {
       .then((res) => {
         OrderDetails();
         setLoader(false);
-        navigate("/OrderRequest/ViewOrder", {
+        navigate(`/OrderRequest/ViewOrder/${id}`, {
           state: {
             id: id,
           },
@@ -157,6 +160,7 @@ const EditOrder = () => {
         }
       });
   };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -177,40 +181,34 @@ const EditOrder = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -219,17 +217,14 @@ const EditOrder = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -238,103 +233,85 @@ const EditOrder = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
-                 <li
+                <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className="d-none at"
-                    to="/Puller-Management" 
+                    to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Request") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/OrderRequest"
@@ -342,12 +319,10 @@ const EditOrder = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -355,12 +330,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -369,12 +342,10 @@ const EditOrder = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -388,12 +359,10 @@ const EditOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -401,12 +370,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -414,12 +381,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -430,12 +395,10 @@ const EditOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -443,12 +406,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -459,28 +420,24 @@ const EditOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                     <li>
+                <li>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -491,12 +448,10 @@ const EditOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -508,12 +463,10 @@ const EditOrder = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -521,12 +474,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -534,12 +485,10 @@ const EditOrder = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -548,12 +497,10 @@ const EditOrder = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -573,12 +520,10 @@ const EditOrder = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "4px" }}
-                      className="fa fa-bars"
-                    ></i>
+                      className="fa fa-bars"></i>
                   </h1>
                 </div>
               ) : (
@@ -588,8 +533,7 @@ const EditOrder = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -615,19 +559,17 @@ const EditOrder = () => {
                       <button
                         data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop65"
-                        className="comman_btn2 mx-4 rounded "
-                      >
+                        className="comman_btn2 mx-4 rounded ">
                         Add More
                       </button>
                       <button
                         class="dropdown-btns comman_btn2 p-2 rounded"
                         title="Close"
                         onClick={() =>
-                          navigate("/OrderRequest/ViewOrder", {
+                          navigate(`/OrderRequest/ViewOrder/${id}`, {
                             state: { id: id },
                           })
-                        }
-                      >
+                        }>
                         <i class="fa fa-close fs-5"></i>
                       </button>
                     </div>
@@ -686,8 +628,7 @@ const EditOrder = () => {
                                   name="orderType"
                                   onChange={(e) =>
                                     handleEditDetails(e, "orderType")
-                                  }
-                                >
+                                  }>
                                   <option selected="" value="">
                                     {orders?.type}-(Selected)
                                   </option>
@@ -710,8 +651,7 @@ const EditOrder = () => {
                                   name="orderType"
                                   onChange={(e) =>
                                     handleEditDetails(e, "status")
-                                  }
-                                >
+                                  }>
                                   <option selected="">
                                     {orders?.status}-(Selected)
                                   </option>
@@ -732,8 +672,7 @@ const EditOrder = () => {
                               appearance="primary"
                               color="red"
                               className="comman_btn2 rounded "
-                              onClick={saveShipment}
-                            >
+                              onClick={saveShipment}>
                               Save Details
                             </Button>
                           </div>
@@ -794,7 +733,6 @@ const EditOrder = () => {
                                               )
                                             )}
                                           </p>
-                                         
                                         </div>
                                       </div>
                                     </div>
@@ -809,17 +747,17 @@ const EditOrder = () => {
                                         className="border text-center"
                                         onChange={(e) => {
                                           handleChange(index, e);
-                                        }}
-                                      ></input>
+                                        }}></input>
                                     </span>
                                   </td>
                                   <td className="border">
-                                    <button
-                                      className="mx-5 text-danger fs-6 bg-white"
-                                      onClick={() => deleteChange(index)}
-                                    >
-                                      Remove
-                                    </button>
+                                    {orders?.products?.length > 1 && (
+                                      <button
+                                        className="mx-5 text-danger fs-6 bg-white"
+                                        onClick={() => deleteChange(index)}>
+                                        Remove
+                                      </button>
+                                    )}
                                   </td>
                                 </tr>
                               ))}
@@ -842,8 +780,7 @@ const EditOrder = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -883,8 +820,7 @@ const EditOrder = () => {
                   <select
                     type="select"
                     className="form-select"
-                    onChange={(e) => setFlavour(e.target.value)}
-                  >
+                    onChange={(e) => setFlavour(e.target.value)}>
                     <option selected="" value="">
                       Select Any Flavour
                     </option>
@@ -896,13 +832,17 @@ const EditOrder = () => {
                     ))}
                   </select>
                 </div>
-                <div className="form-group col-6">
-                  <label htmlFor="EditPass">Quantity </label>
-                  <input
-                    type="number"
-                    className="form-control-sub border"
+
+                <div className="form-group col-6 ">
+                  <label htmlFor="">Product Name </label>
+
+                  <InputNumber
+                    min={1}
+                    max={1000}
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    className="mt-1"
+                    onChange={setQuantity}
+                    enableMobileNumericKeyboard
                   />
                 </div>
                 <div className="form-group mb-0 col-12 text-center ">
@@ -914,8 +854,7 @@ const EditOrder = () => {
                   <button
                     className="comman_btn2 d-none"
                     id="modalReset"
-                    type="reset"
-                  >
+                    type="reset">
                     reset
                   </button>
                 </div>

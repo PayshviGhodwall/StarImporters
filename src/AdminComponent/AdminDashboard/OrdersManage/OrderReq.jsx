@@ -86,9 +86,14 @@ const OrderReq = () => {
   const [addType, setAddType] = useState("");
   const [address, setAddress] = useState("");
   const [maxPage, setMaxPage] = useState(1);
+  const [maxPageComp, setMaxPageComp] = useState(1);
+  const [maxPageCancel, setMaxPageCancel] = useState(1);
+  // const [maxPage, setMaxPage] = useState(1);
   const pageData = useRecoilValue(orderPageData);
   const setPageData = useSetRecoilState(orderPageData);
   const [activePage, setActivePage] = useState(pageData[0]?.page);
+  const [activePageComp, setActivePageComp] = useState(1);
+  const [activePageCancel, setActivePageCancel] = useState(1);
   const apiCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCities`;
   const allPullers = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
   const assign = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/assignPuller`;
@@ -181,8 +186,6 @@ const OrderReq = () => {
 
   useEffect(() => {
     getCities();
-    cancelledOrders();
-    completedOrders();
     sharedQuotations();
   }, []);
 
@@ -190,6 +193,14 @@ const OrderReq = () => {
     OrderRequest();
     QuoteRequest();
   }, [activePage]);
+
+  useEffect(() => {
+    completedOrders();
+  }, [activePageComp]);
+
+  useEffect(() => {
+    cancelledOrders();
+  }, [activePageCancel]);
 
   useEffect(() => {
     createOptions();
@@ -213,7 +224,7 @@ const OrderReq = () => {
       .post(orderList, { page: activePage, status: "Completed" })
       .then((res) => {
         setCompOrders(res?.data.results?.orders);
-        setMaxPage(res?.data.results?.toatalPages);
+        setMaxPageComp(res?.data.results?.toatalPages);
         setCompCount(res?.data.results?.count);
       });
   };
@@ -223,7 +234,7 @@ const OrderReq = () => {
       .post(orderList, { page: activePage, status: "Cancelled" })
       .then((res) => {
         setCancelledOrders(res?.data.results?.orders);
-        setMaxPage(res?.data.results?.toatalPages);
+        setMaxPageCancel(res?.data.results?.toatalPages);
         setCanCount(res?.data.results?.count);
       });
   };
@@ -1149,7 +1160,7 @@ const OrderReq = () => {
                             role="tab"
                             aria-controls="nav-home"
                             aria-selected="true">
-                            Orders
+                            Current Orders
                             <span className="circle_count">
                               {allCount ? allCount : 0}
                             </span>
@@ -1513,7 +1524,9 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={(e)=> onOrderSearch(e,"Completed")}>
+                                    onClick={(e) =>
+                                      onOrderSearch(e, "Completed")
+                                    }>
                                     Search
                                   </button>
                                 </div>
@@ -1545,7 +1558,7 @@ const OrderReq = () => {
                                 {compOrders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
+                                      ( Total Pages : {maxPageComp} )
                                     </span>
                                     <ul id="pagination">
                                       <li>
@@ -1553,9 +1566,11 @@ const OrderReq = () => {
                                           class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
+                                            activePageComp <= 1
+                                              ? setActivePageComp(1)
+                                              : setActivePageComp(
+                                                  activePageComp - 1
+                                                )
                                           }>
                                           «
                                         </a>
@@ -1569,7 +1584,7 @@ const OrderReq = () => {
                                       </li>
                                       <li>
                                         <a href="#" className="active">
-                                          {activePage ? activePage : 1}
+                                          {activePageComp ? activePageComp : 1}
                                         </a>
                                       </li>
                                       <li>
@@ -1584,9 +1599,11 @@ const OrderReq = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
+                                            activePageComp === maxPageComp
+                                              ? setActivePageComp(maxPageComp)
+                                              : setActivePageComp(
+                                                  activePageComp + 1
+                                                )
                                           }>
                                           »
                                         </a>
@@ -1670,7 +1687,7 @@ const OrderReq = () => {
                                 {compOrders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
+                                      ( Total Pages : {maxPageComp} )
                                     </span>
                                     <ul id="pagination">
                                       <li>
@@ -1678,9 +1695,11 @@ const OrderReq = () => {
                                           class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
+                                            activePageComp <= 1
+                                              ? setActivePageComp(1)
+                                              : setActivePageComp(
+                                                  activePageComp - 1
+                                                )
                                           }>
                                           «
                                         </a>
@@ -1694,7 +1713,7 @@ const OrderReq = () => {
                                       </li>
                                       <li>
                                         <a href="#" className="active">
-                                          {activePage ? activePage : 1}
+                                          {activePageComp ? activePageComp : 1}
                                         </a>
                                       </li>
                                       <li>
@@ -1709,9 +1728,11 @@ const OrderReq = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
+                                            activePageComp === maxPageComp
+                                              ? setActivePageComp(maxPageComp)
+                                              : setActivePageComp(
+                                                  activePageComp + 1
+                                                )
                                           }>
                                           »
                                         </a>
@@ -1758,7 +1779,9 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={(e)=> onOrderSearch(e,"Cancelled")}>
+                                    onClick={(e) =>
+                                      onOrderSearch(e, "Cancelled")
+                                    }>
                                     Search
                                   </button>
                                 </div>
@@ -1790,7 +1813,7 @@ const OrderReq = () => {
                                 {cancelled?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
+                                      ( Total Pages : {maxPageCancel} )
                                     </span>
                                     <ul id="pagination">
                                       <li>
@@ -1798,9 +1821,11 @@ const OrderReq = () => {
                                           class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
+                                            activePageCancel <= 1
+                                              ? setActivePageCancel(1)
+                                              : setActivePageCancel(
+                                                  activePageCancel - 1
+                                                )
                                           }>
                                           «
                                         </a>
@@ -1814,7 +1839,9 @@ const OrderReq = () => {
                                       </li>
                                       <li>
                                         <a href="#" className="active">
-                                          {activePage ? activePage : 1}
+                                          {activePageCancel
+                                            ? activePageCancel
+                                            : 1}
                                         </a>
                                       </li>
                                       <li>
@@ -1829,9 +1856,13 @@ const OrderReq = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
+                                            activePageCancel === maxPageCancel
+                                              ? setActivePageCancel(
+                                                  maxPageCancel
+                                                )
+                                              : setActivePageCancel(
+                                                  activePageCancel + 1
+                                                )
                                           }>
                                           »
                                         </a>
@@ -1915,7 +1946,7 @@ const OrderReq = () => {
                                 {cancelled?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
-                                      ( Total Pages : {maxPage} )
+                                      ( Total Pages : {maxPageCancel} )
                                     </span>
                                     <ul id="pagination">
                                       <li>
@@ -1923,9 +1954,11 @@ const OrderReq = () => {
                                           class="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage <= 1
-                                              ? setActivePage(1)
-                                              : setActivePage(activePage - 1)
+                                            activePageCancel <= 1
+                                              ? setActivePageCancel(1)
+                                              : setActivePageCancel(
+                                                  activePageCancel - 1
+                                                )
                                           }>
                                           «
                                         </a>
@@ -1939,7 +1972,9 @@ const OrderReq = () => {
                                       </li>
                                       <li>
                                         <a href="#" className="active">
-                                          {activePage ? activePage : 1}
+                                          {activePageCancel
+                                            ? activePageCancel
+                                            : 1}
                                         </a>
                                       </li>
                                       <li>
@@ -1954,9 +1989,13 @@ const OrderReq = () => {
                                           className="fs-5"
                                           href="#"
                                           onClick={() =>
-                                            activePage === maxPage
-                                              ? setActivePage(maxPage)
-                                              : setActivePage(activePage + 1)
+                                            activePageCancel === maxPageCancel
+                                              ? setActivePageCancel(
+                                                  maxPageCancel
+                                                )
+                                              : setActivePageCancel(
+                                                  activePageCancel + 1
+                                                )
                                           }>
                                           »
                                         </a>

@@ -64,6 +64,7 @@
     "react-hooks-global-state": "^2.0.0",
     "react-html2pdf": "^1.0.1",
     "react-icons": "^4.4.0",
+    "react-input-number": "^5.0.19",
     "react-js-pagination": "^3.0.3",
     "react-loader-spinner": "^5.3.4",
     "react-loading-skeleton": "^3.3.1",
