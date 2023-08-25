@@ -427,7 +427,7 @@ function AppSignUp() {
                         {...register("city", {
                           required: "Required*",
                         })}>
-                        <option value="">Select City</option>
+                        <option value="">{cities?.length ? "Select City" : "No cities in selected State."}</option>
                         {(cities || [])?.map((item, ind) => (
                           <option value={item}>{item}</option>
                         ))}

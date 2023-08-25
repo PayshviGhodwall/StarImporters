@@ -232,6 +232,26 @@ const BuyAgain = () => {
             item.products?.map((val, ind) => (
               <div className="col-lg-4 col-md-4 mb-lg-4 mb-md-2 ">
                 <div className="product_parts_box_buy">
+                <label class="checkbox-labels">
+                      <input
+                        type="checkbox"
+                        key={val?.flavour?._id}
+                        // name={ind}
+                        id={val?.flavour?._id}
+                        onChange={(e) =>
+                          handleClick(
+                            e,
+                            val?.flavour,
+                            val?.productId?._id,
+                            val?.quantity,
+                            ind
+                          )
+                        }
+                        class="checkbox-input"
+                        checked={isCheck?.includes(val?.flavour?._id)}
+                      />
+                      <span class="checkmark"></span>
+                    </label>
                   <div className="partsproduct_img_buy text-center">
                     <img
                       onClick={() => {
@@ -253,26 +273,7 @@ const BuyAgain = () => {
                       }
                       alt="Product"
                     />
-                    <label class="checkbox-label">
-                      <input
-                        type="checkbox"
-                        key={val?.flavour?._id}
-                        // name={ind}
-                        id={val?.flavour?._id}
-                        onChange={(e) =>
-                          handleClick(
-                            e,
-                            val?.flavour,
-                            val?.productId?._id,
-                            val?.quantity,
-                            ind
-                          )
-                        }
-                        class="checkbox-input"
-                        checked={isCheck?.includes(val?.flavour?._id)}
-                      />
-                      <span class="checkmark"></span>
-                    </label>
+                 
                   </div>
                   <div>
                     <div class="featuredproduct_details p-2 text-center">

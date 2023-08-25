@@ -676,7 +676,7 @@ const Inventory = () => {
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                    User?.access?.includes("Gallery") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -694,7 +694,7 @@ const Inventory = () => {
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -717,6 +717,22 @@ const Inventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"></i>{" "}
                     Content Management
+                  </Link>
+                </li>
+               <li
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  <Link
+                      className=""
+                      to="/Contact&Support"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                        
+                      }}>
+                      <i
+                        style={{ position: "relative", left: "4px", top: "3px" }}
+                        class="fa-solid fa-handshake-angle"></i>{" "}
+                      Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1287,7 +1303,7 @@ const Inventory = () => {
                     </div>
                   </div>
                   <form
-                    className="form-design py-3 px-4 help-support-form row align-items-end justify-content-between"
+                    className="form-design py-3 px-4 help-support-form row align-items-end justify-content-between bg-light border-bottom"
                     action=""
                     onSubmit={handleSubmit2(onSearch)}>
                     <div className="form-group col-4">

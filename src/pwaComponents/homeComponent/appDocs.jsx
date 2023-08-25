@@ -12,6 +12,9 @@ function AppDocs() {
   const [detail, setDetail] = useState("");
   const editFiles = `${process.env.REACT_APP_APIENDPOINTNEW}user/reUploadFiles`;
   const [loader, setLoader] = useState(false);
+  const [loader2, setLoader2] = useState(false);
+  const [loader3, setLoader3] = useState(false);
+  const [loader4, setLoader4] = useState(false);
   const [files, setFiles] = useState({
     federalTaxId: "",
     businessLicense: "",
@@ -36,21 +39,26 @@ function AppDocs() {
 
   const editDocs = async (e, file, name) => {
     e.preventDefault();
-    setLoader(true);
     let formData = new FormData();
     formData.append(name, file);
     const { data } = await axios.post(editFiles, formData);
     if (!data.error) {
       getUserDetail();
       setLoader(false);
+      setLoader2(false);
+      setLoader3(false);
+      setLoader4(false);
       Swal.fire({
         title: "Document Modified Successfully!",
         icon: "success",
         timer: 1000,
         confirmButtonText: "Okay",
+      }).then(() => {
+        window.location.reload(false);
       });
     }
   };
+
   const fileDownload = (url) => {
     let url1 = url;
     let url2 = url1.replace("http", "https");
@@ -128,9 +136,10 @@ function AppDocs() {
                         appearance="primary"
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
-                        onClick={(e) =>
-                          editDocs(e, files?.federalTaxId, "federalTaxId")
-                        }>
+                        onClick={(e) => {
+                          setLoader(true);
+                          editDocs(e, files?.federalTaxId, "federalTaxId");
+                        }}>
                         Save
                       </Button>
                     ) : null}
@@ -174,13 +183,14 @@ function AppDocs() {
                     </div>
                     {files?.tobaccoLicence?.name ? (
                       <Button
-                        loading={loader}
+                        loading={loader2}
                         appearance="primary"
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
-                        onClick={(e) =>
-                          editDocs(e, files?.tobaccoLicence, "federalTaxId")
-                        }>
+                        onClick={(e) => {
+                          setLoader2(true);
+                          editDocs(e, files?.tobaccoLicence, "tobaccoLicence");
+                        }}>
                         Save
                       </Button>
                     ) : null}
@@ -224,13 +234,14 @@ function AppDocs() {
                     </div>
                     {files?.salesTaxId?.name ? (
                       <Button
-                        loading={loader}
+                        loading={loader3}
                         appearance="primary"
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
-                        onClick={(e) =>
-                          editDocs(e, files?.salesTaxId, "salesTaxId")
-                        }>
+                        onClick={(e) => {
+                          setLoader3(true);
+                          editDocs(e, files?.salesTaxId, "salesTaxId");
+                        }}>
                         Save
                       </Button>
                     ) : null}
@@ -276,13 +287,18 @@ function AppDocs() {
                     </div>
                     {files?.businessLicense?.name ? (
                       <Button
-                        loading={loader}
+                        loading={loader4}
                         appearance="primary"
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
-                        onClick={(e) =>
-                          editDocs(e, files?.businessLicense, "businessLicense")
-                        }>
+                        onClick={(e) => {
+                          setLoader4(true);
+                          editDocs(
+                            e,
+                            files?.businessLicense,
+                            "businessLicense"
+                          );
+                        }}>
                         Save
                       </Button>
                     ) : null}
@@ -328,9 +344,10 @@ function AppDocs() {
                       <button
                         style={{ backgroundColor: "#3e4093" }}
                         className="SaveBtn mt-0"
-                        onClick={(e) =>
-                          editDocs(e, files?.accountOwnerId, "accountOwnerId")
-                        }>
+                        onClick={(e) => {
+                          setLoader4(true);
+                          editDocs(e, files?.accountOwnerId, "accountOwnerId");
+                        }}>
                         Save
                       </button>
                     ) : null}

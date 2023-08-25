@@ -22,7 +22,7 @@ function AppRequestDetail() {
           quoteId: id,
         })
         .then((res) => {
-          setQuoteDetails(res?.data.results);
+          setQuoteDetails(res?.data.results?.quotes);
         });
     };
     GetQuote();

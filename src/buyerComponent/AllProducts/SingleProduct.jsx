@@ -93,8 +93,6 @@ const SingleProduct = () => {
   console.log(product?._id, "ddfsdf");
 
   const AddtoCart = async () => {
-
-    
     if (product?.category?.isTobacco || product?.subCategory?.isTobacco) {
       if (userDetail?.istobaccoLicenceExpired) {
         Swal.fire({
@@ -195,12 +193,11 @@ const SingleProduct = () => {
             setSuccesMsg();
           }, 3000);
         } else {
-         
           Swal.fire({
             title: "Please Select Any Flavour!",
             icon: "warning",
             focusConfirm: false,
-            timer:1000
+            timer: 1000,
           });
         }
       }
@@ -299,8 +296,7 @@ const SingleProduct = () => {
           title: "Please Select Any Flavour!",
           icon: "warning",
           focusConfirm: false,
-          timer:1000
-
+          timer: 1000,
         });
       }
     }
@@ -499,7 +495,7 @@ const SingleProduct = () => {
                         </div>
                         <ul className="list-unstyled thumbnails_box ">
                           <Swiper
-                            slidesPerView={ width <= 1400 ? 2 : 3}
+                            slidesPerView={width <= 1400 ? 2 : 3}
                             loop={true}
                             autoplay={true}
                             modules={[
@@ -603,8 +599,11 @@ const SingleProduct = () => {
                           <div className="col-12">
                             <p className="fw-bold">
                               {flavour?.flavourPriceStatus
-                                ? "Price : $" + flavour?.flavourPrice
-                                : null}
+                                ? "Price : $" +
+                                  (flavour?.flavourPrice
+                                    ? flavour?.flavourPrice
+                                    : " Not set")
+                                : ""}
                             </p>
                           </div>
                         ) : null}

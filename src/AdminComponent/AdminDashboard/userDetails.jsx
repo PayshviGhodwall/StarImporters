@@ -13,6 +13,7 @@ const UserDetails = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+  
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>

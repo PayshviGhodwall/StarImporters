@@ -33,6 +33,8 @@ const Cms = () => {
   const [urlS4, setUrlS4] = useState("");
   const [urlS5, setUrlS5] = useState("");
   const [urlS6, setUrlS6] = useState("");
+  const [urlV1, setUrlV1] = useState("");
+  const [urlV2, setUrlV2] = useState("");
   const AllSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`;
   const AllHeaders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getHeaders`;
   const EditSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`;
@@ -118,6 +120,7 @@ const Cms = () => {
     e.preventDefault();
     let formData = new FormData();
     formData.append("video",no == 1 ? videoFile?.video1 : videoFile?.video2);
+    formData.append("url");
     const { data } = await axios.post(editVideo + "/" + id, formData);
     if(!data.error){
      window.location.reload(false)
@@ -774,7 +777,7 @@ const Cms = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                    User?.access?.includes("Gallery") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -791,7 +794,7 @@ const Cms = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -816,6 +819,22 @@ const Cms = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"></i>{" "}
                     Content Management
+                  </Link>
+                </li>
+               <li
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  <Link
+                      className=""
+                      to="/Contact&Support"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                        
+                      }}>
+                      <i
+                        style={{ position: "relative", left: "4px", top: "3px" }}
+                        class="fa-solid fa-handshake-angle"></i>{" "}
+                      Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1370,6 +1389,7 @@ const Cms = () => {
                                           }}
                                         />
                                       </div>
+
                                       <div className="form-group col-12">
                                         <label htmlFor="" className="fw-bold">
                                           Link/Url
@@ -1385,6 +1405,7 @@ const Cms = () => {
                                           }}
                                         />
                                       </div>
+
                                       <div className="form-group col-12 text-start">
                                         <button
                                           className="comman_btn  text-decoration-none"
@@ -1439,6 +1460,22 @@ const Cms = () => {
                                                     }
                                                 />
                                               </div>
+
+                                              <div className="form-group col-12 mb-4">
+                                        <label htmlFor="" className="fw-bold">
+                                          Link/Url
+                                        </label>
+                                        <input
+                                          type="text"
+                                          className="form-control  border border-secondary"
+                                          name="url"
+                                          placeholder="Enter Url"
+                                          defaultValue={videoSlides[0]?.url}
+                                          onChange={(e) => {
+                                            setUrlV1(e.target.value);
+                                          }}
+                                        />
+                                      </div>
                                             </div>
                                           </div>
 
@@ -1471,8 +1508,6 @@ const Cms = () => {
                                           className="form-design row"
                                           action="">
                                           <div className="form-group col-12 ">
-                                          
-
                                             <div className="account_profile position-relative d-inline-block">
                                               <div className="fw-bold">
                                                 <label className="fs-5 fw-bold">
@@ -1504,6 +1539,21 @@ const Cms = () => {
                                                 />
                                               </div>
                                             </div>
+                                            <div className="form-group col-12 mb-4">
+                                        <label htmlFor="" className="fw-bold">
+                                          Link/Url
+                                        </label>
+                                        <input
+                                          type="text"
+                                          className="form-control  border border-secondary"
+                                          name="url"
+                                          placeholder="Enter Url"
+                                          defaultValue={videoSlides[1]?.url}
+                                          onChange={(e) => {
+                                            setUrlV2(e.target.value);
+                                          }}
+                                        />
+                                      </div>
                                           </div>
 
                                           <div className="form-group col-12 text-start">

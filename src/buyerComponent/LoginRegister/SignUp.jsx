@@ -419,6 +419,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="form-floating col-4 mb-4 select_dropdown ">
+                  
                   <select
                     className={classNames(
                       "form-select border border-secondary signup_fields fw-bolder",
@@ -431,7 +432,7 @@ const SignUp = () => {
                     {...register("city", {
                       required: "City is Required*",
                     })}>
-                    <option value="">Select City</option>
+                    <option value="">{cities?.length ? "Select City" : "No cities in selected State."}</option>
                     {(cities || [])?.map((item, ind) => (
                       <option value={item}>{item}</option>
                     ))}

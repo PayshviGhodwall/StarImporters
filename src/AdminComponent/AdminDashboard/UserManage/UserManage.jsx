@@ -171,8 +171,10 @@ const UserManage = () => {
     await axios
       .post(uploadUrl, formData)
       .then((res) => {
-        if (res.error) {
+        console.log(res);
+        if (res.data.error) {
           setUploadError(res?.data.message);
+          setLoader(false);
           Swal.fire({
             title: "Error in file",
             text: res?.data.message,
@@ -193,7 +195,7 @@ const UserManage = () => {
         }
       })
       .catch((err) => {
-        setLoader(false)
+        setLoader(false);
         if (err) {
           Swal.fire({
             title: "Error in file",
@@ -203,10 +205,14 @@ const UserManage = () => {
         }
       });
     document.getElementById("reUpload").hidden = false;
+    setTimeout(() => {
+      setLoader(false);
+    }, [6000]);
   };
   const modalClose = () => {
     window.location.reload(false);
   };
+  
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -438,9 +444,7 @@ const UserManage = () => {
 
                   <li
                     className={
-                      User?.access?.includes("Gallery Management")
-                        ? ""
-                        : "d-none"
+                      User?.access?.includes("Gallery") ? "" : "d-none"
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
@@ -464,7 +468,9 @@ const UserManage = () => {
                   </li>
                   <li
                     className={
-                      User?.access?.includes("Orders Request") ? "" : "d-none"
+                      User?.access?.includes("Orders Management")
+                        ? ""
+                        : "d-none"
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
@@ -502,7 +508,30 @@ const UserManage = () => {
                       Content Management
                     </Link>
                   </li>
-
+                  <li
+                    onClick={() =>
+                      setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
+                    }
+                    className={
+                      User?.access?.includes("Contact") ? "" : "d-none"
+                    }>
+                    <Link
+                      className=""
+                      to="/Contact&Support"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                      }}>
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fa-solid fa-handshake-angle"></i>{" "}
+                      Contact & Support
+                    </Link>
+                  </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])

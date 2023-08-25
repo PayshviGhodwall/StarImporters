@@ -692,7 +692,14 @@ const Homepage = () => {
                             to={`/Brands/${item?.slug}`}
                             state={{ name: item?.brandName }}
                             className="brandsnew_box">
-                            <img src={item?.brandImage} alt="" />
+                            <img
+                              src={
+                                item?.brandImage
+                                  ? item?.brandImage
+                                  : require("./../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
                           </Link>
                         </div>
                       </div>

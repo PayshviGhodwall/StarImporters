@@ -201,7 +201,7 @@ const ChangePassword = () => {
                 
                 <li
                   className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                    User?.access?.includes("Gallery") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -221,7 +221,7 @@ const ChangePassword = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -249,7 +249,9 @@ const ChangePassword = () => {
                     Content Management
                   </Link>
                 </li>
-                <li>
+                <li
+                className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"

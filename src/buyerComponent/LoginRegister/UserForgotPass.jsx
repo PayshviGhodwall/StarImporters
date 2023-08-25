@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Starlogo from "../../assets/img/logo.png";
 import Navbar from "../Homepage/Navbar";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 const UserForgotPass = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}user/forgotPassword`;
@@ -155,6 +156,7 @@ const UserForgotPass = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

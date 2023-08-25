@@ -814,7 +814,11 @@ function AppHome() {
                                         <Link to="/app/brands">
                                           <img
                                             width={40}
-                                            src={item?.brandImage}
+                                            src={
+                                              item?.brandImage
+                                                ? item?.brandImage
+                                                : require("../../assets/img/product.jpg")
+                                            }
                                             alt=""
                                           />
                                         </Link>
@@ -1022,7 +1026,11 @@ function AppHome() {
                                       <Link to="/app/brands">
                                         <img
                                           width={40}
-                                          src={item?.brandImage}
+                                          src={
+                                            item?.brandImage
+                                              ? item?.brandImage
+                                              : require("../../assets/img/product.jpg")
+                                          }
                                           alt=""
                                         />
                                       </Link>

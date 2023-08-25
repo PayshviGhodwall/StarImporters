@@ -125,7 +125,7 @@ const Contact = () => {
                     </label>
 
                     <input
-                      type="text    "
+                      type="email"
                       className="form-control bg-light p-1 fs-6"
                       id="Name"
                       name="email"
@@ -133,10 +133,10 @@ const Contact = () => {
                         required: "Required Field",
                         pattern: {
                           value: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
-                          message: "No Numerical and Special Characters", // JS only: <p>error message</p> TS only support string
+                          message: "In Valid Email Address", // JS only: <p>error message</p> TS only support string
                         },
                       })}
-                      onKeyUp={() => {
+                    onKeyUp={() => {
                         trigger("email");
                       }}
                     />

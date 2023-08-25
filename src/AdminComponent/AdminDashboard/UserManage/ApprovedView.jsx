@@ -14,20 +14,106 @@ import moment from "moment";
 // Default CSS
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
+import { MDBDataTable } from "mdbreact";
 
 const ApprovedView = () => {
   const [msg, setMsg] = useState("");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const generatePass = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generatePassword`;
+  const UserOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserOrders`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
+  const [expand1, setExpand1] = useState(true);
+  const [expand2, setExpand2] = useState(true);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+
+  const [orders, setOrders] = useState({
+    columns: [
+      {
+        label: "DATE",
+        field: "date",
+        sort: "asc",
+        width: 150,
+      },
+
+      {
+        label: "ORDER ID",
+        field: "id",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "ORDER STATUS",
+        field: "status",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "ORDER TYPE",
+        field: "type",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "PULLER STATUS",
+        field: "pull",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "ORDER DETAILS",
+        field: "details",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
+
+  const [quote, setQuote] = useState({
+    columns: [
+      {
+        label: "DATE",
+        field: "date",
+        sort: "asc",
+        width: 150,
+      },
+      {
+        label: "COMPANY NAME",
+        field: "name",
+        sort: "asc",
+        width: 150,
+      },
+
+      {
+        label: "REQUEST ID",
+        field: "id",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "STATUS",
+        field: "status",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "REQUEST DETAILS",
+        field: "details",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -41,10 +127,75 @@ const ApprovedView = () => {
       return res.data;
     };
     getUser();
+    getOrders();
   }, []);
 
   const fileDownload = (url) => {
     saveAs(url);
+  };
+
+  const getOrders = async () => {
+    const { data } = await axios.post(UserOrders + "/" + objectId);
+    if (!data.error) {
+      console.log(data);
+      const newRows = [];
+      const newRows2 = [];
+      if (!data.error) {
+        let values = data?.results?.orders;
+        let values2 = data?.results?.quotations;
+        values?.map((list, index) => {
+          const returnData = {};
+          returnData.id = list?.orderId;
+          returnData.status = list?.status;
+          returnData.type = list?.type;
+          returnData.pull = list?.pullStatus;
+          returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData.details = (
+            <>
+              <button
+                className="comman_btn table_viewbtn"
+                onClick={() => {
+                  navigate(`/OrderRequest/ViewOrder/${list?._id}`, {
+                    state: {
+                      id: list?._id,
+                    },
+                  });
+                }}>
+                View
+              </button>
+            </>
+          );
+          newRows.push(returnData);
+        });
+        values2?.map((list, index) => {
+          const returnData2 = {};
+          returnData2.sn = index + 1 + ".";
+          returnData2.name = list?.userId?.companyName;
+          returnData2.id = list?.quoteId;
+          returnData2.status = list?.status;
+          returnData2.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData2.details = (
+            <>
+              <button
+                className="comman_btn table_viewbtn"
+                onClick={() => {
+                  navigate("/OrderRequest/ViewQuotationRequest", {
+                    state: {
+                      id: list?._id,
+                    },
+                  });
+                }}>
+                View
+              </button>
+            </>
+          );
+          newRows2.push(returnData2);
+        });
+
+        setOrders({ ...orders, rows: newRows });
+        setQuote({ ...quote, rows: newRows2 });
+      }
+    }
   };
 
   const genPassword = async () => {
@@ -76,9 +227,6 @@ const ApprovedView = () => {
     }
   };
 
-  // const preview = (url) => {
-  //   navigate("/user/viewDocs", { state: url });
-  // };
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -237,9 +385,7 @@ const ApprovedView = () => {
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -255,7 +401,7 @@ const ApprovedView = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -284,6 +430,21 @@ const ApprovedView = () => {
                       }}
                       class="fa fa-cog"></i>{" "}
                     Content Management
+                  </Link>
+                </li>
+                <li
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -540,17 +701,28 @@ const ApprovedView = () => {
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
-                    <h2 className="main_headers">Edit Approved Details</h2>
+                    <h2 className="main_headers">Approved User Details</h2>
                   </div>
-                  <div className="col-auto">
-                    <div className="Status_box">
+                  <div className="col-auto d-flex">
+                    <div className="Status_box mx-4 mt-2">
                       Status: <strong>Active</strong>
+                    </div>
+                    <div className="Status_box">
+                      {expand1 ? (
+                        <i
+                          class="fa fa-square-minus fs-3"
+                          onClick={() => setExpand1(!expand1)}></i>
+                      ) : (
+                        <i
+                          class="fa-solid fa-square-caret-down fs-3"
+                          onClick={() => setExpand1(true)}></i>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="row">
+                <div className="row ">
                   <div className="col-12 p-4 Pending-view-main">
-                    <div className="row py-2">
+                    <div className={expand1 ? "row py-2" : "row py-2 d-none"}>
                       <div className="col-12 text-center mb-5">
                         <div className="Pending-view_img">
                           <img
@@ -700,7 +872,7 @@ const ApprovedView = () => {
                                       preview(user?.tobaccoLicence)
                                     }></i>
                                 ) : null}
-                                <Link  className="text-decoration-none">
+                                <Link className="text-decoration-none">
                                   {user.tobaccoLicence ? (
                                     <FaFileDownload
                                       onClick={() => {
@@ -758,7 +930,7 @@ const ApprovedView = () => {
                                       preview(user?.salesTaxId)
                                     }></i>
                                 ) : null}
-                                <Link  className="text-decoration-none">
+                                <Link className="text-decoration-none">
                                   {user.salesTaxId ? (
                                     <FaFileDownload
                                       onClick={() => {
@@ -810,9 +982,7 @@ const ApprovedView = () => {
                                       preview(user?.businessLicense)
                                     }></i>
                                 ) : null}
-                                <Link
-                                  className="text-decoration-none"
-                                 >
+                                <Link className="text-decoration-none">
                                   {user?.businessLicense ? (
                                     <FaFileDownload
                                       onClick={() => {
@@ -889,9 +1059,7 @@ const ApprovedView = () => {
                                     }></i>
                                 ) : null}
 
-                                <Link
-                                  className="text-decoration-none"
-                                 >
+                                <Link className="text-decoration-none">
                                   {user.accountOwnerId ? (
                                     <FaFileDownload
                                       onClick={() => {
@@ -1047,9 +1215,126 @@ const ApprovedView = () => {
                 </div>
               </div>
             </div>
+
+            <div className="row mx-0 mt-4">
+              <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="row comman_header justify-content-between">
+                  <div className="col-auto">
+                    <h2 className="main_headers">Order History</h2>
+                  </div>
+                  <div className="col-auto d-flex">
+                    
+                    <div className="Status_box">
+                      {expand2 ? (
+                        <i
+                          class="fa fa-square-minus fs-3"
+                          onClick={() => setExpand2(!expand2)}></i>
+                      ) : (
+                        <i
+                          class="fa-solid fa-square-caret-down fs-3"
+                          onClick={() => setExpand2(true)}></i>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 px-3 Pending-view-main">
+                    <div className={expand2 ? "row py-2" : "row py-2 d-none"}>
+                      <div className="col-12 user-management-tabs px-0">
+                        <nav>
+                          <div
+                            className="nav nav-tabs_usr  "
+                            id="nav-tab"
+                            role="tablist">
+                            <button
+                              className="nav-link active"
+                              id="nav-home-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-home"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-home"
+                              aria-selected="true">
+                              All Orders
+                            </button>
+
+                            <button
+                              className="nav-link mt-1"
+                              id="nav-profile-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-profile"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-profile"
+                              aria-selected="false">
+                              All Quotations Request
+                            </button>
+                          </div>
+                        </nav>
+                        <div className="tab-content" id="nav-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="nav-home"
+                            role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+                            <div className="row mx-0">
+                              <div className="col-12">
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive p-0">
+                                      <MDBDataTable
+                                        bordered
+                                        displayEntries={false}
+                                        className="categoryTable"
+                                        hover
+                                        data={orders}
+                                        noBottomColumns
+                                        sortable
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div
+                            className="tab-pane fade"
+                            id="nav-profile"
+                            role="tabpanel"
+                            aria-labelledby="nav-profile-tab">
+                            <div className="row mx-0 ">
+                              <div className="col-12">
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive p-0">
+                                      <MDBDataTable
+                                        bordered
+                                        displayEntries={false}
+                                        className="categoryTable"
+                                        hover
+                                        data={quote}
+                                        noBottomColumns
+                                        sortable
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       <button
         type="button"
         class="btn btn-primary d-none"

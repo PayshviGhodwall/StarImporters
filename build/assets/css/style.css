@@ -2587,6 +2587,7 @@
   .myaccount_tabs .nav-tabs .nav-link.active {
     background-color: #234476;
   }
+
   .filter_table img {
     max-width: 24px;
     margin-top: -4px;
@@ -4328,6 +4329,22 @@
     font-size: 14px;
     margin: 5px 0;
   }
+  .nav-tabs_usr .nav-link {
+    width: 50%;
+    border: 0;
+    background-color: #f2f2f2;
+    font-weight: 600;
+    padding: 14px 15px;
+    border-right: 3px solid #ffff;
+    border-radius: 0;
+    color: #3e4093;
+  }
+   .nav-tabs_usr .nav-link.active {
+    background-color: #3e4093;
+    color: #fff;
+  }
+
+  
 
   .user-management-tabs .nav-tabs .nav-link {
     width: 33.33%;
@@ -14147,6 +14164,14 @@ figure.effect-ming:hover img {
   background-color: #3e4093 !important;
   border-radius: 50px;
   cursor: pointer !important;
+}
+.checkbox-labels {
+  position: relative;
+  top: 0px;
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
 }
 
 .checkbox-label {

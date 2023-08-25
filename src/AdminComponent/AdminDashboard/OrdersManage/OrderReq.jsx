@@ -49,6 +49,7 @@ const Option = (props) => {
 };
 
 const OrderReq = () => {
+
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
@@ -221,7 +222,7 @@ const OrderReq = () => {
   };
   const completedOrders = async () => {
     await axios
-      .post(orderList, { page: activePage, status: "Completed" })
+      .post(orderList, { page: activePageComp, status: "Completed" })
       .then((res) => {
         setCompOrders(res?.data.results?.orders);
         setMaxPageComp(res?.data.results?.toatalPages);
@@ -231,7 +232,7 @@ const OrderReq = () => {
 
   const cancelledOrders = async () => {
     await axios
-      .post(orderList, { page: activePage, status: "Cancelled" })
+      .post(orderList, { page: activePageCancel, status: "Cancelled" })
       .then((res) => {
         setCancelledOrders(res?.data.results?.orders);
         setMaxPageCancel(res?.data.results?.toatalPages);
@@ -705,7 +706,7 @@ const OrderReq = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                    User?.access?.includes("Gallery") ? "" : "d-none"
                   }>
                   <Link
                     className=""
@@ -722,7 +723,7 @@ const OrderReq = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }>
                   <Link
                     className="bg-white"
@@ -747,6 +748,22 @@ const OrderReq = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"></i>{" "}
                     Content Management
+                  </Link>
+                </li>
+               <li
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  <Link
+                      className=""
+                      to="/Contact&Support"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                        
+                      }}>
+                      <i
+                        style={{ position: "relative", left: "4px", top: "3px" }}
+                        class="fa-solid fa-handshake-angle"></i>{" "}
+                      Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1088,10 +1105,11 @@ const OrderReq = () => {
                                   ))}
                                 </select>
                               </div>
-                              <div className="form-group mb-0 col-3">
+                              <div className="form-group mb-0 col-3 ">
                                 <label htmlFor="">Add Quanitity</label>
                                 <input
-                                  type="number"
+                                  type="tel"
+                                  maxLength={3}
                                   className="form-New-select border "
                                   name="flavourPrice"
                                   value={item?.Quantity || ""}
@@ -1355,6 +1373,7 @@ const OrderReq = () => {
                                     </ul>
                                   </div>
                                 ) : null}
+                                
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
                                     <table className="table mb-0">

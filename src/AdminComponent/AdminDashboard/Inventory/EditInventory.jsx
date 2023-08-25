@@ -487,7 +487,7 @@ const EditInventory = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Gallery Management") ? "" : "d-none"
+                    User?.access?.includes("Gallery") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -507,7 +507,7 @@ const EditInventory = () => {
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Orders Request") ? "" : "d-none"
+                    User?.access?.includes("Orders Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -532,7 +532,23 @@ const EditInventory = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-cog"
                     ></i>{" "}
-                    CMS
+                    Content Management
+                  </Link>
+                </li>
+               <li
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  <Link
+                      className=""
+                      to="/Contact&Support"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                        
+                      }}>
+                      <i
+                        style={{ position: "relative", left: "4px", top: "3px" }}
+                        class="fa-solid fa-handshake-angle"></i>{" "}
+                      Contact & Support
                   </Link>
                 </li>
                 <li>

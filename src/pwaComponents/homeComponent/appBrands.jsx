@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import { getBrands } from "../httpServices/homeHttpService/homeHttpService";
@@ -11,6 +11,7 @@ import { appBrandProd } from "../../atom";
 
 function AppBrands() {
   const [brand, setBrand] = useState([]);
+  let navigate = useNavigate()
   let ref = useRef();
   const setData = useSetRecoilState(appBrandProd);
   const searchKey = useRecoilValue(charSearchKey);
@@ -51,6 +52,7 @@ function AppBrands() {
             </div>
             <div class="page-heading">
               <h6 class="mb-0">Brands</h6>
+              
             </div>
             <div
               class="suha-navbar-toggler ms-2"

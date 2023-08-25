@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import {
   appBrandProd,
@@ -9,6 +9,7 @@ import {
 } from "../../atom";
 
 function AppFooter() {
+  let navigate = useNavigate();
   let token = localStorage.getItem("token-user");
   const setData = useSetRecoilState(appCateProd);
   const setData2 = useSetRecoilState(appSubProd);
@@ -23,15 +24,11 @@ function AppFooter() {
             <ul className="h-100 d-flex align-items-center justify-content-between ps-0 d-flex rtl-flex-d-row-r">
               <li>
                 <Link
-                  to="/app/home"
                   onClick={() => {
-                    setData([{ page: 1, sortBy: 1 }]);
-                    setData2([{ page: 1, sortBy: 1 }]);
-                    setData3([{ page: 1, sortBy: 1 }]);
-                    setData4([{ page: 1, sortBy: 1 }]);
-                  }}
-                >
-                  <i className="fa-solid fa-house"></i>
+                  
+                    navigate(-1);
+                  }}>
+                  <i class="fa-solid fa-arrow-left"></i>
                 </Link>
               </li>
               <li>
@@ -42,8 +39,7 @@ function AppFooter() {
                     setData2([{ page: 1, sortBy: 1 }]);
                     setData3([{ page: 1, sortBy: 1 }]);
                     setData4([{ page: 1, sortBy: 1 }]);
-                  }}
-                >
+                  }}>
                   <i className="fa-solid fa-bag-shopping"></i>
                 </Link>
               </li>
@@ -55,8 +51,7 @@ function AppFooter() {
                     setData2([{ page: 1, sortBy: 1 }]);
                     setData3([{ page: 1, sortBy: 1 }]);
                     setData4([{ page: 1, sortBy: 1 }]);
-                  }}
-                >
+                  }}>
                   <i className="fa-solid fa-gear"></i>
                 </Link>
               </li>

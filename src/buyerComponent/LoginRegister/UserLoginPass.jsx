@@ -9,6 +9,7 @@ import "rsuite/dist/rsuite.min.css";
 import Navbar from "../Homepage/Navbar";
 import { userPassword } from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import Footer from "../Footer/Footer";
 const UserLoginPass = ({ otpEmail }) => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -172,6 +173,7 @@ const UserLoginPass = ({ otpEmail }) => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
