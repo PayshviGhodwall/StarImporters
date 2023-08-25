@@ -116,21 +116,19 @@ const Cms = () => {
     }
   };
 
-  const saveVideo = async (e, id,no) => {
+  const saveVideo = async (e, id, no) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("video",no == 1 ? videoFile?.video1 : videoFile?.video2);
-    formData.append("url");
+    formData.append("video", no == 1 ? videoFile?.video1 : videoFile?.video2);
+    formData.append("url", no == 1 ? urlV1 : urlV2);
     const { data } = await axios.post(editVideo + "/" + id, formData);
-    if(!data.error){
-     window.location.reload(false)
+    if (!data.error) {
+      window.location.reload(false);
       Swal.fire({
-        title: 'Video Updated!',
+        title: "Video Updated!",
         timer: 2000,
-        icon:"success"
-
-      })
-
+        icon: "success",
+      });
     }
   };
 
@@ -776,9 +774,7 @@ const Cms = () => {
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -821,20 +817,19 @@ const Cms = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1428,8 +1423,6 @@ const Cms = () => {
                                           className="form-design row"
                                           action="">
                                           <div className="form-group col-12 ">
-                                           
-
                                             <div className="account_profile position-relative d-inline-block">
                                               <div className="fw-bold">
                                                 <label className="fs-5 fw-bold">
@@ -1438,44 +1431,47 @@ const Cms = () => {
                                                 </label>
                                               </div>
                                               <div className="form-group col-12 choose_file position-relative mt-4">
-                                                <span className="fw-bolder">Change Video </span>
-                                                <label
-                                                  htmlFor="upload_video"
-                                                  >
+                                                <span className="fw-bolder">
+                                                  Change Video{" "}
+                                                </span>
+                                                <label htmlFor="upload_video">
                                                   <i className="fa fa-camera me-1" />
                                                   Choose File
                                                 </label>{" "}
                                                 <input
                                                   type="file"
-                                                  className=
-                                                    "form-control  border border-secondary mx-2"
-                                                    name="video1"
-                                                    accept="video/*"
-                                                    id="vidSlide1"
-                                                    onChange={(e) =>
-                                                      onFileSelectionVideo(
-                                                        e,
-                                                        "video1"
-                                                      )
-                                                    }
+                                                  className="form-control  border border-secondary mx-2"
+                                                  name="video1"
+                                                  accept="video/*"
+                                                  id="vidSlide1"
+                                                  onChange={(e) =>
+                                                    onFileSelectionVideo(
+                                                      e,
+                                                      "video1"
+                                                    )
+                                                  }
                                                 />
                                               </div>
 
                                               <div className="form-group col-12 mb-4">
-                                        <label htmlFor="" className="fw-bold">
-                                          Link/Url
-                                        </label>
-                                        <input
-                                          type="text"
-                                          className="form-control  border border-secondary"
-                                          name="url"
-                                          placeholder="Enter Url"
-                                          defaultValue={videoSlides[0]?.url}
-                                          onChange={(e) => {
-                                            setUrlV1(e.target.value);
-                                          }}
-                                        />
-                                      </div>
+                                                <label
+                                                  htmlFor=""
+                                                  className="fw-bold">
+                                                  Link/Url
+                                                </label>
+                                                <input
+                                                  type="text"
+                                                  className="form-control  border border-secondary"
+                                                  name="url"
+                                                  placeholder="Enter Url"
+                                                  defaultValue={
+                                                    videoSlides[0]?.url
+                                                  }
+                                                  onChange={(e) => {
+                                                    setUrlV1(e.target.value);
+                                                  }}
+                                                />
+                                              </div>
                                             </div>
                                           </div>
 
@@ -1485,7 +1481,8 @@ const Cms = () => {
                                               onClick={(e) =>
                                                 saveVideo(
                                                   e,
-                                                  videoSlides[0]?._id,1
+                                                  videoSlides[0]?._id,
+                                                  1
                                                 )
                                               }>
                                               Save
@@ -1516,44 +1513,47 @@ const Cms = () => {
                                                 </label>
                                               </div>
                                               <div className="form-group col-12 choose_file position-relative mt-4">
-                                                <span className="fw-bolder">Change Video </span>
-                                                <label
-                                                  htmlFor="upload_video"
-                                                  >
+                                                <span className="fw-bolder">
+                                                  Change Video{" "}
+                                                </span>
+                                                <label htmlFor="upload_video">
                                                   <i className="fa fa-camera me-1 mx-2" />
                                                   Choose File
                                                 </label>
                                                 <input
                                                   type="file"
-                                                  className=
-                                                    "form-control  border border-secondary mx-2"
-                                                    name="video1"
-                                                    accept="video/*"
-                                                    id="vidSlide2"
-                                                    onChange={(e) =>
-                                                      onFileSelectionVideo(
-                                                        e,
-                                                        "video2"
-                                                      )
-                                                    }
+                                                  className="form-control  border border-secondary mx-2"
+                                                  name="video1"
+                                                  accept="video/*"
+                                                  id="vidSlide2"
+                                                  onChange={(e) =>
+                                                    onFileSelectionVideo(
+                                                      e,
+                                                      "video2"
+                                                    )
+                                                  }
                                                 />
                                               </div>
                                             </div>
                                             <div className="form-group col-12 mb-4">
-                                        <label htmlFor="" className="fw-bold">
-                                          Link/Url
-                                        </label>
-                                        <input
-                                          type="text"
-                                          className="form-control  border border-secondary"
-                                          name="url"
-                                          placeholder="Enter Url"
-                                          defaultValue={videoSlides[1]?.url}
-                                          onChange={(e) => {
-                                            setUrlV2(e.target.value);
-                                          }}
-                                        />
-                                      </div>
+                                              <label
+                                                htmlFor=""
+                                                className="fw-bold">
+                                                Link/Url
+                                              </label>
+                                              <input
+                                                type="text"
+                                                className="form-control  border border-secondary"
+                                                name="url"
+                                                placeholder="Enter Url"
+                                                defaultValue={
+                                                  videoSlides[1]?.url
+                                                }
+                                                onChange={(e) => {
+                                                  setUrlV2(e.target.value);
+                                                }}
+                                              />
+                                            </div>
                                           </div>
 
                                           <div className="form-group col-12 text-start">
@@ -1562,7 +1562,8 @@ const Cms = () => {
                                               onClick={(e) =>
                                                 saveVideo(
                                                   e,
-                                                  videoSlides[1]?._id,2
+                                                  videoSlides[1]?._id,
+                                                  2
                                                 )
                                               }>
                                               Save
@@ -2740,4 +2741,4 @@ const Cms = () => {
   );
 };
 
-export default Cms
+export default Cms;

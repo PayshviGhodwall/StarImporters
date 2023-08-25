@@ -237,7 +237,13 @@ const Homepage = () => {
               </div>
             </div>
 
-            <div className="banner_section item">
+            <div
+              className="banner_section item"
+              onClick={() => {
+                window.location.href = videos[0]?.url
+                  ? videos[0]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
               <video
                 id="frameOne"
                 className="main_video bg-dark"
@@ -249,7 +255,13 @@ const Homepage = () => {
               </video>
             </div>
 
-            <div className="banner_section item">
+            <div
+              className="banner_section item"
+              onClick={() => {
+                window.location.href = videos[1]?.url
+                  ? videos[1]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
               <video
                 id="frameTwo"
                 className="main_video bg-dark"
@@ -593,33 +605,6 @@ const Homepage = () => {
                                 </span>
                               </div>
                             </div>
-                            {/* <a className="featuredproduct_box p-2">
-                              <div className="featuredproduct_img ">
-                                <img
-                                  src={
-                                    item?.productImage
-                                      ? item?.productImage
-                                      : require("../../assets/img/product.jpg")
-                                  }
-                                  alt="Product"
-                                />
-                              </div>
-                              <div className="featuredproduct_details p-2">
-                                <span
-                                  onClick={() =>
-                                    navigate(
-                                      `/AllProducts/Product/Product-Details`,
-                                      {
-                                        state: {
-                                          id: item?._id,
-                                        },
-                                      }
-                                    )
-                                  }>
-                                  {item?.unitName}
-                                </span>
-                              </div>
-                            </a> */}
                           </div>
                         </div>
                       </SwiperSlide>
