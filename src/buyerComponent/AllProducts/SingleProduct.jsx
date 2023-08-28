@@ -586,14 +586,24 @@ const SingleProduct = () => {
                               : "col-12 offers_head "
                           }>
                           <div className="prdct---falvor">
-                            Flavour:{" "}
+                            Flavour :{" "}
                             <a
                               href="javascript:;"
-                              className="text-decoration-none">
+                              className="text-decoration-none fw-bolder">
                               {" "}
                               {errMsg ? errMsg : flavour?.flavour}
                             </a>
                           </div>
+                          {flavour?.caseQty && (
+                            <div className="prdct---falvor mt-2">
+                              Case Size :
+                              <a
+                                href="javascript:;"
+                                className="text-decoration-none fw-bolder mx-1">
+                                {flavour?.caseQty}
+                              </a>
+                            </div>
+                          )}
                         </div>
                         {flavour ? (
                           <div className="col-12">

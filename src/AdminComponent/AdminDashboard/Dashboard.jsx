@@ -101,6 +101,7 @@ const Dashboard = () => {
         setOrders(res?.data.results?.orders);
       });
   };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -122,8 +123,7 @@ const Dashboard = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className="bg-white"
                     to="/AdminDashboard"
@@ -131,32 +131,27 @@ const Dashboard = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -165,17 +160,14 @@ const Dashboard = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -184,114 +176,91 @@ const Dashboard = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
-                
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -299,29 +268,26 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -329,12 +295,10 @@ const Dashboard = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -349,12 +313,10 @@ const Dashboard = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"
-                    ></i>{" "}
+                      className="fa fa-home"></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -362,12 +324,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"
-                    ></i>{" "}
+                      class="fa fa-user"></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -375,12 +335,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -391,12 +349,10 @@ const Dashboard = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"
-                    ></i>{" "}
+                      class="far fa-building"></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -404,12 +360,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"
-                    ></i>{" "}
+                      class="fa fa-ship"></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -420,28 +374,24 @@ const Dashboard = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
-                     <li>
+                <li>
                   <Link
                     className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -452,12 +402,10 @@ const Dashboard = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
+                      class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -465,12 +413,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
+                      class="fa fa-layer-group"></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -478,12 +424,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"
-                    ></i>{" "}
+                      class="fa fa-cog"></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -491,12 +435,10 @@ const Dashboard = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"
-                    ></i>{" "}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -505,12 +447,10 @@ const Dashboard = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
+                    style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"
-                    ></i>
+                      class="fa fa-sign-out-alt"></i>
                     Logout
                   </Link>
                 </li>
@@ -530,12 +470,10 @@ const Dashboard = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "4px" }}
-                      className="fa fa-bars"
-                    ></i>
+                      className="fa fa-bars"></i>
                   </h1>
                 </div>
               ) : (
@@ -545,8 +483,7 @@ const Dashboard = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}
-                    >
+                      }}>
                       X
                     </button>
                   </h3>
@@ -565,8 +502,7 @@ const Dashboard = () => {
                 <div className="col d-flex align-items-stretch">
                   <a
                     href="javascript:;"
-                    className="row dashboard_box box_design me-3 w-100 text-decoration-none"
-                  >
+                    className="row dashboard_box box_design me-3 w-100 text-decoration-none">
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i className="fas fa-user" />
@@ -641,8 +577,7 @@ const Dashboard = () => {
                         <div
                           className="nav nav-tabs"
                           id="nav-tab"
-                          role="tablist"
-                        >
+                          role="tablist">
                           <button
                             className="nav-link active"
                             id="nav-home-tab"
@@ -653,8 +588,7 @@ const Dashboard = () => {
                             aria-controls="nav-home"
                             aria-selected="true"
                             style={{ width: "50%" }}
-                            onClick={() => setSearchType()}
-                          >
+                            onClick={() => setSearchType()}>
                             Orders
                             <span className="circle_count">
                               {orders?.length}
@@ -670,8 +604,7 @@ const Dashboard = () => {
                             aria-controls="nav-profile"
                             aria-selected="false"
                             style={{ width: "50%" }}
-                            onClick={() => setSearchType("req")}
-                          >
+                            onClick={() => setSearchType("req")}>
                             Quotations
                             <span className="circle_count">
                               {quotes?.length}
@@ -684,8 +617,7 @@ const Dashboard = () => {
                           className="tab-pane fade show active"
                           id="nav-home"
                           role="tabpanel"
-                          aria-labelledby="nav-home-tab"
-                        >
+                          aria-labelledby="nav-home-tab">
                           <div className="row mx-0">
                             <div className="col-12">
                               <div className="row">
@@ -694,12 +626,13 @@ const Dashboard = () => {
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
-                                          style={{ backgroundColor: "#f2f2f2" }}
-                                        >
-                                          <th>S.No.</th>
-                                          <th>User Name</th>
-                                          <th>Mobile Number</th>
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
                                           <th>Order Date</th>
+                                          <th>Company Name</th>
+                                          <th>Mobile Number</th>
+                                          <th>Email</th>
                                           <th>Order ID</th>
                                           <th>Action</th>
                                         </tr>
@@ -707,20 +640,24 @@ const Dashboard = () => {
                                       <tbody>
                                         {(orders || [])?.map((item, index) => (
                                           <tr key={index}>
-                                            <td>{index + 1}</td>
                                             <td>
-                                              {item?.userId?.firstName ||
-                                                item?.users?.firstName}
+                                              {moment(item?.createdAt).format(
+                                                "MM/DD/YYYY"
+                                              )}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.companyName ||
+                                                item?.users?.companyName}
                                             </td>
                                             <td>
                                               {item?.userId?.phoneNumber ||
                                                 item?.users?.phoneNumber}
                                             </td>
                                             <td>
-                                              {moment(item?.createdAt).format(
-                                                "MM/DD/YYYY"
-                                              )}
+                                              {item?.userId?.email ||
+                                                item?.users?.email}
                                             </td>
+
                                             <td>{item?.orderId}</td>
                                             <td>
                                               <button
@@ -734,8 +671,7 @@ const Dashboard = () => {
                                                       },
                                                     }
                                                   );
-                                                }}
-                                              >
+                                                }}>
                                                 View
                                               </button>
                                             </td>
@@ -753,8 +689,7 @@ const Dashboard = () => {
                           className="tab-pane fade"
                           id="nav-profile"
                           role="tabpanel"
-                          aria-labelledby="nav-profile-tab"
-                        >
+                          aria-labelledby="nav-profile-tab">
                           <div className="row mx-0">
                             <div className="col-12">
                               <div className="row">
@@ -763,8 +698,9 @@ const Dashboard = () => {
                                     <table className="table mb-0">
                                       <thead>
                                         <tr
-                                          style={{ backgroundColor: "#f2f2f2" }}
-                                        >
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
                                           <th>S.No.</th>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
@@ -803,8 +739,7 @@ const Dashboard = () => {
                                                       },
                                                     }
                                                   );
-                                                }}
-                                              >
+                                                }}>
                                                 View
                                               </button>
                                             </td>

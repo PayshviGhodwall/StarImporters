@@ -327,9 +327,22 @@ function AppProductDetail() {
             <div className="selection-panel bg-white mb-3 py-3">
               <div className="container">
                 <div className="choose-color-wrapper">
-                  <p className="mb-1 font-weight-bold">
-                    Flavor: {flavour?.flavour}
+                  <p className="mb-1 fw-bold">
+                    Flavor:{" "}
+                    <span className="text-primary  fw-normal">
+                      {flavour?.flavour ? flavour?.flavour : ""}
+                    </span>
                   </p>
+                  {flavour?.caseQty && (
+                    <div className="choose-color-wrapper">
+                      <p className="mb-1 fw-bold">
+                        Case Size :
+                        <span className="text-primary fw-normal">
+                         {" "} {flavour?.caseQty ? flavour?.caseQty : ""}
+                        </span>
+                      </p>
+                    </div>
+                  )}
                   <div className="row ">
                     <ScrollContainer className="flavour_box">
                       {productDetail?.type

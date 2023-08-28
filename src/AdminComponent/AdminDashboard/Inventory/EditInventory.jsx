@@ -128,12 +128,14 @@ const EditInventory = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
+
   const removeTag = (ind, i) => {
     console.log(ind, i);
     let newForm = { ...formValues };
     newForm[i]?.barcode.splice(ind, 1);
     setChange(!change);
   };
+
   const onSubmit = async (data) => {
     await axios
       .post(EditProduct + "/" + id, {
@@ -198,22 +200,6 @@ const EditInventory = () => {
       });
   };
 
-  // function handleKeyDown(i, e) {
-  //   // If user did not press enter key, return
-  //   if (e.key !== "Enter") return;
-  //   // Get the value of the input
-  //   const value = e.target.value;
-  //   // If the value is empty, return
-  //   if (!value.trim()) return;
-  //   // Add the value to the tags array
-  //   setBarcodes([...barcodes, value.replace(/(\r\n|\n|\r)/gm, "")]);
-  //   let newFormValues = { ...formValues };
-  //   newFormValues[i][e.target.name] = [
-  //     ...(formValues[i]?.barcode || []),
-  //     value.replace(/(\r\n|\n|\r)/gm, ""),
-  //   ];
-  //   e.target.value = "";
-  // }
 
   const flavourImageSelection = (e, index) => {
     const formData = new FormData();
@@ -287,6 +273,7 @@ const EditInventory = () => {
       },
     ]);
   };
+
   const deleteImage = async () => {
     await axios
       .post(deleteImg + "/" + id, {
@@ -296,6 +283,7 @@ const EditInventory = () => {
         GetProducts();
       });
   };
+
   const deleteFlavourImage = async (flavourId) => {
     await axios
       .post(deleteImg + "/" + id, {
@@ -327,6 +315,7 @@ const EditInventory = () => {
       });
     }
   };
+  
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -953,9 +942,9 @@ const EditInventory = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    name="size"
-                                    placeholder="Enter size"
-                                    defaultValue={item?.size}
+                                    name="caseQty"
+                                    placeholder="Enter case size"
+                                    defaultValue={item?.caseQty}
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>

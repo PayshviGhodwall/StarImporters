@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
+import axios from "axios";
 
 const Address = () => {
   const [users, setUsers] = useState();
+  const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("UserData"));
-    setUsers(data);
+    
+    getUser()
   }, []);
+
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      console.log(res);
+      setUsers(res?.data.results);
+    });
+  };
 
   return (
     <div className="main_myaccount">
@@ -21,11 +30,11 @@ const Address = () => {
               <p>
                 {" "}
                 {users?.addressLine1 +
-                  " " +
+                  "," +
                   users?.addressLine2 +
-                  " " +
+                  "," +
                   users?.city +
-                  " " +
+                  "," +
                   users?.state +
                   "-" +
                   users?.zipcode}

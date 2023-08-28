@@ -65,8 +65,8 @@ const Inventory = () => {
       flavour: [],
       flavourImage: [],
       barcode: [],
-      size: [],
       description: [],
+      caseQty: "",
     },
   ]);
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -248,7 +248,7 @@ const Inventory = () => {
           confirmButtonText: "ok",
         });
       }
-      e.target.value = null;
+      // e.target.value = null;
       let data = res.data?.results;
       let newFormValues = [...formValues];
       newFormValues[index][e.target.name] = data?.flavourImage;
@@ -278,7 +278,14 @@ const Inventory = () => {
         }
         if (res?.data.message === "Product Added Successfully") {
           setLoader(false);
-          window.location.reload(false);
+          Swal.fire({
+            title: "Product is added in Inventory!",
+            icon: "success",
+            confirmButtonText: "okay",
+            timer: 2000,
+          }).then(() => {
+            window.location.reload(false);
+          });
           scrollBy(500, 0);
         }
         if (res?.data.message === "Product is already in added") {
@@ -503,21 +510,7 @@ const Inventory = () => {
       }
     });
   };
-  // const OnSearching = async () => {
-  //   await axios.post(getProducts).then((res) => {
-  //     let data = res?.data.results;
-  //     let filter = data.filter((User) => {
-  //       if (searchTerm == "") {
-  //         return User;
-  //       } else if (
-  //         User?.unitName.toLowerCase().includes(searchTerm?.toLowerCase())
-  //       ) {
-  //         return User;
-  //       }
-  //     });
-  //     setAllProducts(filter);
-  //   });
-  // };
+
   const handleClickSelect = (e, productId, i) => {
     const { id, checked } = e.target;
     console.log(id, checked);
@@ -675,9 +668,7 @@ const Inventory = () => {
 
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -719,20 +710,19 @@ const Inventory = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1014,7 +1004,7 @@ const Inventory = () => {
                           { "is-invalid": errors.caseSize }
                         )}
                         name="caseSize"
-                        placeholder="Enter Product Name"
+                        placeholder="Enter Case Size"
                         {...register("caseSize", {
                           required: "Enter Case Size",
                         })}
@@ -1141,9 +1131,9 @@ const Inventory = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    name="size"
-                                    placeholder="Enter Size"
-                                    value={element.size || ""}
+                                    name="caseQty"
+                                    placeholder="Enter case size"
+                                    value={element.caseQty || ""}
                                     onChange={(e) => handleChange(index, e)}
                                   />
                                 </div>

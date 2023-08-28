@@ -216,10 +216,10 @@ function AppCheckout() {
                             <label for="normalShipping">
                               <strong>DELIVERY-</strong>
                               {users?.cityAndState?.day?.length ? (
-                                <>
-                                  (Your schedule delivery date is{" "}
-                                  {users?.cityAndState?.day}.)
-                                </>
+                                 <>
+                                 (Your schedule delivery days{":"}
+                                 {users?.cityAndState?.day.map((item)=>item + ",")})
+                               </>
                               ) : (
                                 <>
                                   (Unfortunately we dont deliver to this

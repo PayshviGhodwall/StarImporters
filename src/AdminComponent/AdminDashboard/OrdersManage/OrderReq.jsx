@@ -339,7 +339,11 @@ const OrderReq = () => {
         status: type,
       })
       .then((res) => {
-        setOrders(res?.data.results?.orders);
+        
+        type === "All" && setOrders(res?.data.results.orders);
+              type === "Completed" && setCompOrders(res?.data.results.orders);
+              type === "Cancelled" &&
+                setCancelledOrders(res?.data.results.orders);
       });
   };
 
@@ -410,9 +414,10 @@ const OrderReq = () => {
       .post(quoteList, {
         from: values.from,
         to: values.to,
+        page:1
       })
       .then((res) => {
-        setQuoteReq(res?.data.results);
+        setQuoteReq(res?.data.results.quotation);
       });
   };
   const exportOrder = async (e) => {
@@ -2061,7 +2066,7 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={() => onQuoteSearch()}>
+                                    onClick={(e) => onQuoteSearch(e,"Pending")}>
                                     Search
                                   </button>
                                 </div>
