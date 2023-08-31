@@ -850,7 +850,7 @@ const EditOrder = () => {
                 </div>
 
                 <div className="form-group col-6 ">
-                  <label htmlFor="">Product Name </label>
+                  <label htmlFor="">Product Quantity </label>
 
                   <InputNumber
                     min={1}

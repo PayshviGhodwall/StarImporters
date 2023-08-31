@@ -72,6 +72,10 @@ const SingleProduct = () => {
     }, 5000);
   }, []);
 
+  if (flavour !== location?.state?.type) {
+    setFlavour(location?.state?.type);
+  }
+
   const NewProducts = async () => {
     console.log(id?.slice(0, 1));
     await axios.get(getProduct + "/" + id.slice(1)).then((res) => {
@@ -312,6 +316,7 @@ const SingleProduct = () => {
     setFlavour(image);
     setUnitCount(1);
   };
+
   const onHoverMain = (image) => {
     document.getElementById("productMainImg").src = image
       ? image
@@ -594,16 +599,7 @@ const SingleProduct = () => {
                               {errMsg ? errMsg : flavour?.flavour}
                             </a>
                           </div>
-                          {flavour?.caseQty && (
-                            <div className="prdct---falvor mt-2">
-                              Case Size :
-                              <a
-                                href="javascript:;"
-                                className="text-decoration-none fw-bolder mx-1">
-                                {flavour?.caseQty}
-                              </a>
-                            </div>
-                          )}
+                          
                         </div>
                         {flavour ? (
                           <div className="col-12">

@@ -704,6 +704,7 @@ const Dashboard = () => {
                                           <th>S.No.</th>
                                           <th>User Name</th>
                                           <th>Mobile Number</th>
+                                          <th>Email</th>
                                           <th>Quote Date</th>
                                           <th>Quote ID</th>
                                           <th>Action</th>
@@ -714,12 +715,16 @@ const Dashboard = () => {
                                           <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>
-                                              {item?.userId?.firstName ||
-                                                item?.users?.firstName}
+                                              {item?.userId?.companyName ||
+                                                item?.users?.companyName}
                                             </td>
                                             <td>
                                               {item?.userId?.phoneNumber ||
                                                 item?.users?.phoneNumber}
+                                            </td>
+                                            <td>
+                                              {item?.userId?.email ||
+                                                item?.users?.email}
                                             </td>
                                             <td>
                                               {moment(item?.createdAt).format(

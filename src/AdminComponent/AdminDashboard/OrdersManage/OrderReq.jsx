@@ -49,7 +49,6 @@ const Option = (props) => {
 };
 
 const OrderReq = () => {
-
   const orderList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderList`;
   const quoteList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/getAllQuotations`;
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
@@ -339,12 +338,11 @@ const OrderReq = () => {
         status: type,
       })
       .then((res) => {
-        
         type === "All" && setOrders(res?.data.results.orders);
-              type === "Completed" && setCompOrders(res?.data.results.orders);
-              type === "Cancelled" &&
-                setCancelledOrders(res?.data.results.orders);
+        type === "Completed" && setCompOrders(res?.data.results.orders);
+        type === "Cancelled" && setCancelledOrders(res?.data.results.orders);
       });
+    setValues();
   };
 
   const AddOrder = async (e) => {
@@ -414,7 +412,7 @@ const OrderReq = () => {
       .post(quoteList, {
         from: values.from,
         to: values.to,
-        page:1
+        page: 1,
       })
       .then((res) => {
         setQuoteReq(res?.data.results.quotation);
@@ -710,9 +708,7 @@ const OrderReq = () => {
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -755,20 +751,19 @@ const OrderReq = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -1378,7 +1373,7 @@ const OrderReq = () => {
                                     </ul>
                                   </div>
                                 ) : null}
-                                
+
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
                                     <table className="table mb-0">
@@ -2066,7 +2061,9 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={(e) => onQuoteSearch(e,"Pending")}>
+                                    onClick={(e) =>
+                                      onQuoteSearch(e, "Pending")
+                                    }>
                                     Search
                                   </button>
                                 </div>

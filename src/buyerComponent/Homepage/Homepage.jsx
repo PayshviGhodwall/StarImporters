@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/grid";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
+import Countdown from "react-countdown";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
@@ -28,9 +29,11 @@ import {
   pageSubCategoryData,
 } from "../../atom";
 import { height } from "@mui/system";
+import Swal from "sweetalert2";
 
 const Homepage = () => {
   const width = window.innerWidth;
+  const [NState, setNState] = useState(false);
   const [allSlides, setAllSlides] = useState([]);
   const [allHeaders, setAllHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,8 +43,11 @@ const Homepage = () => {
   const brandApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const allProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/products/getAllProducts`;
   const getVideoSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getVideoSlides`;
+  const getPromotionProd = `${process.env.REACT_APP_APIENDPOINTNEW}user/getPromotion`;
+  const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
+  const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
+  const rmvFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/removeFav`;
   const [videos, setVideos] = useState([]);
-  const [featured, setFeatured] = useState([]);
   const [category, setCategory] = useState([]);
   const [brands, setBrands] = useState([]);
   const setPage = useSetRecoilState(pageCategory);
@@ -56,6 +62,23 @@ const Homepage = () => {
     localStorage.getItem("token-user");
   let token = localStorage.getItem("token-user");
   let NewUser = sessionStorage.getItem("new");
+  const [hotSell, setHotSell] = useState([]);
+  const [featured, setFeatured] = useState([]);
+  const [closeOut, setCloseOut] = useState([]);
+  const [change, setChange] = useState(false);
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    return (
+      <div class="">
+        <div class="">
+          <span class="time_main">{days}d:</span>
+          <span class="time_main">{hours}hr:</span>
+          <span class="time_main">{minutes}m:</span>
+          <span class="time_main">{seconds}s</span>
+        </div>
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (!token) {
@@ -66,10 +89,12 @@ const Homepage = () => {
       }
     }
     getSlides();
+    getPromotions();
+    getPromotionsClose();
+    getPromotionsFeatured();
     getCategory();
     getHeaders();
     getBrands();
-    AllProducts();
     setPage(1);
     setPage2(1);
     setPage3(1);
@@ -81,20 +106,70 @@ const Homepage = () => {
     }, 8000);
   }, []);
 
-  let image = require("../../assets/img/banner_2.png");
-
-  const AllProducts = async () => {
+  const addToFav = async (id, flavour) => {
     await axios
-      .post(allProd, {
-        page: activePage,
+      .post(addFav, {
+        productId: id,
+        flavour: flavour,
       })
       .then((res) => {
-        console.log(res);
-        if (!res.data.error) {
-          setFeatured(res?.data.results.products);
-          setLoading(false);
+        if (!res.error) {
+          setChange(!change);
+          Swal.fire({
+            title: "Product Added to Wishlist.",
+            icon: "success",
+            text: "You can see your favorite products on My Wishlist.",
+            confirmButtonText: "Okay",
+            timer: 2000,
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Please Login To Continue!",
+            icon: "warning",
+            button: "cool",
+          }).then(() => navigate("/app/login"));
         }
       });
+  };
+
+  let image = require("../../assets/img/banner_2.png");
+
+  const AddtoCart = async (id, flavour) => {
+    const { data } = await axios.post(addCart, {
+      productId: id,
+      quantity: 1,
+      flavour: flavour,
+    });
+    console.log(data);
+
+    if (!data.error) {
+      setNState(!NState);
+      Swal.fire({
+        title: "Product Added to Cart",
+        icon: "success",
+        showCloseButton: true,
+        showCancelButton: true,
+        timer: 1000,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+        confirmButtonAriaLabel: "Thumbs up, Okay!",
+        cancelButtonText: "Close",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/app/cart", { state: "jii" });
+        }
+      });
+    }
+    if (data.error) {
+      Swal.fire({
+        title: data?.message,
+        icon: "error",
+        showConfirmButton: "okay",
+      });
+    }
   };
 
   const VideoSlidesGet = async () => {
@@ -118,6 +193,34 @@ const Homepage = () => {
         background = `url(${image?.bottomImage})`;
       }
     });
+  };
+
+  const getPromotions = async () => {
+    const { data } = await axios.post(getPromotionProd, {
+      type: "HotSelling",
+    });
+
+    if (!data.error) {
+      setHotSell(data?.results.promotion?.products);
+    }
+  };
+  const getPromotionsFeatured = async () => {
+    const { data } = await axios.post(getPromotionProd, {
+      type: "Featured",
+    });
+
+    if (!data.error) {
+      setFeatured(data?.results.promotion?.products);
+    }
+  };
+  const getPromotionsClose = async () => {
+    const { data } = await axios.post(getPromotionProd, {
+      type: "CloseOut",
+    });
+
+    if (!data.error) {
+      setCloseOut(data?.results.promotion?.products);
+    }
   };
 
   const getHeaders = async () => {
@@ -166,7 +269,7 @@ const Homepage = () => {
 
   return (
     <div className="home_page">
-      <Navbar />
+      <Navbar NState={NState} />
       {loading ? (
         <div className="load_position">
           <div className="loader_new"></div>
@@ -476,80 +579,202 @@ const Homepage = () => {
               </div>
             </div>
           </OwlCarousel>
-          <section className="category_newdesign">
-            <div className="container">
-              <div className="row newdesign_main bg-white">
-                <a
-                  className="view_all"
-                  onClick={() => navigate("/app/Categories", { state: "hii" })}>
-                  View All
-                </a>
-                <div className="col-12 mb-3">
-                  <div className="comn_heads mb-5">
-                    <h2
-                      dangerouslySetInnerHTML={createMarkup(
-                        allHeaders?.categoryTitle
-                      )}></h2>
-                  </div>
-                </div>
-                <Swiper
-                  slidesPerView={4}
-                  spaceBetween={30}
-                  navigation={true}
-                  autoplay={true}
-                  loop={true}
-                  modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                  className="mySwiper px-4 py-2">
-                  {(category || [])?.map((item, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="col-12 px-4">
-                        <div className="categorynew_slider sliderbtns_design">
-                          <a className="categorynew_box">
-                            <div className="categorynew_img p-2">
-                              <Link
-                                to={`/Category/${item?.slug}`}
-                                state={{
-                                  name: item?.categoryName,
-                                  image: item?.background,
-                                }}>
-                                <img
-                                  src={item?.categoryImage}
-                                  className=""
-                                  alt="lorem"
-                                />
-                              </Link>
-                            </div>
-                            <span> {item?.categoryName}</span>
-                          </a>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-          </section>
 
-          <section className="featuredproduct">
-            <div className="container">
+          <section className="p-4 container">
+            <div className=" ">
               <div className="row featuredproduct_slider">
-                <a
-                  className="view_all"
-                  onClick={() =>
-                    navigate("/app/featured-products", { state: "hii" })
-                  }>
-                  View All
-                </a>
-                <div className="col-12 mb-3">
+                <div className="col-12 mb-2 mt-4">
                   <div className="comn_heads mb-5">
-                    <h2
-                      dangerouslySetInnerHTML={createMarkup(
-                        allHeaders?.featuredTitle
-                      )}></h2>
+                    <h2>Hot selling products</h2>
+                    <a
+                      className="view_all "
+                      onClick={() =>
+                        navigate("/app/HotSelling-products", { state: "hii" })
+                      }>
+                      View All{" "}
+                      <img
+                        class="ms-2"
+                        src={require("../../assets/img/arrow_colr.png")}
+                        alt=""></img>
+                    </a>
                   </div>
                 </div>
                 <div className="">
                   <Swiper
+                    slidesPerView={width <= 1400 ? 3 : 4}
+                    spaceBetween={30}
+                    navigation={true}
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: true,
+                      reverseDirection: true,
+                      waitForTransition: true,
+                    }}
+                    loop={true}
+                    style={{ padding: "30px" }}
+                    modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                    className="mySwiper pt-5">
+                    {(hotSell || [])?.map((item, index) => (
+                      <SwiperSlide key={index} className="px-3 main_hot">
+                        <div className="col-md-12 col-lg-12 px-2">
+                          <div className="card_hot shadow">
+                            <span className="offer">Hot Deal</span>{" "}
+                            <div
+                              className="item-image p-4 mt-2 pt-5"
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/:${item?.productId?.slug}`,
+                                  {
+                                    state: {
+                                      type: item?.productId?.type,
+                                    },
+                                  }
+                                );
+                              }}>
+                              <img
+                                src={
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                              />{" "}
+                            </div>
+                            <div className="item-content text-center mt-2">
+                              <h3>
+                                {" "}
+                                {item?.productId?.unitName} -{" "}
+                                <strong className="fs-6">
+                                  {item?.productId?.type?.flavour?.slice(0, 30)}
+                                  ..
+                                </strong>
+                              </h3>{" "}
+                              <p> {item?.productId?.description}</p>{" "}
+                            </div>
+                          </div>
+                          <div className="product-action">
+                            {" "}
+                            <div className="product-action-style">
+                              {" "}
+                              <a
+                                onClick={() =>
+                                  navigate(
+                                    `/AllProducts/Product/:${item?.productId?.slug}`,
+                                    {
+                                      state: {
+                                        type: item?.productId?.type,
+                                      },
+                                    }
+                                  )
+                                }>
+                                {" "}
+                                <i className="fas fa-eye" />
+                              </a>{" "}
+                              <a
+                                onClick={() => {
+                                  addToFav(
+                                    item?.productId?._id,
+                                    item?.productId?.type
+                                  );
+                                }}>
+                                <i className="fas fa-heart" />
+                              </a>
+                              <a
+                                onClick={() => {
+                                  AddtoCart(
+                                    item?.productId?._id,
+                                    item?.productId?.type
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-shopping-cart" />
+                              </a>{" "}
+                            </div>{" "}
+                          </div>
+                        </div>
+
+                        {/* <div className="col-12">
+                          <div className="categorynew_slider sliderbtns_design">
+                            <div class="Fcard shadow">
+                              <div class="imgBox">
+                                <img
+                                  className="mt-5 main_image"
+                                  src={
+                                    item?.productImage
+                                      ? item?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  style={{
+                                    width: "10rem",
+                                    borderRadius: "2rem",
+                                    height: "7.5rem",
+                                  }}
+                                />
+                              </div>
+
+                              <div class="contentBox">
+                                <a
+                                  class="buy"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/:${item?.slug}`,
+                                      {
+                                        state: "jkkj",
+                                      }
+                                    )
+                                  }>
+                                  Buy Now
+                                </a>
+                              </div>
+                              <div className="text-center">
+                                <span
+                                  className="mt-5 title_prod"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/:${item?.slug}`
+                                    )
+                                  }>
+                                  {item?.unitName}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div> */}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="featuredproduct shadow bg-light">
+            <div className="container">
+              <div className="row featuredproduct_slider">
+                <a
+                  className="view_all "
+                  onClick={() =>
+                    navigate("/app/featured-products", { state: "hii" })
+                  }>
+                  View All{" "}
+                  <img
+                    style={{
+                      height: "21px",
+                    }}
+                    class="ms-2"
+                    src={require("../../assets/img/arrow_colr.png")}
+                    alt=""></img>
+                </a>
+                <div className="col-12 mb-3">
+                  <div className="comn_heads mb-5">
+                    {/* <h2
+                      dangerouslySetInnerHTML={createMarkup(
+                        allHeaders?.featuredTitle
+                      )}></h2> */}
+                    <h2>Featured Products</h2>
+                  </div>
+                </div>
+                <div className="row">
+                  {/* <Swiper
                     slidesPerView={width <= 1400 ? 3 : 4}
                     spaceBetween={30}
                     navigation={true}
@@ -609,6 +834,340 @@ const Homepage = () => {
                         </div>
                       </SwiperSlide>
                     ))}
+                  </Swiper> */}
+                  {(featured || [])
+                    ?.filter((itm, idx) => idx < 8)
+                    .map((item, index) => (
+                      <div className="col-md-3 col-sm-6 mb-3">
+                        <div className="product-grid ">
+                          <div
+                            className="product-image
+                          ">
+                            <a
+                              className="image
+                            
+                            "
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/:${item?.productId?.slug}`,
+                                  {
+                                    state: {
+                                      type: item?.productId?.type,
+                                    },
+                                  }
+                                );
+                              }}>
+                              <img
+                                className="pic-1"
+                                src={
+                                  item?.productId?.productImage
+                                    ? item?.productId?.productImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                              />
+                              <img
+                                className="pic-2"
+                                src={
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                              />
+                            </a>
+                            <span className="product-hot-label">hot</span>
+                            <ul className="product-links">
+                              <li>
+                                <a
+                                  data-tip="Add to Wishlist"
+                                  onClick={() => {
+                                    addToFav(
+                                      item?.productId?._id,
+                                      item?.productId?.type
+                                    );
+                                  }}>
+                                  <i className="far fa-heart" />
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  data-tip="Add to Cart"
+                                  onClick={() => {
+                                    AddtoCart(
+                                      item?.productId?._id,
+                                      item?.productId?.type
+                                    );
+                                  }}>
+                                  {" "}
+                                  <i className="fas fa-shopping-cart" />
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  data-tip="Quick View"
+                                  onClick={() => {
+                                    navigate(
+                                      `/AllProducts/Product/:${item?.productId?.slug}`,
+                                      {
+                                        state: {
+                                          type: item?.productId?.type,
+                                        },
+                                      }
+                                    );
+                                  }}>
+                                  <i className="fa fa-search" />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="product-content ">
+                            <a
+                              className="add-to-cart text-decoration-none"
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/:${item?.productId?.slug}`,
+                                  {
+                                    state: {
+                                      type: item?.productId?.type,
+                                    },
+                                  }
+                                );
+                              }}>
+                              <strong className="fs-6">
+                                {item?.productId?.type?.flavour}
+                                ..
+                              </strong>
+                            </a>
+                            <h3 className="title ">
+                              <a className="text-decoration-none">
+                                {item?.productId?.unitName}
+                              </a>
+                            </h3>
+                          </div>
+                        </div>
+                      </div>
+
+                      // <div className="col-3 mb-4">
+                      //   <div className="categorynew_slider sliderbtns_design">
+                      //     <div class="Fcard shadow">
+                      //       <div class="imgBox">
+                      //         <img
+                      //           className="mt-5 main_image"
+                      //           src={
+                      //             item?.productImage
+                      //               ? item?.productImage
+                      //               : require("../../assets/img/product.jpg")
+                      //           }
+                      //           style={{
+                      //             width: "10rem",
+                      //             height: "8rem",
+                      //           }}
+                      //         />
+                      //       </div>
+
+                      //       <div class="contentBox">
+                      //         <a
+                      //           class="buy"
+                      //           onClick={() =>
+                      //             navigate(
+                      //               `/AllProducts/Product/:${item?.slug}`,
+                      //               {
+                      //                 state: "jkkj",
+                      //               }
+                      //             )
+                      //           }>
+                      //           Buy Now
+                      //         </a>
+                      //       </div>
+                      //       <div className="text-center">
+                      //         <span
+                      //           className="mt-5 title_prod"
+                      //           onClick={() =>
+                      //             navigate(
+                      //               `/AllProducts/Product/:${item?.slug}`
+                      //             )
+                      //           }>
+                      //           {item?.unitName}
+                      //         </span>
+                      //       </div>
+                      //     </div>
+                      //   </div>
+                      // </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="p-4 container">
+            <div className=" ">
+              <div className="row featuredproduct_slider">
+                <div className="col-12 mb-2 mt-5 ">
+                  <div className="comn_heads mb-5">
+                    <h2>Closeout deals</h2>
+                    <a
+                      className="view_all "
+                      onClick={() =>
+                        navigate("/app/CloseOut-products", { state: "hii" })
+                      }>
+                      View All{" "}
+                      <img
+                        class="ms-2"
+                        src={require("../../assets/img/arrow_colr.png")}
+                        alt=""></img>
+                    </a>
+                  </div>
+                </div>
+                <div className="">
+                  <Swiper
+                    slidesPerView={width <= 1400 ? 3 : 4}
+                    spaceBetween={30}
+                    navigation={true}
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: true,
+                      reverseDirection: true,
+                      waitForTransition: true,
+                    }}
+                    loop={true}
+                    style={{ padding: "30px" }}
+                    modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                    className="mySwiper pt-5">
+                    {(closeOut || [])?.map((item, index) => (
+                      <SwiperSlide key={index} className="px-3 main_hot">
+                        <div className="col-md-12 col-lg-12 px-2">
+                          <div className="card_hot shadow">
+                            <span className="offer2">
+                            Ends in :{" "}
+                              <Countdown
+                                date={new Date(item?.expireIn)}
+                                renderer={renderer}
+                              />
+                            </span>
+                            {console.log(item?.expireIn)}
+                            <div
+                              className="item-image p-4 mt-2 pt-5"
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/:${item?.productId?.slug}`,
+                                  {
+                                    state: {
+                                      type: item?.productId?.type,
+                                    },
+                                  }
+                                );
+                              }}>
+                              <img
+                              className="mt-3"
+                                src={
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : require("../../assets/img/product.jpg")
+                                }
+                              />{" "}
+                            </div>
+                            <div className="item-content text-center mt-2">
+                              <h3>
+                                {" "}
+                                {item?.productId?.unitName?.slice(0, 26)} -{" "}
+                                <strong className="fs-6">
+                                  {item?.productId?.type?.flavour?.slice(0, 30)}
+                                  ..
+                                </strong>
+                              </h3>{" "}
+                              <p> {item?.description}</p>{" "}
+                            </div>
+                          </div>
+                          <div className="product-action">
+                            {" "}
+                            <div className="product-action-style">
+                              {" "}
+                              <a
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/:${item?.productId?.slug}`,
+                                    {
+                                      state: {
+                                        type: item?.productId?.type,
+                                      },
+                                    }
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-eye" />
+                              </a>{" "}
+                              <a
+                                onClick={() => {
+                                  addToFav(
+                                    item?.productId?._id,
+                                    item?.productId?.type
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-heart" />
+                              </a>{" "}
+                              <a
+                                onClick={() => {
+                                  AddtoCart(
+                                    item?.productId?._id,
+                                    item?.productId?.type
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-shopping-cart" />
+                              </a>{" "}
+                            </div>{" "}
+                          </div>
+                        </div>
+
+                        {/* <div className="col-12">
+                          <div className="categorynew_slider sliderbtns_design">
+                            <div class="Fcard shadow">
+                              <div class="imgBox">
+                                <img
+                                  className="mt-5 main_image"
+                                  src={
+                                    item?.productImage
+                                      ? item?.productImage
+                                      : require("../../assets/img/product.jpg")
+                                  }
+                                  style={{
+                                    width: "10rem",
+                                    borderRadius: "2rem",
+                                    height: "7.5rem",
+                                  }}
+                                />
+                              </div>
+
+                              <div class="contentBox">
+                                <a
+                                  class="buy"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/:${item?.slug}`,
+                                      {
+                                        state: "jkkj",
+                                      }
+                                    )
+                                  }>
+                                  Buy Now
+                                </a>
+                              </div>
+                              <div className="text-center">
+                                <span
+                                  className="mt-5 title_prod"
+                                  onClick={() =>
+                                    navigate(
+                                      `/AllProducts/Product/:${item?.slug}`
+                                    )
+                                  }>
+                                  {item?.unitName}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div> */}
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
                 </div>
               </div>
@@ -645,13 +1204,20 @@ const Homepage = () => {
             </div>
           </section>
 
-          <section className="brandsnew">
+          <section className="category_newdesign">
             <div className="container">
-              <div className="row featuredproduct_slider">
+              <div className="row newdesign_main bg-white">
                 <a
                   className="view_all"
                   onClick={() => navigate("/app/brands", { state: "hii" })}>
-                  View All
+                  View All{" "}
+                  <img
+                    style={{
+                      height: "21px",
+                    }}
+                    class="ms-2"
+                    src={require("../../assets/img/arrow_colr.png")}
+                    alt=""></img>
                 </a>
                 <div className="col-12 mb-3">
                   <div className="comn_heads mb-5">
@@ -663,29 +1229,33 @@ const Homepage = () => {
                 </div>
                 <Swiper
                   slidesPerView={4}
-                  spaceBetween={20}
-                  loop={true}
+                  spaceBetween={30}
                   navigation={true}
                   autoplay={true}
+                  loop={true}
                   modules={[FreeMode, Pagination, Autoplay, Navigation]}
                   className="mySwiper px-4 py-2">
                   {(brands || [])?.map((item, index) => (
-                    <SwiperSlide key={index} className="px-4">
-                      <div className="col-auto shadow">
+                    <SwiperSlide key={index}>
+                      <div className="col-12 px-4">
                         <div className="categorynew_slider sliderbtns_design">
-                          <Link
-                            to={`/Brands/${item?.slug}`}
-                            state={{ name: item?.brandName }}
-                            className="brandsnew_box">
-                            <img
-                              src={
-                                item?.brandImage
-                                  ? item?.brandImage
-                                  : require("./../../assets/img/product.jpg")
-                              }
-                              alt=""
-                            />
-                          </Link>
+                          <a className="categorynew_box">
+                            <div className="categorynew_img p-2">
+                              <Link
+                                to={`/Brands/${item?.slug}`}
+                                state={{ name: item?.brandName }}>
+                                <img
+                                  src={
+                                    item?.brandImage
+                                      ? item?.brandImage
+                                      : require("./../../assets/img/product.jpg")
+                                  }
+                                  alt=""
+                                />
+                              </Link>
+                            </div>
+                            <span> {item?.brandName}</span>
+                          </a>
                         </div>
                       </div>
                     </SwiperSlide>

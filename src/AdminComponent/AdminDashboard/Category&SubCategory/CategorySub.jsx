@@ -71,6 +71,12 @@ const CategorySub = () => {
       if (!res.error) {
         setChange(!change);
         setLoader(false);
+        Swal.fire({
+          title: "New Category Added!",
+          icon: "success",
+          confirmButtonText: "okay",
+          timer:2000,
+        });
         document.getElementById("resetCat").click();
       }
       if (res?.data.message === "Invalid Image format") {
@@ -120,6 +126,12 @@ const CategorySub = () => {
     await axios.post(addSubCategory, formData).then((res) => {
       console.log(res);
       if (res?.data.message === "Sub Category added") {
+        Swal.fire({
+          title: "New Sub-Category Added!",
+          icon: "success",
+          confirmButtonText: "okay",
+          timer:2000,
+        });
         setLoader(false);
         setChange(!change);
         document.getElementById("resetSubCat").click();

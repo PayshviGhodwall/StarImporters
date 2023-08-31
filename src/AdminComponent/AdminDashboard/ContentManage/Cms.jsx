@@ -12,8 +12,10 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
+import ProductsManage from "./ProductsManage";
 
 const Cms = () => {
+  const [prodContent, setProdContent] = useState(false);
   const [sideBar, setSideBar] = useState(true);
   const [change, setChange] = useState(false);
   const [AgeData, setAgeData] = useState([]);
@@ -1038,13 +1040,41 @@ const Cms = () => {
             </div>
           </div>
         </div>
-        <div className="admin_panel_data height_adjust">
+        <div className="admin_panel_data height_adjust ">
+          {
+            prodContent ?
+            <a
+            className="comman_btn2 text-decoration-none mb-3 mt-1"
+            style={{ cursor: "pointer" }}
+            onClick={() => setProdContent(!prodContent)}>
+            Switch to Content Management
+          </a>
+          :
+          <a
+          className="comman_btn2 text-decoration-none mb-3 mt-1"
+          style={{ cursor: "pointer" }}
+          onClick={() => setProdContent(!prodContent)}>
+          Switch to Product Management
+        </a>
+          }
+       
+          {
+            prodContent ?
+            <ProductsManage/>
+            :
+
+          
           <div className="row cms_management justify-content-center">
             <div className="col-12">
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row">
-                    <div className="col-12 user-management-cms px-0">
+                    <div
+                      className={
+                        prodContent
+                          ? "col-12 user-management-cms px-0 d-none"
+                          : "col-12 user-management-cms px-0"
+                      }>
                       <nav>
                         <div
                           className="nav nav-tabs "
@@ -2627,6 +2657,7 @@ const Cms = () => {
               </div>
             </div>
           </div>
+}
         </div>
       </div>
       <div
