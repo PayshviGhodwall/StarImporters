@@ -4,23 +4,31 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { pageBrand } from "../../atom";
 
 const AllBrands = () => {
   const [brands, setBrands] = useState([]);
   const getBrands = `${process.env.REACT_APP_APIENDPOINTNEW}user/brands/getBrands`;
   const setPage3 = useSetRecoilState(pageBrand);
+  const [maxPage, setMaxPage] = useState(1);
+  const [activePage, setActivePage] = useState(1);
+  const pageData = useRecoilValue(pageBrand);
 
   useEffect(() => {
     GetBrands();
     setPage3(1);
-  }, []);
+  }, [activePage]);
 
   const GetBrands = async () => {
-    await axios.get(getBrands).then((res) => {
-      setBrands(res?.data.results);
-    });
+    await axios
+      .post(getBrands, {
+        page: activePage,
+      })
+      .then((res) => {
+        setBrands(res?.data.results.brands);
+        setMaxPage(res?.data.results?.pages);
+      });
   };
 
   return (
@@ -37,8 +45,7 @@ const AllBrands = () => {
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
@@ -62,6 +69,46 @@ const AllBrands = () => {
               <div class="col-12 mb-3">
                 <div class="comn_heads mb-5">
                   <h2>All Brands</h2>
+                  {brands?.length ? (
+                    <div className="col-12 py-2 rounded Paginate ">
+                      <div class="col-6 mb-2 ps-lg-3">
+                        <div class="singleproducttop---left ps-lg-2">
+                          Total Pages: <span>{maxPage}</span>
+                        </div>
+                      </div>
+                      <div class="col-6 mb-2 text-end">
+                        <div class="singleproduct---paginationss">
+                          <a
+                            onClick={() => {
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
+                              activePage <= 1
+                                ? setActivePage(1)
+                                : setActivePage(activePage - 1);
+                            }}>
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />{" "}
+                            Previous
+                          </a>
+                          <span>{activePage}</span>
+                          <a
+                            onClick={() => {
+                              // window.scrollTo({ top: 0, behavior: "smooth" });
+                              activePage === maxPage
+                                ? setActivePage(maxPage)
+                                : setActivePage(activePage + 1);
+                            }}>
+                            Next{" "}
+                            <img
+                              src={require("../../assets/img/arrow.png")}
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
@@ -72,8 +119,7 @@ const AllBrands = () => {
                       <a class="categorynew_box text-decoration-none">
                         <Link
                           to={`/Brands/${item?.slug}`}
-                          state={{ name: item?.brandName }}
-                        >
+                          state={{ name: item?.brandName }}>
                           <div class="categorynew_img p-2">
                             <img
                               src={
@@ -94,8 +140,6 @@ const AllBrands = () => {
             </div>
           </div>
         </section>
-
-    
       </>
       <Footer />
     </div>

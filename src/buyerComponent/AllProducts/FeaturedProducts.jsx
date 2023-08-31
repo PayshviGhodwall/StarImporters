@@ -125,7 +125,7 @@ const FeaturedProducts = () => {
                     </li>
                   </ol>
                 </nav>
-              </div>
+              </div>  
             </div>
           </div>
         </div>

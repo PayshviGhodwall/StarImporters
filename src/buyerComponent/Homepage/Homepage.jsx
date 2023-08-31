@@ -251,8 +251,8 @@ const Homepage = () => {
   };
 
   const getBrands = async () => {
-    await axios.get(brandApi).then((res) => {
-      let data = res?.data.results;
+    await axios.post(brandApi, { page: 1 }).then((res) => {
+      let data = res?.data.results?.brands;
       let newData = data?.filter((itm, idx) => !(idx > 14));
       setBrands(newData);
       if (!res.data.error) {
@@ -1037,7 +1037,7 @@ const Homepage = () => {
                         <div className="col-md-12 col-lg-12 px-2">
                           <div className="card_hot shadow">
                             <span className="offer2">
-                            Ends in :{" "}
+                              Ends in :{" "}
                               <Countdown
                                 date={new Date(item?.expireIn)}
                                 renderer={renderer}
@@ -1057,7 +1057,7 @@ const Homepage = () => {
                                 );
                               }}>
                               <img
-                              className="mt-3"
+                                className="mt-3"
                                 src={
                                   item?.productId?.type?.flavourImage
                                     ? item?.productId?.type?.flavourImage
