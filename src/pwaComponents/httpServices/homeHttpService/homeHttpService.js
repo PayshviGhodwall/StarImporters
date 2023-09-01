@@ -347,10 +347,10 @@ export async function similarProduct() {
   }
 }
 
-export async function getBrands() {
+export async function getBrands(formData) {
   try {
-    const { data } = await appHttpService.get(
-      `${process.env.REACT_APP_APIENDPOINT}/user/brands/getBrands`
+    const { data } = await appHttpService.post(
+      `${process.env.REACT_APP_APIENDPOINT}/user/brands/getBrands`,formData
     );
     console.log(data);
 

@@ -62,6 +62,10 @@ function AppHome() {
     setData2([{ page: 1, sortBy: 1 }]);
     setData3([{ page: 1, sortBy: 1 }]);
     setData4([{ page: 1, sortBy: 1 }]);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, [5000]);
   }, []);
 
   console.log(searchKey);
@@ -121,9 +125,11 @@ function AppHome() {
   };
 
   const getBrandList = async () => {
-    const { data } = await getBrands();
+    const { data } = await getBrands({
+      page: 1,
+    });
     if (!data.error) {
-      let dataSS = data.results;
+      let dataSS = data.results?.brands;
       let newData = dataSS?.filter((itm, idx) => !(idx > 20));
       setBrand(newData);
       setLoading(false);

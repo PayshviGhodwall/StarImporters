@@ -215,8 +215,8 @@ const OrderReq = () => {
       .post(orderList, { page: activePage, status: "All" })
       .then((res) => {
         setOrders(res?.data.results?.orders);
-        setMaxPage(res?.data.results?.toatalPages);
-        setAllCount(res?.data.results?.count);
+        setMaxPage(res?.data.results?.orders?.toatalPages);
+        setAllCount(res?.data.results?.orders?.count);
       });
   };
   const completedOrders = async () => {
@@ -224,8 +224,8 @@ const OrderReq = () => {
       .post(orderList, { page: activePageComp, status: "Completed" })
       .then((res) => {
         setCompOrders(res?.data.results?.orders);
-        setMaxPageComp(res?.data.results?.toatalPages);
-        setCompCount(res?.data.results?.count);
+        setMaxPageComp(res?.data.results?.orders?.toatalPages);
+        setCompCount(res?.data.results?.orders?.count);
       });
   };
 
@@ -234,8 +234,8 @@ const OrderReq = () => {
       .post(orderList, { page: activePageCancel, status: "Cancelled" })
       .then((res) => {
         setCancelledOrders(res?.data.results?.orders);
-        setMaxPageCancel(res?.data.results?.toatalPages);
-        setCanCount(res?.data.results?.count);
+        setMaxPageCancel(res?.data.results?.orders?.toatalPages);
+        setCanCount(res?.data.results?.orders?.count);
       });
   };
 
@@ -1392,67 +1392,72 @@ const OrderReq = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(orders || [])?.map((item, index) => (
-                                          <tr key={index}>
-                                            <td>
-                                              {moment(
-                                                item?.createdAt?.slice(0, 10)
-                                              ).format("MM/DD/YYYY")}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.companyName ||
-                                                item?.user?.companyName}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.phoneNumber ||
-                                                item?.user?.phoneNumber}
-                                            </td>
-                                            <td>
-                                              {item?.userId?.email ||
-                                                item?.user?.email}
-                                            </td>
-                                            <td>{item?.orderId}</td>
-                                            {item?.pullStatus === "Pending" ? (
+                                        {(orders?.orders || [])?.map(
+                                          (item, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                {moment(
+                                                  item?.createdAt?.slice(0, 10)
+                                                ).format("MM/DD/YYYY")}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.companyName ||
+                                                  item?.user?.companyName}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.phoneNumber ||
+                                                  item?.user?.phoneNumber}
+                                              </td>
+                                              <td>
+                                                {item?.userId?.email ||
+                                                  item?.user?.email}
+                                              </td>
+                                              <td>{item?.orderId}</td>
+                                              {item?.pullStatus ===
+                                              "Pending" ? (
+                                                <td>
+                                                  <button
+                                                    class=" comman_btn2 mx-1 border rounded"
+                                                    data-bs-toggle="modal"
+                                                    onClick={() => {
+                                                      setPullOrderId(item?._id);
+                                                    }}
+                                                    data-bs-target="#staticBackdropAdmin">
+                                                    Assign Puller
+                                                  </button>
+                                                </td>
+                                              ) : (
+                                                <td>
+                                                  {item?.puller?.fullName}
+                                                </td>
+                                              )}
                                               <td>
                                                 <button
-                                                  class=" comman_btn2 mx-1 border rounded"
-                                                  data-bs-toggle="modal"
+                                                  className="comman_btn table_viewbtn"
                                                   onClick={() => {
-                                                    setPullOrderId(item?._id);
-                                                  }}
-                                                  data-bs-target="#staticBackdropAdmin">
-                                                  Assign Puller
+                                                    setPageData([
+                                                      { page: activePage },
+                                                    ]);
+                                                    navigate(
+                                                      `/OrderRequest/ViewOrder/${item?._id}`,
+                                                      {
+                                                        state: {
+                                                          id: item?._id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}>
+                                                  View
                                                 </button>
                                               </td>
-                                            ) : (
-                                              <td>{item?.puller?.fullName}</td>
-                                            )}
-                                            <td>
-                                              <button
-                                                className="comman_btn table_viewbtn"
-                                                onClick={() => {
-                                                  setPageData([
-                                                    { page: activePage },
-                                                  ]);
-                                                  navigate(
-                                                    `/OrderRequest/ViewOrder/${item?._id}`,
-                                                    {
-                                                      state: {
-                                                        id: item?._id,
-                                                      },
-                                                    }
-                                                  );
-                                                }}>
-                                                View
-                                              </button>
-                                            </td>
-                                          </tr>
-                                        ))}
+                                            </tr>
+                                          )
+                                        )}
                                       </tbody>
                                     </table>
                                   </div>
                                 </div>
-                                {orders?.length ? (
+                                {orders?.orders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPage} )
@@ -1574,7 +1579,7 @@ const OrderReq = () => {
                                 </div>
                               </form>
                               <div className="row recent_orders_order">
-                                {compOrders?.length ? (
+                                {compOrders?.orders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPageComp} )
@@ -1648,7 +1653,7 @@ const OrderReq = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(compOrders || [])?.map(
+                                        {(compOrders?.orders || [])?.map(
                                           (item, index) => (
                                             <tr key={index}>
                                               <td>
@@ -1703,7 +1708,7 @@ const OrderReq = () => {
                                     </table>
                                   </div>
                                 </div>
-                                {compOrders?.length ? (
+                                {compOrders?.orders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPageComp} )
@@ -1829,7 +1834,7 @@ const OrderReq = () => {
                                 </div>
                               </form>
                               <div className="row recent_orders_order">
-                                {cancelled?.length ? (
+                                {cancelled?.orders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPageCancel} )
@@ -1907,7 +1912,7 @@ const OrderReq = () => {
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {(cancelled || [])?.map(
+                                        {(cancelled?.orders || [])?.map(
                                           (item, index) => (
                                             <tr key={index}>
                                               <td>
@@ -1962,7 +1967,7 @@ const OrderReq = () => {
                                     </table>
                                   </div>
                                 </div>
-                                {cancelled?.length ? (
+                                {cancelled?.orders?.length ? (
                                   <div className="col-11 d-flex justify-content-between py-2 mx-5">
                                     <span className="totalPage">
                                       ( Total Pages : {maxPageCancel} )
