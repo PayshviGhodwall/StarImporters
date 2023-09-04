@@ -29,6 +29,8 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import Skeleton from "react-loading-skeleton";
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import AppClosingOut from "./appClosingOut";
+import AppHotDeals from "./appHotDeal";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -1001,7 +1003,13 @@ function AppHome() {
                           </div>
                         </div>
                       </div>
+                      <div className="mt-2">
+                        <AppClosingOut />
+                      </div>
                       <TopProduct />
+                      <div className="mt-2">
+                        <AppHotDeals />
+                      </div>
                       <div className="flash-sale-wrapper mt-3">
                         <div className="container">
                           <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">

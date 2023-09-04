@@ -116,6 +116,8 @@ import PullerManagement from "./AdminComponent/AdminDashboard/Puller Manage/Pull
 import ViewPuller from "./AdminComponent/AdminDashboard/Puller Manage/viewPuller";
 import HotSelling from "./buyerComponent/AllProducts/HotSelling";
 import CloseOut from "./buyerComponent/AllProducts/CloseOut";
+import AppHotDealList from "./pwaComponents/homeComponent/appHotDealList";
+import AppCloseOutList from "./pwaComponents/homeComponent/appCloseOutList";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -421,6 +423,8 @@ function App() {
               element={width < 999 ? <AppProductBrands /> : <AllBrands />}
             />
             <Route path="/app/product-list" element={<AppProductList />} />
+            <Route path="/app/product-list/Hot-Deal" element={<AppHotDealList />} />
+            <Route path="/app/product-list/Close-Out" element={<AppCloseOutList />} />
             <Route
               path="/app/featured-products"
               element={<FeaturedProducts />}

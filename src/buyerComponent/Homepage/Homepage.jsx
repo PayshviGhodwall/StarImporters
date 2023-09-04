@@ -170,6 +170,7 @@ const Homepage = () => {
         showConfirmButton: "okay",
       });
     }
+    
   };
 
   const VideoSlidesGet = async () => {
@@ -217,7 +218,6 @@ const Homepage = () => {
     const { data } = await axios.post(getPromotionProd, {
       type: "CloseOut",
     });
-
     if (!data.error) {
       setCloseOut(data?.results.promotion?.products);
     }
