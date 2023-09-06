@@ -55,6 +55,10 @@ function AppHome() {
   const setSearchKeyRemove = useSetRecoilState(searchKeyRemove);
   const [relateCate, setRelateCate] = useState([]);
 
+  let image = require("../../assets/img/cate1.jpg");
+  let image2 = require("../../assets/img/close2.jpg");
+  let image3 = require("../../assets/img/featured.jpg");
+  let image4 = require("../../assets/img/hot1.jpg");
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -707,7 +711,7 @@ function AppHome() {
                               </div>
                             </div>
                           ) : null}
-                          <div className="pt-0">
+                          <div className="hero-wrapper">
                             <OwlCarousel
                               className=" hero-slides "
                               autoplay={true}
@@ -727,6 +731,7 @@ function AppHome() {
                                   }></img>
                                 <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
+
                               {banner
                                 ?.filter(
                                   (itm, idx) =>
@@ -750,11 +755,20 @@ function AppHome() {
                         </div>
                       </div>
 
-                      <div className="product-catagories-wrapper py-3">
+                      <div className="product-catagories-wrapper py-1 pb-3  mt-4"
+                        style={{
+                          backgroundImage: `url(${image})`,
+                          opacity: "unset",
+                        }}
+                      >
                         <div className="container">
-                          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                            <h2 className="fs-5">Top Categories</h2>
-                            <Link className="btn p-0" to="/app/Categories">
+                        <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                            <h2 className="fs-5 fw-bold text-white">
+                              Top Categories
+                            </h2>
+                            <Link
+                              className="btn p-0 text-white"
+                              to="/app/Categories">
                               View All
                               <i className="ms-1 fa-solid fa-arrow-right-long"></i>
                             </Link>
@@ -789,7 +803,40 @@ function AppHome() {
                           </div>
                         </div>
                       </div>
-                      <TopProduct />
+
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image4})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
+                        <AppHotDeals />
+                      </div>
+
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image2})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
+                        <AppClosingOut />
+                      </div>
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image3})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
+                        <TopProduct />
+                      </div>
+
+
                       <div className="flash-sale-wrapper mt-3">
                         <div className="container">
                           <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
@@ -927,7 +974,7 @@ function AppHome() {
                     <div>
                       <div className="hero-wrapper">
                         <div className="container">
-                          <div className="pt-3">
+                          <div className="pt-3 px-0">
                             <OwlCarousel
                               className=" hero-slides "
                               autoplay={true}
@@ -945,7 +992,6 @@ function AppHome() {
                                       ? banner[1]?.banner
                                       : require("../../assets/img/staticBg.png")
                                   }></img>
-                                <div className="slide-content h-100 d-flex align-items-center"></div>
                               </div>
                               {banner
                                 ?.filter(
@@ -970,11 +1016,20 @@ function AppHome() {
                         </div>
                       </div>
 
-                      <div className="product-catagories-wrapper py-3">
+                      <div
+                        className="product-catagories-wrapper py-1 pb-3  mt-4"
+                        style={{
+                          backgroundImage: `url(${image})`,
+                          opacity: "unset",
+                        }}>
                         <div className="container">
                           <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                            <h2 className="fs-5">Top Categories</h2>
-                            <Link className="btn p-0" to="/app/Categories">
+                            <h2 className="fs-5 fw-bold text-white">
+                              Top Categories
+                            </h2>
+                            <Link
+                              className="btn p-0 text-white"
+                              to="/app/Categories">
                               View All
                               <i className="ms-1 fa-solid fa-arrow-right-long"></i>
                             </Link>
@@ -1003,14 +1058,42 @@ function AppHome() {
                           </div>
                         </div>
                       </div>
-                      <div className="mt-2">
-                        <AppClosingOut />
-                      </div>
-                      <TopProduct />
-                      <div className="mt-2">
+
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image4})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
                         <AppHotDeals />
                       </div>
-                      <div className="flash-sale-wrapper mt-3">
+
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image2})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
+                        <AppClosingOut />
+                      </div>
+                      <div
+                        className="mt-1 py-2"
+                        style={{
+                          backgroundImage: `url(${image3})`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
+                        <TopProduct />
+                      </div>
+
+                     
+
+                      <div className="flash-sale-wrapper py-2  pb-3 shadow">
                         <div className="container">
                           <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
                             <h6 className="fs-5">Popular Brands</h6>
@@ -1036,10 +1119,11 @@ function AppHome() {
                                   <div
                                     className="card flash-sale-card item"
                                     key={index}>
-                                    <div className="card-body">
+                                    <div className="card-body py-4">
                                       <Link to="/app/brands">
                                         <img
                                           width={40}
+                                          className="brandPic"
                                           src={
                                             item?.brandImage
                                               ? item?.brandImage

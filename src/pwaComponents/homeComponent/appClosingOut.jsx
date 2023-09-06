@@ -122,20 +122,21 @@ function AppClosingOut() {
       <div className="top-products-area pb-3 ">
         <div className="container">
           <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
-            <h6 className="fs-5">CLOSING OUT DEALS</h6>
-            <Link className="btn p-0" to="/app/product-list/Close-Out">
+            <h6 className="fs-5 fw-bold text-danger">CLOSING OUT DEALS</h6>
+            <Link
+              className="btn p-0 text-white"
+              to="/app/product-list/Close-Out">
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
 
           {browserName === "WebKit" || browserName === "Chrome WebView" ? (
-            <div className="row g-2">
+            <div className="row px-3 ">
               <Swiper
                 slidesPerView={2}
                 spaceBetween={8}
-                navigation={true}
                 autoplay={{
-                  delay: 4000,
+                  delay: 3000,
                   disableOnInteraction: true,
                   reverseDirection: true,
                   waitForTransition: true,

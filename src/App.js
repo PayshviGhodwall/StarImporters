@@ -118,6 +118,7 @@ import HotSelling from "./buyerComponent/AllProducts/HotSelling";
 import CloseOut from "./buyerComponent/AllProducts/CloseOut";
 import AppHotDealList from "./pwaComponents/homeComponent/appHotDealList";
 import AppCloseOutList from "./pwaComponents/homeComponent/appCloseOutList";
+import Catelogues from "./buyerComponent/Footer/Catelogues";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -244,6 +245,7 @@ function App() {
             <Route path="/OrderRequest" element={<OrderReq />} />
             <Route path="/app/Gallery" element={<Gallery />} />
             <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
+            <Route path="/app/events/catelogues/:id" element={<Catelogues />} />
             <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
             <Route path="/Cart/Checkout" element={<Checkout />} />
             <Route path="/app/subCategories" element={<SubCategories />} />

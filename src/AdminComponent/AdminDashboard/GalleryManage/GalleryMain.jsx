@@ -14,13 +14,16 @@ import "yet-another-react-lightbox/styles.css";
 const GalleryMain = () => {
   const addCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addCollection`;
   const allCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allGalleries`;
+  const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
   const editCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editCollection`;
   const viewCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/gallery`;
   const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/galleryStatus/`;
+  const pdfToImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/pdfToImage`;
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [open, setOpen] = useState(false);
   const [sideBar, setSideBar] = useState(true);
-  const [allVideos,setAllVideos] = useState()
+  const [allVideos, setAllVideos] = useState();
+  const [pdf, setPdf] = useState([]);
   const [files, setFiles] = useState([]);
   const [video, setVideo] = useState([]);
   const [multipleFiles, setMultipleFiles] = useState([]);
@@ -31,8 +34,10 @@ const GalleryMain = () => {
   const [editGalleryName, setEditGalleryName] = useState("");
   const [images, setImages] = useState();
   const [id, setId] = useState();
+  const [allPdfs, setAllPdfs] = useState([]);
   useEffect(() => {
     getCollection();
+    getPdfs();
   }, []);
 
   const addGallery = async (e) => {
@@ -126,6 +131,15 @@ const GalleryMain = () => {
       setGalleries(data?.results.galleries);
     }
   };
+
+  const getPdfs = async () => {
+    const { data } = await axios.get(allPdf);
+    console.log(data);
+    if (!data.error) {
+      setAllPdfs(data?.results?.catalog);
+    }
+  };
+
   // instant image preview //
 
   document.getElementById("image_up")?.addEventListener("change", function () {
@@ -153,7 +167,7 @@ const GalleryMain = () => {
     let video = e.target.files[0];
     setVideo({ ...files, [key]: video });
   };
-  
+
   console.log(video, "vieo");
 
   const onFileSelection2 = (e, key) => {
@@ -170,6 +184,32 @@ const GalleryMain = () => {
       });
     });
     setMultipleFiles({ dataImg });
+  };
+
+  const onFileSelectionPdf = (e, key) => {
+    setPdf({ ...pdf, [key]: e.target.files[0] });
+  };
+
+  console.log(pdf?.pdf, "jjhj");
+
+  const AddPdf = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("pdf", pdf?.pdf);
+    const { data } = await axios.post(pdfToImage, formData);
+    if (!data.error) {
+      Swal.fire({
+        title: "Pdf Uploaded Successfully!",
+        icon: "success",
+        timer: 2000,
+      });
+    } else {
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        timer: 2000,
+      });
+    }
   };
 
   const getSlides = (img) => {
@@ -315,49 +355,39 @@ const GalleryMain = () => {
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }
-                >
+                  }>
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"
-                    ></i>{" "}
+                      class="fas fa-user-cog"></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
-                  }
-                >
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className="bg-white"
                     to="/Gallery-Management"
@@ -397,20 +427,19 @@ const GalleryMain = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -513,16 +542,14 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}
-                  >
+                    }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"
-                    ></i>{" "}
+                      class="fas fa-users-gear"></i>{" "}
                     Puller Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className="bg-white"
@@ -650,178 +677,366 @@ const GalleryMain = () => {
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <div className="">
-                        <div className="row mx-0 ">
-                          <div className="col-12">
-                            <form
-                              className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                              action="">
-                              <div className="form-group mb-0 col-3">
-                                <label htmlFor="">Title</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="Title"
-                                  onChange={(e) => {
-                                    setTitle(e.target.value);
-                                  }}
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                <span>Cover Image</span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>{" "}
-                                <input
-                                  type="file"
-                                  className="form-control shadow-none"
-                                  defaultValue=""
-                                  accept="image/*"
-                                  name="coverImage"
-                                  onChange={(e) =>
-                                    onFileSelection(e, "coverImage")
-                                  }
-                                />
-                              </div>
-                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                <span>Gallery Images</span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>
-                                <input
-                                  type="file"
-                                  className="form-control shadow-none"
-                                  defaultValue=""
-                                  accept="image/*"
-                                  name="images"
-                                  onChange={(e) =>
-                                    onFileSelection2(e, "images")
-                                  }
-                                  multiple
-                                />
-                              </div>
+                        <nav>
+                          <div
+                            className="nav nav-tabs"
+                            id="nav-tab"
+                            role="tablist">
+                            <button
+                              className="nav-link active"
+                              id="nav-home-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-home"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-home"
+                              aria-selected="true">
+                              Galleries
+                            </button>
+                            <button
+                              className="nav-link"
+                              id="nav-profile-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#nav-profile"
+                              type="button"
+                              role="tab"
+                              aria-controls="nav-profile"
+                              aria-selected="false">
+                              Catelogues
+                            </button>
+                          </div>
+                        </nav>
+                        <div
+                          className="tab-content recent_orders_cate"
+                          id="nav-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="nav-home"
+                            role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+                            <div className="row mx-0 ">
+                              <div className="col-12">
+                                <form
+                                  className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                  action="">
+                                  <div className="form-group mb-0 col-3">
+                                    <label htmlFor="">Title</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      name="Title"
+                                      onChange={(e) => {
+                                        setTitle(e.target.value);
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                    <span>Cover Image</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>{" "}
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      accept="image/*"
+                                      name="coverImage"
+                                      onChange={(e) =>
+                                        onFileSelection(e, "coverImage")
+                                      }
+                                    />
+                                  </div>
+                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                    <span>Gallery Images</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      accept="image/*"
+                                      name="images"
+                                      onChange={(e) =>
+                                        onFileSelection2(e, "images")
+                                      }
+                                      multiple
+                                    />
+                                  </div>
 
-                              <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                <span>Add Video</span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>
-                                <input
-                                  type="file"
-                                  className="form-control shadow-none"
-                                  defaultValue=""
-                                  accept="video/*"
-                                  name="images"
-                                  onChange={(e) =>
-                                    onFileSelectionVideo(e, "video")
-                                  }
-                                />
-                              </div>
+                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                    <span>Add Video</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      accept="video/*"
+                                      name="images"
+                                      onChange={(e) =>
+                                        onFileSelectionVideo(e, "video")
+                                      }
+                                    />
+                                  </div>
 
-                              <div className="form-group mb-0 col-12 text-center mt-4">
-                                <button
-                                  className="comman_btn2"
-                                  onClick={addGallery}>
-                                  Save Collection
-                                </button>
-                                <button
-                                  className="comman_btn d-none"
-                                  id="resetCatss"
-                                  type="reset">
-                                  Reset
-                                </button>
-                              </div>
-                            </form>
-                            <div className="row ">
-                              <div className="col-12 comman_table_design px-0">
-                                <div className="table-responsive border">
-                                  <table className="table mb-0">
-                                    <thead>
-                                      <tr
-                                        style={{ backgroundColor: "#f2f2f2" }}>
-                                        <th>Date</th>
-                                        <th>Title</th>
-                                        <th>Cover Image</th>
-                                        <th>Gallery Images</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody className="recent_orders_cate">
-                                      {galleries?.map((item, index) => (
-                                        <tr>
-                                          <td className="border">
-                                            {" "}
-                                            {moment(item?.updatedAt).format(
-                                              "MM/DD/YYYY"
-                                            )}
-                                          </td>
-                                          <td className="border">
-                                            {item?.title}
-                                          </td>
-                                          <td className="border">
-                                            <img
-                                              className="subCatImages"
-                                              src={
-                                                item?.coverImage
-                                                  ? item?.coverImage
-                                                  : require("../../../assets/img/product.jpg")
-                                              }></img>
-                                          </td>
-                                          <td className="border">
-                                            <img
-                                              onClick={() =>
-                                                getSlides(item?.images)
-                                              }
-                                              className="previewImages"
-                                              src={require("../../../assets/img/preview2.png")}></img>
-                                            <br />
-                                            <small>CLick to preview</small>
-                                          </td>
-                                          <td className="border">
-                                            {" "}
-                                            <div
-                                              className=""
-                                              //   key={item?._id}
-                                            >
-                                              <label class="switchUser">
-                                                <input
-                                                  type="checkbox"
-                                                  id={item?._id}
-                                                  defaultChecked={item?.status}
-                                                  onClick={() => {
-                                                    GalleryStatus(item?._id);
+                                  <div className="form-group mb-0 col-12 text-center mt-4">
+                                    <button
+                                      className="comman_btn2"
+                                      onClick={addGallery}>
+                                      Save Collection
+                                    </button>
+                                    <button
+                                      className="comman_btn d-none"
+                                      id="resetCatss"
+                                      type="reset">
+                                      Reset
+                                    </button>
+                                  </div>
+                                </form>
+
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive border">
+                                      <table className="table mb-0">
+                                        <thead>
+                                          <tr
+                                            style={{
+                                              backgroundColor: "#f2f2f2",
+                                            }}>
+                                            <th>Date</th>
+                                            <th>Title</th>
+                                            <th>Cover Image</th>
+                                            <th>Gallery Images</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="recent_orders_cate">
+                                          {galleries?.map((item, index) => (
+                                            <tr>
+                                              <td className="border">
+                                                {" "}
+                                                {moment(item?.updatedAt).format(
+                                                  "MM/DD/YYYY"
+                                                )}
+                                              </td>
+                                              <td className="border">
+                                                {item?.title}
+                                              </td>
+                                              <td className="border">
+                                                <img
+                                                  className="subCatImages"
+                                                  src={
+                                                    item?.coverImage
+                                                      ? item?.coverImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }></img>
+                                              </td>
+                                              <td className="border">
+                                                <img
+                                                  onClick={() =>
+                                                    getSlides(item?.images)
+                                                  }
+                                                  className="previewImages"
+                                                  src={require("../../../assets/img/preview2.png")}></img>
+                                                <br />
+                                                <small>CLick to preview</small>
+                                              </td>
+                                              <td className="border">
+                                                {" "}
+                                                <div
+                                                  className=""
+                                                  //   key={item?._id}
+                                                >
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={item?._id}
+                                                      defaultChecked={
+                                                        item?.status
+                                                      }
+                                                      onClick={() => {
+                                                        GalleryStatus(
+                                                          item?._id
+                                                        );
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
+                                              </td>
+
+                                              <td className="border">
+                                                <a
+                                                  data-bs-toggle="modal"
+                                                  data-bs-target="#staticBackdrop"
+                                                  className="comman_btn2   text-white text-decoration-none"
+                                                  style={{
+                                                    backgroundColor: "#eb3237",
+                                                    fontSize: "22px",
+                                                    position: "relative",
+                                                    top: "-2px",
                                                   }}
-                                                />
-                                                <span class="sliderUser round"></span>
-                                              </label>
-                                            </div>
-                                          </td>
-                                        
-                                          <td className="border">
-                                            <a
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#staticBackdrop"
-                                              className="comman_btn2   text-white text-decoration-none"
-                                              style={{
-                                                backgroundColor: "#eb3237",
-                                                fontSize: "22px",
-                                                position: "relative",
-                                                top: "-2px",
-                                              }}
-                                              key={index}
-                                              onClick={() => {
-                                                onEditGallery(item?._id);
-                                              }}>
-                                              Edit
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
+                                                  key={index}
+                                                  onClick={() => {
+                                                    onEditGallery(item?._id);
+                                                  }}>
+                                                  Edit
+                                                </a>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="tab-pane fade recent_order"
+                            id="nav-profile"
+                            role="tabpanel"
+                            aria-labelledby="nav-profile-tab">
+                            <div className="row mx-0 ">
+                              <div className="col-12">
+                                <form
+                                  className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                  action="">
+                                  <div className="form-group mb-0 col-8 choose_fileAdmin position-relative">
+                                    <span>Upload Pdf</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      name="pdf"
+                                      onChange={(e) =>
+                                        onFileSelectionPdf(e, "pdf")
+                                      }
+                                    />
+                                  </div>
+
+                                  <div className="form-group mb-0 col-4 text-center mt-4">
+                                    <button
+                                      className="comman_btn2"
+                                      onClick={AddPdf}>
+                                      Save Collection
+                                    </button>
+                                    <button
+                                      className="comman_btn d-none"
+                                      id="resetCatss"
+                                      type="reset">
+                                      Reset
+                                    </button>
+                                  </div>
+                                </form>
+
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive border">
+                                      <table className="table mb-0">
+                                        <thead>
+                                          <tr
+                                            style={{
+                                              backgroundColor: "#f2f2f2",
+                                            }}>
+                                            <th>Date</th>
+                                            <th>Title</th>
+                                            <th>Cover Image</th>
+                                            <th>Gallery Images</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="recent_orders_cate">
+                                          {allPdfs?.map((item, index) => (
+                                            <tr>
+                                              <td className="border">
+                                                {" "}
+                                                {moment(item?.updatedAt).format(
+                                                  "MM/DD/YYYY"
+                                                )}
+                                              </td>
+                                              <td className="border">
+                                                {item?.title}
+                                              </td>
+                                              <td className="border">
+                                                <img
+                                                  className="subCatImages"
+                                                  src={
+                                                    item?.coverImage
+                                                      ? item?.coverImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }></img>
+                                              </td>
+                                              <td className="border">
+                                                <img
+                                                  onClick={() =>
+                                                    getSlides(item?.images)
+                                                  }
+                                                  className="previewImages"
+                                                  src={require("../../../assets/img/preview2.png")}></img>
+                                                <br />
+                                                <small>CLick to preview</small>
+                                              </td>
+                                              <td className="border">
+                                                {" "}
+                                                <div
+                                                  className=""
+                                                  //   key={item?._id}
+                                                >
+                                                  <label class="switchUser">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={item?._id}
+                                                      defaultChecked={
+                                                        item?.status
+                                                      }
+                                                      onClick={() => {
+                                                        GalleryStatus(
+                                                          item?._id
+                                                        );
+                                                      }}
+                                                    />
+                                                    <span class="sliderUser round"></span>
+                                                  </label>
+                                                </div>
+                                              </td>
+
+                                              <td className="border">
+                                                <a
+                                                  data-bs-toggle="modal"
+                                                  data-bs-target="#staticBackdrop"
+                                                  className="comman_btn2   text-white text-decoration-none"
+                                                  style={{
+                                                    backgroundColor: "#eb3237",
+                                                    fontSize: "22px",
+                                                    position: "relative",
+                                                    top: "-2px",
+                                                  }}
+                                                  key={index}
+                                                  onClick={() => {
+                                                    onEditGallery(item?._id);
+                                                  }}>
+                                                  Edit
+                                                </a>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -900,24 +1115,22 @@ const GalleryMain = () => {
                       multiple
                     />
                   </div>
-                  
+
                   <div className="form-group mb-0 col choose_fileAdmin position-relative mt-2">
-                                <span>Add Video</span>{" "}
-                                <label htmlFor="upload_video">
-                                  <i class="fa fa-camera me-1"></i>
-                                  Choose File
-                                </label>
-                                <input
-                                  type="file"
-                                  className="form-control shadow-none"
-                                  defaultValue=""
-                                  accept="video/*"
-                                  name="videoEdit"
-                                  onChange={(e) =>
-                                    onFileSelectionVideo(e, "videoEdit")
-                                  }
-                                />
-                              </div>
+                    <span>Add Video</span>{" "}
+                    <label htmlFor="upload_video">
+                      <i class="fa fa-camera me-1"></i>
+                      Choose File
+                    </label>
+                    <input
+                      type="file"
+                      className="form-control shadow-none"
+                      defaultValue=""
+                      accept="video/*"
+                      name="videoEdit"
+                      onChange={(e) => onFileSelectionVideo(e, "videoEdit")}
+                    />
+                  </div>
                   <div className="form-group col-4 p-2 ">
                     <label htmlFor="" className="mx-3">
                       Cover Image
@@ -1027,24 +1240,22 @@ const GalleryMain = () => {
                               <i
                                 className="fas fa-close closeIcon"
                                 onClick={() => deleteImage(ind, item)}></i>
-                                 <video
-                                            id="frameOne"
-                                            className="gallery_uploads"
-                                            autoPlay
-                                            loop
-                                            muted
-                                            allowfullscreen=""
-                                          >
-                                            {console.log(item,"vido")}
-                                            <source
-                                              src={
-                                                item
-                                                ? item
-                                                : require("../../../assets/img/product.jpg")
-                                              }
-                                            />
-                                          </video>
-                             
+                              <video
+                                id="frameOne"
+                                className="gallery_uploads"
+                                autoPlay
+                                loop
+                                muted
+                                allowfullscreen="">
+                                {console.log(item, "vido")}
+                                <source
+                                  src={
+                                    item
+                                      ? item
+                                      : require("../../../assets/img/product.jpg")
+                                  }
+                                />
+                              </video>
                             </div>
                           </div>
                         ))}
