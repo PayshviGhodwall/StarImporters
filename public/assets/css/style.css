@@ -17669,11 +17669,11 @@ figure.effect-ming:hover img {
   height: 30rem !important;
   margin: 100px auto !important;
   position: relative;
-  /* display: block; */
+  display: block;
   box-sizing: border-box;
   transform: translateZ(0);
   -ms-touch-action: pan-y;
-  touch-action: pan-y;
+  touch-action: pan-y;;
 }
 
 

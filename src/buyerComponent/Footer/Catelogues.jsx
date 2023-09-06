@@ -7,7 +7,7 @@ import axios from "axios";
 import HTMLFlipBook from "react-pageflip";
 const Page = React.forwardRef((props, ref) => {
   return (
-    <div className="mt-5" ref={ref}>
+    <div className="" ref={ref}>
       <p>{props.children}</p>
       <p>Page number: {props.number}</p>
     </div>
@@ -74,8 +74,15 @@ const Catelogues = () => {
   return (
     <div>
       <Navbar />
-      <section class="photos px-5 pb-5 mb-5">
-        <div className="container bg-white pb-2  shadow">
+      <section class=" px-5 pb-5 mb-5">
+        <div className="container bg-white  p-5  shadow"
+        style={{
+          marginTop:'10rem'
+        }}
+        >
+            <small className="" onClick={handle.enter}>
+                  <i class="fas fa-expand"></i>
+                </small>
           <div className=" ">
             <FullScreen handle={handle}>
               <div className="bg-white">
@@ -89,9 +96,7 @@ const Catelogues = () => {
                     </li>
                   ))}
                 </HTMLFlipBook>
-                <small className="" onClick={handle.enter}>
-                  <i class="fas fa-expand"></i>
-                </small>
+              
               </div>
               {/* <div class="sliderC bg-white d-none">
                 <ul className="mt-5">
