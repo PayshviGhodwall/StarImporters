@@ -208,6 +208,24 @@ const EditProfile = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("catalogFlyers") ? "" : "d-none"
+                  }>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                     
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
+                </li>
+                <li
+                  className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
                   }>
                   <Link
@@ -363,6 +381,20 @@ const EditProfile = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fas fa-image"></i>{" "}
                     Gallery Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
                   </Link>
                 </li>
                 <li>

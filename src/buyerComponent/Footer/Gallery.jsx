@@ -131,47 +131,7 @@ const Gallery = () => {
                 </div>
               </div>
 
-              <div
-                className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
-                id="collection">
-                <div>
-                  <div class="nine">
-                    <h1>
-                      Catelogues<span>Latest</span>
-                    </h1>
-                  </div>
-                </div>
-                <div className="row tm-mb-90 tm-gallery p-4 ">
-                  <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
-                    <Carousel.Item>
-                      <div className="border rounded bg-white shadow">
-                        <figure className="effect-ming tm-video-item">
-                          <img
-                            src={require("../../assets/img/brand_1.png")}
-                            alt="Image"
-                            className="img-fluid"
-                          />
-                          <figcaption className="d-flex align-items-center justify-content-center">
-                            <h2>Testing Cate</h2>
-                            <a
-                              onClick={() => {
-                                // navigate(`/app/Gallery/Photos/${item?._id}`);
-                                navigate(`/app/events/catelogues/654466465`);
-                              }}>
-                              View more
-                            </a>
-                          </figcaption>
-                        </figure>
-                        <div className="d-flex justify-content-center tm-text-gray">
-                          <span className="tm-text-gray-light mb-1">
-                            03/18/2024
-                          </span>
-                        </div>
-                      </div>
-                    </Carousel.Item>
-                  </Carousel>
-                </div>
-              </div>
+             
 
               <Footer />
             </div>

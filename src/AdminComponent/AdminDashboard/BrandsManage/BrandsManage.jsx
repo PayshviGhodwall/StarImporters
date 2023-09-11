@@ -58,7 +58,7 @@ const BrandsManage = () => {
 
   const BrandSearch = async (e) => {
     let string = e.target.value;
-    setSearchTerm(e.target.value)
+    setSearchTerm(e.target.value);
     if (string !== "") {
       await axios
         .post(BraSearch, {
@@ -347,9 +347,7 @@ const BrandsManage = () => {
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -364,6 +362,23 @@ const BrandsManage = () => {
                   </Link>
                 </li>
 
+                <li
+                  className={
+                    User?.access?.includes("catalogFlyers") ? "" : "d-none"
+                  }>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
+                </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
@@ -389,20 +404,19 @@ const BrandsManage = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -525,6 +539,20 @@ const BrandsManage = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fas fa-image"></i>{" "}
                     Gallery Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
                   </Link>
                 </li>
 
@@ -778,51 +806,48 @@ const BrandsManage = () => {
                                     ))}
                                 </tbody>
                               </table>
-                              {
-                                searchTerm?.length >= 1 ?
+                              {searchTerm?.length >= 1 ? (
                                 ""
-                                :
+                              ) : (
+                                <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                  <span className="totalPage">
+                                    ( Total Pages : {maxPage} )
+                                  </span>
+                                  <ul id="pagination">
+                                    <li>
+                                      <a
+                                        class="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activePage <= 1
+                                            ? setActivePage(1)
+                                            : setActivePage(activePage - 1)
+                                        }>
+                                        «
+                                      </a>
+                                    </li>
 
-                              
-                              <div className="col-11 d-flex justify-content-between py-2 mx-5">
-                                <span className="totalPage">
-                                  ( Total Pages : {maxPage} )
-                                </span>
-                                <ul id="pagination">
-                                  <li>
-                                    <a
-                                      class="fs-5"
-                                      href="#"
-                                      onClick={() =>
-                                        activePage <= 1
-                                          ? setActivePage(1)
-                                          : setActivePage(activePage - 1)
-                                      }>
-                                      «
-                                    </a>
-                                  </li>
+                                    <li>
+                                      <a href="#" className="active">
+                                        {activePage}
+                                      </a>
+                                    </li>
 
-                                  <li>
-                                    <a href="#" className="active">
-                                      {activePage}
-                                    </a>
-                                  </li>
-
-                                  <li>
-                                    <a
-                                      className="fs-5"
-                                      href="#"
-                                      onClick={() =>
-                                        activePage === maxPage
-                                          ? setActivePage(maxPage)
-                                          : setActivePage(activePage + 1)
-                                      }>
-                                      »
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-}
+                                    <li>
+                                      <a
+                                        className="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activePage === maxPage
+                                            ? setActivePage(maxPage)
+                                            : setActivePage(activePage + 1)
+                                        }>
+                                        »
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

@@ -37,7 +37,6 @@ const GalleryMain = () => {
   const [allPdfs, setAllPdfs] = useState([]);
   useEffect(() => {
     getCollection();
-    getPdfs();
   }, []);
 
   const addGallery = async (e) => {
@@ -132,13 +131,7 @@ const GalleryMain = () => {
     }
   };
 
-  const getPdfs = async () => {
-    const { data } = await axios.get(allPdf);
-    console.log(data);
-    if (!data.error) {
-      setAllPdfs(data?.results?.catalog);
-    }
-  };
+ 
 
   // instant image preview //
 
@@ -402,6 +395,24 @@ const GalleryMain = () => {
                     Gallery Management
                   </Link>
                 </li>
+                 <li
+                  className={
+                    User?.access?.includes("catalogFlyers") ? "" : "d-none"
+                  }>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                     
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
+                </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
@@ -568,6 +579,20 @@ const GalleryMain = () => {
                 <li>
                   <Link
                     className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
                     to="/OrderRequest"
                     style={{ textDecoration: "none", fontSize: "18px" }}>
                     <i
@@ -677,38 +702,8 @@ const GalleryMain = () => {
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <div className="">
-                        <nav>
-                          <div
-                            className="nav nav-tabs"
-                            id="nav-tab"
-                            role="tablist">
-                            <button
-                              className="nav-link active"
-                              id="nav-home-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#nav-home"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-home"
-                              aria-selected="true">
-                              Galleries
-                            </button>
-                            <button
-                              className="nav-link"
-                              id="nav-profile-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#nav-profile"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-profile"
-                              aria-selected="false">
-                              Catelogues
-                            </button>
-                          </div>
-                        </nav>
-                        <div
-                          className="tab-content recent_orders_cate"
-                          id="nav-tabContent">
+                       
+                      
                           <div
                             className="tab-pane fade show active"
                             id="nav-home"
@@ -899,149 +894,7 @@ const GalleryMain = () => {
                               </div>
                             </div>
                           </div>
-                          <div
-                            className="tab-pane fade recent_order"
-                            id="nav-profile"
-                            role="tabpanel"
-                            aria-labelledby="nav-profile-tab">
-                            <div className="row mx-0 ">
-                              <div className="col-12">
-                                <form
-                                  className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                  action="">
-                                  <div className="form-group mb-0 col-8 choose_fileAdmin position-relative">
-                                    <span>Upload Pdf</span>{" "}
-                                    <label htmlFor="upload_video">
-                                      <i class="fa fa-camera me-1"></i>
-                                      Choose File
-                                    </label>
-                                    <input
-                                      type="file"
-                                      className="form-control shadow-none"
-                                      defaultValue=""
-                                      name="pdf"
-                                      onChange={(e) =>
-                                        onFileSelectionPdf(e, "pdf")
-                                      }
-                                    />
-                                  </div>
-
-                                  <div className="form-group mb-0 col-4 text-center mt-4">
-                                    <button
-                                      className="comman_btn2"
-                                      onClick={AddPdf}>
-                                      Save Collection
-                                    </button>
-                                    <button
-                                      className="comman_btn d-none"
-                                      id="resetCatss"
-                                      type="reset">
-                                      Reset
-                                    </button>
-                                  </div>
-                                </form>
-
-                                <div className="row ">
-                                  <div className="col-12 comman_table_design px-0">
-                                    <div className="table-responsive border">
-                                      <table className="table mb-0">
-                                        <thead>
-                                          <tr
-                                            style={{
-                                              backgroundColor: "#f2f2f2",
-                                            }}>
-                                            <th>Date</th>
-                                            <th>Title</th>
-                                            <th>Cover Image</th>
-                                            <th>Gallery Images</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody className="recent_orders_cate">
-                                          {allPdfs?.map((item, index) => (
-                                            <tr>
-                                              <td className="border">
-                                                {" "}
-                                                {moment(item?.updatedAt).format(
-                                                  "MM/DD/YYYY"
-                                                )}
-                                              </td>
-                                              <td className="border">
-                                                {item?.title}
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  className="subCatImages"
-                                                  src={
-                                                    item?.coverImage
-                                                      ? item?.coverImage
-                                                      : require("../../../assets/img/product.jpg")
-                                                  }></img>
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  onClick={() =>
-                                                    getSlides(item?.images)
-                                                  }
-                                                  className="previewImages"
-                                                  src={require("../../../assets/img/preview2.png")}></img>
-                                                <br />
-                                                <small>CLick to preview</small>
-                                              </td>
-                                              <td className="border">
-                                                {" "}
-                                                <div
-                                                  className=""
-                                                  //   key={item?._id}
-                                                >
-                                                  <label class="switchUser">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={item?._id}
-                                                      defaultChecked={
-                                                        item?.status
-                                                      }
-                                                      onClick={() => {
-                                                        GalleryStatus(
-                                                          item?._id
-                                                        );
-                                                      }}
-                                                    />
-                                                    <span class="sliderUser round"></span>
-                                                  </label>
-                                                </div>
-                                              </td>
-
-                                              <td className="border">
-                                                <a
-                                                  data-bs-toggle="modal"
-                                                  data-bs-target="#staticBackdrop"
-                                                  className="comman_btn2   text-white text-decoration-none"
-                                                  style={{
-                                                    backgroundColor: "#eb3237",
-                                                    fontSize: "22px",
-                                                    position: "relative",
-                                                    top: "-2px",
-                                                  }}
-                                                  key={index}
-                                                  onClick={() => {
-                                                    onEditGallery(item?._id);
-                                                  }}>
-                                                  Edit
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                         
                       </div>
                     </div>
                   </div>

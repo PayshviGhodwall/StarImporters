@@ -9,6 +9,7 @@ import { Button, InputNumber, Loader } from "rsuite";
 import moment from "moment";
 
 const EditOrder = () => {
+
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
@@ -291,7 +292,7 @@ const EditOrder = () => {
                     Puller Management
                   </Link>
                 </li>
-                <li
+                 <li
                   className={
                     User?.access?.includes("Gallery") ? "" : "d-none"
                   }>
@@ -307,7 +308,25 @@ const EditOrder = () => {
                       class="fas fa-image"></i>{" "}
                     Gallery Management
                   </Link>
+                </li><li
+                  className={
+                    User?.access?.includes("catalogFlyers") ? "" : "d-none"
+                  }>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                     
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
                 </li>
+                
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
@@ -469,6 +488,20 @@ const EditOrder = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fas fa-image"></i>{" "}
                     Gallery Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
                   </Link>
                 </li>
                 <li>

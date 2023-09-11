@@ -119,6 +119,10 @@ import CloseOut from "./buyerComponent/AllProducts/CloseOut";
 import AppHotDealList from "./pwaComponents/homeComponent/appHotDealList";
 import AppCloseOutList from "./pwaComponents/homeComponent/appCloseOutList";
 import Catelogues from "./buyerComponent/Footer/Catelogues";
+import AdminCateFlyers from "./AdminComponent/AdminDashboard/Catalog&Flyers/AdminCateFlyers";
+import AllCatalogues from "./buyerComponent/Footer/AllCatalogues";
+import AllFlyers from "./buyerComponent/Footer/AllFlyers";
+import ViewCatalog from "./buyerComponent/Footer/viewCatalog";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -219,6 +223,8 @@ function App() {
             <Route path="/CategorySub" element={<CategorySub />} />
             <Route path="/Inventory" element={<Inventory />} />
             <Route path="/Puller-Management" element={<PullerManagement />} />
+            <Route path="/Catelog-Flyers" element={<AdminCateFlyers />} />
+
             <Route
               path="/Puller-Management/Puller-details/:id"
               element={<ViewPuller />}
@@ -245,7 +251,7 @@ function App() {
             <Route path="/OrderRequest" element={<OrderReq />} />
             <Route path="/app/Gallery" element={<Gallery />} />
             <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
-            <Route path="/app/events/catelogues/:id" element={<Catelogues />} />
+            <Route path="/app/events/catelog&flyer" element={<Catelogues />} />
             <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
             <Route path="/Cart/Checkout" element={<Checkout />} />
             <Route path="/app/subCategories" element={<SubCategories />} />
@@ -425,8 +431,26 @@ function App() {
               element={width < 999 ? <AppProductBrands /> : <AllBrands />}
             />
             <Route path="/app/product-list" element={<AppProductList />} />
-            <Route path="/app/product-list/Hot-Deal" element={<AppHotDealList />} />
-            <Route path="/app/product-list/Close-Out" element={<AppCloseOutList />} />
+            <Route
+              path="/app/product-list/Hot-Deal"
+              element={<AppHotDealList />}
+            />
+            <Route
+              path="/app/product-list/Close-Out"
+              element={<AppCloseOutList />}
+            />
+            <Route
+              path="/app/events/catelog&flyer/All-Catalogs"
+              element={<AllCatalogues />}
+            />
+            <Route
+              path="/app/events/catelog&flyer/All-Flyers"
+              element={<AllFlyers />}
+            />
+             <Route
+              path="/app/events/catelog&flyer/View"
+              element={<ViewCatalog />}
+            />
             <Route
               path="/app/featured-products"
               element={<FeaturedProducts />}

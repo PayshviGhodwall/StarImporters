@@ -474,7 +474,7 @@ const EditInventory = () => {
                     Puller Management
                   </Link>
                 </li>
-                <li
+                 <li
                   className={
                     User?.access?.includes("Gallery") ? "" : "d-none"
                   }
@@ -493,7 +493,25 @@ const EditInventory = () => {
                     ></i>{" "}
                     Gallery Management
                   </Link>
+                </li><li
+                  className={
+                    User?.access?.includes("catalogFlyers") ? "" : "d-none"
+                  }>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                     
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
+                  </Link>
                 </li>
+                
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
@@ -675,6 +693,20 @@ const EditInventory = () => {
                       class="fas fa-image"
                     ></i>{" "}
                     Gallery Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Catelog-Flyers"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-book"></i>{" "}
+                    Catalog & Flyers
                   </Link>
                 </li>
                 <li>

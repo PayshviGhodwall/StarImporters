@@ -119,6 +119,15 @@ const Footer = () => {
                     <li>
                       <Link
                         className="text-decoration-none"
+                        to="/app/events/catelog&flyer"
+                        state={"JII55"}
+                      >
+                        Catalog and Flyers
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="text-decoration-none"
                         to="/app/brands"
                         state={"JII"}
                       >

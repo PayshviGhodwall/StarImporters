@@ -66,15 +66,12 @@ const SingleProduct = () => {
   }, [change, id]);
 
   useEffect(() => {
+    setFlavour(location?.state?.type);
     NewProducts();
     setTimeout(() => {
       setLoaderM(false);
     }, 5000);
   }, []);
-
-  if (flavour !== location?.state?.type) {
-    setFlavour(location?.state?.type);
-  }
 
   const NewProducts = async () => {
     console.log(id?.slice(0, 1));
@@ -88,7 +85,9 @@ const SingleProduct = () => {
           setSimProducts(res?.data.results);
         });
       setProduct(res?.data.results);
-      setFlavour(res?.data.results.type[0]);
+      location?.state?.type
+        ? setFlavour(location?.state?.type)
+        : setFlavour(res?.data.results.type[0]);
       setProductImages(res.data.results?.productImage);
       setProductImages({ ...productImages }, res.data.results?.type);
       setLoaderM(false);
@@ -599,7 +598,6 @@ const SingleProduct = () => {
                               {errMsg ? errMsg : flavour?.flavour}
                             </a>
                           </div>
-                          
                         </div>
                         {flavour ? (
                           <div className="col-12">
@@ -673,9 +671,7 @@ const SingleProduct = () => {
                                         setTypeObj();
                                         setFlavour(item);
                                         setUnitCount(1);
-                                        document.getElementById(
-                                          "flavour_box"
-                                        ).className = "offers_box_main ";
+
                                         document.getElementById(
                                           "productMainImg"
                                         ).className = "selected-img";
