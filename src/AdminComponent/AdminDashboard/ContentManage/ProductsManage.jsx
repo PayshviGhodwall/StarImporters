@@ -113,11 +113,11 @@ const ProductsManage = () => {
     await axios
       .post(addPromotions, {
         productId: selectedProduct?.usersSelected?.value,
-        flavourId: JSON.parse(flavour),
+        flavourId: flavour && JSON.parse(flavour),
         title: "Hot Selling",
         type: "HotSelling",
       })
-      .then((res) => {
+    .then((res) => {
         if (!res.data.error) {
           Swal.fire({
             title: "New Product Added!",
@@ -136,7 +136,7 @@ const ProductsManage = () => {
     await axios
       .post(addPromotions, {
         productId: selectedProduct?.usersSelected?.value,
-        flavourId: JSON.parse(flavour),
+        flavourId: flavour && JSON.parse(flavour),
         title: "Featured Product",
         type: "Featured",
       })
@@ -159,7 +159,7 @@ const ProductsManage = () => {
     await axios
       .post(addPromotions, {
         productId: selectedProduct?.usersSelected?.value,
-        flavourId: JSON.parse(flavour),
+        flavourId: flavour && JSON.parse(flavour),
         title: "Hot Selling",
         type: "CloseOut",
         expireIn: expiry,
@@ -176,6 +176,15 @@ const ProductsManage = () => {
           setProducts([]);
           getPromotionsClose();
           setExpiry("");
+        }
+        if (res.data.error) {
+          Swal.fire({
+            title: res?.data.message,
+            icon: "error",
+            confirmButtonText: "Ok",
+            timer: 1000,
+          });
+ 
         }
       });
   };

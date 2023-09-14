@@ -3,7 +3,6 @@ import Footer from "../Footer/Footer";
 import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import Navbar from "../Homepage/Navbar";
 import { useEffect } from "react";
-import { Button } from "rsuite";
 import axios from "axios";
 import { useState } from "react";
 import "swiper/css";
@@ -15,6 +14,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import { Modal, ButtonToolbar, Button, Loader, Placeholder } from "rsuite";
+import LoginPOP from "../Homepage/loginPOP";
 
 const SingleProduct = () => {
   const width = window.innerWidth;
@@ -48,12 +49,18 @@ const SingleProduct = () => {
     setChange(data);
   };
   let { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const [rows, setRows] = useState(0);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
 
   let token = localStorage.getItem("token-user");
-
+  const handleEntered = () => {
+    setTimeout(() => setRows(80), 2000);
+  };
   useEffect(() => {
     const userInfo = async () => {
       await axios.get(userData).then((res) => {
@@ -72,6 +79,13 @@ const SingleProduct = () => {
       setLoaderM(false);
     }, 5000);
   }, []);
+
+  const getLoginCnfirm = (data) => {
+    if (data?.length > 1) {
+      setOpen(false);
+      window.location.reload(false);
+    }
+  };
 
   const NewProducts = async () => {
     console.log(id?.slice(0, 1));
@@ -598,6 +612,16 @@ const SingleProduct = () => {
                               {errMsg ? errMsg : flavour?.flavour}
                             </a>
                           </div>
+
+                          <div className="prdct---falvor">
+                            Case Size :{" "}
+                            <a
+                              href="javascript:;"
+                              className="text-decoration-none fw-bolder">
+                              {" "}
+                              {errMsg ? errMsg : flavour?.caseQty ? flavour?.caseQty : product?.caseSize || "Not Set" }
+                            </a>
+                          </div>
                         </div>
                         {flavour ? (
                           <div className="col-12">
@@ -741,7 +765,7 @@ const SingleProduct = () => {
                               backgroundColor: "#eb3237",
                             }}
                             onClick={() => {
-                              navigate("/app/login");
+                              setOpen(true);
                             }}>
                             Please Login to add to cart!
                           </div>
@@ -835,6 +859,30 @@ const SingleProduct = () => {
           <Footer />
         </>
       )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        onEntered={handleEntered}
+        onExited={() => {
+          setRows(0);
+        }}
+        size="lg"
+        position="center">
+        <Modal.Header>
+          {/* <Modal.Title>Modal Title</Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>
+          {rows ? (
+            <div>
+              <LoginPOP getLoginCnfirm={getLoginCnfirm} />
+            </div>
+          ) : (
+            <div style={{ textAlign: "center" }}>
+              <Loader size="md" />
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

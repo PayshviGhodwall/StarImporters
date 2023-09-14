@@ -212,7 +212,7 @@ const Inventory = () => {
     setFormValues(newFormValues);
     setChange(!change);
   };
-  console.log(compressedFile);
+  // console.log(compressedFile);
 
   const productImageSelection = (e) => {
     const formData = new FormData();
@@ -255,6 +255,7 @@ const Inventory = () => {
       setFormValues(newFormValues);
     });
   };
+
   const onSubmit = async (data) => {
     // setLoader(true);
     console.log(data);
@@ -264,6 +265,7 @@ const Inventory = () => {
         unitName: data?.productName.trim(),
         category: data?.category,
         subCategory: data?.subCategory,
+        caseSize: data?.caseSize,
         brand: data?.brands,
         type: formValues,
       })

@@ -41,42 +41,11 @@ const ViewCatalog = () => {
                   alt="Site Name"
                 />
               </Link>
-              <h1>Star Importers & Wholesalers</h1>
+              {/* <h1>Star Importers & Wholesalers</h1> */}
             </div>
-            <nav class="site-navigation">
-              <ul class="nav">
-                <li>
-                  <Link
-                    className="text-decoration-none text-dark"
-                    to="/app/events/catelog&flyer">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="text-decoration-none text-dark"
-                    to="/app/events/catelog&flyer/All-Catalogs">
-                    Catalogs
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="text-decoration-none text-dark"
-                    to="/app/events/catelog&flyer/All-Flyers">
-                    Monthly Flyers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="text-decoration-none text-dark"
-                    to="/app/about-us">
-                    About Us
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+           
           </header>
-          <div className="bg-white">
+          <div className="bg-white cateView">
             <iframe
               src={
                 location?.state
@@ -84,37 +53,11 @@ const ViewCatalog = () => {
                   : "https://8f920893-trial.flowpaper.com/fileexamplePDF500kB/"
               }
               width="100%"
-              height="630"
+              height="90%"
               allowFullScreen></iframe>
           </div>
         </div>
-        <div
-          className=""
-          style={{
-            marginTop: "10rem",
-          }}>
-          {/* <small className="" onClick={handle.enter}>
-                  <i class="fas fa-expand"></i>
-                </small> */}
-          {/* <div className=" ">
-            <FullScreen handle={handle}>
-              <div className="bg-white">
-                <HTMLFlipBook width={400} height={500}>
-                  {allPdfs[0]?.image?.map((itm, ids) => (
-                    <li>
-                      <Page number={ids + 1}>
-                        {" "}
-                        <img src={itm}></img>
-                      </Page>
-                    </li>
-                  ))}
-                </HTMLFlipBook>
-              
-              </div>
-             
-            </FullScreen>
-          </div> */}
-        </div>
+       
       </section>
     </div>
   );

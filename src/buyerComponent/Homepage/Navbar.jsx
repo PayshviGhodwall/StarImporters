@@ -60,8 +60,11 @@ const Navbar = ({ NState, LoginState }) => {
       });
       if (!data.error) {
         let dataList = data?.results.products;
-        setProducts(dataList?.slice(0, 6));
-        setRelateCate(data?.results.subCategories);
+        setTimeout(() => {
+          setProducts(dataList?.slice(0, 6));
+          setRelateCate(data?.results.subCategories);
+        }, [1000]);
+       
         setTimeout(() => {
           setLoad(false);
         }, [3000]);

@@ -37,6 +37,8 @@ const Cms = () => {
   const [urlS6, setUrlS6] = useState("");
   const [urlV1, setUrlV1] = useState("");
   const [urlV2, setUrlV2] = useState("");
+  const [urlV3, setUrlV3] = useState("");
+  const [urlV4, setUrlV4] = useState("");
   const AllSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getAllSlides`;
   const AllHeaders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getHeaders`;
   const EditSlide = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editSlide`;
@@ -121,8 +123,20 @@ const Cms = () => {
   const saveVideo = async (e, id, no) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("video", no == 1 ? videoFile?.video1 : videoFile?.video2);
-    formData.append("url", no == 1 ? urlV1 : urlV2);
+    formData.append(
+      "video",
+      (no == 1 && videoFile?.video1) ||
+        (no == 2 && videoFile?.video2) ||
+        (no == 3 && videoFile?.video3) ||
+        (no == 4 && videoFile?.video4)
+    );
+    formData.append(
+      "url",
+      (no == 1 && urlV1) ||
+        (no == 2 && urlV2) ||
+        (no == 3 && urlV3) ||
+        (no == 4 && urlV4)
+    );
     const { data } = await axios.post(editVideo + "/" + id, formData);
     if (!data.error) {
       window.location.reload(false);
@@ -1188,7 +1202,7 @@ const Cms = () => {
                           aria-labelledby="nav-home-tab">
                           <div className="row mx-0 cms_home_banner">
                             <div className="col-12 p-4">
-                              <ul
+                            <ul
                                 className="nav nav-tabs mb-4 bg-white"
                                 id="myTab"
                                 role="tablist">
@@ -1219,7 +1233,7 @@ const Cms = () => {
                                     role="tab"
                                     aria-controls="SlideTwo"
                                     aria-selected="false">
-                                    {slideData[1]?.slide}
+                                    Video 1
                                   </button>
                                 </li>
                                 <li
@@ -1234,7 +1248,38 @@ const Cms = () => {
                                     role="tab"
                                     aria-controls="SlideNew"
                                     aria-selected="false">
-                                    Slide
+                                    Video 2
+                                  </button>
+                                </li>
+
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation">
+                                  <button
+                                    className="nav-link labels"
+                                    id="SlideNew-tabV3"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideNewV3"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideNew"
+                                    aria-selected="false">
+                                    Video 3
+                                  </button>
+                                </li>
+                                <li
+                                  className="nav-item me-2"
+                                  role="presentation">
+                                  <button
+                                    className="nav-link labels"
+                                    id="SlideNew-tabV4"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#SlideNew"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="SlideNewV4"
+                                    aria-selected="false">
+                                    Video 4
                                   </button>
                                 </li>
                                 <li
@@ -1636,6 +1681,171 @@ const Cms = () => {
                                     </div>
                                   </div>
                                 </div>
+
+                                <div
+                                  className="tab-pane fade"
+                                  id="SlideNewV3"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideNew-tab">
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="row mx-0  rounded py-3 px-1">
+                                      <div className="col-12">
+                                        <form
+                                          className="form-design row"
+                                          action="">
+                                          <div className="form-group col-12 ">
+                                            <div className="account_profile position-relative d-inline-block">
+                                              <div className="fw-bold">
+                                                <label className="fs-5 fw-bold">
+                                                  Video Link :{" "}
+                                                  {videoSlides[2]?.video}
+                                                </label>
+                                              </div>
+                                              <div className="form-group col-12 choose_file position-relative mt-4">
+                                                <span className="fw-bolder">
+                                                  Change Video{" "}
+                                                </span>
+                                                <label htmlFor="vidSlide2">
+                                                  <i className="fa fa-camera me-1 mx-2" />
+                                                  Choose File
+                                                </label>
+                                                <input
+                                                  type="file"
+                                                  className="form-control  border border-secondary mx-2"
+                                                  name="video2"
+                                                  accept="video/*"
+                                                  id="vidSlide2"
+                                                  onChange={(e) =>
+                                                    onFileSelectionVideo(
+                                                      e,
+                                                      "video3"
+                                                    )
+                                                  }
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="form-group col-12 mb-4">
+                                              <label
+                                                htmlFor=""
+                                                className="fw-bold">
+                                                Link/Url
+                                              </label>
+                                              <input
+                                                type="text"
+                                                className="form-control  border border-secondary"
+                                                name="url"
+                                                placeholder="Enter Url"
+                                                defaultValue={
+                                                  videoSlides[2]?.url
+                                                }
+                                                onChange={(e) => {
+                                                  setUrlV3(e.target.value);
+                                                }}
+                                              />
+                                            </div>
+                                          </div>
+
+                                          <div className="form-group col-12 text-start">
+                                            <button
+                                              className="comman_btn"
+                                              onClick={(e) =>
+                                                saveVideo(
+                                                  e,
+                                                  videoSlides[2]?._id,
+                                                  3
+                                                )
+                                              }>
+                                              Save
+                                            </button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className="tab-pane fade"
+                                  id="SlideNewV4"
+                                  role="tabpanel"
+                                  aria-labelledby="SlideNew-tab">
+                                  <div className="row mx-0 border rounded py-3 px-1">
+                                    <div className="row mx-0  rounded py-3 px-1">
+                                      <div className="col-12">
+                                        <form
+                                          className="form-design row"
+                                          action="">
+                                          <div className="form-group col-12 ">
+                                            <div className="account_profile position-relative d-inline-block">
+                                              <div className="fw-bold">
+                                                <label className="fs-5 fw-bold">
+                                                  Video Link :{" "}
+                                                  {videoSlides[3]?.video}
+                                                </label>
+                                              </div>
+                                              <div className="form-group col-12 choose_file position-relative mt-4">
+                                                <span className="fw-bolder">
+                                                  Change Video{" "}
+                                                </span>
+                                                <label htmlFor="vidSlide4">
+                                                  <i className="fa fa-camera me-1 mx-2" />
+                                                  Choose File
+                                                </label>
+                                                <input
+                                                  type="file"
+                                                  className="form-control  border border-secondary mx-2"
+                                                  name="video4"
+                                                  accept="video/*"
+                                                  id="vidSlide4"
+                                                  onChange={(e) =>
+                                                    onFileSelectionVideo(
+                                                      e,
+                                                      "video4"
+                                                    )
+                                                  }
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="form-group col-12 mb-4">
+                                              <label
+                                                htmlFor=""
+                                                className="fw-bold">
+                                                Link/Url
+                                              </label>
+                                              <input
+                                                type="text"
+                                                className="form-control  border border-secondary"
+                                                name="url"
+                                                placeholder="Enter Url"
+                                                defaultValue={
+                                                  videoSlides[3]?.url
+                                                }
+                                                onChange={(e) => {
+                                                  setUrlV4(e.target.value);
+                                                }}
+                                              />
+                                            </div>
+                                          </div>
+
+                                          <div className="form-group col-12 text-start">
+                                            <button
+                                              className="comman_btn"
+                                              onClick={(e) =>
+                                                saveVideo(
+                                                  e,
+                                                  videoSlides[3]?._id,
+                                                  4
+                                                )
+                                              }>
+                                              Save
+                                            </button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
                                 <div
                                   className="tab-pane fade"
                                   id="SlideThree"

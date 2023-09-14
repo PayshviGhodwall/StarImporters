@@ -142,6 +142,7 @@ const EditInventory = () => {
         unitName: data?.productName,
         category: data?.category,
         subCategory: data?.subCategory,
+        caseSize: data?.caseSize,
         pBarcode: productBarcode,
         productPrice: data?.productPrice,
         brand: data?.brands,
@@ -878,7 +879,7 @@ const EditInventory = () => {
                         type="text"
                         className="form-control"
                         name="caseSize"
-                        defaultValue={allProducts[0]?.unitName}
+                        defaultValue={allProducts[0]?.caseSize}
                         placeholder="Enter Case Size"
                         {...register("caseSize")}
                       />
