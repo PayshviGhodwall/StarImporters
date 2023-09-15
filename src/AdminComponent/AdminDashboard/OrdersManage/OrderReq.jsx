@@ -219,6 +219,7 @@ const OrderReq = () => {
         setAllCount(res?.data.results?.orders?.count);
       });
   };
+
   const completedOrders = async () => {
     await axios
       .post(orderList, { page: activePageComp, status: "Completed" })
@@ -332,17 +333,19 @@ const OrderReq = () => {
     e.preventDefault();
     await axios
       .post(orderList, {
-        from: values.from,
-        to: values.to,
+        from: values?.from,
+        to: values?.to,
         page: 1,
         status: type,
       })
       .then((res) => {
-        type === "All" && setOrders(res?.data.results.orders);
-        type === "Completed" && setCompOrders(res?.data.results.orders);
-        type === "Cancelled" && setCancelledOrders(res?.data.results.orders);
+        (type === "All" &&
+          setOrders(res?.data.results && res?.data.results.orders)) ||
+          (type === "Completed" &&
+            setCompOrders(res?.data.results && res?.data.results.orders)) ||
+          (type === "Cancelled" &&
+            setCancelledOrders(res?.data.results && res?.data.results.orders));
       });
-    setValues();
   };
 
   const AddOrder = async (e) => {
@@ -406,6 +409,7 @@ const OrderReq = () => {
     newFormValues[i].Quantity = val;
     setFormValues(newFormValues);
   };
+
   const onQuoteSearch = async (e) => {
     e.preventDefault();
     await axios
@@ -418,6 +422,7 @@ const OrderReq = () => {
         setQuoteReq(res?.data.results.quotation);
       });
   };
+
   const exportOrder = async (e) => {
     e.preventDefault();
     await axios
@@ -456,12 +461,9 @@ const OrderReq = () => {
             status: type,
           })
           .then((res) => {
-            if (!res.error) {
-              type === "All" && setOrders(res?.data.results.orders);
-              type === "Completed" && setCompOrders(res?.data.results.orders);
-              type === "Cancelled" &&
-                setCancelledOrders(res?.data.results.orders);
-            }
+            (type === "All" && setOrders(res?.data.results)) ||
+              (type === "Completed" && setCompOrders(res?.data.results)) ||
+              (type === "Cancelled" && setCancelledOrders(res?.data.results));
           })
       : OrderRequest();
   };
@@ -732,7 +734,6 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -740,7 +741,7 @@ const OrderReq = () => {
                     Catalog & Flyers
                   </Link>
                 </li>
-                
+
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
@@ -1210,7 +1211,10 @@ const OrderReq = () => {
                             type="button"
                             role="tab"
                             aria-controls="nav-home"
-                            aria-selected="true">
+                            aria-selected="true"
+                            onClick={() => {
+                              setValues({ from: "", to: "" });
+                            }}>
                             Current Orders
                             <span className="circle_count">
                               {allCount ? allCount : 0}
@@ -1225,7 +1229,10 @@ const OrderReq = () => {
                             role="tab"
                             aria-controls="nav-completed"
                             aria-selected="false"
-                            onClick={() => completedOrders()}>
+                            onClick={() => {
+                              setValues({ from: "", to: "" });
+                              completedOrders();
+                            }}>
                             Completed Orders{" "}
                             <span className="circle_count">
                               {compCount ? compCount : 0}
@@ -1240,7 +1247,10 @@ const OrderReq = () => {
                             role="tab"
                             aria-controls="nav-cancelled"
                             aria-selected="false"
-                            onClick={() => cancelledOrders()}>
+                            onClick={() => {
+                              cancelledOrders();
+                              setValues({ from: "", to: "" });
+                            }}>
                             Cancelled Orders
                             <span className="circle_count">
                               {canCount ? canCount : 0}
@@ -1255,7 +1265,10 @@ const OrderReq = () => {
                             role="tab"
                             aria-controls="nav-profile"
                             aria-selected="false"
-                            onClick={() => sharedQuotations()}>
+                            onClick={() => {
+                              setValues({ from: "", to: "" });
+                              sharedQuotations();
+                            }}>
                             Quotation Request
                             <span className="circle_count">
                               {quoteCount ? quoteCount : 0}
@@ -1270,7 +1283,10 @@ const OrderReq = () => {
                             type="button"
                             role="tab"
                             aria-controls="nav-shared"
-                            aria-selected="false">
+                            aria-selected="false"
+                            onClick={() => {
+                              setValues({ from: "", to: "" });
+                            }}>
                             Shared Quotations
                             <span className="circle_count">
                               {sharedCount ? sharedCount : 0}
@@ -1284,7 +1300,10 @@ const OrderReq = () => {
                             type="button"
                             role="tab"
                             aria-controls="nav-day"
-                            aria-selected="false">
+                            aria-selected="false"
+                            onClick={() => {
+                              setValues({ from: "", to: "" });
+                            }}>
                             Delivery Days
                           </button>
                         </div>
@@ -1307,7 +1326,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="from"
                                     id="orderFrom"
-                                    value={values.from}
+                                    value={values?.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -1318,7 +1337,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="to"
                                     id="orderTo"
-                                    value={values.to}
+                                    value={values?.to}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -1563,7 +1582,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="from"
                                     id="orderFrom"
-                                    value={values.from}
+                                    value={values?.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -1574,7 +1593,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="to"
                                     id="orderTo"
-                                    value={values.to}
+                                    value={values?.to}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -1818,7 +1837,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="from"
                                     id="orderFrom"
-                                    value={values.from}
+                                    value={values?.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -1829,7 +1848,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="to"
                                     id="orderTo"
-                                    value={values.to}
+                                    value={values?.to}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -2081,7 +2100,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="from"
                                     id="reqFrom"
-                                    value={values.from}
+                                    value={values?.from}
                                     onChange={handleDate}
                                   />
                                 </div>
@@ -2092,7 +2111,7 @@ const OrderReq = () => {
                                     className="form-control"
                                     name="to"
                                     id="reqTo"
-                                    value={values.to}
+                                    value={values?.to}
                                     onChange={handleDate}
                                   />
                                 </div>

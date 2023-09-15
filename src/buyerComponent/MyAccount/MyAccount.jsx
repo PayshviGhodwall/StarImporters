@@ -56,16 +56,14 @@ const MyAccount = () => {
                     <li className="item_nanner">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-1">&#9679;</span>{" "}
                       </Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       <Link
                         to=""
-                        className="text-decoration-none text-white fs-6 mx-1"
-                      >
+                        className="text-decoration-none text-white fs-6 mx-1">
                         My Account
                       </Link>
                     </li>
@@ -89,8 +87,7 @@ const MyAccount = () => {
                   class="nav flex-column nav-pills"
                   id="v-pills-tab"
                   role="tablist"
-                  aria-orientation="vertical"
-                >
+                  aria-orientation="vertical">
                   <button
                     class="nav-link active"
                     id="v-pills-home-tab"
@@ -99,8 +96,7 @@ const MyAccount = () => {
                     type="button"
                     role="tab"
                     aria-controls="v-pills-home"
-                    aria-selected="true"
-                  >
+                    aria-selected="true">
                     <div class="tab_img">
                       <img
                         src={require("../../assets/img/order-approve.png")}
@@ -109,6 +105,24 @@ const MyAccount = () => {
                     </div>{" "}
                     My Order
                   </button>
+
+                  {users?.multipleUsers ? (
+                    <button
+                      class="nav-link"
+                      id="store-pills-profile-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#store-pills-profile"
+                      type="button"
+                      role="tab"
+                      aria-controls="store-pills-profile"
+                      aria-selected="false">
+                      <div class="tab_img">
+                        <i class="fa fa-store"></i>
+                      </div>
+                      My Stores
+                    </button>
+                  ) : null}
+
                   {users?.quotation ? (
                     <button
                       class="nav-link"
@@ -118,8 +132,7 @@ const MyAccount = () => {
                       type="button"
                       role="tab"
                       aria-controls="v-pills-profile"
-                      aria-selected="false"
-                    >
+                      aria-selected="false">
                       <div class="tab_img">
                         <img
                           src={require("../../assets/img/question-answer.png")}
@@ -138,8 +151,7 @@ const MyAccount = () => {
                     type="button"
                     role="tab"
                     aria-controls="v-pills-messages"
-                    aria-selected="false"
-                  >
+                    aria-selected="false">
                     <div class="tab_img">
                       <img
                         src={require("../../assets/img/address-book.png")}
@@ -156,8 +168,7 @@ const MyAccount = () => {
                     type="button"
                     role="tab"
                     aria-controls="v-pills-settings"
-                    aria-selected="false"
-                  >
+                    aria-selected="false">
                     <div class="tab_img">
                       <img
                         src={require("../../assets/img/settings.png")}
@@ -174,8 +185,7 @@ const MyAccount = () => {
                     type="button"
                     role="tab"
                     aria-controls="v-pills-fav"
-                    aria-selected="false"
-                  >
+                    aria-selected="false">
                     <div class="tab_img">
                       <img
                         src={require("../../assets/img/cards-playing.png")}
@@ -192,8 +202,7 @@ const MyAccount = () => {
                     type="button"
                     role="tab"
                     aria-controls="v-pills-buy"
-                    aria-selected="false"
-                  >
+                    aria-selected="false">
                     <div class="tab_img">
                       <img src={require("../../assets/img/buy.png")} alt="" />
                     </div>
@@ -210,8 +219,7 @@ const MyAccount = () => {
                       class="tab-pane fade show active"
                       id="v-pills-home"
                       role="tabpanel"
-                      aria-labelledby="v-pills-home-tab"
-                    >
+                      aria-labelledby="v-pills-home-tab">
                       <div class="myacct_data_inner">
                         <div class="row">
                           <div class="col-12 data_head mb-4">
@@ -269,27 +277,90 @@ const MyAccount = () => {
                     </div>
 
                     <div
+                      class="tab-pane fade show active"
+                      id="store-pills-home"
+                      role="tabpanel"
+                      aria-labelledby="store-pills-home-tab">
+                      <div class="myacct_data_inner">
+                        <div class="row">
+                          <div class="col-12 data_head mb-4">
+                            <h2>My Stores</h2>
+                          </div>
+                          {(users?.subAccounts || [])?.map((item, index) => (
+                            <div
+                              class="col-md-6 mb-4"
+                              onClick={() => {
+                                navigate(`/Account/Store/View/${item?._id}`, {
+                                  state: users?._id,
+                                });
+                              }}>
+                              <div
+                                class="order-new-box"
+
+                                // state={{ id: item?._id }}
+                              >
+                                <div class="row">
+                                  <div class="col-12 mb-1 pe-0">
+                                    <div class="orderID fw-bold">
+                                      Company Name:{" "}
+                                      <strong>{item?.companyName}</strong>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-8  ">
+                                    <div class="orderID fw-bold">
+                                      User Name :
+                                      <strong>
+                                        {" "}
+                                        {item?.firstName + " " + item?.lastName}
+                                      </strong>
+                                    </div>
+                                  </div>
+                                  <div class="col-4  ">
+                                    <div class="orderID fw-bold">
+                                      <i class="fa-solid fa-phone"></i>:
+                                      <strong>
+                                        {item?.businessPhoneNumber}
+                                      </strong>
+                                    </div>
+                                  </div>
+                                  <div class="col-12  mt-2 ">
+                                    <div class="orderID fw-bold">
+                                      Address :
+                                      <strong>{item?.addressLine1}</strong>
+                                      <strong>-{item?.addressLine2}</strong>
+                                      <strong>-{item?.city}</strong>
+                                      <strong>-{item?.state}</strong>
+                                      <strong>-{item?.zipcode}</strong>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
                       class="tab-pane fade"
                       id="v-pills-profile"
                       role="tabpanel"
-                      aria-labelledby="v-pills-profile-tab"
-                    >
+                      aria-labelledby="v-pills-profile-tab">
                       <RequestOrders />
                     </div>
                     <div
                       class="tab-pane fade"
                       id="v-pills-messages"
                       role="tabpanel"
-                      aria-labelledby="v-pills-messages-tab"
-                    >
+                      aria-labelledby="v-pills-messages-tab">
                       <Address />
                     </div>
                     <div
                       class="tab-pane fade"
                       id="v-pills-settings"
                       role="tabpanel"
-                      aria-labelledby="v-pills-settings-tab"
-                    >
+                      aria-labelledby="v-pills-settings-tab">
                       <Account />
                     </div>
 
@@ -297,8 +368,7 @@ const MyAccount = () => {
                       class="tab-pane fade"
                       id="v-pills-fav"
                       role="tabpanel"
-                      aria-labelledby="v-pills-fav-tab"
-                    >
+                      aria-labelledby="v-pills-fav-tab">
                       <div class="myacct_data_inner">
                         <div class="row">
                           <div class="col-12 data_head mb-4">
@@ -313,8 +383,7 @@ const MyAccount = () => {
                       class="tab-pane fade"
                       id="v-pills-buy"
                       role="tabpanel"
-                      aria-labelledby="v-pills-buy-tab"
-                    >
+                      aria-labelledby="v-pills-buy-tab">
                       <BuyAgain />
                     </div>
                   </div>

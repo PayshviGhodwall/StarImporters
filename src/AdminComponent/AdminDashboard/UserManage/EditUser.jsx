@@ -99,6 +99,7 @@ const EditUser = () => {
     formData.append("salesTaxId", files?.salesTaxId);
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
+    formData.append("multipleUsers", data?.multipleUsers);
     formData.append("quotation", data?.quotation ? data?.quotation : "");
     formData.append("istobaccoLicenceExpired", data?.License ? data?.License : user?.istobaccoLicenceExpired );
     formData.append(
@@ -1532,6 +1533,63 @@ const EditUser = () => {
                           )}
                         </div>
                       </div>
+
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold fs-6">
+                            Multiple Users ? :{" "}
+                            {user?.multipleUsers
+                              ? "Enabled"
+                              : "Disabled"}
+                          </span>
+                          {user?.multipleUsers ? (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.multipleUsers
+                                  ? "Disable"
+                                  : "Enable"}{" "}
+                                 ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  value="false"
+                                  className="border check"
+                                  name="multipleUsers"
+                                  {...register("multipleUsers")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          ) : (
+                            <div className="col-12 align-item-center ">
+                              <p>
+                                Do you want to{" "}
+                                {user?.multipleUsers
+                                  ? "Disable"
+                                  : "Enable"}{" "}
+                                 ?
+                              </p>
+                              <div>
+                                <input
+                                  type="checkbox"
+                                  className="border check"
+                                  name="multipleUsers"
+                                  value="true"
+                                  {...register("multipleUsers")}
+                                />
+                                <small className="fs-5 fw-bold mx-2">Yes</small>
+                              </div>
+
+                              <br />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="col-12 text-center">
                         <Button
                           loading={loader}

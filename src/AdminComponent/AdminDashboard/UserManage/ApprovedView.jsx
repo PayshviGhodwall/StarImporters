@@ -115,10 +115,87 @@ const ApprovedView = () => {
     rows: [],
   });
 
+  const [account, setAccount] = useState({
+    columns: [
+      {
+        label: "Date",
+        field: "date",
+        sort: "asc",
+        width: 150,
+      },
+
+      {
+        label: "Company Name",
+        field: "name_comp",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "Full Name",
+        field: "name",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "Address",
+        field: "address",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "Business Number",
+        field: "number",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "Action",
+        field: "action",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
+
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
       let results = res.data.results;
+      const newRows = [];
+      const newRows2 = [];
+      if (!res.data.error) {
+        let values = res?.data.results?.subAccounts;
+        values?.map((list, index) => {
+          const returnData = {};
+          returnData.name_comp = list?.companyName;
+          returnData.name = list?.firstName;
+          returnData.number = list?.businessPhoneNumber;
+          returnData.address = list?.addressLine1;
+          // returnData.pull = list?.pullStatus;
+          returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData.action = (
+            <>
+              <button
+                className="comman_btn table_viewbtn"
+                onClick={() => {
+                  navigate(`/UserManage/User/Sub-account/${list?._id}`, {
+                    state: {
+                      id: objectId,
+                    },
+                  });
+                }}>
+                View
+              </button>
+            </>
+          );
+          newRows.push(returnData);
+        });
+
+        setAccount({ ...account, rows: newRows });
+      }
+
       setUser(res.data.results);
       if (results.quotation === false) {
         document.getElementById("sh").checked = true;
@@ -129,11 +206,9 @@ const ApprovedView = () => {
     getUser();
     getOrders();
   }, []);
-
   const fileDownload = (url) => {
     saveAs(url);
   };
-
   const getOrders = async () => {
     const { data } = await axios.post(UserOrders + "/" + objectId);
     if (!data.error) {
@@ -197,7 +272,6 @@ const ApprovedView = () => {
       }
     }
   };
-
   const genPassword = async () => {
     setLoader(true);
     await axios.post(generatePass + "/" + objectId).then((res) => {
@@ -409,7 +483,6 @@ const ApprovedView = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -729,6 +802,16 @@ const ApprovedView = () => {
       <div className="admin_panel_data height_adjust">
         <div className="row Pending-view justify-content-center">
           <div className="col-12">
+            {user?.multipleUsers && (
+              <div className="text-end">
+                <Link
+                  to={`/UserManage/AddSubAccount/${objectId}`}
+                  className="comman_btn2 mb-2">
+                  Add Sub-Account
+                </Link>
+              </div>
+            )}
+
             <div className="row mx-0">
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
@@ -879,6 +962,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div
                           className={
@@ -929,11 +1013,14 @@ const ApprovedView = () => {
                             </label>
                           </div>
 
-                          <strong>
-                            {" "}
-                            Expires on :{" "}
-                            {user?.tobaccoLicenceExpiry?.slice(0, 10)}
-                          </strong>
+                          {user?.tobaccoLicence === "" ? (
+                            ""
+                          ) : (
+                            <strong>
+                              Expires on :{" "}
+                              {user?.tobaccoLicenceExpiry?.slice(0, 10)}
+                            </strong>
+                          )}
                         </div>
                       </div>
 
@@ -1040,6 +1127,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Contact First name:</span>
@@ -1057,6 +1145,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Phone Number:</span>
@@ -1065,6 +1154,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-12 mb-4 d-flex align-items-stretch">
                         <div
                           className={
@@ -1117,6 +1207,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Email Address:</span>
@@ -1125,6 +1216,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">Business Number:</span>
@@ -1133,6 +1225,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">
@@ -1143,7 +1236,8 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">
                             Request for Quotation :
@@ -1175,22 +1269,63 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+
+                      {user?.tobaccoLicence === "" ? (
+                        ""
+                      ) : (
+                        <div className="col-md-3 mb-4 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span className="fw-bold fs-6">
+                              Tobacco License:
+                            </span>
+                            <div className="col">
+                              <div className="action_filter filter_check">
+                                <input
+                                  className="d-none"
+                                  type="radio"
+                                  id="license"
+                                  checked={
+                                    user?.istobaccoLicenceExpired ? false : true
+                                  }
+                                  name="license"
+                                  disabled
+                                />
+                                <label htmlFor="vii">Enabled</label>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <div className="action_filter filter_check">
+                                <input
+                                  className="d-none"
+                                  type="radio"
+                                  id="d_license"
+                                  name="license"
+                                  checked={
+                                    user?.istobaccoLicenceExpired ? true : false
+                                  }
+                                  disabled
+                                />
+                                <label htmlFor="sh">Disabled </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
-                          <span className="fw-bold fs-6">Tobacco License:</span>
+                          <span className="fw-bold fs-6">Multiple Users:</span>
                           <div className="col">
                             <div className="action_filter filter_check">
                               <input
                                 className="d-none"
                                 type="radio"
-                                id="license"
-                                checked={
-                                  user?.istobaccoLicenceExpired ? false : true
-                                }
-                                name="license"
+                                id="multipleUser"
+                                checked={user?.multipleUsers ? true : false}
+                                name="multipleUser"
                                 disabled
                               />
-                              <label htmlFor="vii">Enabled</label>
+                              <label htmlFor="multipleUser">Enabled</label>
                             </div>
                           </div>
                           <div className="col">
@@ -1198,19 +1333,18 @@ const ApprovedView = () => {
                               <input
                                 className="d-none"
                                 type="radio"
-                                id="d_license"
-                                name="license"
-                                checked={
-                                  user?.istobaccoLicenceExpired ? true : false
-                                }
+                                id="d_multi"
+                                name="multiUsers"
+                                checked={user?.multipleUsers ? false : true}
                                 disabled
                               />
-                              <label htmlFor="sh">Disabled </label>
+                              <label htmlFor="d_multi">Disabled</label>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+
+                      <div className="col-md-3 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold">
                             Wholesale Confirmation ?
@@ -1222,6 +1356,7 @@ const ApprovedView = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-12 text-center">
                         <Link
                           to="/UserManage/ApprovedView-editUser"
@@ -1255,7 +1390,6 @@ const ApprovedView = () => {
                     <h2 className="main_headers">Order History</h2>
                   </div>
                   <div className="col-auto d-flex">
-                    
                     <div className="Status_box">
                       {expand2 ? (
                         <i
@@ -1347,6 +1481,53 @@ const ApprovedView = () => {
                                         className="categoryTable"
                                         hover
                                         data={quote}
+                                        noBottomColumns
+                                        sortable
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row mx-0 mt-4">
+              <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="row comman_header justify-content-between">
+                  <div className="col-auto">
+                    <h2 className="main_headers">All Sub Accounts</h2>
+                  </div>
+                  <div className="col-auto d-flex"></div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 px-3 Pending-view-main">
+                    <div className="row py-2">
+                      <div className="col-12 user-management-tabs px-0">
+                        <div className="tab-content" id="nav-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="nav-home"
+                            role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+                            <div className="row mx-0">
+                              <div className="col-12">
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive p-0">
+                                      <MDBDataTable
+                                        bordered
+                                        displayEntries={false}
+                                        className="categoryTable"
+                                        hover
+                                        data={account}
                                         noBottomColumns
                                         sortable
                                       />

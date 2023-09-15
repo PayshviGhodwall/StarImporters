@@ -7,6 +7,8 @@ import Footer from "../Footer/Footer";
 import Swal from "sweetalert2";
 import { pageFeature } from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Modal, ButtonToolbar, Button, Loader, Placeholder } from "rsuite";
+import LoginPOP from "../Homepage/loginPOP";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -21,6 +23,18 @@ const FeaturedProducts = () => {
   const [activePage, setActivePage] = useState(page);
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
   const [NState, setNState] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [rows, setRows] = useState(0);
+  const handleClose = () => setOpen(false);
+  const handleEntered = () => {
+    setTimeout(() => setRows(80), 2000);
+  };
+  const getLoginCnfirm = (data) => {
+    if (data?.length > 1) {
+      setOpen(false);
+      window.location.reload(false);
+    }
+  };
 
   useEffect(() => {
     GetProducts();
@@ -37,39 +51,56 @@ const FeaturedProducts = () => {
     }
   };
 
-  const AddtoCart = async (id, flavour) => {
-    const { data } = await axios.post(addCart, {
-      productId: id,
-      quantity: 1,
-      flavour: flavour,
-    });
-    console.log(data);
+  const AddtoCart = async (id, flavour, slug) => {
+    console.log(";;lk;");
+    await axios
+      .post(addCart, {
+        productId: id,
+        quantity: 1,
+        flavour: flavour,
+      })
+      .then((res) => {
+        console.log(res, "kkkj");
 
-    if (!data.error) {
-      setNState(!NState);
-      Swal.fire({
-        title: "Product Added to Cart",
-        icon: "success",
-        showCloseButton: true,
-        showCancelButton: true,
-        timer: 1000,
-        focusConfirm: false,
-        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
-        confirmButtonAriaLabel: "Thumbs up, Okay!",
-        cancelButtonText: "Close",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          navigate("/app/cart", { state: "jii" });
+        if (!res.data.error) {
+          setNState(!NState);
+          Swal.fire({
+            title: "Product Added to Cart",
+            icon: "success",
+            showCloseButton: true,
+            showCancelButton: true,
+            timer: 1000,
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+            confirmButtonAriaLabel: "Thumbs up, Okay!",
+            cancelButtonText: "Close",
+          }).then((res) => {
+            if (res.isConfirmed) {
+              navigate("/app/cart", { state: "jii" });
+            }
+          });
+        }
+        if (
+          res?.data.message === "Flavour is not available!" ||
+          res?.data.message === "Please provide flavour!"
+        ) {
+          Swal.fire({
+            title: "Please select a Flavour!",
+            text: "Click Below button to view All Flavours.",
+            icon: "error",
+            confirmButtonText: "View",
+          }).then((res) => {
+            console.log(res);
+            navigate(`/AllProducts/Product/:${slug}`);
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        if (err.response.data.error) {
+          setOpen(true);
         }
       });
-    }
-    if (data.error) {
-      Swal.fire({
-        title: data?.message,
-        icon: "error",
-        showConfirmButton: "okay",
-      });
-    }
   };
 
   const addToFav = async (id, flavour) => {
@@ -91,11 +122,7 @@ const FeaturedProducts = () => {
       })
       .catch((err) => {
         if (err) {
-          Swal.fire({
-            title: "Please Login To Continue!",
-            icon: "warning",
-            button: "cool",
-          }).then(() => navigate("/app/login"));
+          setOpen(true);
         }
       });
   };
@@ -125,7 +152,7 @@ const FeaturedProducts = () => {
                     </li>
                   </ol>
                 </nav>
-              </div>  
+              </div>
             </div>
           </div>
         </div>
@@ -237,7 +264,8 @@ const FeaturedProducts = () => {
                                     onClick={() => {
                                       AddtoCart(
                                         item?.productId?._id,
-                                        item?.productId?.type
+                                        item?.productId?.type,
+                                        item?.productId?.slug
                                       );
                                     }}>
                                     {" "}
@@ -339,6 +367,31 @@ const FeaturedProducts = () => {
         </section>
       </>
       <Footer />
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        onEntered={handleEntered}
+        onExited={() => {
+          setRows(0);
+        }}
+        size="lg"
+        position="center">
+        <Modal.Header>
+          {/* <Modal.Title>Modal Title</Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>
+          {rows ? (
+            <div>
+              <LoginPOP getLoginCnfirm={getLoginCnfirm} />
+            </div>
+          ) : (
+            <div style={{ textAlign: "center" }}>
+              <Loader size="md" />
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

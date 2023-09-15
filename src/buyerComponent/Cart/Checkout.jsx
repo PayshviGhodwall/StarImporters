@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Footer from "../Footer/Footer";
 import Navbar from "../Homepage/Navbar";
-
+import Select from "react-select";
 const Checkout = () => {
   const userApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
   const newOrder = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/newOrder`;
@@ -17,15 +17,35 @@ const Checkout = () => {
   const autoClose = () => {
     document.getElementById("close").click();
   };
+  const [selected, setSelected] = useState();
+  const [options, setOptions] = useState();
+  const createOptions = async (data, id) => {
+    const optionList = data?.map((item, index) => ({
+      value: item?._id,
+      label: item?.companyName,
+    }));
+    optionList.push({ value: id, label: "Main Store" });
+    setOptions(optionList);
+  };
+
   useEffect(() => {
     const getUser = async () => {
       await axios.get(userApi).then((res) => {
         console.log(res);
         setUsers(res?.data.results);
+        createOptions(res?.data.results?.subAccounts);
       });
     };
     getUser();
   }, []);
+
+  const handleChange = (selected) => {
+    setSelected({
+      optionSelected: selected,
+    });
+  };
+
+  console.log(selected);
 
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
@@ -204,7 +224,23 @@ const Checkout = () => {
             <div className="row p-4 align-items-end">
               <div className="col-12 mb-2">
                 <div className="chosse_location">
-                  <h3>Checkout</h3>
+                  <div className="w-100 d-flex justify-content-between">
+                    {" "}
+                    <h3>Checkout</h3>
+                    <h3
+                      style={{
+                        width: "20rem",
+                      }}>
+                      <Select
+                        // defaultValue={[colourOptions[0], colourOptions[1]]}
+                        isMulti
+                        options={options}
+                        onChange={handleChange}
+                        // onInputChange={handleInputChangeUser}
+                        placeholder="Select Another Store..."
+                      />
+                    </h3>
+                  </div>
 
                   {users?.state === "Georgia" ? (
                     <form className="row" action="">
@@ -282,6 +318,7 @@ const Checkout = () => {
                   )}
                 </div>
               </div>
+
               <div className="col-12 pt-1 mb-4">
                 {(delevryChoice == "Shipment" && (
                   <strong>(Shipment charges will be applicable)</strong>
@@ -291,9 +328,9 @@ const Checkout = () => {
                       {users?.cityAndState?.day?.length ? (
                         <>
                           (Your schedule delivery days{":"}
-                          {users?.cityAndState?.day.map((item)=>item + ",")})
+                          {users?.cityAndState?.day.map((item) => item + ",")})
                         </>
-                      ) : ( 
+                      ) : (
                         <>
                           (Unfortunately we dont deliver to this location please
                           select In-store pick up or shipment.)
@@ -307,6 +344,7 @@ const Checkout = () => {
                 {delevryChoice == "Shipment" || delevryChoice == "Delivery" ? (
                   <div className="row mx-0 Checkout_address mt-3">
                     <span>Address :</span>
+
                     <h2>{users?.firstName}</h2>
                     <p className="mb-0">
                       {users?.addressLine1 +

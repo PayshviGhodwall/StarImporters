@@ -90,6 +90,8 @@ function AppSignUp() {
     formData.append("phoneNumber", data?.phoneNumber?.trim());
     formData.append("businessPhoneNumber", data?.businessPhoneNumber);
     formData.append("heardAboutUs", data?.heardAboutUs);
+    formData.append("multipleUsers", data?.multipleUsers);
+
     formData.append(
       "comments",
       data?.comments?.charAt(0).toUpperCase() + data?.comments?.slice(1).trim()
@@ -719,6 +721,23 @@ function AppSignUp() {
                         {...register("wholesaleConfirmation")}
                       />
                     </div>
+
+                    <div class="form-group text-start mb-4 d-flex col-12">
+                      <label
+                        className="form-check-label-app "
+                        for="multipleUsers">
+                        Enable Multiple Sub-Accounts ?
+                      </label>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={true}
+                        id="multipleUsers"
+                        name="multipleUsers"
+                        {...register("multipleUsers")}
+                      />
+                    </div>
+
                     <div className="form-group text-start mb-4">
                       <span>How did you hear about us?</span>
                       <label for="username">

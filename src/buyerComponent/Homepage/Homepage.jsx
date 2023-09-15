@@ -182,7 +182,10 @@ const Homepage = () => {
             }
           });
         }
-        if (res?.data.message === "Flavour is not available!") {
+        if (
+          res?.data.message === "Flavour is not available!" ||
+          res?.data.message === "Please provide flavour!"
+        ) {
           Swal.fire({
             title: "Please select a Flavour!",
             text: "Click Below button to view All Flavours.",

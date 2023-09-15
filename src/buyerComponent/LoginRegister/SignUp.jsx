@@ -87,6 +87,7 @@ const SignUp = () => {
       );
       formData.append("email", data?.email?.trim());
       formData.append("wholesaleConfirmation", data?.wholeSale);
+      formData.append("multipleUsers", data?.multipleUsers);
       formData.append("newsLetter", data?.subscribe);
       formData.append("phoneNumber", data?.phoneNumber?.trim());
       formData.append("businessPhoneNumber", data?.businessPhoneNumber);
@@ -823,6 +824,7 @@ const SignUp = () => {
                       Comments (optional)
                     </label>
                   </div>
+
                   <div class="form-check mt-1 col-6 mx-3 ">
                     <input
                       className={classNames(
@@ -840,6 +842,25 @@ const SignUp = () => {
                       Wholesale Confirmation
                     </label>
                   </div>
+
+                  <div class="form-check mt-1 col-6 mx-3 ">
+                    <input
+                      className={classNames(
+                        "form-check-input border border-secondary"
+                      )}
+                      type="checkbox"
+                      value={true}
+                      id="flexCheckAddress"
+                      name="multipleUsers"
+                      {...register("multipleUsers")}
+                    />
+                    <label
+                      className="form-check-label fs-6 text-secondary fw-bold "
+                      for="flexCheckDefault">
+                      Enable Multiple Sub-Accounts.
+                    </label>
+                  </div>
+
                   <div class="form-check mt-1 col-5 mx-2">
                     <input
                       className={classNames(
@@ -857,6 +878,7 @@ const SignUp = () => {
                       Subscribe to our email newsletter
                     </label>
                   </div>
+
                   <div className="col-12 text-center mt-4">
                     <Button
                       className="comman_btn2 mx-2 fw-bold"

@@ -35,9 +35,9 @@ const AddUser = () => {
     }
   };
 
-  useEffect(()=>{
-    handleCities()
-  },[])
+  useEffect(() => {
+    handleCities();
+  }, []);
 
   const {
     register,
@@ -74,6 +74,7 @@ const AddUser = () => {
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append("quotation", data?.quotation);
+    formData.append("multipleUsers", true);
 
     await axios.post(apiUrl, formData).then((res) => {
       console.log(res);
@@ -281,9 +282,7 @@ const AddUser = () => {
                 </li>
 
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -307,7 +306,6 @@ const AddUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -349,20 +347,19 @@ const AddUser = () => {
                   </Link>
                 </li>
 
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -778,7 +775,7 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      
+
                       <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Company Address Line 2
@@ -828,7 +825,9 @@ const AddUser = () => {
                             Federated States of Micronesia
                           </option>
                           <option value="Florida">Florida</option>
-                          <option value="Georgia" selected>Georgia</option>
+                          <option value="Georgia" selected>
+                            Georgia
+                          </option>
                           <option value="Guam">Guam</option>
                           <option value="Hawaii">Hawaii</option>
                           <option value="Idaho">Idaho</option>
@@ -923,7 +922,6 @@ const AddUser = () => {
                         )}
                       </div>
 
-                     
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">Federal Tax ID:</span>

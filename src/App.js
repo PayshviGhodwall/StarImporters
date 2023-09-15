@@ -123,6 +123,10 @@ import AdminCateFlyers from "./AdminComponent/AdminDashboard/Catalog&Flyers/Admi
 import AllCatalogues from "./buyerComponent/Footer/AllCatalogues";
 import AllFlyers from "./buyerComponent/Footer/AllFlyers";
 import ViewCatalog from "./buyerComponent/Footer/viewCatalog";
+import AddSubAccount from "./AdminComponent/AdminDashboard/UserManage/AddSubAccount";
+import ViewSubAcc from "./AdminComponent/AdminDashboard/UserManage/ViewSubAcc";
+import EditSubAccount from "./AdminComponent/AdminDashboard/UserManage/EditSubAccount";
+import ViewStore from "./buyerComponent/MyAccount/ViewStore";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -156,6 +160,7 @@ function App() {
             <Route path="/MainMenu" element={<MainMenu />} />
             <Route path="/Address" element={<Address />} />
             <Route path="/Account" element={<Account />} />
+            <Route path="/Account/Store/View/:id" element={<ViewStore />} />
             <Route path="/Favourites" element={<Favourites />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
@@ -215,11 +220,14 @@ function App() {
             <Route path="/UserManage/PendingView" element={<PendingView />} />
             <Route path="/UserManage/ReturnedView" element={<ReturnedView />} />
             <Route path="/UserManage/ApprovedView" element={<ApprovedView />} />
+            <Route path="/UserManage/User/Sub-account/:id" element={<ViewSubAcc />} />
+            <Route path="/UserManage/User/Sub-account/Edit/:id" element={<EditSubAccount />} />
             <Route
               path="/UserManage/ApprovedView-editUser"
               element={<EditUser />}
             />
             <Route path="/UserManage/AddUser" element={<AddUser />} />
+            <Route path="/UserManage/AddSubAccount/:id" element={<AddSubAccount />} />
             <Route path="/CategorySub" element={<CategorySub />} />
             <Route path="/Inventory" element={<Inventory />} />
             <Route path="/Puller-Management" element={<PullerManagement />} />

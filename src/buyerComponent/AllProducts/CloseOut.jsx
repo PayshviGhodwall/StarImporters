@@ -8,6 +8,9 @@ import Swal from "sweetalert2";
 import { pageFeature } from "../../atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Countdown from "react-countdown";
+import { Modal, ButtonToolbar, Button, Loader, Placeholder } from "rsuite";
+import LoginPOP from "../Homepage/loginPOP";
+import moment from "moment";
 
 const CloseOut = () => {
   const [products, setProducts] = useState([]);
@@ -22,19 +25,19 @@ const CloseOut = () => {
   const [activePage, setActivePage] = useState(page);
   const addCart = `${process.env.REACT_APP_APIENDPOINTNEW}user/addProducts`;
   const [NState, setNState] = useState(false);
-
-  const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    return (
-      <div class="">
-        <div class="">
-          <span class="time_main">{days}:</span>
-          <span class="time_main">{hours}:</span>
-          <span class="time_main">{minutes}:</span>
-          <span class="time_main">{seconds}s</span>
-        </div>
-      </div>
-    );
+  const [open, setOpen] = useState(false);
+  const [rows, setRows] = useState(0);
+  const handleClose = () => setOpen(false);
+  const handleEntered = () => {
+    setTimeout(() => setRows(80), 2000);
   };
+  const getLoginCnfirm = (data) => {
+    if (data?.length > 1) {
+      setOpen(false);
+      window.location.reload(false);
+    }
+  };
+
 
   useEffect(() => {
     GetProducts();
@@ -51,39 +54,56 @@ const CloseOut = () => {
     }
   };
 
-  const AddtoCart = async (id, flavour) => {
-    const { data } = await axios.post(addCart, {
-      productId: id,
-      quantity: 1,
-      flavour: flavour,
-    });
-    console.log(data);
+  const AddtoCart = async (id, flavour, slug) => {
+    console.log(";;lk;");
+    await axios
+      .post(addCart, {
+        productId: id,
+        quantity: 1,
+        flavour: flavour,
+      })
+      .then((res) => {
+        console.log(res, "kkkj");
 
-    if (!data.error) {
-      setNState(!NState);
-      Swal.fire({
-        title: "Product Added to Cart",
-        icon: "success",
-        showCloseButton: true,
-        showCancelButton: true,
-        timer: 1000,
-        focusConfirm: false,
-        confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
-        confirmButtonAriaLabel: "Thumbs up, Okay!",
-        cancelButtonText: "Close",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          navigate("/app/cart", { state: "jii" });
+        if (!res.data.error) {
+          setNState(!NState);
+          Swal.fire({
+            title: "Product Added to Cart",
+            icon: "success",
+            showCloseButton: true,
+            showCancelButton: true,
+            timer: 1000,
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-shopping-cart"></i> Cart!',
+            confirmButtonAriaLabel: "Thumbs up, Okay!",
+            cancelButtonText: "Close",
+          }).then((res) => {
+            if (res.isConfirmed) {
+              navigate("/app/cart", { state: "jii" });
+            }
+          });
+        }
+        if (
+          res?.data.message === "Flavour is not available!" ||
+          res?.data.message === "Please provide flavour!"
+        ) {
+          Swal.fire({
+            title: "Please select a Flavour!",
+            text: "Click Below button to view All Flavours.",
+            icon: "error",
+            confirmButtonText: "View",
+          }).then((res) => {
+            console.log(res);
+            navigate(`/AllProducts/Product/:${slug}`);
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        if (err.response.data.error) {
+          setOpen(true);
         }
       });
-    }
-    if (data.error) {
-      Swal.fire({
-        title: data?.message,
-        icon: "error",
-        showConfirmButton: "okay",
-      });
-    }
   };
 
   const addToFav = async (id, flavour) => {
@@ -105,11 +125,7 @@ const CloseOut = () => {
       })
       .catch((err) => {
         if (err) {
-          Swal.fire({
-            title: "Please Login To Continue!",
-            icon: "warning",
-            button: "cool",
-          }).then(() => navigate("/app/login"));
+          setOpen(true);
         }
       });
   };
@@ -229,11 +245,7 @@ const CloseOut = () => {
                               </a>
                               <span className="product-Close-label">
                                 {" "}
-                                Ends in :{" "}
-                                <Countdown
-                                  date={new Date(item?.expireIn)}
-                                  renderer={renderer}
-                                />
+                                Ends in : {moment(item?.expireIn).format("L")}
                               </span>
                               <ul className="product-links">
                                 <li>
@@ -254,7 +266,8 @@ const CloseOut = () => {
                                     onClick={() => {
                                       AddtoCart(
                                         item?.productId?._id,
-                                        item?.productId?.type
+                                        item?.productId?.type,
+                                        item?.productId?.slug
                                       );
                                     }}>
                                     {" "}
@@ -308,47 +321,6 @@ const CloseOut = () => {
                       ))}
                     </div>
                   </div>
-
-                  {/* {products?.length ? (
-                    <div className="col-12 py-2 rounded Paginate ">
-                      <div class="col-6 mb-2 ps-lg-3">
-                        <div class="singleproducttop---left ps-lg-2">
-                          Total Pages: <span>{maxPage}</span>
-                        </div>
-                      </div>
-                      <div class="col-6 mb-2 text-end">
-                        <div class="singleproduct---paginationss">
-                          <a
-                            onClick={() => {
-                              // window.scrollTo({ top: 0, behavior: "smooth" });
-                              activePage <= 1
-                                ? setActivePage(1)
-                                : setActivePage(activePage - 1);
-                            }}>
-                            <img
-                              src={require("../../assets/img/arrow.png")}
-                              alt=""
-                            />{" "}
-                            Previous
-                          </a>
-                          <span>{activePage}</span>
-                          <a
-                            onClick={() => {
-                              // window.scrollTo({ top: 0, behavior: "smooth" });
-                              activePage === maxPage
-                                ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1);
-                            }}>
-                            Next{" "}
-                            <img
-                              src={require("../../assets/img/arrow.png")}
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null} */}
                 </div>
               </div>
             </div>
@@ -356,6 +328,30 @@ const CloseOut = () => {
         </section>
       </>
       <Footer />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        onEntered={handleEntered}
+        onExited={() => {
+          setRows(0);
+        }}
+        size="lg"
+        position="center">
+        <Modal.Header>
+          {/* <Modal.Title>Modal Title</Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>
+          {rows ? (
+            <div>
+              <LoginPOP getLoginCnfirm={getLoginCnfirm} />
+            </div>
+          ) : (
+            <div style={{ textAlign: "center" }}>
+              <Loader size="md" />
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
