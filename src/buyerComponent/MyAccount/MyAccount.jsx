@@ -160,6 +160,7 @@ const MyAccount = () => {
                     </div>{" "}
                     Address Book
                   </button>
+
                   <button
                     class="nav-link"
                     id="v-pills-settings-tab"
@@ -177,6 +178,7 @@ const MyAccount = () => {
                     </div>
                     Account Settings
                   </button>
+
                   <button
                     class="nav-link"
                     id="v-pills-fav-tab"
@@ -194,6 +196,7 @@ const MyAccount = () => {
                     </div>{" "}
                     My Favorites
                   </button>
+
                   <button
                     class="nav-link"
                     id="v-pills-buy-tab"
@@ -208,6 +211,7 @@ const MyAccount = () => {
                     </div>
                     Buy Again
                   </button>
+
                 </div>
               </div>
             </div>
@@ -277,10 +281,10 @@ const MyAccount = () => {
                     </div>
 
                     <div
-                      class="tab-pane fade show active"
-                      id="store-pills-home"
+                      class="tab-pane fade show"
+                      id="store-pills-profile"
                       role="tabpanel"
-                      aria-labelledby="store-pills-home-tab">
+                      aria-labelledby="store-pills-profile-tab">
                       <div class="myacct_data_inner">
                         <div class="row">
                           <div class="col-12 data_head mb-4">
