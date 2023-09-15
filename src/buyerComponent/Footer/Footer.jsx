@@ -97,6 +97,7 @@ const Footer = () => {
                 <div className="widget">
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
+                    
                     <li>
                       <Link
                         className="text-decoration-none"
@@ -210,33 +211,6 @@ const Footer = () => {
                 </p>
               </div>
 
-              {/* <div className="col-md-4">
-                <ul className="dwn-ul text-end text-md-end">
-                  <a
-                    target="_blank"
-                    href="https://play.google.com/store/apps/details?id=com.star_importers"
-                  >
-                    <li>
-                      <div class="download android">
-                        <img
-                          src={require("../../assets/img/icon-android.png")}
-                          className="fa"
-                        ></img>
-                        <span class="df">Download from</span>
-                        <span class="dfn">Play Store</span>
-                      </div>
-                    </li>
-                  </a>
-
-                  <li>
-                    <div class="download apple">
-                      <i class="fa-brands fa-app-store-ios fa-2x fa "></i>
-                      <span class="df">Download from</span>
-                      <span class="dfn">App Store</span>
-                    </div>
-                  </li>
-                </ul>
-              </div> */}
               <div className="col-md-4 d-flex ">
                 <div className="col-auto mx-2">
                   <a

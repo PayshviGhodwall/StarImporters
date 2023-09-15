@@ -53,6 +53,7 @@ const Navbar = ({ NState, LoginState }) => {
   const getProductList = async (e) => {
     let Search = e.target.value;
     console.log(Search);
+
     if (Search != "") {
       const { data } = await homeSearch({
         search: Search.trim(),
@@ -60,14 +61,9 @@ const Navbar = ({ NState, LoginState }) => {
       });
       if (!data.error) {
         let dataList = data?.results.products;
-        setTimeout(() => {
-          setProducts(dataList?.slice(0, 6));
-          setRelateCate(data?.results.subCategories);
-        }, [1000]);
-
-        setTimeout(() => {
-          setLoad(false);
-        }, [3000]);
+        setProducts(dataList?.slice(0, 6));
+        setRelateCate(data?.results.subCategories);
+        setLoad(false);
       }
     }
   };
@@ -175,8 +171,10 @@ const Navbar = ({ NState, LoginState }) => {
                     onChange={(e) => {
                       e.preventDefault();
                       setLoad(true);
+                      setTimeout(() => {
+                        getProductList(e);
+                      }, [2000]);
                       setSearch(e.target.value);
-                      getProductList(e);
                     }}
                     type="text"
                     id="search"
@@ -353,8 +351,8 @@ const Navbar = ({ NState, LoginState }) => {
                     <li>
                       <Link
                         className="text-decoration-none mx-2 p-3"
-                        to="/app/Categories"
-                        state={"kooo"}>
+                        to="/app/events/catelog&flyer"
+                        state={"JII55"}>
                         Catalog&Flyers
                       </Link>
                     </li>
