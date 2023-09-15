@@ -270,14 +270,14 @@ const Account = () => {
                 <div
                   class="upload_document w-100"
                   className={
-                    users.federalTaxId != ""
+                    users?.federalTaxId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
                   }>
                   <span>Federal Tax ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
-                      {users.federalTaxId ? (
+                      {users?.federalTaxId ? (
                         <FaFileDownload
                           size={25}
                           color="black"
@@ -302,7 +302,7 @@ const Account = () => {
                       </p>
                     </a>
                   </div>
-                  {users.federalTaxId === "" ? (
+                  {users?.federalTaxId === "" ? (
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
@@ -333,14 +333,14 @@ const Account = () => {
                 <div
                   class="upload_document w-100"
                   className={
-                    users.tobaccoLicence != ""
+                    users?.tobaccoLicence != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
                   }>
                   <span>Tobacco License</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
-                      {users.tobaccoLicence ? (
+                      {users?.tobaccoLicence ? (
                         <FaFileDownload
                           size={25}
                           color="black"
@@ -365,7 +365,7 @@ const Account = () => {
                       </p>
                     </a>
                   </div>
-                  {users.tobaccoLicence === "" ? (
+                  {users?.tobaccoLicence === "" ? (
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
@@ -395,14 +395,14 @@ const Account = () => {
                 <div
                   class="upload_document w-100"
                   className={
-                    users.salesTaxId != ""
+                    users?.salesTaxId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
                   }>
                   <span>Sales Tax ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
-                      {users.salesTaxId ? (
+                      {users?.salesTaxId ? (
                         <FaFileDownload
                           size={25}
                           color="black"
@@ -427,7 +427,7 @@ const Account = () => {
                       </p>
                     </a>
                   </div>
-                  {users.salesTaxId === "" ? (
+                  {users?.salesTaxId === "" ? (
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
@@ -457,14 +457,14 @@ const Account = () => {
                 <div
                   class="upload_document w-100"
                   className={
-                    users.businessLicense != ""
+                    users?.businessLicense != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
                   }>
                   <span>Business License ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
-                      {users.businessLicense ? (
+                      {users?.businessLicense ? (
                         <FaFileDownload
                           size={25}
                           color="black"
@@ -488,7 +488,7 @@ const Account = () => {
                       </p>
                     </a>
                   </div>
-                  {users.businessLicense === "" ? (
+                  {users?.businessLicense === "" ? (
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"
@@ -518,14 +518,14 @@ const Account = () => {
                 <div
                   class="upload_document w-100"
                   className={
-                    users.accountOwnerId != ""
+                    users?.accountOwnerId != ""
                       ? "upload_document w-100"
                       : "upload_document  border-danger text-danger mx-0 w-100"
                   }>
                   <span>Account Owner ID</span>
                   <div class="drag_box">
                     <div className="text-center pt-3">
-                      {users.accountOwnerId ? (
+                      {users?.accountOwnerId ? (
                         <FaFileDownload
                           size={25}
                           color="black"
@@ -549,7 +549,7 @@ const Account = () => {
                       </p>
                     </a>
                   </div>
-                  {users.accountOwnerId === "" ? (
+                  {users?.accountOwnerId === "" ? (
                     <div class="choose_fliee position-relative">
                       <input
                         type="file"

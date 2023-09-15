@@ -64,7 +64,7 @@ const Navbar = ({ NState, LoginState }) => {
           setProducts(dataList?.slice(0, 6));
           setRelateCate(data?.results.subCategories);
         }, [1000]);
-       
+
         setTimeout(() => {
           setLoad(false);
         }, [3000]);
@@ -245,7 +245,7 @@ const Navbar = ({ NState, LoginState }) => {
                         onClick={() => {
                           LogOut();
                         }}>
-                        <i class="fa fa-sign-out-alt mt-1 mx-1"></i>  Logout
+                        <i class="fa fa-sign-out-alt mt-1 mx-1"></i> Logout
                       </Link>
                     </div>
                   </div>
@@ -294,7 +294,7 @@ const Navbar = ({ NState, LoginState }) => {
                     </li>
                     {(category || [])
                       ?.filter((itm, ind) =>
-                        width <= 1400 ? ind < 7 : ind < 10
+                        width <= 1400 ? ind < 6 : ind < 11
                       )
                       .map((item, index) => (
                         <li
@@ -350,6 +350,14 @@ const Navbar = ({ NState, LoginState }) => {
                           </div>
                         </li>
                       ))}
+                    <li>
+                      <Link
+                        className="text-decoration-none mx-2 p-3"
+                        to="/app/Categories"
+                        state={"kooo"}>
+                        Catalog&Flyers
+                      </Link>
+                    </li>
                     <li>
                       <Link
                         className="text-decoration-none mx-2 p-3"
