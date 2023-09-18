@@ -61,9 +61,10 @@ const Navbar = ({ NState, LoginState }) => {
       });
       if (!data.error) {
         let dataList = data?.results.products;
-        setProducts(dataList?.slice(0, 6));
-        setRelateCate(data?.results.subCategories);
-        setLoad(false);
+        setTimeout(() => {
+          setProducts(dataList?.slice(0, 6));
+          setRelateCate(data?.results.subCategories);
+        }, [1000]);
       }
     }
   };
@@ -171,9 +172,11 @@ const Navbar = ({ NState, LoginState }) => {
                     onChange={(e) => {
                       e.preventDefault();
                       setLoad(true);
+                      setProducts([]);
+                      setRelateCate([]);
                       setTimeout(() => {
                         getProductList(e);
-                      }, [2000]);
+                      }, [1000]);
                       setSearch(e.target.value);
                     }}
                     type="text"
@@ -371,114 +374,146 @@ const Navbar = ({ NState, LoginState }) => {
           </div>
         </div>
       </div>
-      {search?.length ? (
-        <section className="brands_page p-2 shadow">
-          {products?.length >= 1 || relateCate?.length >= 1 ? (
-            <div>
-              <div className="col w-100">
-                <div className="product_single_right row p-2">
-                  <div className="col-12 d-flex ">
-                    {relateCate?.length != 0 && (
-                      <span className="search_head2 p-0 mb-3 mx-2">
-                        Related Sub-Categories :
-                      </span>
-                    )}
-                    {relateCate?.map((itm, ind) => (
-                      <div>
-                        <p
-                          className="subCateSearch"
-                          onClick={() => {
-                            setPage2(1);
-                            setFilter(itm?._id);
-                            navigate(`/Category/Sub-Category/${itm?.slug}`, {
-                              state: {
-                                name: itm?.subCategoryName,
-                              },
-                            });
-                          }}>
-                          {" " + itm?.subCategoryName},{" "}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  {(products || [])?.map((item, index) => (
-                    <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
-                      <a className="featuredproduct_box p-2">
-                        <div className="featuredproduct_img ">
-                          <img
-                            src={
-                              // item?.type.flavour
-                              //   ? item?.type?.flavourImage ||
-                              //     require("../../assets/img/product.jpg")
-                              //   :
-                              item?.productImage ||
-                              require("../../assets/img/product.jpg")
-                            }
-                            alt="Product"
+      {
+        search?.length ? (
+          <section className="brands_page p-2 shadow">
+            {products?.length >= 1 || relateCate?.length >= 1 ? (
+              <div>
+                <div className="col w-100">
+                  <div className="product_single_right row p-2">
+                    <div className="col-12 d-flex ">
+                      {relateCate?.length != 0 && (
+                        <span className="search_head2 p-0 mb-3 mx-2">
+                          Related Sub-Categories :
+                        </span>
+                      )}
+                      {relateCate?.map((itm, ind) => (
+                        <div>
+                          <p
+                            className="subCateSearch"
                             onClick={() => {
-                              navigate(`/AllProducts/Product/:${item?.slug}`);
-                              setSearch();
-                            }}
-                          />
-                        </div>
-                        <div className="featuredproduct_details p-2">
-                          <span
-                            onClick={() => {
-                              navigate(`/AllProducts/Product/:${item?.slug}`);
-
-                              setSearch();
+                              setPage2(1);
+                              setFilter(itm?._id);
+                              navigate(`/Category/Sub-Category/${itm?.slug}`, {
+                                state: {
+                                  name: itm?.subCategoryName,
+                                },
+                              });
                             }}>
-                            {/* {item?.type.flavour
+                            {" " + itm?.subCategoryName},{" "}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    {(products || [])?.map((item, index) => (
+                      <Fade
+                      
+                      >
+                        <div className="col-xl-2 col-lg-2 col-md-3" key={index}>
+                          <a className="featuredproduct_box p-2">
+                            <div className="featuredproduct_img ">
+                              <img
+                                src={
+                                  // item?.type.flavour
+                                  //   ? item?.type?.flavourImage ||
+                                  //     require("../../assets/img/product.jpg")
+                                  //   :
+                                  item?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                                }
+                                alt="Product"
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/:${item?.slug}`
+                                  );
+                                  setSearch();
+                                }}
+                              />
+                            </div>
+                            <div className="featuredproduct_details p-2">
+                              <span
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/:${item?.slug}`
+                                  );
+
+                                  setSearch();
+                                }}>
+                                {/* {item?.type.flavour
                               ? item?.unitName + "-" + item?.type?.flavour
                               :  */}
 
-                            {item?.unitName?.length >= 46
-                              ? item?.unitName?.slice(0, 40) + "...."
-                              : item?.unitName?.slice(0, 40)}
-                          </span>
+                                {item?.unitName?.length >= 46
+                                  ? item?.unitName?.slice(0, 40) + "...."
+                                  : item?.unitName?.slice(0, 40)}
+                              </span>
+                            </div>
+                          </a>
                         </div>
-                      </a>
-                    </div>
-                  ))}
-                </div>
-                <div className="col-lg-12 d-flex text-center mt-1 mb-0">
-                  {products?.length >= 3 && (
-                    <p
-                      className=" dropViewAll"
-                      onClick={() => {
-                        setSearch();
-                        navigate(`/app/ProductSearch/${search}`);
-                      }}>
-                      View all results
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="row justify-content-center">
-              {load ? (
-                <div className="row text-center">
-                  <div class="lds-facebook">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                      </Fade>
+                    ))}
+                  </div>
+                  <div className="col-lg-12 d-flex text-center mt-1 mb-0">
+                    {products?.length >= 3 && (
+                      <p
+                        className=" dropViewAll"
+                        onClick={() => {
+                          setSearch();
+                          navigate(`/app/ProductSearch/${search}`);
+                        }}>
+                        View all results
+                      </p>
+                    )}
                   </div>
                 </div>
-              ) : (
-                <div className="row justify-content-center">
-                  <img
-                    className="no-data"
-                    src={require("../../assets/img/no-data.gif")}
-                    style={{ width: "600px" }}
-                  />
-                  <h5 className="text-center">NO RESULTS...</h5>
-                </div>
-              )}
-            </div>
-          )}
-        </section>
-      ) : null}
+              </div>
+            ) : (
+              <div className="row justify-content-center">
+                {load ? (
+                  <div className="row text-center">
+                    <div class="lds-facebook">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="row justify-content-center">
+                    <img
+                      className="no-data"
+                      src={require("../../assets/img/no-data.gif")}
+                      style={{ width: "600px" }}
+                    />
+                    <h5 className="text-center">NO RESULTS...</h5>
+                  </div>
+                )}
+              </div>
+            )}
+          </section>
+        ) : null
+        // <section className="brands_page p-2 shadow">
+        //   <div className="row justify-content-center">
+        //     {load ? (
+        //       <div className="row text-center">
+        //         <div class="lds-facebook">
+        //           <div></div>
+        //           <div></div>
+        //           <div></div>
+        //         </div>
+        //       </div>
+        //     ) : (
+        //       <div className="row justify-content-center">
+        //         <img
+        //           className="no-data"
+        //           src={require("../../assets/img/no-data.gif")}
+        //           style={{ width: "600px" }}
+        //         />
+        //         <h5 className="text-center">NO RESULTS...</h5>
+        //       </div>
+        //     )}
+        //   </div>
+        // </section>
+      }
     </div>
   );
 };
