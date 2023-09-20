@@ -17,7 +17,7 @@ const Checkout = () => {
   const autoClose = () => {
     document.getElementById("close").click();
   };
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState({ type: "ParentAcc" });
   const [subAccList, setSubAccList] = useState([]);
 
   let MainId = localStorage.getItem("objectId");
