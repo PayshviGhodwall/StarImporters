@@ -10,6 +10,7 @@ import moment from "moment";
 import Compressor from "compressorjs";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import { Button } from "rsuite";
 
 const GalleryMain = () => {
   const addCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addCollection`;
@@ -21,6 +22,7 @@ const GalleryMain = () => {
   const pdfToImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/pdfToImage`;
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [open, setOpen] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [sideBar, setSideBar] = useState(true);
   const [allVideos, setAllVideos] = useState();
   const [pdf, setPdf] = useState([]);
@@ -75,6 +77,7 @@ const GalleryMain = () => {
 
   const saveCollection = async (e) => {
     e.preventDefault();
+    setLoader(true);
     // if(editGalleryName != "" || )
     let formData = new FormData();
     formData.append("title", editGalleryName);
@@ -92,21 +95,25 @@ const GalleryMain = () => {
           icon: "success",
           confirmButtonText: "Okay",
         });
+        setLoader(false);
+        window.location.reload(false);
       } else {
         Swal.fire({
           title: "Enter Valid Details!",
           icon: "error",
           confirmButtonText: "Okay",
         });
+        setLoader(false);
       }
     });
   };
 
-  const deleteImage = async (i, img) => {
+  const deleteImage = async (i, img, key) => {
     console.log(img, "delete");
     // images?.splice(i, 1);
     let formData = new FormData();
-    formData.append("imageKey", img);
+    formData.append(key, img);
+    formData.append("removeVideo", true);
     await axios.post(editCollection + "/" + id, formData).then((res) => {
       console.log(res);
     });
@@ -122,7 +129,7 @@ const GalleryMain = () => {
       setAllVideos(data?.results?.gallery?.videos);
     }
   };
-  console.log(editGalleryData);
+
   const getCollection = async () => {
     const { data } = await axios.get(allCollection);
     console.log(data);
@@ -130,8 +137,6 @@ const GalleryMain = () => {
       setGalleries(data?.results.galleries);
     }
   };
-
- 
 
   // instant image preview //
 
@@ -395,7 +400,7 @@ const GalleryMain = () => {
                     Gallery Management
                   </Link>
                 </li>
-                 <li
+                <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
                   }>
@@ -405,7 +410,6 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -702,199 +706,194 @@ const GalleryMain = () => {
                   <div className="row">
                     <div className="col-12 user-management-tabs px-0">
                       <div className="">
-                       
-                      
-                          <div
-                            className="tab-pane fade show active"
-                            id="nav-home"
-                            role="tabpanel"
-                            aria-labelledby="nav-home-tab">
-                            <div className="row mx-0 ">
-                              <div className="col-12">
-                                <form
-                                  className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                  action="">
-                                  <div className="form-group mb-0 col-3">
-                                    <label htmlFor="">Title</label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      name="Title"
-                                      onChange={(e) => {
-                                        setTitle(e.target.value);
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                    <span>Cover Image</span>{" "}
-                                    <label htmlFor="upload_video">
-                                      <i class="fa fa-camera me-1"></i>
-                                      Choose File
-                                    </label>{" "}
-                                    <input
-                                      type="file"
-                                      className="form-control shadow-none"
-                                      defaultValue=""
-                                      accept="image/*"
-                                      name="coverImage"
-                                      onChange={(e) =>
-                                        onFileSelection(e, "coverImage")
-                                      }
-                                    />
-                                  </div>
-                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                    <span>Gallery Images</span>{" "}
-                                    <label htmlFor="upload_video">
-                                      <i class="fa fa-camera me-1"></i>
-                                      Choose File
-                                    </label>
-                                    <input
-                                      type="file"
-                                      className="form-control shadow-none"
-                                      defaultValue=""
-                                      accept="image/*"
-                                      name="images"
-                                      onChange={(e) =>
-                                        onFileSelection2(e, "images")
-                                      }
-                                      multiple
-                                    />
-                                  </div>
+                        <div
+                          className="tab-pane fade show active"
+                          id="nav-home"
+                          role="tabpanel"
+                          aria-labelledby="nav-home-tab">
+                          <div className="row mx-0 ">
+                            <div className="col-12">
+                              <form
+                                className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
+                                action="">
+                                <div className="form-group mb-0 col-3">
+                                  <label htmlFor="">Title</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="Title"
+                                    onChange={(e) => {
+                                      setTitle(e.target.value);
+                                    }}
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                  <span>Cover Image</span>{" "}
+                                  <label htmlFor="upload_video">
+                                    <i class="fa fa-camera me-1"></i>
+                                    Choose File
+                                  </label>{" "}
+                                  <input
+                                    type="file"
+                                    className="form-control shadow-none"
+                                    defaultValue=""
+                                    accept="image/*"
+                                    name="coverImage"
+                                    onChange={(e) =>
+                                      onFileSelection(e, "coverImage")
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                  <span>Gallery Images</span>{" "}
+                                  <label htmlFor="upload_video">
+                                    <i class="fa fa-camera me-1"></i>
+                                    Choose File
+                                  </label>
+                                  <input
+                                    type="file"
+                                    className="form-control shadow-none"
+                                    defaultValue=""
+                                    accept="image/*"
+                                    name="images"
+                                    onChange={(e) =>
+                                      onFileSelection2(e, "images")
+                                    }
+                                    multiple
+                                  />
+                                </div>
 
-                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
-                                    <span>Add Video</span>{" "}
-                                    <label htmlFor="upload_video">
-                                      <i class="fa fa-camera me-1"></i>
-                                      Choose File
-                                    </label>
-                                    <input
-                                      type="file"
-                                      className="form-control shadow-none"
-                                      defaultValue=""
-                                      accept="video/*"
-                                      name="images"
-                                      onChange={(e) =>
-                                        onFileSelectionVideo(e, "video")
-                                      }
-                                    />
-                                  </div>
+                                <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                  <span>Add Video</span>{" "}
+                                  <label htmlFor="upload_video">
+                                    <i class="fa fa-camera me-1"></i>
+                                    Choose File
+                                  </label>
+                                  <input
+                                    type="file"
+                                    className="form-control shadow-none"
+                                    defaultValue=""
+                                    accept="video/*"
+                                    name="images"
+                                    onChange={(e) =>
+                                      onFileSelectionVideo(e, "video")
+                                    }
+                                  />
+                                </div>
 
-                                  <div className="form-group mb-0 col-12 text-center mt-4">
-                                    <button
-                                      className="comman_btn2"
-                                      onClick={addGallery}>
-                                      Save Collection
-                                    </button>
-                                    <button
-                                      className="comman_btn d-none"
-                                      id="resetCatss"
-                                      type="reset">
-                                      Reset
-                                    </button>
-                                  </div>
-                                </form>
+                                <div className="form-group mb-0 col-12 text-center mt-4">
+                                  <button
+                                    className="comman_btn2"
+                                    onClick={addGallery}>
+                                    Save Collection
+                                  </button>
+                                  <button
+                                    className="comman_btn d-none"
+                                    id="resetCatss"
+                                    type="reset">
+                                    Reset
+                                  </button>
+                                </div>
+                              </form>
 
-                                <div className="row ">
-                                  <div className="col-12 comman_table_design px-0">
-                                    <div className="table-responsive border">
-                                      <table className="table mb-0">
-                                        <thead>
-                                          <tr
-                                            style={{
-                                              backgroundColor: "#f2f2f2",
-                                            }}>
-                                            <th>Date</th>
-                                            <th>Title</th>
-                                            <th>Cover Image</th>
-                                            <th>Gallery Images</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                              <div className="row ">
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive border">
+                                    <table className="table mb-0">
+                                      <thead>
+                                        <tr
+                                          style={{
+                                            backgroundColor: "#f2f2f2",
+                                          }}>
+                                          <th>Date</th>
+                                          <th>Title</th>
+                                          <th>Cover Image</th>
+                                          <th>Gallery Images</th>
+                                          <th>Status</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody className="recent_orders_cate">
+                                        {galleries?.map((item, index) => (
+                                          <tr>
+                                            <td className="border">
+                                              {" "}
+                                              {moment(item?.updatedAt).format(
+                                                "MM/DD/YYYY"
+                                              )}
+                                            </td>
+                                            <td className="border">
+                                              {item?.title}
+                                            </td>
+                                            <td className="border">
+                                              <img
+                                                className="subCatImages"
+                                                src={
+                                                  item?.coverImage
+                                                    ? item?.coverImage
+                                                    : require("../../../assets/img/product.jpg")
+                                                }></img>
+                                            </td>
+                                            <td className="border">
+                                              <img
+                                                onClick={() =>
+                                                  getSlides(item?.images)
+                                                }
+                                                className="previewImages"
+                                                src={require("../../../assets/img/preview2.png")}></img>
+                                              <br />
+                                              <small>CLick to preview</small>
+                                            </td>
+                                            <td className="border">
+                                              {" "}
+                                              <div
+                                                className=""
+                                                  key={item?._id}
+                                              >
+                                                <label class="switchUser">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={item?._id}
+                                                    defaultChecked={
+                                                      item?.status
+                                                    }
+                                                    onClick={() => {
+                                                      GalleryStatus(item?._id);
+                                                    }}
+                                                  />
+                                                  <span class="sliderUser round"></span>
+                                                </label>
+                                              </div>
+                                            </td>
+
+                                            <td className="border">
+                                              <a
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop"
+                                                className="comman_btn2   text-white text-decoration-none"
+                                                style={{
+                                                  backgroundColor: "#eb3237",
+                                                  fontSize: "22px",
+                                                  position: "relative",
+                                                  top: "-2px",
+                                                }}
+                                                key={index}
+                                                onClick={() => {
+                                                  onEditGallery(item?._id);
+                                                }}>
+                                                Edit
+                                              </a>
+                                            </td>
                                           </tr>
-                                        </thead>
-                                        <tbody className="recent_orders_cate">
-                                          {galleries?.map((item, index) => (
-                                            <tr>
-                                              <td className="border">
-                                                {" "}
-                                                {moment(item?.updatedAt).format(
-                                                  "MM/DD/YYYY"
-                                                )}
-                                              </td>
-                                              <td className="border">
-                                                {item?.title}
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  className="subCatImages"
-                                                  src={
-                                                    item?.coverImage
-                                                      ? item?.coverImage
-                                                      : require("../../../assets/img/product.jpg")
-                                                  }></img>
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  onClick={() =>
-                                                    getSlides(item?.images)
-                                                  }
-                                                  className="previewImages"
-                                                  src={require("../../../assets/img/preview2.png")}></img>
-                                                <br />
-                                                <small>CLick to preview</small>
-                                              </td>
-                                              <td className="border">
-                                                {" "}
-                                                <div
-                                                  className=""
-                                                  //   key={item?._id}
-                                                >
-                                                  <label class="switchUser">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={item?._id}
-                                                      defaultChecked={
-                                                        item?.status
-                                                      }
-                                                      onClick={() => {
-                                                        GalleryStatus(
-                                                          item?._id
-                                                        );
-                                                      }}
-                                                    />
-                                                    <span class="sliderUser round"></span>
-                                                  </label>
-                                                </div>
-                                              </td>
-
-                                              <td className="border">
-                                                <a
-                                                  data-bs-toggle="modal"
-                                                  data-bs-target="#staticBackdrop"
-                                                  className="comman_btn2   text-white text-decoration-none"
-                                                  style={{
-                                                    backgroundColor: "#eb3237",
-                                                    fontSize: "22px",
-                                                    position: "relative",
-                                                    top: "-2px",
-                                                  }}
-                                                  key={index}
-                                                  onClick={() => {
-                                                    onEditGallery(item?._id);
-                                                  }}>
-                                                  Edit
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
+                                        ))}
+                                      </tbody>
+                                    </table>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                         
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -919,9 +918,19 @@ const GalleryMain = () => {
                 <h5 className="modal-title" id="staticBackdropLabel">
                   Edit Gallery
                 </h5>
-                <button className="comman_btn mx-4" onClick={saveCollection}>
+                <Button
+                  appearance="primary"
+                  loading={loader}
+                  style={{
+                    backgroundColor: "#eb3237",
+                    fontSize: "20px",
+                    position: "relative",
+                    top: "-2px",
+                  }}
+                  className="comman_btn mx-4"
+                  onClick={saveCollection}>
                   Save
-                </button>
+                </Button>
 
                 <button
                   type="button"
@@ -1021,35 +1030,25 @@ const GalleryMain = () => {
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
                       <button
                         className="nav-link active"
-                        id="nav-home-tab"
+                        id="SlideImg-tab"
                         data-bs-toggle="tab"
-                        data-bs-target="#nav-home"
+                        data-bs-target="#SlideImg"
                         type="button"
                         role="tab"
-                        aria-controls="nav-home"
-                        aria-selected="true"
-                        // onClick={() => {
-                        //   document.getElementById("Search").value = "";
-                        //   getCategories();
-                        // }}
-                      >
-                        Images
+                        aria-controls="SlideImg"
+                        aria-selected="false">
+                        All Images
                       </button>
                       <button
-                        className="nav-link"
-                        id="nav-profile-tab"
+                        className="nav-link "
+                        id="SlideVid-tab"
                         data-bs-toggle="tab"
-                        data-bs-target="#nav-profile"
+                        data-bs-target="#SlideVid"
                         type="button"
                         role="tab"
-                        aria-controls="nav-profile"
-                        aria-selected="false"
-                        // onClick={() => {
-                        //   document.getElementById("Search").value = "";
-                        //   getSubCategories();
-                        // }}
-                      >
-                        Videos
+                        aria-controls="SlideVid"
+                        aria-selected="false">
+                        All Videos
                       </button>
                     </div>
                   </nav>
@@ -1057,17 +1056,19 @@ const GalleryMain = () => {
                     className="tab-content recent_orders_cate"
                     id="nav-tabContent">
                     <div
-                      className="tab-pane fade show active"
-                      id="nav-home"
+                      className="tab-pane fade show  active"
+                      id="SlideImg"
                       role="tabpanel"
-                      aria-labelledby="nav-home-tab">
+                      aria-labelledby="SlideImg-tab">
                       <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
                         {images?.map((item, ind) => (
                           <div className="col-3 mb-3" key={ind}>
                             <div className="image_box">
                               <i
                                 className="fas fa-close closeIcon"
-                                onClick={() => deleteImage(ind, item)}></i>
+                                onClick={() =>
+                                  deleteImage(ind, item, "imageKey")
+                                }></i>
                               <img
                                 className="gallery_uploads"
                                 src={
@@ -1082,17 +1083,19 @@ const GalleryMain = () => {
                       </div>
                     </div>
                     <div
-                      className="tab-pane fade show"
-                      id="nav-profile"
+                      className="tab-pane fade  show"
+                      id="SlideVid"
                       role="tabpanel"
-                      aria-labelledby="nav-profile-tab">
+                      aria-labelledby="SlideVid-tab">
                       <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
                         {allVideos?.map((item, ind) => (
                           <div className="col-3 mb-3" key={ind}>
                             <div className="image_box">
                               <i
                                 className="fas fa-close closeIcon"
-                                onClick={() => deleteImage(ind, item)}></i>
+                                onClick={() =>
+                                  deleteImage(ind, item, "videoKey")
+                                }></i>
                               <video
                                 id="frameOne"
                                 className="gallery_uploads"
@@ -1100,7 +1103,6 @@ const GalleryMain = () => {
                                 loop
                                 muted
                                 allowfullscreen="">
-                                {console.log(item, "vido")}
                                 <source
                                   src={
                                     item

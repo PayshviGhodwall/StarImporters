@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
@@ -36,6 +36,8 @@ import moment from "moment";
 
 const Homepage = () => {
   const width = window.innerWidth;
+  const [isMuted, setIsMuted] = useState(true);
+  const refVideo = useRef(null);
   const [NState, setNState] = useState(false);
   const [allSlides, setAllSlides] = useState([]);
   const [allHeaders, setAllHeaders] = useState([]);
@@ -317,7 +319,7 @@ const Homepage = () => {
             loop={true}
             dots={false}
             nav={true}
-            video={true}
+            // video={true}
             lazyLoad={true}
             items={1}>
             <div
@@ -380,11 +382,11 @@ const Homepage = () => {
                   : "https://starimporters.com/app/home";
               }}>
               <video
+                muted={isMuted ? true : false}
                 id="frameOne"
                 className="main_video bg-dark"
                 autoPlay
                 loop
-                muted
                 preload="auto">
                 <source src={videos[0]?.video} />
               </video>
@@ -402,7 +404,7 @@ const Homepage = () => {
                 className="main_video bg-dark"
                 autoPlay
                 loop
-                muted
+                muted={true}
                 preload="auto">
                 <source src={videos[1]?.video} />
               </video>
@@ -420,8 +422,7 @@ const Homepage = () => {
                 className="main_video bg-dark"
                 autoPlay
                 loop
-                oncanplay="this.muted=true"
-                muted
+                muted={true}
                 preload="auto">
                 <source src={videos[2]?.video} />
               </video>
@@ -440,7 +441,7 @@ const Homepage = () => {
                 autoPlay
                 loop
                 oncanplay="this.muted=true"
-                muted
+                muted={true}
                 preload="auto">
                 <source src={videos[3]?.video} />
               </video>
@@ -713,7 +714,7 @@ const Homepage = () => {
                             <div className="item-content text-center mt-2">
                               <h3>
                                 {" "}
-                                {item?.productId?.unitName} -{" "}
+                                {item?.productId?.unitName?.slice(0, 30)}.. -{" "}
                                 <strong className="fs-6">
                                   {item?.productId?.type?.flavour?.slice(0, 30)}
                                   ..
@@ -917,7 +918,7 @@ const Homepage = () => {
                               </a>
                               <h3 className="title ">
                                 <a className="text-decoration-none">
-                                  {item?.productId?.unitName}
+                                  {item?.productId?.unitName?.slice(0, 30)}...
                                 </a>
                               </h3>
                             </div>

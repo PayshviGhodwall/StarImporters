@@ -20,7 +20,6 @@ const Catelogues = () => {
   useEffect(() => {
     getCatalogs();
     getFLyers();
-
   }, []);
 
   const getCatalogs = async () => {
@@ -116,7 +115,10 @@ const Catelogues = () => {
                     <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
                       {(catalogs || [])?.map((item, ind) => (
                         <Carousel.Item>
-                          <div className="border rounded bg-white shadow">
+                          <Link
+                            target="_blank"
+                            to="/app/events/catelog&flyer/View"
+                            className="border rounded bg-white shadow">
                             <figure className="effect-ming tm-video-item">
                               <img
                                 src={
@@ -129,14 +131,7 @@ const Catelogues = () => {
                               />
                               <figcaption className="d-flex align-items-center justify-content-center">
                                 <h2>{item?.title}</h2>
-                                <a
-                                  onClick={() => {
-                                    navigate("/app/events/catelog&flyer/View", {
-                                      state: item?.url,
-                                    });
-                                  }}>
-                                  View more
-                                </a>
+                                <a>View more</a>
                               </figcaption>
                             </figure>
                             <div className="d-flex justify-content-center tm-text-gray">
@@ -146,7 +141,7 @@ const Catelogues = () => {
                                 )}
                               </span>
                             </div>
-                          </div>
+                          </Link>
                         </Carousel.Item>
                       ))}
                     </Carousel>
@@ -168,7 +163,10 @@ const Catelogues = () => {
                     <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
                       {(flyers || [])?.map((item, ind) => (
                         <Carousel.Item>
-                          <div className="border rounded bg-white shadow">
+                          <Link
+                            to="/app/events/catelog&flyer/View"
+                            target="_blank"
+                            className="border rounded bg-white shadow">
                             <figure className="effect-ming tm-video-item">
                               <img
                                 src={
@@ -181,14 +179,7 @@ const Catelogues = () => {
                               />
                               <figcaption className="d-flex align-items-center justify-content-center">
                                 <h2>{item?.title}</h2>
-                                <a
-                                  onClick={() => {
-                                    navigate("/app/events/catelog&flyer/View", {
-                                      state: item?.url,
-                                    });
-                                  }}>
-                                  View more
-                                </a>
+                                <a>View more</a>
                               </figcaption>
                             </figure>
                             <div className="d-flex justify-content-center tm-text-gray">
@@ -198,12 +189,11 @@ const Catelogues = () => {
                                 )}
                               </span>
                             </div>
-                          </div>
+                          </Link>
                         </Carousel.Item>
                       ))}
                     </Carousel>
                   </div>
-                  
                 </div>
 
                 <Footer />
