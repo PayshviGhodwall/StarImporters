@@ -19,19 +19,15 @@ const ViewStore = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const GetOrder = async () => {
-      await axios.get(getOrderDetails + "/" + id?.id).then((res) => {
-        setOrderDetails(res?.data.results?.orders);
-      });
-    };
-    GetOrder();
     getUser();
   }, []);
 
   const getUser = async () => {
     const res = await axios.get(apiUrl + "/" + id);
     setUsers(res?.data.results.subUser);
+    setOrderDetails(res?.data.results?.orders);
   };
+  
   return (
     <div className="main_myaccount">
       <Navbar />

@@ -17,35 +17,34 @@ const Checkout = () => {
   const autoClose = () => {
     document.getElementById("close").click();
   };
-  const [selected, setSelected] = useState();
-  const [options, setOptions] = useState();
-  const createOptions = async (data, id) => {
-    const optionList = data?.map((item, index) => ({
-      value: item?._id,
-      label: item?.companyName,
-    }));
-    optionList.push({ value: id, label: "Main Store" });
-    setOptions(optionList);
-  };
+  const [userType, setUserType] = useState("");
+  const [subAccList, setSubAccList] = useState([]);
 
+  let MainId = localStorage.getItem("objectId");
   useEffect(() => {
-    const getUser = async () => {
-      await axios.get(userApi).then((res) => {
-        console.log(res);
-        setUsers(res?.data.results);
-        createOptions(res?.data.results?.subAccounts);
-      });
-    };
     getUser();
   }, []);
 
-  const handleChange = (selected) => {
-    setSelected({
-      optionSelected: selected,
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      console.log(res);
+      setUsers(res?.data.results);
+      setSubAccList(res?.data.results?.subAccounts);
     });
   };
 
-  console.log(selected);
+  const newAddress = async (id) => {
+    console.log(id);
+    subAccList?.map((item, ind) => {
+      if (item?._id === id) {
+        setUsers(item);
+        setUserType({ type: item?.accountType, id: item?._id });
+      } else if (id === MainId) {
+        getUser();
+        setUserType({ type: "ParentAcc" });
+      }
+    });
+  };
 
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
@@ -54,6 +53,8 @@ const Checkout = () => {
           type: "Shipment",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
@@ -73,6 +74,8 @@ const Checkout = () => {
           type: "Delivery",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
@@ -93,6 +96,8 @@ const Checkout = () => {
           type: "In-Store Pickup",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
@@ -176,6 +181,7 @@ const Checkout = () => {
         });
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -231,14 +237,35 @@ const Checkout = () => {
                       style={{
                         width: "20rem",
                       }}>
-                      <Select
+                      <select
+                        className={
+                          "form-select border border-secondary signup_fields fw-bolder"
+                        }
+                        id="floatingSelect1"
+                        aria-label="Floating label select example"
+                        name="city"
+                        onChange={(e) => {
+                          newAddress(e.target.value);
+                        }}>
+                        {/* <option value="">Select Another Account....</option> */}
+                        <option value={MainId}>Main Account</option>
+
+                        {subAccList?.map((itm, id) => (
+                          <option value={itm?._id}>
+                            Sub-Account : {itm?.companyName}
+                          </option>
+                        ))}
+                      </select>
+                      {console.log(users)}
+
+                      {/* <Select
                         // defaultValue={[colourOptions[0], colourOptions[1]]}
-                        isMulti
+                        // isMulti
                         options={options}
                         onChange={handleChange}
                         // onInputChange={handleInputChangeUser}
                         placeholder="Select Another Store..."
-                      />
+                      /> */}
                     </h3>
                   </div>
 

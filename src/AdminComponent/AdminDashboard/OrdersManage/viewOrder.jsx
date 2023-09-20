@@ -282,9 +282,7 @@ const ViewOrder = () => {
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -308,7 +306,6 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -346,20 +343,19 @@ const ViewOrder = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -694,7 +690,8 @@ const ViewOrder = () => {
                     </div>
                     <div className="col-12">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
-                        <span className="small_header">Shipment Details</span>
+                        <span className="small_header">Buyer Details</span>
+
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Customer Name:</span>
@@ -768,6 +765,72 @@ const ViewOrder = () => {
                       </div>
                     </div>
 
+                    {orders?.orderedBy === "SubAcc" && (
+                      <div className="col-12 mt-4">
+                        <div className="row mx-0 border rounded pt-4 p-3 position-relative">
+                          <span className="small_header">
+                            Sub-Account Details
+                          </span>
+
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Order By:</span>
+                              <div className="col">
+                                <strong>Sub-Account</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Customer Name:</span>
+                              <div className="col">
+                                <strong>
+                                  {orders?.userId?.subAccounts?.firstName +
+                                    " " +
+                                    orders?.userId?.subAccounts?.lastName}
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Business Number:</span>
+                              <div className="col">
+                                <strong>{orders?.userId?.subAccounts?.businessPhoneNumber}</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Company Name:</span>
+                              <div className="col">
+                                <strong>{orders?.userId?.subAccounts?.companyName}</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4 my-3 d-flex align-items-stretch">
+                            <div className="row view-inner-box border mx-0 w-100">
+                              <span>Shipment Location:</span>
+                              <div className="col">
+                                <strong>
+                                  {orders?.userId?.subAccounts?.addressLine1 +
+                                    "," +
+                                    orders?.userId?.subAccounts?.city +
+                                    "," +
+                                    orders?.userId?.subAccounts?.state +
+                                    "-" +
+                                    orders?.userId?.subAccounts?.zipcode}
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="col-12 mb-5 mt-3">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                         <span className="small_header">
@@ -878,7 +941,6 @@ const ViewOrder = () => {
                                               )
                                             )}
                                           </p>
-                                         
                                         </div>
                                       </div>
                                     </div>

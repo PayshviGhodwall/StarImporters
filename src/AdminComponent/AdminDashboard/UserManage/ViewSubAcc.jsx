@@ -34,6 +34,50 @@ const ViewSubAcc = () => {
   let { id } = useParams();
   let location = useLocation();
 
+  const [orderHistory, setOrderHistory] = useState({
+    columns: [
+      {
+        label: "DATE",
+        field: "date",
+        sort: "asc",
+        width: 150,
+      },
+
+      {
+        label: "ORDER ID",
+        field: "id",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "ORDER STATUS",
+        field: "status",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "ORDER TYPE",
+        field: "type",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "PULLER STATUS",
+        field: "pull",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "ORDER DETAILS",
+        field: "details",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
+
   useEffect(() => {
     getSubUser();
   }, []);
@@ -43,6 +87,36 @@ const ViewSubAcc = () => {
       subAccount: id,
     });
     setUser(res?.data.results.subUser);
+    if (!res?.data.error) {
+      const newRows = [];
+      let values = res?.data.results.orders;
+      values?.map((list, index) => {
+        const returnData = {};
+        returnData.id = list?.orderId;
+        returnData.status = list?.status;
+        returnData.type = list?.type;
+        returnData.pull = list?.pullStatus;
+        returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+        returnData.details = (
+          <>
+            <button
+              className="comman_btn table_viewbtn"
+              onClick={() => {
+                navigate(`/OrderRequest/ViewOrder/${list?._id}`, {
+                  state: {
+                    id: list?._id,
+                  },
+                });
+              }}>
+              View
+            </button>
+          </>
+        );
+        newRows.push(returnData);
+      });
+
+      setOrders({ ...orders, rows: newRows });
+    }
   };
 
   const fileDownload = (url) => {
@@ -1084,36 +1158,6 @@ const ViewSubAcc = () => {
                   <div className="col-12 px-3 Pending-view-main">
                     <div className="row py-2">
                       <div className="col-12 user-management-tabs px-0">
-                        <nav>
-                          <div
-                            className="nav nav-tabs_usr  "
-                            id="nav-tab"
-                            role="tablist">
-                            <button
-                              className="nav-link active"
-                              id="nav-home-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#nav-home"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-home"
-                              aria-selected="true">
-                              All Orders
-                            </button>
-
-                            <button
-                              className="nav-link mt-1"
-                              id="nav-profile-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#nav-profile"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-profile"
-                              aria-selected="false">
-                              All Quotations Request
-                            </button>
-                          </div>
-                        </nav>
                         <div className="tab-content" id="nav-tabContent">
                           <div
                             className="tab-pane fade show active"
@@ -1131,32 +1175,6 @@ const ViewSubAcc = () => {
                                         className="categoryTable"
                                         hover
                                         data={orders}
-                                        noBottomColumns
-                                        sortable
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div
-                            className="tab-pane fade"
-                            id="nav-profile"
-                            role="tabpanel"
-                            aria-labelledby="nav-profile-tab">
-                            <div className="row mx-0 ">
-                              <div className="col-12">
-                                <div className="row ">
-                                  <div className="col-12 comman_table_design px-0">
-                                    <div className="table-responsive p-0">
-                                      <MDBDataTable
-                                        bordered
-                                        displayEntries={false}
-                                        className="categoryTable"
-                                        hover
-                                        data={quote}
                                         noBottomColumns
                                         sortable
                                       />
