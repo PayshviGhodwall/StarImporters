@@ -71,7 +71,6 @@ const EditUser = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
 
-  console.log(newExpiry);
   const onSubmit = async (data) => {
     setLoader(true);
     console.log(data?.city);
@@ -96,7 +95,10 @@ const EditUser = () => {
     formData.append("salesTaxId", files?.salesTaxId);
     formData.append("accountOwnerId", files?.accountOwnerId);
     formData.append("heardAboutUs", data?.heardAboutUs);
-    formData.append("multipleUsers", data?.multipleUsers);
+    formData.append(
+      "multipleUsers",
+      data?.multipleUsers ? data?.multipleUsers : user?.multipleUsers
+    );
     formData.append("quotation", data?.quotation ? data?.quotation : "");
     formData.append(
       "istobaccoLicenceExpired",
