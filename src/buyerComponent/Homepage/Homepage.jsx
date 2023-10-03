@@ -11,7 +11,6 @@ import "swiper/css/navigation";
 import "swiper/css/grid";
 import "../../assets/css/main.css";
 import AgeVerification from "../AgeVerification";
-import Countdown from "react-countdown";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
@@ -20,6 +19,9 @@ import DOMPurify from "dompurify";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import image from "../../assets/img/starBgg.jpg";
+import videoStatic from "../../assets/img/videoN.MP4";
+
 import { useSetRecoilState } from "recoil";
 import {
   pageBrand,
@@ -28,7 +30,6 @@ import {
   pageSubCategory,
   pageSubCategoryData,
 } from "../../atom";
-import { height } from "@mui/system";
 import Swal from "sweetalert2";
 import { Modal, ButtonToolbar, Button, Loader, Placeholder } from "rsuite";
 import LoginPOP from "./loginPOP";
@@ -65,6 +66,7 @@ const Homepage = () => {
   const navigate = useNavigate();
   axios.defaults.headers.common["x-auth-token-user"] =
     localStorage.getItem("token-user");
+
   let token = localStorage.getItem("token-user");
   let NewUser = sessionStorage.getItem("new");
   const [hotSell, setHotSell] = useState([]);
@@ -80,18 +82,6 @@ const Homepage = () => {
     setTimeout(() => setRows(80), 2000);
   };
 
-  // const renderer = ({ days, hours, minutes, seconds, completed }) => {
-  //   return (
-  //     <div class="">
-  //       <div class="">
-  //         <span class="time_main">{days}d:</span>
-  //         <span class="time_main">{hours}hr:</span>
-  //         <span class="time_main">{minutes}m:</span>
-  //         <span class="time_main">{seconds}s</span>
-  //       </div>
-  //     </div>
-  //   );
-  // };
   const pagination = {
     clickable: true,
   };
@@ -110,6 +100,7 @@ const Homepage = () => {
         }, 2000);
       }
     }
+    VideoSlidesGet();
     getSlides();
     getPromotions();
     getPromotionsClose();
@@ -122,7 +113,6 @@ const Homepage = () => {
     setPage3(1);
     setData([]);
     setData2([]);
-    VideoSlidesGet();
     setTimeout(() => {
       setLoading(false);
     }, 8000);
@@ -152,8 +142,6 @@ const Homepage = () => {
         }
       });
   };
-
-  let image = require("../../assets/img/banner_2.png");
 
   const AddtoCart = async (id, flavour, slug) => {
     console.log(";;lk;");
@@ -446,6 +434,118 @@ const Homepage = () => {
                 <source src={videos[3]?.video} />
               </video>
             </div>
+            
+            {/* <div
+              className="banner_section item bg-white shadow"
+              onClick={() => {
+                window.location.href = videos[0]?.url
+                  ? videos[0]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
+              <div
+                className="video_banner"
+                style={{
+                  backgroundImage: videos[0]?.videoCover?.length > 4
+                    ? `url(${videos[0]?.videoCover})`
+                    : `url(${image})`,
+                }}>
+                <video
+                  muted={isMuted ? true : false}
+                  id="frameOne"
+                  className="bg-white p-0 shadow"
+                  autoPlay
+                  loop
+                  preload="auto">
+                  <source
+                    src={videos[0]?.video?.length > 4 ? videos[0]?.video : videoStatic}
+                  />
+                </video>
+              </div>
+            </div>
+
+            <div
+              className="banner_section item bg-white shadow"
+              onClick={() => {
+                window.location.href = videos[1]?.url
+                  ? videos[1]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
+              <div
+                className="video_banner"
+                style={{
+                  backgroundImage: videos[1]?.videoCover?.length > 4
+                    ? `url(${videos[1]?.videoCover})`
+                    : `url(${image})`,
+                }}>
+                <video
+                  muted={isMuted ? true : false}
+                  id="frameTwo"
+                  className="bg-white shadow p-0"
+                  autoPlay
+                  loop
+                  preload="auto">
+                  <source
+                    src={videos[1]?.video?.length > 4 ? videos[1]?.video : videoStatic}
+                  />
+                </video>
+              </div>
+            </div>
+
+            <div
+              className="banner_section item bg-white shadow"
+              onClick={() => {
+                window.location.href = videos[2]?.url
+                  ? videos[2]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
+              <div
+                className="video_banner"
+                style={{
+                  backgroundImage: videos[2]?.videoCover?.length > 4
+                    ? `url(${videos[2]?.videoCover})`
+                    : `url(${image})`,
+                }}>
+                <video
+                  muted={isMuted ? true : false}
+                  id="frameThree"
+                  className="bg-white shadow p-0"
+                  autoPlay
+                  loop
+                  preload="auto">
+                  <source
+                    src={videos[2]?.video?.length > 4 ? videos[2]?.video : videoStatic}
+                  />
+                </video>
+              </div>
+            </div>
+
+            <div
+              className="banner_section item bg-white shadow"
+              onClick={() => {
+                window.location.href = videos[3]?.url
+                  ? videos[3]?.url
+                  : "https://starimporters.com/app/home";
+              }}>
+              <div
+                className="video_banner"
+                style={{
+                  backgroundImage: videos[3]?.videoCover?.length > 4
+                    ? `url(${videos[3]?.videoCover})`
+                    : `url(${image})`,
+                }}>
+                <video
+                  muted={isMuted ? true : false}
+                  id="frameFour"
+                  className="bg-white p-0"
+                  autoPlay
+                  loop
+                  preload="auto">
+                  <source
+                    src={videos[3]?.video?.length > 4 ? videos[3]?.video : videoStatic}
+                  />
+                </video>
+              </div>
+            </div> */}
 
             <div
               className="banner_section item "
@@ -464,7 +564,7 @@ const Homepage = () => {
                 alt="Loading..."
               />
               <div
-                className={
+                className={ 
                   (allSlides[2]?.position === "One" && "carousel-caption ") ||
                   (allSlides[2]?.position === "Two" &&
                     "carousel-caption banner-titles mx-3") ||
@@ -651,7 +751,7 @@ const Homepage = () => {
             </div>
           </OwlCarousel>
 
-          <section className="p-4 container">
+          <section className="p-4 container mt-4">
             <div className=" ">
               <div className="row featuredproduct_slider">
                 <div className="col-12 mb-2 mt-4">
@@ -659,11 +759,11 @@ const Homepage = () => {
                     <h2>Hot selling products</h2>
 
                     <a
-                      className="view_all "
+                      className="view_all mb-5"
                       onClick={() =>
                         navigate("/app/HotSelling-products", { state: "hii" })
                       }>
-                      View All{" "}
+                      View All
                       <img
                         class="ms-2"
                         src={require("../../assets/img/arrow_colr.png")}
@@ -690,7 +790,7 @@ const Homepage = () => {
                       <SwiperSlide key={index} className="px-3 main_hot">
                         <div className="col-md-12 col-lg-12 px-2">
                           <div className="card_hot shadow">
-                            <span className="offer">Hot Deal</span>{" "}
+                            <span className="offer2">Hot Deals-Buy now.</span>{" "}
                             <div
                               className="item-image p-4 mt-2 pt-5"
                               onClick={() => {
@@ -707,9 +807,10 @@ const Homepage = () => {
                                 src={
                                   item?.productId?.type?.flavourImage
                                     ? item?.productId?.type?.flavourImage
-                                    : require("../../assets/img/product.jpg")
+                                    : item?.productId?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                 }
-                              />{" "}
+                              />
                             </div>
                             <div className="item-content text-center mt-2">
                               <h3>
@@ -720,7 +821,13 @@ const Homepage = () => {
                                   ..
                                 </strong>
                               </h3>{" "}
-                              <p> {item?.productId?.description}</p>{" "}
+                              <p className="mb-4">
+                                {" "}
+                                {item?.price ? "Offer price-" : ""}
+                                <span className=" mx-1 text-danger  fs-5 fw-bold">
+                                  {item?.price ? "$" + item.price : ""}
+                                </span>
+                              </p>{" "}
                             </div>
                           </div>
                           <div className="product-action">
@@ -750,6 +857,141 @@ const Homepage = () => {
                                 }}>
                                 <i className="fas fa-heart" />
                               </a>
+                              <a
+                                onClick={() => {
+                                  AddtoCart(
+                                    item?.productId?._id,
+                                    item?.productId?.type,
+                                    item?.productId?.slug
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-shopping-cart" />
+                              </a>{" "}
+                            </div>{" "}
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="p-4 container">
+            <div className=" ">
+              <div className="row featuredproduct_slider">
+                <div className="col-12 mb-2 mt-5 ">
+                  <div className="comn_heads mb-5">
+                    <h2>Closing Out deals</h2>
+                    <a
+                      className="view_all "
+                      onClick={() =>
+                        navigate("/app/CloseOut-products", { state: "hii" })
+                      }>
+                      View All{" "}
+                      <img
+                        class="ms-2"
+                        src={require("../../assets/img/arrow_colr.png")}
+                        alt=""></img>
+                    </a>
+                  </div>
+                </div>
+                <div className="">
+                  <Swiper
+                    slidesPerView={width <= 1400 ? 3 : 4}
+                    spaceBetween={30}
+                    navigation={true}
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: true,
+                      reverseDirection: true,
+                      waitForTransition: true,
+                    }}
+                    loop={true}
+                    style={{ padding: "30px" }}
+                    modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                    className="mySwiper pt-5">
+                    {(closeOut || [])?.map((item, index) => (
+                      <SwiperSlide key={index} className="px-3 main_hot">
+                        <div className="col-md-12 col-lg-12 px-2">
+                          <div className="card_hot shadow">
+                            <span className="offer2">
+                              Ends on :{moment(item?.expireIn).format("L")}
+                              {/* <Countdown
+                                date={new Date(item?.expireIn)}
+                                renderer={renderer}
+                              /> */}
+                            </span>
+                            <div
+                              className="item-image p-4 mt-2 pt-5"
+                              onClick={() => {
+                                navigate(
+                                  `/AllProducts/Product/:${item?.productId?.slug}`,
+                                  {
+                                    state: {
+                                      type: item?.productId?.type,
+                                    },
+                                  }
+                                );
+                              }}>
+                              <img
+                                className="mt-3"
+                                src={
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : item?.productId?.productImage ||
+                                      require("../../assets/img/product.jpg")
+                                }
+                              />{" "}
+                            </div>
+                            <div className="item-content text-center mt-2">
+                              <h3>
+                                {" "}
+                                {item?.productId?.unitName?.slice(0, 26)} -{" "}
+                                <strong className="fs-6">
+                                  {item?.productId?.type?.flavour?.slice(0, 30)}
+                                  ..
+                                </strong>
+                              </h3>{" "}
+                              <p className="mb-4">
+                                {" "}
+                                {item?.price ? "Offer price-" : ""}
+                                <span className=" mx-1 text-danger  fs-5 fw-bold">
+                                  {item?.price ? "$" + item.price : ""}
+                                </span>
+                              </p>{" "}
+                            </div>
+                          </div>
+                          <div className="product-action">
+                            {" "}
+                            <div className="product-action-style">
+                              {" "}
+                              <a
+                                onClick={() => {
+                                  navigate(
+                                    `/AllProducts/Product/:${item?.productId?.slug}`,
+                                    {
+                                      state: {
+                                        type: item?.productId?.type,
+                                      },
+                                    }
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-eye" />
+                              </a>{" "}
+                              <a
+                                onClick={() => {
+                                  addToFav(
+                                    item?.productId?._id,
+                                    item?.productId?.type
+                                  );
+                                }}>
+                                {" "}
+                                <i className="fas fa-heart" />
+                              </a>{" "}
                               <a
                                 onClick={() => {
                                   AddtoCart(
@@ -848,11 +1090,17 @@ const Homepage = () => {
                                   src={
                                     item?.productId?.type?.flavourImage
                                       ? item?.productId?.type?.flavourImage
-                                      : require("../../assets/img/product.jpg")
+                                      : item?.productId?.productImage ||
+                                        require("../../assets/img/product.jpg")
                                   }
                                 />
                               </a>
-                              <span className="product-hot-label">hot</span>
+                              <span className="product-hot-label">
+                                HOT{item?.price ? "-" : ""}
+                                <span className=" mx-1  fs-5 fw-bold">
+                                  {item?.price ? "$" + item.price : ""}
+                                </span>
+                              </span>
                               <ul className="product-links">
                                 <li>
                                   <a
@@ -912,7 +1160,9 @@ const Homepage = () => {
                                   );
                                 }}>
                                 <strong className="fs-6">
-                                  {item?.productId?.type?.flavour}
+                                  {item?.productId?.type?.flavour
+                                    ? item?.productId?.type?.flavour
+                                    : item?.productId?.unitName?.slice(0, 30)}
                                   ..
                                 </strong>
                               </a>
@@ -922,134 +1172,6 @@ const Homepage = () => {
                                 </a>
                               </h3>
                             </div>
-                          </div>
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="p-4 container">
-            <div className=" ">
-              <div className="row featuredproduct_slider">
-                <div className="col-12 mb-2 mt-5 ">
-                  <div className="comn_heads mb-5">
-                    <h2>Closeout deals</h2>
-                    <a
-                      className="view_all "
-                      onClick={() =>
-                        navigate("/app/CloseOut-products", { state: "hii" })
-                      }>
-                      View All{" "}
-                      <img
-                        class="ms-2"
-                        src={require("../../assets/img/arrow_colr.png")}
-                        alt=""></img>
-                    </a>
-                  </div>
-                </div>
-                <div className="">
-                  <Swiper
-                    slidesPerView={width <= 1400 ? 3 : 4}
-                    spaceBetween={30}
-                    navigation={true}
-                    autoplay={{
-                      delay: 5000,
-                      disableOnInteraction: true,
-                      reverseDirection: true,
-                      waitForTransition: true,
-                    }}
-                    loop={true}
-                    style={{ padding: "30px" }}
-                    modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                    className="mySwiper pt-5">
-                    {(closeOut || [])?.map((item, index) => (
-                      <SwiperSlide key={index} className="px-3 main_hot">
-                        <div className="col-md-12 col-lg-12 px-2">
-                          <div className="card_hot shadow">
-                            <span className="offer2">
-                              Ends on :{moment(item?.expireIn).format("L")}
-                              {/* <Countdown
-                                date={new Date(item?.expireIn)}
-                                renderer={renderer}
-                              /> */}
-                            </span>
-                            <div
-                              className="item-image p-4 mt-2 pt-5"
-                              onClick={() => {
-                                navigate(
-                                  `/AllProducts/Product/:${item?.productId?.slug}`,
-                                  {
-                                    state: {
-                                      type: item?.productId?.type,
-                                    },
-                                  }
-                                );
-                              }}>
-                              <img
-                                className="mt-3"
-                                src={
-                                  item?.productId?.type?.flavourImage
-                                    ? item?.productId?.type?.flavourImage
-                                    : require("../../assets/img/product.jpg")
-                                }
-                              />{" "}
-                            </div>
-                            <div className="item-content text-center mt-2">
-                              <h3>
-                                {" "}
-                                {item?.productId?.unitName?.slice(0, 26)} -{" "}
-                                <strong className="fs-6">
-                                  {item?.productId?.type?.flavour?.slice(0, 30)}
-                                  ..
-                                </strong>
-                              </h3>{" "}
-                              <p> {item?.description}</p>{" "}
-                            </div>
-                          </div>
-                          <div className="product-action">
-                            {" "}
-                            <div className="product-action-style">
-                              {" "}
-                              <a
-                                onClick={() => {
-                                  navigate(
-                                    `/AllProducts/Product/:${item?.productId?.slug}`,
-                                    {
-                                      state: {
-                                        type: item?.productId?.type,
-                                      },
-                                    }
-                                  );
-                                }}>
-                                {" "}
-                                <i className="fas fa-eye" />
-                              </a>{" "}
-                              <a
-                                onClick={() => {
-                                  addToFav(
-                                    item?.productId?._id,
-                                    item?.productId?.type
-                                  );
-                                }}>
-                                {" "}
-                                <i className="fas fa-heart" />
-                              </a>{" "}
-                              <a
-                                onClick={() => {
-                                  AddtoCart(
-                                    item?.productId?._id,
-                                    item?.productId?.type,
-                                    item?.productId?.slug
-                                  );
-                                }}>
-                                {" "}
-                                <i className="fas fa-shopping-cart" />
-                              </a>{" "}
-                            </div>{" "}
                           </div>
                         </div>
                       </SwiperSlide>

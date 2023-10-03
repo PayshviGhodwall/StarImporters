@@ -88,15 +88,18 @@ const GalleryMain = () => {
     });
     await axios.post(editCollection + "/" + id, formData).then((res) => {
       getCollection();
-      document.getElementById("Modal_gallery").click();
+      document.getElementById("gallery_cat").click();
       if (!res.data.error) {
         Swal.fire({
           title: "Gallery Modified Successfully!",
           icon: "success",
           confirmButtonText: "Okay",
         });
+        setFiles();
+        setVideo();
         setLoader(false);
-        window.location.reload(false);
+        onEditGallery(id);
+        // window.location.reload(false);
       } else {
         Swal.fire({
           title: "Enter Valid Details!",
@@ -729,7 +732,7 @@ const GalleryMain = () => {
                                 </div>
                                 <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
                                   <span>Cover Image</span>{" "}
-                                  <label htmlFor="upload_video">
+                                  <label htmlFor="uploadCover">
                                     <i class="fa fa-camera me-1"></i>
                                     Choose File
                                   </label>{" "}
@@ -737,6 +740,7 @@ const GalleryMain = () => {
                                     type="file"
                                     className="form-control shadow-none"
                                     defaultValue=""
+                                    id="uploadCover"
                                     accept="image/*"
                                     name="coverImage"
                                     onChange={(e) =>
@@ -746,7 +750,7 @@ const GalleryMain = () => {
                                 </div>
                                 <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
                                   <span>Gallery Images</span>{" "}
-                                  <label htmlFor="upload_video">
+                                  <label htmlFor="uploadImage">
                                     <i class="fa fa-camera me-1"></i>
                                     Choose File
                                   </label>
@@ -754,6 +758,7 @@ const GalleryMain = () => {
                                     type="file"
                                     className="form-control shadow-none"
                                     defaultValue=""
+                                    id="uploadImage"
                                     accept="image/*"
                                     name="images"
                                     onChange={(e) =>
@@ -773,6 +778,7 @@ const GalleryMain = () => {
                                     type="file"
                                     className="form-control shadow-none"
                                     defaultValue=""
+                                    id="upload_video"
                                     accept="video/*"
                                     name="images"
                                     onChange={(e) =>
@@ -846,10 +852,7 @@ const GalleryMain = () => {
                                             </td>
                                             <td className="border">
                                               {" "}
-                                              <div
-                                                className=""
-                                                  key={item?._id}
-                                              >
+                                              <div className="" key={item?._id}>
                                                 <label class="switchUser">
                                                   <input
                                                     type="checkbox"
@@ -912,7 +915,7 @@ const GalleryMain = () => {
           tabIndex={-1}
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-xl shadow">
+          <div className="modal-dialog modal-dialog-centered modal-xl ">
             <div className="modal-content border-0">
               <div className="modal-header">
                 <h5 className="modal-title" id="staticBackdropLabel">
@@ -963,7 +966,7 @@ const GalleryMain = () => {
                   </div>
                   <div className="form-group mb-0 col choose_fileAdmin position-relative mt-2">
                     <span>Add Gallery Images</span>{" "}
-                    <label htmlFor="upload_video">
+                    <label htmlFor="uploadImg">
                       <i class="fa fa-camera me-1"></i>
                       Choose File
                     </label>{" "}
@@ -971,6 +974,7 @@ const GalleryMain = () => {
                       type="file"
                       className="form-control shadow-none"
                       defaultValue=""
+                      id="uploadImg"
                       accept="image/*"
                       name="gallery_images"
                       onChange={(e) => onFileSelection2(e, "gallery_images")}
@@ -980,7 +984,7 @@ const GalleryMain = () => {
 
                   <div className="form-group mb-0 col choose_fileAdmin position-relative mt-2">
                     <span>Add Video</span>{" "}
-                    <label htmlFor="upload_video">
+                    <label htmlFor="upload_videoEdit">
                       <i class="fa fa-camera me-1"></i>
                       Choose File
                     </label>
@@ -988,6 +992,7 @@ const GalleryMain = () => {
                       type="file"
                       className="form-control shadow-none"
                       defaultValue=""
+                      id="upload_videoEdit"
                       accept="video/*"
                       name="videoEdit"
                       onChange={(e) => onFileSelectionVideo(e, "videoEdit")}
@@ -1060,7 +1065,7 @@ const GalleryMain = () => {
                       id="SlideImg"
                       role="tabpanel"
                       aria-labelledby="SlideImg-tab">
-                      <div className="row align-items-start px-0 p-2 border rounded edit_galllery">
+                      <div className="row align-items-start px-0 p-2 border rounded edit_galllery p-3">
                         {images?.map((item, ind) => (
                           <div className="col-3 mb-3" key={ind}>
                             <div className="image_box">

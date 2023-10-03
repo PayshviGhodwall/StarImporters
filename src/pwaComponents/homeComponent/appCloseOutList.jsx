@@ -53,7 +53,7 @@ function AppCloseOutList() {
     }
   };
 
-  const addToCartt = async (id, index, itm) => {
+  const addToCartt = async (id, index, itm, slug) => {
     if (itm?.category?.isTobacco || itm?.subCategory?.isTobacco) {
       if (!userDetail?.istobaccoLicenceExpired) {
         const formData = {
@@ -65,9 +65,19 @@ function AppCloseOutList() {
         if (!data.error) {
           navigate("/app/cart");
         }
-        if (data?.error) {
-          navigate("/app/login");
+        if (data?.message === "Flavour is not available!") {
+          Swal.fire({
+            title: "Please Select a Flavour!",
+            text: "Click view to all flavours.",
+            icon: "warning",
+            confirmButtonText: "Okay",
+          }).then((res) => {
+            navigate(`/app/product-detail/${slug}`, { state: "hii" });
+          });
         }
+        // if (data?.error) {
+        //   navigate("/app/login");
+        // }
       } else {
         Swal.fire({
           title: "Your Tobacco licence is Expired/Invalid!",
@@ -86,9 +96,19 @@ function AppCloseOutList() {
       if (!data.error) {
         navigate("/app/cart");
       }
-      if (data?.error) {
-        navigate("/app/login");
+      if (data?.message === "Flavour is not available!") {
+        Swal.fire({
+          title: "Please Select a Flavour!",
+          text: "Click view to all flavours.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        }).then((res) => {
+          navigate(`/app/product-detail/${slug}`, { state: "hii" });
+        });
       }
+      // if (data?.error) {
+      //   navigate("/app/login");
+      // }
     }
   };
 
@@ -167,7 +187,7 @@ function AppCloseOutList() {
         <div class="page-content-wrapper">
           <Search />
           <div>
-            {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+            {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
               <div>
                 {searchKey?.length ? null : (
                   <div className="row p-3">
@@ -175,7 +195,8 @@ function AppCloseOutList() {
                       .filter(
                         (itm, idx) =>
                           itm.category != "639a042ff2f72167b43774de" &&
-                          itm.category != "639a7617f2f72167b4377754"
+                          itm.category != "639a7617f2f72167b4377754" &&
+                          itm?.productId?.isTobaccoProduct != true
                       )
                       .map((item, index) => (
                         <div class="col-6 mb-3">
@@ -189,7 +210,8 @@ function AppCloseOutList() {
                                     addToCartt(
                                       item?.productId?._id,
                                       index,
-                                      item
+                                      item,
+                                      item?.productId?.slug
                                     )
                                   }>
                                   <i class="fa-light fa-plus "></i>
@@ -226,7 +248,8 @@ function AppCloseOutList() {
                                   src={
                                     item?.productId.type?.flavourImage
                                       ? item?.productId.type?.flavourImage
-                                      : require("../../assets/img/product.jpg")
+                                      : item?.productId?.productImage ||
+                                        require("../../assets/img/product.jpg")
                                   }
                                   alt="Product Image not updated"
                                 />
@@ -237,9 +260,11 @@ function AppCloseOutList() {
                                     class="product-title"
                                     to={`/app/product-detail/${item?.productId?.slug}`}
                                     state={{ type: item?.productId?.type }}>
-                                    {item?.productId?.unitName +
-                                      "-" +
-                                      item?.productId.type?.flavour}
+                                    {item?.productId?.unitName}
+
+                                    <span>
+                                      -{item?.productId.type?.flavour}
+                                    </span>
                                   </Link>
                                 </div>
                               </div>
@@ -250,7 +275,7 @@ function AppCloseOutList() {
                   </div>
                 )}
               </div>
-            ) : (
+            ) : ( */}
               <div>
                 {searchKey?.length ? null : (
                   <div className="row p-3 ">
@@ -263,7 +288,12 @@ function AppCloseOutList() {
                                 class="cart_bttn text-decoration-none"
                                 to=""
                                 onClick={() =>
-                                  addToCartt(item?.productId?._id, index, item)
+                                  addToCartt(
+                                    item?.productId?._id,
+                                    index,
+                                    item,
+                                    item?.productId?.slug
+                                  )
                                 }>
                                 <i class="fa-light fa-plus "></i>
                               </Link>
@@ -297,9 +327,10 @@ function AppCloseOutList() {
                               <img
                                 class="mb-2"
                                 src={
-                                  item?.productId.type?.flavourImage
-                                    ? item?.productId.type?.flavourImage
-                                    : require("../../assets/img/product.jpg")
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : item?.productId?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                 }
                                 alt="Product Image not updated"
                               />
@@ -310,9 +341,9 @@ function AppCloseOutList() {
                                   class="product-title"
                                   to={`/app/product-detail/${item?.productId?.slug}`}
                                   state={{ type: item?.productId?.type }}>
-                                  {item?.productId?.unitName +
-                                    "-" +
-                                    item?.productId.type?.flavour}
+                                  {item?.productId?.unitName}
+
+                                  <span>-{item?.productId?.type?.flavour}</span>
                                 </Link>
                               </div>
                             </div>
@@ -323,7 +354,7 @@ function AppCloseOutList() {
                   </div>
                 )}
               </div>
-            )}
+            {/* )} */}
           </div>
         </div>
 

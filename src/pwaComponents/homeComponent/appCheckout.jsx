@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppFooter from "./appFooter";
 import AppHeader from "./appHeader";
 
@@ -12,16 +12,34 @@ function AppCheckout() {
   const [comments, setComments] = useState("");
   const [delevryChoice, setDelevryChoice] = useState("In-Store Pickup");
   let location = useLocation();
-
+  const [down, setDown] = useState(false);
+  const [subAccList, setSubAccList] = useState([]);
+  let MainId = localStorage.getItem("objectId");
+  const [userType, setUserType] = useState({ type: "ParentAcc" });
+  const [subUser, setSubUser] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
-    const getUser = async () => {
-      await axios.get(userApi).then((res) => {
-        console.log(res);
-        setUsers(res?.data.results);
-      });
-    };
     getUser();
   }, []);
+  const getUser = async () => {
+    await axios.get(userApi).then((res) => {
+      console.log(res);
+      setUsers(res?.data.results);
+      setSubAccList(res?.data.results?.subAccounts);
+    });
+  };
+
+  const newAddress = async (id) => {
+    subAccList?.map((item, ind) => {
+      if (item?._id === id) {
+        setSubUser(item);
+        setUserType({ type: item?.accountType, id: item?._id });
+      } else if (id === MainId) {
+        getUser();
+        setUserType({ type: "ParentAcc" });
+      }
+    });
+  };
 
   const createOrder = async () => {
     if (delevryChoice == "Shipment") {
@@ -30,10 +48,18 @@ function AppCheckout() {
           type: "Shipment",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
-            console.log(res?.data.message);
+            if (
+              res?.data.message === "Your account has been disabled by admin"
+            ) {
+              LogOut();
+            } else {
+              navigate("/app/thankyou");
+            }
           }
         });
     } else if (delevryChoice == "Delivery") {
@@ -42,10 +68,19 @@ function AppCheckout() {
           type: "Delivery",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
             console.log(res?.data.message);
+            if (
+              res?.data.message === "Your account has been disabled by admin"
+            ) {
+              LogOut();
+            } else {
+              navigate("/app/thankyou");
+            }
           }
         });
     } else if (delevryChoice == "In-Store Pickup") {
@@ -54,13 +89,29 @@ function AppCheckout() {
           type: "In-Store Pickup",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
+          orderedBy: userType?.type,
+          subUserId: userType?.id,
         })
         .then((res) => {
           if (!res.error) {
             console.log(res?.data.message);
+            if (
+              res?.data.message === "Your account has been disabled by admin"
+            ) {
+              LogOut();
+            } else {
+              navigate("/app/thankyou");
+            }
           }
         });
     }
+  };
+
+  const LogOut = () => {
+    localStorage.removeItem("token-user");
+    localStorage.removeItem("UserData");
+    navigate("/app/home");
+    window.location.reload();
   };
 
   const createQuoteOrder = async () => {
@@ -107,76 +158,207 @@ function AppCheckout() {
         <div class="page-content-wrapper">
           <div class="container">
             <div class="checkout-wrapper-area py-3">
-              <div class="billing-information-card mb-3">
-                <div class="card billing-information-title-card ">
-                  <div class="card-body">
-                    <h6 class="text-center mb-0 text-white">
-                      Billing Information
-                    </h6>
+              {users?.multipleUsers && (
+                <div class="shipping-method-choose mb-3  border rounded bg-dark">
+                  <div class="card shipping-method-choose-title-card ">
+                    <div
+                      class="card-body"
+                      onClick={() => {
+                        setDown(!down);
+                      }}>
+                      <h6 class="text-center mb-0 text-white">
+                        Select Your Account{" "}
+                        <i
+                          class="fa fa-angle-down mx-2 m"
+                          aria-hidden="true"></i>
+                      </h6>
+                    </div>
+                  </div>
+                  <div
+                    class={
+                      down
+                        ? "card shipping-method-choose-card "
+                        : "card shipping-method-choose-card d-none"
+                    }>
+                    <div class="card-body">
+                      <div class="shipping-method-choose">
+                        <ul class="ps-0">
+                          <li>
+                            <input
+                              id="main_account"
+                              type="radio"
+                              name="selector_acc"
+                              onClick={() => {
+                                newAddress(users?.companyName);
+                                setSubUser();
+                              }}
+                              defaultChecked="true"
+                            />
+                            <label for="main_account">
+                              <strong>Main Acc : {users?.companyName}</strong>
+                            </label>
+                            <div class="check"></div>
+                          </li>
+                          {subAccList?.map((itm, id) => (
+                            <li>
+                              <input
+                                id={itm?._id}
+                                type="radio"
+                                name="selector_acc"
+                                onClick={() => {
+                                  newAddress(itm?._id);
+                                }}
+                              />
+                              <label for={itm?._id}>
+                                <strong>Sub-Acc : {itm?.companyName}</strong>
+                              </label>
+                              <div class="check"></div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="card user-data-card">
-                  <div class="card-body">
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                      <div class="title d-flex align-items-center">
-                        <i class="fa-solid fa-user"></i>
-                        <span>Full Name</span>
-                      </div>
-                      <div class="data-content">
-                        {users?.firstName + " " + users?.lastName}
-                      </div>
-                    </div>
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                      <div class="title d-flex align-items-center">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span>Email Address</span>
-                      </div>
-                      <div class="data-content">{users?.email}</div>
-                    </div>
-                    <div class="single-profile-data d-flex align-items-center justify-content-between">
-                      <div class="title d-flex align-items-center">
-                        <i class="fa-solid fa-phone"></i>
-                        <span>Phone</span>
-                      </div>
-                      <div class="data-content">{users?.phoneNumber}</div>
-                    </div>
+              )}
 
-                    {delevryChoice == "Shipment" ||
-                    delevryChoice == "Delivery" ? (
+              {subUser ? (
+                <div class="billing-information-card mb-3">
+                  <div class="card billing-information-title-card ">
+                    <div class="card-body">
+                      <h6 class="text-center mb-0 text-white">
+                        Billing Information-Sub Account
+                      </h6>
+                    </div>
+                  </div>
+                  <div class="card user-data-card">
+                    <div class="card-body">
                       <div class="single-profile-data d-flex align-items-center justify-content-between">
                         <div class="title d-flex align-items-center">
-                          <i class="fa-solid fa-location-crosshairs"></i>
-
-                          <span className="mt-0">Shipping Address</span>
+                          <i class="fa-solid fa-user"></i>
+                          <span>Full Name</span>
                         </div>
-                        <div class="data-content">
-                          {users?.addressLine1 +
-                            "," +
-                            users?.state +
-                            "-" +
-                            users?.zipcode}
-                        </div>
+                        <div class="data-content">{subUser?.firstName}</div>
                       </div>
-                    ) : (
+
                       <div class="single-profile-data d-flex align-items-center justify-content-between">
-                        <div class="title  ">
-                          <i class="fa-solid fa-location-crosshairs"></i>
-
-                          <span className="mt-0">Store Address</span>
+                        <div class="title d-flex align-items-center">
+                          <i class="fa-solid fa-phone"></i>
+                          <span>Phone</span>
                         </div>
                         <div class="data-content">
-                          <p>
-                            <p className="mb-0">
-                              2166 Mountain Industrial Blvd. GA, United States,
-                              Georgia
-                            </p>
-                          </p>
+                          {subUser?.businessPhoneNumber}
                         </div>
                       </div>
-                    )}
+
+                      {delevryChoice == "Shipment" ||
+                      delevryChoice == "Delivery" ? (
+                        <div class="single-profile-data d-flex align-items-center justify-content-between">
+                          <div class="title d-flex align-items-center">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+
+                            <span className="mt-0">Shipping Address</span>
+                          </div>
+                          <div class="data-content">
+                            {subUser?.addressLine1 +
+                              "," +
+                              subUser?.state +
+                              "-" +
+                              subUser?.zipcode}
+                          </div>
+                        </div>
+                      ) : (
+                        <div class="single-profile-data d-flex align-items-center justify-content-between">
+                          <div class="title  ">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+
+                            <span className="mt-0">Store Address</span>
+                          </div>
+                          <div class="data-content">
+                            <p>
+                              <p className="mb-0">
+                                2166 Mountain Industrial Blvd. GA, United
+                                States, Georgia
+                              </p>
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div class="billing-information-card mb-3">
+                  <div class="card billing-information-title-card ">
+                    <div class="card-body">
+                      <h6 class="text-center mb-0 text-white">
+                        Billing Information
+                      </h6>
+                    </div>
+                  </div>
+                  <div class="card user-data-card">
+                    <div class="card-body">
+                      <div class="single-profile-data d-flex align-items-center justify-content-between">
+                        <div class="title d-flex align-items-center">
+                          <i class="fa-solid fa-user"></i>
+                          <span>Full Name</span>
+                        </div>
+                        <div class="data-content">
+                          {users?.firstName + " " + users?.lastName}
+                        </div>
+                      </div>
+                      <div class="single-profile-data d-flex align-items-center justify-content-between">
+                        <div class="title d-flex align-items-center">
+                          <i class="fa-solid fa-envelope"></i>
+                          <span>Email Address</span>
+                        </div>
+                        <div class="data-content">{users?.email}</div>
+                      </div>
+                      <div class="single-profile-data d-flex align-items-center justify-content-between">
+                        <div class="title d-flex align-items-center">
+                          <i class="fa-solid fa-phone"></i>
+                          <span>Phone</span>
+                        </div>
+                        <div class="data-content">{users?.phoneNumber}</div>
+                      </div>
+
+                      {delevryChoice == "Shipment" ||
+                      delevryChoice == "Delivery" ? (
+                        <div class="single-profile-data d-flex align-items-center justify-content-between">
+                          <div class="title d-flex align-items-center">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+
+                            <span className="mt-0">Shipping Address</span>
+                          </div>
+                          <div class="data-content">
+                            {users?.addressLine1 +
+                              "," +
+                              users?.state +
+                              "-" +
+                              users?.zipcode}
+                          </div>
+                        </div>
+                      ) : (
+                        <div class="single-profile-data d-flex align-items-center justify-content-between">
+                          <div class="title  ">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+
+                            <span className="mt-0">Store Address</span>
+                          </div>
+                          <div class="data-content">
+                            <p>
+                              <p className="mb-0">
+                                2166 Mountain Industrial Blvd. GA, United
+                                States, Georgia
+                              </p>
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
               <div class="shipping-method-choose mb-3">
                 <div class="card shipping-method-choose-title-card">
                   <div class="card-body">
@@ -216,10 +398,13 @@ function AppCheckout() {
                             <label for="normalShipping">
                               <strong>DELIVERY-</strong>
                               {users?.cityAndState?.day?.length ? (
-                                 <>
-                                 (Your schedule delivery days{":"}
-                                 {users?.cityAndState?.day.map((item)=>item + ",")})
-                               </>
+                                <>
+                                  (Your schedule delivery days{":"}
+                                  {users?.cityAndState?.day.map(
+                                    (item) => item + ","
+                                  )}
+                                  )
+                                </>
                               ) : (
                                 <>
                                   (Unfortunately we dont deliver to this
@@ -332,7 +517,6 @@ function AppCheckout() {
                 <div className="col-12 text-start">
                   <Link
                     class="comman_btn mt-3 d-flex text-center"
-                    to="/app/thankyou"
                     onClick={
                       location?.state?.type === "quote"
                         ? createQuoteOrder
@@ -342,8 +526,6 @@ function AppCheckout() {
                   </Link>
                 </div>
               )}
-
-              
             </div>
           </div>
         </div>

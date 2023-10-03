@@ -46,7 +46,7 @@ function AppClosingOut() {
     }
   };
 
-  const addToCartt = async (id, index, itm) => {
+  const addToCartt = async (id, index, itm, slug) => {
     if (itm?.category?.isTobacco || itm?.subCategory?.isTobacco) {
       if (!userDetail?.istobaccoLicenceExpired) {
         const formData = {
@@ -58,9 +58,19 @@ function AppClosingOut() {
         if (!data.error) {
           navigate("/app/cart");
         }
-        if (data?.error) {
-          navigate("/app/login");
+        if (data?.message === "Flavour is not available!") {
+          Swal.fire({
+            title: "Please Select a Flavour!",
+            text: "Click view to all flavours.",
+            icon: "warning",
+            confirmButtonText: "Okay",
+          }).then((res) => {
+            navigate(`/app/product-detail/${slug}`, { state: "hii" });
+          });
         }
+        // if (data?.error) {
+        //   navigate("/app/login");
+        // }
       } else {
         Swal.fire({
           title: "Your Tobacco licence is Expired/Invalid!",
@@ -79,9 +89,19 @@ function AppClosingOut() {
       if (!data.error) {
         navigate("/app/cart");
       }
-      if (data?.error) {
-        navigate("/app/login");
+      if (data?.message === "Flavour is not available!") {
+        Swal.fire({
+          title: "Please Select a Flavour!",
+          text: "Click view to all flavours.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        }).then((res) => {
+          navigate(`/app/product-detail/${slug}`, { state: "hii" });
+        });
       }
+      // if (data?.error) {
+      //   navigate("/app/login");
+      // }
     }
   };
 
@@ -130,7 +150,7 @@ function AppClosingOut() {
             </Link>
           </div>
 
-          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+          {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div className="row px-3 ">
               <Swiper
                 slidesPerView={2}
@@ -148,7 +168,8 @@ function AppClosingOut() {
                   .filter(
                     (itm, idx) =>
                       itm.category != "639a042ff2f72167b43774de" &&
-                      itm.category != "639a7617f2f72167b4377754"
+                      itm.category != "639a7617f2f72167b4377754" &&
+                      itm?.productId?.isTobaccoProduct != true
                   )
                   .map((item, index) => (
                     <SwiperSlide key={index} className="main_hot">
@@ -160,7 +181,12 @@ function AppClosingOut() {
                                 class="cart_bttn text-decoration-none"
                                 to=""
                                 onClick={() =>
-                                  addToCartt(item?.productId?._id, index, item)
+                                  addToCartt(
+                                    item?.productId?._id,
+                                    index,
+                                    item,
+                                    item?.productId?.slug
+                                  )
                                 }>
                                 <i class="fa-light fa-plus "></i>
                               </Link>
@@ -193,10 +219,15 @@ function AppClosingOut() {
                               state={{ type: item?.productId?.type }}>
                               <img
                                 class="mb-2"
+                                style={{
+                                  height: "7rem",
+                                  borderRadius: "8px",
+                                }}
                                 src={
                                   item?.productId.type?.flavourImage
                                     ? item?.productId.type?.flavourImage
-                                    : require("../../assets/img/product.jpg")
+                                    : item?.productId?.productImage ||
+                                      require("../../assets/img/product.jpg")
                                 }
                                 alt="Product Image not updated"
                               />
@@ -207,10 +238,24 @@ function AppClosingOut() {
                                   class="product-title"
                                   to={`/app/product-detail/${item?.productId?.slug}`}
                                   state={{ type: item?.productId?.type }}>
-                                  {item?.productId?.unitName +
-                                    "-" +
-                                    item?.productId.type?.flavour}
+                                  {item?.productId?.unitName?.slice(0, 28)}
+                                  <span>
+                                    {item?.productId.type
+                                      ? item?.productId.type?.flavour
+                                      : ""}
+                                  </span>
                                 </Link>
+                                {item?.price ? (
+                                  <p className="mb-0">
+                                    {" "}
+                                    {item?.price ? "Price-" : ""}
+                                    <span className=" mx-1 text-danger fw-bold mb-0">
+                                      {item?.price ? "$" + item.price : ""}
+                                    </span>
+                                  </p>
+                                ) : (
+                                  ""
+                                )}
                               </div>
                             </div>
                           </div>
@@ -220,7 +265,7 @@ function AppClosingOut() {
                   ))}
               </Swiper>
             </div>
-          ) : (
+          ) : ( */}
             <div className="row px-3 ">
               <Swiper
                 slidesPerView={2}
@@ -244,7 +289,12 @@ function AppClosingOut() {
                               class="cart_bttn text-decoration-none"
                               to=""
                               onClick={() =>
-                                addToCartt(item?.productId?._id, index, item)
+                                addToCartt(
+                                  item?.productId?._id,
+                                  index,
+                                  item,
+                                  item?.productId?.slug
+                                )
                               }>
                               <i class="fa-light fa-plus "></i>
                             </Link>
@@ -277,24 +327,44 @@ function AppClosingOut() {
                             state={{ type: item?.productId?.type }}>
                             <img
                               class="mb-2"
+                              style={{
+                                height: "7rem",
+                                borderRadius: "8px",
+                              }}
                               src={
-                                item?.productId.type?.flavourImage
-                                  ? item?.productId.type?.flavourImage
-                                  : require("../../assets/img/product.jpg")
+                                item?.productId?.type?.flavourImage
+                                  ? item?.productId?.type?.flavourImage
+                                  : item?.productId?.productImage ||
+                                    require("../../assets/img/product.jpg")
                               }
                               alt="Product Image not updated"
                             />
                           </Link>
+
                           <div class="row mt-1 d-flex align-items-center justify-content-between">
                             <div class="col-auto">
                               <Link
                                 class="product-title"
                                 to={`/app/product-detail/${item?.productId?.slug}`}
                                 state={{ type: item?.productId?.type }}>
-                                {item?.productId?.unitName +
-                                  "-" +
-                                  item?.productId.type?.flavour}
+                                {item?.productId?.unitName?.slice(0, 28)}
+                                <span>
+                                  {item?.productId?.type
+                                    ? item?.productId?.type?.flavour
+                                    : ""}
+                                </span>
                               </Link>
+                              {item?.price ? (
+                                <p className="mb-0">
+                                  {" "}
+                                  {item?.price ? "Price-" : ""}
+                                  <span className=" mx-1 text-danger fw-bold mb-0">
+                                    {item?.price ? "$" + item.price : ""}
+                                  </span>
+                                </p>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                         </div>
@@ -304,7 +374,7 @@ function AppClosingOut() {
                 ))}
               </Swiper>
             </div>
-          )}
+          {/* )} */}
         </div>
       </div>
     </>

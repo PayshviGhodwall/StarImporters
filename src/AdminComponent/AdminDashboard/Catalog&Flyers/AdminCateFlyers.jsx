@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import moment from "moment";
+import Compressor from "compressorjs";
 
 const AdminCateFlyers = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -20,6 +21,7 @@ const AdminCateFlyers = () => {
   const [flyerTitle, setFlyerTitle] = useState("");
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [fDate, setFdate] = useState();
+  const [files, setFiles] = useState([]);
   const [catalogs, setCatalogs] = useState([]);
   const [flyers, setFlyers] = useState([]);
 
@@ -36,6 +38,15 @@ const AdminCateFlyers = () => {
     if (!data.error) {
       setCatalogs(data?.results?.catalog);
     }
+  };
+
+  const onFileSelection = (e, key) => {
+    let image = e.target.files[0];
+    new Compressor(image, {
+      success: (compressed) => {
+        setFiles({ ...files, [key]: compressed });
+      },
+    });
   };
 
   const getFLyers = async () => {
@@ -58,6 +69,7 @@ const AdminCateFlyers = () => {
     formData.append("url", catelogueUrl);
     formData.append("title", catelogueTitle);
     formData.append("type", "catalog");
+    formData.append("coverImage", files?.coverImageC);
     const { data } = await axios.post(addCatelog, formData);
     if (!data.error) {
       Swal.fire({
@@ -66,7 +78,7 @@ const AdminCateFlyers = () => {
         timer: 2000,
       });
       document.getElementById("resetCatalog").click();
-
+      setFiles([]);
       getCatalogs();
     } else {
       Swal.fire({
@@ -83,6 +95,7 @@ const AdminCateFlyers = () => {
     formData.append("title", flyerTitle);
     formData.append("type", "flyer");
     formData.append("flyerDate", fDate);
+    formData.append("coverImage", files?.coverImageF);
     const { data } = await axios.post(addCatelog, formData);
     if (!data.error) {
       Swal.fire({
@@ -90,6 +103,7 @@ const AdminCateFlyers = () => {
         icon: "success",
         timer: 2000,
       });
+      setFiles([]);
       document.getElementById("resetFlyer").click();
       getFLyers();
     } else {
@@ -116,7 +130,7 @@ const AdminCateFlyers = () => {
           title: res?.data.message,
           icon: "success",
           confirmButtonText: "Okay",
-          timer:2000
+          timer: 2000,
         });
       }
     });
@@ -559,9 +573,7 @@ const AdminCateFlyers = () => {
                 <div className="col-6">
                   <h2 className="main_headers fs-4">Catalogs</h2>
                 </div>
-                <div className="col-6  d-flex justify-content-end">
-                 
-                </div>
+                <div className="col-6  d-flex justify-content-end"></div>
               </div>
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman  shadow">
@@ -609,7 +621,7 @@ const AdminCateFlyers = () => {
                               <div className="col-12 pt-2">
                                 <a
                                   className="text-decoration-none mt-2 pb-3"
-                                  href="https://flowpaper.com/"
+                                  href="https://dcatalog.com/"
                                   target="_blank">
                                   Convert PDF to Flipbook.
                                 </a>
@@ -630,6 +642,23 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
+                                  <div className="form-group mb-0 col-4 choose_fileAdmin position-relative">
+                                    <span>Cover Image</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>{" "}
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      accept="image/*"
+                                      name="coverImage"
+                                      onChange={(e) =>
+                                        onFileSelection(e, "coverImageC")
+                                      }
+                                    />
+                                  </div>
                                   <div className="form-group mb-0 col-4">
                                     <span>Enter Catalog Url</span>{" "}
                                     <label htmlFor="upload_video"></label>
@@ -644,7 +673,7 @@ const AdminCateFlyers = () => {
                                     />
                                   </div>
 
-                                  <div className="form-group mb-0 col-4 text-center mt-4">
+                                  <div className="form-group mb-0 col-12 text-center mt-4">
                                     <button
                                       className="comman_btn2"
                                       onClick={AddCate}>
@@ -670,6 +699,7 @@ const AdminCateFlyers = () => {
                                             }}>
                                             <th>Date</th>
                                             <th>Title</th>
+                                            <th>Cover Image</th>
                                             <th>Url</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -689,6 +719,16 @@ const AdminCateFlyers = () => {
                                               </td>
                                               <td className="border">
                                                 {item?.url}
+                                              </td>
+                                              <td className="border">
+                                                <img
+                                                  className="subCatImages"
+                                                  src={
+                                                    item?.coverImage
+                                                      ? item?.coverImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }
+                                                ></img>
                                               </td>
 
                                               <td className="border">
@@ -745,7 +785,7 @@ const AdminCateFlyers = () => {
                               <div className="col-12 pt-2">
                                 <a
                                   className="text-decoration-none mt-2 pb-3"
-                                  href="https://flowpaper.com/"
+                                  href="https://dcatalog.com/"
                                   target="_blank">
                                   Convert PDF to Flipbook.
                                 </a>
@@ -762,6 +802,23 @@ const AdminCateFlyers = () => {
                                       name="flyerTitle"
                                       onChange={(e) =>
                                         setFlyerTitle(e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+                                    <span>Cover Image</span>{" "}
+                                    <label htmlFor="upload_video">
+                                      <i class="fa fa-camera me-1"></i>
+                                      Choose File
+                                    </label>{" "}
+                                    <input
+                                      type="file"
+                                      className="form-control shadow-none"
+                                      defaultValue=""
+                                      accept="image/*"
+                                      name="coverImage"
+                                      onChange={(e) =>
+                                        onFileSelection(e, "coverImageF")
                                       }
                                     />
                                   </div>
@@ -790,7 +847,7 @@ const AdminCateFlyers = () => {
                                       }></input>
                                   </div>
 
-                                  <div className="form-group mb-0 col-2 text-center mt-4">
+                                  <div className="form-group mb-0 col-12 text-center mt-4">
                                     <button
                                       className="comman_btn2"
                                       onClick={AddFlyer}>
@@ -816,6 +873,7 @@ const AdminCateFlyers = () => {
                                             }}>
                                             <th>Date</th>
                                             <th>Title</th>
+                                            <th>Cover Image</th>
                                             <th>Url</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -832,7 +890,16 @@ const AdminCateFlyers = () => {
                                               <td className="border">
                                                 {item?.title}
                                               </td>
-
+                                              <td className="border">
+                                                <img
+                                                  className="subCatImages"
+                                                  src={
+                                                    item?.coverImage
+                                                      ? item?.coverImage
+                                                      : require("../../../assets/img/product.jpg")
+                                                  }
+                                                ></img>
+                                              </td>
                                               <td className="border">
                                                 {item?.url}
                                               </td>

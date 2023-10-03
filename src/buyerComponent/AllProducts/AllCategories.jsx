@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../Homepage/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
@@ -11,7 +11,7 @@ const AllCategories = () => {
   const [categories, setCategories] = useState([]);
   const categoryApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/category/getCatAndSubCat`;
   const setPage = useSetRecoilState(pageCategory);
-
+  const navigate = useNavigate();
   useEffect(() => {
     GetCategories();
     setPage(1);
@@ -22,6 +22,7 @@ const AllCategories = () => {
       setCategories(res?.data.results);
     });
   };
+
   return (
     <div>
       <Navbar />
@@ -36,8 +37,7 @@ const AllCategories = () => {
                     <li className="item_nanner">
                       <Link
                         to="/app/home"
-                        className="text-decoration-none text-white fs-6  "
-                      >
+                        className="text-decoration-none text-white fs-6  ">
                         Home <span className="arrow mx-2">&#9679;</span>{" "}
                       </Link>
                     </li>
@@ -70,14 +70,20 @@ const AllCategories = () => {
                   {(categories || [])?.map((item, index) => (
                     <div class="col-lg-3 col-md-4 mb-5">
                       <a class="categorynew_box text-decoration-none">
-                        <Link
-                          to={`/Category/${item?.slug}`}
-                          state={{ name: item?.categoryName }}
-                        >
-                          <div class="categorynew_img">
+                        <a
+                          onClick={() => {
+                            navigate("/app/subCategories", {
+                              state: {
+                                id: item?._id,
+                                name: item?.categoryName,
+                                image: item?.background,
+                              },
+                            });
+                          }}>
+                          <div class="categorynew_img p-3">
                             <img src={item?.categoryImage} alt="" />
                           </div>
-                        </Link>
+                        </a>
                         <span>{item?.categoryName}</span>
                       </a>
                     </div>

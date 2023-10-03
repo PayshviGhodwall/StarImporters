@@ -11,10 +11,11 @@ import { appBrandProd } from "../../atom";
 
 function AppBrands() {
   const [brand, setBrand] = useState([]);
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   let ref = useRef();
   const setData = useSetRecoilState(appBrandProd);
   const searchKey = useRecoilValue(charSearchKey);
+  const [activePage, setActivePage] = useState(1);
 
   useEffect(() => {
     getBrandList();
@@ -22,9 +23,11 @@ function AppBrands() {
   }, []);
 
   const getBrandList = async () => {
-    const { data } = await getBrands();
+    const { data } = await getBrands({
+      page: 1,
+    });
     if (!data.error) {
-      setBrand(data.results);
+      setBrand(data.results?.brands);
     }
   };
 
@@ -41,6 +44,8 @@ function AppBrands() {
   };
 
   return (
+
+
     <>
       <div className="star_imp_app">
         <div class="header-area" id="headerArea" ref={ref}>
@@ -52,7 +57,6 @@ function AppBrands() {
             </div>
             <div class="page-heading">
               <h6 class="mb-0">Brands</h6>
-              
             </div>
             <div
               class="suha-navbar-toggler ms-2"
@@ -70,7 +74,7 @@ function AppBrands() {
         <WebHeader2 />
         <div className="page-content-wrapper container-fluid">
           <Search />
-          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+          {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div>
               {searchKey?.length ? null : (
                 <div className="brands_section pt-3">
@@ -84,11 +88,11 @@ function AppBrands() {
                               className="brands_box shadow"
                               to={`/app/productBrands/${item?.brandName}`}>
                               <img
-                             src={
-                              item?.brandImage
-                                ? item.brandImage
-                                : require("../../assets/img/product.jpg")
-                            }
+                                src={
+                                  item?.brandImage
+                                    ? item.brandImage
+                                    : require("../../assets/img/product.jpg")
+                                }
                                 className="p-2"
                                 alt=""
                               />
@@ -101,7 +105,7 @@ function AppBrands() {
               )}
             </div>
           ) : (
-            <div>
+            <div> */}
               {searchKey?.length ? null : (
                 <div className="brands_section pt-3">
                   <div className="row mx-0">
@@ -128,11 +132,11 @@ function AppBrands() {
                 </div>
               )}
             </div>
-          )}
+          {/* )} */}
         </div>
 
         <AppFooter />
-      </div>
+      {/* </div> */}
     </>
   );
 }

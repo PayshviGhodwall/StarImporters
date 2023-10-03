@@ -47,7 +47,7 @@ function TopProduct() {
     }
   };
 
-  const addToCartt = async (id, index, itm) => {
+  const addToCartt = async (id, index, itm, slug) => {
     if (itm?.category?.isTobacco || itm?.subCategory?.isTobacco) {
       if (!userDetail?.istobaccoLicenceExpired) {
         const formData = {
@@ -59,9 +59,19 @@ function TopProduct() {
         if (!data.error) {
           navigate("/app/cart");
         }
-        if (data?.error) {
-          navigate("/app/login");
+        if (data?.message === "Flavour is not available!") {
+          Swal.fire({
+            title: "Please Select a Flavour!",
+            text: "Click view to all flavours.",
+            icon: "warning",
+            confirmButtonText: "Okay",
+          }).then((res) => {
+            navigate(`/app/product-detail/${slug}`, { state: "hii" });
+          });
         }
+        // if (data?.error) {
+        //   navigate("/app/login");
+        // }
       } else {
         Swal.fire({
           title: "Your Tobacco licence is Expired/Invalid!",
@@ -80,9 +90,19 @@ function TopProduct() {
       if (!data.error) {
         navigate("/app/cart");
       }
-      if (data?.error) {
-        navigate("/app/login");
+      if (data?.message === "Flavour is not available!") {
+        Swal.fire({
+          title: "Please Select a Flavour!",
+          text: "Click view to all flavours.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        }).then((res) => {
+          navigate(`/app/product-detail/${slug}`, { state: "hii" });
+        });
       }
+      // if (data?.error) {
+      //   navigate("/app/login");
+      // }
     }
   };
 
@@ -122,6 +142,7 @@ function TopProduct() {
   return (
     <>
       <div className="top-products-area pb-3 ">
+
         <div className="container">
           <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
             <h6 className="fs-5 fw-bold">Featured Products</h6>
@@ -130,25 +151,38 @@ function TopProduct() {
             </Link>
           </div>
 
-          {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+          {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div className="row px-3 ">
               {(product || [])
                 .filter(
                   (itm, idx) =>
                     itm.category != "639a042ff2f72167b43774de" &&
-                    itm.category != "639a7617f2f72167b4377754"
+                    itm.category != "639a7617f2f72167b4377754" &&
+                    idx < 4 &&
+                    itm?.productId?.isTobaccoProduct != true
                 )
                 .map((item, index) => (
                   <div class="col-6 mb-3">
                     <div class="cardTp">
-                      <div class="cardTp-img">
+                      <span className="product-feat-label px-2">
+                        Hot{item?.price ? "-" : ""}
+                        <span className=" mx-1  fs-5 fw-bold">
+                          {item?.price ? "$" + item.price : ""}
+                        </span>
+                      </span>
+                      <div class="card-img">
                         <div class="">
                           <img
                             class="img"
+                            style={{
+                              height: "7rem",
+                              borderRadius: "8px",
+                            }}
                             src={
                               item?.productId.type?.flavourImage
                                 ? item?.productId.type?.flavourImage
-                                : require("../../assets/img/product.jpg")
+                                : item?.productId?.productImage ||
+                                  require("../../assets/img/product.jpg")
                             }
                             alt="Product Image not updated"
                           />
@@ -158,110 +192,70 @@ function TopProduct() {
                         <Link
                           to={`/app/product-detail/${item?.productId?.slug}`}
                           state={{ type: item?.productId?.type }}>
-                          {item?.productId?.unitName?.slice(0, 28) +
-                            "-" +
-                            item?.productId.type?.flavour}
+                          {item?.productId?.unitName?.slice(0, 28)}
+                          <span>
+                            {item?.productId.type
+                              ? item?.productId.type?.flavour
+                              : ""}
+                          </span>
                         </Link>
                       </div>
 
                       <hr class="cardTp-divider mb-0" />
-                      <div class="cardTp-footer ">
-                        <button
-                          class="cardTp-btn "
-                          onClick={() =>
-                            addToCartt(item?.productId?._id, index, item)
-                          }>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512">
-                            <path d="m397.78 316h-205.13a15 15 0 0 1 -14.65-11.67l-34.54-150.48a15 15 0 0 1 14.62-18.36h274.27a15 15 0 0 1 14.65 18.36l-34.6 150.48a15 15 0 0 1 -14.62 11.67zm-193.19-30h181.25l27.67-120.48h-236.6z"></path>
-                            <path d="m222 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path>
-                            <path d="m368.42 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path>
-                            <path d="m158.08 165.49a15 15 0 0 1 -14.23-10.26l-25.71-77.23h-47.44a15 15 0 1 1 0-30h58.3a15 15 0 0 1 14.23 10.26l29.13 87.49a15 15 0 0 1 -14.23 19.74z"></path>
-                          </svg>
-                        </button>
+                      <div class="cardTp-footer  mt-0">
+                        <a class="bg-white">
+                          <i
+                            class="fa-solid fa-eye"
+                            onClick={() => {
+                              navigate(
+                                `/app/product-detail/${item?.productId?.slug}`,
+                                {
+                                  state: { type: item?.productId?.type },
+                                }
+                              );
+                            }}></i>
+                          <i
+                            class="fa-solid fa-cart-plus mx-2"
+                            onClick={() =>
+                              addToCartt(
+                                item?.productId?._id,
+                                index,
+                                item,
+                                item?.productId?.slug
+                              )
+                            }></i>
+                        </a>
                       </div>
                     </div>
-                    {/* <div class="card product-card w-100">
-                        <div class="card-body">
-                          <div class="col-auto">
-                            <Link
-                              class="cart_bttn text-decoration-none"
-                              to=""
-                              onClick={() =>
-                                addToCartt(item?.productId?._id, index, item)
-                              }>
-                              <i class="fa-light fa-plus "></i>
-                            </Link>
-                          </div>
-                          {token?.length ? (
-                            <a class="wishlist-btn">
-                              {item?.productId?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index, item);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index,item);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </a>
-                          ) : null}
-
-                          <Link
-                            class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item?.productId?.slug}`}
-                            state={{ type: item?.productId?.type }}>
-                            <img
-                              class="mb-2"
-                              src={
-                                item?.productId.type?.flavourImage
-                                  ? item?.productId.type?.flavourImage
-                                  : require("../../assets/img/product.jpg")
-                              }
-                              alt="Product Image not updated"
-                            />
-                          </Link>
-                          <div class="row mt-1 d-flex align-items-center justify-content-between">
-                            <div class="col-auto">
-                              <Link
-                                class="product-title"
-                                to={`/app/product-detail/${item?.productId?.slug}`}
-                                state={{ type: item?.productId?.type }}>
-                                {item?.productId?.unitName +
-                                  "-" +
-                                  item?.productId.type?.flavour}
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
                   </div>
                 ))}
             </div>
-          ) : (
+          ) : ( */}
             <div className="row px-3 ">
               {(product || [])
                 .filter((itm, idx) => idx < 4)
                 .map((item, index) => (
                   <div class="col-6 mb-3">
                     <div class="cardTp">
-                      <div class="cardTp-img">
+                      <span className="product-feat-label px-2">
+                        HOT{item?.price ? "-" : ""}
+                        <span className=" mx-1  fs-5 fw-bold">
+                          {item?.price ? "$" + item.price : ""}
+                        </span>
+                      </span>
+                      <div class="card-img">
                         <div class="">
                           <img
                             class="img"
+                            style={{
+                              height: "7rem",
+                              borderRadius: "8px",
+                            }}
                             src={
-                              item?.productId.type?.flavourImage
-                                ? item?.productId.type?.flavourImage
-                                : require("../../assets/img/product.jpg")
+                              item?.productId?.type?.flavourImage
+                                ? item?.productId?.type?.flavourImage
+                                : item?.productId?.productImage ||
+                                  require("../../assets/img/product.jpg")
                             }
                             alt="Product Image not updated"
                           />
@@ -271,96 +265,46 @@ function TopProduct() {
                         <Link
                           to={`/app/product-detail/${item?.productId?.slug}`}
                           state={{ type: item?.productId?.type }}>
-                          {item?.productId?.unitName?.slice(0, 28) +
-                            "-" +
-                            item?.productId.type?.flavour}
+                          {item?.productId?.unitName?.slice(0, 28)}
+                          <span>
+                            {item?.productId?.type
+                              ? item?.productId?.type?.flavour
+                              : ""}
+                          </span>
                         </Link>
                       </div>
 
                       <hr class="cardTp-divider mb-0" />
-                      <div class="cardTp-footer ">
-                        <button
-                          class="cardTp-btn "
-                          onClick={() =>
-                            addToCartt(item?.productId?._id, index, item)
-                          }>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512">
-                            <path d="m397.78 316h-205.13a15 15 0 0 1 -14.65-11.67l-34.54-150.48a15 15 0 0 1 14.62-18.36h274.27a15 15 0 0 1 14.65 18.36l-34.6 150.48a15 15 0 0 1 -14.62 11.67zm-193.19-30h181.25l27.67-120.48h-236.6z"></path>
-                            <path d="m222 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path>
-                            <path d="m368.42 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path>
-                            <path d="m158.08 165.49a15 15 0 0 1 -14.23-10.26l-25.71-77.23h-47.44a15 15 0 1 1 0-30h58.3a15 15 0 0 1 14.23 10.26l29.13 87.49a15 15 0 0 1 -14.23 19.74z"></path>
-                          </svg>
-                        </button>
+                      <div class="cardTp-footer  mt-0">
+                        <a class="bg-white">
+                          <i
+                            class="fa-solid fa-eye"
+                            onClick={() => {
+                              navigate(
+                                `/app/product-detail/${item?.productId?.slug}`,
+                                {
+                                  state: { type: item?.productId?.type },
+                                }
+                              );
+                            }}></i>
+                          <i
+                            class="fa-solid fa-cart-plus mx-2"
+                            onClick={() =>
+                              addToCartt(
+                                item?.productId?._id,
+                                index,
+                                item,
+                                item?.productId?.slug
+                              )
+                            }></i>
+                        </a>
                       </div>
                     </div>
-                    {/* <div class="card product-card w-100">
-                        <div class="card-body">
-                          <div class="col-auto">
-                            <Link
-                              class="cart_bttn text-decoration-none"
-                              to=""
-                              onClick={() =>
-                                addToCartt(item?.productId?._id, index, item)
-                              }>
-                              <i class="fa-light fa-plus "></i>
-                            </Link>
-                          </div>
-                          {token?.length ? (
-                            <a class="wishlist-btn">
-                              {item?.productId?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index, item);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index,item);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </a>
-                          ) : null}
-
-                          <Link
-                            class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item?.productId?.slug}`}
-                            state={{ type: item?.productId?.type }}>
-                            <img
-                              class="mb-2"
-                              src={
-                                item?.productId.type?.flavourImage
-                                  ? item?.productId.type?.flavourImage
-                                  : require("../../assets/img/product.jpg")
-                              }
-                              alt="Product Image not updated"
-                            />
-                          </Link>
-                          <div class="row mt-1 d-flex align-items-center justify-content-between">
-                            <div class="col-auto">
-                              <Link
-                                class="product-title"
-                                to={`/app/product-detail/${item?.productId?.slug}`}
-                                state={{ type: item?.productId?.type }}>
-                                {item?.productId?.unitName +
-                                  "-" +
-                                  item?.productId.type?.flavour}
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
                   </div>
                 ))}
             </div>
-          )}
+          {/* )} */}
+          
         </div>
       </div>
     </>

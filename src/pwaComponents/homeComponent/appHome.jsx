@@ -31,8 +31,11 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import AppClosingOut from "./appClosingOut";
 import AppHotDeals from "./appHotDeal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 
 function AppHome() {
+
   const [banner, setBanner] = useState([]);
   const [category, setCategory] = useState([]);
   const [product, setProduct] = useState([]);
@@ -59,6 +62,7 @@ function AppHome() {
   let image2 = require("../../assets/img/close2.jpg");
   let image3 = require("../../assets/img/featured.jpg");
   let image4 = require("../../assets/img/hot1.jpg");
+
   useEffect(() => {
     getBanner();
     getCategoryList();
@@ -68,13 +72,11 @@ function AppHome() {
     setData2([{ page: 1, sortBy: 1 }]);
     setData3([{ page: 1, sortBy: 1 }]);
     setData4([{ page: 1, sortBy: 1 }]);
-
     setTimeout(() => {
       setLoading(false);
     }, [5000]);
   }, []);
 
-  console.log(searchKey);
 
   useEffect(() => {
     getProductList();
@@ -187,62 +189,64 @@ function AppHome() {
       }
     }
   };
-
-  const redirectToWeb = async (token) => {
-    console.log("testing");
-    try {
-      await window.flutter_inappwebview.callHandler(
-        "openExternalBrowser",
-        `https://starimporters.com/app/redirect/constantRedirect99/${
-          tokenWeb || token
-        }`
-      );
-    } catch (err) {
-      console.log(err);
-    }
-    document.getElementById("modalCloseRD").click();
-  };
-
-  const genToken = async () => {
-    const token = await axios.post(TempToken);
-    console.log(token.data.results.token);
-    setTokenWeb(token.data.results.token);
-    if (token?.data.results.token) {
-      redirectToWeb(token?.data.results.token);
-    }
-  };
-
   const handleOutsideClick = (event) => {
     if (ref.current.contains(event.target)) {
       setSearch(null);
       document.getElementById("resetBtn").click();
     }
   };
-  const onFileSelection = async (event) => {
-    let file = event[0];
-    let formData = new FormData();
-    formData.append("file", file);
-    fetch("http://api.qrserver.com/v1/read-qr-code/", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-      });
-  };
+
+
+  // const redirectToWeb = async (token) => {
+  //   console.log("testing");
+  //   try {
+  //     await window.flutter_inappwebview.callHandler(
+  //       "openExternalBrowser",
+  //       `https://starimporters.com/app/redirect/constantRedirect99/${
+  //         tokenWeb || token
+  //       }`
+  //     );
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   document.getElementById("modalCloseRD").click();
+  // };
+
+  // const genToken = async () => {
+  //   const token = await axios.post(TempToken);
+  //   console.log(token.data.results.token);
+  //   setTokenWeb(token.data.results.token);
+  //   if (token?.data.results.token) {
+  //     redirectToWeb(token?.data.results.token);
+  //   }
+  // };
+
+ 
+  // const onFileSelection = async (event) => {
+  //   let file = event[0];
+  //   let formData = new FormData();
+  //   formData.append("file", file);
+  //   fetch("http://api.qrserver.com/v1/read-qr-code/", {
+  //     method: "POST",
+  //     body: formData,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //     });
+  // };
 
   const handleRefresh = () => {
     setTimeout(() => {
       window.location.reload(false);
-    }, [2000]);
+    }, [500]);
   };
   return (
     <>
       <PullToRefresh
         className="mb-0 pb-0"
         onRefresh={handleRefresh}
-        pullDownThreshold={70}
+        pullDownThreshold={60}
         maxPullDownDistance={110}
         pullingContent={
           <div className="text-center mt-2">
@@ -280,20 +284,7 @@ function AppHome() {
                     <div className="container ">
                       <div className=" pt-3 ">
                         <Skeleton height={28} />
-                        {/* <form className="" style={{ width: "100%" }}>
-                        <input
-                          className="form-control"
-                          type="search"
-                          placeholder="   Search in Star Importers"
-                          defaultValue=""
-                        />
-                        <button className="me-5">
-                          <i className="fa-solid fa-magnifying-glass" />
-                        </button>
-                        <button type="reset" id="resetBtn" className="d-none">
-                          reset
-                        </button>
-                      </form> */}
+
                         <div className="alternative-search-options" />
                       </div>
                       {browserName === "WebKit" ||
@@ -309,158 +300,6 @@ function AppHome() {
                           <div className="container">
                             <div className="pt-3">
                               <Skeleton height={130} />
-
-                              {/* <div className="owl-carousel  hero-slides owl-loaded owl-drag">
-                              <div className="owl-stage-outer">
-                                <div
-                                  className="owl-stage"
-                                  style={{
-                                    transform: "translate3d(-1152px, 0px, 0px)",
-                                    transition: "all 0.25s ease 0s",
-                                    width: 3168,
-                                  }}>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344277591--02.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1679390489573--1677133364742--STAR%2BTRADE%2BSHOW.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1689269561889--Untitled-1.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center" />
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item active"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344255627--01.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344277591--02.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1679390489573--1677133364742--STAR%2BTRADE%2BSHOW.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1689269561889--Untitled-1.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center" />
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678344255627--01.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="owl-item cloned"
-                                    style={{ width: 288 }}>
-                                    <div className="single-hero-slide item">
-                                      <img src="https://starimporters-media.s3.amazonaws.com/1678971067134--05.png" />
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="owl-nav disabled">
-                                <button
-                                  type="button"
-                                  role="presentation"
-                                  className="owl-prev">
-                                  <span aria-label="Previous">‹</span>
-                                </button>
-                                <button
-                                  type="button"
-                                  role="presentation"
-                                  className="owl-next">
-                                  <span aria-label="Next">›</span>
-                                </button>
-                              </div>
-                              <div className="owl-dots">
-                                <button role="button" className="owl-dot">
-                                  <span />
-                                </button>
-                                <button
-                                  role="button"
-                                  className="owl-dot active">
-                                  <span />
-                                </button>
-                                <button role="button" className="owl-dot">
-                                  <span />
-                                </button>
-                                <button role="button" className="owl-dot">
-                                  <span />
-                                </button>
-                                <button role="button" className="owl-dot">
-                                  <span />
-                                </button>
-                              </div>
-                            </div> */}
                             </div>
                           </div>
                         </div>
@@ -546,23 +385,11 @@ function AppHome() {
                       </a>
                     </div>
                   ) : (
-                    <div className="alternative-search-options">
-                      {/* <a className="comman_btn2 ms-1">
-                      <i className="fa fa-qrcode">
-                        <input
-                          className="barScanner"
-                          id="p-1"
-                          type="file"
-                          placeholder=""
-                          onChange={(e) => onFileSelection(e.target.files)}
-                        />
-                      </i>
-                    </a> */}
-                    </div>
+                    <div className="alternative-search-options"></div>
                   )}
                 </div>
               </div>
-              {browserName === "WebKit" || browserName === "Chrome WebView" ? (
+              {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
                 <div>
                   {search?.length || relateCate?.length >= 1 ? (
                     <div className="top-products-area py-1">
@@ -655,9 +482,7 @@ function AppHome() {
                                           <img
                                             className="mb-2"
                                             src={
-                                              // item?.type.flavourImage
-                                              //   ? item?.type.flavourImage
-                                              //   :
+                                          
                                               item?.productImage ||
                                               require("../../assets/img/product.jpg")
                                             }
@@ -669,9 +494,7 @@ function AppHome() {
                                           className="product-title"
                                           to={`/app/product-detail/${item.slug}`}
                                           state={{ type: item?.type }}>
-                                          {/* {item.unitName +
-                                          "-" +
-                                          item?.type.flavour} */}
+                                         
                                           {item?.unitName}
                                         </Link>
                                       </div>
@@ -745,7 +568,6 @@ function AppHome() {
                                     <div className="single-hero-slide item">
                                       <img src={item?.banner}></img>
                                       <div className="slide-content h-100 d-flex align-items-center">
-                                        {/* <div className="slide-text"></div> */}
                                       </div>
                                     </div>
                                   );
@@ -755,14 +577,14 @@ function AppHome() {
                         </div>
                       </div>
 
-                      <div className="product-catagories-wrapper py-1 pb-3  mt-4"
+                      <div
+                        className="product-catagories-wrapper py-1 pb-3  mt-4"
                         style={{
                           backgroundImage: `url(${image})`,
                           opacity: "unset",
-                        }}
-                      >
+                        }}>
                         <div className="container">
-                        <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
                             <h2 className="fs-5 fw-bold text-white">
                               Top Categories
                             </h2>
@@ -836,7 +658,6 @@ function AppHome() {
                         <TopProduct />
                       </div>
 
-
                       <div className="flash-sale-wrapper mt-3">
                         <div className="container">
                           <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
@@ -846,313 +667,344 @@ function AppHome() {
                               <i className="ms-1 fa-solid fa-arrow-right-long"></i>
                             </Link>
                           </div>
-                          {brand.length ? (
-                            <OwlCarousel
-                              className="flash-sale-slide"
-                              autoplay={true}
-                              autoplayHoverPause={false}
-                              autoplayTimeout={5000}
-                              dots={false}
+                          {brand?.length ? (
+                            <Swiper
+                              slidesPerView={3}
+                              spaceBetween={6}
+                              autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: true,
+                                reverseDirection: true,
+                                waitForTransition: true,
+                              }}
                               loop={true}
-                              nav={false}
-                              fade={false}
-                              items={3}
-                              margin={10}>
-                              {brand
+                              modules={[
+                                FreeMode,
+                                Pagination,
+                                Autoplay,
+                                Navigation,
+                              ]}
+                              className="mySwiper">
+                              {(brand || [])
                                 ?.filter((itm, idx) => itm.isTobacco != true)
-                                .map((item, index) => {
-                                  return (
-                                    <div
-                                      className="card flash-sale-card item"
-                                      key={index}>
-                                      <div className="card-body">
-                                        <Link to="/app/brands">
-                                          <img
-                                            width={40}
-                                            src={
-                                              item?.brandImage
-                                                ? item?.brandImage
-                                                : require("../../assets/img/product.jpg")
-                                            }
-                                            alt=""
-                                          />
-                                        </Link>
+                                .map((item, index) => (
+                                  <SwiperSlide key={index} className="main_hot">
+                                    <div class="">
+                                      <div class="card product-card w-100">
+                                        <div class="card-body">
+                                          <Link
+                                            class="product-thumbnail d-block"
+                                            to="/app/brands">
+                                            <img
+                                              class="mb-2"
+                                              style={{
+                                                height: "4rem",
+                                              }}
+                                              src={
+                                                item?.brandImage
+                                                  ? item?.brandImage
+                                                  : require("../../assets/img/product.jpg")
+                                              }
+                                              alt="Product Image not updated"
+                                            />
+                                          </Link>
+                                        </div>
                                       </div>
                                     </div>
-                                  );
-                                })}
-                            </OwlCarousel>
+                                  </SwiperSlide>
+                                ))}
+                            </Swiper>
                           ) : (
                             ""
                           )}
                         </div>
-                        {/* <small>{deviceId}</small> */}
                       </div>
                     </div>
                   )}
                 </div>
-              ) : (
-                <div>
-                  {search?.length || relateCate?.length >= 1 ? (
-                    <div className="top-products-area py-1">
+              ) : ( */}
+              
+              <div>
+                {search?.length || relateCate?.length >= 1 ? (
+                  <div className="top-products-area py-1">
+                    <div className="container">
+                      {relateCate?.length >= 1 ? (
+                        <>
+                          Related Sub-Categories
+                          <div className=" mb-2">
+                            {relateCate?.map((itm, ind) => (
+                              <span
+                                className=" text-primary  fw-bold"
+                                style={{
+                                  fontSize: "12px",
+                                }}
+                                onClick={() => {
+                                  navigate(
+                                    `/app/product-subCategory/${itm?.subCategoryName}`,
+                                    {}
+                                  );
+                                }}>
+                                {itm?.subCategoryName && itm?.subCategoryName} ,
+                              </span>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+
+                      {product?.length ? (
+                        <div className="row g-2">
+                          {(product || [])?.map((item, index) => {
+                            return (
+                              <div className="col-6 col-md-4" key={index}>
+                                <div className="card product-card">
+                                  <div className="card-body">
+                                    <Link
+                                      className="product-thumbnail d-block"
+                                      to={`/app/product-detail/${item.slug}`}
+                                      state={{ type: item?.type }}>
+                                      <img
+                                        className="mb-2"
+                                        src={
+                                          // item?.type.flavourImage
+                                          //   ? item?.type.flavourImage
+                                          //   :
+                                          item?.productImage ||
+                                          require("../../assets/img/product.jpg")
+                                        }
+                                        alt=""
+                                      />
+                                    </Link>
+
+                                    <Link
+                                      className="product-title"
+                                      to={`/app/product-detail/${item?.slug}`}
+                                      state={{ type: item?.type }}>
+                                      {/* {item.unitName + "-" + item?.type.flavour} */}
+                                      {item?.unitName}
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div>
+                          <img
+                            className="no-data"
+                            src={require("../../assets/img/no-data.gif")}
+                          />
+                          <h1 className="text-center"> No Product Results</h1>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="hero-wrapper">
                       <div className="container">
-                        {relateCate?.length >= 1 ? (
-                          <>
-                            Related Sub-Categories
-                            <div className=" mb-2">
-                              {relateCate?.map((itm, ind) => (
-                                <span
-                                  className=" text-primary  fw-bold"
-                                  style={{
-                                    fontSize: "12px",
-                                  }}
-                                  onClick={() => {
-                                    navigate(
-                                      `/app/product-subCategory/${itm?.subCategoryName}`,
-                                      {}
-                                    );
-                                  }}>
-                                  {itm?.subCategoryName && itm?.subCategoryName}{" "}
-                                  ,
-                                </span>
-                              ))}
+                        <div className="pt-3 px-0">
+                          <OwlCarousel
+                            className=" hero-slides "
+                            autoplay={true}
+                            autoplayHoverPause={false}
+                            autoplayTimeout={5000}
+                            dots={true}
+                            loop={true}
+                            nav={false}
+                            fade={false}
+                            items={1}>
+                            <div className="single-hero-slide item">
+                              <img
+                                src={
+                                  banner[1]?.banner
+                                    ? banner[1]?.banner
+                                    : require("../../assets/img/staticBg.png")
+                                }></img>
                             </div>
-                          </>
-                        ) : (
-                          ""
-                        )}
+                            <div className="single-hero-slide item">
+                              <img
+                                src={
+                                  banner[2]?.banner
+                                    ? banner[2]?.banner
+                                    : require("../../assets/img/staticBg.png")
+                                }></img>
+                            </div>
+                            <div className="single-hero-slide item">
+                              <img
+                                src={
+                                  banner[3]?.banner
+                                    ? banner[3]?.banner
+                                    : require("../../assets/img/staticBg.png")
+                                }></img>
+                            </div>
+                            <div className="single-hero-slide item">
+                              <img
+                                src={
+                                  banner[4]?.banner
+                                    ? banner[4]?.banner
+                                    : require("../../assets/img/staticBg.png")
+                                }></img>
+                            </div>
+                            <div className="single-hero-slide item">
+                              <img
+                                src={
+                                  banner[5]?.banner
+                                    ? banner[5]?.banner
+                                    : require("../../assets/img/staticBg.png")
+                                }></img>
+                            </div>
+                          </OwlCarousel>
+                        </div>
+                      </div>
+                    </div>
 
-                        {product?.length ? (
-                          <div className="row g-2">
-                            {(product || [])?.map((item, index) => {
+                    <div
+                      className="product-catagories-wrapper py-1 pb-3  mt-4"
+                      style={{
+                        backgroundImage: `url(${image})`,
+                        opacity: "unset",
+                      }}>
+                      <div className="container">
+                        <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
+                          <h2 className="fs-5 fw-bold text-white">
+                            Top Categories
+                          </h2>
+                          <Link
+                            className="btn p-0 text-white"
+                            to="/app/Categories">
+                            View All
+                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                          </Link>
+                        </div>
+                        <div className="row g-2 rtl-flex-d-row-r">
+                          {category
+                            .filter((itm, idx) => idx < 6)
+                            .map((item, index) => {
                               return (
-                                <div className="col-6 col-md-4" key={index}>
-                                  <div className="card product-card">
-                                    <div className="card-body">
+                                <div className="col-4 d-flex align-items-stretch">
+                                  <div className="card catagory-card w-100">
+                                    <div className="card-body px-2">
                                       <Link
-                                        className="product-thumbnail d-block"
-                                        to={`/app/product-detail/${item.slug}`}
-                                        state={{ type: item?.type }}>
-                                        <img
-                                          className="mb-2"
-                                          src={
-                                            // item?.type.flavourImage
-                                            //   ? item?.type.flavourImage
-                                            //   :
-                                            item?.productImage ||
-                                            require("../../assets/img/product.jpg")
-                                          }
-                                          alt=""
-                                        />
-                                      </Link>
-
-                                      <Link
-                                        className="product-title"
-                                        to={`/app/product-detail/${item?.slug}`}
-                                        state={{ type: item?.type }}>
-                                        {/* {item.unitName + "-" + item?.type.flavour} */}
-                                        {item?.unitName}
+                                        to={`/app/Sub-Categories/${item._id}`}>
+                                        <img src={item?.categoryImage} alt="" />
+                                        <span>{item?.categoryName}</span>
                                       </Link>
                                     </div>
                                   </div>
                                 </div>
                               );
                             })}
-                          </div>
-                        ) : (
-                          <div>
-                            <img
-                              className="no-data"
-                              src={require("../../assets/img/no-data.gif")}
-                            />
-                            <h1 className="text-center"> No Product Results</h1>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </div>
-                  ) : (
-                    <div>
-                      <div className="hero-wrapper">
-                        <div className="container">
-                          <div className="pt-3 px-0">
-                            <OwlCarousel
-                              className=" hero-slides "
-                              autoplay={true}
-                              autoplayHoverPause={false}
-                              autoplayTimeout={5000}
-                              dots={true}
-                              loop={true}
-                              nav={false}
-                              fade={false}
-                              items={1}>
-                              <div className="single-hero-slide item">
-                                <img
-                                  src={
-                                    banner[1]?.banner
-                                      ? banner[1]?.banner
-                                      : require("../../assets/img/staticBg.png")
-                                  }></img>
-                              </div>
-                              {banner
-                                ?.filter(
-                                  (itm, idx) =>
-                                    idx !== 1 &&
-                                    idx !== 0 &&
-                                    idx !== 7 &&
-                                    idx !== 6
-                                )
-                                .map((item) => {
-                                  return (
-                                    <div className="single-hero-slide item">
-                                      <img src={item?.banner}></img>
-                                      <div className="slide-content h-100 d-flex align-items-center">
-                                        <div className="slide-text"></div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                            </OwlCarousel>
-                          </div>
+
+                    <div
+                      className="mt-1 py-2"
+                      style={{
+                        backgroundImage: `url(${image4})`,
+                        backgroundPosition: "center",
+                        opacity: "unset",
+                        backgroundSize: "cover",
+                      }}>
+                      <AppHotDeals />
+                    </div>
+
+                    <div
+                      className="mt-1 py-2"
+                      style={{
+                        backgroundImage: `url(${image2})`,
+                        backgroundPosition: "center",
+                        opacity: "unset",
+                        backgroundSize: "cover",
+                      }}>
+                      <AppClosingOut />
+                    </div>
+                    <div
+                      className="mt-1 py-2"
+                      style={{
+                        backgroundImage: `url(${image3})`,
+                        backgroundPosition: "center",
+                        opacity: "unset",
+                        backgroundSize: "cover",
+                      }}>
+                      <TopProduct />
+                    </div>
+
+                    <div className="flash-sale-wrapper py-2  pb-3 shadow">
+                      <div className="container">
+                        <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
+                          <h6 className="fs-5">Popular Brands</h6>
+                          <Link className="btn p-0" to="/app/brands">
+                            View All
+                            <i className="ms-1 fa-solid fa-arrow-right-long"></i>
+                          </Link>
                         </div>
-                      </div>
 
-                      <div
-                        className="product-catagories-wrapper py-1 pb-3  mt-4"
-                        style={{
-                          backgroundImage: `url(${image})`,
-                          opacity: "unset",
-                        }}>
-                        <div className="container">
-                          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-3 mb-2">
-                            <h2 className="fs-5 fw-bold text-white">
-                              Top Categories
-                            </h2>
-                            <Link
-                              className="btn p-0 text-white"
-                              to="/app/Categories">
-                              View All
-                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                            </Link>
-                          </div>
-                          <div className="row g-2 rtl-flex-d-row-r">
-                            {category
-                              .filter((itm, idx) => idx < 6)
-                              .map((item, index) => {
-                                return (
-                                  <div className="col-4 d-flex align-items-stretch">
-                                    <div className="card catagory-card w-100">
-                                      <div className="card-body px-2">
-                                        <Link
-                                          to={`/app/Sub-Categories/${item._id}`}>
-                                          <img
-                                            src={item?.categoryImage}
-                                            alt=""
-                                          />
-                                          <span>{item?.categoryName}</span>
-                                        </Link>
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        className="mt-1 py-2"
-                        style={{
-                          backgroundImage: `url(${image4})`,
-                          backgroundPosition: "center",
-                          opacity: "unset",
-                          backgroundSize: "cover",
-                        }}>
-                        <AppHotDeals />
-                      </div>
-
-                      <div
-                        className="mt-1 py-2"
-                        style={{
-                          backgroundImage: `url(${image2})`,
-                          backgroundPosition: "center",
-                          opacity: "unset",
-                          backgroundSize: "cover",
-                        }}>
-                        <AppClosingOut />
-                      </div>
-                      <div
-                        className="mt-1 py-2"
-                        style={{
-                          backgroundImage: `url(${image3})`,
-                          backgroundPosition: "center",
-                          opacity: "unset",
-                          backgroundSize: "cover",
-                        }}>
-                        <TopProduct />
-                      </div>
-
-                     
-
-                      <div className="flash-sale-wrapper py-2  pb-3 shadow">
-                        <div className="container">
-                          <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
-                            <h6 className="fs-5">Popular Brands</h6>
-                            <Link className="btn p-0" to="/app/brands">
-                              View All
-                              <i className="ms-1 fa-solid fa-arrow-right-long"></i>
-                            </Link>
-                          </div>
-                          {brand.length ? (
-                            <OwlCarousel
-                              className="flash-sale-slide"
-                              autoplay={true}
-                              autoplayHoverPause={false}
-                              autoplayTimeout={5000}
-                              dots={false}
-                              loop={true}
-                              nav={false}
-                              fade={false}
-                              items={3}
-                              margin={10}>
-                              {brand.map((item, index) => {
-                                return (
-                                  <div
-                                    className="card flash-sale-card item"
-                                    key={index}>
-                                    <div className="card-body py-4">
-                                      <Link to="/app/brands">
+                        {brand?.length ? (
+                          <Swiper
+                            slidesPerView={3}
+                            spaceBetween={6}
+                            autoplay={{
+                              delay: 3000,
+                              disableOnInteraction: true,
+                              reverseDirection: true,
+                              waitForTransition: true,
+                            }}
+                            loop={true}
+                            modules={[
+                              FreeMode,
+                              Pagination,
+                              Autoplay,
+                              Navigation,
+                            ]}
+                            className="mySwiper">
+                            {(brand || [])?.map((item, index) => (
+                              <SwiperSlide key={index} className="main_hot">
+                                <div class="">
+                                  <div class="card product-card w-100">
+                                    <div class="card-body">
+                                      <Link
+                                        class="product-thumbnail d-block"
+                                        to="/app/brands">
                                         <img
-                                          width={40}
-                                          className="brandPic"
+                                          class="mb-2"
+                                          style={{
+                                            height: "4rem",
+                                          }}
                                           src={
                                             item?.brandImage
                                               ? item?.brandImage
                                               : require("../../assets/img/product.jpg")
                                           }
-                                          alt=""
+                                          alt="Product Image not updated"
                                         />
                                       </Link>
                                     </div>
                                   </div>
-                                );
-                              })}
-                            </OwlCarousel>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        {/* <small>{deviceId}</small> */}
+                                </div>
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        ) : (
+                          ""
+                        )}
                       </div>
+                      {/* <small>{deviceId}</small> */}
                     </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
+              {/* )} */}
             </div>
           )}
 
           <div ref={ref} style={{ opacity: `${hideF.opacity}` }}>
             <AppFooter />
           </div>
+
           <div
             class="modal "
             id="staticBackdrop"

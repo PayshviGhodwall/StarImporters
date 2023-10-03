@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { default as ReactSelect } from "react-select";
 import { components } from "react-select";
+import { MDBDataTable } from "mdbreact";
 
 export const DaysOption = [
   { value: "SUNDAY", label: "Sunday" },
@@ -97,7 +98,6 @@ const OrderReq = () => {
   const apiCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCities`;
   const allPullers = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
   const assign = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/assignPuller`;
-  const [cities, setCities] = useState([]);
   const [citySearch, setCitySearch] = useState([]);
   const [pullOrderId, setPullOrderId] = useState();
   const [allCount, setAllCount] = useState();
@@ -113,6 +113,37 @@ const OrderReq = () => {
     },
   ]);
   const [selectedPuller, setSelectedPuller] = useState([]);
+  // const [, ] = useState([]);
+  const [cities, setCities] = useState({
+    columns: [
+      {
+        label: "STATE",
+        field: "state",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "CITY-(Click to Sort)",
+        field: "city",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "DAYS",
+        field: "days",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "Action",
+        field: "action",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
 
   const handleChangeEdit = (selected) => {
     setSelectEditOptions({
@@ -147,7 +178,40 @@ const OrderReq = () => {
   const getCities = async (state) => {
     const { data } = await axios.get(apiCities);
     if (!data.error) {
-      setCities(data?.results.delivery);
+      const newRows = [];
+      let values = data?.results?.delivery;
+      values?.map((list, index) => {
+        const returnData = {};
+        returnData.sn = list?.index + 1;
+        returnData.state = list?.state;
+        returnData.city = list?.city;
+        returnData.days = (
+          <>
+            <td className="d-flex mx-2 justify-content-center">
+              {list?.day?.map((itm, ind) => (
+                <strong>{itm},</strong>
+              ))}
+            </td>
+          </>
+        );
+        returnData.action = (
+          <>
+            <button
+              className="comman_btn table_viewbtn"
+              data-bs-toggle="modal"
+              id="modal-toggle"
+              data-bs-target="#staticBackdrop33"
+              href="javscript:;"
+              onClick={() => {
+                editDays(list?._id);
+              }}>
+              Edit
+            </button>
+          </>
+        );
+        newRows.push(returnData);
+      });
+      setCities({ ...cities, rows: newRows });
     }
   };
 
@@ -2079,6 +2143,7 @@ const OrderReq = () => {
                                     </ul>
                                   </div>
                                 ) : null}
+
                               </div>
                             </div>
                           </div>
@@ -2361,7 +2426,7 @@ const OrderReq = () => {
                                 action="">
                                 <div className=" d-flex col-12">
                                   <div className="form-group mb-0 position-relative icons_set d-flex justify-content-between">
-                                    <a
+                                    {/* <a
                                       className="fs-3 mt-2"
                                       aria-expanded="false">
                                       {sort === 1 ? (
@@ -2377,8 +2442,8 @@ const OrderReq = () => {
                                             sortCities(1);
                                           }}></i>
                                       )}
-                                    </a>
-                                    <input
+                                    </a> */}
+                                    {/* <input
                                       type="search"
                                       className="form-control bg-white mx-2"
                                       placeholder="Search by City"
@@ -2387,62 +2452,22 @@ const OrderReq = () => {
                                       onChange={(e) => {
                                         CitySearch(e.target.value);
                                       }}
-                                    />
+                                    /> */}
                                   </div>
                                 </div>
                               </form>
                               <div className="row recent_orders_order  ">
                                 <div className="col-12 comman_table_design px-0">
                                   <div className="table-responsive">
-                                    <table className="table mb-0">
-                                      <thead>
-                                        <tr
-                                          style={{
-                                            backgroundColor: "#f2f2f2",
-                                          }}>
-                                          <th>State</th>
-                                          <th>City</th>
-                                          <th>Days</th>
-                                          <th>Edit</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody key={citySearch}>
-                                        {(cities || [])
-                                          ?.filter(
-                                            (items) =>
-                                              items?.state === "Georgia"
-                                          )
-                                          .map((item, index) => (
-                                            <tr key={index}>
-                                              <td className="border">
-                                                {item?.state}
-                                              </td>
-                                              <td className="border">
-                                                {item?.city}
-                                              </td>
-                                              <td className="border">
-                                                {item?.day?.map((itm, ind) => (
-                                                  <p>{itm}</p>
-                                                ))}
-                                              </td>
-
-                                              <td className="border">
-                                                <button
-                                                  className="comman_btn table_viewbtn"
-                                                  data-bs-toggle="modal"
-                                                  id="modal-toggle"
-                                                  data-bs-target="#staticBackdrop33"
-                                                  href="javscript:;"
-                                                  onClick={() => {
-                                                    editDays(item?._id);
-                                                  }}>
-                                                  Edit
-                                                </button>
-                                              </td>
-                                            </tr>
-                                          ))}
-                                      </tbody>
-                                    </table>
+                                    <MDBDataTable
+                                      bordered
+                                      displayEntries={false}
+                                      className="categoryTable"
+                                      hover
+                                      data={cities}
+                                      noBottomColumns
+                                      sortable
+                                    />
                                   </div>
                                 </div>
                               </div>

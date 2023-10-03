@@ -61,6 +61,8 @@ const Cms = () => {
   const editAgeBanner = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editAgeConfirmation`;
   const editVideo = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/editVideoSlide`;
   const getVideoSlides = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/getVideoSlides`;
+  const rmvAudio = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/cms/removeAudio/`;
+
   const { register, handleSubmit, reset } = useForm();
   const [editorTitleState, setTitleEditorState] = useState(null);
   const [editorDescState, setDescEditorState] = useState(null);
@@ -81,10 +83,12 @@ const Cms = () => {
   const [editorHomePrivacyState, setEditorHomePrivacyState] = useState(null);
   const [editorHomeTermsState, setEditorHomeTermsState] = useState(null);
   const [currentVUrl, setCurrentVUrl] = useState("");
+  const [currentVImgUrl, setCurrentVImgUrl] = useState("");
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const playerRef = useRef(null);
+
   const videoJsOptions = {
     autoplay: true,
     controls: true,
@@ -103,7 +107,6 @@ const Cms = () => {
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
-    // You can handle player events here, for example:
     player.on("waiting", () => {
       videojs.log("player is waiting");
     });
@@ -169,16 +172,22 @@ const Cms = () => {
         (no == 3 && videoFile?.video3) ||
         (no == 4 && videoFile?.video4)
     );
+    // formData.append(
+    //   "videoCover",
+    //   (no == 1 && files?.slideV1Img) ||
+    //     (no == 2 && files?.slideV2Img) ||
+    //     (no == 3 && files?.slideV3Img) ||
+    //     (no == 4 && files?.slideV4Img)
+    // );
     formData.append(
       "url",
-      (no == 1 && urlV1) ||
-        (no == 2 && urlV2) ||
-        (no == 3 && urlV3) ||
-        (no == 4 && urlV4)
+      (no == 1 ? urlV1 : "") ||
+        (no == 2 ? urlV2 : "") ||
+        (no == 3 ? urlV3 : "") ||
+        (no == 4 ? urlV4 : "")
     );
     const { data } = await axios.post(editVideo + "/" + id, formData);
     if (!data.error) {
-      // window.location.reload(false);
       setLoader(false);
       setLoader2(false);
       setLoader3(false);
@@ -305,7 +314,7 @@ const Cms = () => {
     setFiles({ ...files, [key]: e.target.files[0] });
   };
 
-  const onFileSelectionVideo = (e, key) => {
+  const onFileSelectionVideo = async (e, key, id) => {
     setVideoFile({ ...videoFile, [key]: e.target.files[0] });
   };
 
@@ -682,6 +691,19 @@ const Cms = () => {
       });
     }
   });
+
+  document.getElementById("slideV1")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("slideVid1")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
+
   const onSaveTerms = async (e) => {
     let Desc = await stateToHTML(editorHomeTermsState.getCurrentContent());
 
@@ -1269,7 +1291,7 @@ const Cms = () => {
                                       role="tab"
                                       aria-controls="SlideOne"
                                       aria-selected="true">
-                                      {slideData[0]?.slide}
+                                      slide 1
                                     </button>
                                   </li>
                                   <li
@@ -1345,7 +1367,7 @@ const Cms = () => {
                                       role="tab"
                                       aria-controls="SlideThree"
                                       aria-selected="false">
-                                      {slideData[2]?.slide}
+                                      Slide 2
                                     </button>
                                   </li>
                                   <li
@@ -1360,7 +1382,7 @@ const Cms = () => {
                                       role="tab"
                                       aria-controls="SlideFour"
                                       aria-selected="false">
-                                      {slideData[3]?.slide}
+                                      Slide 3
                                     </button>
                                   </li>
                                   <li
@@ -1375,7 +1397,7 @@ const Cms = () => {
                                       role="tab"
                                       aria-controls="SlideFive"
                                       aria-selected="false">
-                                      {slideData[4]?.slide}
+                                      Slide 4
                                     </button>
                                   </li>
                                   <li
@@ -1390,7 +1412,7 @@ const Cms = () => {
                                       role="tab"
                                       aria-controls="SlideSix"
                                       aria-selected="false">
-                                      {slideData[5]?.slide}
+                                      Slide 5
                                     </button>
                                   </li>
                                 </ul>
@@ -1588,7 +1610,55 @@ const Cms = () => {
                                             className="form-design row"
                                             action="">
                                             <div className="form-group col-12 ">
-                                              <div className="account_profile position-relative d-inline-block">
+                                              {/* <label
+                                                htmlFor=""
+                                                className="labels">
+                                                Slide background
+                                              </label>
+                                              <div className="account_profile position-relative d-inline-block mb-4">
+                                                <div className="fw-bold">
+                                                  <label className="fs-5 fw-bold">
+                                                    Image Link :{" "}
+                                                    {videoSlides[0]?.videoCover}
+                                                  </label>
+                                                  <a
+                                                    onClick={() => {
+                                                      setCurrentVImgUrl(
+                                                        videoSlides[0]
+                                                          ?.videoCover
+                                                      );
+                                                    }}
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdropPreview2"
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    <i class="fa-solid fa-eye"></i>{" "}
+                                                    Preview
+                                                  </a>
+                                                </div>
+                                                <div className="form-group col-12 choose_file position-relative mt-4 mb-3">
+                                                  <span className="fw-bolder">
+                                                    Change Cover Image{" "}
+                                                  </span>
+                                                  <label htmlFor="slideV1Img">
+                                                    <i className="fa fa-camera me-1" />
+                                                    Choose Image
+                                                  </label>{" "}
+                                                  <input
+                                                    type="file"
+                                                    className="form-control  border border-secondary mx-2"
+                                                    accept="image/*"
+                                                    id="slideV1Img"
+                                                    onChange={(e) =>
+                                                      onFileSelection(
+                                                        e,
+                                                        "slideV1Img"
+                                                      )
+                                                    }
+                                                  />
+                                                </div>
+                                              </div> */}
+
+                                              <div className="account_profile position-relative d-inline-block mt-3">
                                                 <div className="fw-bold">
                                                   <label className="fs-5 fw-bold">
                                                     Video Link :{" "}
@@ -1624,7 +1694,8 @@ const Cms = () => {
                                                     onChange={(e) =>
                                                       onFileSelectionVideo(
                                                         e,
-                                                        "video1"
+                                                        "video1",
+                                                        videoSlides[0]?._id
                                                       )
                                                     }
                                                   />
@@ -1656,7 +1727,7 @@ const Cms = () => {
 
                                             <div className="form-group col-12 text-start">
                                               <Button
-                                                className="comman_btn"
+                                                className="comman_btn2"
                                                 appearance="primary"
                                                 loading={loader}
                                                 style={{
@@ -1698,7 +1769,56 @@ const Cms = () => {
                                             className="form-design row"
                                             action="">
                                             <div className="form-group col-12 ">
-                                              <div className="account_profile position-relative d-inline-block">
+                                              {/* <label
+                                                htmlFor=""
+                                                className="labels">
+                                                Slide background
+                                              </label>
+
+                                              <div className="account_profile position-relative d-inline-block mb-4">
+                                                <div className="fw-bold">
+                                                  <label className="fs-5 fw-bold">
+                                                    Image Link :{" "}
+                                                    {videoSlides[1]?.videoCover}
+                                                  </label>
+                                                  <a
+                                                    onClick={() => {
+                                                      setCurrentVImgUrl(
+                                                        videoSlides[1]
+                                                          ?.videoCover
+                                                      );
+                                                    }}
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdropPreview2"
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    <i class="fa-solid fa-eye"></i>{" "}
+                                                    Preview
+                                                  </a>
+                                                </div>
+                                                <div className="form-group col-12 choose_file position-relative mt-4 mb-3">
+                                                  <span className="fw-bolder">
+                                                    Change Cover Image{" "}
+                                                  </span>
+                                                  <label htmlFor="slideV2Img">
+                                                    <i className="fa fa-camera me-1" />
+                                                    Choose Image
+                                                  </label>{" "}
+                                                  <input
+                                                    type="file"
+                                                    className="form-control  border border-secondary mx-2"
+                                                    accept="image/*"
+                                                    id="slideV2Img"
+                                                    onChange={(e) =>
+                                                      onFileSelection(
+                                                        e,
+                                                        "slideV2Img"
+                                                      )
+                                                    }
+                                                  />
+                                                </div>
+                                              </div> */}
+
+                                              <div className="account_profile position-relative d-inline-block mt-3">
                                                 <div className="fw-bold">
                                                   <label className="fs-5 fw-bold">
                                                     Video Link :{" "}
@@ -1734,7 +1854,8 @@ const Cms = () => {
                                                     onChange={(e) =>
                                                       onFileSelectionVideo(
                                                         e,
-                                                        "video2"
+                                                        "video2",
+                                                        videoSlides[1]?._id
                                                       )
                                                     }
                                                   />
@@ -1765,7 +1886,7 @@ const Cms = () => {
 
                                             <div className="form-group col-12 text-start">
                                               <Button
-                                                className="comman_btn"
+                                                className="comman_btn2"
                                                 appearance="primary"
                                                 loading={loader2}
                                                 style={{
@@ -1808,6 +1929,55 @@ const Cms = () => {
                                             className="form-design row"
                                             action="">
                                             <div className="form-group col-12 ">
+                                              {/* <label
+                                                htmlFor=""
+                                                className="labels">
+                                                Slide background
+                                              </label>
+
+                                              <div className="account_profile position-relative d-inline-block mb-4">
+                                                <div className="fw-bold">
+                                                  <label className="fs-5 fw-bold">
+                                                    Image Link :{" "}
+                                                    {videoSlides[2]?.videoCover}
+                                                  </label>
+                                                  <a
+                                                    onClick={() => {
+                                                      setCurrentVImgUrl(
+                                                        videoSlides[2]
+                                                          ?.videoCover
+                                                      );
+                                                    }}
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdropPreview2"
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    <i class="fa-solid fa-eye"></i>{" "}
+                                                    Preview
+                                                  </a>
+                                                </div>
+                                                <div className="form-group col-12 choose_file position-relative mt-4 mb-3">
+                                                  <span className="fw-bolder">
+                                                    Change Cover Image{" "}
+                                                  </span>
+                                                  <label htmlFor="slideV3Img">
+                                                    <i className="fa fa-camera me-1" />
+                                                    Choose Image
+                                                  </label>{" "}
+                                                  <input
+                                                    type="file"
+                                                    className="form-control  border border-secondary mx-2"
+                                                    accept="image/*"
+                                                    id="slideV3Img"
+                                                    onChange={(e) =>
+                                                      onFileSelection(
+                                                        e,
+                                                        "slideV3Img"
+                                                      )
+                                                    }
+                                                  />
+                                                </div>
+                                              </div> */}
+
                                               <div className="account_profile position-relative d-inline-block">
                                                 <div className="fw-bold">
                                                   <label className="fs-5 fw-bold">
@@ -1844,7 +2014,8 @@ const Cms = () => {
                                                     onChange={(e) =>
                                                       onFileSelectionVideo(
                                                         e,
-                                                        "video3"
+                                                        "video3",
+                                                        videoSlides[2]?._id
                                                       )
                                                     }
                                                   />
@@ -1875,7 +2046,7 @@ const Cms = () => {
 
                                             <div className="form-group col-12 text-start">
                                               <Button
-                                                className="comman_btn"
+                                                className="comman_btn2"
                                                 appearance="primary"
                                                 loading={loader3}
                                                 style={{
@@ -1917,6 +2088,54 @@ const Cms = () => {
                                             className="form-design row"
                                             action="">
                                             <div className="form-group col-12 ">
+                                              {/* <label
+                                                htmlFor=""
+                                                className="labels">
+                                                Slide background
+                                              </label>
+                                              <div className="account_profile position-relative d-inline-block mb-4">
+                                                <div className="fw-bold">
+                                                  <label className="fs-5 fw-bold">
+                                                    Image Link :{" "}
+                                                    {videoSlides[3]?.videoCover}
+                                                  </label>
+                                                  <a
+                                                    onClick={() => {
+                                                      setCurrentVImgUrl(
+                                                        videoSlides[3]
+                                                          ?.videoCover
+                                                      );
+                                                    }}
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdropPreview2"
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    <i class="fa-solid fa-eye"></i>{" "}
+                                                    Preview
+                                                  </a>
+                                                </div>
+                                                <div className="form-group col-12 choose_file position-relative mt-4 mb-3">
+                                                  <span className="fw-bolder">
+                                                    Change Cover Image{" "}
+                                                  </span>
+                                                  <label htmlFor="slideV4Img">
+                                                    <i className="fa fa-camera me-1" />
+                                                    Choose Image
+                                                  </label>{" "}
+                                                  <input
+                                                    type="file"
+                                                    className="form-control  border border-secondary mx-2"
+                                                    accept="image/*"
+                                                    id="slideV4Img"
+                                                    onChange={(e) =>
+                                                      onFileSelection(
+                                                        e,
+                                                        "slideV4Img"
+                                                      )
+                                                    }
+                                                  />
+                                                </div>
+                                              </div> */}
+
                                               <div className="account_profile position-relative d-inline-block">
                                                 <div className="fw-bold">
                                                   <label className="fs-5 fw-bold">
@@ -1954,7 +2173,8 @@ const Cms = () => {
                                                     onChange={(e) =>
                                                       onFileSelectionVideo(
                                                         e,
-                                                        "video4"
+                                                        "video4",
+                                                        videoSlides[3]?._id
                                                       )
                                                     }
                                                   />
@@ -1985,7 +2205,7 @@ const Cms = () => {
 
                                             <div className="form-group col-12 text-start">
                                               <Button
-                                                className="comman_btn"
+                                                className="comman_btn2"
                                                 appearance="primary"
                                                 loading={loader4}
                                                 style={{
@@ -3237,6 +3457,36 @@ const Cms = () => {
             <div className="modal-body">
               <div className="border">
                 <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal modal-lg fade comman_modal"
+        id="staticBackdropPreview2"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className="border">
+                <img src={currentVImgUrl} />
               </div>
             </div>
           </div>
