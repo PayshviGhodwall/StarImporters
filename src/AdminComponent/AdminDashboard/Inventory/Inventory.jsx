@@ -838,7 +838,7 @@ const Inventory = () => {
                 </li>
                 <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
-                    className="d-none at"
+                    className=" "
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

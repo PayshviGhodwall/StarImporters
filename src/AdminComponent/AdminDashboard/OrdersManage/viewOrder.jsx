@@ -450,7 +450,7 @@ const ViewOrder = () => {
                 </li>
                 <li>
                   <Link
-                    className="d-none at"
+                    className=" "
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -910,6 +910,7 @@ const ViewOrder = () => {
                                 </th>
                                 <th>Quantity</th>
                                 <th>Pull Status</th>
+                                <th>Pull Quantity</th>
                               </tr>
                             </thead>
                             <tbody className="border">
@@ -956,16 +957,29 @@ const ViewOrder = () => {
                                     </span>
                                   </td>
                                   <td className="border rounded">
-                                    {item?.scanned ? (
-                                      <span className="fs-5  p-2 px-3 rounded">
-                                        <img
-                                          src={require("../../../assets/img/Group 427322975.png")}></img>
+                                    {item?.scanned === "NotScanned" ? (
+                                      <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                      Pending
                                       </span>
                                     ) : (
-                                      <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                        Pending
-                                      </span>
+                                      <div>
+                                        {item?.scanned === "PartlyScanned" ? (
+                                          <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                            Partially Scanned
+                                          </span>
+                                        ) : (
+                                          <span className="fs-5  p-2 px-3 rounded">
+                                            <img
+                                              src={require("../../../assets/img/Group 427322975.png")}></img>
+                                          </span>
+                                        )}
+                                      </div>
                                     )}
+                                  </td>
+                                  <td className="border rounded">
+                                    <span className="fs-5 bg-light p-2 px-3 rounded">
+                                      {item?.pickedQuantity}
+                                    </span>
                                   </td>
                                 </tr>
                               ))}

@@ -708,7 +708,7 @@ const UserManage = () => {
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }>
                     <Link
-                      className="d-none at"
+                      className=" "
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
