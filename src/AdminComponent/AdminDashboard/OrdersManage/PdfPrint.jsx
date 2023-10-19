@@ -149,13 +149,9 @@ const PdfPrint = () => {
                                   {orders?.userId?.phoneNumber}
                                 </td>
                                 <td className="border">
-                                  {orders?.userId?.addressLine1 +
-                                    "-" +
-                                    orders?.userId?.city +
-                                    "-" +
-                                    orders?.userId?.state +
-                                    "-" +
-                                    orders?.userId?.zipcode}
+                                  {orders?.userId?.addressLine1}-
+                                  {orders?.userId?.city}-{orders?.userId?.state}
+                                  -{orders?.userId?.zipcode}
                                 </td>{" "}
                                 <td className="border">
                                   {moment(orders?.updatedAt).format(
@@ -430,8 +426,9 @@ const PdfPrint = () => {
                                               padding: "10px 20px",
                                               borderLeft: 0,
                                               borderBottom: 0,
-                                            }}
-                                          />
+                                            }}>
+                                            {item?.pickedQuantity}
+                                          </td>
                                         </tr>
                                       )
                                     )}
