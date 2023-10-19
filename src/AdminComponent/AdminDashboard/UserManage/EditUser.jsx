@@ -97,7 +97,7 @@ const EditUser = () => {
     formData.append("heardAboutUs", data?.heardAboutUs);
     formData.append(
       "multipleUsers",
-      data?.multipleUsers ? data?.multipleUsers : user?.multipleUser
+      data?.multipleUsers ? data?.multipleUsers : user?.multipleUsers
     );
     formData.append("quotation", data?.quotation ? data?.quotation : "");
     formData.append(
@@ -552,7 +552,7 @@ const EditUser = () => {
                 </li>
                 <li>
                   <Link
-                    className=" "
+                    className="d-none at"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
