@@ -326,9 +326,9 @@ function AppHotDealList() {
                               <img
                                 class="mb-2"
                                 src={
-                                  item?.productId.type?.flavourImage
-                                    ? item?.productId.type?.flavourImage
-                                    : item?.productId.productImage ||
+                                  item?.productId?.type?.flavourImage
+                                    ? item?.productId?.type?.flavourImage
+                                    : item?.productId?.productImage ||
                                       require("../../assets/img/product.jpg")
                                 }
                                 alt="Product Image not updated"
@@ -342,7 +342,7 @@ function AppHotDealList() {
                                   state={{ type: item?.productId?.type }}>
                                   {item?.productId?.unitName}
 
-                                  <span>-{item?.productId.type?.flavour} </span>
+                                  <span>-{item?.productId?.type?.flavour} </span>
                                 </Link>
                               </div>
                             </div>

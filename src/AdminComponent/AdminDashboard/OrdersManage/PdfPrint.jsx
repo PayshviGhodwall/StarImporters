@@ -366,6 +366,7 @@ const PdfPrint = () => {
                                                   display: "block",
                                                   maxWidth: 55,
                                                   margin: "0 auto",
+                                                  maxHeight: 70,
                                                 }}
                                                 src={
                                                   item?.flavour?._id

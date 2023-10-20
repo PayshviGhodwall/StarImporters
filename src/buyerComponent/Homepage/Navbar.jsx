@@ -112,7 +112,7 @@ const Navbar = ({ NState, LoginState }) => {
   const AllProducts = async () => {
     await axios.post(allProd).then((res) => {
       setSearchData(res?.data.results);
-    });
+    });  
   };
 
   useEffect(() => {
