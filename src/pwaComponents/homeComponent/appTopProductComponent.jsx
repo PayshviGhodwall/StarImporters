@@ -151,86 +151,7 @@ function TopProduct() {
             </Link>
           </div>
 
-          {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
-            <div className="row px-3 ">
-              {(product || [])
-                .filter(
-                  (itm, idx) =>
-                    itm.category != "639a042ff2f72167b43774de" &&
-                    itm.category != "639a7617f2f72167b4377754" &&
-                    idx < 4 &&
-                    itm?.productId?.isTobaccoProduct != true
-                )
-                .map((item, index) => (
-                  <div class="col-6 mb-3">
-                    <div class="cardTp">
-                      <span className="product-feat-label px-2">
-                        Hot{item?.price ? "-" : ""}
-                        <span className=" mx-1  fs-5 fw-bold">
-                          {item?.price ? "$" + item.price : ""}
-                        </span>
-                      </span>
-                      <div class="card-img">
-                        <div class="">
-                          <img
-                            class="img"
-                            style={{
-                              height: "7rem",
-                              borderRadius: "8px",
-                            }}
-                            src={
-                              item?.productId.type?.flavourImage
-                                ? item?.productId.type?.flavourImage
-                                : item?.productId?.productImage ||
-                                  require("../../assets/img/product.jpg")
-                            }
-                            alt="Product Image not updated"
-                          />
-                        </div>
-                      </div>
-                      <div class="cardTp-title mb-0">
-                        <Link
-                          to={`/app/product-detail/${item?.productId?.slug}`}
-                          state={{ type: item?.productId?.type }}>
-                          {item?.productId?.unitName?.slice(0, 28)}
-                          <span>
-                            {item?.productId.type
-                              ? item?.productId.type?.flavour
-                              : ""}
-                          </span>
-                        </Link>
-                      </div>
-
-                      <hr class="cardTp-divider mb-0" />
-                      <div class="cardTp-footer  mt-0">
-                        <a class="bg-white">
-                          <i
-                            class="fa-solid fa-eye"
-                            onClick={() => {
-                              navigate(
-                                `/app/product-detail/${item?.productId?.slug}`,
-                                {
-                                  state: { type: item?.productId?.type },
-                                }
-                              );
-                            }}></i>
-                          <i
-                            class="fa-solid fa-cart-plus mx-2"
-                            onClick={() =>
-                              addToCartt(
-                                item?.productId?._id,
-                                index,
-                                item,
-                                item?.productId?.slug
-                              )
-                            }></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          ) : ( */}
+       
             <div className="row px-3 ">
               {(product || [])
                 .filter((itm, idx) => idx < 4)
@@ -248,7 +169,7 @@ function TopProduct() {
                           <img
                             class="img"
                             style={{
-                              height: "7rem",
+                              height: "5.5rem",
                               borderRadius: "8px",
                             }}
                             src={
