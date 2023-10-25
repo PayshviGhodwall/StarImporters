@@ -41,8 +41,9 @@ function AppProductDetail() {
   const [cartCount, setCartCount] = useState(false);
 
   const ScrollContainer = styled.div`
-    height: 5.2rem;
+    height: 9rem;
     overflow-y: scroll;
+    overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -182,6 +183,7 @@ function AppProductDetail() {
     getProductDetail();
     setHeart(!heart);
   };
+
   const rmvFromFav = async () => {
     await axios
       .post(rmvFav, {
@@ -253,11 +255,11 @@ function AppProductDetail() {
             )}
           </div>
 
-          <div className="product-description pb-3">
+          <div className=" pb-3">
             <div className="product-title-meta-data bg-white mb-2 py-3">
               <div className="container d-flex justify-content-between rtl-flex-d-row-r">
                 <div className="p-title-price mb-0 title_product">
-                  <h5 className="">{productDetail?.unitName}</h5>
+                  <h4 className="">{productDetail?.unitName}</h4>
                 </div>
                 {token?.length ? (
                   <div className="p-wishlist-share">
@@ -353,7 +355,7 @@ function AppProductDetail() {
                         .map((item, index) =>
                           flavour?.flavour === item?.flavour ? (
                             <Link
-                              className="text-white"
+                              className="text-white col-12"
                               style={{
                                 cursor: "pointer",
                                 backgroundColor: "#3e4093",
@@ -367,11 +369,17 @@ function AppProductDetail() {
                                 document.getElementById("product-image").src =
                                   item?.flavourImage;
                               }}>
+                              <span>
+                                <img
+                                  className="border rounded mx-2"
+                                  width={30}
+                                  src={item?.flavourImage}></img>
+                              </span>{" "}
                               {item?.flavour}
                             </Link>
                           ) : (
                             <Link
-                              className=""
+                              className="col-12"
                               onClick={(e) => {
                                 e.preventDefault();
                                 setFlavour(item);
@@ -381,6 +389,12 @@ function AppProductDetail() {
                                 document.getElementById("product-image").src =
                                   item?.flavourImage;
                               }}>
+                              <span>
+                                <img
+                                  className="border rounded mx-2"
+                                  width={30}
+                                  src={item?.flavourImage}></img>
+                              </span>{" "}
                               {item?.flavour}
                             </Link>
                           )
