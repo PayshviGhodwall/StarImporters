@@ -147,8 +147,8 @@ function TopProduct() {
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
-
-          <div className="row px-3 ">
+ 
+         <div className="row px-3 ">
             {(product || [])
               .filter((itm, idx) => idx < 4)
               .map((item, index) => (
@@ -193,6 +193,7 @@ function TopProduct() {
                     </div>
 
                     <hr class="cardTp-divider mb-0" />
+
                     <div class="cardTp-footer  mt-0">
                       <a class="bg-white">
                         <i
@@ -217,10 +218,12 @@ function TopProduct() {
                           }></i>
                       </a>
                     </div>
+
                   </div>
                 </div>
               ))}
           </div>
+
           {/* )} */}
         </div>
       </div>
