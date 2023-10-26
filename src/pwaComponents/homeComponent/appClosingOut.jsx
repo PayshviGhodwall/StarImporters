@@ -150,230 +150,115 @@ function AppClosingOut() {
             </Link>
           </div>
 
-          {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
-            <div className="row px-3 ">
-              <Swiper
-                slidesPerView={2}
-                spaceBetween={8}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: true,
-                  reverseDirection: true,
-                  waitForTransition: true,
-                }}
-                loop={true}
-                modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                className="">
-                {(product || [])
-                  .filter(
-                    (itm, idx) =>
-                      itm.category != "639a042ff2f72167b43774de" &&
-                      itm.category != "639a7617f2f72167b4377754" &&
-                      itm?.productId?.isTobaccoProduct != true
-                  )
-                  .map((item, index) => (
-                    <SwiperSlide key={index} className="main_hot">
-                      <div class="">
-                        <div class="card product-card w-100">
-                          <div class="card-body">
-                            <div class="col-auto">
-                              <Link
-                                class="cart_bttn text-decoration-none"
-                                to=""
-                                onClick={() =>
-                                  addToCartt(
-                                    item?.productId?._id,
-                                    index,
-                                    item,
-                                    item?.productId?.slug
-                                  )
-                                }>
-                                <i class="fa-light fa-plus "></i>
-                              </Link>
-                            </div>
-                            {token?.length ? (
-                              <a class="wishlist-btn">
-                                {item?.productId?.favourite ? (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      rmvFromFav(index, item);
-                                    }}
-                                    style={{ color: "#3e4093 " }}
-                                  />
-                                ) : (
-                                  <i
-                                    class="fa fa-heart"
-                                    onClick={() => {
-                                      addToFav(index, item);
-                                    }}
-                                    style={{ color: "#E1E1E1 " }}
-                                  />
-                                )}
-                              </a>
-                            ) : null}
-
-                            <Link
-                              class="product-thumbnail d-block"
-                              to={`/app/product-detail/${item?.productId?.slug}`}
-                              state={{ type: item?.productId?.type }}>
-                              <img
-                                class="mb-2"
-                                style={{
-                                  height: "7rem",
-                                  borderRadius: "8px",
-                                }}
-                                src={
-                                  item?.productId.type?.flavourImage
-                                    ? item?.productId.type?.flavourImage
-                                    : item?.productId?.productImage ||
-                                      require("../../assets/img/product.jpg")
-                                }
-                                alt="Product Image not updated"
-                              />
-                            </Link>
-                            <div class="row mt-1 d-flex align-items-center justify-content-between">
-                              <div class="col-auto">
-                                <Link
-                                  class="product-title"
-                                  to={`/app/product-detail/${item?.productId?.slug}`}
-                                  state={{ type: item?.productId?.type }}>
-                                  {item?.productId?.unitName?.slice(0, 28)}
-                                  <span>
-                                    {item?.productId.type
-                                      ? item?.productId.type?.flavour
-                                      : ""}
-                                  </span>
-                                </Link>
-                                {item?.price ? (
-                                  <p className="mb-0">
-                                    {" "}
-                                    {item?.price ? "Price-" : ""}
-                                    <span className=" mx-1 text-danger fw-bold mb-0">
-                                      {item?.price ? "$" + item.price : ""}
-                                    </span>
-                                  </p>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                            </div>
-                          </div>
+          <div className="row px-3 ">
+            <Swiper
+              slidesPerView={2}
+              spaceBetween={8}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: true,
+                reverseDirection: true,
+                waitForTransition: true,
+              }}
+              loop={true}
+              modules={[FreeMode, Pagination, Autoplay, Navigation]}
+              className="">
+              {(product || []).map((item, index) => (
+                <SwiperSlide key={index} className="main_hot">
+                  <div class="">
+                    <div class="card product-card w-100">
+                      <div class="card-body">
+                        <div class="col-auto">
+                          <Link
+                            class="cart_bttn text-decoration-none"
+                            to=""
+                            onClick={() =>
+                              addToCartt(
+                                item?.productId?._id,
+                                index,
+                                item,
+                                item?.productId?.slug
+                              )
+                            }>
+                            <i class="fa-light fa-plus "></i>
+                          </Link>
                         </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
-            </div>
-          ) : ( */}
-            <div className="row px-3 ">
-              <Swiper
-                slidesPerView={2}
-                spaceBetween={8}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: true,
-                  reverseDirection: true,
-                  waitForTransition: true,
-                }}
-                loop={true}
-                modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                className="">
-                {(product || []).map((item, index) => (
-                  <SwiperSlide key={index} className="main_hot">
-                    <div class="">
-                      <div class="card product-card w-100">
-                        <div class="card-body">
+                        {token?.length ? (
+                          <a class="wishlist-btn">
+                            {item?.productId?.favourite ? (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  rmvFromFav(index, item);
+                                }}
+                                style={{ color: "#3e4093 " }}
+                              />
+                            ) : (
+                              <i
+                                class="fa fa-heart"
+                                onClick={() => {
+                                  addToFav(index, item);
+                                }}
+                                style={{ color: "#E1E1E1 " }}
+                              />
+                            )}
+                          </a>
+                        ) : null}
+
+                        <Link
+                          class="product-thumbnail d-block"
+                          to={`/app/product-detail/${item?.productId?.slug}`}
+                          state={{ type: item?.productId?.type }}>
+                          <img
+                            class="mb-2"
+                            style={{
+                              height: "7rem",
+                              borderRadius: "8px",
+                            }}
+                            loading="lazy"
+                            src={
+                              item?.productId?.type?.flavourImage
+                                ? item?.productId?.type?.flavourImage
+                                : item?.productId?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                            }
+                            alt="Product Image not updated"
+                          />
+                        </Link>
+
+                        <div class="row mt-1 d-flex align-items-center justify-content-between">
                           <div class="col-auto">
                             <Link
-                              class="cart_bttn text-decoration-none"
-                              to=""
-                              onClick={() =>
-                                addToCartt(
-                                  item?.productId?._id,
-                                  index,
-                                  item,
-                                  item?.productId?.slug
-                                )
-                              }>
-                              <i class="fa-light fa-plus "></i>
+                              class="product-title"
+                              to={`/app/product-detail/${item?.productId?.slug}`}
+                              state={{ type: item?.productId?.type }}>
+                              {item?.productId?.unitName?.slice(0, 28)}
+                              <span>
+                                {item?.productId?.type
+                                  ? item?.productId?.type?.flavour
+                                  : ""}
+                              </span>
                             </Link>
-                          </div>
-                          {token?.length ? (
-                            <a class="wishlist-btn">
-                              {item?.productId?.favourite ? (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    rmvFromFav(index, item);
-                                  }}
-                                  style={{ color: "#3e4093 " }}
-                                />
-                              ) : (
-                                <i
-                                  class="fa fa-heart"
-                                  onClick={() => {
-                                    addToFav(index, item);
-                                  }}
-                                  style={{ color: "#E1E1E1 " }}
-                                />
-                              )}
-                            </a>
-                          ) : null}
-
-                          <Link
-                            class="product-thumbnail d-block"
-                            to={`/app/product-detail/${item?.productId?.slug}`}
-                            state={{ type: item?.productId?.type }}>
-                            <img
-                              class="mb-2"
-                              style={{
-                                height: "7rem",
-                                borderRadius: "8px",
-                              }}
-                              src={
-                                item?.productId?.type?.flavourImage
-                                  ? item?.productId?.type?.flavourImage
-                                  : item?.productId?.productImage ||
-                                    require("../../assets/img/product.jpg")
-                              }
-                              alt="Product Image not updated"
-                            />
-                          </Link>
-
-                          <div class="row mt-1 d-flex align-items-center justify-content-between">
-                            <div class="col-auto">
-                              <Link
-                                class="product-title"
-                                to={`/app/product-detail/${item?.productId?.slug}`}
-                                state={{ type: item?.productId?.type }}>
-                                {item?.productId?.unitName?.slice(0, 28)}
-                                <span>
-                                  {item?.productId?.type
-                                    ? item?.productId?.type?.flavour
-                                    : ""}
+                            {item?.price ? (
+                              <p className="mb-0">
+                                {" "}
+                                {item?.price ? "Price-" : ""}
+                                <span className=" mx-1 text-danger fw-bold mb-0">
+                                  {item?.price ? "$" + item.price : ""}
                                 </span>
-                              </Link>
-                              {item?.price ? (
-                                <p className="mb-0">
-                                  {" "}
-                                  {item?.price ? "Price-" : ""}
-                                  <span className=" mx-1 text-danger fw-bold mb-0">
-                                    {item?.price ? "$" + item.price : ""}
-                                  </span>
-                                </p>
-                              ) : (
-                                ""
-                              )}
-                            </div>
+                              </p>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
           {/* )} */}
         </div>
       </div>

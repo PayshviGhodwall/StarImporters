@@ -9,9 +9,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { browserName } from "react-device-detect";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
+
 
 function TopProduct() {
   const addFav = `${process.env.REACT_APP_APIENDPOINTNEW}user/fav/addToFav`;
@@ -142,7 +140,6 @@ function TopProduct() {
   return (
     <>
       <div className="top-products-area pb-3 ">
-
         <div className="container">
           <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
             <h6 className="fs-5 fw-bold">Featured Products</h6>
@@ -151,81 +148,80 @@ function TopProduct() {
             </Link>
           </div>
 
-       
-            <div className="row px-3 ">
-              {(product || [])
-                .filter((itm, idx) => idx < 4)
-                .map((item, index) => (
-                  <div class="col-6 mb-3">
-                    <div class="cardTp">
-                      <span className="product-feat-label px-2">
-                        HOT{item?.price ? "-" : ""}
-                        <span className=" mx-1  fs-5 fw-bold">
-                          {item?.price ? "$" + item.price : ""}
-                        </span>
+          <div className="row px-3 ">
+            {(product || [])
+              .filter((itm, idx) => idx < 4)
+              .map((item, index) => (
+                <div class="col-6 mb-3 justify-content-center ">
+                  <div class="cardTp">
+                    <span className="product-feat-label px-2">
+                      HOT{item?.price ? "-" : ""}
+                      <span className=" mx-1  fs-5 fw-bold">
+                        {item?.price ? "$" + item.price : ""}
                       </span>
-                      <div class="card-img">
-                        <div class="">
-                          <img
-                            class="img"
-                            style={{
-                              height: "5.5rem",
-                              borderRadius: "8px",
-                            }}
-                            src={
-                              item?.productId?.type?.flavourImage
-                                ? item?.productId?.type?.flavourImage
-                                : item?.productId?.productImage ||
-                                  require("../../assets/img/product.jpg")
-                            }
-                            alt="Product Image not updated"
-                          />
-                        </div>
-                      </div>
-                      <div class="cardTp-title mb-0">
-                        <Link
-                          to={`/app/product-detail/${item?.productId?.slug}`}
-                          state={{ type: item?.productId?.type }}>
-                          {item?.productId?.unitName?.slice(0, 28)}
-                          <span>
-                            {item?.productId?.type
-                              ? item?.productId?.type?.flavour
-                              : ""}
-                          </span>
-                        </Link>
-                      </div>
-
-                      <hr class="cardTp-divider mb-0" />
-                      <div class="cardTp-footer  mt-0">
-                        <a class="bg-white">
-                          <i
-                            class="fa-solid fa-eye"
-                            onClick={() => {
-                              navigate(
-                                `/app/product-detail/${item?.productId?.slug}`,
-                                {
-                                  state: { type: item?.productId?.type },
-                                }
-                              );
-                            }}></i>
-                          <i
-                            class="fa-solid fa-cart-plus mx-2"
-                            onClick={() =>
-                              addToCartt(
-                                item?.productId?._id,
-                                index,
-                                item,
-                                item?.productId?.slug
-                              )
-                            }></i>
-                        </a>
+                    </span>
+                    <div class="card-img text-center">
+                      <div class="">
+                        <img
+                          class="img"
+                          style={{
+                            height: "5.5rem",
+                            borderRadius: "8px",
+                          }}
+                          loading="lazy"
+                          src={
+                            item?.productId?.type?.flavourImage
+                              ? item?.productId?.type?.flavourImage
+                              : item?.productId?.productImage ||
+                                require("../../assets/img/product.jpg")
+                          }
+                          alt="Product Image not updated"
+                        />
                       </div>
                     </div>
+                    <div class="cardTp-title mb-0">
+                      <Link
+                        to={`/app/product-detail/${item?.productId?.slug}`}
+                        state={{ type: item?.productId?.type }}>
+                        {item?.productId?.unitName?.slice(0, 28)}
+                        <span>
+                          {item?.productId?.type
+                            ? item?.productId?.type?.flavour
+                            : ""}
+                        </span>
+                      </Link>
+                    </div>
+
+                    <hr class="cardTp-divider mb-0" />
+                    <div class="cardTp-footer  mt-0">
+                      <a class="bg-white">
+                        <i
+                          class="fa-solid fa-eye"
+                          onClick={() => {
+                            navigate(
+                              `/app/product-detail/${item?.productId?.slug}`,
+                              {
+                                state: { type: item?.productId?.type },
+                              }
+                            );
+                          }}></i>
+                        <i
+                          class="fa-solid fa-cart-plus mx-2"
+                          onClick={() =>
+                            addToCartt(
+                              item?.productId?._id,
+                              index,
+                              item,
+                              item?.productId?.slug
+                            )
+                          }></i>
+                      </a>
+                    </div>
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
+          </div>
           {/* )} */}
-          
         </div>
       </div>
     </>

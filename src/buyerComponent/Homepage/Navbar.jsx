@@ -112,7 +112,7 @@ const Navbar = ({ NState, LoginState }) => {
   const AllProducts = async () => {
     await axios.post(allProd).then((res) => {
       setSearchData(res?.data.results);
-    });  
+    });
   };
 
   useEffect(() => {
@@ -398,7 +398,7 @@ const Navbar = ({ NState, LoginState }) => {
                         Related Sub-Categories :
                       </span>
                     )}
-                    {relateCate?.map((itm, ind) => (
+                      {relateCate?.map((itm, ind) => (
                       <div>
                         <p
                           className="subCateSearch"
@@ -422,13 +422,15 @@ const Navbar = ({ NState, LoginState }) => {
                         <a className="featuredproduct_box p-2">
                           <div className="featuredproduct_img ">
                             <img
+                              loading="lazy"
                               src={
                                 // item?.type.flavour
                                 //   ? item?.type?.flavourImage ||
                                 //     require("../../assets/img/product.jpg")
                                 //   :
-                                item?.productImage ||
-                                require("../../assets/img/product.jpg")
+                                item?.productImage
+                                  ? item?.productImage
+                                  : require("../../assets/img/product.jpg")
                               }
                               alt="Product"
                               onClick={() => {
