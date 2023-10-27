@@ -331,7 +331,7 @@ function AppHome() {
                 browserName === "Chrome WebView" ? (
                   <div className="alternative-search-options">
                     <Link
-                      className="  ms-0 mx-2"
+                      className=" ms-0 mx-2"
                       to=""
                       onClick={microphoneSearch}>
                       <img
@@ -525,7 +525,7 @@ function AppHome() {
                             .filter((itm, idx) => idx < 7)
                             .map((item, index) => {
                               return (
-                                <div className="col-3  justify-content-center p-1 text-center">
+                                <div className="col-3  justify-content-center ">
                                   <div
                                     className="catagory-card"
                                     onClick={() => {
@@ -540,17 +540,16 @@ function AppHome() {
                                       backgroundSize: "cover",
                                     }}></div>
                                   <small
-                                    className="text-center"
                                     style={{
                                       fontSize: "10px",
                                     }}>
                                     {" "}
-                                    {item?.categoryName?.slice(0, 10)}..
+                                    {item?.categoryName?.slice(0, 15)}..
                                   </small>
                                 </div>
                               );
                             })}
-                          <div className="col-3  justify-content-center p-1 text-center">
+                          <div className="col-3  justify-content-center p-1 ">
                             <div
                               className="catagory-card"
                               onClick={() => {

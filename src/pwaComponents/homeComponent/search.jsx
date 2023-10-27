@@ -103,7 +103,7 @@ const Search = () => {
               ? "search-form pt-3 "
               : "search-new pt-3 "
           }>
-          <form className="bg-white border rounded w-100 text-center" action="#" style={{ width: "100%" }}>
+          <form className="bg-white border rounded  text-center">
             <input
               className="form-control "
               type="text"
@@ -121,6 +121,7 @@ const Search = () => {
               reset
             </button>
           </form>
+          </div>
 
           {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div className="alternative-search-options">
@@ -136,135 +137,10 @@ const Search = () => {
               </a>
             </div>
           ) : (
-            <div className="alternative-search-options">
-              
-            </div>
+            <div className="alternative-search-options"></div>
           )}
-        </div>
       </div>
-      {/* {browserName === "WebKit" || browserName === "Chrome WebView" ? (
-        <div>
-          {search?.length || relateCate?.length >= 1 ? (
-            <div className="top-products-area py-1">
-              <div className="container">
-                <div className="section-heading d-flex align-items-center justify-content-between dir-rtl mb-1">
-                  <p className="mt-0 mb-4">Showing results for "{search}"</p>
-                  {search === "Tobacco" ||
-                  search === "Tobacco " ||
-                  search === "tobacco" ||
-                  search === "tobaco " ||
-                  search === "Tobacc " ||
-                  search === "tobac " ||
-                  search === "tobacco " ||
-                  search === "tob" ||
-                  search === "toba" ||
-                  search === "tobac" ||
-                  search === "tobacc" ||
-                  search === "smoke" ||
-                  search === "cigars" ||
-                  search === "Cigerettes" ||
-                  search === "vapes" ? (
-                    <div className="text-center">
-                      <img src={require("../../assets/img/noitem.png")}></img>
-                      <a
-                        data-bs-toggle="modal"
-                        className="fw-bold mx-2"
-                        data-bs-target="#staticBackdrop"
-                        onClick={genToken}>
-                        Click Here
-                      </a>
-                      to buy this product from our website.{" "}
-                    </div>
-                  ) : null}
-                </div>
-                {relateCate?.length >= 1 ? (
-                  <>
-                    Related Sub-Categories
-                    <div className=" mb-2">
-                      {relateCate
-                        ?.filter(
-                          (itm, idx) =>
-                            itm.categoryName != "639a042ff2f72167b43774de" &&
-                            itm.categoryName != "639a7617f2f72167b4377754" &&
-                            itm.isTobacco != true
-                        )
-                        .map((itm, ind) => (
-                          <span
-                            className=" text-primary  fw-bold"
-                            style={{
-                              fontSize: "12px",
-                            }}
-                            onClick={() => {
-                              navigate(
-                                `/app/product-subCategory/${itm?.subCategoryName}`,
-                                {}
-                              );
-                            }}>
-                            {itm?.subCategoryName && itm?.subCategoryName} ,
-                          </span>
-                        ))}
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-                {product?.length ? (
-                  <div className="row g-2 ">
-                    {(product || [])
-                      ?.filter(
-                        (itm, idx) =>
-                          itm.category != "639a042ff2f72167b43774de" &&
-                          idx < 15 &&
-                          itm.category != "639a7617f2f72167b4377754" &&
-                          itm.isTobaccoProduct != true
-                      )
-                      .map((item, index) => {
-                        return (
-                          <div className="col-6 col-md-4" key={index}>
-                            <div className="card product-card">
-                              <div className="card-body">
-                                <Link
-                                  className="product-thumbnail d-block"
-                                  to={`/app/product-detail/${item.slug}`}
-                                  state={{ type: item?.type }}>
-                                  <img
-                                    className="mb-2"
-                                    src={
-                                    
 
-                                      item?.productImage ||
-                                      require("../../assets/img/product.jpg")
-                                    }
-                                    alt=""
-                                  />
-                                </Link>
-
-                                <Link
-                                  className="product-title"
-                                  to={`/app/product-detail/${item.slug}`}
-                                  state={{ type: item?.type }}>
-                                  {item?.unitName}
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                ) : (
-                  <div>
-                    <img
-                      className="no-data"
-                      src={require("../../assets/img/no-data.gif")}
-                    />
-                    <h1 className="text-center"> No Product Results</h1>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      ) : ( */}
       <div>
         {search?.length || relateCate?.length >= 1 ? (
           <div className="top-products-area py-1">

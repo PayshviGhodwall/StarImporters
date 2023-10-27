@@ -7349,6 +7349,7 @@ background-color: #3e4093;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    width: 100%;
   }
   .search-new form {
     position: relative;
@@ -7357,12 +7358,12 @@ background-color: #3e4093;
     width: 100%;
   }
   .search-new form .form-control {
-    width: 100%;
+    width: 100% !important;
     height: 32px;
     font-size: 11px;
     font-weight: 600;
     padding: 10px 14px;
-    padding-left: 25px !important;
+    padding-left: 32px !important;
     border: 1px solid #b2beb5 !important;
     color: #c2d4f8 !important;
     opacity: 60%;
