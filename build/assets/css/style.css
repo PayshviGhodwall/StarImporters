@@ -7530,7 +7530,7 @@ background-color: #3e4093;
   }
   .navbar-logo-container {
     position: relative !important;
-    left: 44% !important;
+    left: 52% !important;
   }
   /* Footer CSS */
   .footer-nav-area {
@@ -17936,4 +17936,7 @@ li {
 }
 .feat_main{
   height: 12rem !important;
+}
+.banner_slider_img{
+  max-height: 7rem !important;
 }

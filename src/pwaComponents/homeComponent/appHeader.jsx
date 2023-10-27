@@ -121,14 +121,17 @@ function AppHeader({ cartCount }) {
             )} */}
 
               <div className="navbar-logo-container d-flex align-items-end">
-                {token ? (
-                  <div className="cart-icon-wrap">
-                    <Link to="/app/cart">
-                      <i className="fa-solid fa-bag-shopping"></i>
-                      <span>{count}</span>
-                    </Link>
-                  </div>
-                ) : null}
+                <div
+                  className={
+                    token
+                      ? "cart-icon-wrap opacity-100"
+                      : "cart-icon-wrap opacity-0"
+                  }>
+                  <Link to="/app/cart">
+                    <i className="fa-solid fa-bag-shopping"></i>
+                    <span>{count}</span>
+                  </Link>
+                </div>
 
                 <div className="user-profile ms-2">
                   <Link to={token ? "/app/profile" : "/app/login"}>
