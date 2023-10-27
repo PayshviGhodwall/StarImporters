@@ -217,7 +217,7 @@ function AppProductDetail() {
       <div className="star_imp_app">
         <AppHeader cartCount={cartCount} />
 
-        <div className="page-content-wrapper2 mb-5">
+        <div className="page-content-wrapper2 mb-5 mt-0">
           <div className="" key={itemNo}>
             {productDetail ? (
               <Carousel

@@ -141,18 +141,13 @@ function AppClosingOut() {
     <>
       <div className="top-products-area pb-3 ">
         <div className="container">
-          <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
+          {/* <div className=" d-flex align-items-center justify-content-between dir-rtl mt-2 mb-3">
             <h6 className="fs-5 fw-bold text-danger">CLOSING OUT DEALS</h6>
-            <Link
-              className="btn p-0 text-white"
-              to="/app/product-list/Close-Out">
-              View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
-            </Link>
-          </div>
+          </div> */}
 
-          <div className="row px-3 ">
+          <div className="row px-3 mt-3">
             <Swiper
-              slidesPerView={2}
+              slidesPerView={2.3}
               spaceBetween={8}
               autoplay={{
                 delay: 3000,
@@ -164,13 +159,25 @@ function AppClosingOut() {
               modules={[FreeMode, Pagination, Autoplay, Navigation]}
               className="">
               {(product || []).map((item, index) => (
-                <SwiperSlide key={index} className="main_hot">
-                  <div class="">
-                    <div class="card product-card w-100">
-                      <div class="card-body">
+                <SwiperSlide key={index} className="">
+                  <div class="hotMain">
+                    <div class="w-100">
+                      <div
+                        class="card-body-hot"
+                        style={{
+                          backgroundImage: `url(${
+                            item?.productId?.type?.flavourImage
+                              ? item?.productId?.type?.flavourImage
+                              : item?.productId?.productImage ||
+                                require("../../assets/img/product.jpg")
+                          })`,
+                          backgroundPosition: "center",
+                          opacity: "unset",
+                          backgroundSize: "cover",
+                        }}>
                         <div class="col-auto">
                           <Link
-                            class="cart_bttn text-decoration-none"
+                            class="cart_bttn2 text-decoration-none"
                             to=""
                             onClick={() =>
                               addToCartt(
@@ -183,64 +190,23 @@ function AppClosingOut() {
                             <i class="fa-light fa-plus "></i>
                           </Link>
                         </div>
-                        {token?.length ? (
-                          <a class="wishlist-btn">
-                            {item?.productId?.favourite ? (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  rmvFromFav(index, item);
-                                }}
-                                style={{ color: "#3e4093 " }}
-                              />
-                            ) : (
-                              <i
-                                class="fa fa-heart"
-                                onClick={() => {
-                                  addToFav(index, item);
-                                }}
-                                style={{ color: "#E1E1E1 " }}
-                              />
-                            )}
-                          </a>
-                        ) : null}
 
-                        <Link
-                          class="product-thumbnail d-block"
-                          to={`/app/product-detail/${item?.productId?.slug}`}
-                          state={{ type: item?.productId?.type }}>
-                          <img
-                            class="mb-2"
-                            style={{
-                              height: "7rem",
-                              borderRadius: "8px",
-                            }}
-                            loading="lazy"
-                            src={
-                              item?.productId?.type?.flavourImage
-                                ? item?.productId?.type?.flavourImage
-                                : item?.productId?.productImage ||
-                                  require("../../assets/img/product.jpg")
-                            }
-                            alt="Product Image not updated"
-                          />
-                        </Link>
-
-                        <div class="row mt-1 d-flex align-items-center justify-content-between">
+                        <div class="row  product-title_new">
                           <div class="col-auto">
                             <Link
-                              class="product-title"
+                              class="name text-white"
                               to={`/app/product-detail/${item?.productId?.slug}`}
                               state={{ type: item?.productId?.type }}>
-                              {item?.productId?.unitName?.slice(0, 28)}
+                              {item?.productId?.unitName?.slice(0, 10)}
                               <span>
                                 {item?.productId?.type
-                                  ? item?.productId?.type?.flavour
+                                  ? item?.productId?.type?.flavour?.slice(0, 8)
                                   : ""}
                               </span>
+                              ..
                             </Link>
                             {item?.price ? (
-                              <p className="mb-0">
+                              <p className="mb-0 price-size">
                                 {" "}
                                 {item?.price ? "Price-" : ""}
                                 <span className=" mx-1 text-danger fw-bold mb-0">
@@ -259,6 +225,14 @@ function AppClosingOut() {
               ))}
             </Swiper>
           </div>
+          <div className="text-center">
+            <Link
+              className="btn p-0 text-white  mt-2"
+              to="/app/product-list/Close-Out">
+              View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
+            </Link>
+          </div>
+
           {/* )} */}
         </div>
       </div>

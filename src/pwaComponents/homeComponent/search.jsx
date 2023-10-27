@@ -103,9 +103,9 @@ const Search = () => {
               ? "search-form pt-3 "
               : "search-new pt-3 "
           }>
-          <form className="" action="#" style={{ width: "100%" }}>
+          <form className="bg-white border rounded w-100 text-center" action="#" style={{ width: "100%" }}>
             <input
-              className="form-control"
+              className="form-control "
               type="text"
               defaultValue={search}
               placeholder={"  " + "Search in Star Importers"}
@@ -124,30 +124,20 @@ const Search = () => {
 
           {browserName === "WebKit" || browserName === "Chrome WebView" ? (
             <div className="alternative-search-options">
-              <Link
-                className="comman_btn text-white ms-1"
-                to=""
-                onClick={microphoneSearch}>
-                <i className="fa-solid fa-microphone"></i>
+              <Link className="  ms-0 mx-2" to="" onClick={microphoneSearch}>
+                <img
+                  width={30}
+                  src={require("../../assets/img/Microphone.png")}></img>
               </Link>
-              <a className="comman_btn2 ms-1" onClick={() => cameraScan()}>
-                <i className="fa fa-qrcode"></i>
+              <a className=" ms-1" onClick={() => cameraScan()}>
+                <img
+                  width={30}
+                  src={require("../../assets/img/Scan.png")}></img>
               </a>
             </div>
           ) : (
             <div className="alternative-search-options">
-              {/* <a className="comman_btn2 ms-1">
-                <i className="fa fa-qrcode">
-                  <input
-                    className="barScanner"
-                    id="p-1"
-                    accept="image/jpeg,image/png,image/jfif,application/pdf,image/x-eps"
-                    type="file"
-                    placeholder=""
-                    // onChange={(e) => onFileSelection(e.target.files, 1)}
-                  />
-                </i>
-              </a> */}
+              
             </div>
           )}
         </div>
@@ -275,81 +265,80 @@ const Search = () => {
           ) : null}
         </div>
       ) : ( */}
-        <div>
-          {search?.length || relateCate?.length >= 1 ? (
-            <div className="top-products-area py-1">
-              <div className="container">
-                {relateCate?.length >= 1 ? (
-                  <>
-                    Related Sub-Categories
-                    <div className=" mb-2">
-                      {relateCate?.map((itm, ind) => (
-                        <span
-                          className=" text-primary  fw-bold"
-                          style={{
-                            fontSize: "12px",
-                          }}
-                          onClick={() => {
-                            navigate(
-                              `/app/product-subCategory/${itm?.subCategoryName}`,
-                              {}
-                            );
-                          }}>
-                          {itm?.subCategoryName && itm?.subCategoryName} ,
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-                {product?.length ? (
-                  <div className="row g-2 ">
-                    {(product || [])?.map((item, index) => {
-                      return (
-                        <div className="col-6 col-md-4" key={index}>
-                          <div className="card product-card">
-                            <div className="card-body">
-                              <Link
-                                className="product-thumbnail d-block"
-                                to={`/app/product-detail/${item.slug}`}
-                                state={{ type: item?.type }}>
-                                <img
-                                  className="mb-2"
-                                  src={
-                                   
-                                    item?.productImage ||
-                                    require("../../assets/img/product.jpg")
-                                  }
-                                  alt=""
-                                />
-                              </Link>
+      <div>
+        {search?.length || relateCate?.length >= 1 ? (
+          <div className="top-products-area py-1">
+            <div className="container">
+              {relateCate?.length >= 1 ? (
+                <>
+                  Related Sub-Categories
+                  <div className=" mb-2">
+                    {relateCate?.map((itm, ind) => (
+                      <span
+                        className=" text-primary  fw-bold"
+                        style={{
+                          fontSize: "12px",
+                        }}
+                        onClick={() => {
+                          navigate(
+                            `/app/product-subCategory/${itm?.subCategoryName}`,
+                            {}
+                          );
+                        }}>
+                        {itm?.subCategoryName && itm?.subCategoryName} ,
+                      </span>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+              {product?.length ? (
+                <div className="row g-2 ">
+                  {(product || [])?.map((item, index) => {
+                    return (
+                      <div className="col-6 col-md-4" key={index}>
+                        <div className="card product-card">
+                          <div className="card-body">
+                            <Link
+                              className="product-thumbnail d-block"
+                              to={`/app/product-detail/${item.slug}`}
+                              state={{ type: item?.type }}>
+                              <img
+                                className="mb-2"
+                                src={
+                                  item?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                                }
+                                alt=""
+                              />
+                            </Link>
 
-                              <Link
-                                className="product-title"
-                                to={`/app/product-detail/${item?.slug}`}
-                                state={{ type: item?.type }}>
-                                {item?.unitName}
-                              </Link>
-                            </div>
+                            <Link
+                              className="product-title"
+                              to={`/app/product-detail/${item?.slug}`}
+                              state={{ type: item?.type }}>
+                              {item?.unitName}
+                            </Link>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div>
-                    <img
-                      className="no-data"
-                      src={require("../../assets/img/no-data.gif")}
-                    />
-                    <h1 className="text-center"> No Products Results</h1>
-                  </div>
-                )}
-              </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>
+                  <img
+                    className="no-data"
+                    src={require("../../assets/img/no-data.gif")}
+                  />
+                  <h1 className="text-center"> No Products Results</h1>
+                </div>
+              )}
             </div>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
+      </div>
       {/* )} */}
       <div
         class="modal fade"
