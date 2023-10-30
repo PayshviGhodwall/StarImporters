@@ -7098,7 +7098,7 @@ background-color: #3e4093;
     max-height: 50px;
   }
   .page-content-wrapper {
-    margin-top: 60px;
+    margin-top: 0 !important;
     margin-bottom: 80px;
   }
   .page-content-wrapper2 {
@@ -17939,4 +17939,17 @@ li {
 }
 .banner_slider_img{
   max-height: 7rem !important;
+}
+.my_order_new {
+  padding:8px 0 80px !important;
+}
+.dropList {
+  /* border: grey solid 1px; */
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.dropList:hover {
+background-color: #000 !important;
+color: #fff !important;
 }

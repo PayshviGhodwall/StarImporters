@@ -234,7 +234,7 @@ function AppHome() {
                   <AppHeader />
                 </div>
                 <SkeletonTheme>
-                  <div className="page-content-wrapper">
+                  <div className="page-content-wrapper mt-0">
                     <div className="container ">
                       <div className=" pt-3 ">
                         <Skeleton height={28} />

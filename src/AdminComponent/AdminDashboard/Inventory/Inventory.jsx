@@ -1637,6 +1637,7 @@ const Inventory = () => {
           </div>
         </div>
       </div>
+      
       <div
         className="modal comman_modal_form forms_modal"
         id="staticBackdrop66"
@@ -1812,6 +1813,7 @@ const Inventory = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
