@@ -968,6 +968,11 @@ const ViewOrder = () => {
                                             Partially Scanned
                                           </span>
                                         )}
+                                         {item?.scanned === "OutOfStock" && (
+                                          <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                          Out of Stock
+                                          </span>
+                                        )}
                                         {item?.scanned === "OverlyScanned" && (
                                           <span className="fs-5 text-secondary  p-2 px-3 rounded">
                                             Overly Scanned
