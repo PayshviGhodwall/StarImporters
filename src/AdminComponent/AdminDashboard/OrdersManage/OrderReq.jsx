@@ -446,7 +446,7 @@ const OrderReq = () => {
         flavour: item?.type,
       };
     }); 
-    
+
     if (selectedUser?.id) {
       await axios
         .post(createOrder, {
@@ -1401,10 +1401,10 @@ const OrderReq = () => {
                       className="comman_btn2"
                       type="submit"
                       onClick={AddOrder}>
-                      Save Product
+                      Save Order
                     </button>
                     <button className="comman_btn2 d-none" type="reset">
-                      Save Product
+                      Save P
                     </button>
                   </div>
                 </form>
