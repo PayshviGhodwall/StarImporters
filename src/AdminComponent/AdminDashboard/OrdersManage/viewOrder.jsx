@@ -959,13 +959,13 @@ const ViewOrder = () => {
                                   <td className="border rounded">
                                     {item?.scanned === "NotScanned" ? (
                                       <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                        Pending
+                                        Not Scanned
                                       </span>
                                     ) : (
                                       <div>
                                         {item?.scanned === "PartlyScanned" && (
                                           <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                            Partially Scanned
+                                            Under Scanned
                                           </span>
                                         )}
                                          {item?.scanned === "OutOfStock" && (
@@ -975,13 +975,14 @@ const ViewOrder = () => {
                                         )}
                                         {item?.scanned === "OverlyScanned" && (
                                           <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                            Overly Scanned
+                                            Over Scanned
                                           </span>
                                         )}
                                         {item?.scanned === "FullyScanned" && (
                                           <span className="fs-5  p-2 px-3 rounded">
                                             <img
-                                              src={require("../../../assets/img/Group 427322975.png")}></img>
+                                            className="mx-2"
+                                              src={require("../../../assets/img/Group 427322975.png")}></img> Complete Order
                                           </span>
                                         )}
                                       </div>
