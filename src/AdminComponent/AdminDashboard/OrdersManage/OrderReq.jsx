@@ -108,7 +108,7 @@ const OrderReq = () => {
   const [impFile, setImpFile] = useState([]);
   const [loader2, setLoader2] = useState(false);
   const [searchType, setSearchType] = useState("companyName");
-
+  const [importedItems, setImportedItems] = useState([]);
   const [formValues, setFormValues] = useState([
     {
       productName: [],
@@ -267,12 +267,14 @@ const OrderReq = () => {
     console.log(data);
     if (data?.results?.orders?.length) {
       Swal.fire({
-        title: data?.message,
+        title: "Product Imported!",
         icon: "success",
         confirmButtonText: "okay",
+        timer:"1000"
       });
+      setImportedItems(data?.results?.orders);
       setLoader2(false);
-      window.location.reload(false);
+      document.getElementById("modal-closeImport").click();
     } else if (data?.results?.unknownBarcodes?.length) {
       Swal.fire({
         title: "Invalid Barcodes or Invalid Data found!",
@@ -354,6 +356,7 @@ const OrderReq = () => {
         }
       });
   };
+
   const GetProducts = async (id) => {
     await axios.get(getProducts + "/" + id).then((res) => {
       let data = res?.data.results;
@@ -367,6 +370,7 @@ const OrderReq = () => {
     newFormValues[index].productName = selected;
     setFormValues(newFormValues);
   };
+
   const handleInputChange = (inputValue) => {
     setSearchKey(inputValue);
   };
@@ -435,13 +439,22 @@ const OrderReq = () => {
         flavour: item?.flavour?.length && JSON.parse(item?.flavour),
       };
     });
+    const dataArrayImported = importedItems?.map(function (item) {
+      return {
+        productId: item?._id,
+        quantity: item?.quantity,
+        flavour: item?.type,
+      };
+    }); 
+    
     if (selectedUser?.id) {
       await axios
         .post(createOrder, {
           userId: selectedUser?.id,
           type: addType,
-          products: dataArray,
+          products: importedItems?.length > 0 ? dataArrayImported : dataArray,
           address: selectedUser.address,
+          source: importedItems?.length > 0 ? "ERP" : "WEBSITE",
         })
         .then((res) => {
           if (!res.error) {
@@ -1109,14 +1122,6 @@ const OrderReq = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row category_management justify-content-center">
             <div className="col-12 text-end mb-4 d-flex">
-              <a
-                className="comman_btn2 text-decoration-none mx-1"
-                data-bs-toggle="modal"
-                id="modal-toggle66"
-                data-bs-target="#staticBackdropImport"
-                style={{ cursor: "pointer" }}>
-                Import Order
-              </a>
               {addForm ? (
                 <div>
                   <a
@@ -1249,93 +1254,147 @@ const OrderReq = () => {
                   </div>
 
                   <div className="form-group col-12 mt-2 p-1">
-                    <form className=" ">
-                      <div className="row flavour_box align-items-end mx-0 py-3 px-4">
-                        {(formValues || [])?.map((item, index) => (
-                          <div className="form-group mb-0 col-12 border rounded p-3 mb-2">
-                            <div className="row" key={index}>
-                              <div className="form-group col-4">
-                                <label htmlFor="">Select Product</label>
-                                <Select
-                                  name="users"
-                                  options={options}
-                                  value={item?.productName || ""}
-                                  className="basic-multi-select z-3"
-                                  classNamePrefix="select"
-                                  onChange={(value) =>
-                                    handleChange2(value, index)
-                                  }
-                                  onInputChange={handleInputChange}
-                                  isClearable
-                                  required
-                                  placeholder="Type any keyword to Search Product"
-                                />
-                              </div>
-                              <div className="form-group col-4">
-                                <label htmlFor="">Select Flavour</label>
-                                <select
-                                  type="text"
-                                  className="form-select"
-                                  name="productName"
-                                  value={item?.flavour || ""}
-                                  onChange={(value) =>
-                                    handleChangeFlavour(value, index)
-                                  }
-                                  required>
-                                  <option selected="" value="">
-                                    Select Any Flavour
-                                  </option>
+                    <div className="col-12 d-flex justify-content-between ">
+                      <a
+                        className="comman_btn2 text-decoration-none mx-1 mb-3"
+                        data-bs-toggle="modal"
+                        id="modal-toggle66"
+                        data-bs-target="#staticBackdropImport"
+                        style={{ cursor: "pointer" }}>
+                        Import Products
+                      </a>
 
-                                  {product[
-                                    formValues[index]?.productName?.value
-                                  ]?.type?.map((item, ind) => (
-                                    <option
-                                      value={JSON.stringify(item)}
-                                      key={ind}>
-                                      {item?.flavour}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div className="form-group mb-0 col-3 ">
-                                <label htmlFor="">Add Quanitity</label>
-                                <input
-                                  type="tel"
-                                  maxLength={3}
-                                  className="form-New-select border "
-                                  name="flavourPrice"
-                                  value={item?.Quantity || ""}
-                                  onChange={(e) =>
-                                    handleChangeQuantity(e, index)
-                                  }
-                                  required
-                                />
-                              </div>
+                      {importedItems?.length > 0 && (
+                        <a
+                          onClick={() => {
+                            setImportedItems([]);
+                          }}
+                          className=" text-end comman_btn bg-danger text-decoration-none mx-1 mb-3">
+                          cancel
+                        </a>
+                      )}
+                    </div>
 
-                              <div className="form-group col-1  rmv_btn">
-                                <button
-                                  className="comman_btn "
-                                  type="button"
-                                  disabled={
-                                    formValues?.length <= 1 ? true : false
-                                  }
-                                  onClick={() => removeFormFields(index)}>
-                                  <i className="fa fa-minus mt-1 mx-1" />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="form-group  col-12 text-center mb-3 mb-0">
-                          <button
-                            className="comman_btn add_btn"
-                            type="button"
-                            onClick={() => addFormFields()}>
-                            <i className="fa fa-plus mt-1 mx-1" /> Add More
-                          </button>
+                    {importedItems?.length > 0 ? (
+                      <div className="col-12 comman_table_design px-0">
+                        <div className="table-responsive">
+                          <table className="table mb-0">
+                            <thead>
+                              <tr
+                                style={{
+                                  backgroundColor: "#f2f2f2",
+                                }}>
+                                <th>Barcode</th>
+                                <th>Product Name</th>
+                                <th>Flavour</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {(importedItems || [])?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{item?.type?.barcode[0]}</td>
+
+                                  <td>
+                                    { item?.unitName}
+                                  </td>
+                                  <td>{item?.type?.flavour}</td>
+                                  <td>{item?.quantity}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
-                    </form>
+                    ) : (
+                      <form className=" ">
+                        <div className="row flavour_box align-items-end mx-0 py-3 px-4">
+                          {(formValues || [])?.map((item, index) => (
+                            <div className="form-group mb-0 col-12 border rounded p-3 mb-2">
+                              <div className="row" key={index}>
+                                <div className="form-group col-4">
+                                  <label htmlFor="">Select Product</label>
+                                  <Select
+                                    name="users"
+                                    options={options}
+                                    value={item?.productName || ""}
+                                    className="basic-multi-select z-3"
+                                    classNamePrefix="select"
+                                    onChange={(value) =>
+                                      handleChange2(value, index)
+                                    }
+                                    onInputChange={handleInputChange}
+                                    isClearable
+                                    required
+                                    placeholder="Type any keyword to Search Product"
+                                  />
+                                </div>
+                                <div className="form-group col-4">
+                                  <label htmlFor="">Select Flavour</label>
+                                  <select
+                                    type="text"
+                                    className="form-select"
+                                    name="productName"
+                                    value={item?.flavour || ""}
+                                    onChange={(value) =>
+                                      handleChangeFlavour(value, index)
+                                    }
+                                    required>
+                                    <option selected="" value="">
+                                      Select Any Flavour
+                                    </option>
+
+                                    {product[
+                                      formValues[index]?.productName?.value
+                                    ]?.type?.map((item, ind) => (
+                                      <option
+                                        value={JSON.stringify(item)}
+                                        key={ind}>
+                                        {item?.flavour}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div className="form-group mb-0 col-3 ">
+                                  <label htmlFor="">Add Quanitity</label>
+                                  <input
+                                    type="tel"
+                                    maxLength={3}
+                                    className="form-New-select border "
+                                    name="flavourPrice"
+                                    value={item?.Quantity || ""}
+                                    onChange={(e) =>
+                                      handleChangeQuantity(e, index)
+                                    }
+                                    required
+                                  />
+                                </div>
+
+                                <div className="form-group col-1  rmv_btn">
+                                  <button
+                                    className="comman_btn "
+                                    type="button"
+                                    disabled={
+                                      formValues?.length <= 1 ? true : false
+                                    }
+                                    onClick={() => removeFormFields(index)}>
+                                    <i className="fa fa-minus mt-1 mx-1" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                          <div className="form-group  col-12 text-center mb-3 mb-0">
+                            <button
+                              className="comman_btn add_btn"
+                              type="button"
+                              onClick={() => addFormFields()}>
+                              <i className="fa fa-plus mt-1 mx-1" /> Add More
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    )}
                   </div>
                   <div className="form-group mb-0 col-12 text-center ">
                     <button
@@ -2661,7 +2720,10 @@ const OrderReq = () => {
                 data-bs-dismiss="modal"
                 aria-label="Close"
                 onClick={() => {
-                  window.location.reload(false);
+                  setUx("");
+                  setImpFile();
+                  setLoader2(false);
+                  document.getElementById("reUpload").hidden = false;
                 }}
                 id="modal-closeImport"
               />
