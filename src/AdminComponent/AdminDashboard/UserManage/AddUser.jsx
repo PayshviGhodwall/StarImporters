@@ -25,7 +25,7 @@ const AddUser = () => {
 
   const handleCities = async (state) => {
     const { data } = await axios.post(cityApi, {
-      state: state,
+      state: state ? state : "Georgia",
     });
     if (!data.error) {
       setCities(data?.results?.states);
