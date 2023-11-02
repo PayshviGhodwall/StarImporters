@@ -56,7 +56,7 @@ const OrderReq = () => {
   const exportAllOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportAllOrders`;
   const exportAllQuotes = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/exportAllQuotes`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
-  const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/findUser`;
+  const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
   const searchOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/searchOrders`;
   const quoteOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/quotations/searchQuotes`;
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
@@ -270,7 +270,7 @@ const OrderReq = () => {
         title: "Product Imported!",
         icon: "success",
         confirmButtonText: "okay",
-        timer:"1000"
+        timer: "1000",
       });
       setImportedItems(data?.results?.orders);
       setLoader2(false);
@@ -445,7 +445,7 @@ const OrderReq = () => {
         quantity: item?.quantity,
         flavour: item?.type,
       };
-    }); 
+    });
 
     if (selectedUser?.id) {
       await axios
@@ -666,6 +666,8 @@ const OrderReq = () => {
             setUsersOptions(res?.data?.results?.users);
           }
         });
+    } else {
+      setUsersOptions([]);
     }
   };
 
@@ -1253,7 +1255,7 @@ const OrderReq = () => {
                     </select>
                   </div>
 
-                  <div className="form-group col-12 mt-2 p-1">
+                  <div className="form-group col-12 mt-2 p-1 ">
                     <div className="col-12 d-flex justify-content-between ">
                       <a
                         className="comman_btn2 text-decoration-none mx-1 mb-3"
@@ -1295,9 +1297,7 @@ const OrderReq = () => {
                                 <tr key={index}>
                                   <td>{item?.type?.barcode[0]}</td>
 
-                                  <td>
-                                    { item?.unitName}
-                                  </td>
+                                  <td>{item?.unitName}</td>
                                   <td>{item?.type?.flavour}</td>
                                   <td>{item?.quantity}</td>
                                 </tr>
@@ -1360,7 +1360,7 @@ const OrderReq = () => {
                                   <input
                                     type="tel"
                                     maxLength={3}
-                                    className="form-New-select border "
+                                    className="form-control-sub border "
                                     name="flavourPrice"
                                     value={item?.Quantity || ""}
                                     onChange={(e) =>
@@ -1657,6 +1657,7 @@ const OrderReq = () => {
                                           <th>Email</th>
                                           <th>Order ID</th>
                                           <th>Puller</th>
+                                          <th>Pull Status</th>
                                           <th>Order Details</th>
                                         </tr>
                                       </thead>
@@ -1700,6 +1701,7 @@ const OrderReq = () => {
                                                   {item?.puller?.fullName}
                                                 </td>
                                               )}
+                                              <td>{item?.pullStatus}</td>
                                               <td>
                                                 <button
                                                   className="comman_btn table_viewbtn"

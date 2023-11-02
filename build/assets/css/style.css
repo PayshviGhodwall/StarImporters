@@ -826,7 +826,8 @@
     font-size: 13px;
     padding: 0 20px;
     border-radius: 6px;
-    border: 2px grey !important;
+    border: 1px solid #000 !important;
+    z-index: 999;
   }
   .header_search {
     border-radius: 4px;
@@ -17934,14 +17935,14 @@ li {
   color: #000000 !important;
   line-height: 80% !important ;
 }
-.feat_main{
+.feat_main {
   height: 12rem !important;
 }
-.banner_slider_img{
+.banner_slider_img {
   max-height: 7rem !important;
 }
 .my_order_new {
-  padding:8px 0 80px !important;
+  padding: 8px 0 80px !important;
 }
 .dropList {
   /* border: grey solid 1px; */
@@ -17950,6 +17951,6 @@ li {
   cursor: pointer;
 }
 .dropList:hover {
-background-color: #000 !important;
-color: #fff !important;
+  background-color: #000 !important;
+  color: #fff !important;
 }

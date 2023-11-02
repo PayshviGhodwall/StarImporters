@@ -762,6 +762,16 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="col-md-4 my-3 d-flex align-items-stretch ">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Puller:</span>
+                            <div className="col">
+                              <strong>{orders?.puller?.fullName}</strong>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
 
@@ -836,10 +846,11 @@ const ViewOrder = () => {
                         </div>
                       </div>
                     )}
+                    
                     <div className="col-12 mb-5 mt-3">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                         <span className="small_header">
-                          Change Order Status
+                          Customer Notification Status
                         </span>
                         <div className="col-12 Change_staus">
                           <form
