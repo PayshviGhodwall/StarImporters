@@ -60,12 +60,19 @@ const ViewOrder = () => {
     exportOrder();
   }, []);
 
-  const OrderDetails = async () => {
-    await axios.get(orderView + "/" + id).then((res) => {
-      setOrders(res?.data.results);
-    });
+  const OrderDetails = async (status, sort) => {
+    await axios
+      .post(orderView + "/" + id, {
+        sortBy: sort,
+        overUnderScanned: status === "overUnderScanned" ? true : false,
+        outOfStock: status === "outOfStock" ? true : false,
+        scanned: status === "scanned" ? true : false,
+      })
+      .then((res) => {
+        setOrders(res?.data.results);
+      });
   };
-
+  
   const UpdateOrderStatus = async (e) => {
     e.preventDefault();
     await axios
@@ -771,7 +778,6 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
 
@@ -846,7 +852,7 @@ const ViewOrder = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     <div className="col-12 mb-5 mt-3">
                       <div className="row mx-0 border rounded pt-4 p-3 position-relative">
                         <span className="small_header">
@@ -913,14 +919,67 @@ const ViewOrder = () => {
                             <thead>
                               <tr>
                                 <th>
-                                  Items{" "}
-                                  <a
-                                    className="filter_table"
-                                    href="javscript:;"
-                                  />
+                                  Items{" - "}
+                                  <div class="dropdowns">
+                                    <button class="dropdown-btns comman_btn2 ">
+                                      Sort{" "}
+                                      <i class="fa-solid fa-caret-down"></i>
+                                    </button>
+                                    <div class="dropdown-contents DropBg">
+                                      <a
+                                        className="text-decoration-none text-dark "
+                                        onClick={() => OrderDetails("", 1)}>
+                                        A to Z
+                                      </a>
+                                      <a
+                                        onClick={() => OrderDetails("", -1)}
+                                        className="text-decoration-none text-dark ">
+                                        Z to A
+                                      </a>
+                                    </div>
+                                  </div>
                                 </th>
                                 <th>Quantity</th>
-                                <th>Pull Status</th>
+                                <th>
+                                  Pull Status{" - "}
+                                  <div class="dropdowns">
+                                    <button class="dropdown-btns comman_btn2 ">
+                                      Sort{" "}
+                                      <i class="fa-solid fa-caret-down"></i>
+                                    </button>
+                                    <div class="dropdown-contents DropBg">
+                                      <a
+                                        className="text-decoration-none text-dark "
+                                        onClick={() =>
+                                          OrderDetails("", 1)
+                                        }>
+                                        All
+                                      </a>
+                                      <a
+                                        className="text-decoration-none text-dark "
+                                        onClick={() =>
+                                          OrderDetails("scanned", 1)
+                                        }>
+                                        Scanned
+                                      </a>
+                                      <a
+                                        onClick={() =>
+                                          OrderDetails("overUnderScanned", 1)
+                                        }
+                                        className="text-decoration-none text-dark ">
+                                        Over/Under Scanned
+                                      </a>
+
+                                      <a
+                                        onClick={() =>
+                                          OrderDetails("outOfStock", 1)
+                                        }
+                                        className="text-decoration-none text-dark ">
+                                        Out of Stock
+                                      </a>
+                                    </div>
+                                  </div>
+                                </th>
                                 <th>Pull Quantity</th>
                               </tr>
                             </thead>
@@ -979,9 +1038,9 @@ const ViewOrder = () => {
                                             Under Scanned
                                           </span>
                                         )}
-                                         {item?.scanned === "OutOfStock" && (
+                                        {item?.scanned === "OutOfStock" && (
                                           <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                          Out of Stock
+                                            Out of Stock
                                           </span>
                                         )}
                                         {item?.scanned === "OverlyScanned" && (
@@ -992,8 +1051,9 @@ const ViewOrder = () => {
                                         {item?.scanned === "FullyScanned" && (
                                           <span className="fs-5  p-2 px-3 rounded">
                                             <img
-                                            className="mx-2"
-                                              src={require("../../../assets/img/Group 427322975.png")}></img> Complete Order
+                                              className="mx-2"
+                                              src={require("../../../assets/img/Group 427322975.png")}></img>{" "}
+                                            Complete Order
                                           </span>
                                         )}
                                       </div>

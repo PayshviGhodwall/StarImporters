@@ -17954,3 +17954,16 @@ li {
   background-color: #000 !important;
   color: #fff !important;
 }
+
+.DropBg{
+  background-color: #3e4093;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 4px;
+  position:relative;
+}
+.DropBg a{
+color: #fff;
+position: relative;
+left:0;
+}
