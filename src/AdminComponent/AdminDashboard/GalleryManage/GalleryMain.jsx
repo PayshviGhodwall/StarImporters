@@ -374,7 +374,7 @@ const GalleryMain = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className=""
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -553,9 +553,10 @@ const GalleryMain = () => {
                     Sub-Admin Management
                   </Link>
                 </li>
+                
                 <li>
                   <Link
-                    className=" "
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

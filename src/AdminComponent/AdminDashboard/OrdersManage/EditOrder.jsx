@@ -40,7 +40,7 @@ const EditOrder = () => {
   }, [searchKey]);
 
   const OrderDetails = async () => {
-    await axios.get(orderView + "/" + id).then((res) => {
+    await axios.post(orderView + "/" + id).then((res) => {
       setOrders(res?.data.results);
     });
   };
@@ -279,7 +279,7 @@ const EditOrder = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className=" "
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -460,7 +460,7 @@ const EditOrder = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

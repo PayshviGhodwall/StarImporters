@@ -128,6 +128,8 @@ import EditSubAccount from "./AdminComponent/AdminDashboard/UserManage/EditSubAc
 import ViewStore from "./buyerComponent/MyAccount/ViewStore";
 import AppSubAcc from "./pwaComponents/homeComponent/appSubAcc";
 import AppViewSub from "./pwaComponents/homeComponent/appViewSubAcc";
+import MonthlyDeals from "./buyerComponent/AllProducts/MonthlyDeals";
+import AppMonthlyList from "./pwaComponents/homeComponent/appMonthlyList";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -192,8 +194,11 @@ function App() {
             {/* <Route path="/user/viewDocs" element={<ViewDocs />} /> */}
             <Route
               path="/AllProducts/Product/:id"
-              element={<SingleProduct />}
-            />
+              element={width < 999 ? <AppProductDetail /> : <SingleProduct />}
+            /> 
+
+
+
             {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
             <Route path="/Cart" element={<Cart />} />
             <Route path="/MyQuotes" element={<MyQuotes />} />
@@ -248,7 +253,10 @@ function App() {
               element={<ViewPuller />}
             />
             <Route path="/Inventory/View" element={<ViewProduct />} />
-            <Route path="/Inventory/View-Edit" element={<EditInventory />} />
+            <Route
+              path="/Inventory/View-Edit/:id"
+              element={<EditInventory />}
+            />
             <Route path="/BrandsManage" element={<BrandsManage />} />
             <Route path="/Gallery-Management" element={<GalleryMain />} />
             <Route path="/Cms" element={<Cms />} />
@@ -467,6 +475,10 @@ function App() {
               element={<AppCloseOutList />}
             />
             <Route
+              path="/app/product-list/Monthly"
+              element={<AppMonthlyList />}
+            />
+            <Route
               path="/app/events/catelog&flyer/All-Catalogs"
               element={<AllCatalogues />}
             />
@@ -484,6 +496,7 @@ function App() {
             />
             <Route path="/app/HotSelling-products" element={<HotSelling />} />
             <Route path="/app/CloseOut-products" element={<CloseOut />} />
+            <Route path="/app/monthly-products" element={<MonthlyDeals />} />
             <Route
               path="/app/checkout"
               element={width < 999 ? <AppCheckout /> : <Checkout />}

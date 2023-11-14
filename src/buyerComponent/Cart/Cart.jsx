@@ -48,7 +48,6 @@ const Cart = () => {
     getCart();
   }, []);
 
-  console.log(isActive, "jkhkjhk");
   const RemoveProduct = async (index) => {
     await axios
       .post(productRemove, {
@@ -78,6 +77,7 @@ const Cart = () => {
     }
   };
 
+  
   const HandleDecrease = async (id) => {
     setLoad(true);
     const formData = {
@@ -238,7 +238,7 @@ const Cart = () => {
                                                 <img
                                                   onClick={() =>
                                                     navigate(
-                                                      `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                      `/AllProducts/Product/${item?.productId?.slug}`,
                                                       {
                                                         state: {
                                                           type: item?.flavour,
@@ -270,7 +270,7 @@ const Cart = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                        `/AllProducts/Product/${item?.productId?.slug}`,
                                                         {
                                                           state: {
                                                             type: item?.flavour,
@@ -295,7 +295,7 @@ const Cart = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/:${item?.productId?.slug}`
+                                                        `/AllProducts/Product/${item?.productId?.slug}`
                                                       )
                                                     }>
                                                     {" "}
@@ -393,7 +393,7 @@ const Cart = () => {
                                                   style={{ opacity: "20%" }}
                                                   onClick={() =>
                                                     navigate(
-                                                      `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                      `/AllProducts/Product/${item?.productId?.slug}`,
                                                       {
                                                         state: {
                                                           type: item?.flavour,
@@ -424,7 +424,7 @@ const Cart = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/:${item?.productId?.slug}`,
+                                                        `/AllProducts/Product/${item?.productId?.slug}`,
                                                         {
                                                           state: {
                                                             type: item?.flavour,
@@ -449,7 +449,7 @@ const Cart = () => {
                                                     className="text-decoration-none text-dark"
                                                     onClick={() =>
                                                       navigate(
-                                                        `/AllProducts/Product/:${item?.productId?.slug}`
+                                                        `/AllProducts/Product/${item?.productId?.slug}`
                                                       )
                                                     }>
                                                     {" "}

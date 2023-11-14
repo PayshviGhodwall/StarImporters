@@ -336,7 +336,7 @@ const SubAdmin = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className=""
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -518,7 +518,7 @@ const SubAdmin = () => {
 
                 <li>
                   <Link
-                    className=" "
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

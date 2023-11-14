@@ -93,7 +93,7 @@ const CloseOut = () => {
             confirmButtonText: "View",
           }).then((res) => {
             console.log(res);
-            navigate(`/AllProducts/Product/:${slug}`);
+            navigate(`/AllProducts/Product/${slug}`);
           });
         }
       })
@@ -165,46 +165,6 @@ const CloseOut = () => {
             <div className="row">
               <div className="col singleproduct_divvision mx-0">
                 <div className="product_single_right row p-3">
-                  {/* {products?.length ? (
-                    <div className="col-12 py-2 rounded Paginate ">
-                      <div class="col-6 mb-2 ps-lg-3">
-                        <div class="singleproducttop---left ps-lg-2">
-                          Total Pages: <span>{maxPage}</span>
-                        </div>
-                      </div>
-                      <div class="col-6 mb-2 text-end">
-                        <div class="singleproduct---paginationss">
-                          <a
-                            onClick={() => {
-                              // window.scrollTo({ top: 0, behavior: "smooth" });
-                              activePage <= 1
-                                ? setActivePage(1)
-                                : setActivePage(activePage - 1);
-                            }}>
-                            <img
-                              src={require("../../assets/img/arrow.png")}
-                              alt=""
-                            />{" "}
-                            Previous
-                          </a>
-                          <span>{activePage}</span>
-                          <a
-                            onClick={() => {
-                              // window.scrollTo({ top: 0, behavior: "smooth" });
-                              activePage === maxPage
-                                ? setActivePage(maxPage)
-                                : setActivePage(activePage + 1);
-                            }}>
-                            Next{" "}
-                            <img
-                              src={require("../../assets/img/arrow.png")}
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null} */}
                   <div class="col-12">
                     <div class="row singleproduct---show">
                       {(products || [{}])?.map((item, index) => (
@@ -217,7 +177,7 @@ const CloseOut = () => {
                                 className="image mt-4"
                                 onClick={() => {
                                   navigate(
-                                    `/AllProducts/Product/:${item?.productId?.slug}`,
+                                    `/AllProducts/Product/${item?.productId?.slug}`,
                                     {
                                       state: {
                                         type: item?.productId?.type,
@@ -279,7 +239,7 @@ const CloseOut = () => {
                                     data-tip="Quick View"
                                     onClick={() => {
                                       navigate(
-                                        `/AllProducts/Product/:${item?.productId?.slug}`,
+                                        `/AllProducts/Product/${item?.productId?.slug}`,
                                         {
                                           state: {
                                             type: item?.productId?.type,
@@ -297,7 +257,7 @@ const CloseOut = () => {
                                 className="add-to-cart text-decoration-none"
                                 onClick={() => {
                                   navigate(
-                                    `/AllProducts/Product/:${item?.productId?.slug}`,
+                                    `/AllProducts/Product/${item?.productId?.slug}`,
                                     {
                                       state: {
                                         type: item?.productId?.type,
@@ -305,10 +265,18 @@ const CloseOut = () => {
                                     }
                                   );
                                 }}>
-                                <strong className="fs-6">
-                                  {item?.productId?.type?.flavour}
-                                  ..
-                                </strong>
+                                <small className="fs-6">
+                                  {item?.productId?.type?.flavour}{" "}
+                                </small>
+                                <p
+                                  style={{
+                                    fontSize: "12px",
+                                  }}
+                                  className="text-dark">
+                                  {item?.price
+                                    ? "Offer Price - $" + item.price
+                                    : ""}
+                                </p>
                               </a>
                               <h3 className="title ">
                                 <a className="text-decoration-none">

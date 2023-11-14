@@ -431,7 +431,7 @@ const UserManage = () => {
                       User?.access?.includes("Puller") ? "" : "d-none"
                     }>
                     <Link
-                      className=""
+                      className="d-none ata" 
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
@@ -707,7 +707,7 @@ const UserManage = () => {
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }>
                     <Link
-                      className=" "
+                      className="d-none at"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",

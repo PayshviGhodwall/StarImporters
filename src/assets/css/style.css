@@ -6176,7 +6176,7 @@ background-color: #3e4093;
       font-family: "Poppins", sans-serif !important;
       color: #747794 !important;
       overflow-x: hidden;
-      background-color: #e9eeff !important;
+      background-color: #fff !important;
       scrollbar-width: thin;
       padding-right: 0 !important;
       letter-spacing: -0.2px;
@@ -6239,7 +6239,7 @@ background-color: #3e4093;
     font-family: "Poppins", sans-serif !important;
     color: #747794 !important;
     overflow-x: hidden;
-    background-color: #e9eeff !important;
+    background-color: #fff !important;
     scrollbar-width: thin;
     padding-right: 0 !important;
     letter-spacing: -0.5px;
@@ -7096,10 +7096,7 @@ background-color: #3e4093;
   .preview-footer-area .footer-logo img {
     max-height: 50px;
   }
-  .page-content-wrapper {
-    margin-top: 60px;
-    margin-bottom: 80px;
-  }
+
   .pwa-install-alert {
     position: fixed;
     z-index: 999;
@@ -17182,7 +17179,7 @@ figure.effect-ming:hover img {
   height: 40px;
   background-color: red;
   position: absolute;
-  top: 14px !important;
+  top: -2.8rem !important;
   left: -14px;
   border-color: red;
   border-radius: 20px;
@@ -17259,14 +17256,23 @@ figure.effect-ming:hover img {
 
 .item-content {
   padding: 10px;
+  position: relative;
+  top: 22px;
+   opacity: 85% !important;
+   height: 5.5rem !important;
+   background-color: #3e4093;
+   border-radius: 0px 0 14px 14px;
 }
 
 .item-content h3 {
-  font-size: 20px;
+  position: relative;
+  top: 8px;
+  font-size: 16px;
+  color: #fff !important;
 }
 
 .item-content p {
-  font-size: 15px;
+  font-size: 12px !important;
   font-weight: 500;
 }
 
@@ -17279,9 +17285,11 @@ figure.effect-ming:hover img {
 .mb-45 {
   margin-bottom: 45px;
 }
+
 .main_hot:hover .product-action {
   opacity: 1;
 }
+
 .product-action {
   bottom: 0px;
   left: 0;
@@ -17363,7 +17371,7 @@ figure.effect-ming:hover img {
   opacity: 0;
 }
 .product-grid .product-image .pic-2 {
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   opacity: 0;
   position: absolute;
@@ -17371,6 +17379,14 @@ figure.effect-ming:hover img {
   left: 0;
   transition: 0.3s;
 }
+
+.product-grid .product-image img {
+  width: 80% !important;
+  height: auto;
+  max-height: 13.6rem;
+  min-height: 13.5rem !important;
+}
+
 .product-grid:hover .product-image .pic-2 {
   opacity: 1;
   transform: scale(1.2);

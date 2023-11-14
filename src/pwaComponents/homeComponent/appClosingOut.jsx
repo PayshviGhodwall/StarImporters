@@ -57,8 +57,16 @@ function AppClosingOut() {
         const { data } = await addToCart(formData);
         if (!data.error) {
           navigate("/app/cart");
-        }
-        if (data?.message === "Flavour is not available!") {
+        } else if (data?.message === "Flavour is not available!") {
+          Swal.fire({
+            title: "Please Select a Flavour!",
+            text: "Click view to all flavours.",
+            icon: "warning",
+            confirmButtonText: "Okay",
+          }).then((res) => {
+            navigate(`/app/product-detail/${slug}`, { state: "hii" });
+          });
+        } else if (data?.message === "Please provide flavour!") {
           Swal.fire({
             title: "Please Select a Flavour!",
             text: "Click view to all flavours.",
@@ -68,9 +76,6 @@ function AppClosingOut() {
             navigate(`/app/product-detail/${slug}`, { state: "hii" });
           });
         }
-        // if (data?.error) {
-        //   navigate("/app/login");
-        // }
       } else {
         Swal.fire({
           title: "Your Tobacco licence is Expired/Invalid!",
@@ -98,6 +103,15 @@ function AppClosingOut() {
         }).then((res) => {
           navigate(`/app/product-detail/${slug}`, { state: "hii" });
         });
+      } else if (data?.message === "Please provide flavour!") {
+        Swal.fire({
+          title: "Please Select a Flavour!",
+          text: "Click view to all flavours.",
+          icon: "warning",
+          confirmButtonText: "Okay",
+        }).then((res) => {
+          navigate(`/app/product-detail/${slug}`, { state: "hii" });
+        });
       }
       // if (data?.error) {
       //   navigate("/app/login");
@@ -105,38 +119,38 @@ function AppClosingOut() {
     }
   };
 
-  const addToFav = async (index, itm) => {
-    await axios
-      .post(addFav, {
-        productId: itm?.productId?._id,
-        flavour: itm?.productId?.type,
-      })
-      .catch((err) => {
-        // toast.success(res?.data?.message);
-        if (err) {
-          Swal.fire({
-            title: "Please Login To Continue",
-            icon: "error",
-            button: "ok",
-          });
-        }
-      });
-    getProductList();
-    setHeart(!heart);
-  };
-  const rmvFromFav = async (index, itm) => {
-    await axios
-      .post(rmvFav, {
-        productId: itm?.productId?._id,
-        flavour: itm?.productId?.type,
-      })
-      .then((res) => {
-        if (!res.error) {
-          setHeart(!heart);
-        }
-      });
-    getProductList();
-  };
+  // const addToFav = async (index, itm) => {
+  //   await axios
+  //     .post(addFav, {
+  //       productId: itm?.productId?._id,
+  //       flavour: itm?.productId?.type,
+  //     })
+  //     .catch((err) => {
+  //       // toast.success(res?.data?.message);
+  //       if (err) {
+  //         Swal.fire({
+  //           title: "Please Login To Continue",
+  //           icon: "error",
+  //           button: "ok",
+  //         });
+  //       }
+  //     });
+  //   getProductList();
+  //   setHeart(!heart);
+  // };
+  // const rmvFromFav = async (index, itm) => {
+  //   await axios
+  //     .post(rmvFav, {
+  //       productId: itm?.productId?._id,
+  //       flavour: itm?.productId?.type,
+  //     })
+  //     .then((res) => {
+  //       if (!res.error) {
+  //         setHeart(!heart);
+  //       }
+  //     });
+  //   getProductList();
+  // };
   return (
     <>
       <div className="top-products-area pb-3 ">
@@ -152,7 +166,7 @@ function AppClosingOut() {
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: true,
-                reverseDirection: true,
+                reverseDirection: false,
                 waitForTransition: true,
               }}
               loop={true}
@@ -162,61 +176,64 @@ function AppClosingOut() {
                 <SwiperSlide key={index} className="">
                   <div class="hotMain">
                     <div class="w-100">
-                      <div
-                        class="card-body-hot"
-                        style={{
-                          backgroundImage: `url(${
-                            item?.productId?.type?.flavourImage
-                              ? item?.productId?.type?.flavourImage
-                              : item?.productId?.productImage ||
-                                require("../../assets/img/product.jpg")
-                          })`,
-                          backgroundPosition: "center",
-                          opacity: "unset",
-                          backgroundSize: "cover",
-                        }}>
+                      <div class="col-auto">
+                        <Link
+                          class="cart_bttn2 text-decoration-none"
+                          to=""
+                          onClick={() =>
+                            addToCartt(
+                              item?.productId?._id,
+                              index,
+                              item,
+                              item?.productId?.slug
+                            )
+                          }>
+                          <i class="fa-light fa-plus "></i>
+                        </Link>
+                      </div>
+                      <div className=" d-flex justify-content-center">
+                        <div
+                          class="card-body-hot p-2 text-center"
+                          style={{
+                            backgroundImage: `url(${
+                              item?.productId?.type?.flavourImage
+                                ? item?.productId?.type?.flavourImage
+                                : item?.productId?.productImage ||
+                                  require("../../assets/img/product.jpg")
+                            })`,
+                            backgroundPosition: "center",
+                            opacity: "unset",
+                            backgroundSize: "cover",
+                            width: "8rem",
+                            maxHeight: "8.4rem",
+                            position: "relative",
+                            top: "-6px",
+                          }}></div>
+                      </div>
+
+                      <div class="row  product-title_new ">
                         <div class="col-auto">
                           <Link
-                            class="cart_bttn2 text-decoration-none"
-                            to=""
-                            onClick={() =>
-                              addToCartt(
-                                item?.productId?._id,
-                                index,
-                                item,
-                                item?.productId?.slug
-                              )
-                            }>
-                            <i class="fa-light fa-plus "></i>
-                          </Link>
-                        </div>
-
-                        <div class="row  product-title_new">
-                          <div class="col-auto">
-                            <Link
-                              class="name text-white"
-                              to={`/app/product-detail/${item?.productId?.slug}`}
-                              state={{ type: item?.productId?.type }}>
-                              {item?.productId?.unitName?.slice(0, 10)}
-                              <span>
-                                {item?.productId?.type
-                                  ? item?.productId?.type?.flavour?.slice(0, 8)
-                                  : ""}
-                              </span>
-                              ..
-                            </Link>
+                            class="name d-flex"
+                            to={`/app/product-detail/${item?.productId?.slug}`}
+                            state={{ type: item?.productId?.type }}>
+                            {item?.productId?.unitName?.slice(0, 28)}..{" "}
                             {item?.price ? (
-                              <p className="mb-0 price-size">
-                                {" "}
-                                {item?.price ? "Price-" : ""}
-                                <span className=" mx-1 text-danger fw-bold mb-0">
+                              <p className="mb-0 price-size text-start">
+                                <span className="  text-danger fw-bold mb-0">
                                   {item?.price ? "$" + item.price : ""}
                                 </span>
                               </p>
                             ) : (
                               ""
                             )}
-                          </div>
+                            {/* <span>
+                              {item?.productId?.type
+                                ? item?.productId?.type?.flavour?.slice(0, 8)
+                                : ""}
+                            </span>
+                            .. */}
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -228,7 +245,8 @@ function AppClosingOut() {
           <div className="text-center">
             <Link
               className="btn p-0 text-white  mt-2"
-              to="/app/product-list/Close-Out">
+              to="/app/product-list/Close-Out"
+              state={{ ki: "kjh" }}>
               View All<i className="ms-1 fa-solid fa-arrow-right-long"></i>
             </Link>
           </div>
