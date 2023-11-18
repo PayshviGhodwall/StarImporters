@@ -130,6 +130,8 @@ import AppSubAcc from "./pwaComponents/homeComponent/appSubAcc";
 import AppViewSub from "./pwaComponents/homeComponent/appViewSubAcc";
 import MonthlyDeals from "./buyerComponent/AllProducts/MonthlyDeals";
 import AppMonthlyList from "./pwaComponents/homeComponent/appMonthlyList";
+import AppCatalogFlyer from "./pwaComponents/homeComponent/appCatalog&flyer";
+import WebView from "./pwaComponents/homeComponent/WebView";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -195,9 +197,7 @@ function App() {
             <Route
               path="/AllProducts/Product/:id"
               element={width < 999 ? <AppProductDetail /> : <SingleProduct />}
-            /> 
-
-
+            />
 
             {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
             <Route path="/Cart" element={<Cart />} />
@@ -275,7 +275,10 @@ function App() {
               element={<ViewQuoteReq />}
             />
             <Route path="/OrderRequest" element={<OrderReq />} />
-            <Route path="/app/Gallery" element={<Gallery />} />
+            <Route
+              path="/app/Gallery"
+              element={width < 999 ? <AppHome /> : <Gallery />}
+            />
             <Route path="/app/Gallery/Photos/:id" element={<Photos />} />
             <Route path="/app/events/catelog&flyer" element={<Catelogues />} />
             <Route path="/Dashboard/UserDetails" element={<UserDetails />} />
@@ -290,6 +293,10 @@ function App() {
             <Route
               path="/"
               element={width < 999 ? <AppHome /> : <Homepage />}
+            />
+            <Route
+              path="/app/webView"
+              element={width < 999 ? <WebView /> : <Homepage />}
             />
             <Route
               path="/app/downloads"
@@ -414,6 +421,10 @@ function App() {
             <Route
               path="/app/brands"
               element={width < 999 ? <AppBrands /> : <AllBrands />}
+            />
+            <Route
+              path="/app/catalog&flyer"
+              element={width < 999 ? <AppCatalogFlyer /> : <AllCatalogues />}
             />
             <Route
               path="/app/Categories"
