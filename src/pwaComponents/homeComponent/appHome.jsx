@@ -171,6 +171,10 @@ function AppHome() {
     }
   };
 
+  const redirectToWeb = async (url) => {
+    await window.flutter_inappwebview.callHandler("External_Page",url);
+  };
+
   const microphoneSearch = async () => {
     setSearch("");
     if (window.flutter_inappwebview) {
@@ -302,7 +306,6 @@ function AppHome() {
                 <div>
                   <div className="hero-wrapper bg-white">
                     <div className="container">
-                      
                       <div className="pt-1 px-0 mb-1">
                         <Carousel
                           showThumbs={false}
@@ -321,10 +324,8 @@ function AppHome() {
                                 className=" item slider_image"
                                 onClick={() => {
                                   item?.isExternalURL
-                                    ? navigate("/app/webView", {
-                                        state: item?.url,
-                                      })
-                                    : navigate("/"+item?.url?.slice(26));
+                                    ? redirectToWeb(item?.url)
+                                    : navigate("/" + item?.url?.slice(26));
                                 }}>
                                 <img
                                   className="banner_slider_img"
