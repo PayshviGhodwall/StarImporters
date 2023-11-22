@@ -172,7 +172,7 @@ function AppHome() {
   };
 
   const redirectToWeb = async (url) => {
-    await window.flutter_inappwebview.callHandler("External_Page",url);
+    await window.flutter_inappwebview.callHandler("External_Page", url);
   };
 
   const microphoneSearch = async () => {
@@ -197,8 +197,20 @@ function AppHome() {
   const handleRefresh = () => {
     setTimeout(() => {
       window.location.reload(false);
+      getBanner();
+      getCategoryList();
+      getTopProductList();
+      getBrandList();
+      setData([{ page: 1, sortBy: 1 }]);
+      setData2([{ page: 1, sortBy: 1 }]);
+      setData3([{ page: 1, sortBy: 1 }]);
+      setData4([{ page: 1, sortBy: 1 }]);
+      setTimeout(() => {
+        setLoading(false);
+      }, [1000]);
     }, [500]);
   };
+
   return (
     <>
       <PullToRefresh
@@ -318,7 +330,7 @@ function AppHome() {
                           // selectedItem={itemNo}
                         >
                           {banner
-                            ?.filter((itm, id) => id != 0)
+                            ?.filter((itm, id) => id != 0 && id < 6)
                             .map((item) => (
                               <div
                                 className=" item slider_image"
