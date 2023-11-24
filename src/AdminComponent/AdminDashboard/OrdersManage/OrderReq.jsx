@@ -2701,7 +2701,7 @@ const OrderReq = () => {
                   <label htmlFor="">Select Puller</label>
                   <Select
                     options={pullerOptions}
-                    closeMenuOnSelect={false}
+                    closeMenuOnSelect={true}
                     hideSelectedOptions={false}
                     components={{
                       Option,
