@@ -878,6 +878,7 @@ const ViewOrder = () => {
                                   Order Placed
                                 </option>
                                 <option value="PROCESSING">Processing</option>
+                                <option value="Picked-Up">Picked-Up</option>
                                 <option value="DELIVERED">Delivered</option>
                                 <option value="SHIPPED">Shipped</option>
                                 <option value="CANCEL">Canceled</option>
