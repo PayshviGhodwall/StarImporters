@@ -2511,33 +2511,13 @@ const OrderReq = () => {
                                 action="">
                                 <div className=" d-flex col-12">
                                   <div className="form-group mb-0 position-relative icons_set d-flex justify-content-between">
-                                    {/* <a
-                                      className="fs-3 mt-2"
-                                      aria-expanded="false">
-                                      {sort === 1 ? (
-                                        <i
-                                          class="fa-solid fa-arrow-down-a-z"
-                                          onClick={() => {
-                                            sortCities(2);
-                                          }}></i>
-                                      ) : (
-                                        <i
-                                          class="fa-solid fa-arrow-up-z-a"
-                                          onClick={() => {
-                                            sortCities(1);
-                                          }}></i>
-                                      )}
-                                    </a> */}
-                                    {/* <input
-                                      type="search"
-                                      className="form-control bg-white mx-2"
-                                      placeholder="Search by City"
-                                      name="name"
-                                      id="name"
-                                      onChange={(e) => {
-                                        CitySearch(e.target.value);
-                                      }}
-                                    /> */}
+                                    <a
+                                      data-bs-toggle="modal"
+                                      id="modal-toggle"
+                                      data-bs-target="#staticBackdrop38"
+                                      className="comman_btn">
+                                      Add City
+                                    </a>
                                   </div>
                                 </div>
                               </form>
@@ -2568,6 +2548,7 @@ const OrderReq = () => {
           </div>
         </div>
       </div>
+
       <div
         className="modal fade comman_modal"
         id="staticBackdropView1"
@@ -2733,6 +2714,121 @@ const OrderReq = () => {
                             <option value="Georgia" selected="Georgia">
                               Georgia
                             </option>
+                          </select>
+
+                          <label
+                            htmlFor="floatingSelect6"
+                            className="mx-2 fw-bolder">
+                            State/Province
+                          </label>
+                        </div>
+
+                        <div className="form-floating col-12 mb-4 select_dropdown ">
+                          <select
+                            className="form-select border border-secondary signup_fields fw-bolder"
+                            id="floatingSelect1"
+                            aria-label="Floating label select example"
+                            name="city"
+                            disabled
+                            {...register("city", {
+                              onChange: (e) => {
+                                setSelectedCity(e.target.value);
+                              },
+                            })}>
+                            <option value={selectedCity?._id}>
+                              {selectedCity?.city}
+                            </option>
+                          </select>
+
+                          <label
+                            htmlFor="floatingSelect6"
+                            className="mx-2 fw-bolder">
+                            City
+                          </label>
+                        </div>
+
+                        <div className="form-floating col-12 mb-4 select_dropdown ">
+                          <label htmlFor="" className="mx-2 fw-bolder">
+                            Day
+                          </label>
+                          <ReactSelect
+                            options={DaysOption}
+                            isMulti
+                            closeMenuOnSelect={false}
+                            hideSelectedOptions={false}
+                            components={{
+                              Option,
+                            }}
+                            onChange={handleChangeEdit}
+                            allowSelectAll={true}
+                            value={selectEditOptions?.optionSelected}
+                          />
+                          {console.log(selectEditOptions)}
+                        </div>
+                        <div>
+                          <button className="comman_btn2 " type="submit">
+                            Save
+                          </button>
+                          <button
+                            className="comman_btn2 d-none"
+                            type="reset"
+                            id="resetBtn">
+                            Reset
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal comman_modal_form forms_modal"
+        id="staticBackdrop38"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0 rounded-0  rounded-top">
+            <div className="modal-body">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                id="modalClose38"
+                onClick={() => {
+                  document.getElementById("resetBtn").click();
+                }}
+              />
+
+              <div>
+                <div className="container">
+                  <div className="row justify-content-center p-2">
+                    <div className="col-11 text-center mt-2">
+                      <form onSubmit={handleSubmit(onSubmitDays)}>
+                        <div className="form-floating col-12 mb-4 select_dropdown ">
+                          <select
+                            className="form-select border border-secondary signup_fields fw-bolder"
+                            id="floatingSelect1"
+                            aria-label="Floating label select example"
+                            name="state"
+                            disabled
+                            {...register("state", {
+                              onChange: (e) => {
+                                getCities(e.target.value);
+                              },
+                            })}>
+                            <option value="Georgia" selected="Georgia">
+                              Georgia
+                            </option>
+                            
                           </select>
 
                           <label

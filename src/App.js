@@ -132,6 +132,9 @@ import MonthlyDeals from "./buyerComponent/AllProducts/MonthlyDeals";
 import AppMonthlyList from "./pwaComponents/homeComponent/appMonthlyList";
 import AppCatalogFlyer from "./pwaComponents/homeComponent/appCatalog&flyer";
 import WebView from "./pwaComponents/homeComponent/WebView";
+import StarCate from "./AdminComponent/StarCate";
+import CreateCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateCatalog";
+import PreviewCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewCate";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -159,6 +162,7 @@ function App() {
               path="/MyAccount"
               element={<MyAccount newData={GetData} apiData={apiData} />}
             />
+            <Route path="/StarCatalog" element={<StarCate />} />
             <Route path="/Register/ReSubmit" element={<SignUpAgain />} />
             <Route path="/RequestOrder" element={<RequestOrders />} />
             <Route path="/OrderDetails" element={<OrderDetails />} />
@@ -250,7 +254,15 @@ function App() {
             <Route path="/Inventory" element={<Inventory />} />
             <Route path="/Puller-Management" element={<PullerManagement />} />
             <Route path="/Catelog-Flyers" element={<AdminCateFlyers />} />
+            <Route
+              path="/Catelog-Flyers/Create-New"
+              element={<CreateCatalog />}
+            />
 
+            <Route
+              path="/Catelog-Flyers/Preview-Catalog"
+              element={<PreviewCate />}
+            />
             <Route
               path="/Puller-Management/Puller-details/:id"
               element={<ViewPuller />}

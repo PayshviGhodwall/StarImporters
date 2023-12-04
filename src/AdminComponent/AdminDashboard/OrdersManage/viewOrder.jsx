@@ -60,7 +60,7 @@ const ViewOrder = () => {
     exportOrder();
   }, []);
 
-  const OrderDetails = async (status, sort) => {
+  const OrderDetails = async (status, sort, scanType) => {
     setKeySort(status);
     await axios
       .post(orderView + "/" + id, {
@@ -68,6 +68,7 @@ const ViewOrder = () => {
         overUnderScanned: status === "overUnderScanned" ? true : false,
         outOfStock: status === "outOfStock" ? true : false,
         scanned: status === "scanned" ? true : false,
+        scanType: scanType,
       })
       .then((res) => {
         setOrders(res?.data.results);
@@ -921,9 +922,34 @@ const ViewOrder = () => {
                             <thead>
                               <tr>
                                 <th>
+                                  {" "}
+                                  <div class="dropdowns">
+                                    <button class="dropdown-btns sort_btn ">
+                                      Scanned by{" "}
+                                      <i class="fa-solid fa-caret-down"></i>
+                                    </button>
+                                    <div class="dropdown-contents DropBg">
+                                      <a
+                                        className="text-decoration-none text-dark "
+                                        onClick={() =>
+                                          OrderDetails("", 1, "qr")
+                                        }>
+                                        Qr Scanned
+                                      </a>
+                                      <a
+                                        onClick={() =>
+                                          OrderDetails("", -1, "manual")
+                                        }
+                                        className="text-decoration-none text-dark ">
+                                        Manually Scanned
+                                      </a>
+                                    </div>
+                                  </div>
+                                </th>
+                                <th>
                                   Items{" - "}
                                   <div class="dropdowns">
-                                    <button class="dropdown-btns comman_btn2 ">
+                                    <button class="dropdown-btns sort_btn ">
                                       Sort{" "}
                                       <i class="fa-solid fa-caret-down"></i>
                                     </button>
@@ -945,8 +971,16 @@ const ViewOrder = () => {
                                 <th>
                                   Pull Status{" - "}
                                   <div class="dropdowns">
-                                    <button class="dropdown-btns comman_btn2 ">
-                                      {keySort ? keySort : "Sort"}
+                                    <button class="dropdown-btns sort_btn ">
+                                      {keySort
+                                        ? (keySort === "scanned" &&
+                                            "Scanned") ||
+                                          (keySort === "overUnderScanned" &&
+                                            "Over/Under Scanned") ||
+                                          (keySort === "outOfStock" &&
+                                            "Out of Stock") ||
+                                          (keySort === "" && "All")
+                                        : "Sort"}
                                       <i class="fa-solid fa-caret-down mx-2"></i>
                                     </button>
                                     <div class="dropdown-contents DropBg">
@@ -985,7 +1019,11 @@ const ViewOrder = () => {
                             </thead>
                             {orders?.products?.length < 1 ? (
                               <tbody className="border">
-                                <tr className="border">
+                                <tr
+                                  className="border"
+                                  style={{
+                                    width: "20rem",
+                                  }}>
                                   <td>
                                     No Results -{" "}
                                     <button
@@ -1014,6 +1052,15 @@ const ViewOrder = () => {
                                 {(orders?.products || [])?.map(
                                   (item, index) => (
                                     <tr className="border">
+                                      <td className="border rounded">
+                                        <span className="fs-5 bg-light p-2 px-3 rounded">
+                                          {item?.isDirectScanned ? (
+                                            <i class="fa-solid fa-file-pen"></i>
+                                          ) : (
+                                            <i class="fa-solid fa-qrcode"></i>
+                                          )}
+                                        </span>
+                                      </td>
                                       <td>
                                         <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
                                           <div className="col-auto">
@@ -1058,31 +1105,31 @@ const ViewOrder = () => {
                                       </td>
                                       <td className="border rounded">
                                         {item?.scanned === "NotScanned" ? (
-                                          <span className="fs-5 text-secondary  p-2 px-3 rounded bg-secondary text-white">
+                                          <span className="text-secondary  p-2 px-3 rounded bg-secondary text-white">
                                             Not Scanned
                                           </span>
                                         ) : (
                                           <div>
                                             {item?.scanned ===
                                               "PartlyScanned" && (
-                                              <span className="fs-5 text-secondary  p-2 px-3 rounded bg-warning text-white">
+                                              <span className=" text-secondary  p-2 px-3 rounded bg-warning text-white">
                                                 Under Scanned
                                               </span>
                                             )}
                                             {item?.scanned === "OutOfStock" && (
-                                              <span className="fs-5 text-secondary  p-2 px-3 rounded bg-danger text-white">
+                                              <span className=" text-secondary  p-2 px-3 rounded bg-danger text-white">
                                                 Out of Stock
                                               </span>
                                             )}
                                             {item?.scanned ===
                                               "OverlyScanned" && (
-                                              <span className="fs-5 text-secondary  p-2 px-3 rounded bg-primary text-white">
+                                              <span className=" text-secondary  p-2 px-3 rounded bg-primary text-white">
                                                 Over Scanned
                                               </span>
                                             )}
                                             {item?.scanned ===
                                               "FullyScanned" && (
-                                              <span className="fs-5  p-2 px-3 rounded bg-success text-white text-nowrap">
+                                              <span className="  p-2 px-3 rounded bg-success text-white text-nowrap">
                                                 <img
                                                   className="mx-2"
                                                   src={require("../../../assets/img/Group 427322975.png")}></img>{" "}
