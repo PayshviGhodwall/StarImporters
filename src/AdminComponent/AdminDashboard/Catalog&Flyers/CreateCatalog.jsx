@@ -15,6 +15,7 @@ import Select from "react-select";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 import "swiper/css";
+import Temp1 from "./Temp1";
 
 const CreateCatalog = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
@@ -1735,7 +1736,9 @@ const CreateCatalog = () => {
             </div>
 
             <div className="modal-body shadow">
-              <div></div>
+              <div>
+                <Temp1 />
+              </div>
             </div>
           </div>
         </div>

@@ -17,8 +17,16 @@ const PreviewCate = () => {
   const back = document.getElementById("back");
   const next = document.getElementById("next");
   const [flipKey, setFlipKey] = useState(Math.random());
+  const [zoom, setZoom] = useState(1); // Initial zoom level
 
-  console.log(width);
+  const handleZoomIn = () => {
+    setZoom((prevZoom) => prevZoom * 1.4); // Increase zoom level by 20%
+  };
+
+  const handleZoomOut = () => {
+    setZoom((prevZoom) => (prevZoom > 0.2 ? prevZoom * 0.8 : prevZoom)); // Decrease zoom level by 20%, with a minimum of 20%
+  };
+  console.log(zoom);
   return (
     <div>
       <div className="star_catalog bg-white" key={flipKey}>
@@ -28,6 +36,12 @@ const PreviewCate = () => {
               <div className="star_logo">
                 <img src={logo} alt="" />
               </div>
+              <button onClick={() => handleZoomIn()}>
+                <i class="icon-zoom-in"></i>{" "}
+              </button>
+              <button onClick={() => handleZoomOut()}>
+                <i class="icon-zoom-in"></i>{" "}
+              </button>
             </div>
             <div className="col">
               <div className="star_catalog_menus">
@@ -124,79 +138,82 @@ const PreviewCate = () => {
             className="arrow_btn previous_btn">
             <img src={leftLine} alt="" />
           </a>
-
-          <HTMLFlipBook
-            mobileScrollSupport={true}
-            autoSize={true}
-            width={width < 450 ? 200 : 400}
-            height={width < 450 ? 260 : 520}>
-            <div className="pages">
-              {" "}
-              {/* <img
+          <div
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: "center",
+            }}>
+            <HTMLFlipBook
+              mobileScrollSupport={true}
+              autoSize={true}
+              width={width < 450 ? 200 : 400}
+              height={width < 450 ? 260 : 520}>
+              <div className="pages">
+                {" "}
+                {/* <img
                 className="bg_img"
                 src={require("../../../assets/img/ZPage_1.jpg")}
                 alt=""
               /> */}
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-            <div className="pages">
-              {" "}
-              <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              />
-            </div>
-
-            
-          </HTMLFlipBook>
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+              <div className="pages">
+                {" "}
+                <img
+                  className="bg_img"
+                  src={require("../../../assets/img/ZPage_1.jpg")}
+                  alt=""
+                />
+              </div>
+            </HTMLFlipBook>
+          </div>
 
           {/* <div className="book">
             <div id="pages" className="pages">
@@ -510,7 +527,13 @@ const PreviewCate = () => {
             </div>
           </div> */}
 
-          <a id="next" className="arrow_btn next_btn">
+          <a
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: "top left",
+            }}
+            id="next"
+            className="arrow_btn next_btn">
             <img src={rightLine} alt="" />
           </a>
         </div>

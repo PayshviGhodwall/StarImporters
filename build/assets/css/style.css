@@ -2290,7 +2290,7 @@
     overflow-y: scroll;
     max-height: 35rem;
   }
-  
+
   .cart_table tr th {
     border: 0;
     font-weight: 500;
@@ -18028,13 +18028,12 @@ li {
   left: 0;
 }
 
-.Template_img{
-  height: 16rem; 
+.Template_img {
+  height: 16rem;
   background-color: #000;
   border-radius: 0;
   max-width: 14rem;
 }
-
 
 .star_logo img {
   max-width: 120px;
@@ -18042,7 +18041,7 @@ li {
 .star_header {
   padding: 8px 12px;
 }
- 
+
 .catalog_page_main {
   width: 80%;
   margin: 0 auto;
@@ -18069,7 +18068,8 @@ li {
   justify-content: center;
   margin: 0 19px;
 }
-.meeenus img , .icons_btns img  {
+.meeenus img,
+.icons_btns img {
   max-width: 24px;
 }
 .meeenus {
@@ -18078,7 +18078,7 @@ li {
 }
 .catalog_pagination a img {
   max-width: 28px;
-} 
+}
 .arrow_btn {
   display: flex;
   align-items: center;
@@ -18091,7 +18091,7 @@ li {
   left: 0;
   transform: translateY(-50%);
 }
-.next_btn{
+.next_btn {
   right: 0;
   left: auto;
 }
@@ -18101,7 +18101,6 @@ li {
   position: relative;
   height: calc(100vh - 71px);
   padding: 15px 0;
-  
 }
 .book .pages {
   width: 75%;
@@ -18126,10 +18125,10 @@ li {
   transform-style: preserve-3d;
   cursor: pointer;
   user-select: none;
-  background-color: #f0f0f0; 
-  overflow: hidden; 
+  background-color: #f0f0f0;
+  overflow: hidden;
 }
-.first_page { 
+.first_page {
   position: relative;
   height: 100%;
 }
@@ -18138,7 +18137,7 @@ li {
   font-weight: 800;
 }
 .book .page:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -18153,7 +18152,11 @@ li {
   transform: rotateY(0deg);
   right: 0;
   border-radius: 0px 10px 10px 0px;
-  background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0) 10%
+  );
 }
 .book .page:nth-child(odd):hover {
   transform: rotateY(-15deg);
@@ -18172,7 +18175,11 @@ li {
   left: 0;
   border-radius: 10px 0 0 10px;
   border-color: black;
-  background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
+  background-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0) 10%
+  );
 }
 .book .page:nth-child(even):before {
   background: rgba(0, 0, 0, 0.2);
@@ -18218,9 +18225,9 @@ li {
   z-index: 9;
   overflow-y: auto;
 }
-.comman_inner_bg::-webkit-scrollbar{
+.comman_inner_bg::-webkit-scrollbar {
   display: none;
-} 
+}
 .comman_head h2 {
   font-size: 16px;
   font-weight: 700;
@@ -18259,7 +18266,7 @@ li {
   line-height: 15px;
   margin-bottom: 0;
 }
-.product_main .product_box:nth-child(5n + 0){
+.product_main .product_box:nth-child(5n + 0) {
   margin-right: 0;
 }
 .first_page .bg_img {
@@ -18308,67 +18315,80 @@ li {
   top: 10px;
 }
 
-
-@media (max-width:1199px) {
+@media (max-width: 1199px) {
   .product_main .product_box:nth-child(5n + 0) {
-      margin-right: 17px;
+    margin-right: 17px;
   }
   .product_box {
-      width: 20%;
+    width: 20%;
   }
   .show_details {
-      font-size: 12px;
+    font-size: 12px;
   }
   .bottom_line {
-      font-size: 12px;
-      font-weight: 800;
+    font-size: 12px;
+    font-weight: 800;
   }
 }
 
-@media (max-width:1023px) {
+@media (max-width: 1023px) {
   .book .pages {
     width: 85%;
   }
   .product_box {
-      width: 29%;
-      margin-right: 12px !important;
+    width: 29%;
+    margin-right: 12px !important;
   }
   .comman_head h2 {
     font-size: 13px;
   }
   .qr_img_end {
-      max-width: 21%;
+    max-width: 21%;
   }
   .catalog_pagination .form-group .form-control {
-     height: 36px;
-      width: 70px;
-      font-size: 14px;
+    height: 36px;
+    width: 70px;
+    font-size: 14px;
   }
-  .meeenus img, .icons_btns img {
-      max-width: 21px;
+  .meeenus img,
+  .icons_btns img {
+    max-width: 21px;
   }
   .meeenus {
-      display: inline-block;
-      margin: 0 4px;
+    display: inline-block;
+    margin: 0 4px;
   }
   .star_logo img {
-      max-width: 100px;
+    max-width: 100px;
   }
   .arrow_btn {
     height: 40px;
     width: 40px;
   }
   .arrow_btn img {
-      max-width: 26px;
+    max-width: 26px;
   }
 }
-
-
 
 .stf__parent {
   top: -3rem !important;
   max-width: 100% !important;
   height: 20rem !important;
   margin: 100px auto !important;
+}
+.preview_modal {
+  display: block;
+  overflow: hidden !important;
+  width: 100%;
+  /* Ensure it has a defined height or set it as needed */
+  height: 600px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
 
+.bg_img_prev {
+  width: 100%;
+  max-width: 100%;
+  height: auto; /* Allows the image to maintain its aspect ratio */
+  display: block;
 }

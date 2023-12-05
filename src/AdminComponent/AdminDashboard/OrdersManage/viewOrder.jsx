@@ -118,7 +118,11 @@ const ViewOrder = () => {
         let data = res?.data.results.pullers;
         const optionList = data?.map((item, index) => ({
           value: item?._id,
-          label: item?.fullName,
+          label: (
+            <div>
+              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
+            </div>
+          ),
         }));
         setOptions(optionList);
       }
@@ -612,6 +616,9 @@ const ViewOrder = () => {
                         <button
                           class="dropdown-btns comman_btn2 mx-1"
                           data-bs-toggle="modal"
+                          onClick={() => {
+                            createOptions();
+                          }}
                           data-bs-target="#staticBackdropAdmin">
                           Assign Puller <i class="fas fa-user-gear"></i>
                         </button>

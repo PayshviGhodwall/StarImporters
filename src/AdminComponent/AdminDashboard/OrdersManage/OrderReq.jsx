@@ -650,7 +650,11 @@ const OrderReq = () => {
         let data = res?.data.results.pullers;
         const optionList = data?.map((item, index) => ({
           value: item?._id,
-          label: item?.fullName,
+          label: (
+            <div>
+              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
+            </div>
+          ),
         }));
         setPullerOptions(optionList);
       }
@@ -659,7 +663,7 @@ const OrderReq = () => {
 
   const handleInputChangePull = (inputValue) => {
     console.log("lkjkl");
-    setSearchKey(inputValue);
+    setSearchKeyPull(inputValue);
   };
   const handleChange = (selected) => {
     setSelectedPuller({
@@ -1746,6 +1750,7 @@ const OrderReq = () => {
                                                     data-bs-toggle="modal"
                                                     onClick={() => {
                                                       setPullOrderId(item?._id);
+                                                      createOptionsPull();
                                                     }}
                                                     data-bs-target="#staticBackdropAdmin">
                                                     Assign Puller
@@ -2828,7 +2833,6 @@ const OrderReq = () => {
                             <option value="Georgia" selected="Georgia">
                               Georgia
                             </option>
-                            
                           </select>
 
                           <label
