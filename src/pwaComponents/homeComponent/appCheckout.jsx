@@ -118,10 +118,10 @@ function AppCheckout() {
             navigate("/app/thankyou");
           }
         });
-    } else if (delevryChoice == "USP") {
+    } else if (delevryChoice == "UPS") {
       await axios
         .post(newOrder, {
-          type: "USP",
+          type: "UPS",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
           orderedBy: userType?.type,
@@ -472,15 +472,15 @@ function AppCheckout() {
                           </li>
                           <li>
                             <input
-                              id="USP"
+                              id="UPS"
                               type="radio"
                               name="selector"
                               onClick={() => {
-                                setDelevryChoice("USP");
+                                setDelevryChoice("UPS");
                               }}
                             />
-                            <label for="USP">
-                              <strong>USP</strong>
+                            <label for="UPS">
+                              <strong>UPS</strong>
                             </label>
                             <div class="check"></div>
                           </li>
@@ -519,15 +519,15 @@ function AppCheckout() {
                           </li>
                           <li>
                             <input
-                              id="USP"
+                              id="UPS"
                               type="radioo"
                               name="selector"
                               onClick={() => {
                                 setDelevryChoice("Shipment");
                               }}
                             />
-                            <label for="USP">
-                            USP
+                            <label for="UPS">
+                            UPS
                             </label>
                             <div class="check"></div>
                           </li>

@@ -165,10 +165,10 @@ const Checkout = () => {
             });
           }
         });
-    } else if (delevryChoice == "USP") {
+    } else if (delevryChoice == "UPS") {
       await axios
         .post(newOrder, {
-          type: "USP",
+          type: "UPS",
           address: users?.addressLine1 + users?.addressLine2,
           comments: comments,
           orderedBy: userType?.type,

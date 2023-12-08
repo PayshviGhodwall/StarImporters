@@ -1295,7 +1295,7 @@ const OrderReq = () => {
                       <option value="Shipment">Shipment</option>
                       <option value="Delivery">Delivery</option>
                       <option value="In-Store Pickup">In-Store Pickup</option>
-                      <option value="USP">USP</option>
+                      <option value="UPS">UPS</option>
                     </select>
                   </div>
 
