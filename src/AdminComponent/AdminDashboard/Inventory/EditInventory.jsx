@@ -27,7 +27,6 @@ const OptionSelect = (props) => {
   );
 };
 const EditInventory = () => {
-  const [files, setFiles] = useState([]);
   const [seo, setSeo] = useState([]);
   const [productImage, setProductImage] = useState();
   const [allProducts, setAllProducts] = useState([]);
@@ -128,7 +127,7 @@ const EditInventory = () => {
       setProductBarcode(res?.data.results?.pBarcode);
       SubCategoryDrop(data[0]?.category?._id);
       setSeo(data[0]?.SEOKeywords);
-      console.log(data[0]?.restrictedStates);
+
       const optionList = data[0]?.restrictedStates?.map((item, index) => ({
         value: item,
         label: item,
@@ -137,7 +136,6 @@ const EditInventory = () => {
     });
   };
 
-  console.log(seo);
   const NewSubCategory = async (e) => {
     let categoryId = e.target.value;
     await axios
@@ -192,7 +190,6 @@ const EditInventory = () => {
     setChange(!change);
   };
 
-  console.log(restrictedState);
   const onSubmit = async (data) => {
     await axios
       .post(EditProduct + "/" + id, {
@@ -241,6 +238,7 @@ const EditInventory = () => {
         setNchnge(Nchnge);
       });
   };
+
   function handleKeyDownSeo(e) {
     // If user did not press enter key, return
     if (e.key !== "Tab") return;
@@ -373,28 +371,6 @@ const EditInventory = () => {
       .then((res) => {
         GetProducts();
       });
-  };
-
-  const deleteFlavour = async (id, fId) => {
-    const { data } = await axios.post(removeFlavour + "/" + id, {
-      flavourId: fId,
-    });
-    if (data.errors) {
-      Swal.fire({
-        title: data.message,
-        text: "error",
-        timer: 1000,
-      });
-    }
-    if (!data.errors) {
-      GetProducts();
-      Swal.fire({
-        title: "Flavour Removed Successfully!",
-        text: "",
-        icon: "success",
-        timer: 2000,
-      });
-    }
   };
 
   const handleClick = () => {
@@ -979,51 +955,27 @@ const EditInventory = () => {
                     </div>
 
                     <div className="form-group col-12">
-                      {restrictedState?.length > 0 ? (
-                        <label htmlFor="" className="d-flex">
-                          Allowed States For Selling (*Remove to Restrict Any
-                          State.){" -"}
-                          <span className="d-flex mx-2">
-                            <input
-                              className="form-check-input border border-secondary"
-                              type="checkbox"
-                              value={true}
-                              name="subscribe"
-                              id="flexCheckAddress"
-                              onClick={() => {
-                                setRestrictedState([]);
-                              }}
-                            />
-                            <label
-                              className="form-check-label fs-6 text-primary fw-bold mx-2"
-                              for="flexCheckDefault">
-                              Remove All
-                            </label>
-                          </span>
-                        </label>
-                      ) : (
-                        <label htmlFor="" className="d-flex">
-                          Allowed States For Selling (*Remove to Restrict Any
-                          State.){" -"}
-                          <span className="d-flex mx-2">
-                            <input
-                              className="form-check-input border border-secondary"
-                              type="checkbox"
-                              value={false}
-                              name="subscribe2"
-                              id="flexCheckAddress2"
-                              onClick={() => {
-                                setRestrictedState(options);
-                              }}
-                            />
-                            <label
-                              className="form-check-label fs-6 text-primary fw-bold mx-2"
-                              for="flexCheckAddress2">
-                              Select All
-                            </label>
-                          </span>
-                        </label>
-                      )}
+                      <label htmlFor="" className="d-flex">
+                        Select Restricted States {" -"}
+                        <span className="d-flex mx-2">
+                          <input
+                            className="form-check-input border border-secondary"
+                            type="checkbox"
+                            value={true}
+                            name="subscribe2"
+                            id="flexCheckAddress2"
+                            onChange={(e) => {
+                              let val = e.target.checked;
+                              setRestrictedState(val ? options : []);
+                            }}
+                          />
+                          <label
+                            className="form-check-label fs-6 text-primary fw-bold mx-2"
+                            for="flexCheckAddress2">
+                            Select All
+                          </label>
+                        </span>
+                      </label>
                       <ReactSelect
                         options={options}
                         isMulti

@@ -145,7 +145,6 @@ const Inventory = () => {
             label: item?.name,
           }));
           setOptions(optionList);
-          setRestrictedState(optionList);
         }
       });
   };
@@ -326,7 +325,7 @@ const Inventory = () => {
         brand: data?.brands,
         type: formValues,
         SEOKeywords: seo,
-        restrictedStates: restrictedState,
+        restrictedStates: restrictedState?.map((itm) => itm?.label),
       })
       .then((res) => {
         if (res?.data.error) {
@@ -1234,52 +1233,29 @@ const Inventory = () => {
                         />
                       </div>
                     </div>
+
                     <div className="form-group col-12">
-                      {restrictedState?.length > 0 ? (
-                        <label htmlFor="" className="d-flex">
-                          Allowed States For Selling (*Remove to Restrict Any
-                          State.){" -"}
-                          <span className="d-flex mx-2">
-                            <input
-                              className="form-check-input border border-secondary"
-                              type="checkbox"
-                              value={true}
-                              name="subscribe"
-                              id="flexCheckAddress"
-                              onClick={() => {
-                                setRestrictedState([]);
-                              }}
-                            />
-                            <label
-                              className="form-check-label fs-6 text-primary fw-bold mx-2"
-                              for="flexCheckDefault">
-                              Remove All
-                            </label>
-                          </span>
-                        </label>
-                      ) : (
-                        <label htmlFor="" className="d-flex">
-                          Allowed States For Selling (*Remove to Restrict Any
-                          State.){" -"}
-                          <span className="d-flex mx-2">
-                            <input
-                              className="form-check-input border border-secondary"
-                              type="checkbox"
-                              value={false}
-                              name="subscribe2"
-                              id="flexCheckAddress2"
-                              onClick={() => {
-                                createOptions();
-                              }}
-                            />
-                            <label
-                              className="form-check-label fs-6 text-primary fw-bold mx-2"
-                              for="flexCheckAddress2">
-                              Select All
-                            </label>
-                          </span>
-                        </label>
-                      )}
+                      <label htmlFor="" className="d-flex">
+                        Select Restricted States {" -"}
+                        <span className="d-flex mx-2">
+                          <input
+                            className="form-check-input border border-secondary"
+                            type="checkbox"
+                            value={true}
+                            name="subscribe2"
+                            id="flexCheckAddress2"
+                            onChange={(e) => {
+                              let val = e.target.checked;
+                              setRestrictedState(val ? options : []);
+                            }}
+                          />
+                          <label
+                            className="form-check-label fs-6 text-primary fw-bold mx-2"
+                            for="flexCheckAddress2">
+                            Select All
+                          </label>
+                        </span>
+                      </label>
                       <ReactSelect
                         options={options}
                         isMulti
