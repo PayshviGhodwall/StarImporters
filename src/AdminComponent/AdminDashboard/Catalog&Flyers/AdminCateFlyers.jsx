@@ -59,10 +59,6 @@ const AdminCateFlyers = () => {
     }
   };
 
-  // const onFileSelectionPdf = (e, key) => {
-  //   setPdf({ ...pdf, [key]: e.target.files[0] });
-  // };
-
   const AddCate = async (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -620,7 +616,7 @@ const AdminCateFlyers = () => {
                             <div className="row mx-0 ">
                               <div className="col-12 pt-2">
                                 <Link
-                                  className="text-decoration-none mt-2 pb-3 comman_btn"
+                                  className="text-decoration-none mt-2 pb-3 comman_btn "
                                   to={"/Catelog-Flyers/Create-New"}>
                                   Create Catalog
                                 </Link>

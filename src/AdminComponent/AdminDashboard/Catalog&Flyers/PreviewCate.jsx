@@ -5,19 +5,41 @@ import leftLine from "../../../assets/img/skip-left-line.svg";
 import bookmark from "../../../assets/img/bookmark-3-line.svg";
 import down from "../../../assets/img/file-download-line.svg";
 import full from "../../../assets/img/fullscreen-exit-line.svg";
-import page1 from "../../../assets/img/ZPage_1.jpg";
-import page2 from "../../../assets/img/ZPage_2.png";
-import page8 from "../../../assets/img/ZPage_8.jpg";
 import rightLine from "../../../assets/img/skip-right-line.svg";
 
 import HTMLFlipBook, { turnToNextPage } from "react-pageflip";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import { EffectCoverflow, Navigation, Pagination } from "swiper";
+// import required modules
+
+import "../../../assets/css/flip.css";
 const PreviewCate = () => {
+  const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const width = window.innerWidth;
-  const pages = document.getElementsByClassName("page");
-  const back = document.getElementById("back");
-  const next = document.getElementById("next");
   const [flipKey, setFlipKey] = useState(Math.random());
   const [zoom, setZoom] = useState(1); // Initial zoom level
+  let { id } = useParams();
+  const [templatePreview, setTemplatePreview] = useState([]);
+  axios.defaults.headers.common["x-auth-token-admin"] =
+    localStorage.getItem("AdminLogToken");
+
+  useEffect(() => {
+    GetTemplates();
+  }, []);
+
+  const GetTemplates = async () => {
+    await axios.get(getTemp + id).then((res) => {
+      let data = res?.data.results?.catalog?.pages;
+      setTemplatePreview(data);
+    });
+  };
 
   const handleZoomIn = () => {
     setZoom((prevZoom) => prevZoom * 1.4); // Increase zoom level by 20%
@@ -26,10 +48,40 @@ const PreviewCate = () => {
   const handleZoomOut = () => {
     setZoom((prevZoom) => (prevZoom > 0.2 ? prevZoom * 0.8 : prevZoom)); // Decrease zoom level by 20%, with a minimum of 20%
   };
-  console.log(zoom);
+
+  var pages = document.getElementsByClassName("page");
+  for (var i = 0; i < pages.length; i++) {
+    var page = pages[i];
+    if (i % 2 === 0) {
+      page.style.zIndex = pages.length - i;
+    }
+  }
+  console.log(pages);
+
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].pageNum = i + 1;
+      console.log(pages[i],"ll");
+      pages[i].onclick = function () {
+        if (this.pageNum % 2 === 0) {
+          console.log(this.pageNum,"okayN");
+          console.log("okay");
+          this.classList.remove("flipped");
+          this.previousElementSibling.classList.remove("flipped");
+        } else {
+          console.log("done");
+          this.classList.add("flipped");
+          this.nextElementSibling.classList.add("flipped");
+        }
+      };
+    }
+  });
+
+
   return (
     <div>
-      <div className="star_catalog bg-white" key={flipKey}>
+      <div className="star_catalog bg-white">
         <div className="star_header border-bottom">
           <div className="row align-items-center">
             <div className="col-lg-2 col-md-auto">
@@ -97,8 +149,7 @@ const PreviewCate = () => {
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
-                    title="Click this button to view this Next page"
-                    href="javascript:;">
+                    title="Click this button to view this Next page">
                     <img src={rightLine} alt="" />
                   </a>
                 </div>
@@ -129,402 +180,464 @@ const PreviewCate = () => {
             </div>
           </div>
         </div>
-        <div className="star_catalog_inner position-relative">
-          <a
-            // onClick={() => {
-            //   turnToNextPage();
-            // }}
-            id="back"
-            className="arrow_btn previous_btn">
-            <img src={leftLine} alt="" />
-          </a>
-          <div
-            style={{
-              transform: `scale(${zoom})`,
-              transformOrigin: "center",
-            }}>
-            <HTMLFlipBook
-              mobileScrollSupport={true}
-              autoSize={true}
-              width={width < 450 ? 200 : 400}
-              height={width < 450 ? 260 : 520}>
-              <div className="pages">
-                {" "}
-                {/* <img
-                className="bg_img"
-                src={require("../../../assets/img/ZPage_1.jpg")}
-                alt=""
-              /> */}
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-              <div className="pages">
-                {" "}
-                <img
-                  className="bg_img"
-                  src={require("../../../assets/img/ZPage_1.jpg")}
-                  alt=""
-                />
-              </div>
-            </HTMLFlipBook>
-          </div>
+        <div className="star_catalog bg-white">
+          <div className="star_catalog_inner position-relative">
+            <a className="arrow_btn previous_btn" href="javascript:;">
+              <img src="assets/img/skip-left-line.svg" alt="" />
+            </a>
+            <div className="book">
+              <div id="pages" className="pages">
+                {templatePreview?.map((item, index) => (
+                  <>
+                    {(item?.type === "Intro" && (
+                      <div className="page shadow" key={index}>
+                        <div className="first_page">
+                          <img
+                            className="bg_img"
+                            src={item?.backgroundImage}
+                            alt=""
+                          />
+                          <img
+                            className="qr_img"
+                            src="assets/img/qr_img.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    )) ||
+                      (item?.type === "ProductListing" && (
+                        <div className="page shadow" key={index}>
+                          <div
+                            className="comman_inner_bg"
+                            style={{
+                              backgroundImage: `url(${item?.backgroundImage})`,
+                            }}>
+                            <div className="comman_head">
+                              <h2>
+                                Star Impoters &amp; Wholesalers - 770.908.0404
+                              </h2>
+                            </div>
+                            <div className="product_main">
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                              <a href="javascript:;" className="product_box">
+                                <div className="product_img">
+                                  <img src="assets/img/product1.png" alt="" />
+                                </div>
+                                <h2>
+                                  Show Cone <br /> 15CT/2PK <br />
+                                  $8.49{" "}
+                                </h2>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </>
+                ))}
 
-          {/* <div className="book">
-            <div id="pages" className="pages">
-              <div className="page shadow  ">
-                <div className="first_page">
-                  <img
-                    className="bg_img"
-                    src={require("../../../assets/img/ZPage_1.jpg")}
-                    alt=""
-                  />
-                  <img className="qr_img" src="assets/img/qr_img.png" alt="" />
-                </div>
-              </div>
-              <div className="page shadow">
-                <div
-                  className="comman_inner_bg"
-                  style={{
-                    backgroundImage: "url(../../assets/img/ZPage_2.png)",
-                  }}>
-                  <div className="comman_head">
-                    <h2>Star Impoters &amp; Wholesalers - 770.908.0404</h2>
-                  </div>
-                  <div className="product_main">
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
+                {/* <div className="page shadow">
+                  <div
+                    className="comman_inner_bg"
+                    style={{ backgroundImage: "url(assets/img/ZPage_2.png)" }}>
+                    <div className="comman_head">
+                      <h2>Star Impoters &amp; Wholesalers - 770.908.0404</h2>
+                    </div>
+                    <div className="wholesale_main">
+                      <a href="javascript:;" className="wholesale_img">
+                        <img src="assets/img/wholesale.png" alt="" />
+                      </a>
+                      <a href="javascript:;" className="wholesale_img">
+                        <img src="assets/img/wholesale.png" alt="" />
+                      </a>
+                      <a href="javascript:;" className="wholesale_img">
+                        <img src="assets/img/wholesale.png" alt="" />
+                      </a>
+                      <div className="bottom_line text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                    <a href="javascript:;" className="product_box">
-                      <div className="product_img">
-                        <img src="assets/img/product1.png" alt="" />
-                      </div>
-                      <h2>
-                        Show Cone <br /> 15CT/2PK <br />
-                        $8.49{" "}
-                      </h2>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="page shadow">
-                <div
-                  className="comman_inner_bg"
-                  style={{ backgroundImage: "url(assets/img/ZPage_2.png)" }}>
-                  <div className="comman_head">
-                    <h2>Star Impoters &amp; Wholesalers - 770.908.0404</h2>
-                  </div>
-                  <div className="wholesale_main">
-                    <a href="javascript:;" className="wholesale_img">
-                      <img src="assets/img/wholesale.png" alt="" />
-                    </a>
-                    <a href="javascript:;" className="wholesale_img">
-                      <img src="assets/img/wholesale.png" alt="" />
-                    </a>
-                    <a href="javascript:;" className="wholesale_img">
-                      <img src="assets/img/wholesale.png" alt="" />
-                    </a>
-                    <div className="bottom_line text-center">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="page shadow">
-                <div
-                  className="comman_inner_bg"
-                  style={{ backgroundImage: "url(assets/img/ZPage_2.png)" }}>
-                  <div className="comman_head">
-                    <h2>Star Impoters &amp; Wholesalers - 770.908.0404</h2>
-                  </div>
-                  <div className="product_shooww">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="product_logo">
-                          <img src="assets/img/logoo.png" alt="" />
+                <div className="page shadow">
+                  <div
+                    className="comman_inner_bg"
+                    style={{ backgroundImage: "url(assets/img/ZPage_2.png)" }}>
+                    <div className="comman_head">
+                      <h2>Star Impoters &amp; Wholesalers - 770.908.0404</h2>
+                    </div>
+                    <div className="product_shooww">
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="product_logo">
+                            <img src="assets/img/logoo.png" alt="" />
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <div className="product_sm_img">
-                              <img src="assets/img/producttt.png" alt="" />
+                        <div className="col-md-6">
+                          <div className="row">
+                            <div className="col-md-6 mb-3">
+                              <div className="product_sm_img">
+                                <img src="assets/img/producttt.png" alt="" />
+                              </div>
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <div className="product_sm_img">
+                                <img src="assets/img/producttt.png" alt="" />
+                              </div>
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <div className="product_sm_img">
+                                <img src="assets/img/producttt.png" alt="" />
+                              </div>
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <div className="product_sm_img">
+                                <img src="assets/img/producttt.png" alt="" />
+                              </div>
+                            </div>
+                            <div className="col-12">
+                              <div className="show_details">
+                                Lil Leaf 10/3pk-3f$2.99 <br /> $17.99
+                              </div>
                             </div>
                           </div>
-                          <div className="col-md-6 mb-3">
-                            <div className="product_sm_img">
-                              <img src="assets/img/producttt.png" alt="" />
-                            </div>
-                          </div>
-                          <div className="col-md-6 mb-3">
-                            <div className="product_sm_img">
-                              <img src="assets/img/producttt.png" alt="" />
-                            </div>
-                          </div>
-                          <div className="col-md-6 mb-3">
-                            <div className="product_sm_img">
-                              <img src="assets/img/producttt.png" alt="" />
-                            </div>
-                          </div>
-                          <div className="col-12">
+                        </div>
+                        <div className="col-md-6">
+                          <div className="product_shooww_img text-center">
+                            <img src="assets/img/productbig.png" alt="" />
                             <div className="show_details">
                               Lil Leaf 10/3pk-3f$2.99 <br /> $17.99
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="product_shooww_img text-center">
-                          <img src="assets/img/productbig.png" alt="" />
-                          <div className="show_details">
-                            Lil Leaf 10/3pk-3f$2.99 <br /> $17.99
+                        <div className="col-12 mt-3">
+                          <div className="bottom_line text-center">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit.
                           </div>
-                        </div>
-                      </div>
-                      <div className="col-12 mt-3">
-                        <div className="bottom_line text-center">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit.
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="page shadow">
-                <div className="first_page">
-                  <img className="bg_img" src="assets/img/ZPage_8.jpg" alt="" />
-                  <img
-                    className="qr_img_end"
-                    src="assets/img/qr_img.png"
-                    alt=""
-                  />
+                <div className="page shadow">
+                  <div className="first_page">
+                    <img
+                      className="bg_img"
+                      src="assets/img/ZPage_8.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="qr_img_end"
+                      src="assets/img/qr_img.png"
+                      alt=""
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="page shadow">
-                <div className="first_page">
-                  <img className="bg_img" src="assets/img/ZPage_8.jpg" alt="" />
-                  <img
-                    className="qr_img_end"
-                    src="assets/img/qr_img.png"
-                    alt=""
-                  />
+                <div className="page shadow">
+                  <div className="first_page">
+                    <img
+                      className="bg_img"
+                      src="assets/img/ZPage_8.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="qr_img_end"
+                      src="assets/img/qr_img.png"
+                      alt=""
+                    />
+                  </div>
                 </div>
+                <div className="page shadow">
+                  <div className="first_page">
+                    <img
+                      className="bg_img"
+                      src="assets/img/ZPage_8.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="qr_img_end"
+                      src="assets/img/qr_img.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="page shadow">
+                  <div className="first_page">
+                    <img
+                      className="bg_img"
+                      src="assets/img/ZPage_8.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="qr_img_end"
+                      src="assets/img/qr_img.png"
+                      alt=""
+                    />
+                  </div>
+                </div> */}
               </div>
             </div>
+            <a className="arrow_btn next_btn" href="javascript:;">
+              <img src="assets/img/skip-right-line.svg" alt="" />
+            </a>
+          </div>
+        </div>
+
+        <div className="star_catalog_inner position-relative d-none">
+          <a id="back" className="arrow_btn previous_btn">
+            <img src={leftLine} alt="" />
+          </a>
+          <div>
+            <HTMLFlipBook
+              mobileScrollSupport={true}
+              autoSize={true}
+              size="fixed"
+              drawShadow={false}
+              width={width < 450 ? 200 : 400}
+              height={width < 450 ? 260 : 520}>
+              {templatePreview?.map((item, index) => (
+                <div>
+                  {(item?.type === "Intro" && (
+                    <div className=" border ">
+                      {" "}
+                      <img
+                        className="bg_img_prev"
+                        src={item?.backgroundImage}
+                        alt=""
+                      />
+                    </div>
+                  )) ||
+                    (item?.type === "ProductListing" && (
+                      <div className=" border ">
+                        {" "}
+                        <img
+                          className="bg_img_prev"
+                          src={item?.backgroundImage}
+                          alt=""
+                        />
+                      </div>
+                    ))}
+                </div>
+              ))}
+            </HTMLFlipBook>
+          </div>
+
+          {/* <div className="Swiper_box text-center d-none">
+            <Swiper
+              effect={"coverflow"}
+              grabCursor={false}
+              centeredSlides={true}
+              slidesPerView={"auto"}
+              coverflowEffect={{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+              }}
+              pagination={true}
+              navigation={{
+                nextEl: ".next_btn",
+                prevEl: ".previous_btn",
+                clickable: true,
+              }}
+              modules={[EffectCoverflow, Pagination, Navigation]}
+              className="mySwiper">
+              {templatePreview?.map((item, index) => (
+                <SwiperSlide>
+                  {(item?.type === "Intro" && (
+                    <div className=" border ">
+                      {" "}
+                      <img
+                        className="pageImg"
+                        src={item?.backgroundImage}
+                        alt=""
+                      />
+                    </div>
+                  )) ||
+                    (item?.type === "ProductListing" && (
+                      <div className=" border ">
+                        {" "}
+                        <img
+                          className="pageImg"
+                          src={item?.backgroundImage}
+                          alt=""
+                        />
+                      </div>
+                    ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div> */}
 
           <a

@@ -173,7 +173,6 @@ const GalleryMain = () => {
 
   const onFileSelection2 = (e, key) => {
     let image = [e.target.files];
-    console.log(image);
     let dataImg = [];
     (image || [])?.map((item) => {
       Object.values(item)?.map((img) => {
@@ -191,7 +190,6 @@ const GalleryMain = () => {
     setPdf({ ...pdf, [key]: e.target.files[0] });
   };
 
-  console.log(pdf?.pdf, "jjhj");
 
   const AddPdf = async (e) => {
     e.preventDefault();

@@ -258,9 +258,8 @@ function App() {
               path="/Catelog-Flyers/Create-New"
               element={<CreateCatalog />}
             />
-
             <Route
-              path="/Catelog-Flyers/Preview-Catalog"
+              path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}
             />
             <Route

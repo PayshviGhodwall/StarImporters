@@ -15,32 +15,238 @@ import Select from "react-select";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 import "swiper/css";
-import Temp1 from "./Temp1";
+import Intro1 from "./Intro1";
+import ListingPage from "./ListingPage";
+import BannerDisplay1 from "./BannerDisplay1";
+import ProductDetails1 from "./ProductDetails1";
+import Swal from "sweetalert2";
+import Compressor from "compressorjs";
 
 const CreateCatalog = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
+  const temp1 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createIntroPage`;
+  const temp2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/productListingPage`;
+  const temp3 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/bannerPage`;
+  const temp4 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/productDetailPage`;
+  const temp5 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/summaryPage`;
+  const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const [product, setProducts] = useState({});
   const [template, setTemplate] = useState(1);
+  const [files, setFiles] = useState();
+  const [titles, setTitles] = useState("");
+  const [footers, setFooters] = useState([]);
+  const [page, setPage] = useState();
+  const [options, setOptions] = useState([]);
+  const [flavours, setFlavours] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
+  const [sideBar, setSideBar] = useState(true);
+  let User = JSON.parse(localStorage.getItem("AdminData"));
+  const [loader, setLoader] = useState(false);
+  const [templatePreview, setTemplatePreview] = useState([]);
+  const navigate = useNavigate();
+  const [id, setId] = useState();
+  const [multipleFiles, setMultipleFiles] = useState([]);
   const [formValues, setFormValues] = useState([
     {
-      page: [],
+      page: 1,
       images: [],
       staticImages: [],
       Banners: [],
       Headers: [],
-      flavours: [],
+      flavours2: [],
     },
   ]);
-  const [options, setOptions] = useState([]);
-  const [flavours, setFlavours] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
+
+  useEffect(() => {
+    GetTemplates();
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  let handleChange = (i, e) => {
+    let newFormValues = [...formValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    setFormValues(newFormValues);
+  };
+
+  const AddPage = async (e, i, template) => {
+    e.preventDefault();
+    let page = i + 1;
+    // console.log(page, template);
+    if (template === 1) {
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("title", titles);
+      formData.append("bgImage", formValues[i]?.t1ImgBack);
+      formData.append("qrCode", formValues[i]?.t1ImgQr);
+      formData.append("pageTitle", formValues[i]?.t1Title);
+      const { data } = await axios.post(temp1, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+        setId(data?.results?.catalog?._id);
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
+    } else if (template === 2) {
+      let products = formValues[i]?.productName?.map((itm, id) => ({
+        productId: itm?.value,
+      }));
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("title", titles);
+      formData.append("bgImage", formValues[i]?.t2ImgBack);
+      formData.append("pageTitle", formValues[i]?.t2Title);
+      formData.append("footer", formValues[i]?.t2Footer);
+      formData.append("products", JSON.stringify(products));
+
+      const { data } = await axios.patch(temp2, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+        setId(data?.results?.catalog?._id);
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
+      console.log("kokofdfd");
+    } else if (template === 3) {
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("title", titles);
+      formData.append("bgImage", formValues[i]?.t3ImgBack);
+      multipleFiles?.dataImg?.map((item) => {
+        formData.append("banner", item?.t3ImgBanners);
+      });
+      formData.append("pageTitle", formValues[i]?.t3Title);
+      formData.append("footer", formValues[i]?.t3Footer);
+
+      const { data } = await axios.patch(temp3, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+        setId(data?.results?.catalog?._id);
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
+      console.log("kokofdfd");
+    } else if (template === 4) {
+      let products = formValues[i]?.productName2?.value;
+      let flavours = formValues[i]?.flavours2?.map((itm, id) => ({
+        flavourId: itm?.value,
+      }));
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("title", titles);
+      formData.append("bgImage", formValues[i]?.t2ImgBack);
+      formData.append("pageTitle", formValues[i]?.t2Title);
+      formData.append("footer", formValues[i]?.t2Footer);
+      formData.append("products", JSON.stringify(products));
+      formData.append("flavours", JSON.stringify(products));
+
+      const { data } = await axios.patch(temp4, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+        setId(data?.results?.catalog?._id);
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
+    } else if (template === 5) {
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("title", titles);
+      formData.append("bgImage", formValues[i]?.t3ImgBack);
+      multipleFiles?.dataImg?.map((item) => {
+        formData.append("banner", item?.t3ImgBanners);
+      });
+      formData.append("pageTitle", formValues[i]?.t3Title);
+      formData.append("footer", formValues[i]?.t3Footer);
+
+      const { data } = await axios.patch(temp3, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+        setId(data?.results?.catalog?._id);
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
+    } else if (template === 6) {
+      const { data } = await axios.post(temp1, {});
+      console.log("kokofdfd");
+    }
+  };
+
+  const onMultipleSelections = (e, key) => {
+    let image = [e.target.files];
+    let dataImg = [];
+
+    (image || [])?.map((item) => {
+      Object.values(item)?.map((img) => {
+        new Compressor(img, {
+          success: (compressed) => {
+            dataImg.push({ [key]: compressed });
+          },
+        });
+      });
+    });
+
+    setMultipleFiles({ dataImg });
+  };
+
+  const onFileSelectionImages = (e, key, index) => {
+    let newFormValues = [...formValues];
+    newFormValues[index][e.target.name] = e.target.files[0];
+    setFormValues(newFormValues);
+    // setFiles({ ...files, [key]: e.target.files[0] });
+  };
+
+  console.log(formValues, multipleFiles);
 
   const addFormFields = (e) => {
     setFormValues([
       ...formValues,
       {
-        page: [],
+        page: formValues?.page + 1,
         images: [],
         staticImages: [],
         Banners: [],
@@ -65,16 +271,16 @@ const CreateCatalog = () => {
           const optionList = data?.map((item, index) => ({
             value: item?._id,
             label: item?.unitName,
+            image: item?.productImage,
           }));
           setOptions(optionList);
         }
       });
   };
 
-  let handleChangeFlavour = (e, i) => {
-    let val = e.target.value;
+  let handleChangeFlavour = (selected, i) => {
     let newFormValues = [...formValues];
-    newFormValues[i].flavours = val;
+    newFormValues[i].flavours2 = selected;
     setFormValues(newFormValues);
   };
 
@@ -85,17 +291,35 @@ const CreateCatalog = () => {
       const optionList = data?.type.map((item, index) => ({
         value: item?._id,
         label: item?.flavour,
+        image: item?.flavourImage,
       }));
       console.log(optionList, "kkl");
       setFlavours(optionList);
     });
   };
 
-  console.log(formValues);
+  const GetTemplates = async (id) => {
+    await axios.get(getTemp + id).then((res) => {
+      let data = res?.data.results?.catalog;
+      setTemplatePreview(data);
+    });
+  };
+
   const handleChange2 = (selected, index) => {
     GetProducts(selected?.value);
     let newFormValues = [...formValues];
     newFormValues[index].productName = selected;
+    setFormValues(newFormValues);
+  };
+  const handleChange3 = (selected, index) => {
+    GetProducts(selected?.value);
+    let newFormValues = [...formValues];
+    newFormValues[index].productName2 = selected;
+    setFormValues(newFormValues);
+  };
+  const handleTemplate = (temp, index) => {
+    let newFormValues = [...formValues];
+    newFormValues[index].template = temp;
     setFormValues(newFormValues);
   };
 
@@ -107,76 +331,6 @@ const CreateCatalog = () => {
     let newFormValues = [...formValues];
     newFormValues?.splice(index, 1);
     setFormValues(newFormValues);
-  };
-
-  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
-  const uploadImage = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/imageUpload`;
-  const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editUserProfile`;
-  const cityApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/cityByState`;
-  const [loader, setLoader] = useState(false);
-  const [files, setFiles] = useState({
-    imageProfile: "",
-    federalTaxId: "",
-    businessLicense: "",
-    tobaccoLicence: "",
-    salesTaxId: "",
-    accountOwnerId: "",
-  });
-
-  const [sideBar, setSideBar] = useState(true);
-  const [user, setUser] = useState([]);
-  const [prodImg, setProdImg] = useState();
-  axios.defaults.headers.common["x-auth-token-admin"] =
-    localStorage.getItem("AdminLogToken");
-  const objectId = localStorage.getItem("objectId");
-  const navigate = useNavigate();
-  let User = JSON.parse(localStorage.getItem("AdminData"));
-  const [cities, setCities] = useState([]);
-
-  const handleCities = async (state) => {
-    const { data } = await axios.post(cityApi, {
-      state: state,
-    });
-    if (!data.error) {
-      setCities(data?.results?.states);
-    }
-  };
-
-  useEffect(() => {
-    handleCities();
-  }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onProfileSelection = async (e, key) => {
-    setFiles({ ...files, [key]: e.target.files[0] });
-    const formData = new FormData();
-    formData.append("productImage", e.target.files[0]);
-
-    await axios.post(uploadImage, formData).then((res) => {
-      setProdImg(res.data?.results?.productImage);
-    });
-  };
-  const onFileSelection = async (e, key) => {
-    setFiles({ ...files, [key]: e.target.files[0] });
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser = async () => {
-    const res = await axios.post(apiUrl + "/" + objectId);
-    let date = res.data.results?.tobaccoLicenceExpiry;
-    console.log(date);
-    setUser(res.data.results);
-    document.getElementById("expiryDate").defaultValue = date.slice(0, 10);
-    handleCities(res?.data?.results?.state);
-    return res.data;
   };
 
   const handleClick = () => {
@@ -685,12 +839,26 @@ const CreateCatalog = () => {
           <button onClick={() => addFormFields()} className="comman_btn ">
             + Add Page
           </button>
-          <button
-            onClick={() => navigate("/Catelog-Flyers/Preview-Catalog")}
+          <Link
+            to={`/Catelog-Flyers/Preview-Catalog/${id}`}
+            target="_blank"
             className="comman_btn mx-2">
             Preview Catelogue
-          </button>
+          </Link>
         </div>
+        <div className="form-group col-4 mb-2">
+          <input
+            type="text"
+            className="form-control  m border border-secondary mt-3"
+            name="t1Title"
+            placeholder="Enter Catalog Title (*Required)"
+            onChange={(e) => {
+              setTitles(e.target.value);
+            }}
+            required
+          />
+        </div>
+
         {(formValues || [])?.map((item, index) => (
           <div className="row Pending-view justify-content-center">
             <div className="col-12">
@@ -703,12 +871,16 @@ const CreateCatalog = () => {
                       </h2>
                     </div>
                     <div className="col-auto">
-                      <button
+                      {/* <button
                         data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                        className="comman_btn mx-2">
+                        data-bs-target={`#staticBackdrop${index}`}
+                        className="comman_btn mx-2"
+                        onClick={() => {
+                          setPage(index);
+                        }}>
                         Preview Template
-                      </button>
+                      </button> */}
+                      {console.log(`staticBackdrop${index}`, "LLL")}
                       <button
                         className="comman_btn "
                         type="button"
@@ -757,6 +929,7 @@ const CreateCatalog = () => {
                                       id="flexCheckDefault"
                                       onClick={() => {
                                         setTemplate(1);
+                                        handleTemplate(1, index);
                                       }}
                                       name="tempRadio"
                                     />
@@ -786,6 +959,7 @@ const CreateCatalog = () => {
                                       value=""
                                       onClick={() => {
                                         setTemplate(2);
+                                        handleTemplate(2, index);
                                       }}
                                       id="flexCheckDefault2"
                                       name="tempRadio"
@@ -816,6 +990,7 @@ const CreateCatalog = () => {
                                       value=""
                                       onClick={() => {
                                         setTemplate(3);
+                                        handleTemplate(3, index);
                                       }}
                                       id="flexCheckDefault3"
                                       name="tempRadio"
@@ -846,6 +1021,7 @@ const CreateCatalog = () => {
                                       value=""
                                       onClick={() => {
                                         setTemplate(4);
+                                        handleTemplate(4, index);
                                       }}
                                       id="flexCheckDefault4"
                                       name="tempRadio"
@@ -876,6 +1052,7 @@ const CreateCatalog = () => {
                                       value=""
                                       onClick={() => {
                                         setTemplate(5);
+                                        handleTemplate(5, index);
                                       }}
                                       id="flexCheckDefault5"
                                       name="tempRadio"
@@ -906,6 +1083,7 @@ const CreateCatalog = () => {
                                       value=""
                                       onClick={() => {
                                         setTemplate(6);
+                                        handleTemplate(6, index);
                                       }}
                                       id="flexCheckDefault6"
                                       name="tempRadio"
@@ -921,8 +1099,9 @@ const CreateCatalog = () => {
                             </SwiperSlide>
                           </Swiper>
                         </div>
+
                         {(() => {
-                          switch (template) {
+                          switch (item?.template) {
                             case 1:
                               return (
                                 <div className=" row border rounded p-2 mx-1">
@@ -938,18 +1117,19 @@ const CreateCatalog = () => {
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t1BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t1ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t1BackImg",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
                                   <div className="form-group col-4 choose_fileInvent position-relative mt-2">
@@ -957,52 +1137,44 @@ const CreateCatalog = () => {
                                       QR Image{" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t1QrImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t1QrImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t1ImgQr"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t1ImgQr",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Page Title
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control  border border-secondary signup_fields"
+                                      name="t1Title"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );
+
                             case 2:
                               return (
                                 <div className=" row border rounded p-2 mx-1">
@@ -1011,28 +1183,29 @@ const CreateCatalog = () => {
                                       Background Image (size:2480 x 3508){" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t2BackImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t2BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t2ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t2BackImg",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
-
+                                  {console.log(formValues)}
                                   <div className="form-group col-8 choose_fileInvent position-relative mt-2">
                                     <span className="fw-bold me-2">
                                       Select Products (25 Products)
@@ -1062,20 +1235,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control  border border-secondary signup_fields"
+                                      name="t2Title"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
@@ -1086,20 +1251,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control  border border-secondary signup_fields"
+                                      name="t2Footer"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );
@@ -1111,25 +1268,26 @@ const CreateCatalog = () => {
                                       Background Image (size:2480 x 3508){" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t3BackImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t3BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t3ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t3ImgBack",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
                                   <div className="form-group col-6 choose_fileInvent position-relative mt-2">
@@ -1137,145 +1295,96 @@ const CreateCatalog = () => {
                                       Uplaod Banners (3 Banners)
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t3Banners"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t3Banners"
                                       accept="image/*"
-                                      multiple
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t3ImgBanners"
+                                      multiple
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onMultipleSelections(
+                                          e,
+                                          "t3ImgBanners",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Banner 1 Url
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t3BannerUrl1"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Banner 2 Url
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t3BannerUrl2"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Banner 3 Url
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t3BannerUrl3"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Page header
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t3Header"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                   <div className="form-group col-4 mb-4">
-                                    <label
-                                      htmlFor="DBA"
-                                      className="fw-bold fs-6">
+                                    <label className="fw-bold fs-6">
                                       Page Footer
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t3Footer"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );
@@ -1288,25 +1397,26 @@ const CreateCatalog = () => {
                                       Background Image (size:2480 x 3508){" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t4BackImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t4BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t4ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t4ImgBack",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
 
@@ -1317,11 +1427,11 @@ const CreateCatalog = () => {
                                     <Select
                                       name="users"
                                       options={options}
-                                      value={item?.productName || ""}
+                                      value={item?.productName2 || ""}
                                       className="basic-multi-select z-3"
                                       classNamePrefix="select"
                                       onChange={(value) =>
-                                        handleChange2(value, index)
+                                        handleChange3(value, index)
                                       }
                                       onInputChange={handleInputChange}
                                       isClearable
@@ -1335,7 +1445,7 @@ const CreateCatalog = () => {
                                     <Select
                                       name="flavours"
                                       options={flavours}
-                                      value={item?.flavours || ""}
+                                      value={item?.flavours2 || ""}
                                       className="basic-multi-select z-3"
                                       classNamePrefix="select"
                                       onChange={(value) =>
@@ -1356,20 +1466,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t4Header"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
@@ -1380,20 +1482,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t4Footer"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );
@@ -1405,29 +1499,30 @@ const CreateCatalog = () => {
                                       Background Image (size:2480 x 3508){" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t5BackImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t5BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t5ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t5ImgBack",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
 
-                                  <div className="form-group col-4 choose_fileInvent position-relative mt-2">
+                                  {/* <div className="form-group col-4 choose_fileInvent position-relative mt-2">
                                     <span className="fw-bold me-2">
                                       Uplaod Video{" "}
                                     </span>
@@ -1466,7 +1561,6 @@ const CreateCatalog = () => {
                                         { "is-invalid": errors.dba }
                                       )}
                                       name="dba"
-                                      defaultValue={user?.dba}
                                       id="DBA"
                                       {...register("dba")}
                                     />
@@ -1475,32 +1569,33 @@ const CreateCatalog = () => {
                                         {errors.dba?.message}
                                       </small>
                                     )}
-                                  </div>
+                                  </div> */}
 
                                   <div className="form-group col-4 choose_fileInvent position-relative mt-2">
                                     <span className="fw-bold me-2">
                                       Uplaod Banner Image 1{" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t5Banners"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t5Banners"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t5BannersImg"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t5BannersImg",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
                                   <div className="form-group col-4 mb-4">
@@ -1511,20 +1606,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t5BannerUrl1"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 choose_fileInvent position-relative mt-2">
@@ -1532,25 +1619,26 @@ const CreateCatalog = () => {
                                       Uplaod Banner Image 2{" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t5Banners2"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t5Banners2"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t5BannersImg2"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t5BannersImg2",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
                                   <div className="form-group col-4 mb-4">
@@ -1561,20 +1649,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t5BannersUrl2"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
 
                                   <div className="form-group col-4 mb-4">
@@ -1585,20 +1665,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t5Header"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                   <div className="form-group col-4 mb-4">
                                     <label
@@ -1608,20 +1680,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      defaultValue={user?.dba}
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t5Footer"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );
@@ -1669,7 +1733,6 @@ const CreateCatalog = () => {
                                         { "is-invalid": errors.dba }
                                       )}
                                       name="dba"
-                                      defaultValue={user?.dba}
                                       id="DBA"
                                       {...register("dba")}
                                     />
@@ -1698,7 +1761,10 @@ const CreateCatalog = () => {
                             }}
                             appearance="primary"
                             className="comman_btn2 mx-2"
-                            type="submit">
+                            type="submit"
+                            onClick={(e) => {
+                              AddPage(e, index, item?.template);
+                            }}>
                             Submit
                           </Button>
                         </div>
@@ -1708,40 +1774,67 @@ const CreateCatalog = () => {
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+            <div
+              className="modal fade comman_modal"
+              id={`staticBackdrop${index}`}
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex={-1}
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content border-0">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="staticBackdropLabel">
+                      Selected Template
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      id="cateModal"
+                      aria-label="Close"
+                    />
+                  </div>
 
-      <div
-        className="modal fade comman_modal"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content border-0">
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Selected Template
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                id="cateModal"
-                aria-label="Close"
-              />
-            </div>
+                  <div className="modal-body shadow">
+                    <div>
+                      {(() => {
+                        switch (item?.template) {
+                          case 1:
+                            return (
+                              <Intro1
+                                backImg={item?.t1ImgBack}
+                                QrImage={item?.t1ImgQr}
+                                header={item?.t1Title}
+                              />
+                            );
+                          case 2:
+                            return <ListingPage />;
+                          case 3:
+                            return <BannerDisplay1 />;
+                          case 4:
+                            return <ProductDetails1 />;
+                          case 5:
+                            return <Intro1 />;
+                          case 6:
+                            return <Intro1 />;
 
-            <div className="modal-body shadow">
-              <div>
-                <Temp1 />
+                          default:
+                            return (
+                              <div className=" row border rounded p-2 mx-1 text-center">
+                                <label>Please Select A Template</label>
+                              </div>
+                            );
+                        }
+                      })()}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

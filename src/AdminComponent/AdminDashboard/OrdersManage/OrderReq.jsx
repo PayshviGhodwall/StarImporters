@@ -1319,7 +1319,9 @@ const OrderReq = () => {
                           cancel
                         </a>
                       )}
+
                     </div>
+
                     {importedData?.totalBarcodes > 0 && (
                       <div className="col-12 d-flex justify-content-between ">
                         <a className=" text-decoration-none mx-1 mb-3 fw-bold">
@@ -1356,7 +1358,6 @@ const OrderReq = () => {
                               {(importedItems || [])?.map((item, index) => (
                                 <tr key={index}>
                                   <td>{item?.type?.barcode[0]}</td>
-
                                   <td>{item?.unitName}</td>
                                   <td>{item?.type?.flavour}</td>
                                   <td>{item?.quantity}</td>
