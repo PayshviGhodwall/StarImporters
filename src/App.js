@@ -255,7 +255,7 @@ function App() {
             <Route path="/Puller-Management" element={<PullerManagement />} />
             <Route path="/Catelog-Flyers" element={<AdminCateFlyers />} />
             <Route
-              path="/Catelog-Flyers/Create-New"
+              path="/Catelog-Flyers/Create-New/:id"
               element={<CreateCatalog />}
             />
             <Route

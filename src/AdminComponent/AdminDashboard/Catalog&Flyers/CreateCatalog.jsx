@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
@@ -45,7 +45,7 @@ const CreateCatalog = () => {
   const [loader, setLoader] = useState(false);
   const [templatePreview, setTemplatePreview] = useState([]);
   const navigate = useNavigate();
-  const [id, setId] = useState();
+  let { id } = useParams();
   const [multipleFiles, setMultipleFiles] = useState([]);
   const [formValues, setFormValues] = useState([
     {
@@ -81,7 +81,8 @@ const CreateCatalog = () => {
     if (template === 1) {
       let formData = new FormData();
       formData.append("page", page);
-      formData.append("title", titles);
+      formData.append("catalogId", id);
+
       formData.append("bgImage", formValues[i]?.t1ImgBack);
       formData.append("qrCode", formValues[i]?.t1ImgQr);
       formData.append("pageTitle", formValues[i]?.t1Title);
@@ -92,7 +93,6 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
-        setId(data?.results?.catalog?._id);
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -106,7 +106,8 @@ const CreateCatalog = () => {
       }));
       let formData = new FormData();
       formData.append("page", page);
-      formData.append("title", titles);
+      formData.append("catalogId", id);
+
       formData.append("bgImage", formValues[i]?.t2ImgBack);
       formData.append("pageTitle", formValues[i]?.t2Title);
       formData.append("footer", formValues[i]?.t2Footer);
@@ -119,7 +120,6 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
-        setId(data?.results?.catalog?._id);
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -131,13 +131,16 @@ const CreateCatalog = () => {
     } else if (template === 3) {
       let formData = new FormData();
       formData.append("page", page);
-      formData.append("title", titles);
+      formData.append("catalogId", id);
       formData.append("bgImage", formValues[i]?.t3ImgBack);
-      multipleFiles?.dataImg?.map((item) => {
+      formValues[i]?.t3ImgBanners?.map((item) => {
         formData.append("banner", item?.t3ImgBanners);
       });
-      formData.append("pageTitle", formValues[i]?.t3Title);
+      formData.append("pageTitle", formValues[i]?.t3Header);
       formData.append("footer", formValues[i]?.t3Footer);
+      formData.append("bannerURL1", formValues[i]?.t3BannerUrl1);
+      formData.append("bannerURL2", formValues[i]?.t3BannerUrl2);
+      formData.append("bannerURL3", formValues[i]?.t3BannerUrl3);
 
       const { data } = await axios.patch(temp3, formData);
       if (!data?.error) {
@@ -146,7 +149,6 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
-        setId(data?.results?.catalog?._id);
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -154,7 +156,6 @@ const CreateCatalog = () => {
           icon: "warning",
         });
       }
-      console.log("kokofdfd");
     } else if (template === 4) {
       let products = formValues[i]?.productName2?.value;
       let flavours = formValues[i]?.flavours2?.map((itm, id) => ({
@@ -162,21 +163,21 @@ const CreateCatalog = () => {
       }));
       let formData = new FormData();
       formData.append("page", page);
-      formData.append("title", titles);
-      formData.append("bgImage", formValues[i]?.t2ImgBack);
-      formData.append("pageTitle", formValues[i]?.t2Title);
-      formData.append("footer", formValues[i]?.t2Footer);
-      formData.append("products", JSON.stringify(products));
-      formData.append("flavours", JSON.stringify(products));
+      formData.append("catalogId", id);
+      formData.append("bgImage", formValues[i]?.t4ImgBack);
+      formData.append("pageTitle", formValues[i]?.t4Header);
+      formData.append("footer", formValues[i]?.t4Footer);
+      formData.append("productId", JSON.stringify(products));
+      formData.append("flavourId", JSON.stringify(flavours));
 
       const { data } = await axios.patch(temp4, formData);
+
       if (!data?.error) {
         Swal.fire({
           title: data?.message,
           timer: 2000,
           icon: "success",
         });
-        setId(data?.results?.catalog?._id);
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -202,7 +203,6 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
-        setId(data?.results?.catalog?._id);
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -216,7 +216,7 @@ const CreateCatalog = () => {
     }
   };
 
-  const onMultipleSelections = (e, key) => {
+  const onMultipleSelections = (e, key, index) => {
     let image = [e.target.files];
     let dataImg = [];
 
@@ -230,7 +230,11 @@ const CreateCatalog = () => {
       });
     });
 
-    setMultipleFiles({ dataImg });
+    let newFormValues = [...formValues];
+    newFormValues[index][e.target.name] = dataImg;
+    setFormValues(newFormValues);
+
+    // setMultipleFiles({ dataImg });
   };
 
   const onFileSelectionImages = (e, key, index) => {
@@ -246,13 +250,14 @@ const CreateCatalog = () => {
     setFormValues([
       ...formValues,
       {
-        page: formValues?.page + 1,
+        page: formValues?.length + 1,
         images: [],
         staticImages: [],
         Banners: [],
         Headers: [],
       },
     ]);
+    window.scrollTo(0, document.body.scrollHeight);
   };
 
   useEffect(() => {
@@ -846,18 +851,6 @@ const CreateCatalog = () => {
             Preview Catelogue
           </Link>
         </div>
-        <div className="form-group col-4 mb-2">
-          <input
-            type="text"
-            className="form-control  m border border-secondary mt-3"
-            name="t1Title"
-            placeholder="Enter Catalog Title (*Required)"
-            onChange={(e) => {
-              setTitles(e.target.value);
-            }}
-            required
-          />
-        </div>
 
         {(formValues || [])?.map((item, index) => (
           <div className="row Pending-view justify-content-center">
@@ -871,15 +864,6 @@ const CreateCatalog = () => {
                       </h2>
                     </div>
                     <div className="col-auto">
-                      {/* <button
-                        data-bs-toggle="modal"
-                        data-bs-target={`#staticBackdrop${index}`}
-                        className="comman_btn mx-2"
-                        onClick={() => {
-                          setPage(index);
-                        }}>
-                        Preview Template
-                      </button> */}
                       {console.log(`staticBackdrop${index}`, "LLL")}
                       <button
                         className="comman_btn "
@@ -915,7 +899,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      className={
+                                        item?.template === 1
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check${item?.page}`)
+                                          .click()
+                                      }
                                       src={require("../../../assets/img/tempIntro.png")}
                                       alt="Upload Image ........"
                                     />
@@ -926,7 +919,7 @@ const CreateCatalog = () => {
                                       type="radio"
                                       value=""
                                       defaultChecked={true}
-                                      id="flexCheckDefault"
+                                      id={`check${item?.page}`}
                                       onClick={() => {
                                         setTemplate(1);
                                         handleTemplate(1, index);
@@ -935,7 +928,7 @@ const CreateCatalog = () => {
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault">
+                                      for={`check${item?.page}`}>
                                       Intro Page
                                     </label>
                                   </div>
@@ -947,7 +940,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check2${item?.page}`)
+                                          .click()
+                                      }
+                                      className={
+                                        item?.template === 2
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
                                       src={require("../../../assets/img/Temp1.png")}
                                       alt="Upload Image ........"
                                     />
@@ -961,12 +963,12 @@ const CreateCatalog = () => {
                                         setTemplate(2);
                                         handleTemplate(2, index);
                                       }}
-                                      id="flexCheckDefault2"
+                                      id={`check2${item?.page}`}
                                       name="tempRadio"
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault2">
+                                      for={`check2${item?.page}`}>
                                       Product Listing Page
                                     </label>
                                   </div>
@@ -978,7 +980,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check3${item?.page}`)
+                                          .click()
+                                      }
+                                      className={
+                                        item?.template === 3
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
                                       src={require("../../../assets/img/Temp2.png")}
                                       alt="Upload Image ........"
                                     />
@@ -992,12 +1003,12 @@ const CreateCatalog = () => {
                                         setTemplate(3);
                                         handleTemplate(3, index);
                                       }}
-                                      id="flexCheckDefault3"
+                                      id={`check3${item?.page}`}
                                       name="tempRadio"
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault3">
+                                      for={`check3${item?.page}`}>
                                       Banner Display
                                     </label>
                                   </div>
@@ -1009,7 +1020,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check4${item?.page}`)
+                                          .click()
+                                      }
+                                      className={
+                                        item?.template === 4
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
                                       src={require("../../../assets/img/temp3.png")}
                                       alt="Upload Image ........"
                                     />
@@ -1023,12 +1043,12 @@ const CreateCatalog = () => {
                                         setTemplate(4);
                                         handleTemplate(4, index);
                                       }}
-                                      id="flexCheckDefault4"
+                                      id={`check4${item?.page}`}
                                       name="tempRadio"
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault4">
+                                      for={`check4${item?.page}`}>
                                       Product Details
                                     </label>
                                   </div>
@@ -1040,7 +1060,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      className={
+                                        item?.template === 5
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check5${item?.page}`)
+                                          .click()
+                                      }
                                       src={require("../../../assets/img/temp4.png")}
                                       alt="Upload Image ........"
                                     />
@@ -1054,12 +1083,12 @@ const CreateCatalog = () => {
                                         setTemplate(5);
                                         handleTemplate(5, index);
                                       }}
-                                      id="flexCheckDefault5"
+                                      id={`check5${item?.page}`}
                                       name="tempRadio"
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault5">
+                                      for={`check5${item?.page}`}>
                                       Summary Page
                                     </label>
                                   </div>
@@ -1071,7 +1100,16 @@ const CreateCatalog = () => {
                                 <div className=" position-relative d-inline-block">
                                   <div className="mb-2 ">
                                     <img
-                                      className="Template_img"
+                                      onClick={() =>
+                                        document
+                                          .getElementById(`check6${item?.page}`)
+                                          .click()
+                                      }
+                                      className={
+                                        item?.template === 6
+                                          ? "borderTemp_img"
+                                          : "Template_img"
+                                      }
                                       src={require("../../../assets/img/product.jpg")}
                                       alt="Upload Image ........"
                                     />
@@ -1085,12 +1123,12 @@ const CreateCatalog = () => {
                                         setTemplate(6);
                                         handleTemplate(6, index);
                                       }}
-                                      id="flexCheckDefault6"
+                                      id={`check6${item?.page}`}
                                       name="tempRadio"
                                     />
                                     <label
                                       class="form-check-label"
-                                      for="flexCheckDefault6">
+                                      for={`check6${item?.page}`}>
                                       Image Only
                                     </label>
                                   </div>

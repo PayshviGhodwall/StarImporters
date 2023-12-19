@@ -12,7 +12,8 @@ import Compressor from "compressorjs";
 const AdminCateFlyers = () => {
   const [sideBar, setSideBar] = useState(true);
   const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
-  const addCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/uploadCatlog`;
+  const allCatalogs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
+  const addCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createCatalog`;
   const deleteCate = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteCatalog`;
   const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/diableCatalog`;
   const [catelogueUrl, setCatelogueUrl] = useState("");
@@ -24,6 +25,9 @@ const AdminCateFlyers = () => {
   const [files, setFiles] = useState([]);
   const [catalogs, setCatalogs] = useState([]);
   const [flyers, setFlyers] = useState([]);
+  const [descCatalog, setDescCatalog] = useState();
+  const [descFlyer, setDescFlyer] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCatalogs();
@@ -62,17 +66,12 @@ const AdminCateFlyers = () => {
   const AddCate = async (e) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("url", catelogueUrl);
     formData.append("title", catelogueTitle);
-    formData.append("type", "catalog");
+    formData.append("description", descCatalog);
     formData.append("coverImage", files?.coverImageC ? files?.coverImageC : "");
     const { data } = await axios.post(addCatelog, formData);
     if (!data.error) {
-      Swal.fire({
-        title: "Catalog Uploaded Successfully!",
-        icon: "success",
-        timer: 2000,
-      });
+      navigate(`/Catelog-Flyers/Create-New/${data?.results?.catalog?._id}`);
       document.getElementById("resetCatalog").click();
       setFiles([]);
       getCatalogs();
@@ -615,12 +614,6 @@ const AdminCateFlyers = () => {
                             aria-labelledby="nav-home-tab">
                             <div className="row mx-0 ">
                               <div className="col-12 pt-2">
-                                <Link
-                                  className="text-decoration-none mt-2 pb-3 comman_btn "
-                                  to={"/Catelog-Flyers/Create-New"}>
-                                  Create Catalog
-                                </Link>
-
                                 <form
                                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                   action="">
@@ -655,7 +648,7 @@ const AdminCateFlyers = () => {
                                     />
                                   </div>
                                   <div className="form-group mb-0 col-4">
-                                    <span>Enter Catalog Url</span>{" "}
+                                    <span>Enter Catalog Description</span>{" "}
                                     <label htmlFor="upload_video"></label>
                                     <input
                                       type="text"
@@ -672,7 +665,7 @@ const AdminCateFlyers = () => {
                                     <button
                                       className="comman_btn2"
                                       onClick={AddCate}>
-                                      Save Catalog
+                                      Proceed 
                                     </button>
                                     <button
                                       className="comman_btn d-none"

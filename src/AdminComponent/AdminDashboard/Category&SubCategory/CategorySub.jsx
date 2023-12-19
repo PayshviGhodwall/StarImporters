@@ -1328,7 +1328,7 @@ const CategorySub = () => {
                                                         );
                                                       }}
                                                     />
-                                                    <span class="sliderUser round"></span>
+                                                    <span  class="sliderUser round"></span>
                                                   </label>
                                                 </div>
                                               </td>
