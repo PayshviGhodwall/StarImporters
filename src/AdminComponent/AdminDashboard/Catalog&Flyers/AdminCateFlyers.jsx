@@ -11,7 +11,7 @@ import Compressor from "compressorjs";
 
 const AdminCateFlyers = () => {
   const [sideBar, setSideBar] = useState(true);
-  const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
+  const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTemplates`;
   const allCatalogs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
   const addCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createCatalog`;
   const deleteCate = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteCatalog`;
@@ -35,12 +35,9 @@ const AdminCateFlyers = () => {
   }, []);
 
   const getCatalogs = async () => {
-    const { data } = await axios.post(allPdf, {
-      type: "catalog",
-    });
-    console.log(data);
+    const { data } = await axios.get(allPdf);
     if (!data.error) {
-      setCatalogs(data?.results?.catalog);
+      setCatalogs(data?.results?.catalogs);
     }
   };
 
@@ -665,7 +662,7 @@ const AdminCateFlyers = () => {
                                     <button
                                       className="comman_btn2"
                                       onClick={AddCate}>
-                                      Proceed 
+                                      Proceed
                                     </button>
                                     <button
                                       className="comman_btn d-none"
@@ -688,7 +685,7 @@ const AdminCateFlyers = () => {
                                             <th>Date</th>
                                             <th>Title</th>
                                             <th>Cover Image</th>
-                                            <th>Url</th>
+                                            <th>Description</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                           </tr>
@@ -705,9 +702,7 @@ const AdminCateFlyers = () => {
                                               <td className="border">
                                                 {item?.title}
                                               </td>
-                                              <td className="border">
-                                                {item?.url}
-                                              </td>
+
                                               <td className="border">
                                                 <img
                                                   className="subCatImages"
@@ -717,7 +712,9 @@ const AdminCateFlyers = () => {
                                                       : require("../../../assets/img/product.jpg")
                                                   }></img>
                                               </td>
-
+                                              <td className="border">
+                                                {item?.description}
+                                              </td>
                                               <td className="border">
                                                 {" "}
                                                 <div
@@ -745,12 +742,11 @@ const AdminCateFlyers = () => {
                                                 <a
                                                   className="comman_btn2 text-white text-decoration-none"
                                                   onClick={() => {
-                                                    deleteCatalog(
-                                                      "catalog",
-                                                      item?._id
+                                                    navigate(
+                                                      `/Catelog-Flyers/Preview-Catalog/${item?._id}`
                                                     );
                                                   }}>
-                                                  Delete
+                                                  View
                                                 </a>
                                               </td>
                                             </tr>

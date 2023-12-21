@@ -6,8 +6,6 @@ import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
 import axios from "axios";
-import classNames from "classnames";
-import { FaFileDownload, FaFileUpload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
 import { Button } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
@@ -30,6 +28,7 @@ const CreateCatalog = () => {
   const temp3 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/bannerPage`;
   const temp4 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/productDetailPage`;
   const temp5 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/summaryPage`;
+  const temp6 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/onlyImagePage`;
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const [product, setProducts] = useState({});
   const [template, setTemplate] = useState(1);
@@ -158,16 +157,15 @@ const CreateCatalog = () => {
       }
     } else if (template === 4) {
       let products = formValues[i]?.productName2?.value;
-      let flavours = formValues[i]?.flavours2?.map((itm, id) => ({
-        flavourId: itm?.value,
-      }));
+      let flavours = formValues[i]?.flavours2?.map((itm, id) => itm?.value);
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
       formData.append("bgImage", formValues[i]?.t4ImgBack);
       formData.append("pageTitle", formValues[i]?.t4Header);
       formData.append("footer", formValues[i]?.t4Footer);
-      formData.append("productId", JSON.stringify(products));
+      formData.append("productLogo", formValues[i]?.t4LogoImg);
+      formData.append("productId", products);
       formData.append("flavourId", JSON.stringify(flavours));
 
       const { data } = await axios.patch(temp4, formData);
@@ -188,15 +186,17 @@ const CreateCatalog = () => {
     } else if (template === 5) {
       let formData = new FormData();
       formData.append("page", page);
-      formData.append("title", titles);
-      formData.append("bgImage", formValues[i]?.t3ImgBack);
-      multipleFiles?.dataImg?.map((item) => {
-        formData.append("banner", item?.t3ImgBanners);
-      });
-      formData.append("pageTitle", formValues[i]?.t3Title);
-      formData.append("footer", formValues[i]?.t3Footer);
+      formData.append("catalogId", id);
+      formData.append("bgImage", formValues[i]?.t5ImgBack);
+      formData.append("banner", formValues[i]?.t5BannersImg);
+      formData.append("banner", formValues[i]?.t5BannersImg2);
+      formData.append("video", formValues[i]?.t5BannersImg2);
+      formData.append("pageTitle", formValues[i]?.t5Header);
+      formData.append("footer", formValues[i]?.t5Footer);
+      formData.append("bannerURL1", formValues[i]?.t5BannerUrl1);
+      formData.append("bannerURL2", formValues[i]?.t5BannerUrl2);
 
-      const { data } = await axios.patch(temp3, formData);
+      const { data } = await axios.patch(temp5, formData);
       if (!data?.error) {
         Swal.fire({
           title: data?.message,
@@ -211,8 +211,26 @@ const CreateCatalog = () => {
         });
       }
     } else if (template === 6) {
-      const { data } = await axios.post(temp1, {});
-      console.log("kokofdfd");
+      let formData = new FormData();
+      formData.append("page", page);
+      formData.append("catalogId", id);
+      formData.append("bgImage", formValues[i]?.t6ImgBack);
+      formData.append("bannerURL1", formValues[i]?.t6BannerUrl1);
+
+      const { data } = await axios.patch(temp6, formData);
+      if (!data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "success",
+        });
+      } else if (data?.error) {
+        Swal.fire({
+          title: data?.message,
+          timer: 2000,
+          icon: "warning",
+        });
+      }
     }
   };
 
@@ -1457,6 +1475,33 @@ const CreateCatalog = () => {
                                       }
                                     />
                                   </div>
+                                  <div className="form-group col-4 choose_fileInvent position-relative mt-2">
+                                    <span className="fw-bold me-2">
+                                      Product Logo (size:2480 x 3508){" "}
+                                    </span>
+                                    <label
+                                      htmlFor="t4Logo"
+                                      className="inputText ms-2">
+                                      <i className="fa fa-camera me-1" />
+                                      Choose File
+                                    </label>{" "}
+                                    <input
+                                      type="file"
+                                      id="t4Logo"
+                                      accept="image/*"
+                                      className="form-control  border border-secondary px-4"
+                                      defaultValue=""
+                                      name="t4LogoImg"
+                                      capture
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t4LogoImg",
+                                          index
+                                        )
+                                      }
+                                    />
+                                  </div>
 
                                   <div className="form-group col-4 choose_fileInvent position-relative mt-2">
                                     <span className="fw-bold me-2">
@@ -1736,25 +1781,26 @@ const CreateCatalog = () => {
                                       Page Image (size:2480 x 3508){" "}
                                     </span>
                                     <label
-                                      htmlFor="upload_video"
+                                      htmlFor="t6BackImg"
                                       className="inputText ms-2">
                                       <i className="fa fa-camera me-1" />
                                       Choose File
                                     </label>{" "}
                                     <input
                                       type="file"
+                                      id="t6BackImg"
                                       accept="image/*"
-                                      className={classNames(
-                                        "form-control  border border-secondary px-4",
-                                        { "is-invalid": errors.productImage }
-                                      )}
+                                      className="form-control  border border-secondary px-4"
                                       defaultValue=""
-                                      name="productImage"
+                                      name="t6ImgBack"
                                       capture
-                                      {...register("productImage", {
-                                        required: "Enter Product Name",
-                                      })}
-                                      // onChange={(e) => productImageSelection(e)}
+                                      onChange={(e) =>
+                                        onFileSelectionImages(
+                                          e,
+                                          "t6ImgBack",
+                                          index
+                                        )
+                                      }
                                     />
                                   </div>
 
@@ -1766,19 +1812,12 @@ const CreateCatalog = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className={classNames(
-                                        "form-control  border border-secondary signup_fields",
-                                        { "is-invalid": errors.dba }
-                                      )}
-                                      name="dba"
-                                      id="DBA"
-                                      {...register("dba")}
+                                      className="form-control border border-secondary signup_fields"
+                                      name="t6BannersUrl1"
+                                      onChange={(e) => {
+                                        handleChange(index, e);
+                                      }}
                                     />
-                                    {errors.dba && (
-                                      <small className="errorText mx-1 fw-bold">
-                                        {errors.dba?.message}
-                                      </small>
-                                    )}
                                   </div>
                                 </div>
                               );

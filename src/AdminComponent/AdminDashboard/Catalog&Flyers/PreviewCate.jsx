@@ -6,18 +6,10 @@ import bookmark from "../../../assets/img/bookmark-3-line.svg";
 import down from "../../../assets/img/file-download-line.svg";
 import full from "../../../assets/img/fullscreen-exit-line.svg";
 import rightLine from "../../../assets/img/skip-right-line.svg";
-
-import HTMLFlipBook, { turnToNextPage } from "react-pageflip";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import { EffectCoverflow, Navigation, Pagination } from "swiper";
 import "../../../assets/css/flip.css";
+
 const PreviewCate = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const width = window.innerWidth;
@@ -279,7 +271,7 @@ const PreviewCate = () => {
                       </div>
                     )) ||
                       (item?.type === "ProductListing" && (
-                        <div className="page shadow">
+                        <div className="page shadow text-center">
                           <div
                             className="comman_inner_bg"
                             style={{
@@ -287,9 +279,7 @@ const PreviewCate = () => {
                             }}>
                             {console.log(item?.products, typeof item?.products)}
                             <div className="comman_head">
-                              <h2>
-                                Star Impoters &amp; Wholesalers - 770.908.0404
-                              </h2>
+                              <h2>{item?.pageTitle}</h2>
                             </div>
                             <div className="product_main mx-2">
                               {item?.products?.map((itm, id) => (
@@ -324,7 +314,7 @@ const PreviewCate = () => {
                             <div className="comman_head">
                               <h2>{item?.pageTitle}</h2>
                             </div>
-                            <div className="wholesale_main">
+                            <div className="wholesale_main text-center">
                               <Link
                                 to={item?.bannerURL1}
                                 className="wholesale_img">
@@ -356,75 +346,120 @@ const PreviewCate = () => {
                               backgroundImage: `url(${item?.backgroundImage})`,
                             }}>
                             <div className="comman_head">
-                              <h2>
-                                Star Impoters &amp; Wholesalers - 770.908.0404
-                              </h2>
+                              <h2>{item?.pageTitle}</h2>
                             </div>
-                            <div className="product_shooww">
-                              <div className="row">
-                                <div className="col-12">
-                                  <div className="product_logo">
-                                    <img src={item?.productId} alt="" />
-                                  </div>
-                                </div>
-                                <div className="col-md-6">
-                                  <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                      <div className="product_sm_img">
-                                        <img
-                                          src="assets/img/producttt.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                      <div className="product_sm_img">
-                                        <img
-                                          src="assets/img/producttt.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                      <div className="product_sm_img">
-                                        <img
-                                          src="assets/img/producttt.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                      <div className="product_sm_img">
-                                        <img
-                                          src="assets/img/producttt.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-12">
-                                      <div className="show_details">
-                                        Lil Leaf 10/3pk-3f$2.99 <br /> $17.99
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-6">
-                                  <div className="product_shooww_img text-center">
+
+                            <div className="product_shooww text-center">
+                              <div className="row justify-content-center text-center">
+                                <div className="col-12 ">
+                                  <Link
+                                    to={`/AllProducts/Product/${item?.productId?.slug}`}
+                                    target="_blank">
                                     <img
-                                      src="assets/img/productbig.png"
+                                      className="product_logo_img"
+                                      src={item?.productLogo}
                                       alt=""
                                     />
-                                    <div className="show_details">
-                                      Lil Leaf 10/3pk-3f$2.99 <br /> $17.99
+                                  </Link>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-6">
+                                  <div className="row">
+                                    {item?.productId?.type
+                                      ?.filter((val, id) => id < 4)
+                                      ?.map((itm, ind) => (
+                                        <div className="col-md-6">
+                                          <Link
+                                            to={`/AllProducts/Product/${item?.productId?.slug}`}
+                                            state={{
+                                              type: itm,
+                                            }}
+                                            target="_blank"
+                                            className="product_shooww_img text-center">
+                                            <img
+                                              src={itm?.flavourImage}
+                                              alt=""
+                                            />
+                                            <div className="show_details_flav">
+                                              {itm?.flavour} <br />{" "}
+                                            </div>
+                                          </Link>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <Link
+                                    to={`/AllProducts/Product/${item?.productId?.slug}`}
+                                    target="_blank"
+                                    className="product_logo">
+                                    <img
+                                      src={item?.productId?.productImage}
+                                      alt=""
+                                    />
+                                    <div className="show_details me-5">
+                                      {item?.productId?.unitName} <br />
                                     </div>
-                                  </div>
+                                  </Link>
                                 </div>
-                                <div className="col-12 mt-3">
-                                  <div className="bottom_line text-center">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit.
-                                  </div>
-                                </div>
+                              </div>
+                              <div className="bottom_line text-center">
+                                {item?.footer}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )) ||
+                      (item?.type === "Summary" && (
+                        <div className="page shadow">
+                          <div
+                            className="comman_inner_bg"
+                            style={{
+                              backgroundImage: `url(${item?.backgroundImage})`,
+                            }}>
+                            <div className="comman_head">
+                              <h2>{item?.pageTitle}</h2>
+                            </div>
+
+                            <div className="wholesale_main_summary text-center">
+                              <Link to={item?.bannerURL1} className="">
+                              
+                                <video
+                                  className="main_video_summary "
+                                  autoPlay
+                                  loop
+                                  oncanplay="this.muted=true"
+                                  muted={true}
+                                  preload="auto">
+                                  <source
+                                    src={
+                                      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                                    }
+                                  />
+                                </video>
+                              </Link>
+
+                              <Link
+                                to={item?.bannerURL1}
+                                className="wholesale_img">
+                                <img src={item?.banners[0]} alt="" />
+                              </Link>
+
+                              <Link
+                                to={item?.bannerURL2}
+                                className="wholesale_img">
+                                <img src={item?.banners[1]} alt="" />
+                              </Link>
+
+                              <Link
+                                to={item?.bannerURL3}
+                                className="wholesale_img">
+                                <img src={item?.banners[2]} alt="" />
+                              </Link>
+
+                              <div className="bottom_line text-center">
+                                {item?.footer}
                               </div>
                             </div>
                           </div>

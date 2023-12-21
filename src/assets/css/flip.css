@@ -229,6 +229,9 @@ a {
   max-width: 90%;
   max-height: 5rem;
   min-height: 5rem;
+  background-color: transparent !important ;
+  filter: invert (100%);
+  mix-blend-mode: darken;
 }
 .product_img .main_products {
   background-color: #f0f0f0 !important;
@@ -250,13 +253,18 @@ a {
   height: 100%;
 }
 .wholesale_img img {
-  max-width: 100%;
+  max-width: 70%;
   width: 100%;
+  max-height: 23vh;
 }
 .wholesale_img {
   margin-bottom: 10px;
   display: block;
 }
+.wholesale_main_summary {
+  margin-top:4vh;
+}
+
 .bottom_line {
   font-size: 14px;
   font-weight: 800;
@@ -265,17 +273,37 @@ a {
   text-align: center;
   margin-bottom: 30px;
 }
+.product_logo_img {
+  max-width: 60%;
+  height: 6rem;
+  margin-bottom: 3rem;
+ 
+}
 .product_logo img {
-  max-width: 40%;
+  max-width: 80%;
+  background-color: transparent !important ;
+  filter: invert (100%);
+  mix-blend-mode: darken;
 }
 .product_sm_img img {
   max-width: 80%;
+  background-color: transparent !important ;
+  filter: invert (100%);
+  mix-blend-mode: darken;
 }
 .product_sm_img {
   text-align: center;
 }
+.product_shooww {
+  margin-top: 4vh;
+}
 .product_shooww_img img {
   max-width: 90%;
+  background-color: transparent !important ;
+  filter: invert (100%),brightness(50);
+  
+  mix-blend-mode: darken;
+  opacity: 120%;
 }
 .show_details {
   text-align: center;
@@ -283,6 +311,14 @@ a {
   text-transform: uppercase;
   margin-top: 10px;
   display: block;
+}
+.show_details_flav {
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 10px;
+  display: block;
+  font-size: 10px;
 }
 .qr_img_end {
   max-width: 22%;
@@ -345,3 +381,19 @@ a {
     max-width: 26px;
   }
 }
+
+
+
+.wholesale_main_summary .main_video_summary{
+  max-width: 20vw !important;
+  position: relative;
+  height: 15vh;
+  margin-top: 9vh !important;
+  box-shadow:
+  -50px -50px 0 -40px var(--red),
+  50px 50px 0 -40px var(--red);
+  background-image: linear-gradient(312.25deg, #FFC4BC 0%, rgba(255, 255, 255, 0) 66.19%);
+  z-index: -1;
+  border-radius: 15px;
+}
+
