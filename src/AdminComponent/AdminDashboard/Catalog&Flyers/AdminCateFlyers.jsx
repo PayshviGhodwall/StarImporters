@@ -738,7 +738,17 @@ const AdminCateFlyers = () => {
                                                   </label>
                                                 </div>
                                               </td>
+
                                               <td className="border">
+                                                <a
+                                                  className="comman_btn text-white text-decoration-none mx-1"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      `/Catelog-Flyers/EditCatalog/${item?._id}`
+                                                    );
+                                                  }}>
+                                                  Edit
+                                                </a>
                                                 <a
                                                   className="comman_btn2 text-white text-decoration-none"
                                                   onClick={() => {

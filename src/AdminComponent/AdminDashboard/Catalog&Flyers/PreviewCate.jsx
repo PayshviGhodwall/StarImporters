@@ -87,29 +87,7 @@ const PreviewCate = () => {
   };
 
   const handlePrev = () => {
-    for (var i = 0; i < pages.length; i++) {
-      var page = pages[i];
-      if (i % 2 === 0) {
-        page.style.zIndex = pages.length - i;
-      }
-    }
-
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].pageNum = i + 1;
-      console.log(pages[i], "ll");
-
-      pages[i].onclick = function () {
-        if (this.pageNum % 2 === 0) {
-          console.log(this.pageNum, "okayN");
-          this.classList.remove("flipped");
-          this.previousElementSibling.classList.remove("flipped");
-        } else {
-          console.log(this.pageNum, "okayN");
-          this.classList.add("flipped");
-          this.nextElementSibling.classList.add("flipped");
-        }
-      };
-    }
+    document.getElementById("pageOne").click();
   };
 
   const handleZoomIn = () => {
@@ -119,30 +97,6 @@ const PreviewCate = () => {
   const handleZoomOut = () => {
     setZoom((prevZoom) => (prevZoom > 0.2 ? prevZoom * 0.8 : prevZoom)); // Decrease zoom level by 20%, with a minimum of 20%
   };
-
-  console.log(pages);
-
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   for (var i = 0; i < pages.length; i++) {
-  //     pages[i].pageNum = i + 1;
-
-  //     console.log(pages[i], "ll");
-  //     pages[i].onclick = function () {
-  //       if (this.pageNum % 2 === 0) {
-  //         console.log(this.pageNum, "okayN");
-  //         console.log("okay");
-  //         this.classList.remove("flipped");
-  //         this.previousElementSibling.classList.remove("flipped");
-  //       } else {
-  //         console.log("done");
-  //         console.log(this.pageNum, "okayN");
-
-  //         this.classList.add("flipped");
-  //         this.nextElementSibling.classList.add("flipped");
-  //       }
-  //     };
-  //   }
-  // });
 
   return (
     <div key={flipKey}>
@@ -247,15 +201,15 @@ const PreviewCate = () => {
         </div>
         <div className="star_catalog bg-white">
           <div className="star_catalog_inner position-relative">
-            <a className="arrow_btn previous_btn">
-              <img src="assets/img/skip-left-line.svg" alt="" />
+            <a className="arrow_btn previous_btn" onClick={() => handlePrev()}>
+              <img src={leftLine} alt="" />
             </a>
             <div className="book">
-              <div id="pages" className="pages">
+              <div  id="pages" className="pages">
                 {templatePreview?.map((item, index) => (
                   <>
                     {(item?.type === "Intro" && (
-                      <div className="page shadow" key={index}>
+                      <div  className="page shadow" key={index}>
                         <div className="first_page">
                           <img
                             className="bg_img"
@@ -423,8 +377,7 @@ const PreviewCate = () => {
                             </div>
 
                             <div className="wholesale_main_summary text-center">
-                              <Link to={item?.bannerURL1} className="">
-                              
+                              <Link to={item?.bannerURL1} className="d-none">
                                 <video
                                   className="main_video_summary "
                                   autoPlay

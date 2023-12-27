@@ -135,6 +135,7 @@ import WebView from "./pwaComponents/homeComponent/WebView";
 import StarCate from "./AdminComponent/StarCate";
 import CreateCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateCatalog";
 import PreviewCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewCate";
+import EditCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditCatalog";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -258,6 +259,7 @@ function App() {
               path="/Catelog-Flyers/Create-New/:id"
               element={<CreateCatalog />}
             />
+            <Route path="/Catelog-Flyers/EditCatalog/:id" element={<EditCatalog />} />
             <Route
               path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}
