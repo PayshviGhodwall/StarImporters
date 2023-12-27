@@ -282,8 +282,9 @@ a {
 .product_logo img {
   max-width: 80%;
   background-color: transparent !important ;
-  filter: invert (100%);
+  filter: invert (100%),brightness(50%),contrast(110%);
   mix-blend-mode: darken;
+  opacity: 120%;;
 }
 .product_sm_img img {
   max-width: 80%;
@@ -300,9 +301,8 @@ a {
 .product_shooww_img img {
   max-width: 90%;
   background-color: transparent !important ;
-  filter: invert (100%),brightness(50);
-  
-  mix-blend-mode: darken;
+  filter: invert (100%),brightness(50%),contrast(110%);
+  mix-blend-mode: multiply;
   opacity: 120%;
 }
 .show_details {

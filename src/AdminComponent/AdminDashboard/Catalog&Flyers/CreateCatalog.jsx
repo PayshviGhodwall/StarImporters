@@ -73,6 +73,12 @@ const CreateCatalog = () => {
     setFormValues(newFormValues);
   };
 
+  let handleCollapsed = (i, key) => {
+    let newFormValues = [...formValues];
+    newFormValues[i]["isHide"] = key;
+    setFormValues(newFormValues);
+  };
+
   const AddPage = async (e, i, template) => {
     e.preventDefault();
     let page = i + 1;
@@ -92,6 +98,7 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -119,6 +126,8 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
+
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -148,6 +157,8 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
+
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -176,6 +187,8 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
+
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -203,6 +216,8 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
+
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -224,6 +239,8 @@ const CreateCatalog = () => {
           timer: 2000,
           icon: "success",
         });
+        handleCollapsed(i, "hide");
+
       } else if (data?.error) {
         Swal.fire({
           title: data?.message,
@@ -874,7 +891,7 @@ const CreateCatalog = () => {
           <div className="row Pending-view justify-content-center">
             <div className="col-12">
               <div className="row mx-0">
-                <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="col-12 design_outter_comman recent_orders shadow ">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
                       <h2 className="main_headers">
@@ -883,6 +900,22 @@ const CreateCatalog = () => {
                     </div>
                     <div className="col-auto">
                       {console.log(`staticBackdrop${index}`, "LLL")}
+
+                      {item?.isHide === "hide" ? (
+                        <button
+                          className="comman_btn mx-1"
+                          type="button"
+                          onClick={() => handleCollapsed(index, "show")}>
+                          View
+                        </button>
+                      ) : (
+                        <button
+                          className="comman_btn mx-1"
+                          type="button"
+                          onClick={() => handleCollapsed(index, "hide")}>
+                          Hide
+                        </button>
+                      )}
                       <button
                         className="comman_btn "
                         type="button"
@@ -892,7 +925,7 @@ const CreateCatalog = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="row">
+                  <div className={item?.isHide === "hide" ? "d-none" : "row"}>
                     <div className="col-12 p-4 Pending-view-main">
                       <form className="row py-2 form-design" autoComplete="off">
                         <label className="fw-bold fs-6 mb-2">
