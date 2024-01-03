@@ -66,12 +66,41 @@ a {
   right: 0;
   left: auto;
 }
+.prev_btn{
+  left: 0;
+}
+
+.Print_main{
+  perspective: 250vw;
+  position: relative;
+  padding: 15px 0;
+}
+.Print_main .pagesPrint {
+  width: 60%;
+  min-height: 80vh !important;
+  position: relative;
+  border-radius: 0px 10px 10px 0px;
+  margin: 0 auto;
+  background-color: #f0f0f0;
+}
+.Print_main .print_page{
+  margin: 0;
+  top: 0;
+  height: 100%;
+  transform-origin: 0 0;
+  transition: transform 1.4s;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
 .book {
   perspective: 250vw;
   position: relative;
   height: calc(100vh - 71px);
   padding: 15px 0;
 }
+
 .book .pages {
   width: 75%;
   height: 100%;
@@ -81,6 +110,7 @@ a {
   border-radius: 0px 10px 10px 0px;
   margin: 0 auto;
 }
+
 .book .page {
   float: none;
   clear: none;
@@ -229,9 +259,9 @@ a {
   max-width: 90%;
   max-height: 5rem;
   min-height: 5rem;
-  background-color: transparent !important ;
-  filter: invert (100%);
-  mix-blend-mode: darken;
+  padding: 4px;
+  background-color: #fff !important ;
+  border-radius: 4px;
 }
 .product_img .main_products {
   background-color: #f0f0f0 !important;
@@ -326,7 +356,9 @@ a {
   right: 0;
   top: 10px;
 }
-
+.rightLine{
+  position: relative;
+}
 @media (max-width: 1199px) {
   .product_main .product_box:nth-child(5n + 0) {
     margin-right: 17px;

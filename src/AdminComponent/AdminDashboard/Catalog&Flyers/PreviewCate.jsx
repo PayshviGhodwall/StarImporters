@@ -15,16 +15,18 @@ const PreviewCate = () => {
   const width = window.innerWidth;
   const [flipKey, setFlipKey] = useState(Math.random());
   const [zoom, setZoom] = useState(1); // Initial zoom level
+
   let { id } = useParams();
   const [templatePreview, setTemplatePreview] = useState([]);
-  const [pageS, setPageS] = useState();
+  const [pageS, setPageS] = useState(0);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
   const navigate = useNavigate();
   useEffect(() => {
     GetTemplates();
-  }, [pageS]);
+  }, []);
+  console.log(pageS, "ola");
 
   var pages = document.getElementsByClassName("page");
 
@@ -47,7 +49,7 @@ const PreviewCate = () => {
 
         pages[i].onclick = function () {
           if (this.pageNum % 2 === 0) {
-            console.log(this.pageNum, "okayN");
+            setPageS(this.pageNum);
             this.classList.remove("flipped");
             this.previousElementSibling.classList.remove("flipped");
           } else {
@@ -61,33 +63,13 @@ const PreviewCate = () => {
   };
 
   const handleNext = () => {
-    for (var i = 0; i < pages.length; i++) {
-      var page = pages[i];
-      if (i % 2 === 0) {
-        page.style.zIndex = pages.length - i;
-      }
-    }
-
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].pageNum = i + 1;
-      console.log(pages[i], "ll");
-
-      pages[i].onclick = function () {
-        if (this.pageNum % 2 === 0) {
-          console.log(this.pageNum, "okayN");
-          this.classList.remove("flipped");
-          this.previousElementSibling.classList.remove("flipped");
-        } else {
-          console.log(this.pageNum, "okayN");
-          this.classList.add("flipped");
-          this.nextElementSibling.classList.add("flipped");
-        }
-      };
-    }
+    document.getElementById(pageS).click();
+    setPageS(pageS + 2);
   };
 
   const handlePrev = () => {
-    document.getElementById("pageOne").click();
+    document.getElementById(pageS - 1).click();
+    setPageS(pageS - 2);
   };
 
   const handleZoomIn = () => {
@@ -122,7 +104,12 @@ const PreviewCate = () => {
                     data-bs-placement="bottom"
                     title="Print"
                     className="meeenus"
-                    href="javascript:;">
+                    onClick={() => {
+                      navigate(
+                        `/Catelog-Flyers/PreviewPrint-Catalog/${id}`
+                      );
+                    }}
+                    >
                     <img src={print} alt="" />
                   </a>
                   <a
@@ -155,19 +142,21 @@ const PreviewCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Click this button to view this previous page"
-                    href="javascript:;">
+                    onClick={() => handlePrev()}>
                     <img src={leftLine} alt="" />
                   </a>
-                  <div className="form-group mt-3">
+                  <div className="form-group mt-3" key={pageS}>
                     <input
                       className="form-control"
                       type="text"
-                      defaultValue="1 / 8"
+                      value={`${pageS}-${pageS+1}`}  
+                      disabled
                     />
                   </div>
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
+                    onClick={() => handleNext()}
                     title="Click this button to view this Next page">
                     <img src={rightLine} alt="" />
                   </a>
@@ -201,15 +190,16 @@ const PreviewCate = () => {
         </div>
         <div className="star_catalog bg-white">
           <div className="star_catalog_inner position-relative">
-            <a className="arrow_btn previous_btn" onClick={() => handlePrev()}>
-              <img src={leftLine} alt="" />
-            </a>
             <div className="book">
-              <div  id="pages" className="pages">
+              <div id="pages" className="pages">
                 {templatePreview?.map((item, index) => (
                   <>
                     {(item?.type === "Intro" && (
-                      <div  className="page shadow" key={index}>
+                      <div className="page shadow" key={index}>
+                        <button id={index} className="d-none">
+                          <img className="rightLine" src={rightLine} alt="" />
+                        </button>
+
                         <div className="first_page">
                           <img
                             className="bg_img"
@@ -218,7 +208,7 @@ const PreviewCate = () => {
                           />
                           <img
                             className="qr_img"
-                            src={item?.backgroundImage}
+                            src={item?.qrImage}
                             alt=""
                           />
                         </div>
@@ -226,6 +216,10 @@ const PreviewCate = () => {
                     )) ||
                       (item?.type === "ProductListing" && (
                         <div className="page shadow text-center">
+                          <button id={index} className="d-none">
+                            <img className="rightLine" src={rightLine} alt="" />
+                          </button>
+
                           <div
                             className="comman_inner_bg"
                             style={{
@@ -244,7 +238,7 @@ const PreviewCate = () => {
                                     target="_blank">
                                     <div className="product_img">
                                       <img
-                                        src={itm?.productId?.productImage}
+                                        src={itm?.productId?.productImage ? itm?.productId?.productImage : require("../../../assets/img/product.jpg") }
                                         alt=""
                                       />
                                     </div>
@@ -260,6 +254,10 @@ const PreviewCate = () => {
                       )) ||
                       (item?.type === "Banner" && (
                         <div className="page shadow">
+                          <button id={index} className="d-none">
+                            <img className="rightLine" src={rightLine} alt="" />
+                          </button>
+
                           <div
                             className="comman_inner_bg"
                             style={{
@@ -294,6 +292,10 @@ const PreviewCate = () => {
                       )) ||
                       (item?.type === "ProductDetail" && (
                         <div className="page shadow">
+                          <button id={index} className="d-none">
+                            <img className="rightLine" src={rightLine} alt="" />
+                          </button>
+
                           <div
                             className="comman_inner_bg"
                             style={{
@@ -367,6 +369,10 @@ const PreviewCate = () => {
                       )) ||
                       (item?.type === "Summary" && (
                         <div className="page shadow">
+                          <button id={index} className="d-none">
+                            <img className="rightLine" src={rightLine} alt="" />
+                          </button>
+
                           <div
                             className="comman_inner_bg"
                             style={{
@@ -375,7 +381,6 @@ const PreviewCate = () => {
                             <div className="comman_head">
                               <h2>{item?.pageTitle}</h2>
                             </div>
-
                             <div className="wholesale_main_summary text-center">
                               <Link to={item?.bannerURL1} className="d-none">
                                 <video
@@ -423,9 +428,14 @@ const PreviewCate = () => {
                 <div className="page shadow bg-white"></div>
               </div>
             </div>
-            <a className="arrow_btn next_btn">
-              <img src="assets/img/skip-right-line.svg" alt="" />
-            </a>
+            <div>
+              <a className="arrow_btn  next_btn" onClick={() => handleNext()}>
+                <img src={rightLine} alt="" />
+              </a>
+              <a className=" arrow_btn prev_btn" onClick={() => handlePrev()}>
+                <img src={leftLine} alt="" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

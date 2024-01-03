@@ -21,7 +21,6 @@ const EditCatalog = () => {
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
   const temp1 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createIntroPage`;
   const temp2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/productListingPage`;
-
   const temp3 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/bannerPage`;
   const temp4 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/productDetailPage`;
   const temp5 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/summaryPage`;
@@ -69,16 +68,27 @@ const EditCatalog = () => {
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
   };
+  let handleChangeEditFiles = (type, i, name) => {
+    if (name === "banners") {
+      let newFormValues = [...formValues];
+      newFormValues[i][name] = [];
+      setFormValues(newFormValues);
+    } else {
+      let newFormValues = [...formValues];
+      newFormValues[i][name] = "";
+      setFormValues(newFormValues);
+    }
+  };
 
-  const AddPage = async (e, i, template) => {
+  const EditPage = async (e, i, temp) => {
     e.preventDefault();
+    console.log(temp,template,"jkjh");
     let page = i + 1;
     // console.log(page, template);
-    if (template === 1) {
+    if (temp === "Intro" && template === 1) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-
       formData.append("bgImage", formValues[i]?.t1ImgBack);
       formData.append("qrCode", formValues[i]?.t1ImgQr);
       formData.append("pageTitle", formValues[i]?.t1Title);
@@ -96,7 +106,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (template === 2) {
+    } else if (temp === "ProductListing" && template === 2) {
       let products = formValues[i]?.productName?.map((itm, id) => ({
         productId: itm?.value,
       }));
@@ -124,7 +134,7 @@ const EditCatalog = () => {
         });
       }
       console.log("kokofdfd");
-    } else if (template === 3) {
+    } else if (temp === "Banner" && template === 3) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
@@ -152,7 +162,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (template === 4) {
+    } else if (temp === "ProductDetail" && template === 4) {
       let products = formValues[i]?.productName2?.value;
       let flavours = formValues[i]?.flavours2?.map((itm, id) => itm?.value);
       let formData = new FormData();
@@ -180,7 +190,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (template === 5) {
+    } else if (temp === "Summary" && template === 5) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
@@ -207,7 +217,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (template === 6) {
+    } else if (temp === 6) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
@@ -259,7 +269,6 @@ const EditCatalog = () => {
     // setFiles({ ...files, [key]: e.target.files[0] });
   };
 
-  console.log(formValues, multipleFiles);
 
   const addFormFields = (e) => {
     setFormValues([
@@ -1218,7 +1227,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "backgroundImage"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1256,6 +1273,7 @@ const EditCatalog = () => {
                                       </div>
                                     )}
                                   </div>
+
                                   <div className="form-group col-4 choose_fileInvent position-relative mt-2">
                                     <span className="fw-bold me-2">
                                       QR Image{" "}
@@ -1264,7 +1282,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "qrCode"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1330,7 +1356,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "backgroundImage"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1443,7 +1477,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "backgroundImage"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1485,14 +1527,22 @@ const EditCatalog = () => {
                                     <span className="fw-bold me-2">
                                       Uplaod Banners (3 Banners)
                                     </span>
-                                    {item?.backgroundImage?.length ? (
+                                    {item?.banners?.length ? (
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "banners"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
-                                        {item?.banners?.map((itm, id) => (
+                                        { item?.banners?.map((itm, id) => (
                                           <li>
                                             <a
                                               href={itm}
@@ -1618,7 +1668,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i 
+                                           onClick={() => {
+                                            handleChangeEditFiles(
+                                              item?.type,
+                                              index,
+                                              "backgroundImage"
+                                            );
+                                          }}
+                                          className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1665,7 +1723,16 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                           onClick={() => {
+                                            handleChangeEditFiles(
+                                              item?.type,
+                                              index,
+                                              "productLogo"
+                                            );
+                                          }}
+                                          
+                                          className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1811,7 +1878,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "backgroundImage"
+                                              );
+                                            }}
+                                          className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1858,7 +1933,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "banners"
+                                              );
+                                            }}
+                                          className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1921,7 +2004,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "banners"
+                                              );
+                                            }}
+                                          className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -2646,7 +2737,7 @@ const EditCatalog = () => {
                             className="comman_btn2 mx-2"
                             type="submit"
                             onClick={(e) => {
-                              AddPage(e, index, item?.template);
+                              EditPage(e, index, item?.type );
                             }}>
                             Submit
                           </Button>

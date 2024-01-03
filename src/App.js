@@ -136,6 +136,7 @@ import StarCate from "./AdminComponent/StarCate";
 import CreateCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateCatalog";
 import PreviewCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewCate";
 import EditCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditCatalog";
+import PreviewPrint from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPrint";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -263,6 +264,10 @@ function App() {
             <Route
               path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}
+            />
+             <Route
+              path="/Catelog-Flyers/PreviewPrint-Catalog/:id"
+              element={<PreviewPrint />}
             />
             <Route
               path="/Puller-Management/Puller-details/:id"

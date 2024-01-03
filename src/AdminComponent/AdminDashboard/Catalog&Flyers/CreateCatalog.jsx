@@ -32,10 +32,6 @@ const CreateCatalog = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const [product, setProducts] = useState({});
   const [template, setTemplate] = useState(1);
-  const [files, setFiles] = useState();
-  const [titles, setTitles] = useState("");
-  const [footers, setFooters] = useState([]);
-  const [page, setPage] = useState();
   const [options, setOptions] = useState([]);
   const [flavours, setFlavours] = useState([]);
   const [searchKey, setSearchKey] = useState("");
