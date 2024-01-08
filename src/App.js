@@ -137,6 +137,8 @@ import CreateCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/Create
 import PreviewCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewCate";
 import EditCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditCatalog";
 import PreviewPrint from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPrint";
+import CreatePdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfCate";
+import PreviewPdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPdfCate";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -210,6 +212,7 @@ function App() {
 
             {/* <Route path="/AllBrands" element={<AllBrands />} /> */}
             <Route path="/Cart" element={<Cart />} />
+            <Route path="/app/helpSupport" element={<Cart />} />
             <Route path="/MyQuotes" element={<MyQuotes />} />
             {/* admin Routes */}
             <Route path="/AdminLogin" element={<AdminLogin />} />
@@ -260,10 +263,18 @@ function App() {
               path="/Catelog-Flyers/Create-New/:id"
               element={<CreateCatalog />}
             />
+               <Route
+              path="/Catelog-Flyers/Create-New-pdf/:id"
+              element={<CreatePdfCate />}
+            />
             <Route path="/Catelog-Flyers/EditCatalog/:id" element={<EditCatalog />} />
             <Route
               path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}
+            />
+             <Route
+              path="/Catelog-Flyers/Preview-Catalog-pdf/:id"
+              element={<PreviewPdfCate />}
             />
              <Route
               path="/Catelog-Flyers/PreviewPrint-Catalog/:id"

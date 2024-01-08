@@ -8,12 +8,17 @@ import ProfileBar from "../ProfileBar";
 import Swal from "sweetalert2";
 import moment from "moment";
 import Compressor from "compressorjs";
+import { Button } from "rsuite";
 
 const AdminCateFlyers = () => {
   const [sideBar, setSideBar] = useState(true);
+  const [switches, setSwitches] = useState(false);
+  const [pdfData, setPdfData] = useState([]);
+  const [loader, setLoader] = useState(false);
   const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTemplates`;
   const allCatalogs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
   const addCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createCatalog`;
+  const addPdfCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/pdfToImage`;
   const deleteCate = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteCatalog`;
   const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/diableCatalog`;
   const [catelogueUrl, setCatelogueUrl] = useState("");
@@ -64,11 +69,19 @@ const AdminCateFlyers = () => {
     e.preventDefault();
     let formData = new FormData();
     formData.append("title", catelogueTitle);
+    formData.append("type", pdfData?.length ? "ByPDF" : "ByTemp");
     formData.append("description", descCatalog);
     formData.append("coverImage", files?.coverImageC ? files?.coverImageC : "");
+
+    pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
+
     const { data } = await axios.post(addCatelog, formData);
     if (!data.error) {
-      navigate(`/Catelog-Flyers/Create-New/${data?.results?.catalog?._id}`);
+      pdfData?.length
+        ? navigate(
+            `/Catelog-Flyers/Create-New-pdf/${data?.results?.catalog?._id}`
+          )
+        : navigate(`/Catelog-Flyers/Create-New/${data?.results?.catalog?._id}`);
       document.getElementById("resetCatalog").click();
       setFiles([]);
       getCatalogs();
@@ -80,6 +93,49 @@ const AdminCateFlyers = () => {
       });
     }
   };
+  console.log(pdfData);
+
+  const uploadPdf = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    let formData = new FormData();
+    formData.append("pdf", e.target.files[0]);
+    const { data } = await axios.post(addPdfCatelog, formData);
+    if (!data.error) {
+      setPdfData(data?.results?.imageUrls);
+      setLoader(false);
+    } else {
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        timer: 2000,
+      });
+      setLoader(false);
+    }
+  };
+
+  const AddCatePdf = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("title", catelogueTitle);
+    formData.append("description", descCatalog);
+    formData.append("pdf", e.target.files[0]);
+    formData.append("coverImage", files?.coverImageC ? files?.coverImageC : "");
+    const { data } = await axios.post(addPdfCatelog, formData);
+    if (!data.error) {
+      navigate(`/Catelog-Flyers/Create-New-pdf/${data?.results?.catalog?._id}`);
+      document.getElementById("resetCatalog").click();
+      setFiles([]);
+      getCatalogs();
+    } else {
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        timer: 2000,
+      });
+    }
+  };
+
   const AddFlyer = async (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -644,6 +700,7 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
+
                                   <div className="form-group mb-0 col-4">
                                     <span>Enter Catalog Description</span>{" "}
                                     <label htmlFor="upload_video"></label>
@@ -653,24 +710,71 @@ const AdminCateFlyers = () => {
                                       defaultValue=""
                                       name="catelogue"
                                       onChange={(e) =>
-                                        setCatelogueUrl(e.target.value)
+                                        setDescCatalog(e.target.value)
                                       }
                                     />
                                   </div>
+                                  {switches && (
+                                    <div className="form-group mb-0 col-4 choose_fileAdmin position-relative mt-2">
+                                      <span>Upload Pdf</span>{" "}
+                                      <label htmlFor="catalogPdf">
+                                        <i class="fa fa-camera me-1"></i>
+                                        Choose File
+                                      </label>{" "}
+                                      <input
+                                        type="file"
+                                        className="form-control shadow-none "
+                                        defaultValue=""
+                                        id="catalogPdf"
+                                        accept="application/pdf"
+                                        onChange={(e) => uploadPdf(e)}
+                                      />
+                                    </div>
+                                  )}
+                                  {switches ? (
+                                    <div className="form-group mb-0 col-12 text-center mt-4">
+                                      <Button
+                                        loading={loader}
+                                        className="comman_btn2"
+                                        onClick={AddCate}>
+                                        Save
+                                      </Button>
 
-                                  <div className="form-group mb-0 col-12 text-center mt-4">
-                                    <button
-                                      className="comman_btn2"
-                                      onClick={AddCate}>
-                                      Proceed
-                                    </button>
-                                    <button
-                                      className="comman_btn d-none"
-                                      id="resetCatalog"
-                                      type="reset">
-                                      Reset
-                                    </button>
-                                  </div>
+                                      <a
+                                        className="comman_btn2 mx-2"
+                                        onClick={() => setSwitches(!switches)}>
+                                        Cancel
+                                      </a>
+
+                                      <button
+                                        className="comman_btn d-none"
+                                        id="resetCatalog"
+                                        type="reset">
+                                        Reset
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <div className="form-group mb-0 col-12 text-center mt-4">
+                                      <button
+                                        className="comman_btn2"
+                                        onClick={AddCate}>
+                                        Create a Catalog
+                                      </button>
+                                      <span className="mx-2">Or</span>
+                                      <a
+                                        className="comman_btn2"
+                                        onClick={() => setSwitches(true)}>
+                                        Upload a Pdf
+                                      </a>
+
+                                      <button
+                                        className="comman_btn d-none"
+                                        id="resetCatalog"
+                                        type="reset">
+                                        Reset
+                                      </button>
+                                    </div>
+                                  )}
                                 </form>
 
                                 <div className="row ">
@@ -684,6 +788,7 @@ const AdminCateFlyers = () => {
                                             }}>
                                             <th>Date</th>
                                             <th>Title</th>
+                                            <th>Type</th>
                                             <th>Cover Image</th>
                                             <th>Description</th>
                                             <th>Status</th>
@@ -702,7 +807,9 @@ const AdminCateFlyers = () => {
                                               <td className="border">
                                                 {item?.title}
                                               </td>
-
+                                              <td className="border">
+                                                {item?.type}
+                                              </td>
                                               <td className="border">
                                                 <img
                                                   className="subCatImages"
@@ -743,18 +850,26 @@ const AdminCateFlyers = () => {
                                                 <a
                                                   className="comman_btn text-white text-decoration-none mx-1"
                                                   onClick={() => {
-                                                    navigate(
-                                                      `/Catelog-Flyers/EditCatalog/${item?._id}`
-                                                    );
+                                                    item?.type === "ByPDF"
+                                                      ? navigate(
+                                                          `/Catelog-Flyers/Create-New-pdf/${item?._id}`
+                                                        )
+                                                      : navigate(
+                                                          `/Catelog-Flyers/EditCatalog/${item?._id}`
+                                                        );
                                                   }}>
                                                   Edit
                                                 </a>
                                                 <a
                                                   className="comman_btn2 text-white text-decoration-none"
                                                   onClick={() => {
-                                                    navigate(
-                                                      `/Catelog-Flyers/Preview-Catalog/${item?._id}`
-                                                    );
+                                                    item?.type === "ByPDF"
+                                                      ? navigate(
+                                                          `/Catelog-Flyers/Preview-Catalog-pdf/${item?._id}`
+                                                        )
+                                                      : navigate(
+                                                          `/Catelog-Flyers/Preview-Catalog/${item?._id}`
+                                                        );
                                                   }}>
                                                   View
                                                 </a>

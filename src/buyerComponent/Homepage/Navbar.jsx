@@ -207,7 +207,7 @@ const Navbar = ({ NState, LoginState }) => {
               </form>
             </div>
 
-            <div className="col-auto px-5 head_cart">
+            <div className="col-auto  head_cart">
               <a className="cart_header">
                 {NState ? (
                   // <Animate>
@@ -229,6 +229,17 @@ const Navbar = ({ NState, LoginState }) => {
                     </Fade>
                   </Link>
                 )}
+              </a>
+            </div>
+            
+            <div className="col-auto head_cart">
+              <a className="cart_header" >
+               
+                  <Link to="/app/user/helpSupport" state={{ key: "hii" }}>
+                    <i class="fa-solid fa-circle-info"></i>
+
+                  </Link>
+                
               </a>
             </div>
 

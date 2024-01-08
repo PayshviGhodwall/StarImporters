@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import Footer from "./Footer";
-import $ from "jquery";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
 import image from "../../assets/img/starBgg.jpg";
 import Starlogo from "../../assets/img/logo.png";

@@ -249,6 +249,9 @@ const PreviewCate = () => {
                                 </div>
                               ))}
                             </div>
+                            <div className="bottom_line text-center">
+                                {item?.footer}
+                              </div>
                           </div>
                         </div>
                       )) ||

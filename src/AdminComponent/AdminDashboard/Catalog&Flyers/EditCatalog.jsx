@@ -80,12 +80,13 @@ const EditCatalog = () => {
     }
   };
 
-  const EditPage = async (e, i, temp) => {
+  const EditPage = async (e, i, temp,template) => {
     e.preventDefault();
-    console.log(temp,template,"jkjh");
+
+    console.log(temp,template,i,"jkjh");
     let page = i + 1;
-    // console.log(page, template);
-    if (temp === "Intro" && template === 1) {
+
+    if (temp === "Intro" || template === 1) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
@@ -106,18 +107,17 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (temp === "ProductListing" && template === 2) {
+    } else if (temp === "ProductListing" || template === 2) {
       let products = formValues[i]?.productName?.map((itm, id) => ({
         productId: itm?.value,
       }));
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-
-      formData.append("bgImage", formValues[i]?.t2ImgBack);
-      formData.append("pageTitle", formValues[i]?.t2Title);
-      formData.append("footer", formValues[i]?.t2Footer);
-      formData.append("products", JSON.stringify(products));
+      formData.append("bgImage", formValues[i]?.t2ImgBack ? formValues[i]?.t2ImgBack  : formValues[i]?.backgroundImage  );
+      formData.append("pageTitle", formValues[i]?.t2Title ? formValues[i]?.t2Title : formValues[i]?.pageTitle );
+      formData.append("footer", formValues[i]?.t2Footer ? formValues[i]?.t2Footer : formValues[i]?.footer);
+      // formData.append("products",products?.length && JSON.stringify(products));
 
       const { data } = await axios.patch(temp2, formData);
       if (!data?.error) {
@@ -134,11 +134,11 @@ const EditCatalog = () => {
         });
       }
       console.log("kokofdfd");
-    } else if (temp === "Banner" && template === 3) {
+    } else if (temp === "Banner" || template === 3) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t3ImgBack);
+      formData.append("bgImage", formValues[i]?.t3ImgBack ? formValues[i]?.t3ImgBack : formValues[i]?.backgroundImage);
       formValues[i]?.t3ImgBanners?.map((item) => {
         formData.append("banner", item?.t3ImgBanners);
       });
@@ -162,7 +162,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (temp === "ProductDetail" && template === 4) {
+    } else if (temp === "ProductDetail" || template === 4) {
       let products = formValues[i]?.productName2?.value;
       let flavours = formValues[i]?.flavours2?.map((itm, id) => itm?.value);
       let formData = new FormData();
@@ -190,7 +190,7 @@ const EditCatalog = () => {
           icon: "warning",
         });
       }
-    } else if (temp === "Summary" && template === 5) {
+    } else if (temp === "Summary" || template === 5) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
@@ -2737,7 +2737,7 @@ const EditCatalog = () => {
                             className="comman_btn2 mx-2"
                             type="submit"
                             onClick={(e) => {
-                              EditPage(e, index, item?.type );
+                              EditPage(e, index, item?.type ,item?.template);
                             }}>
                             Submit
                           </Button>
