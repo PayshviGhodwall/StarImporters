@@ -195,7 +195,8 @@ const PreviewPdfCate = () => {
                         target="_blank"
                         id="click-me"
                         className="shadow">
-                        Click Me
+                        Click
+                        <i class="fa-solid fa-hand-pointer"></i>
                       </a>
                       <button id={index} className="d-none">
                         <img className="rightLine" src={rightLine} alt="" />

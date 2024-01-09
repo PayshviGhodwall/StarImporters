@@ -117,7 +117,7 @@ const EditCatalog = () => {
       formData.append("bgImage", formValues[i]?.t2ImgBack ? formValues[i]?.t2ImgBack  : formValues[i]?.backgroundImage  );
       formData.append("pageTitle", formValues[i]?.t2Title ? formValues[i]?.t2Title : formValues[i]?.pageTitle );
       formData.append("footer", formValues[i]?.t2Footer ? formValues[i]?.t2Footer : formValues[i]?.footer);
-      // formData.append("products",products?.length && JSON.stringify(products));
+      formData.append("products",products?.length && JSON.stringify(products));
 
       const { data } = await axios.patch(temp2, formData);
       if (!data?.error) {

@@ -437,33 +437,30 @@ color: #fff;
   z-index: 99999 !important;
   position: fixed;
   right: 20px;
-  top:20px;
-  height: 60px;
-  width: 60px;
+  top:2px;
+  width: 90px;
   line-height: 15px;
   font-size: 20px;
-  padding: 10px;
+  padding: 6px 8px;
   border: 0;
   color: #fff;
   text-align: center;
-  background: #c54987;
+  background: #eb3237;
   cursor: pointer;
   border: 1px solid #c54987;
-  border-radius: 50%; /* Equivalent to .border-radius mixin */
-
+  border-radius: 5%; /* Equivalent to .border-radius mixin */
   -webkit-transition: all 0.35s ease-in-out; /* Equivalent to .animate mixin */
   -moz-transition: all 0.35s ease-in-out;
   transition: all 0.35s ease-in-out;
 
   /* Animation */
-  -moz-animation: shakeme 3s infinite;
-  -o-animation: shakeme 3s infinite;    
-  -webkit-animation: shakeme 3s infinite;
-  animation: shakeme 3s infinite;
+  -moz-animation: shakeme 5s infinite;
+  -o-animation: shakeme 5s infinite;    
+  -webkit-animation: shakeme 5s infinite;
+  animation: shakeme 5s infinite;
 }
 
 #click-me:hover {
-  font-size: 24px;
   background: #2bbc73;
   border: 1px solid #2bbc73;
   color: #fff;
