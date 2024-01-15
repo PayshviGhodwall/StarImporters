@@ -139,6 +139,7 @@ import EditCatalog from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditCata
 import PreviewPrint from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPrint";
 import CreatePdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfCate";
 import PreviewPdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPdfCate";
+import HelpSupport from "./buyerComponent/Extras/HelpSupport";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -417,6 +418,10 @@ function App() {
             <Route
               path="/app/quotes"
               element={width < 999 ? <AppQuotes /> : <MyQuotes />}
+            />
+              <Route
+              path="/app/help-support"
+              element={width < 999 ? <AppHome /> : <HelpSupport />}
             />
             <Route
               path="/app/settings"
