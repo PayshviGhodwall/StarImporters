@@ -235,7 +235,7 @@ const Navbar = ({ NState, LoginState }) => {
             <div className="col-auto head_cart">
               <a className="cart_header" >
                
-                  <Link to="/app/user/helpSupport" state={{ key: "hii" }}>
+                  <Link to="/app/help-support" state={{ key: "hii" }}>
                     <i class="fa-solid fa-circle-info"></i>
 
                   </Link>
