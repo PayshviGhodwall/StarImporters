@@ -18251,9 +18251,7 @@ li {
 .product_sm_img {
   text-align: center;
 }
-. {
-  max-width: 90%;
-}
+
 .show_details {
   text-align: center;
   font-weight: 700;
@@ -18404,8 +18402,7 @@ li {
   border-radius: 0% 100% 0% 100% / 81% 0% 100% 19% !important;
 }
 
-.section-two {
-}
+
 .helpMainBg h2 {
   color: #fff;
   font-size: 50px;
@@ -18550,4 +18547,11 @@ li {
 
 .layout_padding {
   padding: 20px 10px;
+}
+.userGuide_check{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -4px;
+  margin-right: 5px;
 }

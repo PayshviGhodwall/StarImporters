@@ -93,7 +93,6 @@ const AdminCateFlyers = () => {
       });
     }
   };
-  console.log(pdfData);
 
   const uploadPdf = async (e) => {
     e.preventDefault();

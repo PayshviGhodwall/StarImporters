@@ -6,6 +6,7 @@ import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import ViewProduct from "../ViewProduct";
 import moment from "moment";
+import UserGuide from "./UserGuide";
 
 const ContactSupport = () => {
   const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAllContacts `;
@@ -176,9 +177,7 @@ const ContactSupport = () => {
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -192,7 +191,7 @@ const ContactSupport = () => {
                     Gallery Management
                   </Link>
                 </li>
-                  <li
+                <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
                   }>
@@ -202,7 +201,6 @@ const ContactSupport = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -238,17 +236,17 @@ const ContactSupport = () => {
                 <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className="bg-white"
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        color: "#3e4093",
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className="bg-white"
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                      color: "#3e4093",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -489,6 +487,9 @@ const ContactSupport = () => {
                           id="nav-tab"
                           role="tablist">
                           <button
+                            style={{
+                              width: "33.33%",
+                            }}
                             className="nav-link active"
                             id="nav-home-tab"
                             data-bs-toggle="tab"
@@ -501,6 +502,9 @@ const ContactSupport = () => {
                           </button>
                           <button
                             className="nav-link"
+                            style={{
+                              width: "33.33%",
+                            }}
                             id="nav-profile-tab"
                             data-bs-toggle="tab"
                             data-bs-target="#nav-profile"
@@ -509,6 +513,20 @@ const ContactSupport = () => {
                             aria-controls="nav-profile"
                             aria-selected="false">
                             Newsletter Subscription
+                          </button>
+                          <button
+                            style={{
+                              width: "33.33%",
+                            }}
+                            className="nav-link"
+                            id="nav-help-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-help"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-help"
+                            aria-selected="false">
+                            User Help & Guide
                           </button>
                         </div>
                       </nav>
@@ -588,13 +606,10 @@ const ContactSupport = () => {
                                               <td className="border text_area ">
                                                 {wrap === item?._id ? (
                                                   <>
-                                                    {item?.messageTextArea}{" "}
-                                                    ....
+                                                    {item?.messageTextArea} ....
                                                     <a
                                                       className="text-primary"
-                                                      onClick={() =>
-                                                        setWrap()
-                                                      }>
+                                                      onClick={() => setWrap()}>
                                                       read less
                                                     </a>
                                                   </>
@@ -789,6 +804,15 @@ const ContactSupport = () => {
                                 </div>
                               </div>
                             </div>
+                          </div>
+                        </div>
+                        <div
+                          className="tab-pane fade"
+                          id="nav-help"
+                          role="tabpanel"
+                          aria-labelledby="nav-help-tab">
+                          <div className="row mx-0 ">
+                            <UserGuide />
                           </div>
                         </div>
                       </div>
