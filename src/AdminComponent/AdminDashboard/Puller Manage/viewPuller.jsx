@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "70%", mr: 1 , ml:2 }}>
+      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
@@ -47,7 +47,9 @@ const ViewPuller = () => {
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 10 : prevProgress + 10
+      );
     }, 800);
     return () => {
       clearInterval(timer);
@@ -65,7 +67,7 @@ const ViewPuller = () => {
 
   const getPuller = async () => {
     await axios.get(getPullerApi + "/" + id).then((res) => {
-      setPullerDetails(res?.data.results);
+      setPullerDetails(res?.data.results?.puller[0]);
     });
   };
 
@@ -558,7 +560,7 @@ const ViewPuller = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Total Orders</h2>
-                        <span>0</span>
+                        <span>{pullerDetails?.TotalOrders}</span>
                       </div>
                     </div>
                   </Link>
@@ -574,8 +576,8 @@ const ViewPuller = () => {
                     </div>
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
-                        <h2>Active Orders</h2>
-                        <span>0</span>
+                        <h2>Assigned Orders</h2>
+                        <span>{pullerDetails?.AssignedOrdersCount}</span>
                       </div>
                     </div>
                   </Link>
@@ -592,7 +594,7 @@ const ViewPuller = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Pending Orders</h2>
-                        <span>0</span>
+                        <span>{pullerDetails?.InProgressOrdersCount}</span>
                       </div>
                     </div>
                   </Link>
@@ -610,17 +612,14 @@ const ViewPuller = () => {
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Completed Orders</h2>
-                        <span>0</span>
+                        <span>{pullerDetails?.CompletedOrdersCount}</span>
                       </div>
                     </div>
                   </Link>
                 </div>
               </div>
 
-              <div className="col-12 mb-4 d-flex align-items-stretch">
-                 
-                </div>
-            
+              <div className="col-12 mb-4 d-flex align-items-stretch"></div>
 
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman recent_orders shadow">
@@ -632,9 +631,7 @@ const ViewPuller = () => {
                       <div className="Status_box">
                         Status:{" "}
                         <strong>
-                          {pullerDetails?.puller?.status
-                            ? "Active"
-                            : "In-active"}
+                          {pullerDetails?.status ? "Active" : "In-active"}
                         </strong>
                       </div>
                     </div>
@@ -652,7 +649,7 @@ const ViewPuller = () => {
                                 <img
                                   className="UserImage"
                                   id="image"
-                                  src={pullerDetails?.puller?.image}
+                                  src={pullerDetails?.image}
                                   alt="Upload Image ........"
                                 />
                               </div>
@@ -685,7 +682,7 @@ const ViewPuller = () => {
                               "form-control  border border-secondary  signup_fields",
                               { "is-invalid": errors.puller_name }
                             )}
-                            defaultValue={pullerDetails?.puller?.fullName}
+                            defaultValue={pullerDetails?.fullName}
                             name="puller_name"
                             id="name"
                             {...register("puller_name")}
@@ -707,7 +704,7 @@ const ViewPuller = () => {
                               "form-control  border border-secondary signup_fields ",
                               { "is-invalid": errors.email }
                             )}
-                            defaultValue={pullerDetails?.puller?.email}
+                            defaultValue={pullerDetails?.email}
                             name="email"
                             id="name"
                             {...register("email", {
@@ -850,7 +847,7 @@ const ViewPuller = () => {
                                           </tr>
                                         </thead>
                                         <tbody className="border">
-                                          {(pullerDetails?.order || [])?.map(
+                                          {(pullerDetails?.assigned || [])?.map(
                                             (item, index) => (
                                               <tr className="border">
                                                 <td className="border text-center">
@@ -880,7 +877,7 @@ const ViewPuller = () => {
                                                     {item?.pullStatus}
                                                     <Box sx={{ width: "100%" }}>
                                                       <LinearProgressWithLabel
-                                                        value={progress}
+                                                        value={20}
                                                       />
                                                     </Box>
                                                   </span>
@@ -929,53 +926,58 @@ const ViewPuller = () => {
                                           </tr>
                                         </thead>
                                         <tbody className="border">
-                                          {(pullerDetails?.order || [])?.map(
-                                            (item, index) => (
-                                              <tr className="border">
-                                                <td className="border text-center">
-                                                  <div className="cart_content border text-center mt-2">
-                                                    {item?.orderId}
-                                                  </div>
-                                                </td>
-                                                <td className="border text-center">
-                                                  <div className="cart_content mt-2">
-                                                    <h3 className="fs-6">
-                                                      {item?.type}
-                                                    </h3>
-                                                  </div>
-                                                </td>
-                                                <td>
-                                                  <span className="ordertext my-2 d-block text-center ">
-                                                    Ordered On:{" "}
-                                                    {item?.createdAt?.slice(
-                                                      0,
-                                                      10
-                                                    )}
-                                                  </span>
-                                                </td>
+                                          {(
+                                            pullerDetails?.inProgress || []
+                                          )?.map((item, index) => (
+                                            <tr className="border">
+                                              <td className="border text-center">
+                                                <div className="cart_content border text-center mt-2">
+                                                  {item?.orderId}
+                                                </div>
+                                              </td>
+                                              <td className="border text-center">
+                                                <div className="cart_content mt-2">
+                                                  <h3 className="fs-6">
+                                                    {item?.type}
+                                                  </h3>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <span className="ordertext my-2 d-block text-center ">
+                                                  Ordered On:{" "}
+                                                  {item?.createdAt?.slice(
+                                                    0,
+                                                    10
+                                                  )}
+                                                </span>
+                                              </td>
 
-                                                <td className="border rounded">
-                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                                    {item?.pullStatus}
-                                                  </span>
-                                                </td>
+                                              <td className="border rounded">
+                                                <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                  {item?.pullStatus}
+                                                  <Box sx={{ width: "100%" }}>
+                                                    <LinearProgressWithLabel
+                                                      value={60}
+                                                    />
+                                                  </Box>
+                                                </span>
+                                              </td>
 
-                                                <td className="border text-center">
-                                                  <span className="fs-5 rounded ">
-                                                    <button
-                                                      className="comman_btn"
-                                                      onClick={() =>
-                                                        navigate(
-                                                          `/OrderRequest/ViewOrder/${item?._id}`
-                                                        )
-                                                      }>
-                                                      View
-                                                    </button>
-                                                  </span>
-                                                </td>
-                                              </tr>
-                                            )
-                                          )}
+                                              <td className="border text-center">
+                                                <span className="fs-5 rounded ">
+                                                  <button
+                                                    className="comman_btn"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/OrderRequest/ViewOrder/${item?._id}`
+                                                      )
+                                                    }>
+                                                    View
+                                                  </button>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          ))}
                                         </tbody>
                                       </table>
                                     </div>
@@ -1003,53 +1005,58 @@ const ViewPuller = () => {
                                           </tr>
                                         </thead>
                                         <tbody className="border">
-                                          {(pullerDetails?.order || [])?.map(
-                                            (item, index) => (
-                                              <tr className="border">
-                                                <td className="border text-center">
-                                                  <div className="cart_content border text-center mt-2">
-                                                    {item?.orderId}
-                                                  </div>
-                                                </td>
-                                                <td className="border text-center">
-                                                  <div className="cart_content mt-2">
-                                                    <h3 className="fs-6">
-                                                      {item?.type}
-                                                    </h3>
-                                                  </div>
-                                                </td>
-                                                <td>
-                                                  <span className="ordertext my-2 d-block text-center ">
-                                                    Ordered On:{" "}
-                                                    {item?.createdAt?.slice(
-                                                      0,
-                                                      10
-                                                    )}
-                                                  </span>
-                                                </td>
+                                          {(
+                                            pullerDetails?.completed || []
+                                          )?.map((item, index) => (
+                                            <tr className="border">
+                                              <td className="border text-center">
+                                                <div className="cart_content border text-center mt-2">
+                                                  {item?.orderId}
+                                                </div>
+                                              </td>
+                                              <td className="border text-center">
+                                                <div className="cart_content mt-2">
+                                                  <h3 className="fs-6">
+                                                    {item?.type}
+                                                  </h3>
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <span className="ordertext my-2 d-block text-center ">
+                                                  Ordered On:{" "}
+                                                  {item?.createdAt?.slice(
+                                                    0,
+                                                    10
+                                                  )}
+                                                </span>
+                                              </td>
 
-                                                <td className="border rounded">
-                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                                    {item?.pullStatus}
-                                                  </span>
-                                                </td>
+                                              <td className="border rounded">
+                                                <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                  {item?.pullStatus}
+                                                  <Box sx={{ width: "100%" }}>
+                                                    <LinearProgressWithLabel
+                                                      value={100}
+                                                    />
+                                                  </Box>
+                                                </span>
+                                              </td>
 
-                                                <td className="border text-center">
-                                                  <span className="fs-5 rounded ">
-                                                    <button
-                                                      className="comman_btn"
-                                                      onClick={() =>
-                                                        navigate(
-                                                          `/OrderRequest/ViewOrder/${item?._id}`
-                                                        )
-                                                      }>
-                                                      View
-                                                    </button>
-                                                  </span>
-                                                </td>
-                                              </tr>
-                                            )
-                                          )}
+                                              <td className="border text-center">
+                                                <span className="fs-5 rounded ">
+                                                  <button
+                                                    className="comman_btn"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        `/OrderRequest/ViewOrder/${item?._id}`
+                                                      )
+                                                    }>
+                                                    View
+                                                  </button>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          ))}
                                         </tbody>
                                       </table>
                                     </div>
