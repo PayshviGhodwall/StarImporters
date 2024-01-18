@@ -8,7 +8,24 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { Button } from "rsuite";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "70%", mr: 1 , ml:2 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 const ViewPuller = () => {
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -25,6 +42,17 @@ const ViewPuller = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [progress, setProgress] = useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const onFileSelection = (e, key) => {
     let image = e.target.files[0];
@@ -517,6 +545,83 @@ const ViewPuller = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row inventory-management justify-content-center">
             <div className="col-12">
+              <div className="row ms-3 mb-5 justify-content-center">
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Total Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-spinner"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Active Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Pending Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-list-check"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Completed Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="col-12 mb-4 d-flex align-items-stretch">
+                 
+                </div>
+            
+
               <div className="row mx-0">
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row comman_header justify-content-between">
@@ -671,64 +776,288 @@ const ViewPuller = () => {
                         </div>
                       </form>
                     </div>
-                    <div className="col-12 mb-4">
-                      <div className="cart_table\s">
-                        <div className="table-responsive">
-                          <table className="table">
-                            <thead>
-                              <tr className="">
-                                <th>ORDER ID</th>
-                                <th>ORDER TYPE</th>
-                                <th>ORDER DATE</th>
-                                <th>PULL STATUS</th>
-                                <th>ACTION</th>
-                              </tr>
-                            </thead>
-                            <tbody className="border">
-                              {(pullerDetails?.order || [])?.map(
-                                (item, index) => (
-                                  <tr className="border">
-                                    <td className="border text-center">
-                                      <div className="cart_content border text-center mt-2">
-                                        {item?.orderId}
-                                      </div>
-                                    </td>
-                                    <td className="border text-center">
-                                      <div className="cart_content mt-2">
-                                        <h3 className="fs-6">{item?.type}</h3>
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <span className="ordertext my-2 d-block text-center ">
-                                        Ordered On:{" "}
-                                        {item?.createdAt?.slice(0, 10)}
-                                      </span>
-                                    </td>
 
-                                    <td className="border rounded">
-                                      <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                        {item?.pullStatus}
-                                      </span>
-                                    </td>
+                    <div className="col-12 design_outter_comman  shadow">
+                      <div className="row">
+                        <div className="col-12 user-management-tabs px-0">
+                          <nav>
+                            <div
+                              className="nav nav-tabs"
+                              id="nav-tab"
+                              role="tablist">
+                              <button
+                                style={{
+                                  width: "33.33%",
+                                }}
+                                className="nav-link active"
+                                id="nav-home-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-home"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-home"
+                                aria-selected="true">
+                                Active Orders
+                              </button>
+                              <button
+                                className="nav-link"
+                                style={{
+                                  width: "33.33%",
+                                }}
+                                id="nav-profile-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-profile"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-profile"
+                                aria-selected="false">
+                                Pending Orders
+                              </button>
+                              <button
+                                style={{
+                                  width: "33.33%",
+                                }}
+                                className="nav-link"
+                                id="nav-help-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-help"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-help"
+                                aria-selected="false">
+                                Completed Orders
+                              </button>
+                            </div>
+                          </nav>
+                          <div className="tab-content" id="nav-tabContent">
+                            <div
+                              className="tab-pane fade show active"
+                              id="nav-home"
+                              role="tabpanel"
+                              aria-labelledby="nav-home-tab">
+                              <div className="row mx-0">
+                                <div className="col-12 mb-4">
+                                  <div className="cart_table\s">
+                                    <div className="table-responsive">
+                                      <table className="table puller_table">
+                                        <thead>
+                                          <tr className="">
+                                            <th>ORDER ID</th>
+                                            <th>ORDER TYPE</th>
+                                            <th>ORDER DATE</th>
+                                            <th>PULL STATUS</th>
+                                            <th>ACTION</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="border">
+                                          {(pullerDetails?.order || [])?.map(
+                                            (item, index) => (
+                                              <tr className="border">
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.orderId}
+                                                  </div>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content mt-2">
+                                                    <h3 className="fs-6">
+                                                      {item?.type}
+                                                    </h3>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <span className="ordertext my-2 d-block text-center ">
+                                                    Ordered On:{" "}
+                                                    {item?.createdAt?.slice(
+                                                      0,
+                                                      10
+                                                    )}
+                                                  </span>
+                                                </td>
 
-                                    <td className="border text-center">
-                                      <span className="fs-5 rounded ">
-                                        <button
-                                          className="comman_btn"
-                                          onClick={() =>
-                                            navigate(
-                                              `/OrderRequest/ViewOrder/${item?._id}`
+                                                <td className="border rounded ">
+                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                    {item?.pullStatus}
+                                                    <Box sx={{ width: "100%" }}>
+                                                      <LinearProgressWithLabel
+                                                        value={progress}
+                                                      />
+                                                    </Box>
+                                                  </span>
+                                                </td>
+
+                                                <td className="border text-center">
+                                                  <span className="fs-5 rounded ">
+                                                    <button
+                                                      className="comman_btn"
+                                                      onClick={() =>
+                                                        navigate(
+                                                          `/OrderRequest/ViewOrder/${item?._id}`
+                                                        )
+                                                      }>
+                                                      View
+                                                    </button>
+                                                  </span>
+                                                </td>
+                                              </tr>
                                             )
-                                          }>
-                                          View
-                                        </button>
-                                      </span>
-                                    </td>
-                                  </tr>
-                                )
-                              )}
-                            </tbody>
-                          </table>
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane fade"
+                              id="nav-profile"
+                              role="tabpanel"
+                              aria-labelledby="nav-profile-tab">
+                              <div className="row mx-0 ">
+                                <div className="col-12 mb-4">
+                                  <div className="cart_table\s">
+                                    <div className="table-responsive">
+                                      <table className="table puller_table">
+                                        <thead>
+                                          <tr className="">
+                                            <th>ORDER ID</th>
+                                            <th>ORDER TYPE</th>
+                                            <th>ORDER DATE</th>
+                                            <th>PULL STATUS</th>
+                                            <th>ACTION</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="border">
+                                          {(pullerDetails?.order || [])?.map(
+                                            (item, index) => (
+                                              <tr className="border">
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.orderId}
+                                                  </div>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content mt-2">
+                                                    <h3 className="fs-6">
+                                                      {item?.type}
+                                                    </h3>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <span className="ordertext my-2 d-block text-center ">
+                                                    Ordered On:{" "}
+                                                    {item?.createdAt?.slice(
+                                                      0,
+                                                      10
+                                                    )}
+                                                  </span>
+                                                </td>
+
+                                                <td className="border rounded">
+                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                    {item?.pullStatus}
+                                                  </span>
+                                                </td>
+
+                                                <td className="border text-center">
+                                                  <span className="fs-5 rounded ">
+                                                    <button
+                                                      className="comman_btn"
+                                                      onClick={() =>
+                                                        navigate(
+                                                          `/OrderRequest/ViewOrder/${item?._id}`
+                                                        )
+                                                      }>
+                                                      View
+                                                    </button>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane fade"
+                              id="nav-help"
+                              role="tabpanel"
+                              aria-labelledby="nav-help-tab">
+                              <div className="row mx-0 ">
+                                <div className="col-12 mb-4">
+                                  <div className="cart_table\s">
+                                    <div className="table-responsive">
+                                      <table className="table puller_table">
+                                        <thead>
+                                          <tr className="">
+                                            <th>ORDER ID</th>
+                                            <th>ORDER TYPE</th>
+                                            <th>ORDER DATE</th>
+                                            <th>PULL STATUS</th>
+                                            <th>ACTION</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="border">
+                                          {(pullerDetails?.order || [])?.map(
+                                            (item, index) => (
+                                              <tr className="border">
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.orderId}
+                                                  </div>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content mt-2">
+                                                    <h3 className="fs-6">
+                                                      {item?.type}
+                                                    </h3>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <span className="ordertext my-2 d-block text-center ">
+                                                    Ordered On:{" "}
+                                                    {item?.createdAt?.slice(
+                                                      0,
+                                                      10
+                                                    )}
+                                                  </span>
+                                                </td>
+
+                                                <td className="border rounded">
+                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                    {item?.pullStatus}
+                                                  </span>
+                                                </td>
+
+                                                <td className="border text-center">
+                                                  <span className="fs-5 rounded ">
+                                                    <button
+                                                      className="comman_btn"
+                                                      onClick={() =>
+                                                        navigate(
+                                                          `/OrderRequest/ViewOrder/${item?._id}`
+                                                        )
+                                                      }>
+                                                      View
+                                                    </button>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

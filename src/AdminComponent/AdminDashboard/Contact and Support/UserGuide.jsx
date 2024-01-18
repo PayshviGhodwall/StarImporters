@@ -27,7 +27,6 @@ const UserGuide = () => {
   const viewCollection = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/gallery`;
   const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/galleryStatus/`;
   const [preload, setPreload] = React.useState("");
-
   const [loader, setLoader] = useState(false);
   const [allVideos, setAllVideos] = useState();
   const [pdf, setPdf] = useState([]);
@@ -63,9 +62,11 @@ const UserGuide = () => {
         (fileType === "videos" && video?.video) ||
         (fileType === "pdf" && files?.pdf)
     );
+
     // multipleFiles?.dataImg?.map((item) => {
     //   formData.append("images", item?.images);
     // });
+
 
     await axios.post(addCollection, formData).then((res) => {
       getCollection();

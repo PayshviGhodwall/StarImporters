@@ -42,9 +42,9 @@ const Catelogues = () => {
 
   return (
     <div>
-      <div className="">
+      <div className="bg-white">
         <Navbar />
-        
+
         <section className="marginTop">
           <>
             {loader ? (
@@ -55,146 +55,129 @@ const Catelogues = () => {
               </div>
             ) : (
               <div>
-                <div
-                  class="main-banner product_show_home_Gallery main_video"
-                  style={{ backgroundImage: `url(${image})` }}>
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-lg-10 offset-lg-1">
-                        <div class="header-text">
-                          <h2>
-                            Explore our <em>Monthly Flyers</em> &amp; Amazing{" "}
-                            <em>Catalogs</em>
-                          </h2>
-                          <p>
-                            STAR IMPORTERS & WHOLESALERS Established Since 1994.
-                          </p>
-                          <div class="icon-button">
-                            <a
-                              href="https://www.youtube.com/@starimporters"
-                              target="_blank">
-                              <i class="fa fa-play"></i> Watch Our Videos Now
-                            </a>
-                          </div>
-                          <div class="buttons">
-                            <div class="">
-                              <Link
-                                activeClass="active"
-                                style={{ cursor: "pointer" }}
-                                to="collection"
-                                spy={true}
-                                smooth={true}
-                                offset={-50}
-                                duration={100}>
-                                <div class="container_swipe">
-                                  <div class="chevron"></div>
-                                  <div class="chevron"></div>
-                                  <div class="chevron"></div>
-                                </div>
-                              </Link>
-                            </div>
-                          </div>
+                <section className="comman_banner _banner marginTopSecx">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12">
+                        <h1>Catalogs & Flyers</h1>
+                        <div className="breadcrumbs mt-2">
+                          <nav aria-label="breadcrumb">
+                            <ol className="breadcrumb mb-0">
+                              <li className="item_nanner">
+                                <Link
+                                  to="/app/home"
+                                  className="text-decoration-none text-white fs-6  ">
+                                  Home{" "}
+                                  <span className="arrow mx-2">&#9679;</span>{" "}
+                                </Link>
+                              </li>
+                              <li
+                                className="breadcrumb-item"
+                                aria-current="page">
+                                <a className="text-decoration-none text-white fs-6 ">
+                                  Catalogs & Flyers
+                                </a>
+                              </li>
+                            </ol>
+                          </nav>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </section>
 
-                <div
-                  className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
-                  id="collection">
-                  <div>
-                    <div class="nine">
-                      <h1>
-                        CATALOGS<span>Latest</span>
-                      </h1>
+                {catalogs?.length > 0 && (
+                  <div
+                    className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
+                    id="collection">
+                    <div>
+                      <div class="nine">
+                        <h1>
+                          CATALOGS<span>Latest</span>
+                        </h1>
+                      </div>
+                    </div>
+                    <div className="row tm-mb-90 tm-gallery p-4 shadow pt-5">
+                      <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
+                        {(catalogs || [])?.map((item, ind) => (
+                          <Carousel.Item>
+                            <a target="_blank" href={item?.url} className="">
+                              <figure className="effect-ming tm-video-item">
+                                <img
+                                  loading="lazy"
+                                  src={
+                                    item?.coverImage
+                                      ? item?.coverImage
+                                      : require("../../assets/img/logoCat.jpg")
+                                  }
+                                  alt="Image"
+                                  className="img-fluid "
+                                />
+                                <figcaption className="d-flex align-items-center justify-content-center">
+                                  <h2>{item?.title}</h2>
+                                  <a>View more</a>
+                                </figcaption>
+                              </figure>
+                              <div className="d-flex justify-content-center tm-text-gray">
+                                <span className="text-dark fw-bold mb-1">
+                                  {moment(item?.createdAt?.slice(0, 10)).format(
+                                    "MM/DD/YYYY"
+                                  )}
+                                </span>
+                              </div>
+                            </a>
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
                     </div>
                   </div>
-                  <div className="row tm-mb-90 tm-gallery p-4 ">
-                    <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
-                      {(catalogs || [])?.map((item, ind) => (
-                        <Carousel.Item>
-                          <a
-                            target="_blank"
-                            href={item?.url}
-                            className="border rounded bg-light shadow">
-                            <figure className="effect-ming tm-video-item">
-                              <img
-                              loading="lazy"
-                                src={
-                                  item?.coverImage
-                                    ? item?.coverImage
-                                    : require("../../assets/img/iconCata.png")
-                                }
-                                alt="Image"
-                                className="img-fluid"
-                              />
-                              <figcaption className="d-flex align-items-center justify-content-center">
-                                <h2>{item?.title}</h2>
-                                <a>View more</a>
-                              </figcaption>
-                            </figure>
-                            <div className="d-flex justify-content-center tm-text-gray">
-                              <span className="text-dark fw-bold mb-1">
-                                {moment(item?.createdAt?.slice(0, 10)).format(
-                                  "MM/DD/YYYY"
-                                )}
-                              </span>
-                            </div>
-                          </a>
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                  </div>
-                </div>
+                )}
 
-                <div
-                  className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
-                  id="collection">
-                  <div>
-                    <div class="nine">
-                      <h1>
-                        Flyers<span>Latest</span>
-                      </h1>
+                {flyers?.length && (
+                  <div
+                    className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
+                    id="collection">
+                    <div>
+                      <div class="nine">
+                        <h1>
+                          Flyers<span>Latest</span>
+                        </h1>
+                      </div>
+                    </div>
+                    <div className="row tm-mb-90 tm-gallery p-4  shadow pt-5">
+                      <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
+                        {(flyers || [])?.map((item, ind) => (
+                          <Carousel.Item>
+                            <a href={item?.url} target="_blank" className="">
+                              <figure className="effect-ming tm-video-item">
+                                <img
+                                  src={
+                                    item?.coverImage
+                                      ? item?.coverImage
+                                      : require("../../assets/img/logoCat.jpg")
+                                  }
+                                  alt="Image"
+                                  className="img-fluid"
+                                />
+                                <figcaption className="d-flex align-items-center justify-content-center">
+                                  <h2>{item?.title}</h2>
+                                  <a>View more</a>
+                                </figcaption>
+                              </figure>
+                              <div className="d-flex justify-content-center tm-text-gray">
+                                <span className=" mb-1 text-dark fw-bold">
+                                  {moment(item?.createdAt?.slice(0, 10)).format(
+                                    "MM/DD/YYYY"
+                                  )}
+                                </span>
+                              </div>
+                            </a>
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
                     </div>
                   </div>
-
-                  <div className="row tm-mb-90 tm-gallery p-4 ">
-                    <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
-                      {(flyers || [])?.map((item, ind) => (
-                        <Carousel.Item>
-                          <a
-                            href={item?.url}
-                            target="_blank"
-                            className="border rounded bg-white shadow">
-                            <figure className="effect-ming tm-video-item">
-                              <img
-                                src={
-                                  item?.coverImage
-                                    ? item?.coverImage
-                                    : require("../../assets/img/iconCata.png")
-                                }
-                                alt="Image"
-                                className="img-fluid"
-                              />
-                              <figcaption className="d-flex align-items-center justify-content-center">
-                                <h2>{item?.title}</h2>
-                                <a>View more</a>
-                              </figcaption>
-                            </figure>
-                            <div className="d-flex justify-content-center tm-text-gray">
-                              <span className=" mb-1 text-dark fw-bold">
-                                {moment(item?.createdAt?.slice(0, 10)).format(
-                                  "MM/DD/YYYY"
-                                )}
-                              </span>
-                            </div>
-                          </a>
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                  </div>
-                </div>
+                )}
 
                 <Footer />
               </div>

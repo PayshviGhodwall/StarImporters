@@ -232,9 +232,7 @@ const PullerManagement = () => {
                   </Link>
                 </li>
                 <li
-                  className={
-                    User?.access?.includes("Gallery") ? "" : "d-none"
-                  }>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/Gallery-Management"
@@ -258,7 +256,6 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                     
                     }}>
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
@@ -291,20 +288,19 @@ const PullerManagement = () => {
                     Content Management
                   </Link>
                 </li>
-               <li
+                <li
                   className={User?.access?.includes("Contact") ? "" : "d-none"}>
                   <Link
-                      className=""
-                      to="/Contact&Support"
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "18px",
-                        
-                      }}>
-                      <i
-                        style={{ position: "relative", left: "4px", top: "3px" }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
-                      Contact & Support
+                    className=""
+                    to="/Contact&Support"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"></i>{" "}
+                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -527,6 +523,78 @@ const PullerManagement = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row inventory-management justify-content-center">
             <div className="col-12">
+              <div className="row ms-3 mb-5 justify-content-center">
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="far fa-clinic-medical"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Total Pullers</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="far fa-clinic-medical"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Assigned Pullers</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="far fa-clinic-medical"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Live Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="col-3 mb-4 d-flex align-items-stretch">
+                  <Link
+                    to="/admin/clinician-management"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i className="far fa-clinic-medical"></i>
+                      </span>
+                    </div>  
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Completed Orders</h2>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
               <div className="row mx-0 ">
                 <div className="col-12 design_outter_comman shadow mb-4">
                   <div className="row comman_header justify-content-between">

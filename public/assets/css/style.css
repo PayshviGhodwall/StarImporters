@@ -18555,3 +18555,16 @@ li {
   top: -4px;
   margin-right: 5px;
 }
+.puller_table th {
+  align-items: center;
+  text-align: center !important;
+}
+.puller_table td {
+  align-items: center !important;
+  padding-top: 10px !important;
+  height: 3rem !important;
+}
+.puller_table {
+ width: 100%;
+ margin-top: 5px !important;
+}
