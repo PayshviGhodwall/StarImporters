@@ -140,6 +140,7 @@ import PreviewPrint from "./AdminComponent/AdminDashboard/Catalog&Flyers/Preview
 import CreatePdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfCate";
 import PreviewPdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPdfCate";
 import HelpSupport from "./buyerComponent/Extras/HelpSupport";
+import LiveDashboard from "./AdminComponent/AdminDashboard/Puller Manage/LiveDashboard";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -264,26 +265,34 @@ function App() {
               path="/Catelog-Flyers/Create-New/:id"
               element={<CreateCatalog />}
             />
-               <Route
+            <Route
               path="/Catelog-Flyers/Create-New-pdf/:id"
               element={<CreatePdfCate />}
             />
-            <Route path="/Catelog-Flyers/EditCatalog/:id" element={<EditCatalog />} />
+            <Route
+              path="/Catelog-Flyers/EditCatalog/:id"
+              element={<EditCatalog />}
+            />
             <Route
               path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}
             />
-             <Route
+            <Route
               path="/Catelog-Flyers/Preview-Catalog-pdf/:id"
               element={<PreviewPdfCate />}
             />
-             <Route
+            <Route
               path="/Catelog-Flyers/PreviewPrint-Catalog/:id"
               element={<PreviewPrint />}
             />
             <Route
               path="/Puller-Management/Puller-details/:id"
               element={<ViewPuller />}
+            />
+
+            <Route
+              path="/Puller-Management/LiveDashboard"
+              element={<LiveDashboard />}
             />
             <Route path="/Inventory/View" element={<ViewProduct />} />
             <Route
@@ -419,7 +428,7 @@ function App() {
               path="/app/quotes"
               element={width < 999 ? <AppQuotes /> : <MyQuotes />}
             />
-              <Route
+            <Route
               path="/app/help-support"
               element={width < 999 ? <AppHome /> : <HelpSupport />}
             />

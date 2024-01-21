@@ -7,6 +7,8 @@ import Starlogo from "../../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Carousel from "react-grid-carousel";
 import moment from "moment";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 
 const Catelogues = () => {
   const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
@@ -42,9 +44,8 @@ const Catelogues = () => {
 
   return (
     <div>
-      <div className="bg-white">
+      <div className="">
         <Navbar />
-
         <section className="marginTop">
           <>
             {loader ? (
@@ -88,93 +89,121 @@ const Catelogues = () => {
 
                 {catalogs?.length > 0 && (
                   <div
-                    className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
-                    id="collection">
-                    <div>
-                      <div class="nine">
-                        <h1>
-                          CATALOGS<span>Latest</span>
-                        </h1>
+                    className="container-fluid bg-white shadow"
+                    style={{
+                      width: "80%",
+                      padding: "20px 20px",
+                      marginTop: "30px",
+                      borderRadius: "15px",
+                    }}>
+                    <div class="col-12 mb-5  mt-3">
+                      <div class="comn_heads mb-5">
+                        <h2>Catalogs</h2>
                       </div>
                     </div>
-                    <div className="row tm-mb-90 tm-gallery p-4 shadow pt-5">
-                      <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
-                        {(catalogs || [])?.map((item, ind) => (
-                          <Carousel.Item>
-                            <a target="_blank" href={item?.url} className="">
-                              <figure className="effect-ming tm-video-item">
-                                <img
-                                  loading="lazy"
-                                  src={
-                                    item?.coverImage
-                                      ? item?.coverImage
-                                      : require("../../assets/img/logoCat.jpg")
-                                  }
-                                  alt="Image"
-                                  className="img-fluid "
-                                />
-                                <figcaption className="d-flex align-items-center justify-content-center">
-                                  <h2>{item?.title}</h2>
-                                  <a>View more</a>
-                                </figcaption>
-                              </figure>
-                              <div className="d-flex justify-content-center tm-text-gray">
-                                <span className="text-dark fw-bold mb-1">
-                                  {moment(item?.createdAt?.slice(0, 10)).format(
-                                    "MM/DD/YYYY"
-                                  )}
-                                </span>
+                    <div class="col-md-12">
+                      <div class="row justify-content-center comman_product1">
+                        <Swiper
+                          slidesPerView={4}
+                          spaceBetween={30}
+                          navigation={true}
+                          autoplay={{
+                            delay: 5000,
+                            disableOnInteraction: true,
+                            reverseDirection: true,
+                            waitForTransition: true,
+                          }}
+                          loop={true}
+                          style={{ padding: "30px" }}
+                          modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                          className="mySwiper">
+                          {(catalogs || [])?.map((item, index) => (
+                            <SwiperSlide key={index} className="px-3 main_hot">
+                              <div class="mb-5 ">
+                                <a
+                                  href={item?.url}
+                                  target="_blank"
+                                  class="categorynew_box text-decoration-none">
+                                  <a>
+                                    <div class="categorynew_img p-3">
+                                      <img
+                                        src={
+                                          item?.coverImage
+                                            ? item?.coverImage
+                                            : require("../../assets/img/logoCat.jpg")
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                  </a>
+                                  <span>{item?.title}</span>
+                                </a>
                               </div>
-                            </a>
-                          </Carousel.Item>
-                        ))}
-                      </Carousel>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {flyers?.length && (
                   <div
-                    className="container tm-container-content tm-mt-60 mt-5 widht_mng_r"
-                    id="collection">
-                    <div>
-                      <div class="nine">
-                        <h1>
-                          Flyers<span>Latest</span>
-                        </h1>
+                    className="container-fluid bg-white shadow"
+                    style={{
+                      width: "80%",
+                      padding: "20px 20px",
+                      marginTop: "30px",
+                      marginBottom: "30px",
+                      borderRadius: "15px",
+                    }}>
+                    <div class="col-12 mb-5  mt-3">
+                      <div class="comn_heads mb-5">
+                        <h2>Flyers</h2>
                       </div>
                     </div>
-                    <div className="row tm-mb-90 tm-gallery p-4  shadow pt-5">
-                      <Carousel cols={3} rows={1} gap={15} loop autoplay={3000}>
-                        {(flyers || [])?.map((item, ind) => (
-                          <Carousel.Item>
-                            <a href={item?.url} target="_blank" className="">
-                              <figure className="effect-ming tm-video-item">
-                                <img
-                                  src={
-                                    item?.coverImage
-                                      ? item?.coverImage
-                                      : require("../../assets/img/logoCat.jpg")
-                                  }
-                                  alt="Image"
-                                  className="img-fluid"
-                                />
-                                <figcaption className="d-flex align-items-center justify-content-center">
-                                  <h2>{item?.title}</h2>
-                                  <a>View more</a>
-                                </figcaption>
-                              </figure>
-                              <div className="d-flex justify-content-center tm-text-gray">
-                                <span className=" mb-1 text-dark fw-bold">
-                                  {moment(item?.createdAt?.slice(0, 10)).format(
-                                    "MM/DD/YYYY"
-                                  )}
-                                </span>
+                    <div class="col-md-12">
+                      <div class="row justify-content-center comman_product1">
+                        <Swiper
+                          slidesPerView={4}
+                          spaceBetween={30}
+                          navigation={true}
+                          autoplay={{
+                            delay: 5000,
+                            disableOnInteraction: true,
+                            reverseDirection: true,
+                            waitForTransition: true,
+                          }}
+                          loop={true}
+                          style={{ padding: "30px" }}
+                          modules={[FreeMode, Pagination, Autoplay, Navigation]}
+                          className="mySwiper">
+                          {(flyers || [])?.map((item, index) => (
+                            <SwiperSlide key={index} className="px-3 main_hot">
+                              <div class="mb-5 ">
+                                <a
+                                  href={item?.url}
+                                  target="_blank"
+                                  class="categorynew_box text-decoration-none">
+                                  <a>
+                                    <div class="categorynew_img p-3">
+                                      <img
+                                        src={
+                                          item?.coverImage
+                                            ? item?.coverImage
+                                            : require("../../assets/img/logoCat.jpg")
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                  </a>
+                                  <span>{item?.title}</span>
+                                </a>
                               </div>
-                            </a>
-                          </Carousel.Item>
-                        ))}
-                      </Carousel>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -185,50 +214,6 @@ const Catelogues = () => {
           </>
         </section>
       </div>
-
-      {/* <section class="">
-        <div className="">
-          <header class="site-header shadow">
-            <div class="site-identity">
-              <Link className="bg-white" to="/app/home">
-                <img
-                  style={{
-                    width: "8rem",
-                    height: "4rem",
-                  }}
-                  src={Starlogo}
-                  alt="Site Name"
-                />
-              </Link>
-              <h1>Star Importers & Wholesalers</h1>
-            </div>
-            <nav class="site-navigation">
-              <ul class="nav">
-              <li>
-                  <Link className="text-decoration-none text-dark" to="/app/events/catelog&flyer">Home</Link>
-                </li>
-                <li>
-                  <Link className="text-decoration-none text-dark" to="/app/events/catelog&flyer/All-Catalogs">Catalogs</Link>
-                </li>
-                <li>
-                  <Link className="text-decoration-none text-dark" to="/app/events/catelog&flyer/All-Flyers">Monthly Flyers</Link>
-                </li>
-                <li>
-                  <Link className="text-decoration-none text-dark" to="/app/about-us">About Us</Link>
-                </li>
-              </ul>
-            </nav>
-          </header>
-          <div className="bg-white">
-            <iframe
-              src="https://8f920893-trial.flowpaper.com/fileexamplePDF500kB/"
-              width="100%"
-              height="630"
-              allowFullScreen></iframe>
-          </div>
-        </div>
-  
-      </section> */}
     </div>
   );
 };
