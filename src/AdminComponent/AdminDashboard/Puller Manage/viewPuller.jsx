@@ -32,7 +32,9 @@ const ViewPuller = () => {
   const [pullerId, setPullerId] = useState();
   const getPullerApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getPuller`;
   const editPuller = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editPuller`;
+  const activeOrdersApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getActiveOrders`;
   const [pullerDetails, setPullerDetails] = useState([]);
+  const [activeOrders, setActiveOrders] = useState([]);
   const [files, setFiles] = useState([]);
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -45,17 +47,6 @@ const ViewPuller = () => {
 
   const [progress, setProgress] = useState(10);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 10 : prevProgress + 10
-      );
-    }, 800);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
   const onFileSelection = (e, key) => {
     let image = e.target.files[0];
     setFiles({ ...files, [key]: image });
@@ -63,11 +54,18 @@ const ViewPuller = () => {
 
   useEffect(() => {
     getPuller();
+    getOrderActive();
   }, []);
 
   const getPuller = async () => {
     await axios.get(getPullerApi + "/" + id).then((res) => {
       setPullerDetails(res?.data.results?.puller[0]);
+    });
+  };
+
+  const getOrderActive = async () => {
+    await axios.get(activeOrdersApi + "/" + id).then((res) => {
+      setActiveOrders(res?.data.results?.orders);
     });
   };
 
@@ -841,13 +839,13 @@ const ViewPuller = () => {
                                           <tr className="">
                                             <th>ORDER ID</th>
                                             <th>ORDER TYPE</th>
-                                            <th>ORDER DATE</th>
+                                            <th>START DATE</th>
                                             <th>PULL STATUS</th>
                                             <th>ACTION</th>
                                           </tr>
                                         </thead>
                                         <tbody className="border">
-                                          {(pullerDetails?.assigned || [])?.map(
+                                          {(activeOrders || [])?.map(
                                             (item, index) => (
                                               <tr className="border">
                                                 <td className="border text-center">
@@ -864,8 +862,7 @@ const ViewPuller = () => {
                                                 </td>
                                                 <td>
                                                   <span className="ordertext my-2 d-block text-center ">
-                                                    Ordered On:{" "}
-                                                    {item?.createdAt?.slice(
+                                                    {item?.startTime?.slice(
                                                       0,
                                                       10
                                                     )}
@@ -877,7 +874,10 @@ const ViewPuller = () => {
                                                     {item?.pullStatus}
                                                     <Box sx={{ width: "100%" }}>
                                                       <LinearProgressWithLabel
-                                                        value={20}
+                                                        color="success"
+                                                        value={
+                                                          item?.scannedPercentage
+                                                        }
                                                       />
                                                     </Box>
                                                   </span>
@@ -955,11 +955,6 @@ const ViewPuller = () => {
                                               <td className="border rounded">
                                                 <span className="fs-5 text-secondary  p-2 px-3 rounded">
                                                   {item?.pullStatus}
-                                                  <Box sx={{ width: "100%" }}>
-                                                    <LinearProgressWithLabel
-                                                      value={60}
-                                                    />
-                                                  </Box>
                                                 </span>
                                               </td>
 
@@ -1034,11 +1029,6 @@ const ViewPuller = () => {
                                               <td className="border rounded">
                                                 <span className="fs-5 text-secondary  p-2 px-3 rounded">
                                                   {item?.pullStatus}
-                                                  <Box sx={{ width: "100%" }}>
-                                                    <LinearProgressWithLabel
-                                                      value={100}
-                                                    />
-                                                  </Box>
                                                 </span>
                                               </td>
 

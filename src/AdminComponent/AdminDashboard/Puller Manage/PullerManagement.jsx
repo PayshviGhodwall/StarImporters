@@ -11,10 +11,11 @@ import moment from "moment";
 const PullerManagement = () => {
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
-  const [pullerId, setPullerId] = useState();
+  const [pullerCounts, setPullerCounts] = useState([]);
   const getPullerApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
   const pullerStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeStatus`;
   const createPuller = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createPuller`;
+  const dashCount = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/pullerDasboard`;
   const [allPullers, setAllPullers] = useState();
   const [maxPage, setMaxPage] = useState(1);
   const [files, setFiles] = useState([]);
@@ -30,11 +31,17 @@ const PullerManagement = () => {
   };
   useEffect(() => {
     getPullers();
+    getPullersDashCount();
   }, []);
   const getPullers = async () => {
     await axios.get(getPullerApi).then((res) => {
       setAllPullers(res?.data.results.pullers);
       setMaxPage(res?.data.results.totalPages);
+    });
+  };
+  const getPullersDashCount = async () => {
+    await axios.get(dashCount).then((res) => {
+      setPullerCounts(res?.data.results.puller[0]);
     });
   };
 
@@ -523,72 +530,74 @@ const PullerManagement = () => {
         <div className="admin_panel_data height_adjust">
           <div className="row inventory-management justify-content-center">
             <div className="col-12">
-              <div className="row ms-3 mb-5 justify-content-center">
-                <div className="col-3 mb-4 d-flex align-items-stretch">
+              <div className="row ms-3 mb-4 justify-content-center">
+                <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
-                    to="/admin/clinician-management"
+                    to="/Puller-Management/LiveDashboard"
                     className="row dashboard_box box_design me-3 w-100">
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
-                        <i className="far fa-clinic-medical"></i>
-                      </span>
-                    </div>
-                    <div className="col pe-0">
-                      <div className="dashboard_boxcontent">
-                        <h2>Total Pullers</h2>
-                        <span>0</span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className="col-3 mb-4 d-flex align-items-stretch">
-                  <Link
-                    to="/admin/clinician-management"
-                    className="row dashboard_box box_design me-3 w-100">
-                    <div className="col-auto px-0">
-                      <span className="dashboard_icon">
-                        <i className="far fa-clinic-medical"></i>
-                      </span>
-                    </div>
-                    <div className="col pe-0">
-                      <div className="dashboard_boxcontent">
-                        <h2>Assigned Pullers</h2>
-                        <span>0</span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className="col-3 mb-4 d-flex align-items-stretch">
-                  <Link
-                    to="/admin/clinician-management"
-                    className="row dashboard_box box_design me-3 w-100">
-                    <div className="col-auto px-0">
-                      <span className="dashboard_icon">
-                        <i className="far fa-clinic-medical"></i>
+                        <i
+                          class="fa-regular fa-circle-dot"
+                          style={{ color: "red" }}></i>
                       </span>
                     </div>
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Live Orders</h2>
-                        <span>0</span>
+                        <span>{pullerCounts?.liveOrders}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-3 d-flex align-items-stretch">
+                  <Link
+                    to="#"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Total Pullers</h2>
+                        <span>{pullerCounts?.pullers}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="col-3 mb-3 d-flex align-items-stretch">
+                  <Link
+                    to="#"
+                    className="row dashboard_box box_design me-3 w-100">
+                    <div className="col-auto px-0">
+                      <span className="dashboard_icon">
+                        <i class="fa-solid fa-spinner"></i>
+                      </span>
+                    </div>
+                    <div className="col pe-0">
+                      <div className="dashboard_boxcontent">
+                        <h2>Assigned Pullers</h2>
+                        <span>{pullerCounts?.assigned}</span>
                       </div>
                     </div>
                   </Link>
                 </div>
 
-                <div className="col-3 mb-4 d-flex align-items-stretch">
+                <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
-                    to="/admin/clinician-management"
+                    to="#"
                     className="row dashboard_box box_design me-3 w-100">
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
-                        <i className="far fa-clinic-medical"></i>
+                        <i class="fa-solid fa-list-check"></i>
                       </span>
-                    </div>  
+                    </div>
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
                         <h2>Completed Orders</h2>
-                        <span>0</span>
+                        <span>{pullerCounts?.completed}</span>
                       </div>
                     </div>
                   </Link>

@@ -17,22 +17,62 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  LinearProgress,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Modal,
+} from "@mui/material";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import moment from "moment";
 import axios from "axios";
 import { useState } from "react";
+import ViewItemsTable from "./ViewItemsTable";
+import Spin from "react-reveal/Spin";
 // import { mainListItems, secondaryListItems } from './listItems';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
 
-const drawerWidth = 240;
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px",
+};
 
+const drawerWidth = 240;
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "85%", mr: 1, ml: 0 }}>
+        <LinearProgress
+          sx={{ height:"6px" }}
+          color="success"
+          variant="determinate"
+          {...props}
+        />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: "#3e4093",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -82,11 +122,20 @@ export default function LiveDashboard() {
   const [pullerDetails, setPullerDetails] = React.useState([]);
   const [pullers, setPullers] = useState([]);
   const [open, setOpen] = React.useState(true);
+  const [openModal, setModalOpen] = React.useState(false);
+  const [orderId, setOrderId] = useState();
+  const handleOpen = (id, oId) => {
+    setOrderId({ id: id, orderId: oId });
+    setModalOpen(true);
+  };
+  const handleClose = () => setModalOpen(false);
+  const [selected, setSelected] = useState();
+  const [clicked, setClicked] = useState(false);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
 
   React.useEffect(() => {
-    getPuller();
+    getPuller(selected?._id, selected);
     getPullers();
   }, []);
 
@@ -94,9 +143,11 @@ export default function LiveDashboard() {
     setOpen(!open);
   };
 
-  const getPuller = async (id) => {
+  const getPuller = async (id, puller) => {
+    setSelected(puller);
     await axios.get(getPullerApi + "/" + id).then((res) => {
       setPullerDetails(res?.data.results?.orders);
+      setClicked(false);
     });
   };
 
@@ -132,12 +183,21 @@ export default function LiveDashboard() {
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}>
-              Active Orders Dashboard
+              Live Orders Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              <Spin left when={clicked}>
+                <i
+                  onClick={() => {
+                    setClicked(true);
+                    getPuller(selected?._id, selected);
+                  }}
+                  style={{
+                    transform:"scaleX(-1)"
+                  }}
+                  class="fa fa-refresh"
+                  aria-hidden="true"></i>
+              </Spin>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -167,7 +227,17 @@ export default function LiveDashboard() {
             {pullers
               ?.filter((itm) => itm?.isPullerBusy)
               .map((item) => (
-                <ListItemButton onClick={() => getPuller(item?._id)}>
+                <ListItemButton
+                  sx={
+                    selected?._id === item?._id && {
+                      backgroundColor: "#eb3237",
+                      color: "#000",
+                      fontWeight: "bold",
+                    }
+                  }
+                  onClick={() => {
+                    getPuller(item?._id, item);
+                  }}>
                   <ListItemIcon>
                     <EngineeringIcon />
                   </ListItemIcon>
@@ -190,61 +260,80 @@ export default function LiveDashboard() {
             overflow: "auto",
           }}>
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+          {selected && (
+            <Typography
+              sx={{ ml: 5, mt: 2 }}
+              id="modal-modal-title"
+              variant="h6"
+              component="h2">
+              Puller : <strong>{selected?.fullName}</strong>
+            </Typography>
+          )}
+          <Container maxWidth="xl" sx={{ mt: 2, mb: 4 }}>
+            <Grid
+              style={{
+                cursor: "pointer",
+              }}
+              container
+              spacing={4}>
               {(pullerDetails || [])?.map((item, index) => (
-                <Grid item xs={12} md={3} lg={3}>
+                <Grid
+                  onClick={() => handleOpen(item?._id, item?.orderId)}
+                  item
+                  xs={12}
+                  md={5}
+                  lg={4}
+                  xl={3}>
                   <Paper
                     sx={{
                       p: 2,
                       display: "flex",
                       flexDirection: "column",
-                      height: 240,
+                      height: 220,
                     }}>
-                    <div class="">
-                      <div
-                        class=""
-                        // onClick={() => navigate(`/app/order-detail/${item?._id}`)}
-                        // state={{ id: item?._id }}
-                      >
-                        <div class="row">
-                          <div class="col-6 mb-1 pe-0">
-                            <div class="orderID ">
-                              Order ID: <strong>{item?.orderId}</strong>
-                            </div>
+                    <div
+                      class=""
+                      // onClick={() => navigate(`/app/order-detail/${item?._id}`)}
+                      // state={{ id: item?._id }}
+                    >
+                      <div class="row liveDash">
+                        <div class="col-5 mb-1 pe-0 ">
+                          <div class="orderID ">
+                            Order ID: <strong>{item?.orderId}</strong>
                           </div>
+                        </div>
 
-                          <div class="col-6 mb-2">
-                            <div class="datee_part ">
-                              Assign Date:{" "}
-                              <strong>
-                                {moment(item?.assignDate?.slice(0, 10)).format(
-                                  "MM/DD/YYYY"
-                                )}
-                              </strong>
-                            </div>
+                        <div class="col-6 mb-2">
+                          <div class="datee_part ">
+                            Assign Date:{" "}
+                            <strong>
+                              {moment(item?.startTime).format("MM/DD/YYYY")}
+                            </strong>
                           </div>
-                          <div class="col-6 mb-2">
-                            <div class="datee_part">
-                              Time:<strong>{item?.startTime}</strong>
-                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                          <div class="datee_part">
+                            Assign Time:
+                            <strong>
+                              {" "}
+                              {moment(item?.startTime).format("LT")}
+                            </strong>
                           </div>
-                          <div class="col-12 items_part">
-                            <div class="items_head">Items:</div>
-                            {(item?.products || []).map((item, ind) => (
-                              <ul className="list-unstyled mb-0">
-                                <li key={ind}>
-                                  <strong>
-                                    {item?.flavour?._id
-                                      ? item?.productId?.unitName +
-                                        "-" +
-                                        item?.flavour?.flavour
-                                      : item?.productId?.unitName}
-                                  </strong>
-                                </li>
-                              </ul>
-                            ))}
+                        </div>
+                        <div class="col-5 mb-2">
+                          <div class="datee_part">
+                            Quanity:
+                            <br />
+                            <strong> {item?.totalProducts}</strong>
                           </div>
+                        </div>
+                        <div class="col-11  mt-3 ms-2 px-2 py-2">
+                          <div class="items_head">Pulling Progress:</div>
+                          <Box>
+                            <LinearProgressWithLabel
+                              value={item?.scannedPercentage}
+                            />
+                          </Box>
                         </div>
                       </div>
                     </div>
@@ -253,16 +342,31 @@ export default function LiveDashboard() {
               ))}
 
               {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  {/* <Orders /> */}
-                </Paper>
-              </Grid>
+              {!pullerDetails?.length > 0 && (
+                <Grid item xs={12}>
+                  <Paper
+                    sx={{ p: 2, display: "flex", justifyContent: "center" }}>
+                    Select Puller to View Orders
+                  </Paper>
+                </Grid>
+              )}
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
         </Box>
       </Box>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Order ID :<strong> {orderId?.orderId}</strong>
+          </Typography>
+          <ViewItemsTable id={orderId?.id} />
+        </Box>
+      </Modal>
     </ThemeProvider>
   );
 }

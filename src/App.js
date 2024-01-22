@@ -141,6 +141,7 @@ import CreatePdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/Create
 import PreviewPdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/PreviewPdfCate";
 import HelpSupport from "./buyerComponent/Extras/HelpSupport";
 import LiveDashboard from "./AdminComponent/AdminDashboard/Puller Manage/LiveDashboard";
+import ConsentForm from "./buyerComponent/Contact/ConsentForm";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -566,6 +567,10 @@ function App() {
             <Route
               path="/app/contact-us"
               element={width < 999 ? <AppContactUs /> : <Contact />}
+            />
+            <Route
+              path="/app/consent-form"
+              element={width < 999 ? <AppContactUs /> : <ConsentForm />}
             />
             <Route
               path="/app/terms"
