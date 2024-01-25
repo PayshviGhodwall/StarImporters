@@ -9,6 +9,8 @@ import rightLine from "../../../assets/img/skip-right-line.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/css/flip.css";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { usePDF } from "react-to-pdf";
 
 const PreviewPdfCate = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
@@ -19,6 +21,7 @@ const PreviewPdfCate = () => {
   const [pageS, setPageS] = useState(0);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -77,6 +80,7 @@ const PreviewPdfCate = () => {
   const handleZoomOut = () => {
     setZoom((prevZoom) => (prevZoom > 0.2 ? prevZoom * 0.8 : prevZoom)); // Decrease zoom level by 20%, with a minimum of 20%
   };
+  let handle = useFullScreenHandle();
 
   return (
     <div key={flipKey}>
@@ -102,34 +106,8 @@ const PreviewPdfCate = () => {
                     data-bs-placement="bottom"
                     title="Print"
                     className="meeenus"
-                    onClick={() => {
-                      navigate(`/Catelog-Flyers/PreviewPrint-Catalog/${id}`);
-                    }}>
+                    onClick={() => toPDF()}>
                     <img src={print} alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Share"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/share-line.svg" alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Click to view page thumbnail"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/grid-fill.svg" alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Allow to search a word"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/search-line.svg" alt="" />
                   </a>
                 </div>
                 <div className="catalog_pagination">
@@ -160,71 +138,70 @@ const PreviewPdfCate = () => {
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
-                    title="My Bookmark"
-                    className="meeenus">
-                    <img src={bookmark} alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Click to View Document"
-                    className="meeenus">
-                    <img src={down} alt="" />
+                    title="Full Screen"
+                    className="meeenus"
+                    onClick={handle.enter}>
+                    <img src={full} alt="" />
                   </a>
                 </div>
               </div>
             </div>
             <div className="col-lg-2 col-md-auto">
-              <div className="full_screen text-end">
-                <a className="icons_btns" href="javascript:;">
-                  <img src={full} alt="" />
-                </a>
-              </div>
+              <div className="full_screen text-end"></div>
             </div>
           </div>
         </div>
-        <div className="star_catalog bg-white">
-          <div className="star_catalog_inner position-relative">
-            <div className="book">
-              <div id="pages" className="pages">
-                {templatePreview?.map((item, index) => (
-                  <>
-                    <div className="page shadow" key={index}>
-                      <a
-                        href={item?.pageURL}
-                        target="_blank"
-                        id="click-me"
-                        className="shadow">
-                        Click
-                        <i class="fa-solid fa-hand-pointer"></i>
-                      </a>
-                      <button id={index} className="d-none">
-                        <img className="rightLine" src={rightLine} alt="" />
-                      </button>
 
-                      <div className="first_page">
-                        <img
-                          className="bg_img"
-                          src={item?.backgroundImage}
-                          alt=""
-                        />
-                        <img className="qr_img" src={item?.qrImage} alt="" />
+        <div className="star_catalog bg-white">
+          <FullScreen handle={handle}>
+            <div className="star_catalog_inner position-relative">
+              <div className="book ">
+                <div id="pages" className="pages">
+                  {templatePreview?.map((item, index) => (
+                    <>
+                      <div className="page shadow" ref={targetRef} key={index}>
+                        {item?.pageURL?.length > 0 && (
+                          <a
+                            href={item?.pageURL}
+                            target="_blank"
+                            id="click-me"
+                            className="shadow">
+                            Click
+                            <i class="fa-solid fa-hand-pointer"></i>
+                          </a>
+                        )}
+                        <button id={index} className="d-none">
+                          <img className="rightLine" src={rightLine} alt="" />
+                        </button>
+                        
+                        <strong className="">{item?.page}</strong>
+
+                        <div className="first_page">
+                          <img
+                            className="bg_img"
+                            src={item?.backgroundImage}
+                            alt=""
+                          />
+
+                          {/* <img className="qr_img" src={item?.qrImage} alt="" /> */}
+                        </div>
                       </div>
-                    </div>
-                  </>
-                ))}
-                <div className="page shadow bg-white"></div>
+                    </>
+                  ))}
+
+                  <div className="page shadow bg-white"></div>
+                </div>
+              </div>
+              <div>
+                <a className="arrow_btn  next_btn" onClick={() => handleNext()}>
+                  <img src={rightLine} alt="" />
+                </a>
+                <a className=" arrow_btn prev_btn" onClick={() => handlePrev()}>
+                  <img src={leftLine} alt="" />
+                </a>
               </div>
             </div>
-            <div>
-              <a className="arrow_btn  next_btn" onClick={() => handleNext()}>
-                <img src={rightLine} alt="" />
-              </a>
-              <a className=" arrow_btn prev_btn" onClick={() => handlePrev()}>
-                <img src={leftLine} alt="" />
-              </a>
-            </div>
-          </div>
+          </FullScreen>
         </div>
       </div>
     </div>

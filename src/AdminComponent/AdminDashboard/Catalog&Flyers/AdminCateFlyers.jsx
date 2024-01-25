@@ -72,6 +72,7 @@ const AdminCateFlyers = () => {
     formData.append("type", pdfData?.length ? "ByPDF" : "ByTemp");
     formData.append("description", descCatalog);
     formData.append("coverImage", files?.coverImageC ? files?.coverImageC : "");
+    formData.append("catalogType", "Catalog");
 
     pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
 
@@ -138,12 +139,16 @@ const AdminCateFlyers = () => {
   const AddFlyer = async (e) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("url", flyerUrl);
     formData.append("title", flyerTitle);
     formData.append("type", "flyer");
     formData.append("flyerDate", fDate ? fDate : "");
     formData.append("coverImage", files?.coverImageF ? files?.coverImageF : "");
+    formData.append("catalogType", "Flyers");
+
+    pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
+    
     const { data } = await axios.post(addCatelog, formData);
+
     if (!data.error) {
       Swal.fire({
         title: "Flyer Uploaded Successfully!",
@@ -152,6 +157,13 @@ const AdminCateFlyers = () => {
       });
       setFiles([]);
       document.getElementById("resetFlyer").click();
+      pdfData?.length
+        ? navigate(
+            `/Catelog-Flyers/Create-New-pdf/${data?.results?.catalog?._id}`
+          )
+        : navigate(`/Catelog-Flyers/Create-New/${data?.results?.catalog?._id}`);
+      document.getElementById("resetCatalog").click();
+      setFiles([]);
       getFLyers();
     } else {
       Swal.fire({
@@ -682,6 +694,7 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
+
                                   <div className="form-group mb-0 col-4 choose_fileAdmin position-relative">
                                     <span>Cover Image</span>{" "}
                                     <label htmlFor="upload_video">
@@ -713,6 +726,7 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
+
                                   {switches && (
                                     <div className="form-group mb-0 col-4 choose_fileAdmin position-relative mt-2">
                                       <span>Upload Pdf</span>{" "}
@@ -819,7 +833,10 @@ const AdminCateFlyers = () => {
                                                   }></img>
                                               </td>
                                               <td className="border">
-                                                {item?.description}
+                                                {item?.description?.slice(
+                                                  0,
+                                                  25
+                                                )}
                                               </td>
                                               <td className="border">
                                                 {" "}
@@ -890,13 +907,6 @@ const AdminCateFlyers = () => {
                             aria-labelledby="nav-profile-tab">
                             <div className="row mx-0 ">
                               <div className="col-12 pt-2">
-                                <a
-                                  className="text-decoration-none mt-2 pb-3"
-                                  href="https://dcatalog.com/"
-                                  target="_blank">
-                                  Convert PDF to Flipbook.
-                                </a>
-
                                 <form
                                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                   action="">
@@ -954,19 +964,67 @@ const AdminCateFlyers = () => {
                                       }></input>
                                   </div>
 
-                                  <div className="form-group mb-0 col-12 text-center mt-4">
-                                    <button
-                                      className="comman_btn2"
-                                      onClick={AddFlyer}>
-                                      Save Flyer
-                                    </button>
-                                    <button
-                                      className="comman_btn d-none"
-                                      id="resetFlyer"
-                                      type="reset">
-                                      Reset
-                                    </button>
-                                  </div>
+                                  {switches && (
+                                    <div className="form-group mb-0 col-4 choose_fileAdmin position-relative mt-2">
+                                      <span>Upload Pdf</span>{" "}
+                                      <label htmlFor="catalogPdf">
+                                        <i class="fa fa-camera me-1"></i>
+                                        Choose File
+                                      </label>{" "}
+                                      <input
+                                        type="file"
+                                        className="form-control shadow-none "
+                                        defaultValue=""
+                                        id="catalogPdf"
+                                        accept="application/pdf"
+                                        onChange={(e) => uploadPdf(e)}
+                                      />
+                                    </div>
+                                  )}
+                                  {switches ? (
+                                    <div className="form-group mb-0 col-12 text-center mt-4">
+                                      <Button
+                                        loading={loader}
+                                        className="comman_btn2"
+                                        onClick={AddCate}>
+                                        Save
+                                      </Button>
+
+                                      <a
+                                        className="comman_btn2 mx-2"
+                                        onClick={() => setSwitches(!switches)}>
+                                        Cancel
+                                      </a>
+
+                                      <button
+                                        className="comman_btn d-none"
+                                        id="resetCatalog"
+                                        type="reset">
+                                        Reset
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <div className="form-group mb-0 col-12 text-center mt-4">
+                                      <button
+                                        className="comman_btn2"
+                                        onClick={AddFlyer}>
+                                        Create a Catalog
+                                      </button>
+                                      <span className="mx-2">Or</span>
+                                      <a
+                                        className="comman_btn2"
+                                        onClick={() => setSwitches(true)}>
+                                        Upload a Pdf
+                                      </a>
+
+                                      <button
+                                        className="comman_btn d-none"
+                                        id="resetCatalog"
+                                        type="reset">
+                                        Reset
+                                      </button>
+                                    </div>
+                                  )}
                                 </form>
 
                                 <div className="row ">

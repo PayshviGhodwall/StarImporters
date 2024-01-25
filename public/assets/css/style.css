@@ -755,7 +755,6 @@
     /* backdrop-filter: blur(10px); */
     width: 100%;
     position: fixed;
-    height: 15% !important;
     top: 0;
     left: 0;
     right: 0;
@@ -7102,7 +7101,8 @@ background-color: #3e4093;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
       rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     padding: 2px !important;
-    max-height: 4.2rem;
+    /* max-height: 30vh !important; */
+    height: 30vh !important;
   }
 
   .pwa-install-alert {
@@ -18546,4 +18546,89 @@ li {
 }
 .cart_table_3 tr td:nth-child(1) {
   width: 100px !important;
+}
+
+.help_boxx_img img {
+  max-width: 230px;
+}
+.help_boxx_img{
+  text-align: center;
+}
+.download_btn {
+  background-color: #3E4093;
+  border: 1px solid #3E4093;
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 30px;
+  display: flex;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+.download_btn1 {
+  background-color: #fff;
+  border: 1px solid #3E4093;
+  color: #3E4093 !important;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 30px;
+  display: flex;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+.help_boxx_img {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.help_boxx {
+  text-align: center;
+}
+.help_boxx p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.help_boxx h3 {
+  font-weight: 600;
+  font-size: 22px;
+  color: #000;
+  margin-bottom: 10px;
+}
+.support_box .comn_heads h2 {
+  text-align: left;
+  margin-bottom: 16px;
+}
+.support_box .comn_heads p {
+  font-size: 17px;
+  line-height: 27px;
+}
+.support_box .comn_heads a {
+  font-weight: 600;
+}
+.videoimg video {
+  height: 100%;
+  width: 100%;
+}
+.videoimg {
+  width: 100%;
+  height: 244px;
+}
+.videoimg img {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fullscreen-enabled .book {
+  margin-top: 1.4rem;
+}
+.pdfCateFoot{
+  z-index: 99999 !important;
+  color: #000000;
+  position:relative;
+  background-color: transparent !important;
+  width:5% !important;
 }

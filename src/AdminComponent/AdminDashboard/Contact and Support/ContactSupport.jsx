@@ -11,6 +11,7 @@ import UserGuide from "./UserGuide";
 const ContactSupport = () => {
   const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAllContacts `;
   const newsLetterList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/activeNewsLetterUsers`;
+  const newsLetterExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportNewsLetter`;
   const [contacts, setContacts] = useState([]);
   const [newsLetters, setNewsLetter] = useState([]);
   const [sideBar, setSideBar] = useState(true);
@@ -44,7 +45,23 @@ const ContactSupport = () => {
       setMaxPage2(data.results.totalPages);
     }
   };
-  const handleDate = async () => {};
+  const ExportLetters = async () => {
+    const { data } = await axios.get(newsLetterExport);
+    if (!data.error) {
+      // let fileContent = data?.results?.file;
+      // const blob = new Blob([fileContent], { type: "text/plain" });
+
+      const blobURL = data?.results?.file;
+      const link = document.createElement("a");
+      link.href = blobURL;
+      link.download = "example.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobURL);
+    }
+  };
+
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -512,7 +529,10 @@ const ContactSupport = () => {
                             role="tab"
                             aria-controls="nav-profile"
                             aria-selected="false">
-                            Newsletter Subscription
+                            Newsletter Subscription{" "}
+                            <i
+                              onClick={() => ExportLetters()}
+                              class="fa-solid fa-file-export"></i>
                           </button>
                           <button
                             style={{

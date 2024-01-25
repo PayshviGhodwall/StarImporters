@@ -114,6 +114,7 @@ const CreateCatalog = () => {
       formData.append("pageTitle", formValues[i]?.t2Title);
       formData.append("footer", formValues[i]?.t2Footer);
       formData.append("products", JSON.stringify(products));
+      formData.append("catalogType", "Catalog");
 
       const { data } = await axios.patch(temp2, formData);
       if (!data?.error) {

@@ -49,140 +49,179 @@ const HelpSupport = () => {
               </div>
             ) : (
               <div>
-                <section className="comman_banner _banner marginTopSecx">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-12 helpMainBg">
-                        <h2>
-                          <em>Hello</em>, what can we help you find?
-                        </h2>
+                <>
+                  <section
+                    className="comman_banner"
+                    style={{
+                      backgroundImage: "url(assets/images/product_bg.png)",
+                    }}>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-12">
+                          <h1>Hello, what can we help you find? </h1>
+                          <div className="breadcrumbs mt-2">
+                            <nav aria-label="breadcrumb">
+                              <ol className="breadcrumb mb-0">
+                                <li className="breadcrumb-item">
+                                  <a href="javscript:;">Home</a>
+                                </li>
+                                <li
+                                  className="breadcrumb-item active"
+                                  aria-current="page">
+                                  Help
+                                </li>
+                              </ol>
+                            </nav>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </section>
-                <div className="container ">
-                  <div className="row">
-                    <div className="">
-                      {contents?.map((item, index) => (
-                        <section className="">
-                          {item?.type === "PDF" ? (
-                            <div className="container-xxl py-2  mt-5 mb-3">
-                              <div className="heading_container">
-                                <h2 className="mb-3 text-center">
-                                  {item?.title}
-                                </h2>
-                              </div>
-                              <div className="container">
-                                <div className="bg-light rounded p-3">
-                                  <div
-                                    className="bg-white rounded p-4"
-                                    style={{
-                                      border: "1px dashed rgba(0,185,142,.3)",
-                                    }}>
-                                    <div className="row g-5 align-items-center">
-                                      <div
-                                        className="col-lg-6 wow fadeIn d-flex justify-content-center "
-                                        data-wow-delay="0.1s"
-                                        style={{
-                                          visibility: "visible",
-                                          animationDelay: "0.1s",
-                                          animationName: "fadeIn",
-                                        }}>
+                  </section>
+                  <section className="help_support py-5">
+                    <div className="container">
+                      <div className="row">
+                        {contents?.map((item, index) => (
+                          <section className="mt-2">
+                            {(item?.type === "PDF" && (
+                              <div className="col-md-6 mb-4">
+                                <div className="row comman_divvision px-md-5 px-4 mx-0">
+                                  <div className="col-12">
+                                    <div className="comn_heads mb-5">
+                                      <h2>Review our Website ?</h2>
+                                    </div>
+                                  </div>
+                                  <div className="col-12">
+                                    <div className="help_boxx">
+                                      <div className="help_boxx_img">
                                         <img
-                                          className="img-fluid rounded "
-                                          width={200}
-                                          src={require("../../assets/img/userManual.jpg")}
-                                          alt="website template image"
+                                          src={require("../../assets/img/pdf.png")}
+                                          alt=""
                                         />
                                       </div>
-                                      <div
-                                        className="col-lg-6 wow fadeIn"
-                                        data-wow-delay="0.5s"
-                                        style={{
-                                          visibility: "visible",
-                                          animationDelay: "0.5s",
-                                          animationName: "fadeIn",
-                                        }}>
-                                        <div className="mb-4">
-                                          <h1 className="mb-3">
-                                            Download Instruction PDF
-                                          </h1>
-                                          <p>{item?.instructions}</p>
+                                      <h3>Download Instruction PDF</h3>
+                                      <p>Fooloeosfdfldkfdlfkldlkjfladfkldsjf</p>
+                                      <div className="row mt-4">
+                                        <div className="col-md-6">
+                                          <a
+                                            className="download_btn"
+                                            href="javascript:;">
+                                            Download Pdf
+                                          </a>
                                         </div>
-                                        <a
-                                          // href="https://www.free-css.com/free-css-templates"
-                                          className="btn btn-primary py-3 px-4 me-2">
-                                          <i class="fa-solid fa-download me-2"></i>
-                                          Download Pdf
-                                        </a>{" "}
-                                        <a
-                                          // href="https://www.free-css.com/free-css-templates"
-                                          className="btn btn-dark py-3 px-4">
-                                          <i class="fa-brands fa-youtube me-2"></i>
-                                          View Tutorial
-                                        </a>
+                                        <div className="col-md-6">
+                                          <a
+                                            className="download_btn1"
+                                            href="javascript:;">
+                                            View Tutorial
+                                          </a>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="container-xxl py-5">
-                              <div className="row">
-                                <div id="mui-player"></div>
-                                <div className="col-md-6">
-                                  <div className="img-box">
-                                    {item?.type === "VIDEO" ? (
-                                      <video
-                                        id="frameFour"
-                                        className="main_video bg-dark"
-                                        autoPlay
-                                        loop
-                                        controls={true}
-                                        oncanplay="this.muted=true"
-                                        muted={true}
-                                        preload="auto">
-                                        <source src={item?.content} />
-                                      </video>
-                                    ) : (
-                                      <img
-                                        src={
-                                          item?.content
-                                            ? item?.content
-                                            : require("../../assets/img/bg2.jpg")
-                                        }
-                                        alt="website template image"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="col-md-6">
-                                  <div className="detail-box">
-                                    <div className="heading_container">
-                                      <h2 className="fw-bold">{item?.title}</h2>
+                            )) ||
+                              (index % 2 == 0 && (
+                                <div className="col-md-12 mb-4">
+                                  <div className="row comman_divvision mx-0 support_box px-md-5 px-4 align-items-center">
+                                    <div className="col-md-4">
+                                      <div className="videoimg">
+                                        {item?.type === "VIDEO" ? (
+                                          <video
+                                            id="frameFour"
+                                            className="main_video bg-dark"
+                                            autoPlay
+                                            loop
+                                            controls={true}
+                                            oncanplay="this.muted=true"
+                                            muted={true}
+                                            preload="auto">
+                                            <source src={item?.content} />
+                                          </video>
+                                        ) : (
+                                          <img
+                                            src={
+                                              item?.content
+                                                ? item?.content
+                                                : require("../../assets/img/bg2.jpg")
+                                            }
+                                            alt="website template image"
+                                          />
+                                        )}
+                                      </div>
                                     </div>
-
-                                    <p>{item?.instructions}</p>
-                                    <p>
-                                      Step 2 : dolor sit amet consectetur
-                                      adipisicing elit. Corrupti dolorem eum
-                                      consequuntur ipsam repellat dolor soluta
-                                      aliquid laborum, eius odit consectetur vel
-                                      quasi in quidem, eveniet ab est corporis
-                                      tempore.
-                                    </p>
-                                    <a>Read More</a>
+                                    <div className="col-md-8">
+                                      <div className="comn_heads text-start ps-md-5">
+                                        <h2>
+                                          How to Subscribe our newsletter ?
+                                        </h2>
+                                        <p>
+                                          Step 2 : dolor sit amet consectetur
+                                          adipisicing elit. Corrupti dolorem eum
+                                          consequuntur ipsam repellat dolor
+                                          soluta aliquid laborum, eius odit
+                                          consectetur vel quasi in quidem,
+                                          eveniet ab est corporis tempore.
+                                        </p>
+                                        <a href="javascript:;">Read More</a>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          )}
-                        </section>
-                      ))}
+                              )) ||
+                              (index % 2 != 0 && (
+                                <div className="col-md-12 mb-4">
+                                  <div className="row comman_divvision mx-0 support_box px-md-5 px-4 align-items-center">
+                                    <div className="col-md-4">
+                                      <div className="videoimg">
+                                        {item?.type === "VIDEO" ? (
+                                          <video
+                                            id="frameFour"
+                                            className="main_video bg-dark"
+                                            autoPlay
+                                            loop
+                                            controls={true}
+                                            oncanplay="this.muted=true"
+                                            muted={true}
+                                            preload="auto">
+                                            <source src={item?.content} />
+                                          </video>
+                                        ) : (
+                                          <img
+                                            src={
+                                              item?.content
+                                                ? item?.content
+                                                : require("../../assets/img/bg2.jpg")
+                                            }
+                                            alt="website template image"
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div className="col-md-8">
+                                      <div className="comn_heads text-start ps-md-5">
+                                        <h2>How to login ? </h2>
+                                        <p>
+                                          Step 2 : dolor sit amet consectetur
+                                          adipisicing elit. Corrupti dolorem eum
+                                          consequuntur ipsam repellat dolor
+                                          soluta aliquid laborum, eius odit
+                                          consectetur vel quasi in quidem,
+                                          eveniet ab est corporis tempore.{" "}
+                                        </p>
+                                        <a href="javascript:;">Read More</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                          </section>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </section>
+                </>
+
                 <Footer />
               </div>
             )}

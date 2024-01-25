@@ -2,16 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import Footer from "./Footer";
 import axios from "axios";
-import image from "../../assets/img/starBgg.jpg";
-import Starlogo from "../../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import Carousel from "react-grid-carousel";
-import moment from "moment";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 
 const Catelogues = () => {
-  const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
+  const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}user/getCatalogs`;
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [flyers, setFlyers] = useState([]);
@@ -23,8 +19,8 @@ const Catelogues = () => {
   }, []);
 
   const getCatalogs = async () => {
-    const { data } = await axios.post(allPdf, {
-      type: "catalog",
+    const { data } = await axios.patch(allPdf, {
+      type: "Catalog",
     });
     console.log(data);
     if (!data.error) {
@@ -33,8 +29,8 @@ const Catelogues = () => {
   };
 
   const getFLyers = async () => {
-    const { data } = await axios.post(allPdf, {
-      type: "flyer",
+    const { data } = await axios.patch(allPdf, {
+      type: "Flyer",
     });
     console.log(data);
     if (!data.error) {
@@ -121,7 +117,15 @@ const Catelogues = () => {
                             <SwiperSlide key={index} className="px-3 main_hot">
                               <div class="mb-5 ">
                                 <a
-                                  href={item?.url}
+                                  onClick={() => {
+                                    item?.type === "ByPDF"
+                                      ? navigate(
+                                          `/Catelog-Flyers/Preview-Catalog-pdf/${item?._id}`
+                                        )
+                                      : navigate(
+                                          `/Catelog-Flyers/Preview-Catalog/${item?._id}`
+                                        );
+                                  }}
                                   target="_blank"
                                   class="categorynew_box text-decoration-none">
                                   <a>
@@ -142,6 +146,21 @@ const Catelogues = () => {
                             </SwiperSlide>
                           ))}
                         </Swiper>
+                      </div>
+                    </div>
+
+                    <div class="col-12 mb-1  mt-3">
+                      <div class="comn_heads mb-5">
+                        <h2 className="fs-6 text-primary">
+                          <a
+                            onClick={() =>
+                              navigate("/app/events/catelog&flyer/All-Catalogs")
+                            }>
+                            {" "}
+                            View All{" "}
+                            <i class="fa-solid fa-up-right-from-square"></i>
+                          </a>
+                        </h2>
                       </div>
                     </div>
                   </div>
@@ -203,6 +222,20 @@ const Catelogues = () => {
                             </SwiperSlide>
                           ))}
                         </Swiper>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-1  mt-3">
+                      <div class="comn_heads mb-5">
+                        <h2 className="fs-6 text-primary">
+                          <a
+                            onClick={() =>
+                              navigate("/app/events/catelog&flyer/All-Flyers")
+                            }>
+                            {" "}
+                            View All{" "}
+                            <i class="fa-solid fa-up-right-from-square"></i>
+                          </a>
+                        </h2>
                       </div>
                     </div>
                   </div>

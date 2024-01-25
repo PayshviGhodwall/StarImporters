@@ -15,11 +15,14 @@ import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 import "swiper/css";
 import Swal from "sweetalert2";
 import Compressor from "compressorjs";
+import ImageZoom from "react-medium-image-zoom";
 
 const CreatePdfCate = () => {
   const [pdfPages, setPdfPages] = useState([]);
   const pdfEdit = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editPDFPages`;
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
+  const deleteItem = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deletePage`;
+
   const [sideBar, setSideBar] = useState(true);
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [loader, setLoader] = useState(false);
@@ -33,15 +36,18 @@ const CreatePdfCate = () => {
 
   const SavePdf = async (e, i) => {
     let pages = pdfPages?.map((itm, id) => ({
-      backgroundImage:itm?.backgroundImage,
-      page: itm?.page,
+      backgroundImage: itm?.backgroundImage,
+      pageId: itm?._id,
       type: itm?.type,
-      pageURL:itm?.videoBannerURL1,
+      pageURL: itm?.videoBannerURL1,
+      page: itm?.pageNo ? itm?.pageNo : itm?.page,
     }));
     console.log(pages);
+
     const { data } = await axios.patch(pdfEdit, {
       catalogId: id,
       pdfPages: pages,
+      catalogType: "Catalog",
     });
     if (!data?.error) {
       Swal.fire({
@@ -65,6 +71,42 @@ const CreatePdfCate = () => {
     setPdfPages(newFormValues);
   };
 
+  const hnadleDelete = async (i, ids) => {
+    const { data } = await axios.patch(deleteItem, {
+      catalogId: id,
+      pageId: ids,
+    });
+    if (!data?.error) {
+      Swal.fire({
+        title: data?.message,
+        timer: 2000,
+        icon: "success",
+      });
+      GetTemplates();
+    } else if (data?.error) {
+      Swal.fire({
+        title: data?.message,
+        timer: 2000,
+        icon: "warning",
+      });
+    }
+  };
+
+  let handlePagesOrder = (i, key) => {
+    console.log(+key);
+    let newFormValues = [...pdfPages];
+    let oldPage = newFormValues[i].page;
+    let temp = newFormValues.map((itm) => {
+      if (itm.page === +key) {
+        // Update pageNo only for the element at index i
+        return { ...itm, page: oldPage };
+      }
+      return itm;
+    });
+    temp[i].pageNo = +key;
+    setPdfPages(temp);
+  };
+
   const GetTemplates = async () => {
     await axios.get(getTemp + id).then((res) => {
       let data = res?.data.results?.catalog;
@@ -72,6 +114,7 @@ const CreatePdfCate = () => {
       setPdfPages(data?.pages);
     });
   };
+
   console.log(pdfPages);
 
   const handleClick = () => {
@@ -573,6 +616,7 @@ const CreatePdfCate = () => {
           </div>
         </div>
       </div>
+
       <div className="admin_panel_data height_adjust">
         <div className="col-12 ">
           {/* <button onClick={() => addFormFields()} className="comman_btn ">
@@ -608,20 +652,32 @@ const CreatePdfCate = () => {
                           slidesPerView={4}
                           spaceBetween={30}
                           navigation={true}
+                          initialSlide={4}
                           loop={true}
                           modules={[FreeMode, Pagination, Autoplay, Navigation]}
                           className="mySwiper px-5 py-2">
                           {pdfPages?.map((item, index) => (
                             <SwiperSlide>
-                              <div className="form-group col-auto">
-                                <div className=" position-relative d-inline-block">
-                                  <div className="mb-2 ">
-                                    <img
-                                      className="Template_img"
-                                      src={item?.backgroundImage}
-                                      alt="Upload Image ........"
-                                    />
-                                  </div>
+                              <div className="form-group col-auto border text-center p-3 bg-secondary rounded">
+                                <i
+                                  onClick={() => hnadleDelete(index, item?._id)}
+                                  style={{
+                                    color: "red",
+                                    position: "relative",
+                                    left: "-45%",
+                                  }}
+                                  className="fa fa-trash"></i>
+                                <div className=" position-relative d-inline-block w-100">
+                                  <ImageZoom>
+                                    <div className="mb-2 ">
+                                      <img
+                                        className="Template_img border rounded"
+                                        src={item?.backgroundImage}
+                                        alt="Upload Image ........"
+                                      />
+                                    </div>
+                                  </ImageZoom>
+
                                   <div class="bg-light border rounded p-1">
                                     <label
                                       class="form-check-label"
@@ -637,6 +693,23 @@ const CreatePdfCate = () => {
                                         handleUrl(index, e.target.value);
                                       }}
                                       id={item?.page}></input>
+                                  </div>
+                                  <div class="bg-light border rounded p-1 mt-2">
+                                    <select
+                                      className="form-select"
+                                      name="pageIcon"
+                                      defaultValue={item?.pageURL}
+                                      onChange={(e) => {
+                                        handlePagesOrder(index, e.target.value);
+                                      }}
+                                      id={item?.page}>
+                                      <option>Select Page Order</option>
+                                      {pdfPages?.map((itm, ind) => (
+                                        <option value={ind + 1}>
+                                          {ind + 1}
+                                        </option>
+                                      ))}
+                                    </select>
                                   </div>
                                 </div>
                               </div>

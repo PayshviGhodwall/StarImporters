@@ -787,6 +787,16 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="col-md-4 my-3 d-flex align-items-stretch ">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Comments for Puller:</span>
+                            <div className="col">
+                              <strong>{orders?.puller?.fullName}</strong>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
 
