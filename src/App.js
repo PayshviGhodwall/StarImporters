@@ -142,6 +142,9 @@ import PreviewPdfCate from "./AdminComponent/AdminDashboard/Catalog&Flyers/Previ
 import HelpSupport from "./buyerComponent/Extras/HelpSupport";
 import LiveDashboard from "./AdminComponent/AdminDashboard/Puller Manage/LiveDashboard";
 import ConsentForm from "./buyerComponent/Contact/ConsentForm";
+import CreateFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateFlyer";
+import CreatePdfFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfFlyer";
+import EditFlyers from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditFlyers";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -261,19 +264,37 @@ function App() {
             <Route path="/CategorySub" element={<CategorySub />} />
             <Route path="/Inventory" element={<Inventory />} />
             <Route path="/Puller-Management" element={<PullerManagement />} />
+
             <Route path="/Catelog-Flyers" element={<AdminCateFlyers />} />
+
             <Route
               path="/Catelog-Flyers/Create-New/:id"
               element={<CreateCatalog />}
             />
+
+            <Route
+              path="/Catelog-Flyers/Create-Flyer/:id"
+              element={<CreateFlyer />}
+            />
+            <Route
+              path="/Catelog-Flyers/Create-Flyer-pdf/:id"
+              element={<CreatePdfFlyer />}
+            />
+
             <Route
               path="/Catelog-Flyers/Create-New-pdf/:id"
               element={<CreatePdfCate />}
             />
+
             <Route
               path="/Catelog-Flyers/EditCatalog/:id"
               element={<EditCatalog />}
             />
+            <Route
+              path="/Catelog-Flyers/EditFlyers/:id"
+              element={<EditFlyers />}
+            />
+
             <Route
               path="/Catelog-Flyers/Preview-Catalog/:id"
               element={<PreviewCate />}

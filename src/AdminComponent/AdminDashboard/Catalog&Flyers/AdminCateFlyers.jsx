@@ -36,13 +36,13 @@ const AdminCateFlyers = () => {
 
   useEffect(() => {
     getCatalogs();
-    getFLyers();
   }, []);
 
   const getCatalogs = async () => {
     const { data } = await axios.get(allPdf);
     if (!data.error) {
       setCatalogs(data?.results?.catalogs);
+      setFlyers(data?.results?.catalogs);
     }
   };
 
@@ -53,16 +53,6 @@ const AdminCateFlyers = () => {
         setFiles({ ...files, [key]: compressed });
       },
     });
-  };
-
-  const getFLyers = async () => {
-    const { data } = await axios.post(allPdf, {
-      type: "flyer",
-    });
-    console.log(data);
-    if (!data.error) {
-      setFlyers(data?.results?.catalog);
-    }
   };
 
   const AddCate = async (e) => {
@@ -140,13 +130,14 @@ const AdminCateFlyers = () => {
     e.preventDefault();
     let formData = new FormData();
     formData.append("title", flyerTitle);
-    formData.append("type", "flyer");
+    formData.append("type", pdfData?.length ? "ByPDF" : "ByTemp");
+
     formData.append("flyerDate", fDate ? fDate : "");
     formData.append("coverImage", files?.coverImageF ? files?.coverImageF : "");
-    formData.append("catalogType", "Flyers");
+    formData.append("catalogType", "Flyer");
 
     pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
-    
+
     const { data } = await axios.post(addCatelog, formData);
 
     if (!data.error) {
@@ -156,15 +147,16 @@ const AdminCateFlyers = () => {
         timer: 2000,
       });
       setFiles([]);
-      document.getElementById("resetFlyer").click();
+      // document.getElementById("resetFlyer").click();
       pdfData?.length
         ? navigate(
-            `/Catelog-Flyers/Create-New-pdf/${data?.results?.catalog?._id}`
+            `/Catelog-Flyers/Create-Flyer-pdf/${data?.results?.catalog?._id}`
           )
-        : navigate(`/Catelog-Flyers/Create-New/${data?.results?.catalog?._id}`);
+        : navigate(
+            `/Catelog-Flyers/Create-Flyer/${data?.results?.catalog?._id}`
+          );
       document.getElementById("resetCatalog").click();
-      setFiles([]);
-      getFLyers();
+      getCatalogs();
     } else {
       Swal.fire({
         title: data.message,
@@ -178,7 +170,6 @@ const AdminCateFlyers = () => {
     const { data } = await axios.get(deleteCate + "/" + id);
     if (!data.error) {
       getCatalogs();
-      getFLyers();
     }
   };
 
@@ -809,89 +800,94 @@ const AdminCateFlyers = () => {
                                           </tr>
                                         </thead>
                                         <tbody className="recent_orders_cate">
-                                          {catalogs?.map((item, index) => (
-                                            <tr>
-                                              <td className="border">
-                                                {" "}
-                                                {moment(item?.updatedAt).format(
-                                                  "MM/DD/YYYY"
-                                                )}
-                                              </td>
-                                              <td className="border">
-                                                {item?.title}
-                                              </td>
-                                              <td className="border">
-                                                {item?.type}
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  className="subCatImages"
-                                                  src={
-                                                    item?.coverImage
-                                                      ? item?.coverImage
-                                                      : require("../../../assets/img/product.jpg")
-                                                  }></img>
-                                              </td>
-                                              <td className="border">
-                                                {item?.description?.slice(
-                                                  0,
-                                                  25
-                                                )}
-                                              </td>
-                                              <td className="border">
-                                                {" "}
-                                                <div
-                                                  className=""
-                                                  //   key={item?._id}
-                                                >
-                                                  <label class="switchUser">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={item?._id}
-                                                      defaultChecked={
-                                                        item?.status
-                                                      }
-                                                      onClick={() => {
-                                                        catalogStatus(
-                                                          item?._id
-                                                        );
-                                                      }}
-                                                    />
-                                                    <span class="sliderUser round"></span>
-                                                  </label>
-                                                </div>
-                                              </td>
+                                          {catalogs
+                                            ?.filter(
+                                              (itm) =>
+                                                itm?.catalogType === "Catalog"
+                                            )
+                                            ?.map((item, index) => (
+                                              <tr>
+                                                <td className="border">
+                                                  {" "}
+                                                  {moment(
+                                                    item?.updatedAt
+                                                  ).format("MM/DD/YYYY")}
+                                                </td>
+                                                <td className="border">
+                                                  {item?.title}
+                                                </td>
+                                                <td className="border">
+                                                  {item?.type}
+                                                </td>
+                                                <td className="border">
+                                                  <img
+                                                    className="subCatImages"
+                                                    src={
+                                                      item?.coverImage
+                                                        ? item?.coverImage
+                                                        : require("../../../assets/img/product.jpg")
+                                                    }></img>
+                                                </td>
+                                                <td className="border">
+                                                  {item?.description?.slice(
+                                                    0,
+                                                    25
+                                                  )}
+                                                </td>
+                                                <td className="border">
+                                                  {" "}
+                                                  <div
+                                                    className=""
+                                                    //   key={item?._id}
+                                                  >
+                                                    <label class="switchUser">
+                                                      <input
+                                                        type="checkbox"
+                                                        id={item?._id}
+                                                        defaultChecked={
+                                                          item?.status
+                                                        }
+                                                        onClick={() => {
+                                                          catalogStatus(
+                                                            item?._id
+                                                          );
+                                                        }}
+                                                      />
+                                                      <span class="sliderUser round"></span>
+                                                    </label>
+                                                  </div>
+                                                </td>
 
-                                              <td className="border">
-                                                <a
-                                                  className="comman_btn text-white text-decoration-none mx-1"
-                                                  onClick={() => {
-                                                    item?.type === "ByPDF"
-                                                      ? navigate(
-                                                          `/Catelog-Flyers/Create-New-pdf/${item?._id}`
-                                                        )
-                                                      : navigate(
-                                                          `/Catelog-Flyers/EditCatalog/${item?._id}`
-                                                        );
-                                                  }}>
-                                                  Edit
-                                                </a>
-                                                <a
-                                                  className="comman_btn2 text-white text-decoration-none"
-                                                  onClick={() => {
-                                                    item?.type === "ByPDF"
-                                                      ? navigate(
-                                                          `/Catelog-Flyers/Preview-Catalog-pdf/${item?._id}`
-                                                        )
-                                                      : navigate(
-                                                          `/Catelog-Flyers/Preview-Catalog/${item?._id}`
-                                                        );
-                                                  }}>
-                                                  View
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          ))}
+                                                <td className="border">
+                                                  <a
+                                                    className="comman_btn text-white text-decoration-none mx-1"
+                                                    onClick={() => {
+                                                      item?.type === "ByPDF"
+                                                        ? navigate(
+                                                            `/Catelog-Flyers/Create-New-pdf/${item?._id}`
+                                                          )
+                                                        : navigate(
+                                                            `/Catelog-Flyers/EditCatalog/${item?._id}`
+                                                          );
+                                                    }}>
+                                                    Edit
+                                                  </a>
+                                                  <a
+                                                    className="comman_btn2 text-white text-decoration-none"
+                                                    onClick={() => {
+                                                      item?.type === "ByPDF"
+                                                        ? navigate(
+                                                            `/Catelog-Flyers/Preview-Catalog-pdf/${item?._id}`
+                                                          )
+                                                        : navigate(
+                                                            `/Catelog-Flyers/Preview-Catalog/${item?._id}`
+                                                          );
+                                                    }}>
+                                                    View
+                                                  </a>
+                                                </td>
+                                              </tr>
+                                            ))}
                                         </tbody>
                                       </table>
                                     </div>
@@ -910,7 +906,7 @@ const AdminCateFlyers = () => {
                                 <form
                                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                                   action="">
-                                  <div className="form-group mb-0 col-3">
+                                  <div className="form-group mb-0 col-4">
                                     <span>Flyer Title</span>{" "}
                                     <input
                                       type="text"
@@ -922,7 +918,8 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
-                                  <div className="form-group mb-0 col-3 choose_fileAdmin position-relative">
+
+                                  <div className="form-group mb-0 col-4 choose_fileAdmin position-relative">
                                     <span>Cover Image</span>{" "}
                                     <label htmlFor="upload_video">
                                       <i class="fa fa-camera me-1"></i>
@@ -939,19 +936,8 @@ const AdminCateFlyers = () => {
                                       }
                                     />
                                   </div>
-                                  <div className="form-group mb-0 col-3">
-                                    <span>Upload Flyer Url</span>{" "}
-                                    <input
-                                      type="text"
-                                      className="form-control shadow-none"
-                                      defaultValue=""
-                                      name="flyer"
-                                      onChange={(e) =>
-                                        setFlyerUrl(e.target.value)
-                                      }
-                                    />
-                                  </div>
-                                  <div className="form-group mb-0 col-3">
+
+                                  <div className="form-group mb-0 col-4">
                                     <label htmlFor="">Choose Date </label>
                                     <input
                                       type="date"
@@ -986,7 +972,7 @@ const AdminCateFlyers = () => {
                                       <Button
                                         loading={loader}
                                         className="comman_btn2"
-                                        onClick={AddCate}>
+                                        onClick={AddFlyer}>
                                         Save
                                       </Button>
 
@@ -1008,7 +994,7 @@ const AdminCateFlyers = () => {
                                       <button
                                         className="comman_btn2"
                                         onClick={AddFlyer}>
-                                        Create a Catalog
+                                        Create a Flyer
                                       </button>
                                       <span className="mx-2">Or</span>
                                       <a
@@ -1038,72 +1024,95 @@ const AdminCateFlyers = () => {
                                             }}>
                                             <th>Date</th>
                                             <th>Title</th>
+                                            <th>Type</th>
+
                                             <th>Cover Image</th>
-                                            <th>Url</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                           </tr>
                                         </thead>
                                         <tbody className="recent_orders_cate">
-                                          {flyers?.map((item, index) => (
-                                            <tr>
-                                              <td className="border">
-                                                {moment(item?.updatedAt).format(
-                                                  "MM/DD/YYYY"
-                                                )}
-                                              </td>
-                                              <td className="border">
-                                                {item?.title}
-                                              </td>
-                                              <td className="border">
-                                                <img
-                                                  className="subCatImages"
-                                                  src={
-                                                    item?.coverImage
-                                                      ? item?.coverImage
-                                                      : require("../../../assets/img/product.jpg")
-                                                  }></img>
-                                              </td>
-                                              <td className="border">
-                                                {item?.url}
-                                              </td>
+                                          {flyers
+                                            ?.filter(
+                                              (itm) =>
+                                                itm?.catalogType === "Flyer"
+                                            )
+                                            ?.map((item, index) => (
+                                              <tr>
+                                                <td className="border">
+                                                  {moment(
+                                                    item?.updatedAt
+                                                  ).format("MM/DD/YYYY")}
+                                                </td>
+                                                <td className="border">
+                                                  {item?.title}
+                                                </td>
+                                                <td className="border">
+                                                  {item?.type}
+                                                </td>
+                                                <td className="border">
+                                                  <img
+                                                    className="subCatImages"
+                                                    src={
+                                                      item?.coverImage
+                                                        ? item?.coverImage
+                                                        : require("../../../assets/img/product.jpg")
+                                                    }></img>
+                                                </td>
 
-                                              <td className="border">
-                                                {" "}
-                                                <div
-                                                  className=""
-                                                  key={item?._id}>
-                                                  <label class="switchUser">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={item?._id}
-                                                      defaultChecked={
-                                                        item?.status
-                                                      }
-                                                      onClick={() => {
-                                                        catalogStatus(
-                                                          item?._id
-                                                        );
-                                                      }}
-                                                    />
-                                                    <span class="sliderUser round"></span>
-                                                  </label>
-                                                </div>
-                                              </td>
-                                              <td className="border">
-                                                <a
-                                                  className="comman_btn2 text-white text-decoration-none"
-                                                  onClick={() => {
-                                                    deleteCatalog(
-                                                      "catalog",
-                                                      item?._id
-                                                    );
-                                                  }}>
-                                                  Delete
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          ))}
+                                                <td className="border">
+                                                  {" "}
+                                                  <div
+                                                    className=""
+                                                    key={item?._id}>
+                                                    <label class="switchUser">
+                                                      <input
+                                                        type="checkbox"
+                                                        id={item?._id}
+                                                        defaultChecked={
+                                                          item?.status
+                                                        }
+                                                        onClick={() => {
+                                                          catalogStatus(
+                                                            item?._id
+                                                          );
+                                                        }}
+                                                      />
+                                                      <span class="sliderUser round"></span>
+                                                    </label>
+                                                  </div>
+                                                </td>
+
+                                                <td className="border">
+                                                  <a
+                                                    className="comman_btn text-white text-decoration-none mx-1"
+                                                    onClick={() => {
+                                                      item?.type === "ByPDF"
+                                                        ? navigate(
+                                                            `/Catelog-Flyers/Create-Flyer-pdf/${item?._id}`
+                                                          )
+                                                        : navigate(
+                                                            `/Catelog-Flyers/EditFlyers/${item?._id}`
+                                                          );
+                                                    }}>
+                                                    Edit
+                                                  </a>
+                                                  <a
+                                                    className="comman_btn2 text-white text-decoration-none"
+                                                    onClick={() => {
+                                                      item?.type === "ByPDF"
+                                                        ? navigate(
+                                                            `/Catelog-Flyers/Preview-Catalog-pdf/${item?._id}`
+                                                          )
+                                                        : navigate(
+                                                            `/Catelog-Flyers/Preview-Catalog/${item?._id}`
+                                                          );
+                                                    }}>
+                                                    View
+                                                  </a>
+                                                </td>
+                                              </tr>
+                                            ))}
                                         </tbody>
                                       </table>
                                     </div>

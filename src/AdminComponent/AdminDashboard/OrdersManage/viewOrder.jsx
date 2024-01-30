@@ -9,6 +9,8 @@ import { components } from "react-select";
 import moment from "moment";
 // import { CSVLink, CSVDownload } from "react-csv";
 import Select from "react-select";
+import { Box, LinearProgress, Typography } from "@mui/material";
+
 const Option = (props) => {
   return (
     <div>
@@ -25,6 +27,21 @@ const Option = (props) => {
   );
 };
 
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
   let location = useLocation();
@@ -37,6 +54,7 @@ const ViewOrder = () => {
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const [statusComment, setStatusComment] = useState("");
+  const [pullerComment, setPullerComment] = useState("");
   const [options, setOptions] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [selectedPuller, setSelectedPuller] = useState([]);
@@ -81,6 +99,7 @@ const ViewOrder = () => {
       .post(updateOrder + "/" + id, {
         status: orderStatus ? orderStatus : orders?.status,
         statusComment: statusComment,
+        commentForPuller: pullerComment,
       })
       .then((res) => {
         if (!res?.error) {
@@ -119,8 +138,22 @@ const ViewOrder = () => {
         const optionList = data?.map((item, index) => ({
           value: item?._id,
           label: (
-            <div>
-              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
+            <div
+              className="d-flex "
+              style={{
+                width: "200%",
+              }}>
+              {item?.fullName} -
+              {item?.isPullerBusy ? (
+                <Box sx={{ width: "60%" }}>
+                  <LinearProgressWithLabel
+                    color="success"
+                    value={item?.scannedPercentage}
+                  />
+                </Box>
+              ) : (
+                ""
+              )}
             </div>
           ),
         }));
@@ -787,16 +820,6 @@ const ViewOrder = () => {
                             </div>
                           </div>
                         </div>
-
-                        <div className="col-md-4 my-3 d-flex align-items-stretch ">
-                          <div className="row view-inner-box border mx-0 w-100">
-                            <span>Comments for Puller:</span>
-                            <div className="col">
-                              <strong>{orders?.puller?.fullName}</strong>
-                            </div>
-                          </div>
-                        </div>
-
                       </div>
                     </div>
 
@@ -877,6 +900,7 @@ const ViewOrder = () => {
                         <span className="small_header">
                           Customer Notification Status
                         </span>
+
                         <div className="col-12 Change_staus">
                           <form
                             className="form-design row align-items-end"
@@ -920,6 +944,22 @@ const ViewOrder = () => {
                             ) : (
                               ""
                             )}
+
+                            <div className="form-group mb-0 col">
+                              <label htmlFor="">
+                                Comment for Pullers (if any)
+                              </label>
+                              <textarea
+                                type="text"
+                                name="pullerComment"
+                                defaultValue={orders?.commentForPuller}
+                                placeholder="Add your comment here."
+                                className="form-control"
+                                onChange={(e) => {
+                                  setPullerComment(e.target.value);
+                                }}
+                              />
+                            </div>
 
                             <div className="form-group mb-0 col-auto">
                               <button
@@ -1121,7 +1161,7 @@ const ViewOrder = () => {
                                           {item?.quantity}
                                         </span>
                                       </td>
-                                      <td className= "border rounded">
+                                      <td className="border rounded">
                                         {item?.scanned === "NotScanned" ? (
                                           <span className="text-secondary  p-2 px-3 rounded bg-secondary text-white PullStatusText">
                                             Not Scanned
@@ -1135,7 +1175,7 @@ const ViewOrder = () => {
                                               </span>
                                             )}
                                             {item?.scanned === "OutOfStock" && (
-                                              <span className=" text-secondary  p-2 px-3 rounded bg-danger text-white PullStatusText" >
+                                              <span className=" text-secondary  p-2 px-3 rounded bg-danger text-white PullStatusText">
                                                 Out of Stock
                                               </span>
                                             )}
@@ -1167,7 +1207,6 @@ const ViewOrder = () => {
                                 )}
                               </tbody>
                             )}
-
                           </table>
                         </div>
                       </div>

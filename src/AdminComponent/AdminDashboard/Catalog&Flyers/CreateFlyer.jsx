@@ -876,7 +876,7 @@ const CreateFlyer = () => {
             to={`/Catelog-Flyers/Preview-Catalog/${id}`}
             target="_blank"
             className="comman_btn mx-2">
-            Preview Catelogue
+            Preview Flyer
           </Link>
         </div>
 
@@ -888,7 +888,7 @@ const CreateFlyer = () => {
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
                       <h2 className="main_headers">
-                        Catalog - Page {index + 1}
+                        Flyer - Page {index + 1}
                       </h2>
                     </div>
                     <div className="col-auto">

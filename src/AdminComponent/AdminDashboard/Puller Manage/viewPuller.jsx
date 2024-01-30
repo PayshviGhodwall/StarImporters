@@ -844,6 +844,7 @@ const ViewPuller = () => {
                                             <th>ACTION</th>
                                           </tr>
                                         </thead>
+
                                         <tbody className="border">
                                           {(activeOrders || [])?.map(
                                             (item, index) => (

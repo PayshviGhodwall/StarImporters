@@ -156,6 +156,7 @@ const PreviewPdfCate = () => {
           <FullScreen handle={handle}>
             <div className="star_catalog_inner position-relative">
               <div className="book ">
+
                 <div id="pages" className="pages">
                   {templatePreview?.map((item, index) => (
                     <>
@@ -173,8 +174,6 @@ const PreviewPdfCate = () => {
                         <button id={index} className="d-none">
                           <img className="rightLine" src={rightLine} alt="" />
                         </button>
-                        
-                        <strong className="">{item?.page}</strong>
 
                         <div className="first_page">
                           <img
@@ -184,6 +183,7 @@ const PreviewPdfCate = () => {
                           />
 
                           {/* <img className="qr_img" src={item?.qrImage} alt="" /> */}
+                        
                         </div>
                       </div>
                     </>

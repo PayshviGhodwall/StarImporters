@@ -18,6 +18,7 @@ import { MDBDataTable } from "mdbreact";
 import { Button } from "rsuite";
 import { BiEdit } from "react-icons/bi";
 import classNames from "classnames";
+import { Box, LinearProgress, Typography } from "@mui/material";
 
 export const DaysOption = [
   { value: "SUNDAY", label: "Sunday" },
@@ -34,6 +35,21 @@ export const DaysOption = [
   { value: "FRIDAY", label: "Friday" },
   { value: "SATURDAY", label: "Saturday" },
 ];
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 const Option = (props) => {
   return (
@@ -651,8 +667,20 @@ const OrderReq = () => {
         const optionList = data?.map((item, index) => ({
           value: item?._id,
           label: (
-            <div>
-              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
+            <div className="d-flex " style={{
+              width:"200%"
+            }}>
+              {item?.fullName}{" "}-
+              {item?.isPullerBusy ? (
+                <Box sx={{ width: "60%" }}>
+                  <LinearProgressWithLabel
+                    color="success"
+                    value={item?.scannedPercentage}
+                  />
+                </Box>  
+              ) : (
+                ""
+              )}
             </div>
           ),
         }));
@@ -1319,7 +1347,6 @@ const OrderReq = () => {
                           cancel
                         </a>
                       )}
-
                     </div>
 
                     {importedData?.totalBarcodes > 0 && (

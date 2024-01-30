@@ -80,19 +80,32 @@ const EditCatalog = () => {
     }
   };
 
-  const EditPage = async (e, i, temp,template) => {
+  const EditPage = async (e, i, temp, template) => {
     e.preventDefault();
 
-    console.log(temp,template,i,"jkjh");
+    console.log(temp, template, i, "jkjh");
     let page = i + 1;
 
     if (temp === "Intro" || template === 1) {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t1ImgBack);
-      formData.append("qrCode", formValues[i]?.t1ImgQr);
-      formData.append("pageTitle", formValues[i]?.t1Title);
+      formData.append(
+        "bgImage",
+        formValues[i]?.t1ImgBack
+          ? formValues[i]?.t1ImgBack
+          : formValues[i]?.backgroundImage
+      );
+      formData.append(
+        "qrCode",
+        formValues[i]?.t1ImgQr ? formValues[i]?.t1ImgQr : formValues[i]?.qrCode
+      );
+      formData.append(
+        "pageTitle",
+        formValues[i]?.t1Title
+          ? formValues[i]?.t1Title
+          : formValues[i]?.pageTitle
+      );
       const { data } = await axios.post(temp1, formData);
       if (!data?.error) {
         Swal.fire({
@@ -114,10 +127,25 @@ const EditCatalog = () => {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t2ImgBack ? formValues[i]?.t2ImgBack  : formValues[i]?.backgroundImage  );
-      formData.append("pageTitle", formValues[i]?.t2Title ? formValues[i]?.t2Title : formValues[i]?.pageTitle );
-      formData.append("footer", formValues[i]?.t2Footer ? formValues[i]?.t2Footer : formValues[i]?.footer);
-      formData.append("products",products?.length && JSON.stringify(products));
+      formData.append(
+        "bgImage",
+        formValues[i]?.t2ImgBack
+          ? formValues[i]?.t2ImgBack
+          : formValues[i]?.backgroundImage
+      );
+      formData.append(
+        "pageTitle",
+        formValues[i]?.t2Title
+          ? formValues[i]?.t2Title
+          : formValues[i]?.pageTitle
+      );
+      formData.append(
+        "footer",
+        formValues[i]?.t2Footer
+          ? formValues[i]?.t2Footer
+          : formValues[i]?.footer
+      );
+      formData.append("products", products?.length && JSON.stringify(products));
 
       const { data } = await axios.patch(temp2, formData);
       if (!data?.error) {
@@ -138,15 +166,35 @@ const EditCatalog = () => {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t3ImgBack ? formValues[i]?.t3ImgBack : formValues[i]?.backgroundImage);
+      formData.append(
+        "bgImage",
+        formValues[i]?.t3ImgBack
+          ? formValues[i]?.t3ImgBack
+          : formValues[i]?.backgroundImage
+      );
       formValues[i]?.t3ImgBanners?.map((item) => {
         formData.append("banner", item?.t3ImgBanners);
       });
-      formData.append("pageTitle", formValues[i]?.t3Header);
-      formData.append("footer", formValues[i]?.t3Footer);
-      formData.append("bannerURL1", formValues[i]?.t3BannerUrl1);
-      formData.append("bannerURL2", formValues[i]?.t3BannerUrl2);
-      formData.append("bannerURL3", formValues[i]?.t3BannerUrl3);
+      formData.append(
+        "pageTitle",
+        formValues[i]?.t3Header
+          ? formValues[i]?.t3Header
+          : formValues[i]?.pageTitle
+      );
+      formData.append(
+        "footer",
+        formValues[i]?.t3Footer
+          ? formValues[i]?.t3Footer
+          : formValues[i]?.footer
+      );
+      formData.append(
+        "bannerURL1",
+        formValues[i]?.t3BannerUrl1
+          ? formValues?.t3BannerUrl1
+          : formValues[i]?.bannerURL1
+      );
+      formData.append("bannerURL2", formValues[i]?.t3BannerUrl2 ? formValues[i]?.t3BannerUrl2 : formValues[i]?.bannerURL2 );
+      formData.append("bannerURL3", formValues[i]?.t3BannerUrl3 ? formValues[i]?.t3BannerUrl3 : formValues[i]?.bannerURL3);
 
       const { data } = await axios.patch(temp3, formData);
       if (!data?.error) {
@@ -168,10 +216,10 @@ const EditCatalog = () => {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t4ImgBack);
-      formData.append("pageTitle", formValues[i]?.t4Header);
-      formData.append("footer", formValues[i]?.t4Footer);
-      formData.append("productLogo", formValues[i]?.t4LogoImg);
+      formData.append("bgImage", formValues[i]?.t4ImgBack ? formValues[i]?.t4ImgBack : formValues[i]?.backgroundImage);
+      formData.append("pageTitle", formValues[i]?.t4Header ? formValues?.t4Header : formValues?.pageTitle);
+      formData.append("footer", formValues[i]?.t4Footer ? formValues[i]?.t4Footer : formValues[i]?.footer);
+      formData.append("productLogo", formValues[i]?.t4LogoImg ? formValues[i]?.t4LogoImg : formValues[i]?.logoImg);
       formData.append("productId", products);
       formData.append("flavourId", JSON.stringify(flavours));
 
@@ -194,14 +242,14 @@ const EditCatalog = () => {
       let formData = new FormData();
       formData.append("page", page);
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t5ImgBack);
-      formData.append("banner", formValues[i]?.t5BannersImg);
-      formData.append("banner", formValues[i]?.t5BannersImg2);
-      formData.append("video", formValues[i]?.t5BannersImg2);
-      formData.append("pageTitle", formValues[i]?.t5Header);
-      formData.append("footer", formValues[i]?.t5Footer);
-      formData.append("bannerURL1", formValues[i]?.t5BannerUrl1);
-      formData.append("bannerURL2", formValues[i]?.t5BannerUrl2);
+      formData.append("bgImage", formValues[i]?.t5ImgBack ? formValues[i]?.t5ImgBack : formValues[i]?.backgroundImage);
+      formData.append("banner", formValues[i]?.t5BannersImg ? formValues[i]?.t5BannersImg : formValues[i]?.banner);
+      formData.append("banner", formValues[i]?.t5BannersImg2  ? formValues[i]?.t5BannersImg2 : formValues[i]?.banner);
+      // formData.append("video", formValues[i]?.t5BannersImg2); 
+      formData.append("pageTitle", formValues[i]?.t5Header ? formValues[i]?.t5Header : formValues[i]?.pageTitle);
+      formData.append("footer", formValues[i]?.t5Footer ? formValues[i]?.t5Footer : formValues[i]?.footer);
+      formData.append("bannerURL1", formValues[i]?.t5BannerUrl1 ? formValues[i]?.t5BannerUrl1 : formValues[i]?.bannerURL1);
+      formData.append("bannerURL2", formValues[i]?.t5BannerUrl2 ? formValues[i]?.t5BannerUrl2 : formValues[i]?.bannerURL2);
 
       const { data } = await axios.patch(temp5, formData);
       if (!data?.error) {
@@ -268,7 +316,6 @@ const EditCatalog = () => {
     setFormValues(newFormValues);
     // setFiles({ ...files, [key]: e.target.files[0] });
   };
-
 
   const addFormFields = (e) => {
     setFormValues([
@@ -1542,7 +1589,7 @@ const EditCatalog = () => {
                                             className="fa fa-edit "></i>
                                         </span>
                                         <br />
-                                        { item?.banners?.map((itm, id) => (
+                                        {item?.banners?.map((itm, id) => (
                                           <li>
                                             <a
                                               href={itm}
@@ -1668,15 +1715,15 @@ const EditCatalog = () => {
                                       <div>
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
-                                          <i 
-                                           onClick={() => {
-                                            handleChangeEditFiles(
-                                              item?.type,
-                                              index,
-                                              "backgroundImage"
-                                            );
-                                          }}
-                                          className="fa fa-edit "></i>
+                                          <i
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "backgroundImage"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1724,15 +1771,14 @@ const EditCatalog = () => {
                                         <span className="fw-bold">
                                           Uploaded File :{" "}
                                           <i
-                                           onClick={() => {
-                                            handleChangeEditFiles(
-                                              item?.type,
-                                              index,
-                                              "productLogo"
-                                            );
-                                          }}
-                                          
-                                          className="fa fa-edit "></i>
+                                            onClick={() => {
+                                              handleChangeEditFiles(
+                                                item?.type,
+                                                index,
+                                                "productLogo"
+                                              );
+                                            }}
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1886,7 +1932,7 @@ const EditCatalog = () => {
                                                 "backgroundImage"
                                               );
                                             }}
-                                          className="fa fa-edit "></i>
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -1941,7 +1987,7 @@ const EditCatalog = () => {
                                                 "banners"
                                               );
                                             }}
-                                          className="fa fa-edit "></i>
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -2012,7 +2058,7 @@ const EditCatalog = () => {
                                                 "banners"
                                               );
                                             }}
-                                          className="fa fa-edit "></i>
+                                            className="fa fa-edit "></i>
                                         </span>
                                         <br />
                                         <a
@@ -2737,7 +2783,7 @@ const EditCatalog = () => {
                             className="comman_btn2 mx-2"
                             type="submit"
                             onClick={(e) => {
-                              EditPage(e, index, item?.type ,item?.template);
+                              EditPage(e, index, item?.type, item?.template);
                             }}>
                             Submit
                           </Button>
