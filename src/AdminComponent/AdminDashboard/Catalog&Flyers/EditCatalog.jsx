@@ -63,6 +63,7 @@ const EditCatalog = () => {
     formState: { errors },
   } = useForm();
 
+  console.log(formValues,"plp");
   let handleChange = (i, e) => {
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
@@ -89,6 +90,7 @@ const EditCatalog = () => {
     if (temp === "Intro" || template === 1) {
       let formData = new FormData();
       formData.append("page", page);
+      formData.append("pageId", formValues[i]?._id);
       formData.append("catalogId", id);
       formData.append(
         "bgImage",
@@ -121,11 +123,20 @@ const EditCatalog = () => {
         });
       }
     } else if (temp === "ProductListing" || template === 2) {
-      let products = formValues[i]?.productName?.map((itm, id) => ({
-        productId: itm?.value,
-      }));
+      let products = [];
+      formValues[i].products ? formValues[i]?.products?.map((itm, id) => {
+        products.push({productId:itm?._id});
+      })
+      :
+      formValues[i]?.productName?.map((itm, id) => {
+        products.push({productId:itm?.value});
+      })
+
+
       let formData = new FormData();
       formData.append("page", page);
+      formData.append("pageId", formValues[i]?._id);
+
       formData.append("catalogId", id);
       formData.append(
         "bgImage",
@@ -165,6 +176,8 @@ const EditCatalog = () => {
     } else if (temp === "Banner" || template === 3) {
       let formData = new FormData();
       formData.append("page", page);
+      formData.append("pageId", formValues[i]?._id);
+
       formData.append("catalogId", id);
       formData.append(
         "bgImage",
@@ -193,8 +206,18 @@ const EditCatalog = () => {
           ? formValues?.t3BannerUrl1
           : formValues[i]?.bannerURL1
       );
-      formData.append("bannerURL2", formValues[i]?.t3BannerUrl2 ? formValues[i]?.t3BannerUrl2 : formValues[i]?.bannerURL2 );
-      formData.append("bannerURL3", formValues[i]?.t3BannerUrl3 ? formValues[i]?.t3BannerUrl3 : formValues[i]?.bannerURL3);
+      formData.append(
+        "bannerURL2",
+        formValues[i]?.t3BannerUrl2
+          ? formValues[i]?.t3BannerUrl2
+          : formValues[i]?.bannerURL2
+      );
+      formData.append(
+        "bannerURL3",
+        formValues[i]?.t3BannerUrl3
+          ? formValues[i]?.t3BannerUrl3
+          : formValues[i]?.bannerURL3
+      );
 
       const { data } = await axios.patch(temp3, formData);
       if (!data?.error) {
@@ -215,11 +238,31 @@ const EditCatalog = () => {
       let flavours = formValues[i]?.flavours2?.map((itm, id) => itm?.value);
       let formData = new FormData();
       formData.append("page", page);
+      formData.append("pageId", formValues[i]?._id);
+
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t4ImgBack ? formValues[i]?.t4ImgBack : formValues[i]?.backgroundImage);
-      formData.append("pageTitle", formValues[i]?.t4Header ? formValues?.t4Header : formValues?.pageTitle);
-      formData.append("footer", formValues[i]?.t4Footer ? formValues[i]?.t4Footer : formValues[i]?.footer);
-      formData.append("productLogo", formValues[i]?.t4LogoImg ? formValues[i]?.t4LogoImg : formValues[i]?.logoImg);
+      formData.append(
+        "bgImage",
+        formValues[i]?.t4ImgBack
+          ? formValues[i]?.t4ImgBack
+          : formValues[i]?.backgroundImage
+      );
+      formData.append(
+        "pageTitle",
+        formValues[i]?.t4Header ? formValues?.t4Header : formValues?.pageTitle
+      );
+      formData.append(
+        "footer",
+        formValues[i]?.t4Footer
+          ? formValues[i]?.t4Footer
+          : formValues[i]?.footer
+      );
+      formData.append(
+        "productLogo",
+        formValues[i]?.t4LogoImg
+          ? formValues[i]?.t4LogoImg
+          : formValues[i]?.logoImg
+      );
       formData.append("productId", products);
       formData.append("flavourId", JSON.stringify(flavours));
 
@@ -241,15 +284,53 @@ const EditCatalog = () => {
     } else if (temp === "Summary" || template === 5) {
       let formData = new FormData();
       formData.append("page", page);
+
+      formData.append("pageId", formValues[i]?._id);
+
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t5ImgBack ? formValues[i]?.t5ImgBack : formValues[i]?.backgroundImage);
-      formData.append("banner", formValues[i]?.t5BannersImg ? formValues[i]?.t5BannersImg : formValues[i]?.banner);
-      formData.append("banner", formValues[i]?.t5BannersImg2  ? formValues[i]?.t5BannersImg2 : formValues[i]?.banner);
-      // formData.append("video", formValues[i]?.t5BannersImg2); 
-      formData.append("pageTitle", formValues[i]?.t5Header ? formValues[i]?.t5Header : formValues[i]?.pageTitle);
-      formData.append("footer", formValues[i]?.t5Footer ? formValues[i]?.t5Footer : formValues[i]?.footer);
-      formData.append("bannerURL1", formValues[i]?.t5BannerUrl1 ? formValues[i]?.t5BannerUrl1 : formValues[i]?.bannerURL1);
-      formData.append("bannerURL2", formValues[i]?.t5BannerUrl2 ? formValues[i]?.t5BannerUrl2 : formValues[i]?.bannerURL2);
+      formData.append(
+        "bgImage",
+        formValues[i]?.t5ImgBack
+          ? formValues[i]?.t5ImgBack
+          : formValues[i]?.backgroundImage
+      );
+      formData.append(
+        "banner",
+        formValues[i]?.t5BannersImg
+          ? formValues[i]?.t5BannersImg
+          : formValues[i]?.banner
+      );
+      formData.append(
+        "banner",
+        formValues[i]?.t5BannersImg2
+          ? formValues[i]?.t5BannersImg2
+          : formValues[i]?.banner
+      );
+      // formData.append("video", formValues[i]?.t5BannersImg2);
+      formData.append(
+        "pageTitle",
+        formValues[i]?.t5Header
+          ? formValues[i]?.t5Header
+          : formValues[i]?.pageTitle
+      );
+      formData.append(
+        "footer",
+        formValues[i]?.t5Footer
+          ? formValues[i]?.t5Footer
+          : formValues[i]?.footer
+      );
+      formData.append(
+        "bannerURL1",
+        formValues[i]?.t5BannerUrl1
+          ? formValues[i]?.t5BannerUrl1
+          : formValues[i]?.bannerURL1
+      );
+      formData.append(
+        "bannerURL2",
+        formValues[i]?.t5BannerUrl2
+          ? formValues[i]?.t5BannerUrl2
+          : formValues[i]?.bannerURL2
+      );
 
       const { data } = await axios.patch(temp5, formData);
       if (!data?.error) {
@@ -268,9 +349,11 @@ const EditCatalog = () => {
     } else if (temp === 6) {
       let formData = new FormData();
       formData.append("page", page);
+      formData.append("pageId", formValues[i]?._id);
+
       formData.append("catalogId", id);
-      formData.append("bgImage", formValues[i]?.t6ImgBack);
-      formData.append("bannerURL1", formValues[i]?.t6BannerUrl1);
+      formData.append("bgImage", formValues[i]?.t6ImgBack ?? "");
+      formData.append("bannerURL1", formValues[i]?.t6BannerUrl1 ?? "");
 
       const { data } = await axios.patch(temp6, formData);
       if (!data?.error) {
@@ -411,6 +494,7 @@ const EditCatalog = () => {
     newFormValues[index].productName = selected;
     setFormValues(newFormValues);
   };
+  
   const handleChange3 = (selected, index) => {
     GetProducts(selected?.value);
     let newFormValues = [...formValues];

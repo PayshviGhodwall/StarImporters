@@ -10,12 +10,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/css/flip.css";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { usePDF } from "react-to-pdf";
 
 const PreviewCate = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
   const width = window.innerWidth;
   const [flipKey, setFlipKey] = useState(Math.random());
   const [zoom, setZoom] = useState(1); // Initial zoom level
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
 
   let { id } = useParams();
   const [templatePreview, setTemplatePreview] = useState([]);
@@ -106,34 +108,8 @@ const PreviewCate = () => {
                     data-bs-placement="bottom"
                     title="Print"
                     className="meeenus"
-                    onClick={() => {
-                      navigate(`/Catelog-Flyers/PreviewPrint-Catalog/${id}`);
-                    }}>
+                    onClick={() => toPDF()}>
                     <img src={print} alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Share"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/share-line.svg" alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Click to view page thumbnail"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/grid-fill.svg" alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Allow to search a word"
-                    className="meeenus"
-                    href="javascript:;">
-                    <img src="assets/img/search-line.svg" alt="" />
                   </a>
                 </div>
                 <div className="catalog_pagination">
@@ -164,35 +140,24 @@ const PreviewCate = () => {
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
-                    title="My Bookmark"
-                    className="meeenus">
-                    <img src={bookmark} alt="" />
-                  </a>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Click to View Document"
-                    className="meeenus">
-                    <img src={down} alt="" />
+                    title="Full Screen"
+                    className="meeenus"
+                    onClick={handle.enter}>
+                    <img src={full} alt="" />
                   </a>
                 </div>
               </div>
             </div>
             <div className="col-lg-2 col-md-auto">
-              <div className="full_screen text-end">
-              <button onClick={handle.enter}>
-        First
-      </button>
-              </div>
+              <div className="full_screen text-end"></div>
             </div>
           </div>
         </div>
 
-        <FullScreen handle={handle}>
-          Any fullscreen content here
-          <div className="star_catalog bg-white">
+        <div className="star_catalog bg-white">
+          <FullScreen handle={handle}>
             <div className="star_catalog_inner position-relative">
-              <div className="book">
+              <div className="book ">
                 <div id="pages" className="pages">
                   {templatePreview?.map((item, index) => (
                     <>
@@ -236,10 +201,10 @@ const PreviewCate = () => {
                                 typeof item?.products
                               )}
                               <div className="comman_head">
-                                <h2>{item?.pageTitle}</h2>
+                                <h2>{item?.pageTitle  === "undefined" ? "" : item?.pageTitle}</h2>
                               </div>
                               <div className="product_main mx-2">
-                                {item?.products?.map((itm, id) => (
+                                {item?.products?.filter((item,ind)=>ind < 20)?.map((itm, id) => (
                                   <div className="product_box">
                                     <Link
                                       className="main_products"
@@ -263,7 +228,9 @@ const PreviewCate = () => {
                                 ))}
                               </div>
                               <div className="bottom_line text-center">
-                                {item?.footer}
+                                {item?.footer === "undefined"
+                                  ? ""
+                                  : item?.footer}
                               </div>
                             </div>
                           </div>
@@ -284,7 +251,11 @@ const PreviewCate = () => {
                                 backgroundImage: `url(${item?.backgroundImage})`,
                               }}>
                               <div className="comman_head">
-                                <h2>{item?.pageTitle}</h2>
+                                <h2>
+                                  {item?.pageTitle == "undefined"
+                                    ? ""
+                                    : item?.pageTitle}
+                                </h2>
                               </div>
                               <div className="wholesale_main text-center">
                                 <Link
@@ -304,7 +275,9 @@ const PreviewCate = () => {
                                 </Link>
 
                                 <div className="bottom_line text-center">
-                                  {item?.footer}
+                                  {item?.footer === "undefined"
+                                    ? ""
+                                    : item?.footer}
                                 </div>
                               </div>
                             </div>
@@ -326,7 +299,11 @@ const PreviewCate = () => {
                                 backgroundImage: `url(${item?.backgroundImage})`,
                               }}>
                               <div className="comman_head">
-                                <h2>{item?.pageTitle}</h2>
+                                <h2>
+                                  {item?.pageTitle == "undefined"
+                                    ? ""
+                                    : item?.pageTitle}
+                                </h2>
                               </div>
 
                               <div className="product_shooww text-center">
@@ -337,13 +314,13 @@ const PreviewCate = () => {
                                       target="_blank">
                                       <img
                                         className="product_logo_img"
-                                        src={item?.productLogo}
+                                        src={item?.productLogo ?? ""}
                                         alt=""
                                       />
                                     </Link>
                                   </div>
                                 </div>
-                                <div className="row">
+                                <div className="row products_div">
                                   <div className="col-6">
                                     <div className="row">
                                       {item?.productId?.type
@@ -361,9 +338,9 @@ const PreviewCate = () => {
                                                 src={itm?.flavourImage}
                                                 alt=""
                                               />
-                                              <div className="show_details_flav">
+                                              {/* <div className="show_details_flav">
                                                 {itm?.flavour} <br />{" "}
-                                              </div>
+                                              </div> */}
                                             </Link>
                                           </div>
                                         ))}
@@ -378,14 +355,16 @@ const PreviewCate = () => {
                                         src={item?.productId?.productImage}
                                         alt=""
                                       />
-                                      <div className="show_details me-5">
+                                      <div className=" mt-2 fs-4 text-center">
                                         {item?.productId?.unitName} <br />
                                       </div>
                                     </Link>
                                   </div>
                                 </div>
                                 <div className="bottom_line text-center">
-                                  {item?.footer}
+                                  {item?.footer === "undefined"
+                                    ? ""
+                                    : item?.footer}
                                 </div>
                               </div>
                             </div>
@@ -407,7 +386,11 @@ const PreviewCate = () => {
                                 backgroundImage: `url(${item?.backgroundImage})`,
                               }}>
                               <div className="comman_head">
-                                <h2>{item?.pageTitle}</h2>
+                                <h2>
+                                  {item?.pageTitle == "undefined"
+                                    ? ""
+                                    : item?.pageTitle}
+                                </h2>
                               </div>
                               <div className="wholesale_main_summary text-center">
                                 <Link to={item?.bannerURL1} className="d-none">
@@ -445,7 +428,7 @@ const PreviewCate = () => {
                                 </Link>
 
                                 <div className="bottom_line text-center">
-                                  {item?.footer}
+                                  {item?.footer === 'undefined' ? "" : item?.footer}
                                 </div>
                               </div>
                             </div>
@@ -465,8 +448,8 @@ const PreviewCate = () => {
                 </a>
               </div>
             </div>
-          </div>
-        </FullScreen>
+          </FullScreen>
+        </div>
       </div>
     </div>
   );

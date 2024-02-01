@@ -859,7 +859,7 @@ const EditOrder = () => {
                   />
                 </div>
 
-                <div className="form-group col-6">
+                <div className="form-group col-8">
                   <label htmlFor="">Select Flavour </label>
                   <select
                     type="select"
@@ -877,11 +877,11 @@ const EditOrder = () => {
                   </select>
                 </div>
 
-                <div className="form-group col-6 ">
+                <div className="form-group col-4">
                   <label htmlFor="">Product Quantity </label>
                   <input
                     type="number"
-                    className=" form-select"
+                    className="form-control h-50"
                     maxLength={5}
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}></input>

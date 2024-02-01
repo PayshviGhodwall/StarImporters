@@ -20,7 +20,7 @@ const AdminCateFlyers = () => {
   const addCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/createCatalog`;
   const addPdfCatelog = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/pdfToImage`;
   const deleteCate = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteCatalog`;
-  const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/diableCatalog`;
+  const status = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeCatalogStatus`;
   const [catelogueUrl, setCatelogueUrl] = useState("");
   const [catelogueTitle, setCatelogueTitle] = useState("");
   const [flyerUrl, setFlyerUrl] = useState("");
@@ -828,11 +828,8 @@ const AdminCateFlyers = () => {
                                                         : require("../../../assets/img/product.jpg")
                                                     }></img>
                                                 </td>
-                                                <td className="border">
-                                                  {item?.description?.slice(
-                                                    0,
-                                                    25
-                                                  )}
+                                                <td className="border desc_box">
+                                                  {item?.description}
                                                 </td>
                                                 <td className="border">
                                                   {" "}
