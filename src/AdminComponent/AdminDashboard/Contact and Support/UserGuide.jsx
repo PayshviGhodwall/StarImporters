@@ -309,7 +309,7 @@ const UserGuide = () => {
                                     <option selected value="videos">
                                       Videos
                                     </option>
-                                    <option value="pdf">PDF</option>
+                                   <option value="pdf">PDF</option>``
                                     <option value="images">Images</option>
                                   </select>
                                 </div>
