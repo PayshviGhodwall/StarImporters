@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import logo from "../../../assets/img/star_logo.png";
+import React, { useEffect, useState } from "react";import logo from "../../../assets/img/star_logo.png";
 import print from "../../../assets/img/printer-line.svg";
 import leftLine from "../../../assets/img/skip-left-line.svg";
 import bookmark from "../../../assets/img/bookmark-3-line.svg";
@@ -22,7 +21,7 @@ const PreviewPdfCate = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
-
+  const [downloadLink, setDownloadLink] = useState();
   const navigate = useNavigate();
   useEffect(() => {
     GetTemplates();
@@ -34,6 +33,7 @@ const PreviewPdfCate = () => {
   const GetTemplates = async () => {
     await axios.get(getTemp + id).then((res) => {
       let data = res?.data.results?.catalog?.pages;
+      setDownloadLink(data[0]?.pdfFilePath);
       setTemplatePreview(data);
       setFlipKey(Math.random());
 
@@ -105,8 +105,11 @@ const PreviewPdfCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Print"
+                    href={downloadLink}
                     className="meeenus"
-                    onClick={() => toPDF()}>
+                    download
+                    target="_blank"
+                  >
                     <img src={print} alt="" />
                   </a>
                 </div>
@@ -115,7 +118,8 @@ const PreviewPdfCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Click this button to view this previous page"
-                    onClick={() => handlePrev()}>
+                    onClick={() => handlePrev()}
+                  >
                     <img src={leftLine} alt="" />
                   </a>
                   <div className="form-group mt-3" key={pageS}>
@@ -130,7 +134,8 @@ const PreviewPdfCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     onClick={() => handleNext()}
-                    title="Click this button to view this Next page">
+                    title="Click this button to view this Next page"
+                  >
                     <img src={rightLine} alt="" />
                   </a>
                 </div>
@@ -140,7 +145,8 @@ const PreviewPdfCate = () => {
                     data-bs-placement="bottom"
                     title="Full Screen"
                     className="meeenus"
-                    onClick={handle.enter}>
+                    onClick={handle.enter}
+                  >
                     <img src={full} alt="" />
                   </a>
                 </div>
@@ -156,7 +162,6 @@ const PreviewPdfCate = () => {
           <FullScreen handle={handle}>
             <div className="star_catalog_inner position-relative">
               <div className="book ">
-
                 <div id="pages" className="pages">
                   {templatePreview?.map((item, index) => (
                     <>
@@ -166,7 +171,8 @@ const PreviewPdfCate = () => {
                             href={item?.pageURL}
                             target="_blank"
                             id="click-me"
-                            className="shadow">
+                            className="shadow"
+                          >
                             Click
                             <i class="fa-solid fa-hand-pointer"></i>
                           </a>
@@ -183,7 +189,6 @@ const PreviewPdfCate = () => {
                           />
 
                           {/* <img className="qr_img" src={item?.qrImage} alt="" /> */}
-                        
                         </div>
                       </div>
                     </>

@@ -30,6 +30,7 @@
     "flipping-pages": "^3.1.0",
     "framer-motion": "^7.6.13",
     "fslightbox-react": "^1.7.2",
+    "html2pdf.js": "^0.10.1",
     "immutable": "^3.8.2",
     "jodit": "^3.24.2",
     "jquery": "1.12.0",

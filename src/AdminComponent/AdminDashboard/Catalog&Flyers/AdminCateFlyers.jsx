@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
 import axios from "axios";
@@ -63,6 +62,10 @@ const AdminCateFlyers = () => {
     formData.append("description", descCatalog);
     formData.append("coverImage", files?.coverImageC ? files?.coverImageC : "");
     formData.append("catalogType", "Catalog");
+    formData.append(
+      "pdfFilePath",
+      pdfData?.length ? pdfData[0]?.pdfFilePath : ""
+    );
 
     pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
 
@@ -135,7 +138,10 @@ const AdminCateFlyers = () => {
     formData.append("flyerDate", fDate ? fDate : "");
     formData.append("coverImage", files?.coverImageF ? files?.coverImageF : "");
     formData.append("catalogType", "Flyer");
-
+    formData.append(
+      "pdfFilePath",
+      pdfData?.length ? pdfData[0]?.pdfFilePath : ""
+    );
     pdfData?.length && formData.append("pdfImages", JSON.stringify(pdfData));
 
     const { data } = await axios.post(addCatelog, formData);
@@ -207,34 +213,40 @@ const AdminCateFlyers = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -243,17 +255,20 @@ const AdminCateFlyers = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -262,84 +277,100 @@ const AdminCateFlyers = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
                     className="d-nont ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/Catelog-Flyers"
@@ -347,24 +378,29 @@ const AdminCateFlyers = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -372,25 +408,30 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -399,10 +440,12 @@ const AdminCateFlyers = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -416,10 +459,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -427,10 +472,12 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -441,10 +488,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -455,10 +504,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -466,10 +517,12 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -480,10 +533,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -494,10 +549,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -509,10 +566,12 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -524,10 +583,12 @@ const AdminCateFlyers = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -535,10 +596,12 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -546,10 +609,12 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -557,10 +622,12 @@ const AdminCateFlyers = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -569,10 +636,12 @@ const AdminCateFlyers = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -592,7 +661,8 @@ const AdminCateFlyers = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -603,7 +673,8 @@ const AdminCateFlyers = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -634,7 +705,8 @@ const AdminCateFlyers = () => {
                           <div
                             className="nav nav-tabs"
                             id="nav-tab"
-                            role="tablist">
+                            role="tablist"
+                          >
                             <button
                               className="nav-link active"
                               id="nav-home-tab"
@@ -643,7 +715,8 @@ const AdminCateFlyers = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-home"
-                              aria-selected="true">
+                              aria-selected="true"
+                            >
                               Catalogs
                             </button>
                             <button
@@ -654,24 +727,28 @@ const AdminCateFlyers = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-profile"
-                              aria-selected="false">
+                              aria-selected="false"
+                            >
                               Monthly Flyers
                             </button>
                           </div>
                         </nav>
                         <div
                           className="tab-content recent_orders_cate"
-                          id="nav-tabContent">
+                          id="nav-tabContent"
+                        >
                           <div
                             className="tab-pane fade show active"
                             id="nav-home"
                             role="tabpanel"
-                            aria-labelledby="nav-home-tab">
+                            aria-labelledby="nav-home-tab"
+                          >
                             <div className="row mx-0 ">
                               <div className="col-12 pt-2">
                                 <form
                                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                  action="">
+                                  action=""
+                                >
                                   <div className="form-group mb-0 col-4">
                                     <span>Enter Catalog Title</span>{" "}
                                     <label htmlFor="upload_video"></label>
@@ -740,20 +817,23 @@ const AdminCateFlyers = () => {
                                       <Button
                                         loading={loader}
                                         className="comman_btn2"
-                                        onClick={AddCate}>
+                                        onClick={AddCate}
+                                      >
                                         Save
                                       </Button>
 
                                       <a
                                         className="comman_btn2 mx-2"
-                                        onClick={() => setSwitches(!switches)}>
+                                        onClick={() => setSwitches(!switches)}
+                                      >
                                         Cancel
                                       </a>
 
                                       <button
                                         className="comman_btn d-none"
                                         id="resetCatalog"
-                                        type="reset">
+                                        type="reset"
+                                      >
                                         Reset
                                       </button>
                                     </div>
@@ -761,20 +841,23 @@ const AdminCateFlyers = () => {
                                     <div className="form-group mb-0 col-12 text-center mt-4">
                                       <button
                                         className="comman_btn2"
-                                        onClick={AddCate}>
+                                        onClick={AddCate}
+                                      >
                                         Create a Catalog
                                       </button>
                                       <span className="mx-2">Or</span>
                                       <a
                                         className="comman_btn2"
-                                        onClick={() => setSwitches(true)}>
+                                        onClick={() => setSwitches(true)}
+                                      >
                                         Upload a Pdf
                                       </a>
 
                                       <button
                                         className="comman_btn d-none"
                                         id="resetCatalog"
-                                        type="reset">
+                                        type="reset"
+                                      >
                                         Reset
                                       </button>
                                     </div>
@@ -789,7 +872,8 @@ const AdminCateFlyers = () => {
                                           <tr
                                             style={{
                                               backgroundColor: "#f2f2f2",
-                                            }}>
+                                            }}
+                                          >
                                             <th>Date</th>
                                             <th>Title</th>
                                             <th>Type</th>
@@ -826,7 +910,8 @@ const AdminCateFlyers = () => {
                                                       item?.coverImage
                                                         ? item?.coverImage
                                                         : require("../../../assets/img/product.jpg")
-                                                    }></img>
+                                                    }
+                                                  ></img>
                                                 </td>
                                                 <td className="border desc_box">
                                                   {item?.description}
@@ -866,7 +951,8 @@ const AdminCateFlyers = () => {
                                                         : navigate(
                                                             `/Catelog-Flyers/EditCatalog/${item?._id}`
                                                           );
-                                                    }}>
+                                                    }}
+                                                  >
                                                     Edit
                                                   </a>
                                                   <a
@@ -879,7 +965,8 @@ const AdminCateFlyers = () => {
                                                         : navigate(
                                                             `/Catelog-Flyers/Preview-Catalog/${item?._id}`
                                                           );
-                                                    }}>
+                                                    }}
+                                                  >
                                                     View
                                                   </a>
                                                 </td>
@@ -897,12 +984,14 @@ const AdminCateFlyers = () => {
                             className="tab-pane fade recent_order"
                             id="nav-profile"
                             role="tabpanel"
-                            aria-labelledby="nav-profile-tab">
+                            aria-labelledby="nav-profile-tab"
+                          >
                             <div className="row mx-0 ">
                               <div className="col-12 pt-2">
                                 <form
                                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                  action="">
+                                  action=""
+                                >
                                   <div className="form-group mb-0 col-4">
                                     <span>Flyer Title</span>{" "}
                                     <input
@@ -942,9 +1031,8 @@ const AdminCateFlyers = () => {
                                       id="dateF"
                                       name="expiry"
                                       value={fDate}
-                                      onChange={(e) =>
-                                        setFdate(e.target.value)
-                                      }></input>
+                                      onChange={(e) => setFdate(e.target.value)}
+                                    ></input>
                                   </div>
 
                                   {switches && (
@@ -969,20 +1057,23 @@ const AdminCateFlyers = () => {
                                       <Button
                                         loading={loader}
                                         className="comman_btn2"
-                                        onClick={AddFlyer}>
+                                        onClick={AddFlyer}
+                                      >
                                         Save
                                       </Button>
 
                                       <a
                                         className="comman_btn2 mx-2"
-                                        onClick={() => setSwitches(!switches)}>
+                                        onClick={() => setSwitches(!switches)}
+                                      >
                                         Cancel
                                       </a>
 
                                       <button
                                         className="comman_btn d-none"
                                         id="resetCatalog"
-                                        type="reset">
+                                        type="reset"
+                                      >
                                         Reset
                                       </button>
                                     </div>
@@ -990,20 +1081,23 @@ const AdminCateFlyers = () => {
                                     <div className="form-group mb-0 col-12 text-center mt-4">
                                       <button
                                         className="comman_btn2"
-                                        onClick={AddFlyer}>
+                                        onClick={AddFlyer}
+                                      >
                                         Create a Flyer
                                       </button>
                                       <span className="mx-2">Or</span>
                                       <a
                                         className="comman_btn2"
-                                        onClick={() => setSwitches(true)}>
+                                        onClick={() => setSwitches(true)}
+                                      >
                                         Upload a Pdf
                                       </a>
 
                                       <button
                                         className="comman_btn d-none"
                                         id="resetCatalog"
-                                        type="reset">
+                                        type="reset"
+                                      >
                                         Reset
                                       </button>
                                     </div>
@@ -1018,7 +1112,8 @@ const AdminCateFlyers = () => {
                                           <tr
                                             style={{
                                               backgroundColor: "#f2f2f2",
-                                            }}>
+                                            }}
+                                          >
                                             <th>Date</th>
                                             <th>Title</th>
                                             <th>Type</th>
@@ -1054,14 +1149,16 @@ const AdminCateFlyers = () => {
                                                       item?.coverImage
                                                         ? item?.coverImage
                                                         : require("../../../assets/img/product.jpg")
-                                                    }></img>
+                                                    }
+                                                  ></img>
                                                 </td>
 
                                                 <td className="border">
                                                   {" "}
                                                   <div
                                                     className=""
-                                                    key={item?._id}>
+                                                    key={item?._id}
+                                                  >
                                                     <label class="switchUser">
                                                       <input
                                                         type="checkbox"
@@ -1091,7 +1188,8 @@ const AdminCateFlyers = () => {
                                                         : navigate(
                                                             `/Catelog-Flyers/EditFlyers/${item?._id}`
                                                           );
-                                                    }}>
+                                                    }}
+                                                  >
                                                     Edit
                                                   </a>
                                                   <a
@@ -1104,7 +1202,8 @@ const AdminCateFlyers = () => {
                                                         : navigate(
                                                             `/Catelog-Flyers/Preview-Catalog/${item?._id}`
                                                           );
-                                                    }}>
+                                                    }}
+                                                  >
                                                     View
                                                   </a>
                                                 </td>

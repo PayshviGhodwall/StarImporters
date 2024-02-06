@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import logo from "../../../assets/img/star_logo.png";
+import React, { useEffect, useState } from "react";import logo from "../../../assets/img/star_logo.png";
 import print from "../../../assets/img/printer-line.svg";
 import leftLine from "../../../assets/img/skip-left-line.svg";
-import bookmark from "../../../assets/img/bookmark-3-line.svg";
-import down from "../../../assets/img/file-download-line.svg";
 import full from "../../../assets/img/fullscreen-exit-line.svg";
 import rightLine from "../../../assets/img/skip-right-line.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -108,7 +105,10 @@ const PreviewCate = () => {
                     data-bs-placement="bottom"
                     title="Print"
                     className="meeenus"
-                    onClick={() => toPDF()}>
+                    onClick={() =>
+                      navigate(`/Catelog-Flyers/PreviewPrint-Catalog/${id}`)
+                    }
+                  >
                     <img src={print} alt="" />
                   </a>
                 </div>
@@ -117,7 +117,8 @@ const PreviewCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Click this button to view this previous page"
-                    onClick={() => handlePrev()}>
+                    onClick={() => handlePrev()}
+                  >
                     <img src={leftLine} alt="" />
                   </a>
                   <div className="form-group mt-3" key={pageS}>
@@ -132,7 +133,8 @@ const PreviewCate = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     onClick={() => handleNext()}
-                    title="Click this button to view this Next page">
+                    title="Click this button to view this Next page"
+                  >
                     <img src={rightLine} alt="" />
                   </a>
                 </div>
@@ -142,7 +144,8 @@ const PreviewCate = () => {
                     data-bs-placement="bottom"
                     title="Full Screen"
                     className="meeenus"
-                    onClick={handle.enter}>
+                    onClick={handle.enter}
+                  >
                     <img src={full} alt="" />
                   </a>
                 </div>
@@ -195,37 +198,48 @@ const PreviewCate = () => {
                               className="comman_inner_bg"
                               style={{
                                 backgroundImage: `url(${item?.backgroundImage})`,
-                              }}>
+                              }}
+                            >
                               {console.log(
                                 item?.products,
                                 typeof item?.products
                               )}
                               <div className="comman_head">
-                                <h2>{item?.pageTitle  === "undefined" ? "" : item?.pageTitle}</h2>
+                                <h2>
+                                  {item?.pageTitle === "undefined"
+                                    ? ""
+                                    : item?.pageTitle}
+                                </h2>
                               </div>
                               <div className="product_main mx-2">
-                                {item?.products?.filter((item,ind)=>ind < 20)?.map((itm, id) => (
-                                  <div className="product_box">
-                                    <Link
-                                      className="main_products"
-                                      to={`/AllProducts/Product/${itm?.productId?.slug}`}
-                                      target="_blank">
-                                      <div className="product_img">
-                                        <img
-                                          src={
-                                            itm?.productId?.productImage
-                                              ? itm?.productId?.productImage
-                                              : require("../../../assets/img/product.jpg")
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <h2>
-                                        {itm?.productId?.unitName?.slice(0, 20)}
-                                      </h2>
-                                    </Link>
-                                  </div>
-                                ))}
+                                {item?.products
+                                  ?.filter((item, ind) => ind < 20)
+                                  ?.map((itm, id) => (
+                                    <div className="product_box">
+                                      <Link
+                                        className="main_products"
+                                        to={`/AllProducts/Product/${itm?.productId?.slug}`}
+                                        target="_blank"
+                                      >
+                                        <div className="product_img">
+                                          <img
+                                            src={
+                                              itm?.productId?.productImage
+                                                ? itm?.productId?.productImage
+                                                : require("../../../assets/img/product.jpg")
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h2>
+                                          {itm?.productId?.unitName?.slice(
+                                            0,
+                                            20
+                                          )}
+                                        </h2>
+                                      </Link>
+                                    </div>
+                                  ))}
                               </div>
                               <div className="bottom_line text-center">
                                 {item?.footer === "undefined"
@@ -249,7 +263,8 @@ const PreviewCate = () => {
                               className="comman_inner_bg"
                               style={{
                                 backgroundImage: `url(${item?.backgroundImage})`,
-                              }}>
+                              }}
+                            >
                               <div className="comman_head">
                                 <h2>
                                   {item?.pageTitle == "undefined"
@@ -260,17 +275,20 @@ const PreviewCate = () => {
                               <div className="wholesale_main text-center">
                                 <Link
                                   to={item?.bannerURL1}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[0]} alt="" />
                                 </Link>
                                 <Link
                                   to={item?.bannerURL1}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[1]} alt="" />
                                 </Link>
                                 <Link
                                   to={item?.bannerURL1}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[2]} alt="" />
                                 </Link>
 
@@ -297,7 +315,8 @@ const PreviewCate = () => {
                               className="comman_inner_bg"
                               style={{
                                 backgroundImage: `url(${item?.backgroundImage})`,
-                              }}>
+                              }}
+                            >
                               <div className="comman_head">
                                 <h2>
                                   {item?.pageTitle == "undefined"
@@ -311,7 +330,8 @@ const PreviewCate = () => {
                                   <div className="col-12 ">
                                     <Link
                                       to={`/AllProducts/Product/${item?.productId?.slug}`}
-                                      target="_blank">
+                                      target="_blank"
+                                    >
                                       <img
                                         className="product_logo_img"
                                         src={item?.productLogo ?? ""}
@@ -333,7 +353,8 @@ const PreviewCate = () => {
                                                 type: itm,
                                               }}
                                               target="_blank"
-                                              className="product_shooww_img text-center">
+                                              className="product_shooww_img text-center"
+                                            >
                                               <img
                                                 src={itm?.flavourImage}
                                                 alt=""
@@ -350,7 +371,8 @@ const PreviewCate = () => {
                                     <Link
                                       to={`/AllProducts/Product/${item?.productId?.slug}`}
                                       target="_blank"
-                                      className="product_logo">
+                                      className="product_logo"
+                                    >
                                       <img
                                         src={item?.productId?.productImage}
                                         alt=""
@@ -384,7 +406,8 @@ const PreviewCate = () => {
                               className="comman_inner_bg"
                               style={{
                                 backgroundImage: `url(${item?.backgroundImage})`,
-                              }}>
+                              }}
+                            >
                               <div className="comman_head">
                                 <h2>
                                   {item?.pageTitle == "undefined"
@@ -400,7 +423,8 @@ const PreviewCate = () => {
                                     loop
                                     oncanplay="this.muted=true"
                                     muted={true}
-                                    preload="auto">
+                                    preload="auto"
+                                  >
                                     <source
                                       src={
                                         "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -411,24 +435,29 @@ const PreviewCate = () => {
 
                                 <Link
                                   to={item?.bannerURL1}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[0]} alt="" />
                                 </Link>
 
                                 <Link
                                   to={item?.bannerURL2}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[1]} alt="" />
                                 </Link>
 
                                 <Link
                                   to={item?.bannerURL3}
-                                  className="wholesale_img">
+                                  className="wholesale_img"
+                                >
                                   <img src={item?.banners[2]} alt="" />
                                 </Link>
 
                                 <div className="bottom_line text-center">
-                                  {item?.footer === 'undefined' ? "" : item?.footer}
+                                  {item?.footer === "undefined"
+                                    ? ""
+                                    : item?.footer}
                                 </div>
                               </div>
                             </div>

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { saveAs } from "file-saver";
+import axios from "axios";import { saveAs } from "file-saver";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -251,7 +250,8 @@ const OrderReq = () => {
               data-bs-target="#staticBackdrop35"
               onClick={() => {
                 editDays(list?._id);
-              }}>
+              }}
+            >
               Edit City
             </button>
           </>
@@ -265,7 +265,8 @@ const OrderReq = () => {
               data-bs-target="#staticBackdrop33"
               onClick={() => {
                 editDays(list?._id);
-              }}>
+              }}
+            >
               Edit
             </button>
           </>
@@ -654,7 +655,6 @@ const OrderReq = () => {
       });
     }
   };
-  console.log(selectedCity);
 
   useEffect(() => {
     createOptionsPull();
@@ -667,17 +667,20 @@ const OrderReq = () => {
         const optionList = data?.map((item, index) => ({
           value: item?._id,
           label: (
-            <div className="d-flex " style={{
-              width:"200%"
-            }}>
-              {item?.fullName}{" "}-
+            <div
+              className="d-flex "
+              style={{
+                width: "200%",
+              }}
+            >
+              {item?.fullName} -
               {item?.isPullerBusy ? (
                 <Box sx={{ width: "60%" }}>
                   <LinearProgressWithLabel
                     color="success"
                     value={item?.scannedPercentage}
                   />
-                </Box>  
+                </Box>
               ) : (
                 ""
               )}
@@ -775,38 +778,45 @@ const OrderReq = () => {
                 className="list-unstyled ps-1 m-0"
                 onClick={() => {
                   setPageData([{ page: 1 }]);
-                }}>
+                }}
+              >
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -815,14 +825,17 @@ const OrderReq = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -831,93 +844,111 @@ const OrderReq = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
                     className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -925,7 +956,8 @@ const OrderReq = () => {
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/OrderRequest"
@@ -933,10 +965,12 @@ const OrderReq = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -944,25 +978,30 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -971,10 +1010,12 @@ const OrderReq = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -984,7 +1025,8 @@ const OrderReq = () => {
                 className="list-unstyled ps-1 m-0"
                 onClick={() => {
                   setPageData([{ page: 1 }]);
-                }}>
+                }}
+              >
                 <li>
                   <Link
                     className=""
@@ -992,10 +1034,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -1003,10 +1047,12 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -1014,10 +1060,12 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -1028,10 +1076,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -1039,10 +1089,12 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -1053,10 +1105,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -1067,10 +1121,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -1081,10 +1137,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -1095,10 +1153,12 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -1110,10 +1170,12 @@ const OrderReq = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -1121,10 +1183,12 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -1132,10 +1196,12 @@ const OrderReq = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -1144,10 +1210,12 @@ const OrderReq = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -1167,10 +1235,12 @@ const OrderReq = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "4px" }}
-                      className="fa fa-bars"></i>
+                      className="fa fa-bars"
+                    ></i>
                   </h1>
                 </div>
               ) : (
@@ -1180,7 +1250,8 @@ const OrderReq = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -1200,7 +1271,8 @@ const OrderReq = () => {
                   <a
                     className="comman_btn2 text-decoration-none"
                     style={{ cursor: "pointer" }}
-                    onClick={() => setAddForm(!addForm)}>
+                    onClick={() => setAddForm(!addForm)}
+                  >
                     Add Order
                   </a>
                 </div>
@@ -1211,7 +1283,8 @@ const OrderReq = () => {
                   id="Exit"
                   onClick={() => {
                     setAddForm(!addForm);
-                  }}>
+                  }}
+                >
                   Exit
                 </a>
               )}
@@ -1222,7 +1295,8 @@ const OrderReq = () => {
                   addForm
                     ? "d-none"
                     : "col-12 design_outter_comman  shadow mb-5 "
-                }>
+                }
+              >
                 <div className="row comman_header justify-content-between ">
                   <div className="col-auto">
                     <h2>Add New Order</h2>
@@ -1230,7 +1304,8 @@ const OrderReq = () => {
                   <div className="col-auto">
                     <button
                       className="comman_btn2"
-                      onClick={() => navigate("/Inventory/View")}>
+                      onClick={() => navigate("/Inventory/View")}
+                    >
                       View Inventory
                     </button>
                   </div>
@@ -1239,7 +1314,8 @@ const OrderReq = () => {
                 <form
                   className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                   action=""
-                  noValidate>
+                  noValidate
+                >
                   <div className="form-group col-6 ">
                     <label htmlFor="">
                       Search User -{" "}
@@ -1263,7 +1339,8 @@ const OrderReq = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setSearchType(e.target.value);
-                            }}>
+                            }}
+                          >
                             <option selected="" value="companyName">
                               Company
                             </option>
@@ -1301,7 +1378,8 @@ const OrderReq = () => {
                                 address: item?.addressLine1,
                               });
                               setUsersOptions();
-                            }}>
+                            }}
+                          >
                             {item?.companyName}-{item?.email}
                           </li>
                         ))}
@@ -1318,7 +1396,8 @@ const OrderReq = () => {
                       onChange={(e) => {
                         setAddType(e.target.value);
                       }}
-                      required>
+                      required
+                    >
                       <option>Select Delivery</option>
                       <option value="Shipment">Shipment</option>
                       <option value="Delivery">Delivery</option>
@@ -1334,7 +1413,8 @@ const OrderReq = () => {
                         data-bs-toggle="modal"
                         id="modal-toggle66"
                         data-bs-target="#staticBackdropImport"
-                        style={{ cursor: "pointer" }}>
+                        style={{ cursor: "pointer" }}
+                      >
                         Import Products
                       </a>
 
@@ -1343,7 +1423,8 @@ const OrderReq = () => {
                           onClick={() => {
                             setImportedItems([]);
                           }}
-                          className=" text-end comman_btn bg-danger text-decoration-none mx-1 mb-3">
+                          className=" text-end comman_btn bg-danger text-decoration-none mx-1 mb-3"
+                        >
                           cancel
                         </a>
                       )}
@@ -1374,7 +1455,8 @@ const OrderReq = () => {
                               <tr
                                 style={{
                                   backgroundColor: "#f2f2f2",
-                                }}>
+                                }}
+                              >
                                 <th>Barcode</th>
                                 <th>Product Name</th>
                                 <th>Flavour</th>
@@ -1427,7 +1509,8 @@ const OrderReq = () => {
                                     onChange={(value) =>
                                       handleChangeFlavour(value, index)
                                     }
-                                    required>
+                                    required
+                                  >
                                     <option selected="" value="">
                                       Select Any Flavour
                                     </option>
@@ -1437,7 +1520,8 @@ const OrderReq = () => {
                                     ]?.type?.map((item, ind) => (
                                       <option
                                         value={JSON.stringify(item)}
-                                        key={ind}>
+                                        key={ind}
+                                      >
                                         {item?.flavour}
                                       </option>
                                     ))}
@@ -1465,7 +1549,8 @@ const OrderReq = () => {
                                     disabled={
                                       formValues?.length <= 1 ? true : false
                                     }
-                                    onClick={() => removeFormFields(index)}>
+                                    onClick={() => removeFormFields(index)}
+                                  >
                                     <i className="fa fa-minus mt-1 mx-1" />
                                   </button>
                                 </div>
@@ -1476,7 +1561,8 @@ const OrderReq = () => {
                             <button
                               className="comman_btn add_btn"
                               type="button"
-                              onClick={() => addFormFields()}>
+                              onClick={() => addFormFields()}
+                            >
                               <i className="fa fa-plus mt-1 mx-1" /> Add More
                             </button>
                           </div>
@@ -1488,7 +1574,8 @@ const OrderReq = () => {
                     <button
                       className="comman_btn2"
                       type="submit"
-                      onClick={AddOrder}>
+                      onClick={AddOrder}
+                    >
                       Save Order
                     </button>
                     <button className="comman_btn2 d-none" type="reset">
@@ -1507,7 +1594,8 @@ const OrderReq = () => {
                         <div
                           className="nav nav-tabs order_tab"
                           id="nav-tab"
-                          role="tablist">
+                          role="tablist"
+                        >
                           <button
                             className="nav-link active"
                             id="nav-home-tab"
@@ -1519,7 +1607,8 @@ const OrderReq = () => {
                             aria-selected="true"
                             onClick={() => {
                               setValues({ from: "", to: "" });
-                            }}>
+                            }}
+                          >
                             Current Orders
                             <span className="circle_count">
                               {allCount ? allCount : 0}
@@ -1537,7 +1626,8 @@ const OrderReq = () => {
                             onClick={() => {
                               setValues({ from: "", to: "" });
                               completedOrders();
-                            }}>
+                            }}
+                          >
                             Completed Orders{" "}
                             <span className="circle_count">
                               {compCount ? compCount : 0}
@@ -1555,7 +1645,8 @@ const OrderReq = () => {
                             onClick={() => {
                               cancelledOrders();
                               setValues({ from: "", to: "" });
-                            }}>
+                            }}
+                          >
                             Cancelled Orders
                             <span className="circle_count">
                               {canCount ? canCount : 0}
@@ -1573,7 +1664,8 @@ const OrderReq = () => {
                             onClick={() => {
                               setValues({ from: "", to: "" });
                               sharedQuotations();
-                            }}>
+                            }}
+                          >
                             Quotation Request
                             <span className="circle_count">
                               {quoteCount ? quoteCount : 0}
@@ -1591,7 +1683,8 @@ const OrderReq = () => {
                             aria-selected="false"
                             onClick={() => {
                               setValues({ from: "", to: "" });
-                            }}>
+                            }}
+                          >
                             Shared Quotations
                             <span className="circle_count">
                               {sharedCount ? sharedCount : 0}
@@ -1608,7 +1701,8 @@ const OrderReq = () => {
                             aria-selected="false"
                             onClick={() => {
                               setValues({ from: "", to: "" });
-                            }}>
+                            }}
+                          >
                             Delivery Days
                           </button>
                         </div>
@@ -1618,12 +1712,14 @@ const OrderReq = () => {
                           className="tab-pane fade show active"
                           id="nav-home"
                           role="tabpanel"
-                          aria-labelledby="nav-home-tab">
+                          aria-labelledby="nav-home-tab"
+                        >
                           <div className="row mx-0">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
-                                action="">
+                                action=""
+                              >
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
@@ -1649,14 +1745,16 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={(e) => onOrderSearch(e, "All")}>
+                                    onClick={(e) => onOrderSearch(e, "All")}
+                                  >
                                     Search
                                   </button>
                                 </div>
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exportOrder}>
+                                    onClick={exportOrder}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -1692,7 +1790,8 @@ const OrderReq = () => {
                                             activePage <= 1
                                               ? setActivePage(1)
                                               : setActivePage(activePage - 1)
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -1723,7 +1822,8 @@ const OrderReq = () => {
                                             activePage === maxPage
                                               ? setActivePage(maxPage)
                                               : setActivePage(activePage + 1)
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -1738,7 +1838,8 @@ const OrderReq = () => {
                                         <tr
                                           style={{
                                             backgroundColor: "#f2f2f2",
-                                          }}>
+                                          }}
+                                        >
                                           <th>Date</th>
                                           <th>Company Name</th>
                                           <th>Mobile Number</th>
@@ -1781,7 +1882,8 @@ const OrderReq = () => {
                                                       setPullOrderId(item?._id);
                                                       createOptionsPull();
                                                     }}
-                                                    data-bs-target="#staticBackdropAdmin">
+                                                    data-bs-target="#staticBackdropAdmin"
+                                                  >
                                                     Assign Puller
                                                   </button>
                                                 </td>
@@ -1806,7 +1908,8 @@ const OrderReq = () => {
                                                         },
                                                       }
                                                     );
-                                                  }}>
+                                                  }}
+                                                >
                                                   View
                                                 </button>
                                               </td>
@@ -1831,7 +1934,8 @@ const OrderReq = () => {
                                             activePage <= 1
                                               ? setActivePage(1)
                                               : setActivePage(activePage - 1)
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -1862,7 +1966,8 @@ const OrderReq = () => {
                                             activePage === maxPage
                                               ? setActivePage(maxPage)
                                               : setActivePage(activePage + 1)
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -1877,12 +1982,14 @@ const OrderReq = () => {
                           className="tab-pane fade show "
                           id="nav-completed"
                           role="tabpanel"
-                          aria-labelledby="nav-completed-tab">
+                          aria-labelledby="nav-completed-tab"
+                        >
                           <div className="row mx-0">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
-                                action="">
+                                action=""
+                              >
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
@@ -1910,14 +2017,16 @@ const OrderReq = () => {
                                     className="comman_btn rounded"
                                     onClick={(e) =>
                                       onOrderSearch(e, "Completed")
-                                    }>
+                                    }
+                                  >
                                     Search
                                   </button>
                                 </div>
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exportOrder}>
+                                    onClick={exportOrder}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -1955,7 +2064,8 @@ const OrderReq = () => {
                                               : setActivePageComp(
                                                   activePageComp - 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -1988,7 +2098,8 @@ const OrderReq = () => {
                                               : setActivePageComp(
                                                   activePageComp + 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -2002,7 +2113,8 @@ const OrderReq = () => {
                                         <tr
                                           style={{
                                             backgroundColor: "#f2f2f2",
-                                          }}>
+                                          }}
+                                        >
                                           <th>Date</th>
                                           <th>Company Name</th>
                                           <th>Mobile Number</th>
@@ -2057,7 +2169,8 @@ const OrderReq = () => {
                                                         },
                                                       }
                                                     );
-                                                  }}>
+                                                  }}
+                                                >
                                                   View
                                                 </button>
                                               </td>
@@ -2084,7 +2197,8 @@ const OrderReq = () => {
                                               : setActivePageComp(
                                                   activePageComp - 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -2117,7 +2231,8 @@ const OrderReq = () => {
                                               : setActivePageComp(
                                                   activePageComp + 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -2132,12 +2247,14 @@ const OrderReq = () => {
                           className="tab-pane fade show "
                           id="nav-cancelled"
                           role="tabpanel"
-                          aria-labelledby="nav-cancelled-tab">
+                          aria-labelledby="nav-cancelled-tab"
+                        >
                           <div className="row mx-0">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
-                                action="">
+                                action=""
+                              >
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
@@ -2165,14 +2282,16 @@ const OrderReq = () => {
                                     className="comman_btn rounded"
                                     onClick={(e) =>
                                       onOrderSearch(e, "Cancelled")
-                                    }>
+                                    }
+                                  >
                                     Search
                                   </button>
                                 </div>
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exportOrder}>
+                                    onClick={exportOrder}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -2210,7 +2329,8 @@ const OrderReq = () => {
                                               : setActivePageCancel(
                                                   activePageCancel - 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -2247,7 +2367,8 @@ const OrderReq = () => {
                                               : setActivePageCancel(
                                                   activePageCancel + 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -2261,7 +2382,8 @@ const OrderReq = () => {
                                         <tr
                                           style={{
                                             backgroundColor: "#f2f2f2",
-                                          }}>
+                                          }}
+                                        >
                                           <th>Date</th>
                                           <th>Company Name</th>
                                           <th>Mobile Number</th>
@@ -2316,7 +2438,8 @@ const OrderReq = () => {
                                                         },
                                                       }
                                                     );
-                                                  }}>
+                                                  }}
+                                                >
                                                   View
                                                 </button>
                                               </td>
@@ -2343,7 +2466,8 @@ const OrderReq = () => {
                                               : setActivePageCancel(
                                                   activePageCancel - 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -2380,7 +2504,8 @@ const OrderReq = () => {
                                               : setActivePageCancel(
                                                   activePageCancel + 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -2395,12 +2520,14 @@ const OrderReq = () => {
                           className="tab-pane fade"
                           id="nav-profile"
                           role="tabpanel"
-                          aria-labelledby="nav-profile-tab">
+                          aria-labelledby="nav-profile-tab"
+                        >
                           <div className="row mx-0 ">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between bg-light border-bottom"
-                                action="">
+                                action=""
+                              >
                                 <div className="form-group mb-0 col-3">
                                   <label htmlFor="">From</label>
                                   <input
@@ -2426,16 +2553,16 @@ const OrderReq = () => {
                                 <div className="form-group mb-0 col-1 text-center">
                                   <button
                                     className="comman_btn rounded"
-                                    onClick={(e) =>
-                                      onQuoteSearch(e, "Pending")
-                                    }>
+                                    onClick={(e) => onQuoteSearch(e, "Pending")}
+                                  >
                                     Search
                                   </button>
                                 </div>
                                 <div className="col-2 text-center">
                                   <button
                                     className="comman_btn2 rounded"
-                                    onClick={exporQuotation}>
+                                    onClick={exporQuotation}
+                                  >
                                     Export <i class="fa fa-download"></i>
                                   </button>
                                 </div>
@@ -2465,7 +2592,8 @@ const OrderReq = () => {
                                         <tr
                                           style={{
                                             backgroundColor: "#f2f2f2",
-                                          }}>
+                                          }}
+                                        >
                                           <th>Date</th>
                                           <th>Company Name</th>
                                           <th>Mobile Number</th>
@@ -2511,7 +2639,8 @@ const OrderReq = () => {
                                                         },
                                                       }
                                                     );
-                                                  }}>
+                                                  }}
+                                                >
                                                   View
                                                 </button>
                                               </td>
@@ -2530,26 +2659,30 @@ const OrderReq = () => {
                           className="tab-pane fade"
                           id="nav-shared"
                           role="tabpanel"
-                          aria-labelledby="nav-shared-tab">
+                          aria-labelledby="nav-shared-tab"
+                        >
                           <div className="row mx-0 "></div>
                         </div>
                         <div
                           className="tab-pane fade"
                           id="nav-day"
                           role="tabpanel"
-                          aria-labelledby="nav-day-tab">
+                          aria-labelledby="nav-day-tab"
+                        >
                           <div className="row mx-0 ">
                             <div className="col-12">
                               <form
                                 className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
-                                action="">
+                                action=""
+                              >
                                 <div className=" d-flex col-12">
                                   <div className="form-group mb-0 position-relative icons_set d-flex justify-content-between">
                                     <a
                                       data-bs-toggle="modal"
                                       id="modal-toggle"
                                       data-bs-target="#staticBackdrop38"
-                                      className="comman_btn">
+                                      className="comman_btn"
+                                    >
                                       Add City
                                     </a>
                                   </div>
@@ -2590,7 +2723,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -2619,7 +2753,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -2651,7 +2786,8 @@ const OrderReq = () => {
                               onChange: (e) => {
                                 getCities(e.target.value);
                               },
-                            })}>
+                            })}
+                          >
                             <option value="Georgia" selected="Georgia">
                               Georgia
                             </option>
@@ -2659,7 +2795,8 @@ const OrderReq = () => {
 
                           <label
                             htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
+                            className="mx-2 fw-bolder"
+                          >
                             State/Province
                           </label>
                         </div>
@@ -2686,13 +2823,15 @@ const OrderReq = () => {
                             className="comman_btn2 "
                             onClick={(e) => {
                               EditCity(e);
-                            }}>
+                            }}
+                          >
                             Save
                           </button>
                           <button
                             className="comman_btn2 d-none"
                             type="reset"
-                            id="resetBtn">
+                            id="resetBtn"
+                          >
                             Reset
                           </button>
                         </div>
@@ -2713,7 +2852,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -2744,15 +2884,17 @@ const OrderReq = () => {
                               onChange: (e) => {
                                 getCities(e.target.value);
                               },
-                            })}>
+                            })}
+                          >
                             <option value="Georgia" selected="Georgia">
-                              Georgia
+                              Georgias
                             </option>
                           </select>
 
                           <label
                             htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
+                            className="mx-2 fw-bolder"
+                          >
                             State/Province
                           </label>
                         </div>
@@ -2768,7 +2910,8 @@ const OrderReq = () => {
                               onChange: (e) => {
                                 setSelectedCity(e.target.value);
                               },
-                            })}>
+                            })}
+                          >
                             <option value={selectedCity?._id}>
                               {selectedCity?.city}
                             </option>
@@ -2776,7 +2919,8 @@ const OrderReq = () => {
 
                           <label
                             htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
+                            className="mx-2 fw-bolder"
+                          >
                             City
                           </label>
                         </div>
@@ -2806,7 +2950,8 @@ const OrderReq = () => {
                           <button
                             className="comman_btn2 d-none"
                             type="reset"
-                            id="resetBtn">
+                            id="resetBtn"
+                          >
                             Reset
                           </button>
                         </div>
@@ -2827,7 +2972,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -2858,7 +3004,8 @@ const OrderReq = () => {
                               onChange: (e) => {
                                 getCities(e.target.value);
                               },
-                            })}>
+                            })}
+                          >
                             <option value="Georgia" selected="Georgia">
                               Georgia
                             </option>
@@ -2866,31 +3013,29 @@ const OrderReq = () => {
 
                           <label
                             htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
+                            className="mx-2 fw-bolder"
+                          >
                             State/Province
                           </label>
                         </div>
 
                         <div className="form-floating col-12 mb-4 select_dropdown ">
-                          <select
-                            className="form-select border border-secondary signup_fields fw-bolder"
+                          <input
+                            className="form-control border border-secondary signup_fields fw-bolder"
                             id="floatingSelect1"
                             aria-label="Floating label select example"
                             name="city"
-                            disabled
                             {...register("city", {
                               onChange: (e) => {
                                 setSelectedCity(e.target.value);
                               },
-                            })}>
-                            <option value={selectedCity?._id}>
-                              {selectedCity?.city}
-                            </option>
-                          </select>
-
+                            })}
+                          ></input>
+                          {console.log(selectedCity)}
                           <label
                             htmlFor="floatingSelect6"
-                            className="mx-2 fw-bolder">
+                            className="mx-2 fw-bolder"
+                          >
                             City
                           </label>
                         </div>
@@ -2920,7 +3065,8 @@ const OrderReq = () => {
                           <button
                             className="comman_btn2 d-none"
                             type="reset"
-                            id="resetBtn">
+                            id="resetBtn"
+                          >
                             Reset
                           </button>
                         </div>
@@ -2941,7 +3087,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -2991,7 +3138,8 @@ const OrderReq = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -3026,7 +3174,8 @@ const OrderReq = () => {
                           accept=".csv/*"
                           onClick={() => {
                             document.getElementById("fileIDs").click();
-                          }}>
+                          }}
+                        >
                           <BiEdit />
                         </button>
                       </p>
@@ -3048,7 +3197,8 @@ const OrderReq = () => {
                             position: "relative",
                             top: "-2px",
                           }}
-                          onClick={onUpload}>
+                          onClick={onUpload}
+                        >
                           Upload
                         </Button>
                       ) : (
@@ -3057,7 +3207,8 @@ const OrderReq = () => {
                           htmlFor=""
                           onClick={() => {
                             document.getElementById("fileIDs").click();
-                          }}>
+                          }}
+                        >
                           Import
                         </button>
                       )}
