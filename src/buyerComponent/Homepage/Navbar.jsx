@@ -13,6 +13,7 @@ import {
   pageSubCategory,
 } from "../../atom";
 import Swal from "sweetalert2";
+
 const Navbar = ({ NState, LoginState }) => {
   const width = window.innerWidth;
   const [users, setUsers] = useState([]);

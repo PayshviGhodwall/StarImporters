@@ -145,6 +145,7 @@ import ConsentForm from "./buyerComponent/Contact/ConsentForm";
 import CreateFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateFlyer";
 import CreatePdfFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfFlyer";
 import EditFlyers from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditFlyers";
+import NewArrivals from "./buyerComponent/AllProducts/NewArrivals";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -576,6 +577,10 @@ function App() {
             <Route
               path="/app/featured-products"
               element={<FeaturedProducts />}
+            />
+              <Route
+              path="/app/new-arrivals-products"
+              element={<NewArrivals />}
             />
             <Route path="/app/HotSelling-products" element={<HotSelling />} />
             <Route path="/app/CloseOut-products" element={<CloseOut />} />

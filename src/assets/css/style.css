@@ -84,7 +84,7 @@
   }
   .comman_btn:hover {
     background-color: #eb3237;
-    color: #fff;
+    color: #3b4093 !important;
   }
   /* welcome screeen */
   .welcome {
@@ -16534,9 +16534,12 @@ figure.effect-ming:hover img {
 }
 .banner_section img {
   width: 100% !important;
-  max-height: 560px !important;
+  height: 100%;
+  /* max-height: 50vh !important; */
 }
-
+.owl-carousel .owl-stage-outer {
+  height: 80vh !important;
+}
 .banner_section {
   cursor: pointer !important;
 }
