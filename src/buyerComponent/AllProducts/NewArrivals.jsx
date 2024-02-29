@@ -288,15 +288,7 @@ const NewArrivals = () => {
                                 <a className="text-decoration-none">
                                   {item?.productId?.unitName}
                                 </a>
-                                <p
-                                  style={{
-                                    fontSize: "12px",
-                                  }}
-                                  className="text-dark fw-bold">
-                                  {item?.price
-                                    ? "Offer Price - $" + item.price
-                                    : ""}
-                                </p>
+                              
                               </h3>
                             </div>
                           </div>

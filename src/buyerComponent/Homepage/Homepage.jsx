@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import Footer from "../Footer/Footer";
+import React, { useRef } from "react";import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -592,7 +591,7 @@ const Homepage = () => {
                           <div className=" mb-3">
                             <div className="product-grid ">
                               <div
-                                className="product-image
+                                className="product-image border mt-1
                           "
                               >
                                 <a
@@ -629,13 +628,16 @@ const Homepage = () => {
                                     }
                                   />
                                 </a>
-                                {item?.price?.lenghh > 1 && (
-                                  <span className="product-hot-label">
-                                    <span className=" mx-1  fs-5 fw-bold">
-                                      {item?.price ? "$" + item.price : ""}
-                                    </span>
-                                  </span>
-                                )}
+                                <span
+                                  className={
+                                    item?.price
+                                      ? "product-Featured-label"
+                                      : "d-none"
+                                  }
+                                >
+                                  Offer Price -{" "}
+                                  {item?.price ? "$" + item.price : ""}
+                                </span>
                                 <ul className="product-links">
                                   <li>
                                     <a
@@ -703,19 +705,19 @@ const Homepage = () => {
                                 >
                                   <small
                                     style={{
-                                      fontSize: "0.9rem",
+                                      fontSize: "12px",
                                     }}
                                   >
                                     {item?.productId?.type?.flavour
                                       ? item?.productId?.type?.flavour
-                                      : item?.productId?.unitName?.slice(0, 30)}
-                                    ..
+                                      : item?.productId?.unitName}
                                   </small>
                                 </a>
                                 <h3 className="title ">
                                   <a className="text-decoration-none">
-                                    {item?.productId?.unitName?.slice(0, 30)}...
+                                    {item?.productId?.unitName}
                                   </a>
+                                 
                                 </h3>
                               </div>
                             </div>
