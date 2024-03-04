@@ -566,7 +566,7 @@ const Homepage = () => {
                       dangerouslySetInnerHTML={createMarkup(
                         allHeaders?.featuredTitle
                       )}></h2> */}
-                      <h2>New Arrivals Products</h2>
+                      <h2>New Arrivals</h2>
                     </div>
                   </div>
 
@@ -635,7 +635,7 @@ const Homepage = () => {
                                       : "d-none"
                                   }
                                 >
-                                  Offer Price -{" "}
+                                  Price -{" "}
                                   {item?.price ? "$" + item.price : ""}
                                 </span>
                                 <ul className="product-links">

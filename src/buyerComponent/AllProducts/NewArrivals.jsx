@@ -211,7 +211,7 @@ const NewArrivals = () => {
                                     ? "product-Featured-label"
                                     : "d-none"
                                 }>
-                                Offer Price -{" "}
+                              Price -{" "}
                                 {item?.price ? "$" + item.price : ""}
                               </span>
                               <ul className="product-links">
