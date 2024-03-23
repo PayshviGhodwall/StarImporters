@@ -71,21 +71,7 @@
     background-color: #3e4093;
     border: none;
   }
-  .comman_btn {
-    background-color: #3e4093;
-    padding: 12px 28px;
-    font-size: 14px !important;
-    font-weight: 600;
-    transition: 0.5s all;
-    color: #fff;
-    border-radius: 50px;
-    border: 0;
-    display: inline-flex;
-  }
-  .comman_btn:hover {
-    background-color: #eb3237;
-    color: #3b4093 !important;
-  }
+  
   /* welcome screeen */
   .welcome {
     font-family: "Open Sans", sans-serif;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
@@ -146,6 +146,9 @@ import CreateFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreateFl
 import CreatePdfFlyer from "./AdminComponent/AdminDashboard/Catalog&Flyers/CreatePdfFlyer";
 import EditFlyers from "./AdminComponent/AdminDashboard/Catalog&Flyers/EditFlyers";
 import NewArrivals from "./buyerComponent/AllProducts/NewArrivals";
+import TradeShowManage from "./AdminComponent/AdminDashboard/TradeShows/TradeShowManage";
+import OrderForm from "./buyerComponent/Extras/OrderForm";
+import ViewTradeStore from "./AdminComponent/AdminDashboard/TradeShows/ViewTradeStore";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -184,6 +187,8 @@ function App() {
             <Route path="/Favourites" element={<Favourites />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
+            <Route path="/app/OrderForm/:name" element={<OrderForm />} />
+
             <Route
               path="/app/ProductSearch/:id"
               element={<ProductBySearch />}
@@ -267,6 +272,11 @@ function App() {
             <Route path="/Puller-Management" element={<PullerManagement />} />
 
             <Route path="/Catelog-Flyers" element={<AdminCateFlyers />} />
+            <Route
+              path="/admin/Tradeshow-manage"
+              element={<TradeShowManage />}
+            />
+            <Route path="/admin/view-TradeStore/:id" element={<ViewTradeStore />} />
 
             <Route
               path="/Catelog-Flyers/Create-New/:id"
@@ -578,7 +588,7 @@ function App() {
               path="/app/featured-products"
               element={<FeaturedProducts />}
             />
-              <Route
+            <Route
               path="/app/new-arrivals-products"
               element={<NewArrivals />}
             />

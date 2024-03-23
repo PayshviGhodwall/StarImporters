@@ -893,6 +893,22 @@ const EditCatalog = () => {
                     Puller Management
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+                
                 <li>
                   <Link
                     className=""

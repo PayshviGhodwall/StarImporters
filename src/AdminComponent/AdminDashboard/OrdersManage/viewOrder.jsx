@@ -44,7 +44,6 @@ function LinearProgressWithLabel(props) {
 
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
-  let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
@@ -508,6 +507,22 @@ const ViewOrder = () => {
                     Puller Management
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}>
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+                
                 <li>
                   <Link
                     className=""

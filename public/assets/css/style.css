@@ -83,8 +83,7 @@
     display: inline-flex;
   }
   .comman_btn:hover {
-    background-color: #eb3237;
-    color: #fff;
+    background-color: #eb3237 !important;
   }
   /* welcome screeen */
   .welcome {
@@ -4989,24 +4988,7 @@ background-color: #3e4093;
 # Login css
 --------------------------------------------------------------*/
 
-  .comman_btn {
-    background-color: #eb3237;
-    color: #fff;
-    border: 1px dashed #eb3237;
-    transition: 0.3s all;
-    font-size: 14px !important;
-    font-weight: 600;
-    padding: 12px 25px !important;
-    display: inline-block;
-    border-radius: 50px;
-    text-decoration: none;
-  }
-
-  .comman_btn:hover {
-    background-color: #fff;
-    border-color: #eb3237;
-    color: #eb3237;
-  }
+  
 
   .comman_btn2 {
     background-color: #3e4093;

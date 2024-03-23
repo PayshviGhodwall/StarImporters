@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React from "react";import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { Button } from "rsuite";
@@ -286,21 +285,24 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminDashboard"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "2px",
                         }}
-                        className="fa fa-home"></i>{" "}
+                        className="fa fa-home"
+                      ></i>{" "}
                       Dashboard
                     </Link>
                   </li>
@@ -310,7 +312,8 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className="bg-white"
                       to="/UserManage"
@@ -318,14 +321,16 @@ const UserManage = () => {
                         textDecoration: "none",
                         fontSize: "18px",
                         color: "#3e4093",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-user"></i>{" "}
+                        class="fa fa-user"
+                      ></i>{" "}
                       User Management
                     </Link>
                   </li>
@@ -337,18 +342,21 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/CategorySub"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-layer-group"></i>{" "}
+                        class="fa fa-layer-group"
+                      ></i>{" "}
                       Category &amp; Sub Category
                     </Link>
                   </li>
@@ -360,18 +368,21 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Inventory"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "6px",
                           top: "3px",
                         }}
-                        class="far fa-building"></i>{" "}
+                        class="far fa-building"
+                      ></i>{" "}
                       Inventory Management
                     </Link>
                   </li>
@@ -383,18 +394,21 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/brandsManage"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-ship"></i>{" "}
+                        class="fa fa-ship"
+                      ></i>{" "}
                       Brands Management
                     </Link>
                   </li>
@@ -404,21 +418,24 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Admin/SubAdmin"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-user-cog"></i>{" "}
+                        class="fas fa-user-cog"
+                      ></i>{" "}
                       Sub-Admin Management
                     </Link>
                   </li>
@@ -427,23 +444,24 @@ const UserManage = () => {
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
-                    className={
-                      User?.access?.includes("Puller") ? "" : "d-none"
-                    }>
+                    className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  >
                     <Link
-                      className="d-none ata" 
+                      className="d-none ata"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-users-gear"></i>{" "}
+                        class="fas fa-users-gear"
+                      ></i>{" "}
                       Puller Management
                     </Link>
                   </li>
@@ -454,42 +472,48 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Gallery-Management"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-user-cog"></i>{" "}
+                        class="fas fa-user-cog"
+                      ></i>{" "}
                       Gallery Management
                     </Link>
                   </li>
                   <li
                     className={
                       User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Catelog-Flyers"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa-solid fa-book"></i>{" "}
+                        class="fa-solid fa-book"
+                      ></i>{" "}
                       Catalog & Flyers
                     </Link>
                   </li>
@@ -501,18 +525,21 @@ const UserManage = () => {
                     }
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/OrderRequest"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-layer-group"></i>{" "}
+                        class="fa fa-layer-group"
+                      ></i>{" "}
                       Order Management
                     </Link>
                   </li>
@@ -520,18 +547,21 @@ const UserManage = () => {
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
-                    className={User?.access?.includes("CMS") ? "" : "d-none"}>
+                    className={User?.access?.includes("CMS") ? "" : "d-none"}
+                  >
                     <Link
                       className=""
                       to="/Cms"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-cog"></i>{" "}
+                        class="fa fa-cog"
+                      ></i>{" "}
                       Content Management
                     </Link>
                   </li>
@@ -541,40 +571,46 @@ const UserManage = () => {
                     }
                     className={
                       User?.access?.includes("Contact") ? "" : "d-none"
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Contact&Support"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
+                        class="fa-solid fa-handshake-angle"
+                      ></i>{" "}
                       Contact & Support
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminLogin"
                       onClick={handleClick}
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-sign-out-alt"></i>
+                        class="fa fa-sign-out-alt"
+                      ></i>
                       Logout
                     </Link>
                   </li>
@@ -584,28 +620,32 @@ const UserManage = () => {
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminDashboard"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "2px",
                         }}
-                        className="fa fa-home"></i>{" "}
+                        className="fa fa-home"
+                      ></i>{" "}
                       Dashboard
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className="bg-white"
                       to="/UserManage"
@@ -613,134 +653,174 @@ const UserManage = () => {
                         textDecoration: "none",
                         fontSize: "18px",
                         color: "#3e4093",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-user"></i>{" "}
+                        class="fa fa-user"
+                      ></i>{" "}
                       User Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/CategorySub"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-layer-group"></i>{" "}
+                        class="fa fa-layer-group"
+                      ></i>{" "}
                       Category &amp; Sub Category
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Inventory"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "6px",
                           top: "3px",
                         }}
-                        class="far fa-building"></i>{" "}
+                        class="far fa-building"
+                      ></i>{" "}
                       Inventory Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/brandsManage"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-ship"></i>{" "}
+                        class="fa fa-ship"
+                      ></i>{" "}
                       Brands Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Admin/SubAdmin"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-user-cog"></i>{" "}
+                        class="fas fa-user-cog"
+                      ></i>{" "}
                       Sub-Admin Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className="d-none at"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-users-gear"></i>{" "}
+                        class="fas fa-users-gear"
+                      ></i>{" "}
                       Puller Management
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className=""
+                      to="/admin/Tradeshow-manage"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                      }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fas fa-image"
+                      ></i>{" "}
+                      Trade Show Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Gallery-Management"
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-image"></i>{" "}
+                        class="fas fa-image"
+                      ></i>{" "}
                       Gallery Management
                     </Link>
                   </li>
@@ -751,50 +831,58 @@ const UserManage = () => {
                       style={{
                         textDecoration: "none",
                         fontSize: "18px",
-                      }}>
+                      }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa-solid fa-book"></i>{" "}
+                        class="fa-solid fa-book"
+                      ></i>{" "}
                       Catalog & Flyers
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/OrderRequest"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-layer-group"></i>{" "}
+                        class="fa fa-layer-group"
+                      ></i>{" "}
                       Order Management
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/Cms"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-cog"></i>{" "}
+                        class="fa fa-cog"
+                      ></i>{" "}
                       Content Management
                     </Link>
                   </li>
@@ -802,33 +890,38 @@ const UserManage = () => {
                     <Link
                       className=""
                       to="/Contact&Support"
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa-solid fa-handshake-angle"></i>{" "}
+                        class="fa-solid fa-handshake-angle"
+                      ></i>{" "}
                       Contact & Support
                     </Link>
                   </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
-                    }>
+                    }
+                  >
                     <Link
                       className=""
                       to="/AdminLogin"
                       onClick={handleClick}
-                      style={{ textDecoration: "none", fontSize: "18px" }}>
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
                       <i
                         style={{
                           position: "relative",
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fa fa-sign-out-alt"></i>
+                        class="fa fa-sign-out-alt"
+                      ></i>
                       Logout
                     </Link>
                   </li>
@@ -849,7 +942,8 @@ const UserManage = () => {
                       onClick={() => {
                         console.log("yello");
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       <i className="fa fa-bars"></i>
                     </h1>
                   </div>
@@ -860,7 +954,8 @@ const UserManage = () => {
                         onClick={(e) => {
                           console.log(e);
                           setSideBar(!sideBar);
-                        }}>
+                        }}
+                      >
                         X
                       </button>
                     </h3>
@@ -881,12 +976,14 @@ const UserManage = () => {
                       data-bs-toggle="modal"
                       id="modal-toggle"
                       data-bs-target="#staticBackdrop6"
-                      className="comman_btn text-decoration-none">
+                      className="comman_btn text-decoration-none"
+                    >
                       Import User
                     </Link>
                     <Link
                       to="/UserManage/AddUser"
-                      className="comman_btn2 ms-2 text-decoration-none">
+                      className="comman_btn2 ms-2 text-decoration-none"
+                    >
                       Add User
                     </Link>
                   </div>
@@ -901,7 +998,8 @@ const UserManage = () => {
                             name=""
                             id=""
                             className="searchDrop "
-                            onChange={(e) => setSearchType(e.target.value)}>
+                            onChange={(e) => setSearchType(e.target.value)}
+                          >
                             <option selected="" value="companyName">
                               Company
                             </option>
@@ -934,20 +1032,23 @@ const UserManage = () => {
                                   src={require("../../../assets/img/iconSort.png")}
                                   width={23}
                                   height={23}
-                                  className="mx-3 mt-2"></img>
+                                  className="mx-3 mt-2"
+                                ></img>
                               </button>
                               <div class="dropdown-content_sort">
                                 <a>
                                   <Link
                                     className="text-decoration-none "
-                                    onClick={() => sorting(1)}>
+                                    onClick={() => sorting(1)}
+                                  >
                                     A to Z
                                   </Link>
                                 </a>
                                 <a>
                                   <Link
                                     className="text-decoration-none"
-                                    onClick={() => sorting(-1)}>
+                                    onClick={() => sorting(-1)}
+                                  >
                                     Z to A
                                   </Link>
                                 </a>
@@ -963,7 +1064,8 @@ const UserManage = () => {
                           <div
                             className="nav nav-tabs"
                             id="nav-tab"
-                            role="tablist">
+                            role="tablist"
+                          >
                             <button
                               className="nav-link outline-0 "
                               id="nav-home-tab"
@@ -980,7 +1082,8 @@ const UserManage = () => {
                                 setPageData([
                                   { page: 1, searchKey: "", sortBy: "1" },
                                 ]);
-                              }}>
+                              }}
+                            >
                               Pending{" "}
                               <span className="circle_count">
                                 {usersTotal?.pending}
@@ -1000,7 +1103,8 @@ const UserManage = () => {
                                 document.getElementById("Search").value = "";
                                 setUserType("APPROVED");
                                 getApprovedUser();
-                              }}>
+                              }}
+                            >
                               Approved{" "}
                               <button className="circle_count">
                                 {usersTotal?.approved}
@@ -1022,7 +1126,8 @@ const UserManage = () => {
                                 setPageData([
                                   { page: 1, searchKey: "", sortBy: "1" },
                                 ]);
-                              }}>
+                              }}
+                            >
                               Returned{" "}
                               <span className="circle_count">
                                 {usersTotal?.rejected}
@@ -1035,7 +1140,8 @@ const UserManage = () => {
                             className="tab-pane fade  "
                             id="nav-home"
                             role="tabpanel"
-                            aria-aria-labelledby="nav-home-tab">
+                            aria-aria-labelledby="nav-home-tab"
+                          >
                             <div className="row">
                               <div className="col-12 comman_table_design ">
                                 <div className="table-responsive recent_orders_user">
@@ -1059,7 +1165,8 @@ const UserManage = () => {
                                                     : setActivePendingPage(
                                                         activePendingPage - 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 «<small>prev</small>
                                               </a>
                                             </li>
@@ -1083,7 +1190,8 @@ const UserManage = () => {
                                                     : setActivePendingPage(
                                                         activePendingPage + 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 <small>next</small>»
                                               </a>
                                             </li>
@@ -1099,7 +1207,8 @@ const UserManage = () => {
                                         style={{
                                           backgroundColor: "#f2f2f2",
                                           marginLeft: "8px",
-                                        }}>
+                                        }}
+                                      >
                                         <th>Date</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
@@ -1158,7 +1267,8 @@ const UserManage = () => {
                                                 id={index}
                                                 onClick={() => {
                                                   onPendingView(index);
-                                                }}>
+                                                }}
+                                              >
                                                 View
                                               </Link>
                                             </td>
@@ -1186,7 +1296,8 @@ const UserManage = () => {
                                                     : setActivePendingPage(
                                                         activePendingPage - 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 «<small>prev</small>
                                               </a>
                                             </li>
@@ -1210,7 +1321,8 @@ const UserManage = () => {
                                                     : setActivePendingPage(
                                                         activePendingPage + 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 <small>next</small>»
                                               </a>
                                             </li>
@@ -1228,7 +1340,8 @@ const UserManage = () => {
                               className="tab-pane fade show active recent_orders_user"
                               id="nav-approve"
                               role="tabpanel"
-                              aria-labelledby="nav-approve-tab">
+                              aria-labelledby="nav-approve-tab"
+                            >
                               <div className="row">
                                 <div className="col-12 comman_table_design ">
                                   <div className="table-responsive">
@@ -1252,7 +1365,8 @@ const UserManage = () => {
                                                       : setActiveApprovePage(
                                                           activeApprovePage - 1
                                                         )
-                                                  }>
+                                                  }
+                                                >
                                                   « <small>prev</small>
                                                 </a>
                                               </li>
@@ -1276,7 +1390,8 @@ const UserManage = () => {
                                                       : setActiveApprovePage(
                                                           activeApprovePage + 1
                                                         )
-                                                  }>
+                                                  }
+                                                >
                                                   <small>next</small>»
                                                 </a>
                                               </li>
@@ -1291,7 +1406,8 @@ const UserManage = () => {
                                           style={{
                                             backgroundColor: "#f2f2f2",
                                             marginLeft: "8px",
-                                          }}>
+                                          }}
+                                        >
                                           <th>Date</th>
                                           <th>Company Name</th>
                                           <th>User Name</th>
@@ -1333,7 +1449,8 @@ const UserManage = () => {
                                               </td>
                                               <td
                                                 className="border"
-                                                key={User._id}>
+                                                key={User._id}
+                                              >
                                                 {" "}
                                                 <div className="">
                                                   <label class="switchUser">
@@ -1366,7 +1483,8 @@ const UserManage = () => {
                                                       },
                                                     ]);
                                                     onApprovedView(index);
-                                                  }}>
+                                                  }}
+                                                >
                                                   View
                                                 </Link>
                                               </td>
@@ -1396,7 +1514,8 @@ const UserManage = () => {
                                                     : setActiveApprovePage(
                                                         activeApprovePage - 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 « <small>prev</small>
                                               </a>
                                             </li>
@@ -1420,7 +1539,8 @@ const UserManage = () => {
                                                     : setActiveApprovePage(
                                                         activeApprovePage + 1
                                                       )
-                                                }>
+                                                }
+                                              >
                                                 <small>next</small>»
                                               </a>
                                             </li>
@@ -1440,7 +1560,8 @@ const UserManage = () => {
                             className="tab-pane fade recent_orders_user"
                             id="nav-return"
                             role="tabpanel"
-                            aria-labelledby="nav-return-tab">
+                            aria-labelledby="nav-return-tab"
+                          >
                             <div className="row">
                               <div className="col-12 comman_table_design ">
                                 <div className="table-responsive">
@@ -1450,7 +1571,8 @@ const UserManage = () => {
                                         style={{
                                           backgroundColor: "#f2f2f2",
                                           marginLeft: "8px",
-                                        }}>
+                                        }}
+                                      >
                                         <th>Date</th>
                                         <th>Company Name</th>
                                         <th>User Name</th>
@@ -1507,7 +1629,8 @@ const UserManage = () => {
                                                 id={index}
                                                 onClick={() => {
                                                   onReturnedView(index);
-                                                }}>
+                                                }}
+                                              >
                                                 View
                                               </Link>
                                             </td>
@@ -1532,7 +1655,8 @@ const UserManage = () => {
                                               : setActiveReturnedPage(
                                                   activeReturnedPage - 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           «
                                         </a>
                                       </li>
@@ -1567,7 +1691,8 @@ const UserManage = () => {
                                               : setActiveReturnedPage(
                                                   activeReturnedPage + 1
                                                 )
-                                          }>
+                                          }
+                                        >
                                           »
                                         </a>
                                       </li>
@@ -1595,7 +1720,8 @@ const UserManage = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body ">
@@ -1624,7 +1750,8 @@ const UserManage = () => {
                             id="reUpload"
                             onClick={() => {
                               importInput.click();
-                            }}>
+                            }}
+                          >
                             <BiEdit />
                           </button>
                         </p>
@@ -1650,7 +1777,8 @@ const UserManage = () => {
                               position: "relative",
                               top: "-2px",
                             }}
-                            onClick={onUpload}>
+                            onClick={onUpload}
+                          >
                             Upload
                           </Button>
                         ) : (
@@ -1659,7 +1787,8 @@ const UserManage = () => {
                             htmlFor=""
                             onClick={() => {
                               importInput.click();
-                            }}>
+                            }}
+                          >
                             Import
                           </button>
                         )}
@@ -1679,7 +1808,8 @@ const UserManage = () => {
                                       fontSize: "12px",
                                       position: "relative",
                                       left: "-28px",
-                                    }}>
+                                    }}
+                                  >
                                     {item}
                                   </li>
                                 )
@@ -1701,7 +1831,8 @@ const UserManage = () => {
                                       fontSize: "12px",
                                       position: "relative",
                                       left: "-28px",
-                                    }}>
+                                    }}
+                                  >
                                     {item?.email}
                                   </li>
                                 )
@@ -1716,7 +1847,8 @@ const UserManage = () => {
                         <p> {impFile?.name} </p>
                         <button
                           className="comman_btn mt-3"
-                          onClick={GenerateCrendential}>
+                          onClick={GenerateCrendential}
+                        >
                           Generate Passwords
                         </button>
                       </div>
@@ -1735,7 +1867,8 @@ const UserManage = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -1771,7 +1904,8 @@ const UserManage = () => {
         id="modal-toggle87"
         data-bs-target="#staticBackdrop87"
         href="javscript:;"
-        className="comman_btn text-decoration-none d-none">
+        className="comman_btn text-decoration-none d-none"
+      >
         Import
       </Link>
     </div>
