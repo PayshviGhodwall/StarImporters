@@ -149,6 +149,7 @@ import NewArrivals from "./buyerComponent/AllProducts/NewArrivals";
 import TradeShowManage from "./AdminComponent/AdminDashboard/TradeShows/TradeShowManage";
 import OrderForm from "./buyerComponent/Extras/OrderForm";
 import ViewTradeStore from "./AdminComponent/AdminDashboard/TradeShows/ViewTradeStore";
+import LoginOrderForm from "./buyerComponent/Extras/LoginOrderForm";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -188,6 +189,7 @@ function App() {
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
             <Route path="/app/OrderForm/:name" element={<OrderForm />} />
+            <Route path="/app/OrderForm/Login/:id" element={<LoginOrderForm />} />
 
             <Route
               path="/app/ProductSearch/:id"

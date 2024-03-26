@@ -3447,7 +3447,7 @@
   }
 
   .comman_btn2 {
-    background-color: #eb3237;
+    background-color: #eb3237 !important;
     padding: 14px 32px;
     font-size: 15px;
     font-weight: 600;
@@ -3458,8 +3458,8 @@
     display: inline-flex;
   }
   .comman_btn2:hover {
-    background-color: #3e4093;
-    color: #fff;
+    background-color: #3e4093 !important;
+  
   }
   .featured__box img {
     max-width: 100%;

@@ -1194,11 +1194,11 @@ const ViewTradeStore = () => {
                           <label htmlFor="">ShopLink </label>
                           <a
                             target="_blank"
-                            href={`http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/
-                            ${vendorDetails?.username}`}
+                            href={`http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/Login/
+                            ${vendorDetails?._id}`}
                           >
-                            http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/
-                            {vendorDetails?.username}
+                            http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/Login/
+                            {vendorDetails?._id}
                           </a>
                         </div>
                         <div className="col-12 text-center">
