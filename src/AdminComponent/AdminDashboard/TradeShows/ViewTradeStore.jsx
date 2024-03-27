@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { Link, useNavigate, useParams } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -59,9 +58,12 @@ const ViewTradeStore = () => {
   const addProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendorProduct`;
 
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
+  const getOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTradeOrders`;
   const getProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendorProducts`;
+
   const [vendorProducts, setVendorProducts] = useState([]);
   const [product, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [searchKey, setSearchKey] = useState("");
 
   const [options, setOptions] = useState([]);
@@ -116,9 +118,16 @@ const ViewTradeStore = () => {
     await axios.get(getProductsVendor + "/" + id).then((res) => {
       let data = res?.data?.results.products;
       setVendorProducts(data);
+      GetOrdersVendor();
     });
   };
-
+  const GetOrdersVendor = async () => {
+    await axios.patch(getOrders).then((res) => {
+      let data = res?.data?.results.orders;
+      setOrders(data);
+    });
+  };
+  console.log(orders);
   const GeneratePassword = async () => {
     setLoader(true);
     await axios.get(generatePass + "/" + id).then((res) => {
@@ -1454,59 +1463,64 @@ const ViewTradeStore = () => {
                                   <table className="table puller_table">
                                     <thead>
                                       <tr className="">
+                                        <th>DATE</th>
+
                                         <th>ORDER ID</th>
+                                        <th>EMAIL</th>
                                         <th>ORDER TYPE</th>
-                                        <th>START DATE</th>
                                         <th>STATUS</th>
                                         <th>ACTION</th>
                                       </tr>
                                     </thead>
 
                                     <tbody className="border">
-                                      {(activeOrders || [])?.map(
-                                        (item, index) => (
-                                          <tr className="border">
-                                            <td className="border text-center">
-                                              <div className="cart_content border text-center mt-2">
-                                                {item?.orderId}
-                                              </div>
-                                            </td>
-                                            <td className="border text-center">
-                                              <div className="cart_content mt-2">
-                                                <h3 className="fs-6">
-                                                  {item?.type}
-                                                </h3>
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <span className="ordertext my-2 d-block text-center ">
-                                                {item?.startTime?.slice(0, 10)}
-                                              </span>
-                                            </td>
+                                      {(orders || [])?.map((item, index) => (
+                                        <tr className="border">
+                                          <td>
+                                            <span className="ordertext my-2 d-block text-center ">
+                                              {item?.createdAt?.slice(0, 10)}
+                                            </span>
+                                          </td>
+                                          <td className="border text-center">
+                                            <div className="cart_content border text-center mt-2">
+                                              {item?.orderId}
+                                            </div>
+                                          </td>
+                                          <td className="border rounded ">
+                                            <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                              {item?.email}
+                                            </span>
+                                          </td>
+                                          <td className="border text-center">
+                                            <div className="cart_content mt-2">
+                                              <h3 className="fs-6">
+                                                {item?.type}
+                                              </h3>
+                                            </div>
+                                          </td>
 
-                                            <td className="border rounded ">
-                                              <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                                {item?.pullStatus}
-                                              </span>
-                                            </td>
+                                          <td className="border rounded ">
+                                            <span className="fs-6 text-secondary  p-2 px-3 rounded">
+                                              {item?.status}
+                                            </span>
+                                          </td>
 
-                                            <td className="border text-center">
-                                              <span className="fs-5 rounded ">
-                                                <button
-                                                  className="comman_btn"
-                                                  onClick={() =>
-                                                    navigate(
-                                                      `/OrderRequest/ViewOrder/${item?._id}`
-                                                    )
-                                                  }
-                                                >
-                                                  View
-                                                </button>
-                                              </span>
-                                            </td>
-                                          </tr>
-                                        )
-                                      )}
+                                          <td className="border text-center">
+                                            <span className="fs-5 rounded ">
+                                              <button
+                                                className="comman_btn"
+                                                onClick={() =>
+                                                  navigate(
+                                                    `/admin/trade-show/viewTradeOrder/${item?._id}`
+                                                  )
+                                                }
+                                              >
+                                                View
+                                              </button>
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      ))}
                                     </tbody>
                                   </table>
                                 </div>

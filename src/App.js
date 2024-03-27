@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -150,6 +149,7 @@ import TradeShowManage from "./AdminComponent/AdminDashboard/TradeShows/TradeSho
 import OrderForm from "./buyerComponent/Extras/OrderForm";
 import ViewTradeStore from "./AdminComponent/AdminDashboard/TradeShows/ViewTradeStore";
 import LoginOrderForm from "./buyerComponent/Extras/LoginOrderForm";
+import ViewTradeOrder from "./AdminComponent/AdminDashboard/TradeShows/viewTradeOrder";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -189,7 +189,10 @@ function App() {
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
             <Route path="/app/OrderForm/:name" element={<OrderForm />} />
-            <Route path="/app/OrderForm/Login/:id" element={<LoginOrderForm />} />
+            <Route
+              path="/app/OrderForm/Login/:id"
+              element={<LoginOrderForm />}
+            />
 
             <Route
               path="/app/ProductSearch/:id"
@@ -278,7 +281,14 @@ function App() {
               path="/admin/Tradeshow-manage"
               element={<TradeShowManage />}
             />
-            <Route path="/admin/view-TradeStore/:id" element={<ViewTradeStore />} />
+            <Route
+              path="/admin/view-TradeStore/:id"
+              element={<ViewTradeStore />}
+            />
+            <Route
+              path="/admin/trade-show/viewTradeOrder/:id"
+              element={<ViewTradeOrder />}
+            />
 
             <Route
               path="/Catelog-Flyers/Create-New/:id"

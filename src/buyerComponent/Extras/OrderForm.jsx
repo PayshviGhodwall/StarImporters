@@ -41,6 +41,15 @@ const OrderForm = () => {
 
   const onSubmit = (data) => {
     // setLoader(true);
+    let Nprod = [];
+    products?.map((itm) => {
+      Nprod.push({
+        productId: itm?.productId,
+        quantity: 10,
+        promotionalComment: itm?.comment,
+        flavourId: itm?.flavourId,
+      });
+    });
 
     const SignUpData = async (e) => {
       const formData = {
@@ -54,7 +63,7 @@ const OrderForm = () => {
         phoneNumber: data?.phoneNumber?.trim(),
         type: delOption,
         countryCode: +1,
-        products: products,
+        products: Nprod,
         comments:
           data?.comments?.charAt(0).toUpperCase() +
           data?.comments?.slice(1).trim(),
@@ -109,9 +118,11 @@ const OrderForm = () => {
     let found = false;
     let qnty = quantities.filter((itm) => itm.id === fId);
 
+    console.log(quantities, "ij");
     prods.forEach((obj) => {
       if (obj?.flavourId === fId) {
-        let quantityToAdd = parseInt(qnty[0]?.value);
+        let quantityToAdd = qnty[0]?.value ? parseInt(qnty[0]?.value) :  1;
+        console.log(quantityToAdd);
         obj.quantity += quantityToAdd;
         found = true;
       }
