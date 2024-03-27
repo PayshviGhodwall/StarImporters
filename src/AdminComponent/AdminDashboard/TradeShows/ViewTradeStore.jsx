@@ -118,11 +118,10 @@ const ViewTradeStore = () => {
     await axios.get(getProductsVendor + "/" + id).then((res) => {
       let data = res?.data?.results.products;
       setVendorProducts(data);
-      GetOrdersVendor();
     });
   };
   const GetOrdersVendor = async () => {
-    await axios.patch(getOrders).then((res) => {
+    await axios.patch(getOrders + "/" + id).then((res) => {
       let data = res?.data?.results.orders;
       setOrders(data);
     });
@@ -229,6 +228,8 @@ const ViewTradeStore = () => {
 
   useEffect(() => {
     getVendor();
+    GetOrdersVendor();
+
     getOrderActive();
   }, []);
 

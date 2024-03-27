@@ -58,7 +58,7 @@ const TradeShowManage = () => {
     formData.append("fullName", data?.username?.trim());
     formData.append("address", data?.address);
     formData.append("city", data?.city);
-    formData.append("state", data?.city);
+    formData.append("state", data?.state);
     formData.append("zipcode", data?.zipcode);
     formData.append("countryCode ", "+1");
     formData.append("email", data?.email?.trim());
@@ -828,7 +828,7 @@ const TradeShowManage = () => {
                         name="city"
                         disabled={cities?.length ? false : true}
                         {...register("city", {
-                          required: "City is Required*",
+                          required: false,
                         })}
                       >
                         <option value="">

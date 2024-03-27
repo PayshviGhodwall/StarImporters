@@ -1,4 +1,5 @@
-import axios from "axios";import classNames from "classnames";
+import axios from "axios";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -10,6 +11,8 @@ import Select from "react-select";
 const OrderForm = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
+  let image = localStorage.getItem("vendorImage");
+
   const [productsV, setProductsV] = useState([]);
   const [keySort, setKeySort] = useState("");
   const [quantities, setQuantities] = useState([]);
@@ -121,7 +124,7 @@ const OrderForm = () => {
     console.log(quantities, "ij");
     prods.forEach((obj) => {
       if (obj?.flavourId === fId) {
-        let quantityToAdd = qnty[0]?.value ? parseInt(qnty[0]?.value) :  1;
+        let quantityToAdd = qnty[0]?.value ? parseInt(qnty[0]?.value) : 1;
         console.log(quantityToAdd);
         obj.quantity += quantityToAdd;
         found = true;
@@ -142,6 +145,12 @@ const OrderForm = () => {
     setProducts(prods);
   };
 
+  const removeProduct = async (pId, fId) => {
+    let prods = [...products];
+    prods = prods.filter((obj) => obj?.flavourId !== fId);
+    setProducts(prods);
+  };
+
   return (
     <div>
       <div className="">
@@ -158,7 +167,7 @@ const OrderForm = () => {
                   <div className="text-center">
                     <img
                       className=""
-                      src="https://starimporters-media.s3.amazonaws.com/1702039270708--WhatsApp%20Image%202023-12-08%20at%2011.41.31%20AM%20%281%29.jpeg"
+                      src={image ? image : require("../../assets/img/logo.png")}
                       alt="Company Logo"
                       width={80}
                       style={{
@@ -417,7 +426,8 @@ const OrderForm = () => {
                               <th>Product Name</th>
                               <th>Flavour Number</th>
                               <th>Quantity</th>
-                              <th>comment</th>
+                              <th>Promotions</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -429,6 +439,19 @@ const OrderForm = () => {
                                 <td className="border">{item?.flavour}</td>
                                 <td className="border">{item?.quantity}</td>
                                 <td className="border">{item?.comment}</td>
+                                <td className="border text-danger">
+                                  {" "}
+                                  <a
+                                    onClick={() =>
+                                      removeProduct(
+                                        item?.productId,
+                                        item?.flavourId
+                                      )
+                                    }
+                                  >
+                                    Remove
+                                  </a>
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -436,7 +459,7 @@ const OrderForm = () => {
                       </div>
                     )}
                     {products?.length > 0 && (
-                      <div className="col-12 text-center mb-2">
+                      <div className="col-12 text-center mb-2 d-none">
                         <button
                           className="comman_btn mx-2 fw-bold "
                           // onClick={() => {

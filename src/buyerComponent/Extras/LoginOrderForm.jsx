@@ -24,8 +24,8 @@ const LoginOrderForm = () => {
         if (!response.data.error) {
           localStorage.removeItem("vendorLog");
           localStorage.removeItem("vendorId");
-          localStorage.removeItem("vendor");
-          localStorage.setItem("vendor", response?.data?.results.vendor._id);
+          localStorage.removeItem("vendorImage");
+          localStorage.setItem("vendorImage", response?.data?.results.vendor.image);
           localStorage.setItem("vendorLog", response?.data?.results.token);
           localStorage.setItem(
             "vendorId",
