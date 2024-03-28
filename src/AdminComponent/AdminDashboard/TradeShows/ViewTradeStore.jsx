@@ -1677,7 +1677,7 @@ const ViewTradeStore = () => {
                 <div className="form-group col-12">
                   <label htmlFor="">Promotional Comment</label>
                   <input
-                    key={edited.promoComment}
+                    key={edited?.promoComment}
                     id="comment"
                     type="text"
                     className={classNames(
