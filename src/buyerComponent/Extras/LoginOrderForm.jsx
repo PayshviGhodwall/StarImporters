@@ -25,13 +25,22 @@ const LoginOrderForm = () => {
           localStorage.removeItem("vendorLog");
           localStorage.removeItem("vendorId");
           localStorage.removeItem("vendorImage");
-          localStorage.setItem("vendorImage", response?.data?.results.vendor.image);
+          localStorage.setItem(
+            "vendorImage",
+            response?.data?.results.vendor.image
+          );
           localStorage.setItem("vendorLog", response?.data?.results.token);
           localStorage.setItem(
             "vendorId",
             JSON.stringify(response?.data?.results?.products)
           );
-          navigate(`/app/OrderForm/${response?.data?.results.vendor.username}`);
+          !response?.data?.results?.firstTimeLogin
+            ? navigate(
+                `/app/OrderForm/${response?.data?.results.vendor.username}`
+              )
+            : navigate(`/app/OrderForm/ResetPassword`, {
+                state: response?.data?.results.vendor.email,
+              });
         } else {
           Swal.fire({
             title: response.data.message,
@@ -184,10 +193,10 @@ const LoginOrderForm = () => {
                       </Button>
                     </div>
                     <p className="fs-6 text-center mt-3 text-secondary">
-                      *Forgot your password
+                      *Forgot your password.
                       <Link
                         onClick={() => GeneratePassword()}
-                        className="text-decoration-none"
+                        className="text-decoration-none mx-1"
                       >
                         Click here.
                       </Link>

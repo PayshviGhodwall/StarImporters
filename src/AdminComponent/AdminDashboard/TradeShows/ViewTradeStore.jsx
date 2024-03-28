@@ -54,18 +54,19 @@ const ViewTradeStore = () => {
 
   const getVendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewVendor`;
   const editVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editVendor`;
-  const activeOrdersApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getActiveOrders`;
+  const editProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editVendorProduct/`;
   const addProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendorProduct`;
 
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const getOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTradeOrders`;
   const getProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendorProducts`;
-
+  const [edited, setEdited] = useState();
+  const [editedComment, setEditedComment] = useState();
   const [vendorProducts, setVendorProducts] = useState([]);
   const [product, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [searchKey, setSearchKey] = useState("");
-
+  const [selectEditOptions, setSelectEditOptions] = useState([]);
   const [options, setOptions] = useState([]);
   const [optionsFlavour, setOptionsFlavour] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState([]);
@@ -187,12 +188,10 @@ const ViewTradeStore = () => {
   const handleInputChange = (inputValue) => {
     setSearchKey(inputValue);
   };
-  let handleChangeFlavour = (selected, i) => {
-    let newFormValues = [...formValues];
-    newFormValues[i].flavour = selected.filter(
-      (option) => !option.isSelectAllOption
-    );
-    setFormValues(newFormValues);
+  let handleChangeFlavour = (selected) => {
+    setSelectEditOptions({
+      optionSelected: selected,
+    });
   };
 
   const handleSelectAll = (options, onChange) => {
@@ -229,8 +228,6 @@ const ViewTradeStore = () => {
   useEffect(() => {
     getVendor();
     GetOrdersVendor();
-
-    getOrderActive();
   }, []);
 
   const getVendor = async () => {
@@ -245,12 +242,6 @@ const ViewTradeStore = () => {
       defaultValue.zipcode = data?.zipcode;
       defaultValue.phoneNumber = data?.phoneNumber;
       reset({ ...defaultValue });
-    });
-  };
-
-  const getOrderActive = async () => {
-    await axios.get(activeOrdersApi + "/" + id).then((res) => {
-      setActiveOrders(res?.data.results?.orders);
     });
   };
 
@@ -300,6 +291,7 @@ const ViewTradeStore = () => {
         }
       });
   };
+
   const saveProducts = async () => {
     let products = [];
 
@@ -359,6 +351,62 @@ const ViewTradeStore = () => {
       });
   };
 
+  console.log(selectEditOptions);
+
+  const editVendorProd = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .patch(editProduct + edited?._id, {
+        flavours: selectEditOptions?.optionSelected?.map(
+          (items) => items?.value
+        ),
+        promoComment: editedComment,
+      })
+      .then((res) => {
+        if (res?.data?.message === "Product added") {
+          document.getElementById("modalP").click();
+          getVendor();
+          GetProductVendor();
+          setSelectedProduct([]);
+          setFormValues([
+            {
+              productName: [],
+              flavour: [],
+              Quantity: [],
+              comment: "",
+            },
+          ]);
+          setFiles([]);
+          // navigate("/Puller-Management");
+          Swal.fire({
+            title: res?.data?.message,
+            text: "Successfully Updated!",
+            icon: "success",
+            timer: 1000,
+            confirmButtonText: "okay",
+          });
+        }
+        if (res?.data?.error) {
+          Swal.fire({
+            title: res?.data.message,
+            icon: "error",
+            confirmButtonText: "okay",
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: err.response?.data?.message,
+            text: "",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
+      });
+  };
+
   document.getElementById("image_up")?.addEventListener("change", function () {
     if (this.files[0]) {
       var picture = new FileReader();
@@ -376,6 +424,7 @@ const ViewTradeStore = () => {
     localStorage.removeItem("AdminLogToken");
     localStorage.removeItem("AdminEmail");
   };
+
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
       <div className={sideBar ? "siderbar_section" : "d-none"}>
@@ -1428,7 +1477,24 @@ const ViewTradeStore = () => {
                                           {itm?.promoComment}
                                         </td>
                                         <td className="border text-center  align-middle">
-                                          <button className="comman_btn">
+                                          <button
+                                            className="comman_btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdropAdmin"
+                                            onClick={() => {
+                                              setSelectEditOptions({
+                                                optionSelected:
+                                                  itm?.productId?.type?.map(
+                                                    (item) => ({
+                                                      label: item.flavour,
+                                                      value: item._id,
+                                                    })
+                                                  ),
+                                              });
+                                              setEdited(itm);
+                                              GetProducts(itm?.productId?._id);
+                                            }}
+                                          >
                                             Edit
                                           </button>
                                         </td>
@@ -1534,6 +1600,104 @@ const ViewTradeStore = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade comman_modal"
+        id="staticBackdropAdmin"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Edit Products
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                id="modalP"
+                aria-label="Close"
+                onClick={() => (document.getElementById("comment").value = "")}
+              />
+            </div>
+            <div className="modal-body shadow">
+              <form className="form-design row p-2" action="">
+                <div className="form-group col-12"></div>
+                {console.log(edited, "okajhh")}
+                <div className="form-group col-12">
+                  <label htmlFor="">Select Product</label>
+                  <input
+                    className="form-control"
+                    id="selectedProdu"
+                    defaultValue={edited?.productId?.unitName || ""}
+                    disabled={true}
+                  ></input>
+                </div>
+                {console.log(optionsFlavour, "k.k;k;")}
+                <div className="form-group col-12">
+                  <label htmlFor="">Select Flavours</label>
+                  <Select
+                    name="users"
+                    options={optionsFlavour}
+                    hideSelectedOptions={false}
+                    // value={item?.flavour || ""}
+                    className="basic-multi-select z-3"
+                    classNamePrefix="select"
+                    onChange={handleChangeFlavour}
+                    // onInputChange={handleInputChange}
+                    isClearable
+                    components={{
+                      Option: (props) => (
+                        <Option
+                          {...props}
+                          onChange={(value) =>
+                            props.selectProps.onChange(value)
+                          }
+                          selectProps={{
+                            handleSelectAll,
+                            options: optionsFlavour,
+                          }}
+                        />
+                      ),
+                    }}
+                    isMulti
+                    allowSelectAll={true}
+                    value={selectEditOptions?.optionSelected}
+                  />
+                </div>
+                <div className="form-group col-12">
+                  <label htmlFor="">Promotional Comment</label>
+                  <input
+                    key={edited.promoComment}
+                    id="comment"
+                    type="text"
+                    className={classNames(
+                      "form-control border border-secondary"
+                    )}
+                    name="promotion"
+                    defaultValue={edited?.promoComment}
+                    placeholder="Enter Comment "
+                    onChange={(e) => setEditedComment(e.target.value)}
+                  />
+                </div>
+                <div className="form-group mb-0 col-12 text-center ">
+                  <button
+                    className="comman_btn2"
+                    onClick={(e) => editVendorProd(e)}
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

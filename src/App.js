@@ -150,6 +150,7 @@ import OrderForm from "./buyerComponent/Extras/OrderForm";
 import ViewTradeStore from "./AdminComponent/AdminDashboard/TradeShows/ViewTradeStore";
 import LoginOrderForm from "./buyerComponent/Extras/LoginOrderForm";
 import ViewTradeOrder from "./AdminComponent/AdminDashboard/TradeShows/viewTradeOrder";
+import ResetPassOrder from "./buyerComponent/Extras/ResetPassOrder";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -192,6 +193,10 @@ function App() {
             <Route
               path="/app/OrderForm/Login/:id"
               element={<LoginOrderForm />}
+            />
+            <Route
+              path="/app/OrderForm/ResetPassword"
+              element={<ResetPassOrder />}
             />
 
             <Route
