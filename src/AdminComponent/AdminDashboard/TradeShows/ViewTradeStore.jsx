@@ -188,15 +188,26 @@ const ViewTradeStore = () => {
   const handleInputChange = (inputValue) => {
     setSearchKey(inputValue);
   };
-  let handleChangeFlavour = (selected) => {
+  let handleChangeEdited = (selected) => {
     setSelectEditOptions({
       optionSelected: selected,
     });
   };
+  let handleChangeFlavour = (selected, i) => {
+    let newFormValues = [...formValues];
+    newFormValues[i].flavour = selected.filter(
+      (option) => !option.isSelectAllOption
+    );
+    setFormValues(newFormValues);
+  };
+
+
+   
 
   const handleSelectAll = (options, onChange) => {
     onChange(options.filter((option) => !option.isSelectAllOption));
   };
+  
   let handleChangeComment = (e, i) => {
     let val = e.target.value;
     let newFormValues = [...formValues];
@@ -1652,7 +1663,7 @@ const ViewTradeStore = () => {
                     // value={item?.flavour || ""}
                     className="basic-multi-select z-3"
                     classNamePrefix="select"
-                    onChange={handleChangeFlavour}
+                    onChange={handleChangeEdited}
                     // onInputChange={handleInputChange}
                     isClearable
                     components={{

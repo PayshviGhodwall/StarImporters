@@ -1,5 +1,4 @@
-import axios from "axios";
-import classNames from "classnames";
+import axios from "axios";import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -12,7 +11,7 @@ const OrderForm = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
   let image = localStorage.getItem("vendorImage");
-
+  const [options, setOptions] = useState([]);
   const [productsV, setProductsV] = useState([]);
   const [keySort, setKeySort] = useState("");
   const [quantities, setQuantities] = useState([]);
@@ -29,13 +28,44 @@ const OrderForm = () => {
     formState: { errors },
   } = useForm();
 
+  const handleInputChange = (inputValue, { action }) => {
+    if (action === "input-change") {
+      setTimeout(() => {
+        searchProducts(inputValue);
+      }, [500]);
+    }
+  };
+
+  const handleChange2 = (selected) => {
+    if (!selected || !selected.value) {
+      console.error("Invalid selection:", selected);
+      return;
+    }
+
+    let prods = productsV.filter((itm) => itm._id === selected.value);
+    setProductsV(prods);
+    setOptions([]);
+  };
+
   const searchProducts = async (key) => {
     try {
       const response = await axios.patch(barcodeSearch, {
         search: key,
       });
-      console.log(response);
       setProductsV(response?.data.results.products);
+      let data = response?.data.results.products;
+      setKeySort(key);
+      const optionList = data?.reduce((uniqueOptions, item) => {
+        if (!uniqueOptions.find((option) => option.label === item.unitName)) {
+          uniqueOptions.push({
+            value: item._id,
+            label: item.unitName,
+          });
+        }
+        return uniqueOptions;
+      }, []);
+
+      setOptions(optionList);
     } catch (error) {
       // Handle errors
       console.error("Error fetching products:", error);
@@ -48,7 +78,7 @@ const OrderForm = () => {
     products?.map((itm) => {
       Nprod.push({
         productId: itm?.productId,
-        quantity: 10,
+        quantity: +itm?.quantity,
         promotionalComment: itm?.comment,
         flavourId: itm?.flavourId,
       });
@@ -56,6 +86,12 @@ const OrderForm = () => {
 
     const SignUpData = async (e) => {
       const formData = {
+        companyName:
+          data?.companyName?.charAt(0).toUpperCase() +
+          data?.companyName?.slice(1).trim(),
+        account:
+          data?.account?.charAt(0).toUpperCase() +
+          data?.account?.slice(1).trim(),
         fullName:
           data?.fullName?.charAt(0).toUpperCase() +
           data?.fullName?.slice(1).trim(),
@@ -98,35 +134,23 @@ const OrderForm = () => {
 
   const handleChange = async (id, e) => {
     let val = e.target.value;
-    let quant = [...quantities];
-    let found = false;
-
-    quant.forEach((obj) => {
-      if (obj.id === id) {
-        obj.value = val;
-        found = true;
+    let prods = [...products];
+    prods.forEach((obj) => {
+      if (obj.flavourId === id) {
+        obj.quantity = val;
       }
     });
-    if (!found) {
-      quant.push({ id: id, value: val });
-    }
-    setQuantities(quant);
+    setProducts(prods);
   };
 
-  console.log(quantities, "klk", products);
+  console.log(products, "prodsss");
 
   const addProducts = async (pId, fId, uName, flv, bar, comment) => {
-    document.getElementById(fId).value = 1;
     let prods = [...products];
     let found = false;
-    let qnty = quantities.filter((itm) => itm.id === fId);
 
-    console.log(quantities, "ij");
     prods.forEach((obj) => {
       if (obj?.flavourId === fId) {
-        let quantityToAdd = qnty[0]?.value ? parseInt(qnty[0]?.value) : 1;
-        console.log(quantityToAdd);
-        obj.quantity += quantityToAdd;
         found = true;
       }
     });
@@ -135,14 +159,30 @@ const OrderForm = () => {
       prods.push({
         productId: pId,
         flavourId: fId,
-        quantity: qnty[0]?.value ?? 1,
         unitName: uName,
         flavour: flv,
         barcodes: bar,
         comment: comment,
+        quantity: 1,
       });
     }
     setProducts(prods);
+  };
+
+  const AddItemsAll = () => {
+    let prod = [...products];
+    productsV.map((itm) => {
+      prod.push({
+        productId: itm?._id,
+        flavourId: itm?.type?._id,
+        unitName: itm?.unitName,
+        flavour: itm?.type?.flavour,
+        barcodes: itm?.type?.barcode[0],
+        comment: itm?.vendorProduct?.promoComment,
+        quantity: 1,
+      });
+    });
+    setProducts(prod);
   };
 
   const removeProduct = async (pId, fId) => {
@@ -175,7 +215,7 @@ const OrderForm = () => {
                         borderRadius: "50%",
                       }}
                     />
-                    <h1 className="fs-6 mt-2">{name}</h1>
+                    {/* <h1 className="fs-6 mt-2">{name}</h1> */}
                   </div>{" "}
                   <div>
                     <img
@@ -215,6 +255,64 @@ const OrderForm = () => {
                 </div>
 
                 <div className="row">
+                  <div className="form-floating col-6 mb-4">
+                    <input
+                      type="text"
+                      className={classNames(
+                        "form-control  border border-secondary",
+                        { "is-invalid": errors.companyName }
+                      )}
+                      id="floatingInput3"
+                      name="companyName"
+                      placeholder="name@example.com"
+                      {...register("companyName", {
+                        required: "Company Name is Required*",
+
+                        minLength: {
+                          value: 2,
+                          message:
+                            "Minimium 2 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
+                        },
+                      })}
+                    />
+                    {errors.companyName && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.companyName?.message}
+                      </small>
+                    )}
+                    <label
+                      htmlFor="floatingInput3"
+                      className="mx-2 fw-bolder text-dark"
+                    >
+                      Company Name <span className="text-danger">*</span>
+                    </label>
+                  </div>
+                  <div className="form-floating col-6 mb-4">
+                    <input
+                      type="text"
+                      className={classNames(
+                        "form-control  border border-secondary",
+                        { "is-invalid": errors.account }
+                      )}
+                      id="floatingInput3"
+                      name="account"
+                      placeholder="name@example.com"
+                      {...register("account", {
+                        required: false,
+                      })}
+                    />
+                    {errors.account && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.account?.message}
+                      </small>
+                    )}
+                    <label
+                      htmlFor="floatingInput3"
+                      className="mx-2 fw-bolder text-dark"
+                    >
+                      Account Number
+                    </label>
+                  </div>
                   <div className="form-floating col-4 mb-4">
                     <input
                       type="text"
@@ -227,10 +325,6 @@ const OrderForm = () => {
                       placeholder="name@example.com"
                       {...register("fullName", {
                         required: "Full Name is Required*",
-                        pattern: {
-                          value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
-                          message: "Special Character not allowed",
-                        },
 
                         minLength: {
                           value: 2,
@@ -251,7 +345,6 @@ const OrderForm = () => {
                       Full Name <span className="text-danger">*</span>
                     </label>
                   </div>
-
                   <div className="form-floating col-4 mb-4">
                     <input
                       type="email"
@@ -434,10 +527,26 @@ const OrderForm = () => {
                             {(products || [])?.map((item, index) => (
                               <tr key={index} className="border ">
                                 <td>{index + 1}</td>
-                                <td className="border">{item?.barcodes[0]}</td>
+                                <td className="border">{item?.barcodes}</td>
                                 <td className="border">{item?.unitName}</td>
                                 <td className="border">{item?.flavour}</td>
-                                <td className="border">{item?.quantity}</td>
+                                <td className="border  ">
+                                  <span className="fs-5 ">
+                                    <input
+                                      type="number"
+                                      style={{
+                                        width: "100px",
+                                      }}
+                                      maxLength="4"
+                                      name="price"
+                                      defaultValue={1}
+                                      className="border text-center bg-light rounded"
+                                      onChange={(e) => {
+                                        handleChange(item?.flavourId, e);
+                                      }}
+                                    ></input>
+                                  </span>
+                                </td>
                                 <td className="border">{item?.comment}</td>
                                 <td className="border text-danger">
                                   {" "}
@@ -459,20 +568,16 @@ const OrderForm = () => {
                       </div>
                     )}
                     {products?.length > 0 && (
-                      <div className="col-12 text-center mb-2 d-none">
-                        <button
-                          className="comman_btn mx-2 fw-bold "
-                          // onClick={() => {
-                          //   setProducts([]);
-                          //   setProductsV([]);
-                          // }}
+                      <div className="col-12 text-center mb-2 ">
+                        <Button
+                          appearance="primary"
+                          className="comman_btn mx-2 fw-bold d-none"
                           id="resetBtn"
                           type="reset"
                           style={{ backgroundColor: "#3e4093", color: "#fff" }}
                         >
                           Cancel
-                        </button>
-
+                        </Button>
                         <Button
                           loading={loader}
                           appearance="primary"
@@ -489,7 +594,19 @@ const OrderForm = () => {
                       <label className="fs-5 ">Select Products</label>
                       <div className="row">
                         <div className="form-floating col-6 mb-4">
-                          <input
+                          <Select
+                            name="users"
+                            options={options}
+                            // value={item?.productName || ""}
+                            className="basic-multi-select z-3"
+                            classNamePrefix="select"
+                            onChange={handleChange2}
+                            onInputChange={handleInputChange}
+                            isClearable
+                            required
+                            placeholder="Type any keyword to Search Product"
+                          />
+                          {/* <input
                             type="search"
                             className={classNames(
                               "form-control  border border-secondary signup_fields"
@@ -501,14 +618,14 @@ const OrderForm = () => {
                               setKeySort(e.target.value);
                               searchProducts(e.target.value);
                             }}
-                          />
+                          /> */}
 
-                          <label
+                          {/* <label
                             htmlFor="floatingAddress1"
                             className="mx-2 fw-bolder"
                           >
                             Search Product by Barcode or Product name
-                          </label>
+                          </label> */}
                         </div>
 
                         <div className="form-floating col-6 mb-4">
@@ -517,7 +634,7 @@ const OrderForm = () => {
                             className={classNames(
                               "form-control  border border-secondary signup_fields"
                             )}
-                            disabled={keySort?.length ? false : true}
+                            // disabled={keySort?.length ? false : true}
                             id="floatingAddrees122"
                             placeholder="Type Barcode or Product Name"
                             name="addressLine1"
@@ -529,8 +646,6 @@ const OrderForm = () => {
                                     itm.type.flavour.toLowerCase().includes(key)
                                   );
                                 });
-                              } else {
-                                searchProducts(keySort);
                               }
                             }}
                           />
@@ -542,6 +657,22 @@ const OrderForm = () => {
                             Filter by Flavours name
                           </label>
                         </div>
+                        {productsV?.length > 0 && (
+                          <div className="form-floating col-12 mb-4 text-end">
+                            <Button
+                              loading={loader}
+                              appearance="primary"
+                              className="comman_btn mx-2 fw-bold"
+                              style={{
+                                backgroundColor: "#3e4093",
+                                color: "#fff",
+                              }}
+                              onClick={() => AddItemsAll()}
+                            >
+                              + Add All
+                            </Button>
+                          </div>
+                        )}
                       </div>
 
                       <div className="row">
@@ -549,116 +680,6 @@ const OrderForm = () => {
                           <div className="cart_table_2">
                             <div className="">
                               <table className="table">
-                                <thead>
-                                  {/* <tr>
-                                    <th>
-                                      {" "}
-                                      <div class="dropdowns">
-                                        <button class="dropdown-btns sort_btn ">
-                                          Scanned by{" "}
-                                          <i class="fa-solid fa-caret-down"></i>
-                                        </button>
-                                        <div class="dropdown-contents DropBg">
-                                          <a
-                                            className="text-decoration-none text-dark "
-                                            onClick={() =>
-                                              OrderDetails("", 1, "qr")
-                                            }
-                                          >
-                                            Qr Scanned
-                                          </a>
-                                          <a
-                                            onClick={() =>
-                                              OrderDetails("", -1, "manual")
-                                            }
-                                            className="text-decoration-none text-dark "
-                                          >
-                                            Manually Scanned
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </th>
-                                    <th>
-                                      Items{" - "}
-                                      <div class="dropdowns">
-                                        <button class="dropdown-btns sort_btn ">
-                                          Sort{" "}
-                                          <i class="fa-solid fa-caret-down"></i>
-                                        </button>
-                                        <div class="dropdown-contents DropBg">
-                                          <a
-                                            className="text-decoration-none text-dark "
-                                            onClick={() => OrderDetails("", 1)}
-                                          >
-                                            A to Z
-                                          </a>
-                                          <a
-                                            onClick={() => OrderDetails("", -1)}
-                                            className="text-decoration-none text-dark "
-                                          >
-                                            Z to A
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </th>
-                                    <th>Quantity</th>
-                                    <th>
-                                      Pull Status{" - "}
-                                      <div class="dropdowns">
-                                        <button class="dropdown-btns sort_btn ">
-                                          {keySort
-                                            ? (keySort === "scanned" &&
-                                                "Scanned") ||
-                                              (keySort === "overUnderScanned" &&
-                                                "Over/Under Scanned") ||
-                                              (keySort === "outOfStock" &&
-                                                "Out of Stock") ||
-                                              (keySort === "" && "All")
-                                            : "Sort"}
-                                          <i class="fa-solid fa-caret-down mx-2"></i>
-                                        </button>
-                                        <div class="dropdown-contents DropBg">
-                                          <a
-                                            className="text-decoration-none text-dark "
-                                            onClick={() => OrderDetails("", 1)}
-                                          >
-                                            All
-                                          </a>
-                                          <a
-                                            className="text-decoration-none text-dark "
-                                            onClick={() =>
-                                              OrderDetails("scanned", 1)
-                                            }
-                                          >
-                                            Scanned
-                                          </a>
-                                          <a
-                                            onClick={() =>
-                                              OrderDetails(
-                                                "overUnderScanned",
-                                                1
-                                              )
-                                            }
-                                            className="text-decoration-none text-dark "
-                                          >
-                                            Over/Under Scanned
-                                          </a>
-
-                                          <a
-                                            onClick={() =>
-                                              OrderDetails("outOfStock", 1)
-                                            }
-                                            className="text-decoration-none text-dark "
-                                          >
-                                            Out of Stock
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </th>
-                                    <th>Pull Quantity</th>
-                                  </tr> */}
-                                </thead>
-                                {console.log(productsV)}
                                 {!productsV?.length ? (
                                   <tbody className="border">
                                     <tr
@@ -669,110 +690,112 @@ const OrderForm = () => {
                                     >
                                       <td className="border rounded">
                                         <span className="fs-5 bg-light p-2 px-3 rounded">
-                                          Search Results .....
+                                          Select Product For Search Results
+                                          .....
                                         </span>
                                       </td>
                                     </tr>
                                   </tbody>
                                 ) : (
-                                  <tbody className="border">
-                                    {(productsV || [])?.map((item, index) => (
-                                      <tr className="border text-center mt-5">
-                                        <td className="border rounded">
-                                          <div className="col-auto">
-                                            <span className="cart_product">
-                                              <img
-                                                src={
-                                                  item?.type?._id
-                                                    ? item?.type?.flavourImage
-                                                    : item?.productId
-                                                        ?.productImage
-                                                }
-                                                alt=""
-                                              />
-                                            </span>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                            <div className="col">
-                                              <div className="cart_content ">
-                                                <h3 className="fs-5 mt-4">
-                                                  {item?.type?._id
-                                                    ? item?.unitName +
-                                                      "-" +
-                                                      item?.type?.flavour
-                                                    : item?.productId?.unitName}
-                                                </h3>
-                                                <p>
-                                                  Barcodes:
-                                                  {item?.type?.barcode
-                                                    ?.filter(
-                                                      (itm, id) => id == 1
-                                                    )
-                                                    .map((item) => (
-                                                      <li>{item}</li>
-                                                    ))}
-                                                </p>
+                                  <>
+                                    <tbody className="border">
+                                      {(productsV || [])?.map((item, index) => (
+                                        <tr className="border text-center mt-5">
+                                          <td className="border rounded">
+                                            <div className="col-auto">
+                                              <span className="cart_product">
+                                                <img
+                                                  src={
+                                                    item?.type?._id
+                                                      ? item?.type?.flavourImage
+                                                      : item?.productId
+                                                          ?.productImage
+                                                  }
+                                                  alt=""
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
+                                              <div className="col">
+                                                <div className="cart_content ">
+                                                  <h3 className="fs-5 mt-4">
+                                                    {item?.type?._id
+                                                      ? item?.unitName +
+                                                        "-" +
+                                                        item?.type?.flavour
+                                                      : item?.productId
+                                                          ?.unitName}
+                                                  </h3>
+                                                  <p>
+                                                    Barcodes:
+                                                    {item?.type?.barcode
+                                                      ?.filter(
+                                                        (itm, id) => id == 1
+                                                      )
+                                                      .map((item) => (
+                                                        <li>{item}</li>
+                                                      ))}
+                                                  </p>
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        </td>
-                                        <td className="border  ">
-                                          <p className="fs-6 mt-5">
-                                            {item?.vendorProduct?.promoComment?.slice(
-                                              0,
-                                              20
-                                            ) ?? "No Comment"}
-                                          </p>
-                                        </td>
-                                        <td className="border  ">
-                                          <span className="fs-5 p-2  mt-5">
-                                            <input
-                                              type="number"
-                                              style={{
-                                                width: "100px",
-                                              }}
-                                              maxLength="4"
-                                              id={item?.type?._id}
-                                              name="price"
-                                              defaultValue={1}
-                                              className="border text-center mt-5 bg-light rounded"
-                                              onChange={(e) => {
-                                                handleChange(
-                                                  item?.type?._id,
-                                                  e
-                                                );
-                                              }}
-                                            ></input>
-                                          </span>
-                                        </td>
-                                        <td className="border rounded">
-                                          <Button
-                                            appearance="primary"
-                                            className="comman_btn mx-2 fw-bold border rounded mt-5"
-                                            style={{
-                                              backgroundColor: "#3e4093",
-                                              color: "#fff",
-                                            }}
-                                            onClick={() =>
-                                              addProducts(
-                                                item?._id,
-                                                item?.type?._id,
-                                                item?.unitName,
-                                                item?.type?.flavour,
-                                                item?.type?.barcode,
-                                                item?.vendorProduct
-                                                  ?.promoComment
-                                              )
-                                            }
-                                          >
-                                            + Add
-                                          </Button>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
+                                          </td>
+                                          <td className="border  ">
+                                            <p className="fs-6 mt-5">
+                                              {item?.vendorProduct?.promoComment?.slice(
+                                                0,
+                                                20
+                                              ) ?? "No Comment"}
+                                            </p>
+                                          </td>
+
+                                          <td className="border rounded">
+                                            {products.some(
+                                              (itm) =>
+                                                itm.flavourId ===
+                                                item?.type?._id
+                                            ) ? (
+                                              <Button
+                                                appearance="primary"
+                                                color="green"
+                                                className=" mx-2 fw-bold border rounded mt-5"
+                                                style={{
+                                                  color: "#fff",
+                                                }}
+                                              >
+                                                <i class="fa fa-check "></i>{" "}
+                                                Added
+                                              </Button>
+                                            ) : (
+                                              <Button
+                                                appearance="primary"
+                                                className="comman_btn mx-2 fw-bold border rounded mt-5"
+                                                style={{
+                                                  backgroundColor: "#3e4093",
+                                                  color: "#fff",
+                                                }}
+                                                onClick={() =>
+                                                  addProducts(
+                                                    item?._id,
+                                                    item?.type?._id,
+                                                    item?.unitName,
+                                                    item?.type?.flavour,
+                                                    item?.type?.barcode[0],
+                                                    item?.vendorProduct
+                                                      ?.promoComment
+                                                  )
+                                                }
+                                              >
+                                                + Add
+                                              </Button>
+                                            )}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </>
                                 )}
                               </table>
                             </div>
