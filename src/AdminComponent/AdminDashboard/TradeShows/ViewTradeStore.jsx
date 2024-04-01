@@ -1203,7 +1203,7 @@ const ViewTradeStore = () => {
                             })}
                           >
                             <option value={vendorDetails?.city} selected>
-                              {vendorDetails?.city}
+                              {vendorDetails?.city ?? "City not selected"}
                             </option>
                             <option value="">
                               {cities?.length > 0

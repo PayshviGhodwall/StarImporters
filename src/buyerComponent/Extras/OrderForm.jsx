@@ -1,4 +1,5 @@
-import axios from "axios";import classNames from "classnames";
+import axios from "axios";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -603,29 +604,8 @@ const OrderForm = () => {
                             onChange={handleChange2}
                             onInputChange={handleInputChange}
                             isClearable
-                            required
                             placeholder="Type any keyword to Search Product"
-                          />
-                          {/* <input
-                            type="search"
-                            className={classNames(
-                              "form-control  border border-secondary signup_fields"
-                            )}
-                            id="floatingAddrees1"
-                            placeholder="Type Barcode or Product Name"
-                            name="addressLine1"
-                            onChange={(e) => {
-                              setKeySort(e.target.value);
-                              searchProducts(e.target.value);
-                            }}
-                          /> */}
-
-                          {/* <label
-                            htmlFor="floatingAddress1"
-                            className="mx-2 fw-bolder"
-                          >
-                            Search Product by Barcode or Product name
-                          </label> */}
+                          ></Select>
                         </div>
 
                         <div className="form-floating col-6 mb-4">
