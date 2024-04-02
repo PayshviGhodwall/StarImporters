@@ -216,7 +216,14 @@ const OrderForm = () => {
                         borderRadius: "50%",
                       }}
                     />
-                    {/* <h1 className="fs-6 mt-2">{name}</h1> */}
+                    <h1>
+                      <Link
+                        to={"/app/OrderForm/viewInventory"}
+                        className="fs-6 mt-2"
+                      >
+                        View Inventory
+                      </Link>
+                    </h1>
                   </div>{" "}
                   <div>
                     <img
@@ -518,9 +525,9 @@ const OrderForm = () => {
                               <th>S.No.</th>
                               <th>Barcodes.</th>
                               <th>Product Name</th>
-                              <th>Flavour Number</th>
-                              <th>Quantity</th>
-                              <th>Promotions</th>
+                              <th>Flavor</th>
+                              <th>Qty (in units)</th>
+                              <th>Promotion</th>
                               <th>Action</th>
                             </tr>
                           </thead>

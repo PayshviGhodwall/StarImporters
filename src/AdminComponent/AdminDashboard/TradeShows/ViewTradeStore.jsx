@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -33,12 +34,6 @@ const Option = (props) => {
   return (
     <div>
       <components.Option {...props} className="d-flex ">
-        <input
-          type="checkbox"
-          className="border border-secondary"
-          checked={props.isSelected}
-          onChange={() => onChange(data)}
-        />{" "}
         <label className="mx-2 mt-1">{props.label}</label>
       </components.Option>
     </div>
@@ -201,13 +196,10 @@ const ViewTradeStore = () => {
     setFormValues(newFormValues);
   };
 
-
-   
-
   const handleSelectAll = (options, onChange) => {
     onChange(options.filter((option) => !option.isSelectAllOption));
   };
-  
+
   let handleChangeComment = (e, i) => {
     let val = e.target.value;
     let newFormValues = [...formValues];
@@ -1339,7 +1331,7 @@ const ViewTradeStore = () => {
                                   />
                                 </div>
                                 <div className="form-group col-4">
-                                  <label htmlFor="">Select Flavours</label>
+                                  <label htmlFor="">Select Flavors</label>
                                   <Select
                                     name="users"
                                     options={[
@@ -1375,7 +1367,7 @@ const ViewTradeStore = () => {
                                     allowSelectAll={true}
                                     required
                                     isMulti
-                                    placeholder="Choose Flavours"
+                                    placeholder="Choose Flavors"
                                   />
                                 </div>
                                 <div className="form-group col-3">
@@ -1655,7 +1647,7 @@ const ViewTradeStore = () => {
                 </div>
                 {console.log(optionsFlavour, "k.k;k;")}
                 <div className="form-group col-12">
-                  <label htmlFor="">Select Flavours</label>
+                  <label htmlFor="">Select Flavors</label>
                   <Select
                     name="users"
                     options={optionsFlavour}

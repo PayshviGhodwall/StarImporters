@@ -151,6 +151,7 @@ import ViewTradeStore from "./AdminComponent/AdminDashboard/TradeShows/ViewTrade
 import LoginOrderForm from "./buyerComponent/Extras/LoginOrderForm";
 import ViewTradeOrder from "./AdminComponent/AdminDashboard/TradeShows/viewTradeOrder";
 import ResetPassOrder from "./buyerComponent/Extras/ResetPassOrder";
+import OrderFormInvent from "./buyerComponent/Extras/OrderFormInvent";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -190,6 +191,7 @@ function App() {
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
             <Route path="/app/OrderForm/:name" element={<OrderForm />} />
+            <Route path="/app/OrderForm/viewInventory" element={<OrderFormInvent />} />
             <Route
               path="/app/OrderForm/Login/:id"
               element={<LoginOrderForm />}
