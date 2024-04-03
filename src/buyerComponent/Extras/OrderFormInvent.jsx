@@ -1,10 +1,13 @@
-import axios from "axios";import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const OrderFormInvent = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
   const [products, setProducts] = useState([]);
+  const [selectedProd, setSelectedProd] = useState([]);
   const vendorProducts = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/vendorProducts`;
-
+  const [quantities, setQuantities] = useState([]);
   useEffect(() => {
     getProducts();
   }, []);
@@ -22,13 +25,68 @@ const OrderFormInvent = () => {
     }
   };
 
-  console.log(products);
+  console.log(products, quantities);
   const SetSelection = (id, i, e) => {
     let checked = e.target.checked;
     let prod = [...products];
     prod[i].IsSelected = checked;
 
     setProducts(prod);
+  };
+
+  const SelectFlavours = (id, i, e, uName, flv, bar, comment) => {
+    let checked = e.target.checked;
+
+    let quant = [...quantities];
+    let prods = [...selectedProd];
+    let quantity = 1;
+    if (checked) {
+      quant.forEach((obj) => {
+        if (obj?.flavourId === i) {
+          quantity = obj.qty;
+        }
+      });
+
+      prods.push({
+        productId: id,
+        flavourId: i,
+        unitName: uName,
+        flavour: flv,
+        barcodes: bar,
+        comment: comment,
+        quantity: quantity,
+      });
+
+      setSelectedProd(prods);
+    } else {
+      let prods = selectedProd?.filter((itm) => itm?.flavourId !== i);
+      setSelectedProd(prods);
+    }
+  };
+  console.log(selectedProd);
+  const handleChange = (id, e) => {
+    let value = e.target.value;
+    let quant = [...quantities];
+    let selected = [...selectedProd];
+    let found = false;
+    quant.forEach((obj) => {
+      if (obj?.flavourId === id) {
+        obj.qty = +value;
+        found = true;
+      }
+    });
+    selected.forEach((obj) => {
+      if (obj?.flavourId === id) {
+        obj.quantity = +value;
+      }
+    });
+
+    if (!found) {
+      quant.push({ flavourId: id, qty: parseInt(value) });
+    }
+
+    setQuantities(quant);
+    setSelectedProd(selected);
   };
 
   return (
@@ -40,6 +98,14 @@ const OrderFormInvent = () => {
               <form className=" mt-3 bg-white p-4 mb-5 shadow">
                 <div className="row">
                   <div>
+                    <Link
+                      to={"/app/OrderForm/:star"}
+                      state={selectedProd}
+                      className="comman_btn text-white mb-4"
+                    >
+                      Add In Order list
+                    </Link>
+
                     <table className="table mb-4">
                       <thead>
                         <tr style={{ backgroundColor: "#f2f2f2" }}>
@@ -73,7 +139,7 @@ const OrderFormInvent = () => {
                               </div>
                             </td>
                             <td className="border">
-                              {item?.product?.unitName}
+                              {item?.unitName}
 
                               {item?.IsSelected && (
                                 <table className="table">
@@ -97,12 +163,23 @@ const OrderFormInvent = () => {
                                               }}
                                               class="form-check-input"
                                               type="checkbox"
+                                              onChange={(e) => {
+                                                SelectFlavours(
+                                                  item?._id,
+                                                  itm?._id,
+                                                  e,
+                                                  item?.unitName,
+                                                  itm?.flavour,
+                                                  itm?.barcode[0],
+                                                  item?.promoComment
+                                                );
+                                              }}
                                               value=""
-                                              id="flexCheckDefault"
+                                              id={itm?._id}
                                             />
                                             <label
                                               class="form-check-label"
-                                              for="flexCheckDefault"
+                                              for={itm?._id}
                                             ></label>
                                           </div>
                                         </td>
@@ -120,14 +197,14 @@ const OrderFormInvent = () => {
                                               name="price"
                                               defaultValue={1}
                                               className="border text-center bg-light rounded"
-                                              // onChange={(e) => {
-                                              //   handleChange(item?.flavourId, e);
-                                              // }}
+                                              onChange={(e) => {
+                                                handleChange(itm?._id, e);
+                                              }}
                                             ></input>
                                           </span>
                                         </td>
                                         <td className="border">
-                                          {item?.comment}
+                                          {item?.promoComment}
                                         </td>
                                       </tr>
                                     ))}

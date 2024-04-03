@@ -1,12 +1,11 @@
 import axios from "axios";import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { components } from "react-select";
 import moment from "moment";
-// import { CSVLink, CSVDownload } from "react-csv";
 import Select from "react-select";
 import { Box, LinearProgress, Typography } from "@mui/material";
 
@@ -44,42 +43,22 @@ function LinearProgressWithLabel(props) {
 const ViewTradeOrder = () => {
   const [sideBar, setSideBar] = useState(true);
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTradeOrders`;
-  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
-  const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
-  const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/exportOrder`;
-  const allPullers = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/allPullers`;
-  const assign = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/assignPuller`;
+  const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeTradeOrderStatus/`;
+  const orderExportXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportTradeCSV/`;
   const [orders, setOrders] = useState([]);
-  const [products, setProducts] = useState();
   const [orderStatus, setOrderStatus] = useState();
-
   const [statusComment, setStatusComment] = useState("");
-  const [pullerComment, setPullerComment] = useState("");
-  const [options, setOptions] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
-  const [selectedPuller, setSelectedPuller] = useState([]);
-  const [keySort, setKeySort] = useState();
-  const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
-  const [csvData, setCsvData] = useState([]);
   let { id } = useParams();
   const fileDownload = (url, name) => {
     saveAs(url, name);
   };
-  // const csvData = [
-  //   ["firstname", "lastname", "email"],
-  //   ["Ahmed", "Tomi", "ah@smthing.co.com"],
-  //   ["Raed", "Labes", "rl@smthing.co.com"],
-  //   ["Yezzi", "Min l3b", "ymin@cocococo.com"],
-  // ];
 
   useEffect(() => {
     OrderDetails();
-    exportOrder();
   }, []);
 
   const OrderDetails = async (status, sort, scanType) => {
-    setKeySort(status);
     await axios.get(orderView + "/" + id).then((res) => {
       setOrders(res?.data.results.order);
     });
@@ -88,10 +67,9 @@ const ViewTradeOrder = () => {
   const UpdateOrderStatus = async (e) => {
     e.preventDefault();
     await axios
-      .post(updateOrder + "/" + id, {
-        status: orderStatus ? orderStatus : orders?.status,
+      .patch(updateOrder + orders?._id, {
+        status: orderStatus ? orderStatus : orders?.order?.status,
         statusComment: statusComment,
-        commentForPuller: pullerComment,
       })
       .then((res) => {
         if (!res?.error) {
@@ -104,89 +82,13 @@ const ViewTradeOrder = () => {
       });
   };
 
-  const exportOrder = async () => {
-    await axios.post(orderExport + "/" + id).then((res) => {
-      console.log(res);
-      setCsvData(res.data.results);
-    });
-  };
-
   const exportOrderXls = async (e) => {
     e.preventDefault();
-    await axios.post(orderExportXls + "/" + id).then((res) => {
+    await axios.get(orderExportXls + id).then((res) => {
       if (!res?.error) {
-        fileDownload(res?.data.results?.file, orders?.orderId);
+        fileDownload(res?.data.results?.path, orders?.orderId);
       }
     });
-  };
-  useEffect(() => {
-    createOptions();
-  }, [searchKey]);
-
-  const createOptions = async () => {
-    await axios.get(allPullers).then((res) => {
-      if (!res.error) {
-        let data = res?.data.results.pullers;
-        const optionList = data?.map((item, index) => ({
-          value: item?._id,
-          label: (
-            <div
-              className="d-flex "
-              style={{
-                width: "200%",
-              }}
-            >
-              {item?.fullName} -
-              {item?.isPullerBusy ? (
-                <Box sx={{ width: "60%" }}>
-                  <LinearProgressWithLabel
-                    color="success"
-                    value={item?.scannedPercentage}
-                  />
-                </Box>
-              ) : (
-                ""
-              )}
-            </div>
-          ),
-        }));
-        setOptions(optionList);
-      }
-    });
-  };
-
-  const handleInputChange = (inputValue) => {
-    console.log("lkjkl");
-    setSearchKey(inputValue);
-  };
-  const handleChange = (selected) => {
-    setSelectedPuller({
-      puller: selected,
-    });
-  };
-
-  const assignPuller = async (e) => {
-    e.preventDefault();
-    console.log(selectedPuller);
-    const { data } = await axios.post(assign + "/" + orders?._id, {
-      pullerId: selectedPuller?.puller?.value,
-    });
-    if (!data.error) {
-      document.getElementById("modalP").click();
-      Swal.fire({
-        title: "Puller Assigned!",
-        icon: "success",
-        timer: 2000,
-        confirmButtonText: "Okay",
-      });
-    } else {
-      Swal.fire({
-        title: "401 Error!",
-        icon: "error",
-        timer: 2000,
-        confirmButtonText: "Okay",
-      });
-    }
   };
 
   const handleClick = () => {
@@ -749,32 +651,13 @@ const ViewTradeOrder = () => {
                         <button class="dropdown-btns comman_btn2 ">
                           Export <i class="fa fa-download"></i>
                         </button>
-                        <div class="dropdown-contents">
-                          {console.log(csvData)}
-                          <a
-                            target="_blank"
-                            onClick={() =>
-                              fileDownload(csvData?.file, orders?.orderId)
-                            }
-                          >
-                            Export .csv
-                          </a>
-                          <a href="#">
+                        <div class="dropdown-contents border rounded">
+                          <a className="" href="#">
                             <Link
                               className="text-decoration-none text-dark dropdown-item"
                               onClick={exportOrderXls}
                             >
-                              Export .xls
-                            </Link>
-                          </a>
-                          <a href="#">
-                            <Link
-                              className="text-decoration-none text-dark dropdown-item"
-                              to={`/OrderRequest/Pdf/${id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Export .pdf
+                              Export Csv
                             </Link>
                           </a>
                         </div>
@@ -907,7 +790,7 @@ const ViewTradeOrder = () => {
                                 }}
                               >
                                 <option selected="">
-                                  {orders?.status + "-" + "selected"}
+                                  {orders?.order?.status + "-" + "selected"}
                                 </option>
                                 <option value="ORDER PLACED">
                                   Order Placed
@@ -937,22 +820,6 @@ const ViewTradeOrder = () => {
                             ) : (
                               ""
                             )}
-
-                            <div className="form-group mb-0 col">
-                              <label htmlFor="">
-                                Comment for Pullers (if any)
-                              </label>
-                              <textarea
-                                type="text"
-                                name="pullerComment"
-                                defaultValue={orders?.commentForPuller}
-                                placeholder="Add your comment here."
-                                className="form-control"
-                                onChange={(e) => {
-                                  setPullerComment(e.target.value);
-                                }}
-                              />
-                            </div>
 
                             <div className="form-group mb-0 col-auto">
                               <button
@@ -1156,57 +1023,6 @@ const ViewTradeOrder = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="modal fade comman_modal"
-        id="staticBackdropAdmin"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content border-0">
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Assign Puller
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                id="modalP"
-                aria-label="Close"
-              />
-            </div>
-            <div className="modal-body shadow">
-              <form className="form-design row p-2" action="">
-                <div className="form-group col-12">
-                  <label htmlFor="">Select Puller</label>
-                  <Select
-                    options={options}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                    components={{
-                      Option,
-                    }}
-                    onChange={handleChange}
-                    onInputChange={handleInputChange}
-                    value={selectedPuller?.puller}
-                  />
-                </div>
-
-                <div className="form-group mb-0 col-12 text-center ">
-                  <button className="comman_btn2" onClick={assignPuller}>
-                    Save
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>

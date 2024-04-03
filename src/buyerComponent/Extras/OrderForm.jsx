@@ -1,8 +1,7 @@
-import axios from "axios";
-import classNames from "classnames";
+import axios from "axios";import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "rsuite";
 import Swal from "sweetalert2";
 import Navbar from "../Homepage/Navbar";
@@ -15,13 +14,12 @@ const OrderForm = () => {
   const [options, setOptions] = useState([]);
   const [productsV, setProductsV] = useState([]);
   const [keySort, setKeySort] = useState("");
-  const [quantities, setQuantities] = useState([]);
-  let { name } = useParams();
-  const navigate = useNavigate();
+  let location = useLocation();
+  let navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/createOrder`;
   const [delOption, setDelOption] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(location?.state ?? []);
   const barcodeSearch = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendorProducts`;
   const {
     register,
@@ -111,6 +109,7 @@ const OrderForm = () => {
 
       await axios.post(apiUrl, formData).then((response) => {
         if (!response.data.error) {
+          navigate("/app/OrderForm/:star");
           document.getElementById("resetBtn").click();
           setProducts([]);
           setProductsV([]);
@@ -547,7 +546,9 @@ const OrderForm = () => {
                                       }}
                                       maxLength="4"
                                       name="price"
-                                      defaultValue={1}
+                                      defaultValue={
+                                        item?.quantity ? item?.quantity : 1
+                                      }
                                       className="border text-center bg-light rounded"
                                       onChange={(e) => {
                                         handleChange(item?.flavourId, e);

@@ -15,7 +15,7 @@ const TradeShowManage = () => {
   const getVendorsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendors`;
   const vendorStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/vendorStatus`;
   const createVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendor`;
-  const [allVendors, setAllVendors] = useState();
+  const [allVendors, setAllVendors] = useState([]);
   const [cities, setCities] = useState([]);
   const [maxPage, setMaxPage] = useState(1);
   const [files, setFiles] = useState([]);
@@ -45,11 +45,15 @@ const TradeShowManage = () => {
     getVendors();
   }, []);
 
-  const getVendors = async () => {
-    await axios.patch(getVendorsApi).then((res) => {
-      setAllVendors(res?.data.results.vendors);
-      setMaxPage(res?.data.results.totalPages);
-    });
+  const getVendors = async (key) => {
+    await axios
+      .patch(getVendorsApi, {
+        search: key,
+      })
+      .then((res) => {
+        setAllVendors(res?.data.results.vendors?.data);
+        setMaxPage(res?.data.results.totalPages);
+      });
   };
 
   const onSubmit = async (data) => {
@@ -63,6 +67,7 @@ const TradeShowManage = () => {
     formData.append("countryCode ", "+1");
     formData.append("email", data?.email?.trim());
     formData.append("phoneNumber", data?.phoneNumber?.trim());
+    formData.append("password", data?.password?.trim());
     formData.append("image", files?.coverImage);
     await axios
       .post(createVendor, formData)
@@ -627,7 +632,7 @@ const TradeShowManage = () => {
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-group mb-0 col-6 choose_fileAdmin position-relative mb-4">
+                    <div className="form-group mb-0 col-4 choose_fileAdmin position-relative mb-4">
                       <span>
                         Cover Image:{" "}
                         {errors.coverImage && (
@@ -655,7 +660,7 @@ const TradeShowManage = () => {
                       />
                     </div>
 
-                    <div className="form-group col-6 mb-0 mb-4">
+                    <div className="form-group col-4 mb-0 mb-4">
                       <label htmlFor="puller">
                         Full Name{" "}
                         {errors.username && (
@@ -677,10 +682,6 @@ const TradeShowManage = () => {
                         placeholder="Enter Name"
                         {...register("username", {
                           required: "Puller Name is required!",
-                          pattern: {
-                            value: /^[^*|\":<>[\]{}`\\()'0-9;@"&$#]+$/,
-                            message: "Special Character not allowed",
-                          },
                         })}
                       />
                     </div>
@@ -709,6 +710,132 @@ const TradeShowManage = () => {
                         />
                       </label>
                     </div>
+
+                    <div
+                      className="form-group col-4 mb-5
+                    "
+                    >
+                      <label htmlFor="">
+                        Phone Number{" "}
+                        {errors.phoneNumber && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.phoneNumber?.message}
+                          </small>
+                        )}
+                      </label>
+                      <input
+                        type="number"
+                        className={classNames(
+                          "form-control border border-secondary",
+                          {
+                            "is-invalid": errors.phoneNumber,
+                          }
+                        )}
+                        name="phoneNumber"
+                        placeholder="Enter Phone Number "
+                        {...register("phoneNumber", {
+                          required: "Phone Number is required!",
+                          maxLength: {
+                            value: 10,
+                            message: "maximium 10 Charcarters",
+                          },
+                          minLength: {
+                            value: 8,
+                            message: "minimium 8 Charcarters",
+                          },
+                        })}
+                      />
+                    </div>
+                    <div
+                      className="form-group col-4 mb-5 mt-4
+                    "
+                    >
+                      <label htmlFor="">
+                        Email Address{" "}
+                        {errors.email && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.email?.message}
+                          </small>
+                        )}
+                      </label>
+                      <input
+                        type="email"
+                        className={classNames(
+                          "form-control border border-secondary",
+                          {
+                            "is-invalid": errors.email,
+                          }
+                        )}
+                        name="email"
+                        placeholder="Enter email address"
+                        {...register("email", {
+                          required: "Email is required!",
+                          pattern: {
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Invalid email address",
+                          },
+                        })}
+                      />
+                    </div>
+                    <div className="form-group col-4 mb-5">
+                      <label htmlFor="">
+                        Zipcode{" "}
+                        {errors.zipcode && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.zipcode?.message}
+                          </small>
+                        )}
+                      </label>
+                      <input
+                        type="number"
+                        className={classNames(
+                          "form-control border border-secondary",
+                          {
+                            "is-invalid": errors.zipcode,
+                          }
+                        )}
+                        name="zipcode"
+                        placeholder="Enter Zipcode "
+                        {...register("zipcode", {
+                          required: "Zipcode is required!",
+                          maxLength: {
+                            value: 10,
+                            message: "maximium 10 Charcarters",
+                          },
+                          minLength: {
+                            value: 2,
+                            message: "minimium 2 Charcarters",
+                          },
+                        })}
+                      />
+                    </div>
+
+                    <div className="form-group col-4">
+                      <label htmlFor="">
+                        Password{" "}
+                        {errors.password && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.password?.message}
+                          </small>
+                        )}
+                        <input
+                          type="text"
+                          className={classNames(
+                            "form-control border border-secondary",
+                            {
+                              "is-invalid": errors.password,
+                            }
+                          )}
+                          name="password"
+                          placeholder="Enter password"
+                          {...register("password", {
+                            required: false,
+                          })}
+                        />
+                      </label>
+                    </div>
+
                     <div className="form-floating col-4 mb-4 select_dropdown ">
                       <select
                         className={classNames(
@@ -854,110 +981,6 @@ const TradeShowManage = () => {
                       </label>
                     </div>
 
-                    <div
-                      className="form-group col-4 mb-5 mt-4
-                    "
-                    >
-                      <label htmlFor="">
-                        Email Address{" "}
-                        {errors.email && (
-                          <small className="errorText mx-1 fw-bold">
-                            *{errors.email?.message}
-                          </small>
-                        )}
-                      </label>
-                      <input
-                        type="email"
-                        className={classNames(
-                          "form-control border border-secondary",
-                          {
-                            "is-invalid": errors.email,
-                          }
-                        )}
-                        name="email"
-                        placeholder="Enter email address"
-                        {...register("email", {
-                          required: "Email is required!",
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Invalid email address",
-                          },
-                        })}
-                      />
-                    </div>
-
-                    <div
-                      className="form-group col-4 mb-5
-                    "
-                    >
-                      <label htmlFor="">
-                        Phone Number{" "}
-                        {errors.phoneNumber && (
-                          <small className="errorText mx-1 fw-bold">
-                            *{errors.phoneNumber?.message}
-                          </small>
-                        )}
-                      </label>
-                      <input
-                        type="number"
-                        className={classNames(
-                          "form-control border border-secondary",
-                          {
-                            "is-invalid": errors.phoneNumber,
-                          }
-                        )}
-                        name="phoneNumber"
-                        placeholder="Enter Phone Number "
-                        {...register("phoneNumber", {
-                          required: "Phone Number is required!",
-                          maxLength: {
-                            value: 10,
-                            message: "maximium 10 Charcarters",
-                          },
-                          minLength: {
-                            value: 8,
-                            message: "minimium 8 Charcarters",
-                          },
-                        })}
-                      />
-                    </div>
-
-                    <div
-                      className="form-group col-4 mb-5
-                    "
-                    >
-                      <label htmlFor="">
-                        Zipcode{" "}
-                        {errors.zipcode && (
-                          <small className="errorText mx-1 fw-bold">
-                            *{errors.zipcode?.message}
-                          </small>
-                        )}
-                      </label>
-                      <input
-                        type="number"
-                        className={classNames(
-                          "form-control border border-secondary",
-                          {
-                            "is-invalid": errors.zipcode,
-                          }
-                        )}
-                        name="zipcode"
-                        placeholder="Enter Zipcode "
-                        {...register("zipcode", {
-                          required: "Zipcode is required!",
-                          maxLength: {
-                            value: 10,
-                            message: "maximium 10 Charcarters",
-                          },
-                          minLength: {
-                            value: 2,
-                            message: "minimium 2 Charcarters",
-                          },
-                        })}
-                      />
-                    </div>
                     <div className="form-group mb-0 col-12 text-center mt-3">
                       <button className="comman_btn" type="submit">
                         Save Details
@@ -977,6 +1000,22 @@ const TradeShowManage = () => {
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
                       <h2>Stores Management</h2>
+                    </div>
+                    <div className=" d-flex col-3">
+                      <form className="form-design" action="">
+                        <div className="form-group mb-0 position-relative icons_set">
+                          <input
+                            type="text"
+                            className="form-control bg-white "
+                            placeholder="Search by Vendor Name"
+                            name="name"
+                            id="name"
+                            onChange={(e) => {
+                              getVendors(e.target.value);
+                            }}
+                          />
+                        </div>
+                      </form>
                     </div>
                   </div>
 
@@ -1016,7 +1055,7 @@ const TradeShowManage = () => {
                                     }
                                   ></img>
                                 </td>
-                                <td className="border">{item?.fullName}</td>
+                                <td className="border">{item?.username}</td>
                                 <td className="border">{item?.phoneNumber}</td>
 
                                 <td className=" border" key={item?.status}>

@@ -55,6 +55,7 @@ const ViewTradeStore = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const getOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTradeOrders`;
   const getProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendorProducts`;
+  const deleteProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteVendorProduct/`;
   const [edited, setEdited] = useState();
   const [editedComment, setEditedComment] = useState();
   const [vendorProducts, setVendorProducts] = useState([]);
@@ -258,6 +259,7 @@ const ViewTradeStore = () => {
     formData.append("countryCode ", "+1");
     formData.append("email", data?.email?.trim());
     formData.append("phoneNumber", data?.phoneNumber?.trim());
+    formData.append("password", data?.password?.trim());
     formData.append("image", files?.coverImage);
 
     await axios
@@ -356,6 +358,32 @@ const ViewTradeStore = () => {
 
   console.log(selectEditOptions);
 
+  const deleteProd = async (pid) => {
+    await axios
+      .get(deleteProductsVendor + pid)
+      .then((res) => {
+        if (!res?.data?.error) {
+          Swal.fire({
+            title: res?.data.message,
+            icon: "success",
+            confirmButtonText: "okay",
+            timer: 2000,
+          });
+          GetProductVendor();
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            title: "Error",
+            text: "",
+            icon: "error",
+            confirmButtonText: "ok",
+            timer: 2000,
+          });
+        }
+      });
+  };
   const editVendorProd = async (e) => {
     e.preventDefault();
 
@@ -995,11 +1023,7 @@ const ViewTradeStore = () => {
                             name="username"
                             placeholder="Enter Name"
                             {...register("username", {
-                              required: "Puller Name is required!",
-                              pattern: {
-                                value: /^[^*|\":<>[\]{}`\\()'0-9;@"&$#]+$/,
-                                message: "Special Character not allowed",
-                              },
+                              required: "Vendor Name is required!",
                             })}
                           />
                         </div>
@@ -1037,7 +1061,7 @@ const ViewTradeStore = () => {
                           />
                         </div>
 
-                        <div className="form-group col-3 mt-2">
+                        <div className="form-group col-6 mt-2">
                           <label htmlFor="">
                             Address{" "}
                             {errors.address && (
@@ -1061,7 +1085,7 @@ const ViewTradeStore = () => {
                             />
                           </label>
                         </div>
-                        <div className="form-floating col-3 mb-4 mt-3 select_dropdown ">
+                        <div className="form-floating col-6 mb-4 mt-3 select_dropdown ">
                           <select
                             className={classNames(
                               "form-select border border-secondary signup_fields fw-bolder mt-1",
@@ -1180,7 +1204,7 @@ const ViewTradeStore = () => {
                           </label>
                         </div>
 
-                        <div className="form-floating col-3 mb-4 mt-3 select_dropdown ">
+                        <div className="form-floating col-4 mb-4 mt-3 select_dropdown ">
                           <select
                             className={classNames(
                               "form-select border border-secondary signup_fields fw-bolder mt-1",
@@ -1220,7 +1244,7 @@ const ViewTradeStore = () => {
                           </label>
                         </div>
 
-                        <div className="form-group col-3">
+                        <div className="form-group col-4">
                           <label htmlFor="">
                             Phone Number{" "}
                             {errors.phoneNumber && (
@@ -1251,6 +1275,30 @@ const ViewTradeStore = () => {
                               },
                             })}
                           />
+                        </div>
+                        <div className="form-group col-4">
+                          <label htmlFor="">
+                            Set New Password{" "}
+                            {errors.password && (
+                              <small className="errorText mx-1 fw-bold">
+                                *{errors.password?.message}
+                              </small>
+                            )}
+                            <input
+                              type="text"
+                              className={classNames(
+                                "form-control border border-secondary",
+                                {
+                                  "is-invalid": errors.password,
+                                }
+                              )}
+                              name="password"
+                              placeholder="Enter password"
+                              {...register("password", {
+                                required: false,
+                              })}
+                            />
+                          </label>
                         </div>
                         <div className="form-group col-12">
                           <label htmlFor="">ShopLink </label>
@@ -1499,6 +1547,15 @@ const ViewTradeStore = () => {
                                             }}
                                           >
                                             Edit
+                                          </button>
+
+                                          <button
+                                            className="comman_btn2 mx-2"
+                                            onClick={() => {
+                                              deleteProd(itm?._id);
+                                            }}
+                                          >
+                                            Delete
                                           </button>
                                         </td>
                                       </tr>
