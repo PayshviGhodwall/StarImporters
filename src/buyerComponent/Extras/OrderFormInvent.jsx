@@ -1,13 +1,22 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import axios from "axios";import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { orderFromProducts } from "../../atom";
 const OrderFormInvent = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
   const [products, setProducts] = useState([]);
-  const [selectedProd, setSelectedProd] = useState([]);
   const vendorProducts = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/vendorProducts`;
   const [quantities, setQuantities] = useState([]);
+  const orderProducts = useRecoilValue(orderFromProducts);
+  const setOrderProducts = useSetRecoilState(orderFromProducts);
+  const [selectedProd, setSelectedProd] = useState(orderProducts ?? []);
+
+  console.log(orderProducts, "recoild");
+  useEffect(() => {
+    setOrderProducts(selectedProd);
+  }, [selectedProd]);
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -34,61 +43,68 @@ const OrderFormInvent = () => {
     setProducts(prod);
   };
 
-  const SelectFlavours = (id, i, e, uName, flv, bar, comment) => {
+  const SelectFlavours = (id, i, e, uName, flv, bar, comment, index, ind) => {
     let checked = e.target.checked;
+    let prod = [...products];
+    prod[index].type[ind].IsSelected = checked;
+    let found = false;
+    setProducts(prod);
 
-    let quant = [...quantities];
     let prods = [...selectedProd];
     let quantity = 1;
+
     if (checked) {
-      quant.forEach((obj) => {
-        if (obj?.flavourId === i) {
-          quantity = obj.qty;
-        }
-      });
-
-      prods.push({
-        productId: id,
-        flavourId: i,
-        unitName: uName,
-        flavour: flv,
-        barcodes: bar,
-        comment: comment,
-        quantity: quantity,
-      });
-
+      // Increase quantity by 1 or add new product
+      let foundIndex = prods.findIndex((obj) => obj?.flavourId === i);
+      if (foundIndex !== -1) {
+        // Create a new object to update quantity
+        let updatedProduct = { ...prods[foundIndex] };
+        updatedProduct.quantity += 1;
+        prods[foundIndex] = updatedProduct;
+      } else {
+        prods.push({
+          productId: id,
+          flavourId: i,
+          unitName: uName,
+          flavour: flv,
+          barcodes: bar,
+          comment: comment,
+          quantity: quantity,
+        });
+      }
       setSelectedProd(prods);
     } else {
-      let prods = selectedProd?.filter((itm) => itm?.flavourId !== i);
-      setSelectedProd(prods);
+      // Decrease quantity by 1 or remove product
+      let foundIndex = prods.findIndex((obj) => obj?.flavourId === i);
+      if (foundIndex !== -1) {
+        // Create a new object to update quantity
+        let updatedProduct = { ...prods[foundIndex] };
+        updatedProduct.quantity -= 1;
+        if (updatedProduct.quantity <= 0) {
+          // If quantity becomes 0 or less, remove the product
+          prods.splice(foundIndex, 1);
+        } else {
+          prods[foundIndex] = updatedProduct;
+        }
+        setSelectedProd(prods);
+      }
     }
   };
   console.log(selectedProd);
+
   const handleChange = (id, e) => {
-    let value = e.target.value;
-    let quant = [...quantities];
+    let value = +e.target.value;
     let selected = [...selectedProd];
-    let found = false;
-    quant.forEach((obj) => {
+
+    let updatedSelected = selected.map((obj) => {
       if (obj?.flavourId === id) {
-        obj.qty = +value;
-        found = true;
+        return { ...obj, quantity: value }; // Create a new object with updated quantity
       }
-    });
-    selected.forEach((obj) => {
-      if (obj?.flavourId === id) {
-        obj.quantity = +value;
-      }
+      return obj;
     });
 
-    if (!found) {
-      quant.push({ flavourId: id, qty: parseInt(value) });
-    }
-
-    setQuantities(quant);
-    setSelectedProd(selected);
+    setSelectedProd(updatedSelected);
   };
-
   return (
     <div>
       <div className="">
@@ -147,12 +163,12 @@ const OrderFormInvent = () => {
                                     <tr>
                                       <th>Select</th>
                                       <th>Flavor</th>
-                                      <th>Qnty (In Units)</th>
+                                      <th>Qty (In Units)</th>
                                       <th>Promotion</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {item?.type?.map((itm) => (
+                                    {item?.type?.map((itm, ind) => (
                                       <tr>
                                         <td>
                                           <div class="form-check">
@@ -171,7 +187,9 @@ const OrderFormInvent = () => {
                                                   item?.unitName,
                                                   itm?.flavour,
                                                   itm?.barcode[0],
-                                                  item?.promoComment
+                                                  item?.promoComment,
+                                                  index,
+                                                  ind
                                                 );
                                               }}
                                               value=""
@@ -194,9 +212,10 @@ const OrderFormInvent = () => {
                                                 width: "100px",
                                               }}
                                               maxLength="4"
+                                              disabled={!itm?.IsSelected}
                                               name="price"
                                               defaultValue={1}
-                                              className="border text-center bg-light rounded"
+                                              className="border text-center  rounded"
                                               onChange={(e) => {
                                                 handleChange(itm?._id, e);
                                               }}

@@ -1,5 +1,4 @@
-import React from "react";
-import {
+import React from "react";import {
   RecoilRoot,
   selector,
   useRecoilState,
@@ -156,4 +155,9 @@ export const orderPageData = atom({
 export const searchKeyRemove = atom({
   key: "searchkeyRemove", // unique ID (with respect to other atoms/selectors)
   default: false, // default value (aka initial value)
+});
+
+export const orderFromProducts = atom({
+  key: "orderFormProducts", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
 });

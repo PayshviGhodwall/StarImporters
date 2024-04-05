@@ -1571,6 +1571,7 @@ const Inventory = () => {
                       </button>
                     </div>
                   </form>
+                  
                   <div className="row recent_orders_invent">
                     {allProducts?.length && !search?.length ? (
                       <div className="col-11 d-flex justify-content-between py-2 mx-5">

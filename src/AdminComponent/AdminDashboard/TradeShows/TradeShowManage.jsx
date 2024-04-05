@@ -15,12 +15,20 @@ const TradeShowManage = () => {
   const getVendorsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendors`;
   const vendorStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/vendorStatus`;
   const createVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendor`;
+  const allOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAllTradeOrders`;
+  const exportOrdersXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportTradeExcel`;
   const [allVendors, setAllVendors] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [cities, setCities] = useState([]);
   const [maxPage, setMaxPage] = useState(1);
+  const [maxPage2, setMaxPage2] = useState(1);
   const [files, setFiles] = useState([]);
-  const [activePage, setActivePage] = useState(0);
-
+  const [activePage, setActivePage] = useState(1);
+  const [activePage2, setActivePage2] = useState(1);
+  const [searchType, setSearchType] = useState("vendors");
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
+  const [selected, setSelected] = useState([]);
   const {
     register,
     handleSubmit,
@@ -43,12 +51,14 @@ const TradeShowManage = () => {
 
   useEffect(() => {
     getVendors();
-  }, []);
+    getAllOrders();
+  }, [activePage, activePage2]);
 
   const getVendors = async (key) => {
     await axios
       .patch(getVendorsApi, {
         search: key,
+        page: activePage,
       })
       .then((res) => {
         setAllVendors(res?.data.results.vendors?.data);
@@ -56,10 +66,23 @@ const TradeShowManage = () => {
       });
   };
 
+  const getAllOrders = async (key) => {
+    await axios
+      .patch(allOrders, {
+        search: key,
+        page: activePage2,
+      })
+      .then((res) => {
+        setOrders(res?.data.results.orders);
+        setMaxPage2(res?.data.results.totalPages);
+      });
+  };
+
   const onSubmit = async (data) => {
     console.log(data);
     let formData = new FormData();
     formData.append("fullName", data?.username?.trim());
+    formData.append("repsresentative", data?.representative?.trim());
     formData.append("address", data?.address);
     formData.append("city", data?.city);
     formData.append("state", data?.state);
@@ -112,6 +135,71 @@ const TradeShowManage = () => {
         title: "Vendor Status Changed!",
         icon: "success",
         confirmButtonText: "Okay",
+      });
+    }
+  };
+
+  console.log(selected);
+
+  const handleSelectAll = (e) => {
+    const { checked } = e.target;
+    // Toggle isCheckAll state
+    setIsCheckAll(!isCheckAll);
+    // If checked, add all item IDs to isCheck state and all product IDs to selected state
+    if (checked) {
+      const allItemIds = orders?.map((li) => li?._id) || [];
+      setIsCheck(allItemIds);
+
+      const allProductIds = (orders || []).map((val) => ({
+        productId: val?._id,
+      }));
+      setSelected(allProductIds);
+    } else {
+      // Clear isCheck state if isCheckAll is true
+      if (isCheckAll) {
+        setIsCheck([]);
+      }
+      // Clear selected state
+      setSelected([]);
+    }
+  };
+
+  const handleClickSelect = (e, productId, id) => {
+    const { checked } = e.target;
+    // If checked, add product to selected state and add item ID to isCheck state
+    if (checked) {
+      setSelected([...selected, { productId }]);
+      setIsCheck([...isCheck, productId]);
+    } else {
+      // Remove item from selected state and item ID from isCheck state
+      setSelected(selected.filter((item) => item?.productId !== productId));
+      setIsCheck(isCheck.filter((item) => item !== productId));
+    }
+  };
+
+  const exportOrders = async (e) => {
+    // e.preventDefault();
+    if (selected?.length) {
+      const { data } = await axios.patch(exportOrdersXls, {
+        productIds: selected?.map((item) => item.productId),
+      });
+      if (!data.error) {
+        setSelected([]);
+        setIsCheck([]);
+        setIsCheckAll([]);
+        setSideBar([]);
+        document.getElementById("selectAll").checked = false;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = data.results.path ?? "";
+        downloadLink.download = "doc";
+        downloadLink.click();
+      }
+    } else {
+      Swal.fire({
+        text: "Please Select atleast One Order!",
+        icon: "warning",
+        confirmButtonText: "Okay",
+        timer: 2000,
       });
     }
   };
@@ -632,7 +720,7 @@ const TradeShowManage = () => {
                     action=""
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <div className="form-group mb-0 col-4 choose_fileAdmin position-relative mb-4">
+                    <div className="form-group mb-0 col-3 choose_fileAdmin position-relative mb-4">
                       <span>
                         Cover Image:{" "}
                         {errors.coverImage && (
@@ -660,9 +748,9 @@ const TradeShowManage = () => {
                       />
                     </div>
 
-                    <div className="form-group col-4 mb-0 mb-4">
+                    <div className="form-group col-3 mb-0 mb-4">
                       <label htmlFor="puller">
-                        Full Name{" "}
+                        Company Name{" "}
                         {errors.username && (
                           <small className="errorText mx-1 fw-bold">
                             *{errors.username?.message}
@@ -681,12 +769,38 @@ const TradeShowManage = () => {
                         name="username"
                         placeholder="Enter Name"
                         {...register("username", {
-                          required: "Puller Name is required!",
+                          required: "Company Name is required!",
                         })}
                       />
                     </div>
 
-                    <div className="form-group col-4">
+                    <div className="form-group col-3 mb-0 mb-4">
+                      <label htmlFor="puller">
+                        Representative Name{" "}
+                        {errors.representative && (
+                          <small className="errorText mx-1 fw-bold">
+                            *{errors.representative?.message}
+                          </small>
+                        )}
+                      </label>
+                      <input
+                        type="text"
+                        id="puller"
+                        className={classNames(
+                          "form-control border border-secondary",
+                          {
+                            "is-invalid": errors.representative,
+                          }
+                        )}
+                        name="representative"
+                        placeholder="Enter Name"
+                        {...register("representative", {
+                          required: false,
+                        })}
+                      />
+                    </div>
+
+                    <div className="form-group col-3">
                       <label htmlFor="">
                         Address{" "}
                         {errors.address && (
@@ -711,10 +825,7 @@ const TradeShowManage = () => {
                       </label>
                     </div>
 
-                    <div
-                      className="form-group col-4 mb-5
-                    "
-                    >
+                    <div className="form-group col-4 mb-5">
                       <label htmlFor="">
                         Phone Number{" "}
                         {errors.phoneNumber && (
@@ -746,10 +857,7 @@ const TradeShowManage = () => {
                         })}
                       />
                     </div>
-                    <div
-                      className="form-group col-4 mb-5 mt-4
-                    "
-                    >
+                    <div className="form-group col-4 mb-5 mt-4">
                       <label htmlFor="">
                         Email Address{" "}
                         {errors.email && (
@@ -996,98 +1104,413 @@ const TradeShowManage = () => {
                   </form>
                 </div>
 
-                <div className="col-12 design_outter_comman recent_orders shadow">
-                  <div className="row comman_header justify-content-between">
+                <div className="col-12  recent_orders shadow px-0">
+                  <div
+                    className="row comman_header justify-content-between "
+                    style={{
+                      width: "99.8%",
+                      marginLeft: ".1%",
+                    }}
+                  >
                     <div className="col-auto">
                       <h2>Stores Management</h2>
                     </div>
-                    <div className=" d-flex col-3">
+                    <div className="col-3 text-end">
                       <form className="form-design" action="">
                         <div className="form-group mb-0 position-relative icons_set">
-                          <input
-                            type="text"
-                            className="form-control bg-white "
-                            placeholder="Search by Vendor Name"
-                            name="name"
-                            id="name"
-                            onChange={(e) => {
-                              getVendors(e.target.value);
-                            }}
-                          />
+                          {searchType === "vendors" ? (
+                            <input
+                              type="search"
+                              className="form-control bg-white "
+                              placeholder="Search by Vendor Name"
+                              name="name"
+                              id="Search"
+                              onChange={(e) => {
+                                getVendors(e.target.value);
+                              }}
+                            />
+                          ) : (
+                            <div className="d-flex w-100">
+                              <input
+                                type="text"
+                                className="form-control bg-white  mx-2"
+                                placeholder="Search by Company Name"
+                                name="name"
+                                id="Search"
+                                onChange={(e) => {
+                                  getAllOrders(e.target.value);
+                                }}
+                              />
+                              <a
+                                className="comman_btn2 mx-1 d-flex "
+                                onClick={() => exportOrders()}
+                              >
+                                Export{" "}
+                                <i
+                                  class="fa-solid fa-file-export"
+                                  style={{
+                                    position: "relative",
+                                    top: "4px",
+                                    left: "5px",
+                                  }}
+                                ></i>
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </form>
                     </div>
                   </div>
+                  <div className="col-12 user-management-tabs px-0">
+                    <nav>
+                      <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button
+                          className="nav-link active"
+                          style={{
+                            width: "50%",
+                          }}
+                          id="nav-home-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-home"
+                          aria-selected="true"
+                          onClick={() => {
+                            document.getElementById("Search").value = "";
+                            setSearchType("vendors");
+                          }}
+                        >
+                          Vendors
+                        </button>
+                        <button
+                          className="nav-link"
+                          style={{
+                            width: "50%",
+                          }}
+                          id="nav-profile-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-profile"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-profile"
+                          aria-selected="false"
+                          onClick={() => {
+                            document.getElementById("Search").value = "";
+                            setSearchType("orders");
+                          }}
+                        >
+                          Orders
+                        </button>
+                      </div>
+                    </nav>
+                  </div>
 
-                  <div className="row">
-                    <div className="col-12 comman_table_design px-0">
-                      <div className="table-responsive">
-                        <table className="table mb-0">
-                          <thead>
-                            <tr style={{ backgroundColor: "#f2f2f2" }}>
-                              <th>S.No.</th>
-                              <th>Date</th>
-                              <th>Email</th>
-                              <th>Image</th>
-                              <th>User Name</th>
-                              <th>Phone Number</th>
-                              <th>Status</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {(allVendors || [])?.map((item, index) => (
-                              <tr key={index} className="border ">
-                                <td>{index + 1}</td>
-                                <td className="border">
-                                  {moment(item?.createdAt?.slice(0, 10)).format(
-                                    "MM/DD/YYYY"
-                                  )}
-                                </td>
-                                <td className="border">{item?.email}</td>
-                                <td className="border">
-                                  <img
-                                    className="subCatImages"
-                                    src={
-                                      item?.image?.length > 4
-                                        ? item?.image
-                                        : require("../../../assets/img/product.jpg")
-                                    }
-                                  ></img>
-                                </td>
-                                <td className="border">{item?.username}</td>
-                                <td className="border">{item?.phoneNumber}</td>
+                  <div
+                    className="tab-content recent_orders_cate"
+                    id="nav-tabContent"
+                  >
+                    <div
+                      className="tab-pane fade show active"
+                      id="nav-home"
+                      role="tabpanel"
+                      aria-labelledby="nav-home-tab"
+                    >
+                      <div className="row">
+                        <div className="col-12 comman_table_design px-0">
+                          <div className="table-responsive">
+                            <table className="table mb-0">
+                              <thead>
+                                <tr style={{ backgroundColor: "#f2f2f2" }}>
+                                  <th>S.No.</th>
+                                  <th>Date</th>
+                                  <th>Copmany Name</th>
+                                  <th>Representative Name</th>
+                                  <th>Email</th>
+                                  <th>Image</th>
+                                  <th>Phone Number</th>
+                                  <th>Status</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {(allVendors || [])?.map((item, index) => (
+                                  <tr key={index} className="border ">
+                                    <td>{index + 1}</td>
+                                    <td className="border">
+                                      {moment(
+                                        item?.createdAt?.slice(0, 10)
+                                      ).format("MM/DD/YYYY")}
+                                    </td>
+                                    <td className="border">
+                                      {item?.repsresentative}
+                                    </td>
+                                    <td className="border">{item?.email}</td>
+                                    <td className="border">{item?.email}</td>
+                                    <td className="border">
+                                      <img
+                                        className="subCatImages"
+                                        src={
+                                          item?.image?.length > 4
+                                            ? item?.image
+                                            : require("../../../assets/img/product.jpg")
+                                        }
+                                      ></img>
+                                    </td>
+                                    <td className="border">
+                                      {item?.phoneNumber}
+                                    </td>
 
-                                <td className=" border" key={item?.status}>
-                                  {" "}
-                                  <div className="">
-                                    <label class="switchUser">
-                                      <input
-                                        type="checkbox"
-                                        id={index + 1}
-                                        defaultChecked={item?.status}
-                                        onClick={() => {
-                                          PullerStatus(item?._id);
-                                        }}
-                                      />
-                                      <span class="sliderUser round"></span>
-                                    </label>
+                                    <td className=" border" key={item?.status}>
+                                      {" "}
+                                      <div className="">
+                                        <label class="switchUser">
+                                          <input
+                                            type="checkbox"
+                                            id={index + 1}
+                                            defaultChecked={item?.status}
+                                            onClick={() => {
+                                              PullerStatus(item?._id);
+                                            }}
+                                          />
+                                          <span class="sliderUser round"></span>
+                                        </label>
+                                      </div>
+                                    </td>
+
+                                    <td>
+                                      <Link
+                                        className="comman_btn2 text-white text-decoration-none"
+                                        key={index}
+                                        to={`/admin/view-TradeStore/${item?._id}`}
+                                      >
+                                        View
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                        <span className="totalPage">
+                          ( Total Pages : {maxPage} )
+                        </span>
+                        <ul id="pagination">
+                          <li>
+                            <a
+                              class="fs-5"
+                              href="#"
+                              onClick={() =>
+                                activePage <= 1
+                                  ? setActivePage(1)
+                                  : setActivePage(activePage - 1)
+                              }
+                            >
+                              «
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#" className="active">
+                              {activePage}
+                            </a>
+                          </li>
+
+                          <li>
+                            <a
+                              className="fs-5"
+                              href="#"
+                              onClick={() =>
+                                activePage === maxPage
+                                  ? setActivePage(maxPage)
+                                  : setActivePage(activePage + 1)
+                              }
+                            >
+                              »
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade recent_order"
+                      id="nav-profile"
+                      role="tabpanel"
+                      aria-labelledby="nav-profile-tab"
+                    >
+                      <div className="row mx-0">
+                        <div className="col-12">
+                          <div className="row">
+                            <div className="col-12 comman_table_design px-0">
+                              <div className="table-responsive">
+                                <div className="row">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive">
+                                      <table className="table mb-0">
+                                        <thead>
+                                          <tr
+                                            style={{
+                                              backgroundColor: "#f2f2f2",
+                                            }}
+                                          >
+                                            <th>
+                                              <input
+                                                type="checkbox"
+                                                name="selectAll"
+                                                className="checkbox"
+                                                id="selectAll"
+                                                onChange={handleSelectAll}
+                                                checked={
+                                                  isCheckAll ? true : false
+                                                }
+                                                class=""
+                                              />
+                                              <span class="checkmark-all"></span>
+                                              <span className="mx-1">
+                                                Select All
+                                              </span>
+                                            </th>
+                                            <th>ORDER ID</th>
+                                            <th>COMPANY NAME</th>
+                                            <th>DATE & TIME</th>
+                                            <th>EMAIL</th>
+                                            <th>ORDER TYPE</th>
+                                            <th>STATUS</th>
+                                            <th>ACTION</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {(orders || [])?.map(
+                                            (item, index) => (
+                                              <tr className="border">
+                                                <td className="border">
+                                                  <input
+                                                    type="checkbox"
+                                                    className="check"
+                                                    F
+                                                    key={item?._id}
+                                                    name={index}
+                                                    id={item?._id}
+                                                    onChange={(e) =>
+                                                      handleClickSelect(
+                                                        e,
+                                                        item?._id,
+                                                        index
+                                                      )
+                                                    }
+                                                    checked={isCheck?.includes(
+                                                      item?._id
+                                                    )}
+                                                    class="checkbox-in"
+                                                  />
+                                                </td>
+
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.orderId}
+                                                  </div>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.fullName}
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <span className="ordertext my-2 d-block text-center ">
+                                                    {moment(
+                                                      item?.createdAt
+                                                    ).format(
+                                                      "MMMM Do YYYY, h:mm a"
+                                                    )}
+                                                  </span>
+                                                </td>
+                                                <td className="border rounded ">
+                                                  <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                    {item?.email}
+                                                  </span>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content mt-2">
+                                                    <h3 className="fs-6">
+                                                      {item?.type}
+                                                    </h3>
+                                                  </div>
+                                                </td>
+
+                                                <td className="border rounded ">
+                                                  <span className="fs-6 text-secondary  p-2 px-3 rounded">
+                                                    {item?.status}
+                                                  </span>
+                                                </td>
+
+                                                <td className="border text-center">
+                                                  <span className="fs-5 rounded ">
+                                                    <Link
+                                                      to={`/admin/trade-show/viewTradeOrder/${item?._id}`}
+                                                      className="comman_btn"
+                                                    >
+                                                      View
+                                                    </Link>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
                                   </div>
-                                </td>
+                                </div>
 
-                                <td>
-                                  <Link
-                                    className="comman_btn2 text-white text-decoration-none"
-                                    key={index}
-                                    to={`/admin/view-TradeStore/${item?._id}`}
-                                  >
-                                    View
-                                  </Link>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                  <span className="totalPage">
+                                    ( Total Pages : {maxPage2} )
+                                  </span>
+                                  <ul id="pagination">
+                                    <li>
+                                      <a
+                                        class="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activePage2 <= 1
+                                            ? setActivePage2(1)
+                                            : setActivePage2(activePage2 - 1)
+                                        }
+                                      >
+                                        «
+                                      </a>
+                                    </li>
+
+                                    <li>
+                                      <a href="#" className="active">
+                                        {activePage2}
+                                      </a>
+                                    </li>
+
+                                    <li>
+                                      <a
+                                        className="fs-5"
+                                        href="#"
+                                        onClick={() =>
+                                          activePage2 === maxPage2
+                                            ? setActivePage2(maxPage2)
+                                            : setActivePage2(activePage2 + 1)
+                                        }
+                                      >
+                                        »
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

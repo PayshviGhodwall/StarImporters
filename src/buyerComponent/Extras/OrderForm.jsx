@@ -1,16 +1,19 @@
-import axios from "axios";import classNames from "classnames";
+import axios from "axios";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "rsuite";
 import Swal from "sweetalert2";
-import Navbar from "../Homepage/Navbar";
 import Select from "react-select";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { orderFromProducts } from "../../atom";
 
 const OrderForm = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
-  let image = localStorage.getItem("vendorImage");
+  const orderProducts = useRecoilValue(orderFromProducts);
+  const setOrderProducts = useSetRecoilState(orderFromProducts);
   const [options, setOptions] = useState([]);
   const [productsV, setProductsV] = useState([]);
   const [keySort, setKeySort] = useState("");
@@ -19,13 +22,39 @@ const OrderForm = () => {
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/createOrder`;
   const [delOption, setDelOption] = useState([]);
-  const [products, setProducts] = useState(location?.state ?? []);
+  const [products, setProducts] = useState(orderProducts ?? []);
   const barcodeSearch = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendorProducts`;
+  const vendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendor`;
+  const [vendor, setVendor] = useState([]);
+  console.log(orderProducts, "recoild");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+
+  useEffect(() => {
+    setOrderProducts(products);
+  }, [products]);
+
+  useEffect(() => {
+    getVendorDetails();
+  }, []);
+
+  const getVendorDetails = async (key) => {
+    try {
+      const response = await axios.get(vendorApi, {
+        search: key,
+      });
+      let data = response?.data.results.vendor;
+      setVendor(data);
+    } catch (error) {
+      // Handle errors
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const handleInputChange = (inputValue, { action }) => {
     if (action === "input-change") {
@@ -110,11 +139,12 @@ const OrderForm = () => {
       await axios.post(apiUrl, formData).then((response) => {
         if (!response.data.error) {
           navigate("/app/OrderForm/:star");
+          reset();
           document.getElementById("resetBtn").click();
           setProducts([]);
           setProductsV([]);
           Swal.fire({
-            title: "Thanks You! Your Order is Placed.",
+            title: "Thank You! Your Order is submitted.",
             icon: "success",
             confirmButtonText: "Okay",
           });
@@ -146,6 +176,8 @@ const OrderForm = () => {
   console.log(products, "prodsss");
 
   const addProducts = async (pId, fId, uName, flv, bar, comment) => {
+    let updatedProd = productsV.filter((item) => item?.type?._id !== fId);
+    setProductsV(updatedProd);
     let prods = [...products];
     let found = false;
 
@@ -171,18 +203,28 @@ const OrderForm = () => {
 
   const AddItemsAll = () => {
     let prod = [...products];
-    productsV.map((itm) => {
-      prod.push({
-        productId: itm?._id,
-        flavourId: itm?.type?._id,
-        unitName: itm?.unitName,
-        flavour: itm?.type?.flavour,
-        barcodes: itm?.type?.barcode[0],
-        comment: itm?.vendorProduct?.promoComment,
-        quantity: 1,
-      });
+    let updatedProd = prod.map((item) => ({ ...item })); // Create a shallow copy of products array
+    productsV.forEach((itm) => {
+      let existingItemIndex = updatedProd.findIndex(
+        (obj) => obj?.flavourId === itm?.type?._id
+      );
+      if (existingItemIndex !== -1) {
+        // If item with same flavourId already exists, increase its quantity by 1
+        updatedProd[existingItemIndex].quantity += 1;
+      } else {
+        // If item with same flavourId doesn't exist, push a new item
+        updatedProd.push({
+          productId: itm?._id,
+          flavourId: itm?.type?._id,
+          unitName: itm?.unitName,
+          flavour: itm?.type?.flavour,
+          barcodes: itm?.type?.barcode[0],
+          comment: itm?.vendorProduct?.promoComment,
+          quantity: 1,
+        });
+      }
     });
-    setProducts(prod);
+    setProducts(updatedProd);
   };
 
   const removeProduct = async (pId, fId) => {
@@ -206,8 +248,8 @@ const OrderForm = () => {
                 <div className="d-flex justify-content-between mb-5">
                   <div className="text-center">
                     <img
-                      className=""
-                      src={image ? image : require("../../assets/img/logo.png")}
+                      className={vendor?.image?.length > 0 ? "" : "d-none"}
+                      src={vendor?.image}
                       alt="Company Logo"
                       width={80}
                       style={{
@@ -215,14 +257,7 @@ const OrderForm = () => {
                         borderRadius: "50%",
                       }}
                     />
-                    <h1>
-                      <Link
-                        to={"/app/OrderForm/viewInventory"}
-                        className="fs-6 mt-2"
-                      >
-                        View Inventory
-                      </Link>
-                    </h1>
+                    <h1 className="fs-5 mt-2">{vendor?.fullName}</h1>
                   </div>{" "}
                   <div>
                     <img
@@ -273,13 +308,7 @@ const OrderForm = () => {
                       name="companyName"
                       placeholder="name@example.com"
                       {...register("companyName", {
-                        required: "Company Name is Required*",
-
-                        minLength: {
-                          value: 2,
-                          message:
-                            "Minimium 2 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
-                        },
+                        required: false,
                       })}
                     />
                     {errors.companyName && (
@@ -331,13 +360,7 @@ const OrderForm = () => {
                       name="fullName"
                       placeholder="name@example.com"
                       {...register("fullName", {
-                        required: "Full Name is Required*",
-
-                        minLength: {
-                          value: 2,
-                          message:
-                            "Minimium 2 letters Should be in Company Name", // JS only: <p>error message</p> TS only support string
-                        },
+                        required: false,
                       })}
                     />
                     {errors.fullName && (
@@ -390,19 +413,7 @@ const OrderForm = () => {
                       placeholder="name@example.com"
                       name="addressLine1"
                       {...register("addressLine1", {
-                        required: "Full Address is Required*",
-                        pattern: {
-                          value: /^[^*|\":<>[\]{}`\\()';@$]+$/,
-                          message: "Special Character not allowed!",
-                        },
-                        maxLength: {
-                          value: 200,
-                          message: "Max length is 200 characters!",
-                        },
-                        minLength: {
-                          value: 6,
-                          message: "Min length is 6 characters!",
-                        },
+                        required: false,
                       })}
                     />
                     {errors.addressLine1 && (
@@ -431,15 +442,7 @@ const OrderForm = () => {
                         placeholder="Password"
                         name="phoneNumber"
                         {...register("phoneNumber", {
-                          required: "Phone Number is Required*",
-                          maxLength: {
-                            value: 10,
-                            message: "maximium 10 Charcarters",
-                          },
-                          minLength: {
-                            value: 8,
-                            message: "minimium 8 Charcarters",
-                          },
+                          required: false,
                         })}
                       />
                       {errors.phoneNumber && (
@@ -516,6 +519,14 @@ const OrderForm = () => {
                       </label>
                     </div>
 
+                    <h1>
+                      <Link
+                        to={"/app/OrderForm/viewInventory"}
+                        className="fs-6 mt-2"
+                      >
+                        View Inventory
+                      </Link>
+                    </h1>
                     {products?.length > 0 && (
                       <div>
                         <table className="table mb-4">

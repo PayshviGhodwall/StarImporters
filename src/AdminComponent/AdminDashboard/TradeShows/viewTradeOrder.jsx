@@ -710,12 +710,30 @@ const ViewTradeOrder = () => {
 
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Customer Name:</span>
+                            <span>Company Name:</span>
                             <div className="col">
                               <strong>{orders?.order?.fullName}</strong>
                             </div>
                           </div>
                         </div>
+
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Account :</span>
+                            <div className="col">
+                              <strong>{orders?.order?.account}</strong>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4 my-3 d-flex align-items-stretch">
+                          <div className="row view-inner-box border mx-0 w-100">
+                            <span>Full Name :</span>
+                            <div className="col">
+                              <strong>{orders?.order?.fullName}</strong>
+                            </div>
+                          </div>
+                        </div>
+
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Email:</span>
@@ -751,7 +769,7 @@ const ViewTradeOrder = () => {
 
                         <div className="col-md-4 my-3 d-flex align-items-stretch">
                           <div className="row view-inner-box border mx-0 w-100">
-                            <span>Comments(if any):</span>
+                            <span>Order Comments(if any):</span>
                             <div className="col">
                               <strong>{orders?.order?.comments}</strong>
                             </div>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { Link, useNavigate, useParams } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -46,12 +45,10 @@ const ViewTradeStore = () => {
   const cityApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/cityByState`;
   const generatePass = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateVendorPassword`;
   const inventorySearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/searchInventory`;
-
   const getVendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewVendor`;
   const editVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editVendor`;
   const editProduct = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editVendorProduct/`;
   const addProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendorProduct`;
-
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const getOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTradeOrders`;
   const getProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendorProducts`;
@@ -242,6 +239,7 @@ const ViewTradeStore = () => {
       defaultValue.username = data?.fullName;
       defaultValue.address = data?.address;
       defaultValue.email = data?.email;
+      defaultValue.representative = data?.repsresentative;
 
       defaultValue.zipcode = data?.zipcode;
       defaultValue.phoneNumber = data?.phoneNumber;
@@ -249,6 +247,7 @@ const ViewTradeStore = () => {
     });
   };
 
+  console.log(files);
   const onSubmit = async (data) => {
     let formData = new FormData();
     formData.append("fullName", data?.username?.trim());
@@ -260,7 +259,8 @@ const ViewTradeStore = () => {
     formData.append("email", data?.email?.trim());
     formData.append("phoneNumber", data?.phoneNumber?.trim());
     formData.append("password", data?.password?.trim());
-    formData.append("image", files?.coverImage);
+    formData.append("image", files?.imageProfile);
+    formData.append("repsresentative", data?.representative?.trim());
 
     await axios
       .put(editVendor + "/" + id, formData)
@@ -972,7 +972,10 @@ const ViewTradeStore = () => {
                         autoComplete="off"
                         onSubmit={handleSubmit(onSubmit)}
                       >
-                        <div className="col-4 text-center mb-4 bg-light p-3 border rounded">
+                        <div
+                          className="col-4 text-center mb-4 bg-light p-3 border rounded"
+                          style={{ height: "150px" }}
+                        >
                           <div className="form-group col-auto">
                             <div className="account_profile position-relative d-inline-block">
                               <div className="mb-2 Pending-view_img">
@@ -1004,7 +1007,7 @@ const ViewTradeStore = () => {
                         </div>
                         <div className="form-group col-4 mb-0 mb-4">
                           <label htmlFor="puller">
-                            Full Name{" "}
+                            Company Name{" "}
                             {errors.username && (
                               <small className="errorText mx-1 fw-bold">
                                 *{errors.username?.message}
@@ -1028,6 +1031,31 @@ const ViewTradeStore = () => {
                           />
                         </div>
 
+                        <div className="form-group col-4 mb-0 mb-4">
+                          <label htmlFor="puller">
+                            Representative Name{" "}
+                            {errors.representative && (
+                              <small className="errorText mx-1 fw-bold">
+                                *{errors.representative?.message}
+                              </small>
+                            )}
+                          </label>
+                          <input
+                            type="text"
+                            id="puller"
+                            className={classNames(
+                              "form-control border border-secondary",
+                              {
+                                "is-invalid": errors.representative,
+                              }
+                            )}
+                            name="representative"
+                            placeholder="Enter Name"
+                            {...register("representative", {
+                              required: "Vendor Name is required!",
+                            })}
+                          />
+                        </div>
                         <div
                           className="form-group col-4 mb-5 
                     "
@@ -1061,7 +1089,7 @@ const ViewTradeStore = () => {
                           />
                         </div>
 
-                        <div className="form-group col-6 mt-2">
+                        <div className="form-group col-4 mt-2">
                           <label htmlFor="">
                             Address{" "}
                             {errors.address && (
@@ -1085,7 +1113,32 @@ const ViewTradeStore = () => {
                             />
                           </label>
                         </div>
-                        <div className="form-floating col-6 mb-4 mt-3 select_dropdown ">
+                        <div className="form-group col-4 mt-2">
+                          <label htmlFor="">
+                            Set New Password{" "}
+                            {errors.password && (
+                              <small className="errorText mx-1 fw-bold">
+                                *{errors.password?.message}
+                              </small>
+                            )}
+                            <input
+                              type="text"
+                              className={classNames(
+                                "form-control border border-secondary",
+                                {
+                                  "is-invalid": errors.password,
+                                }
+                              )}
+                              name="password"
+                              placeholder="Enter password"
+                              {...register("password", {
+                                required: false,
+                              })}
+                            />
+                          </label>
+                        </div>
+
+                        <div className="form-floating col-4 mb-4 mt-3 select_dropdown ">
                           <select
                             className={classNames(
                               "form-select border border-secondary signup_fields fw-bolder mt-1",
@@ -1276,30 +1329,7 @@ const ViewTradeStore = () => {
                             })}
                           />
                         </div>
-                        <div className="form-group col-4">
-                          <label htmlFor="">
-                            Set New Password{" "}
-                            {errors.password && (
-                              <small className="errorText mx-1 fw-bold">
-                                *{errors.password?.message}
-                              </small>
-                            )}
-                            <input
-                              type="text"
-                              className={classNames(
-                                "form-control border border-secondary",
-                                {
-                                  "is-invalid": errors.password,
-                                }
-                              )}
-                              name="password"
-                              placeholder="Enter password"
-                              {...register("password", {
-                                required: false,
-                              })}
-                            />
-                          </label>
-                        </div>
+
                         <div className="form-group col-12">
                           <label htmlFor="">ShopLink </label>
                           <a
@@ -1590,9 +1620,9 @@ const ViewTradeStore = () => {
                                   <table className="table puller_table">
                                     <thead>
                                       <tr className="">
-                                        <th>DATE</th>
-
                                         <th>ORDER ID</th>
+                                        <th>COMPANY NAME</th>
+                                        <th>DATE & TIME</th>
                                         <th>EMAIL</th>
                                         <th>ORDER TYPE</th>
                                         <th>STATUS</th>
@@ -1603,15 +1633,23 @@ const ViewTradeStore = () => {
                                     <tbody className="border">
                                       {(orders || [])?.map((item, index) => (
                                         <tr className="border">
-                                          <td>
-                                            <span className="ordertext my-2 d-block text-center ">
-                                              {item?.createdAt?.slice(0, 10)}
-                                            </span>
-                                          </td>
+                                        
                                           <td className="border text-center">
                                             <div className="cart_content border text-center mt-2">
                                               {item?.orderId}
                                             </div>
+                                          </td>
+                                          <td className="border text-center">
+                                            <div className="cart_content border text-center mt-2">
+                                              {item?.fullName}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <span className="ordertext my-2 d-block text-center ">
+                                              {moment(item?.createdAt).format(
+                                                "MMMM Do YYYY, h:mm a"
+                                              )}
+                                            </span>
                                           </td>
                                           <td className="border rounded ">
                                             <span className="fs-5 text-secondary  p-2 px-3 rounded">
