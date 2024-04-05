@@ -162,6 +162,7 @@ const OrderFormInvent = () => {
                                   <thead>
                                     <tr>
                                       <th>Select</th>
+                                      <th>Barcode</th>
                                       <th>Flavor</th>
                                       <th>Qty (In Units)</th>
                                       <th>Promotion</th>
@@ -202,6 +203,9 @@ const OrderFormInvent = () => {
                                           </div>
                                         </td>
                                         <td className="border">
+                                          {itm?.barcode[0]}
+                                        </td>
+                                        <td className="border">
                                           {itm?.flavour}
                                         </td>
                                         <td className="border  ">
@@ -232,19 +236,6 @@ const OrderFormInvent = () => {
                               )}
                             </td>
 
-                            {/* <td className="border text-danger">
-                              {" "}
-                              <a
-                                onClick={() =>
-                                  removeProduct(
-                                    item?.productId,
-                                    item?.flavourId
-                                  )
-                                }
-                              >
-                                Remove
-                              </a>
-                            </td> */}
                           </tr>
                         ))}
                       </tbody>

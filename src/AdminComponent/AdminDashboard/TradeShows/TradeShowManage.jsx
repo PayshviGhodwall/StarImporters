@@ -1122,7 +1122,7 @@ const TradeShowManage = () => {
                             <input
                               type="search"
                               className="form-control bg-white "
-                              placeholder="Search by Vendor Name"
+                              placeholder="Search by Company / Email"
                               name="name"
                               id="Search"
                               onChange={(e) => {
@@ -1243,9 +1243,11 @@ const TradeShowManage = () => {
                                       ).format("MM/DD/YYYY")}
                                     </td>
                                     <td className="border">
+                                      {item?.username.split(/[0-9]/)[0]}
+                                    </td>
+                                    <td className="border">
                                       {item?.repsresentative}
                                     </td>
-                                    <td className="border">{item?.email}</td>
                                     <td className="border">{item?.email}</td>
                                     <td className="border">
                                       <img
@@ -1255,6 +1257,7 @@ const TradeShowManage = () => {
                                             ? item?.image
                                             : require("../../../assets/img/product.jpg")
                                         }
+                                        alt=""
                                       ></img>
                                     </td>
                                     <td className="border">
