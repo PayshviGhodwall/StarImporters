@@ -1,5 +1,4 @@
-import axios from "axios";
-import classNames from "classnames";
+import axios from "axios";import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -28,7 +27,7 @@ const OrderForm = () => {
   const vendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendor`;
   const [vendor, setVendor] = useState([]);
   console.log(orderProducts, "recoild");
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(orderData);
   const {
     register,
     handleSubmit,
@@ -416,7 +415,7 @@ const OrderForm = () => {
                   <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                     <input
                       type="email"
-                      className="form-control shadow-none border border-secondary"
+                      className="form-control shadow-none border border-secondary text-dark"
                       id="floatingPassword4"
                       name="email"
                       placeholder="name@example.com"
