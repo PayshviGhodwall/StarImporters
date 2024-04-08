@@ -7,17 +7,18 @@ import { Button } from "rsuite";
 import Swal from "sweetalert2";
 import Select from "react-select";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { orderFromProducts } from "../../atom";
+import { orderFormData, orderFromProducts } from "../../atom";
 
 const OrderForm = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
   const orderProducts = useRecoilValue(orderFromProducts);
+  const orderData = useRecoilValue(orderFormData);
   const setOrderProducts = useSetRecoilState(orderFromProducts);
+  const setOrderData = useSetRecoilState(orderFormData);
   const [options, setOptions] = useState([]);
   const [productsV, setProductsV] = useState([]);
   const [keySort, setKeySort] = useState("");
-  let location = useLocation();
   let navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/createOrder`;
@@ -27,7 +28,7 @@ const OrderForm = () => {
   const vendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendor`;
   const [vendor, setVendor] = useState([]);
   console.log(orderProducts, "recoild");
-
+  const [userData, setUserData] = useState({});
   const {
     register,
     handleSubmit,
@@ -40,6 +41,29 @@ const OrderForm = () => {
   }, [products]);
 
   useEffect(() => {
+    setTimeout(() => {
+      setOrderData(userData);
+    }, [2000]);
+  }, [userData]);
+
+  useEffect(() => {
+    setProducts((prev) => {
+      const updatedProducts = prev.map((item) => {
+        const { newQuantity, ...rest } = item; // Destructure newQuantity and rest of the properties
+        return rest; // Return the object without the newQuantity key
+      });
+      return updatedProducts;
+    });
+    reset({
+      companyName: orderData?.companyName || "",
+      account: orderData?.account || "",
+      fullName: orderData?.fullName || "",
+      email: orderData?.email || "",
+      addressLine1: orderData?.address || "",
+      phoneNumber: orderData?.phoneNumber || "",
+      type: orderData?.type || "",
+      comments: orderData?.comments || "",
+    });
     getVendorDetails();
   }, []);
 
@@ -74,7 +98,15 @@ const OrderForm = () => {
     setProductsV(prods);
     setOptions([]);
   };
+  const handleData = (e, key) => {
+    const value = e.target.value;
+    let data = { ...userData };
+    data[key] = value;
 
+    setUserData(data);
+  };
+
+  console.log(orderData);
   const searchProducts = async (key) => {
     try {
       const response = await axios.patch(barcodeSearch, {
@@ -129,7 +161,7 @@ const OrderForm = () => {
         email: data?.email?.trim(),
         phoneNumber: data?.phoneNumber?.trim(),
         type: delOption,
-        countryCode: +1,
+        countryCode: "+1",
         products: Nprod,
         comments:
           data?.comments?.charAt(0).toUpperCase() +
@@ -143,6 +175,7 @@ const OrderForm = () => {
           document.getElementById("resetBtn").click();
           setProducts([]);
           setProductsV([]);
+          setUserData([]);
           Swal.fire({
             title: "Thank You! Your Order is submitted.",
             icon: "success",
@@ -163,14 +196,15 @@ const OrderForm = () => {
   };
 
   const handleChange = async (id, e) => {
-    let val = e.target.value;
+    let val = +e.target.value;
     let prods = [...products];
-    prods.forEach((obj) => {
+    let updatedProd = prods.map((item) => ({ ...item }));
+    updatedProd.forEach((obj) => {
       if (obj.flavourId === id) {
         obj.quantity = val;
       }
     });
-    setProducts(prods);
+    setProducts(updatedProd);
   };
 
   console.log(products, "prodsss");
@@ -238,28 +272,27 @@ const OrderForm = () => {
       <div className="">
         {/* <Navbar /> */}
 
-        <div className="container marginTop p-4">
+        <div className="container marginTop p-4 p-sm-1 p-xs-0">
           <div className="row justify-content-center">
             <div className="col-lg-12">
               <form
-                className=" mt-3 bg-white p-4 mb-5 shadow"
+                className=" mt-3 bg-white p-4  shadow"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <div className="d-flex justify-content-between mb-5">
+                <div className="d-flex justify-content-between mb-4">
                   <div className="text-center">
                     <img
                       className={vendor?.image?.length > 0 ? "" : "d-none"}
                       src={vendor?.image}
                       alt="Company Logo"
-                      width={80}
                       style={{
-                        height: "80px",
-                        borderRadius: "50%",
+                        // height: "14vh",
+                        width: "4vw",
                       }}
                     />
-                    <h1 className="fs-5 mt-2">{vendor?.fullName}</h1>
+                    <h1 className="fs-6 mt-2">{vendor?.fullName}</h1>
                   </div>{" "}
-                  <div>
+                  <div className="text-center">
                     <img
                       className=""
                       onClick={() =>
@@ -268,12 +301,17 @@ const OrderForm = () => {
                       }
                       src="https://starimporters-media.s3.amazonaws.com/1710029749556--Star%20Logo%20Tradeshow%202024.png"
                       alt="Company Logo"
-                      width={200}
                       style={{
-                        height: "120px",
+                        // height: "14vh",
+                        width: "20vw",
                       }}
                     />
-                    <h2 className=" mt-5 fw-bold  fs-4 text-center text-dark headOrder">
+                    <h2
+                      style={{
+                        fontSize: "clamp(0.9rem, 0.6rem + 1.5vw, 1.875rem)",
+                      }}
+                      className=" mt-5 fw-bold text-center text-dark headOrder"
+                    >
                       ORDER FORM
                     </h2>
                   </div>
@@ -297,11 +335,11 @@ const OrderForm = () => {
                 </div>
 
                 <div className="row">
-                  <div className="form-floating col-6 mb-4">
+                  <div className="form-floating col-lg-6 col-md-6 col-sm-12 mb-2 ">
                     <input
                       type="text"
                       className={classNames(
-                        "form-control  border border-secondary",
+                        "form-control  border border-secondary text-dark ",
                         { "is-invalid": errors.companyName }
                       )}
                       id="floatingInput3"
@@ -309,6 +347,9 @@ const OrderForm = () => {
                       placeholder="name@example.com"
                       {...register("companyName", {
                         required: false,
+                        onChange: (e) => {
+                          handleData(e, "companyName");
+                        },
                       })}
                     />
                     {errors.companyName && (
@@ -316,18 +357,15 @@ const OrderForm = () => {
                         {errors.companyName?.message}
                       </small>
                     )}
-                    <label
-                      htmlFor="floatingInput3"
-                      className="mx-2 fw-bolder text-dark"
-                    >
-                      Company Name <span className="text-danger">*</span>
+                    <label htmlFor="floatingInput3" className="mx-2 fw-bolder">
+                      Company Name
                     </label>
                   </div>
-                  <div className="form-floating col-6 mb-4">
+                  <div className="form-floating  col-lg-6 col-md-6 col-sm-12 mb-4">
                     <input
                       type="text"
                       className={classNames(
-                        "form-control  border border-secondary",
+                        "form-control  border border-secondary text-dark",
                         { "is-invalid": errors.account }
                       )}
                       id="floatingInput3"
@@ -335,6 +373,9 @@ const OrderForm = () => {
                       placeholder="name@example.com"
                       {...register("account", {
                         required: false,
+                        onChange: (e) => {
+                          handleData(e, "account");
+                        },
                       })}
                     />
                     {errors.account && (
@@ -342,18 +383,15 @@ const OrderForm = () => {
                         {errors.account?.message}
                       </small>
                     )}
-                    <label
-                      htmlFor="floatingInput3"
-                      className="mx-2 fw-bolder text-dark"
-                    >
+                    <label htmlFor="floatingInput3" className="mx-2 fw-bolder">
                       Account Number
                     </label>
                   </div>
-                  <div className="form-floating col-4 mb-4">
+                  <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                     <input
                       type="text"
                       className={classNames(
-                        "form-control  border border-secondary",
+                        "form-control  border border-secondary text-dark",
                         { "is-invalid": errors.fullName }
                       )}
                       id="floatingInput3"
@@ -361,6 +399,9 @@ const OrderForm = () => {
                       placeholder="name@example.com"
                       {...register("fullName", {
                         required: false,
+                        onChange: (e) => {
+                          handleData(e, "fullName");
+                        },
                       })}
                     />
                     {errors.fullName && (
@@ -368,14 +409,11 @@ const OrderForm = () => {
                         {errors.fullName?.message}
                       </small>
                     )}
-                    <label
-                      htmlFor="floatingInput3"
-                      className="mx-2 fw-bolder text-dark"
-                    >
-                      Full Name <span className="text-danger">*</span>
+                    <label htmlFor="floatingInput3" className="mx-2 fw-bolder">
+                      Full Name
                     </label>
                   </div>
-                  <div className="form-floating col-4 mb-4">
+                  <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                     <input
                       type="email"
                       className="form-control shadow-none border border-secondary"
@@ -388,6 +426,9 @@ const OrderForm = () => {
                           value:
                             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                           message: "Invalid email address",
+                        },
+                        onChange: (e) => {
+                          handleData(e, "email");
                         },
                       })}
                     />
@@ -402,11 +443,11 @@ const OrderForm = () => {
                     </label>
                   </div>
 
-                  <div className="form-floating col-4 mb-4">
+                  <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                     <input
                       type="text"
                       className={classNames(
-                        "form-control  border border-secondary signup_fields",
+                        "form-control  border border-secondary text-dark signup_fields",
                         { "is-invalid": errors.addressLine1 }
                       )}
                       id="floatingAddrees1"
@@ -414,6 +455,9 @@ const OrderForm = () => {
                       name="addressLine1"
                       {...register("addressLine1", {
                         required: false,
+                        onChange: (e) => {
+                          handleData(e, "address");
+                        },
                       })}
                     />
                     {errors.addressLine1 && (
@@ -426,16 +470,15 @@ const OrderForm = () => {
                       className="mx-2 fw-bolder"
                     >
                       Full Address
-                      <span className="text-danger">*</span>
                     </label>
                   </div>
 
                   <>
-                    <div className="form-floating col-4 mb-4">
+                    <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                       <input
                         type="number"
                         className={classNames(
-                          "form-control  border border-secondary signup_fields ",
+                          "form-control  border border-secondary text-dark signup_fields ",
                           { "is-invalid": errors.phoneNumber }
                         )}
                         id="floatingPassword3"
@@ -443,6 +486,9 @@ const OrderForm = () => {
                         name="phoneNumber"
                         {...register("phoneNumber", {
                           required: false,
+                          onChange: (e) => {
+                            handleData(e, "phoneNumber");
+                          },
                         })}
                       />
                       {errors.phoneNumber && (
@@ -454,10 +500,10 @@ const OrderForm = () => {
                         htmlFor="floatingPassword3"
                         className="mx-2 fw-bolder"
                       >
-                        Phone Number <span className="text-danger">*</span>
+                        Phone Number
                       </label>
                     </div>
-                    <div className="form-floating col-4 mb-4 select_dropdown ">
+                    <div className="form-floating  col-lg-4 col-md-4 col-sm-5 mb-4 select_dropdown ">
                       <select
                         className={classNames(
                           "form-select border border-secondary signup_fields fw-bolder mt-1",
@@ -470,12 +516,14 @@ const OrderForm = () => {
                           required: "Please select delivery type.*",
                           onChange: (e) => {
                             setDelOption(e.target.value);
+
+                            handleData(e, "type");
                           },
                         })}
                       >
                         <option value="">Select an option...</option>
                         <option value="Delivery">Delivery</option>
-                        <option value="Pickup">Pickup</option>
+                        <option value="In-Store Pickup">Pickup</option>
                         <option value="Shipment">Shipment</option>
                       </select>
                       {errors.type && (
@@ -492,11 +540,11 @@ const OrderForm = () => {
                       </label>
                     </div>
 
-                    <div className="form-floating col-4 mb-4">
+                    <div className="form-floating  col-lg-4 col-md-4 col-sm-5 mb-4">
                       <input
                         type="text"
                         className={classNames(
-                          "form-control  border border-secondary signup_fields",
+                          "form-control  border border-secondary text-dark signup_fields",
                           { "is-invalid": errors.comments }
                         )}
                         id="floatingAddreesComments"
@@ -504,6 +552,9 @@ const OrderForm = () => {
                         name="comments"
                         {...register("comments", {
                           required: false,
+                          onChange: (e) => {
+                            handleData(e, "comments");
+                          },
                         })}
                       />
                       {errors.comments && (
@@ -528,8 +579,8 @@ const OrderForm = () => {
                       </Link>
                     </h1>
                     {products?.length > 0 && (
-                      <div>
-                        <table className="table mb-4">
+                      <div className="table-responsive">
+                        <table className="table mb-4" key={products}>
                           <thead>
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
@@ -552,10 +603,12 @@ const OrderForm = () => {
                                   <span className="fs-5 ">
                                     <input
                                       type="number"
+                                      key={item?._id}
                                       style={{
                                         width: "100px",
                                       }}
                                       maxLength="4"
+                                      id={item?._id}
                                       name="price"
                                       defaultValue={
                                         item?.quantity ? item?.quantity : 1
@@ -631,7 +684,7 @@ const OrderForm = () => {
                           <input
                             type="search"
                             className={classNames(
-                              "form-control  border border-secondary signup_fields"
+                              "form-control  border border-secondary text-dark signup_fields"
                             )}
                             // disabled={keySort?.length ? false : true}
                             id="floatingAddrees122"
@@ -675,126 +728,111 @@ const OrderForm = () => {
                       </div>
 
                       <div className="row">
-                        <div className="col-12 mb-4 bg-white">
+                        <div className="col-12 mb-4 p-3">
                           <div className="cart_table_2">
-                            <div className="">
+                            <div className="table-responsive">
                               <table className="table">
-                                {!productsV?.length ? (
+                                {productsV?.length > 0 && (
                                   <tbody className="border">
-                                    <tr
-                                      className="border"
-                                      style={{
-                                        width: "20rem",
-                                      }}
-                                    >
-                                      <td className="border rounded">
-                                        <span className="fs-5 bg-light p-2 px-3 rounded">
-                                          Select Product For Search Results
-                                          .....
-                                        </span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                ) : (
-                                  <>
-                                    <tbody className="border">
-                                      {(productsV || [])?.map((item, index) => (
-                                        <tr className="border text-center mt-5">
-                                          <td className="border rounded">
-                                            <div className="col-auto">
-                                              <span className="cart_product">
-                                                <img
-                                                  src={
-                                                    item?.type?._id
-                                                      ? item?.type?.flavourImage
-                                                      : item?.productId
-                                                          ?.productImage
-                                                  }
-                                                  alt=""
-                                                />
-                                              </span>
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
-                                              <div className="col">
-                                                <div className="cart_content ">
-                                                  <h3 className="fs-5 mt-4">
-                                                    {item?.type?._id
-                                                      ? item?.unitName +
-                                                        "-" +
-                                                        item?.type?.flavour
-                                                      : item?.productId
-                                                          ?.unitName}
-                                                  </h3>
-                                                  <p>
-                                                    Barcodes:
-                                                    {item?.type?.barcode
-                                                      ?.filter(
-                                                        (itm, id) => id == 1
-                                                      )
-                                                      .map((item) => (
-                                                        <li>{item}</li>
-                                                      ))}
-                                                  </p>
-                                                </div>
+                                    {(productsV || [])?.map((item, index) => (
+                                      <tr className="border text-center mt-5">
+                                        <td className="border rounded">
+                                          <div className="col-auto">
+                                            <span className="cart_product">
+                                              <img
+                                                src={
+                                                  item?.type?._id
+                                                    ? item?.type?.flavourImage
+                                                    : item?.productId
+                                                        ?.productImage
+                                                }
+                                                alt=""
+                                              />
+                                            </span>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div className="row align-items-center flex-lg-wrap flex-md-nowrap flex-nowrap">
+                                            <div className="col">
+                                              <div className="cart_content ">
+                                                <h3
+                                                  className=" mt-4"
+                                                  style={{
+                                                    fontSize:
+                                                      "clamp(0.9rem, 0.8rem + 1vw, 1.875rem)",
+                                                  }}
+                                                >
+                                                  {item?.type?._id
+                                                    ? item?.unitName +
+                                                      "-" +
+                                                      item?.type?.flavour
+                                                    : item?.productId?.unitName}
+                                                </h3>
+                                                <p>
+                                                  Barcodes:
+                                                  {item?.type?.barcode
+                                                    ?.filter(
+                                                      (itm, id) => id == 1
+                                                    )
+                                                    .map((item) => (
+                                                      <li>{item}</li>
+                                                    ))}
+                                                </p>
                                               </div>
                                             </div>
-                                          </td>
-                                          <td className="border  ">
-                                            <p className="fs-6 mt-5">
-                                              {item?.vendorProduct?.promoComment?.slice(
-                                                0,
-                                                20
-                                              ) ?? "No Comment"}
-                                            </p>
-                                          </td>
+                                          </div>
+                                        </td>
+                                        <td className="border  ">
+                                          <p className="fs-6 mt-5">
+                                            {item?.vendorProduct?.promoComment?.slice(
+                                              0,
+                                              20
+                                            ) ?? "No Comment"}
+                                          </p>
+                                        </td>
 
-                                          <td className="border rounded">
-                                            {products.some(
-                                              (itm) =>
-                                                itm.flavourId ===
-                                                item?.type?._id
-                                            ) ? (
-                                              <Button
-                                                appearance="primary"
-                                                color="green"
-                                                className=" mx-2 fw-bold border rounded mt-5"
-                                                style={{
-                                                  color: "#fff",
-                                                }}
-                                              >
-                                                <i class="fa fa-check "></i>{" "}
-                                                Added
-                                              </Button>
-                                            ) : (
-                                              <Button
-                                                appearance="primary"
-                                                className="comman_btn mx-2 fw-bold border rounded mt-5"
-                                                style={{
-                                                  backgroundColor: "#3e4093",
-                                                  color: "#fff",
-                                                }}
-                                                onClick={() =>
-                                                  addProducts(
-                                                    item?._id,
-                                                    item?.type?._id,
-                                                    item?.unitName,
-                                                    item?.type?.flavour,
-                                                    item?.type?.barcode[0],
-                                                    item?.vendorProduct
-                                                      ?.promoComment
-                                                  )
-                                                }
-                                              >
-                                                + Add
-                                              </Button>
-                                            )}
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </>
+                                        <td className="border rounded">
+                                          {products.some(
+                                            (itm) =>
+                                              itm.flavourId === item?.type?._id
+                                          ) ? (
+                                            <Button
+                                              appearance="primary"
+                                              color="green"
+                                              className=" mx-2 fw-bold border rounded mt-5"
+                                              style={{
+                                                color: "#fff",
+                                              }}
+                                            >
+                                              <i class="fa fa-check "></i> Added
+                                            </Button>
+                                          ) : (
+                                            <Button
+                                              appearance="primary"
+                                              className="comman_btn mx-2 fw-bold border rounded mt-5"
+                                              style={{
+                                                backgroundColor: "#3e4093",
+                                                color: "#fff",
+                                              }}
+                                              onClick={() =>
+                                                addProducts(
+                                                  item?._id,
+                                                  item?.type?._id,
+                                                  item?.unitName,
+                                                  item?.type?.flavour,
+                                                  item?.type?.barcode[0],
+                                                  item?.vendorProduct
+                                                    ?.promoComment
+                                                )
+                                              }
+                                            >
+                                              + Add
+                                            </Button>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
                                 )}
                               </table>
                             </div>

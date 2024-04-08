@@ -113,8 +113,13 @@ const LoginOrderForm = () => {
   return (
     <div>
       <div className="">
-        <div className="container marginTop p-4">
-          <div className="row justify-content-center">
+        <div
+          className="container marginTop"
+          style={{
+            padding: "80px 20px",
+          }}
+        >
+          <div className="row justify-content-center align-item-center">
             <div className="col-lg-6">
               <form className=" mt-3 bg-white p-4 mb-5 shadow">
                 <div className="text-center mb-5">
@@ -127,9 +132,10 @@ const LoginOrderForm = () => {
                       }
                       src="https://starimporters-media.s3.amazonaws.com/1710029749556--Star%20Logo%20Tradeshow%202024.png"
                       alt="Company Logo"
-                      width={200}
+                      
                       style={{
-                        height: "120px",
+                        height: "14vh",
+                        width:"36%"
                       }}
                     />
                     <h2 className=" mt-5 fw-bold  fs-2 text-center text-dark headOrder">
@@ -140,6 +146,10 @@ const LoginOrderForm = () => {
                 <div className="row justify-content-center">
                   <div className="form-floating col-10 mb-4">
                     <input
+                      style={{
+                        fontWeight: 500,
+                        color: "#1A0F1C",
+                      }}
                       type="email"
                       className="form-control shadow-none border border-secondary"
                       id="floatingPassword4"
@@ -159,6 +169,10 @@ const LoginOrderForm = () => {
                   <div class="form-floating mb-4 col-10">
                     <input
                       type="password"
+                      style={{
+                        fontWeight: 500,
+                        color: "#1A0F1C",
+                      }}
                       className="form-control shadow-none border border-secondary"
                       id="floatingPassword88"
                       name="email"
@@ -182,11 +196,11 @@ const LoginOrderForm = () => {
                     <small className=" showPass">Show Password</small>
                   </div>
                   <>
-                    <div className="col-12 text-center mt-4">
+                    <div className="col-10 text-center mt-4">
                       <Button
                         onClick={() => Login()}
                         appearance="primary"
-                        className="comman_btn mx-2 fw-bold"
+                        className="comman_btn  fw-bold"
                         style={{ backgroundColor: "#3e4093", color: "#fff" }}
                       >
                         Login

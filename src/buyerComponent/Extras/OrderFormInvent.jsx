@@ -1,8 +1,11 @@
 import axios from "axios";import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { orderFromProducts } from "../../atom";
+import { Button } from "rsuite";
+
 const OrderFormInvent = () => {
+  const [loader, setLoader] = useState(false);
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
   const [products, setProducts] = useState([]);
@@ -11,7 +14,7 @@ const OrderFormInvent = () => {
   const orderProducts = useRecoilValue(orderFromProducts);
   const setOrderProducts = useSetRecoilState(orderFromProducts);
   const [selectedProd, setSelectedProd] = useState(orderProducts ?? []);
-
+  let navigate = useNavigate();
   console.log(orderProducts, "recoild");
   useEffect(() => {
     setOrderProducts(selectedProd);
@@ -59,7 +62,7 @@ const OrderFormInvent = () => {
       if (foundIndex !== -1) {
         // Create a new object to update quantity
         let updatedProduct = { ...prods[foundIndex] };
-        updatedProduct.quantity += 1;
+        updatedProduct.newQuantity = 1;
         prods[foundIndex] = updatedProduct;
       } else {
         prods.push({
@@ -79,7 +82,7 @@ const OrderFormInvent = () => {
       if (foundIndex !== -1) {
         // Create a new object to update quantity
         let updatedProduct = { ...prods[foundIndex] };
-        updatedProduct.quantity -= 1;
+        updatedProduct.newQuantity -= 1;
         if (updatedProduct.quantity <= 0) {
           // If quantity becomes 0 or less, remove the product
           prods.splice(foundIndex, 1);
@@ -90,7 +93,6 @@ const OrderFormInvent = () => {
       }
     }
   };
-  console.log(selectedProd);
 
   const handleChange = (id, e) => {
     let value = +e.target.value;
@@ -98,13 +100,31 @@ const OrderFormInvent = () => {
 
     let updatedSelected = selected.map((obj) => {
       if (obj?.flavourId === id) {
-        return { ...obj, quantity: value }; // Create a new object with updated quantity
+        return { ...obj, newQuantity: value }; // Create a new object with updated quantity
       }
       return obj;
     });
-
     setSelectedProd(updatedSelected);
   };
+
+  const AddinOrder = () => {
+    setLoader(true);
+    let selected = [...selectedProd];
+
+    let updatedProd = selected.map((itm) => {
+      return {
+        ...itm,
+        quantity: itm.quantity + (itm.newQuantity ? itm.newQuantity : 0),
+      };
+    });
+    console.log(updatedProd);
+    setSelectedProd(updatedProd);
+    setTimeout(() => {
+      navigate("/app/OrderForm/:star");
+      setLoader(false);
+    }, 5000);
+  };
+
   return (
     <div>
       <div className="">
@@ -114,155 +134,148 @@ const OrderFormInvent = () => {
               <form className=" mt-3 bg-white p-4 mb-5 shadow">
                 <div className="row">
                   <div>
-                    <Link
-                      to={"/app/OrderForm/:star"}
-                      state={selectedProd}
-                      className="comman_btn text-white mb-4"
+                    <Button
+                      appearance="primary"
+                      loading={loader}
+                      className="comman_btn  mb-4"
+                      onClick={() => AddinOrder()}
                     >
                       Add In Order list
-                    </Link>
+                    </Button>
+                    <div className="table-responsive">
+                      <table
+                        className="table mb-4"
+                        style={{
+                          overflowX: "scroll",
+                          maxWidth: "99%",
+                        }}
+                      >
+                        <thead>
+                          <tr style={{ backgroundColor: "#f2f2f2" }}>
+                            <th>Select</th>
 
-                    <table className="table mb-4">
-                      <thead>
-                        <tr style={{ backgroundColor: "#f2f2f2" }}>
-                          <th>Select</th>
-
-                          <th>Product Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(products || [])?.map((item, index) => (
-                          <tr key={index} className="border ">
-                            <td className=" d-flex justify-content-center">
-                              <div class="form-check">
-                                <input
-                                  style={{
-                                    width: "1.5rem",
-                                    height: "1.5rem",
-                                  }}
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  value=""
-                                  onChange={(e) => {
-                                    SetSelection(item?._id, index, e);
-                                  }}
-                                  id="flexCheckDefault"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="flexCheckDefault"
-                                ></label>
-                              </div>
-                            </td>
-                            <td className="border">
-                              {item?.unitName}
-
-                              {item?.IsSelected && (
-                                <table className="table">
-                                  <thead>
-                                    <tr>
-                                      <th>Select</th>
-                                      <th>Barcode</th>
-                                      <th>Flavor</th>
-                                      <th>Qty (In Units)</th>
-                                      <th>Promotion</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {item?.type?.map((itm, ind) => (
-                                      <tr>
-                                        <td>
-                                          <div class="form-check">
-                                            <input
-                                              style={{
-                                                width: "1.5rem",
-                                                height: "1.5rem",
-                                              }}
-                                              class="form-check-input"
-                                              type="checkbox"
-                                              onChange={(e) => {
-                                                SelectFlavours(
-                                                  item?._id,
-                                                  itm?._id,
-                                                  e,
-                                                  item?.unitName,
-                                                  itm?.flavour,
-                                                  itm?.barcode[0],
-                                                  item?.promoComment,
-                                                  index,
-                                                  ind
-                                                );
-                                              }}
-                                              value=""
-                                              id={itm?._id}
-                                            />
-                                            <label
-                                              class="form-check-label"
-                                              for={itm?._id}
-                                            ></label>
-                                          </div>
-                                        </td>
-                                        <td className="border">
-                                          {itm?.barcode[0]}
-                                        </td>
-                                        <td className="border">
-                                          {itm?.flavour}
-                                        </td>
-                                        <td className="border  ">
-                                          <span className="fs-5 ">
-                                            <input
-                                              type="number"
-                                              style={{
-                                                width: "100px",
-                                              }}
-                                              maxLength="4"
-                                              disabled={!itm?.IsSelected}
-                                              name="price"
-                                              defaultValue={1}
-                                              className="border text-center  rounded"
-                                              onChange={(e) => {
-                                                handleChange(itm?._id, e);
-                                              }}
-                                            ></input>
-                                          </span>
-                                        </td>
-                                        <td className="border">
-                                          {item?.promoComment}
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              )}
-                            </td>
-
+                            <th>Product Name</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  {/* {products?.length > 0 && (
-                    <div className="col-12 text-center mb-2 ">
-                      <Button
-                        appearance="primary"
-                        className="comman_btn mx-2 fw-bold d-none"
-                        id="resetBtn"
-                        type="reset"
-                        style={{ backgroundColor: "#3e4093", color: "#fff" }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        loading={loader}
-                        appearance="primary"
-                        className="comman_btn mx-2 fw-bold"
-                        type="submit"
-                        style={{ backgroundColor: "#3e4093", color: "#fff" }}
-                      >
-                        Create Order
-                      </Button>
+                        </thead>
+                        <tbody>
+                          {(products || [])?.map((item, index) => (
+                            <tr key={index} className="border ">
+                              <td className=" d-flex justify-content-center">
+                                <div class="form-check">
+                                  <input
+                                    style={{
+                                      width: "1.5rem",
+                                      height: "1.5rem",
+                                    }}
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    onChange={(e) => {
+                                      SetSelection(item?._id, index, e);
+                                    }}
+                                    id="flexCheckDefault"
+                                  />
+                                  <label
+                                    class="form-check-label"
+                                    for="flexCheckDefault"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td className="border">
+                                {item?.unitName}
+
+                                {item?.IsSelected && (
+                                  <table
+                                    className="table"
+                                    style={{
+                                      overflow: "visible",
+                                    }}
+                                  >
+                                    <thead>
+                                      <tr>
+                                        <th>Select</th>
+                                        <th>Qty (In Units)</th>
+
+                                        <th>Barcode</th>
+                                        <th>Flavor</th>
+                                        <th>Promotion</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {item?.type?.map((itm, ind) => (
+                                        <tr>
+                                          <td>
+                                            <div class="form-check">
+                                              <input
+                                                style={{
+                                                  width: "1.5rem",
+                                                  height: "1.5rem",
+                                                }}
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                onChange={(e) => {
+                                                  SelectFlavours(
+                                                    item?._id,
+                                                    itm?._id,
+                                                    e,
+                                                    item?.unitName,
+                                                    itm?.flavour,
+                                                    itm?.barcode[0],
+                                                    item?.promoComment,
+                                                    index,
+                                                    ind
+                                                  );
+                                                }}
+                                                value=""
+                                                id={itm?._id}
+                                              />
+                                              <label
+                                                class="form-check-label"
+                                                for={itm?._id}
+                                              ></label>
+                                            </div>
+                                          </td>
+                                          <td className="border  ">
+                                            <span className="fs-5 ">
+                                              <input
+                                                type="number"
+                                                style={{
+                                                  width: "100px",
+                                                }}
+                                                maxLength="4"
+                                                id={itm._id}
+                                                disabled={!itm?.IsSelected}
+                                                name="price"
+                                                defaultValue={1}
+                                                className="border text-center  rounded"
+                                                onChange={(e) => {
+                                                  handleChange(itm?._id, e);
+                                                }}
+                                              ></input>
+                                            </span>
+                                          </td>
+                                          <td className="border">
+                                            {itm?.barcode[0]}
+                                          </td>
+                                          <td className="border">
+                                            {itm?.flavour}
+                                          </td>
+
+                                          <td className="border">
+                                            {item?.promoComment}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                  )} */}
+                  </div>
                 </div>
               </form>
             </div>

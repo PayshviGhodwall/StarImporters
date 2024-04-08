@@ -12192,7 +12192,7 @@ background-color: #3e4093;
   }
   .form-control:focus {
     box-shadow: none !important;
-    color: #fff !important;
+    color: #fff;
   }
   .form-control2:focus {
     color: #000 !important;
