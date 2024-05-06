@@ -166,7 +166,7 @@ function App() {
     console.log(data);
     setCateName(data);
   };
-  console.log("hey");
+  console.log("Hello!");
   
 
   return (
