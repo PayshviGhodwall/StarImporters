@@ -14,6 +14,7 @@ const ResetPassOrder = () => {
   const email = location.state;
   const [password, setPassword] = useState();
 
+  let name = localStorage.getItem("vendor");
   const Login = async () => {
     await axios
       .patch(apiLogin, {
@@ -22,15 +23,13 @@ const ResetPassOrder = () => {
       })
       .then((response) => {
         if (!response.data.error) {
-           Swal.fire({
+          Swal.fire({
             title: response.data.message,
             icon: "success",
             button: "Okay",
             timer: 2000,
           });
-          navigate(
-            `/app/OrderForm/Login/${response?.data?.results.vendor._id}}`
-          );
+          navigate(`/orderform/${name}}`);
         } else {
           Swal.fire({
             title: response.data.message,

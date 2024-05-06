@@ -105,9 +105,7 @@ const Cms = () => {
     muted: true,
     sources: [
       {
-        src: currentVUrl
-          ? currentVUrl
-          : require("../../../assets/img/videoN.MP4"),
+        src: currentVUrl ? currentVUrl : "",
         type: "video/mp4",
       },
     ],
@@ -775,34 +773,40 @@ const Cms = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -811,14 +815,17 @@ const Cms = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -827,107 +834,146 @@ const Cms = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -939,25 +985,30 @@ const Cms = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -966,10 +1017,12 @@ const Cms = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -983,10 +1036,12 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -994,10 +1049,12 @@ const Cms = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -1005,10 +1062,12 @@ const Cms = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -1019,10 +1078,12 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -1030,10 +1091,12 @@ const Cms = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -1044,28 +1107,31 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
-
                 <li>
                   <Link
                     className=""
@@ -1073,15 +1139,15 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-
-                
                 <li>
                   <Link
                     className=""
@@ -1089,10 +1155,12 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -1103,10 +1171,12 @@ const Cms = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -1114,10 +1184,12 @@ const Cms = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -1129,10 +1201,12 @@ const Cms = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -1140,10 +1214,12 @@ const Cms = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -1152,10 +1228,12 @@ const Cms = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -1175,7 +1253,8 @@ const Cms = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -1186,7 +1265,8 @@ const Cms = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -1204,14 +1284,16 @@ const Cms = () => {
             <a
               className="comman_btn2 text-decoration-none mb-3 mt-1"
               style={{ cursor: "pointer" }}
-              onClick={() => setProdContent(!prodContent)}>
+              onClick={() => setProdContent(!prodContent)}
+            >
               Switch to Content Management
             </a>
           ) : (
             <a
               className="comman_btn2 text-decoration-none mb-3 mt-1"
               style={{ cursor: "pointer" }}
-              onClick={() => setProdContent(!prodContent)}>
+              onClick={() => setProdContent(!prodContent)}
+            >
               Switch to Product Management
             </a>
           )}
@@ -1229,12 +1311,14 @@ const Cms = () => {
                           prodContent
                             ? "col-12 user-management-cms px-0 d-none"
                             : "col-12 user-management-cms px-0"
-                        }>
+                        }
+                      >
                         <nav>
                           <div
                             className="nav nav-tabs "
                             id="nav-tab"
-                            role="tablist">
+                            role="tablist"
+                          >
                             <button
                               className="nav-link active labels"
                               id="nav-home-tab"
@@ -1243,7 +1327,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-home"
-                              aria-selected="true">
+                              aria-selected="true"
+                            >
                               Home Slides
                             </button>
                             <button
@@ -1254,7 +1339,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-homeBann"
-                              aria-selected="true">
+                              aria-selected="true"
+                            >
                               Home Title/Banners
                             </button>
                             <button
@@ -1265,7 +1351,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-age"
-                              aria-selected="true">
+                              aria-selected="true"
+                            >
                               Age Verification banner
                             </button>
                             <button
@@ -1276,7 +1363,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-profile1"
-                              aria-selected="false">
+                              aria-selected="false"
+                            >
                               About Us
                             </button>
                             <button
@@ -1287,7 +1375,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-profile2"
-                              aria-selected="false">
+                              aria-selected="false"
+                            >
                               T&amp;C
                             </button>
                             <button
@@ -1298,7 +1387,8 @@ const Cms = () => {
                               type="button"
                               role="tab"
                               aria-controls="nav-profile3"
-                              aria-selected="false">
+                              aria-selected="false"
+                            >
                               Privacy Policy
                             </button>
                           </div>
@@ -1309,16 +1399,19 @@ const Cms = () => {
                             className="tab-pane fade show active"
                             id="nav-home"
                             role="tabpanel"
-                            aria-labelledby="nav-home-tab">
+                            aria-labelledby="nav-home-tab"
+                          >
                             <div className="row mx-0 cms_home_banner">
                               <div className="col-12 p-4">
                                 <ul
                                   className="nav nav-tabs mb-4 bg-white"
                                   id="myTab"
-                                  role="tablist">
+                                  role="tablist"
+                                >
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link active labels"
                                       id="SlideOne-tab"
@@ -1327,13 +1420,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideOne"
-                                      aria-selected="true">
+                                      aria-selected="true"
+                                    >
                                       slide 1
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideTwo-tab"
@@ -1342,13 +1437,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideTwo"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Video 1
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideNew-tabV2"
@@ -1357,14 +1454,16 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideNewV2"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Video 2
                                     </button>
                                   </li>
 
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideNew-tabV3"
@@ -1373,13 +1472,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideNew"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Video 3
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideNew-tabV4"
@@ -1388,13 +1489,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideNewV4"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Video 4
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideThree-tab"
@@ -1403,13 +1506,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideThree"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Slide 2
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideFour-tab"
@@ -1418,13 +1523,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideFour"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Slide 3
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideFive-tab"
@@ -1433,13 +1540,15 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideFive"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Slide 4
                                     </button>
                                   </li>
                                   <li
                                     className="nav-item me-2"
-                                    role="presentation">
+                                    role="presentation"
+                                  >
                                     <button
                                       className="nav-link labels"
                                       id="SlideSix-tab"
@@ -1448,7 +1557,8 @@ const Cms = () => {
                                       type="button"
                                       role="tab"
                                       aria-controls="SlideSix"
-                                      aria-selected="false">
+                                      aria-selected="false"
+                                    >
                                       Slide 5
                                     </button>
                                   </li>
@@ -1458,16 +1568,19 @@ const Cms = () => {
                                     className="tab-pane fade show active"
                                     id="SlideOne"
                                     role="tabpanel"
-                                    aria-labelledby="SlideOne-tab">
+                                    aria-labelledby="SlideOne-tab"
+                                  >
                                     <div className="col-12">
                                       <form
                                         className="form-design row"
                                         action=""
-                                        onSubmit={handleSubmit(onSubmitSecond)}>
+                                        onSubmit={handleSubmit(onSubmitSecond)}
+                                      >
                                         <div className="form-group col-12 ">
                                           <label
                                             htmlFor=""
-                                            className="labels d-flex">
+                                            className="labels d-flex"
+                                          >
                                             Content Position :{" "}
                                             <div class="form-check mx-2 fs-6 mt-1">
                                               <input
@@ -1481,7 +1594,8 @@ const Cms = () => {
                                               />
                                               <label
                                                 class="form-check-label"
-                                                for="flexRadioDefault1">
+                                                for="flexRadioDefault1"
+                                              >
                                                 Align Left
                                               </label>
                                             </div>
@@ -1496,7 +1610,8 @@ const Cms = () => {
                                               />
                                               <label
                                                 class="form-check-label"
-                                                for="flexRadioDefault2">
+                                                for="flexRadioDefault2"
+                                              >
                                                 Align Center
                                               </label>
                                             </div>
@@ -1511,7 +1626,8 @@ const Cms = () => {
                                               />
                                               <label
                                                 class="form-check-label"
-                                                for="flexRadioDefault2">
+                                                for="flexRadioDefault2"
+                                              >
                                                 Align Right
                                               </label>
                                             </div>
@@ -1553,7 +1669,8 @@ const Cms = () => {
                                         <div className="form-group col-12">
                                           <label
                                             htmlFor=""
-                                            className="labels d-flex">
+                                            className="labels d-flex"
+                                          >
                                             TITLE :
                                           </label>
                                           <Editor
@@ -1622,7 +1739,8 @@ const Cms = () => {
                                               />
                                               <label
                                                 class="form-check-label mt-1"
-                                                for="flexCheckDefault">
+                                                for="flexCheckDefault"
+                                              >
                                                 External Link.
                                               </label>
                                             </div>
@@ -1646,7 +1764,8 @@ const Cms = () => {
                                         <div className="form-group col-12 text-start">
                                           <button
                                             className="comman_btn  text-decoration-none"
-                                            type="submit">
+                                            type="submit"
+                                          >
                                             Save
                                           </button>
                                         </div>
@@ -1657,13 +1776,15 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideTwo"
                                     role="tabpanel"
-                                    aria-labelledby="SlideTwo-tab">
+                                    aria-labelledby="SlideTwo-tab"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="row mx-0  rounded py-3 px-1">
                                         <div className="col-12">
                                           <form
                                             className="form-design row"
-                                            action="">
+                                            action=""
+                                          >
                                             <div className="form-group col-12 ">
                                               {/* <label
                                                 htmlFor=""
@@ -1727,7 +1848,8 @@ const Cms = () => {
                                                     }}
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdropPreview"
-                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded"
+                                                  >
                                                     <i class="fa-solid fa-eye"></i>{" "}
                                                     Preview
                                                   </a>
@@ -1759,7 +1881,8 @@ const Cms = () => {
                                                 <div className="form-group col-12 mb-4 mt-3">
                                                   <label
                                                     htmlFor=""
-                                                    className="fw-bold">
+                                                    className="fw-bold"
+                                                  >
                                                     Link/Url{" "}
                                                     <div class="form-check">
                                                       <input
@@ -1777,7 +1900,8 @@ const Cms = () => {
                                                       />
                                                       <label
                                                         class="form-check-label mt-1"
-                                                        for="flexCheckDefault">
+                                                        for="flexCheckDefault"
+                                                      >
                                                         External Link.
                                                       </label>
                                                     </div>
@@ -1817,14 +1941,16 @@ const Cms = () => {
                                                     videoSlides[0]?._id,
                                                     1
                                                   )
-                                                }>
+                                                }
+                                              >
                                                 Save
                                               </Button>
                                             </div>
                                             <button
                                               id="reseter1"
                                               className="comman_btn d-none"
-                                              type="reset">
+                                              type="reset"
+                                            >
                                               e
                                             </button>
                                           </form>
@@ -1836,13 +1962,15 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideNewV2"
                                     role="tabpanel"
-                                    aria-labelledby="SlideNew-tabV2">
+                                    aria-labelledby="SlideNew-tabV2"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="row mx-0  rounded py-3 px-1">
                                         <div className="col-12">
                                           <form
                                             className="form-design row"
-                                            action="">
+                                            action=""
+                                          >
                                             <div className="form-group col-12 ">
                                               {/* <label
                                                 htmlFor=""
@@ -1907,7 +2035,8 @@ const Cms = () => {
                                                     }}
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdropPreview"
-                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded"
+                                                  >
                                                     <i class="fa-solid fa-eye"></i>{" "}
                                                     Preview
                                                   </a>
@@ -1939,7 +2068,8 @@ const Cms = () => {
                                               <div className="form-group col-12 mb-4 mt-3">
                                                 <label
                                                   htmlFor=""
-                                                  className="fw-bold">
+                                                  className="fw-bold"
+                                                >
                                                   Link/Url{" "}
                                                   <div class="form-check">
                                                     <input
@@ -1957,7 +2087,8 @@ const Cms = () => {
                                                     />
                                                     <label
                                                       class="form-check-label mt-1"
-                                                      for="flexCheckDefault">
+                                                      for="flexCheckDefault"
+                                                    >
                                                       External Link.
                                                     </label>
                                                   </div>
@@ -1996,14 +2127,16 @@ const Cms = () => {
                                                     videoSlides[1]?._id,
                                                     2
                                                   )
-                                                }>
+                                                }
+                                              >
                                                 Save
                                               </Button>
                                             </div>
                                             <button
                                               id="reseter2"
                                               className="comman_btn d-none"
-                                              type="reset">
+                                              type="reset"
+                                            >
                                               e
                                             </button>
                                           </form>
@@ -2016,13 +2149,15 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideNewV3"
                                     role="tabpanel"
-                                    aria-labelledby="SlideNew-tabV3">
+                                    aria-labelledby="SlideNew-tabV3"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="row mx-0  rounded py-3 px-1">
                                         <div className="col-12">
                                           <form
                                             className="form-design row"
-                                            action="">
+                                            action=""
+                                          >
                                             <div className="form-group col-12 ">
                                               {/* <label
                                                 htmlFor=""
@@ -2087,7 +2222,8 @@ const Cms = () => {
                                                     }}
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdropPreview"
-                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded"
+                                                  >
                                                     <i class="fa-solid fa-eye"></i>{" "}
                                                     Preview
                                                   </a>
@@ -2119,7 +2255,8 @@ const Cms = () => {
                                               <div className="form-group col-12 mb-4 mt-3">
                                                 <label
                                                   htmlFor=""
-                                                  className="fw-bold">
+                                                  className="fw-bold"
+                                                >
                                                   Link/Url{" "}
                                                   <div class="form-check">
                                                     <input
@@ -2137,7 +2274,8 @@ const Cms = () => {
                                                     />
                                                     <label
                                                       class="form-check-label mt-1"
-                                                      for="flexCheckDefault">
+                                                      for="flexCheckDefault"
+                                                    >
                                                       External Link.
                                                     </label>
                                                   </div>
@@ -2176,14 +2314,16 @@ const Cms = () => {
                                                     videoSlides[2]?._id,
                                                     3
                                                   )
-                                                }>
+                                                }
+                                              >
                                                 Save
                                               </Button>
                                             </div>
                                             <button
                                               id="reseter3"
                                               className="comman_btn d-none"
-                                              type="reset">
+                                              type="reset"
+                                            >
                                               e
                                             </button>
                                           </form>
@@ -2195,13 +2335,15 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideNewV4"
                                     role="tabpanel"
-                                    aria-labelledby="SlideNew-tabV4">
+                                    aria-labelledby="SlideNew-tabV4"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="row mx-0  rounded py-3 px-1">
                                         <div className="col-12">
                                           <form
                                             className="form-design row"
-                                            action="">
+                                            action=""
+                                          >
                                             <div className="form-group col-12 ">
                                               {/* <label
                                                 htmlFor=""
@@ -2266,7 +2408,8 @@ const Cms = () => {
                                                     }}
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdropPreview"
-                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded">
+                                                    className="fs-6 p-1 text-decoration-none fw-bold bg-secondary text-white border rounded"
+                                                  >
                                                     <i class="fa-solid fa-eye"></i>{" "}
                                                     Preview
                                                   </a>
@@ -2298,7 +2441,8 @@ const Cms = () => {
                                               <div className="form-group col-12 mb-4 mt-3">
                                                 <label
                                                   htmlFor=""
-                                                  className="fw-bold">
+                                                  className="fw-bold"
+                                                >
                                                   Link/Url{" "}
                                                   <div class="form-check">
                                                     <input
@@ -2316,7 +2460,8 @@ const Cms = () => {
                                                     />
                                                     <label
                                                       class="form-check-label mt-1"
-                                                      for="flexCheckDefault">
+                                                      for="flexCheckDefault"
+                                                    >
                                                       External Link.
                                                     </label>
                                                   </div>
@@ -2355,14 +2500,16 @@ const Cms = () => {
                                                     videoSlides[3]?._id,
                                                     4
                                                   )
-                                                }>
+                                                }
+                                              >
                                                 Save
                                               </Button>
                                             </div>
                                             <button
                                               id="reseter4"
                                               className="comman_btn d-none"
-                                              type="reset">
+                                              type="reset"
+                                            >
                                               e
                                             </button>
                                           </form>
@@ -2375,19 +2522,20 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideThree"
                                     role="tabpanel"
-                                    aria-labelledby="SlideThree-tab">
+                                    aria-labelledby="SlideThree-tab"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="col-12">
                                         <form
                                           className="form-design row"
                                           action=""
-                                          onSubmit={handleSubmit(
-                                            onSubmitThird
-                                          )}>
+                                          onSubmit={handleSubmit(onSubmitThird)}
+                                        >
                                           <div className="form-group col-12 ">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               Content Position :{" "}
                                               <div class="form-check mx-2 fs-6 mt-1">
                                                 <input
@@ -2400,7 +2548,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault1">
+                                                  for="flexRadioDefault1"
+                                                >
                                                   Align Left
                                                 </label>
                                               </div>
@@ -2415,7 +2564,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Center
                                                 </label>
                                               </div>
@@ -2430,7 +2580,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Right
                                                 </label>
                                               </div>
@@ -2438,7 +2589,8 @@ const Cms = () => {
 
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Slide Image
                                             </label>
                                             <div className="account_profile position-relative d-inline-block">
@@ -2474,7 +2626,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               TITLE :
                                             </label>
                                             <Editor
@@ -2502,7 +2655,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Paragraph
                                             </label>
                                             <Editor
@@ -2530,7 +2684,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="fw-bold">
+                                              className="fw-bold"
+                                            >
                                               Link/Url{" "}
                                               <div class="form-check">
                                                 <input
@@ -2547,7 +2702,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label mt-1"
-                                                  for="flexCheckDefault">
+                                                  for="flexCheckDefault"
+                                                >
                                                   External Link.
                                                 </label>
                                               </div>
@@ -2566,7 +2722,8 @@ const Cms = () => {
                                           <div className="form-group col-12 text-start">
                                             <button
                                               className="comman_btn  text-decoration-none"
-                                              type="submit">
+                                              type="submit"
+                                            >
                                               Save
                                             </button>
                                           </div>
@@ -2578,7 +2735,8 @@ const Cms = () => {
                                     className="tab-pane fade "
                                     id="SlideFour"
                                     role="tabpanel"
-                                    aria-labelledby="SlideFour-tab">
+                                    aria-labelledby="SlideFour-tab"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="col-12">
                                         <form
@@ -2586,11 +2744,13 @@ const Cms = () => {
                                           action=""
                                           onSubmit={handleSubmit(
                                             onSubmitFourth
-                                          )}>
+                                          )}
+                                        >
                                           <div className="form-group col-12 ">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               Content Position :{" "}
                                               <div class="form-check mx-2 fs-6 mt-1">
                                                 <input
@@ -2604,7 +2764,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault1">
+                                                  for="flexRadioDefault1"
+                                                >
                                                   Align Left
                                                 </label>
                                               </div>
@@ -2619,7 +2780,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Center
                                                 </label>
                                               </div>
@@ -2634,7 +2796,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Right
                                                 </label>
                                               </div>
@@ -2642,7 +2805,8 @@ const Cms = () => {
 
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Slide Image
                                             </label>
 
@@ -2682,7 +2846,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               TITLE :
                                             </label>
                                             <Editor
@@ -2710,7 +2875,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Paragraph
                                             </label>
                                             <Editor
@@ -2738,7 +2904,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="fw-bold">
+                                              className="fw-bold"
+                                            >
                                               Link/Url{" "}
                                               <div class="form-check">
                                                 <input
@@ -2755,7 +2922,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label mt-1"
-                                                  for="flexCheckDefault">
+                                                  for="flexCheckDefault"
+                                                >
                                                   External Link.
                                                 </label>
                                               </div>
@@ -2774,7 +2942,8 @@ const Cms = () => {
                                           <div className="form-group col-12 text-start">
                                             <button
                                               className="comman_btn"
-                                              type="submit">
+                                              type="submit"
+                                            >
                                               Save
                                             </button>
                                           </div>
@@ -2786,19 +2955,20 @@ const Cms = () => {
                                     className="tab-pane fade "
                                     id="SlideFive"
                                     role="tabpanel"
-                                    aria-labelledby="SlideFive-tab">
+                                    aria-labelledby="SlideFive-tab"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="col-12">
                                         <form
                                           className="form-design row"
                                           action=""
-                                          onSubmit={handleSubmit(
-                                            onSubmitFifth
-                                          )}>
+                                          onSubmit={handleSubmit(onSubmitFifth)}
+                                        >
                                           <div className="form-group col-12 ">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               Content Position :{" "}
                                               <div class="form-check mx-2 fs-6 mt-1">
                                                 <input
@@ -2812,7 +2982,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault1">
+                                                  for="flexRadioDefault1"
+                                                >
                                                   Align Left
                                                 </label>
                                               </div>
@@ -2827,7 +2998,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Center
                                                 </label>
                                               </div>
@@ -2842,7 +3014,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Right
                                                 </label>
                                               </div>
@@ -2850,7 +3023,8 @@ const Cms = () => {
 
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Slide Image
                                             </label>
 
@@ -2890,7 +3064,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               TITLE :
                                             </label>
                                             <Editor
@@ -2918,7 +3093,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Paragraph
                                             </label>
                                             <Editor
@@ -2946,7 +3122,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="fw-bold">
+                                              className="fw-bold"
+                                            >
                                               Link/Url{" "}
                                               <div class="form-check">
                                                 <input
@@ -2963,7 +3140,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label mt-1"
-                                                  for="flexCheckDefault">
+                                                  for="flexCheckDefault"
+                                                >
                                                   External Link.
                                                 </label>
                                               </div>
@@ -2982,7 +3160,8 @@ const Cms = () => {
                                           <div className="form-group col-12 text-start">
                                             <button
                                               className="comman_btn"
-                                              type="submit">
+                                              type="submit"
+                                            >
                                               Save
                                             </button>
                                           </div>
@@ -2995,19 +3174,20 @@ const Cms = () => {
                                     className="tab-pane fade"
                                     id="SlideSix"
                                     role="tabpanel"
-                                    aria-labelledby="SlideSix-tab">
+                                    aria-labelledby="SlideSix-tab"
+                                  >
                                     <div className="row mx-0 border rounded py-3 px-1">
                                       <div className="col-12">
                                         <form
                                           className="form-design row"
                                           action=""
-                                          onSubmit={handleSubmit(
-                                            onSubmitSixth
-                                          )}>
+                                          onSubmit={handleSubmit(onSubmitSixth)}
+                                        >
                                           <div className="form-group col-12 ">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               Content Position :{" "}
                                               <div class="form-check mx-2 fs-6 mt-1">
                                                 <input
@@ -3021,7 +3201,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault1">
+                                                  for="flexRadioDefault1"
+                                                >
                                                   Align Left
                                                 </label>
                                               </div>
@@ -3036,7 +3217,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Center
                                                 </label>
                                               </div>
@@ -3051,7 +3233,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label"
-                                                  for="flexRadioDefault2">
+                                                  for="flexRadioDefault2"
+                                                >
                                                   Align Right
                                                 </label>
                                               </div>
@@ -3059,7 +3242,8 @@ const Cms = () => {
 
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Slide Image
                                             </label>
 
@@ -3099,7 +3283,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels d-flex">
+                                              className="labels d-flex"
+                                            >
                                               TITLE :
                                             </label>
                                             <Editor
@@ -3127,7 +3312,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="labels">
+                                              className="labels"
+                                            >
                                               Paragraph
                                             </label>
                                             <Editor
@@ -3155,7 +3341,8 @@ const Cms = () => {
                                           <div className="form-group col-12">
                                             <label
                                               htmlFor=""
-                                              className="fw-bold">
+                                              className="fw-bold"
+                                            >
                                               Link/Url{" "}
                                               <div class="form-check">
                                                 <input
@@ -3172,7 +3359,8 @@ const Cms = () => {
                                                 />
                                                 <label
                                                   class="form-check-label mt-1"
-                                                  for="flexCheckDefault">
+                                                  for="flexCheckDefault"
+                                                >
                                                   External Link.
                                                 </label>
                                               </div>
@@ -3191,7 +3379,8 @@ const Cms = () => {
                                           <div className="form-group col-12 text-start">
                                             <button
                                               className="comman_btn"
-                                              type="submit">
+                                              type="submit"
+                                            >
                                               Save
                                             </button>
                                           </div>
@@ -3207,7 +3396,8 @@ const Cms = () => {
                             className="tab-pane fade"
                             id="nav-homeBann"
                             role="tabpanel"
-                            aria-labelledby="nav-homeBann-tab">
+                            aria-labelledby="nav-homeBann-tab"
+                          >
                             <div className="row py-5 px-4 mx-0">
                               <div className="col-lg-10 col-md-10  col-sm-10">
                                 <div className="account_profile position-relative d-inline-block">
@@ -3346,7 +3536,8 @@ const Cms = () => {
                                 />
                                 <button
                                   className="comman_btn  text-decoration-none mt-3"
-                                  onClick={saveHeaders}>
+                                  onClick={saveHeaders}
+                                >
                                   Save
                                 </button>
                               </div>
@@ -3356,7 +3547,8 @@ const Cms = () => {
                             className="tab-pane fade"
                             id="nav-age"
                             role="tabpanel"
-                            aria-labelledby="nav-age-tab">
+                            aria-labelledby="nav-age-tab"
+                          >
                             <div className="row py-5 px-4 mx-0">
                               <div className="col-lg-10 col-md-10  col-sm-10">
                                 <div className="account_profile position-relative d-inline-block">
@@ -3390,7 +3582,8 @@ const Cms = () => {
 
                                   <button
                                     className="comman_btn2 mt-4"
-                                    onClick={onSaveAgeBanner}>
+                                    onClick={onSaveAgeBanner}
+                                  >
                                     Save
                                   </button>
                                 </div>
@@ -3401,7 +3594,8 @@ const Cms = () => {
                             className="tab-pane fade"
                             id="nav-profile1"
                             role="tabpanel"
-                            aria-labelledby="nav-profile1-tab">
+                            aria-labelledby="nav-profile1-tab"
+                          >
                             <div className="row py-5 px-4 mx-0">
                               <div className="col-12">
                                 <div className="  content_management_box bg-light p-3">
@@ -3428,11 +3622,13 @@ const Cms = () => {
                                         // "fontFamily",
                                         // "colorPicker",
                                       ],
-                                    }}></Editor>
+                                    }}
+                                  ></Editor>
                                   <button
                                     className="comman_btn2 mt-4"
                                     id="saveAbout"
-                                    onClick={onSaveAbout}>
+                                    onClick={onSaveAbout}
+                                  >
                                     Save
                                   </button>
                                 </div>
@@ -3443,7 +3639,8 @@ const Cms = () => {
                             className="tab-pane fade"
                             id="nav-profile2"
                             role="tabpanel"
-                            aria-labelledby="nav-profile2-tab">
+                            aria-labelledby="nav-profile2-tab"
+                          >
                             <div className="row py-5 px-4 mx-0">
                               <div className="col-12">
                                 <div className="content_management_box bg-light p-3">
@@ -3470,12 +3667,14 @@ const Cms = () => {
                                         // "fontFamily",
                                         // "colorPicker",
                                       ],
-                                    }}></Editor>
+                                    }}
+                                  ></Editor>
 
                                   <button
                                     className="comman_btn2 mt-4"
                                     id="saveAbout"
-                                    onClick={onSaveTerms}>
+                                    onClick={onSaveTerms}
+                                  >
                                     Save
                                   </button>
                                 </div>
@@ -3486,7 +3685,8 @@ const Cms = () => {
                             className="tab-pane fade"
                             id="nav-profile3"
                             role="tabpanel"
-                            aria-labelledby="nav-profile3-tab">
+                            aria-labelledby="nav-profile3-tab"
+                          >
                             <div className="row py-5 px-4 mx-0">
                               <div className="col-12">
                                 <div className="content_management_box bg-light p-3">
@@ -3513,12 +3713,14 @@ const Cms = () => {
                                         // "fontFamily",
                                         // "colorPicker",
                                       ],
-                                    }}></Editor>
+                                    }}
+                                  ></Editor>
 
                                   <button
                                     className="comman_btn2 mt-4"
                                     id="saveAbout"
-                                    onClick={onSavePrivacy}>
+                                    onClick={onSavePrivacy}
+                                  >
                                     Save
                                   </button>
                                 </div>
@@ -3542,7 +3744,8 @@ const Cms = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -3559,7 +3762,8 @@ const Cms = () => {
             <div className="modal-body">
               <form
                 className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
-                action="">
+                action=""
+              >
                 <div className="form-group col-12">
                   <label htmlFor="">Category Name</label>
                   <input
@@ -3596,7 +3800,8 @@ const Cms = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -3613,7 +3818,8 @@ const Cms = () => {
             <div className="modal-body">
               <form
                 className="form-design px-3 py-2 help-support-form row align-items-end justify-content-center"
-                action="">
+                action=""
+              >
                 <div className="form-group col-12">
                   <label htmlFor="">Sub Category Name</label>
                   <input
@@ -3651,7 +3857,8 @@ const Cms = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">
@@ -3681,7 +3888,8 @@ const Cms = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0">
             <div className="modal-header">

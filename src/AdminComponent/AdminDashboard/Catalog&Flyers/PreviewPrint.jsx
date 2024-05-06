@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";import rightLine from "../../../assets/img/skip-right-line.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/css/flip.css";
-import html2pdf from "html2pdf.js";
 const PreviewPrint = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
-  const width = window.innerWidth;
   let { id } = useParams();
   const [templatePreview, setTemplatePreview] = useState([]);
   axios.defaults.headers.common["x-auth-token-admin"] =
@@ -22,25 +20,7 @@ const PreviewPrint = () => {
     });
   };
 
-  const generatePDF = () => {
-    const element = document.getElementById("pdfContent");
-
-    if (!element) {
-      console.error("Could not find the element to convert to PDF");
-      return;
-    }
-
-    const pdfOptions = {
-      margin: 10,
-      filename: 'generated-document.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    };
-
-    html2pdf(element, pdfOptions);
-  };
-
+ 
 
   return (
     <div>
@@ -49,7 +29,7 @@ const PreviewPrint = () => {
           <div className="star_catalog_inner position-relative">
             <div className="Print_main">
 
-            <button onClick={generatePDF}>Generate PDF</button>
+            {/* <button>Generate PDF</button> */}
               <div className="pagesPrint"  id="pdfContent">
                 {templatePreview?.map((item, index) => (
                   <>

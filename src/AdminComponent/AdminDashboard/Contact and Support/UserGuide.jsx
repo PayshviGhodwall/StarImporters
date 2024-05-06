@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-import Starlogo from "../../../assets/img/logo.png";
+
 import axios from "axios";
 import { useEffect } from "react";
 import ProfileBar from "../ProfileBar";
@@ -309,7 +309,7 @@ const UserGuide = () => {
                                     <option selected value="videos">
                                       Videos
                                     </option>
-                                   <option value="pdf">PDF</option>``
+                                    <option value="pdf">PDF</option>
                                     <option value="images">Images</option>
                                   </select>
                                 </div>

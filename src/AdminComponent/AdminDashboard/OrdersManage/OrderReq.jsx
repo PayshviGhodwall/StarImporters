@@ -17,7 +17,6 @@ import { MDBDataTable } from "mdbreact";
 import { Button } from "rsuite";
 import { BiEdit } from "react-icons/bi";
 import classNames from "classnames";
-import { Box, LinearProgress, Typography } from "@mui/material";
 
 export const DaysOption = [
   { value: "SUNDAY", label: "Sunday" },
@@ -34,21 +33,6 @@ export const DaysOption = [
   { value: "FRIDAY", label: "Friday" },
   { value: "SATURDAY", label: "Saturday" },
 ];
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
 const Option = (props) => {
   return (
@@ -79,9 +63,10 @@ const OrderReq = () => {
   const createOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/createOrder`;
   const getUserDetails = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getUserAddress`;
   const editCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editCity`;
+  const addCity = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addCity`;
   const viewCities = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewCity`;
   const importOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/importOrder`;
-  const [selectedCity, setSelectedCity] = useState();
+  const [selectedCity, setSelectedCity] = useState("");
   const [selectEditOptions, setSelectEditOptions] = useState([]);
   const [city, setCity] = useState();
   const [orders, setOrders] = useState([]);
@@ -283,6 +268,26 @@ const OrderReq = () => {
         (item) => item?.value
       ),
       state: data?.state,
+    });
+    console.log(res);
+    if (!res.data.error) {
+      getCities();
+      document.getElementById("modalClose1").click();
+      Swal.fire({
+        title: res?.data.message,
+        icon: "success",
+        timer: 1000,
+      });
+    }
+  };
+
+  const onSubmitAddDays = async (data) => {
+    const res = await axios.post(addCity, {
+      city: selectedCity,
+      day: (selectEditOptions?.optionSelected || [])?.map(
+        (item) => item?.value
+      ),
+      state: "Georgia",
     });
     console.log(res);
     if (!res.data.error) {
@@ -655,6 +660,7 @@ const OrderReq = () => {
       });
     }
   };
+  console.log(selectedCity);
 
   useEffect(() => {
     createOptionsPull();
@@ -667,23 +673,8 @@ const OrderReq = () => {
         const optionList = data?.map((item, index) => ({
           value: item?._id,
           label: (
-            <div
-              className="d-flex "
-              style={{
-                width: "200%",
-              }}
-            >
-              {item?.fullName} -
-              {item?.isPullerBusy ? (
-                <Box sx={{ width: "60%" }}>
-                  <LinearProgressWithLabel
-                    color="success"
-                    value={item?.scannedPercentage}
-                  />
-                </Box>
-              ) : (
-                ""
-              )}
+            <div>
+              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
             </div>
           ),
         }));
@@ -774,12 +765,7 @@ const OrderReq = () => {
           </div>
           <div className="sidebar_menus">
             {User?.type === "SubAdmin" ? (
-              <ul
-                className="list-unstyled ps-1 m-0"
-                onClick={() => {
-                  setPageData([{ page: 1 }]);
-                }}
-              >
+              <ul className="list-unstyled ps-1 m-0">
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
@@ -914,6 +900,22 @@ const OrderReq = () => {
                     Puller Management
                   </Link>
                 </li>
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}
                 >
@@ -1021,12 +1023,7 @@ const OrderReq = () => {
                 </li>
               </ul>
             ) : (
-              <ul
-                className="list-unstyled ps-1 m-0"
-                onClick={() => {
-                  setPageData([{ page: 1 }]);
-                }}
-              >
+              <ul className="list-unstyled ps-1 m-0">
                 <li>
                   <Link
                     className=""
@@ -1116,7 +1113,7 @@ const OrderReq = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -1138,14 +1135,16 @@ const OrderReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -2903,7 +2902,7 @@ const OrderReq = () => {
                             })}
                           >
                             <option value="Georgia" selected="Georgia">
-                              Georgias
+                              Georgia
                             </option>
                           </select>
 
@@ -2917,6 +2916,7 @@ const OrderReq = () => {
 
                         <div className="form-floating col-12 mb-4 select_dropdown ">
                           <select
+                            key={selectedCity}
                             className="form-select border border-secondary signup_fields fw-bolder"
                             id="floatingSelect1"
                             aria-label="Floating label select example"
@@ -3008,7 +3008,7 @@ const OrderReq = () => {
                 <div className="container">
                   <div className="row justify-content-center p-2">
                     <div className="col-11 text-center mt-2">
-                      <form onSubmit={handleSubmit(onSubmitDays)}>
+                      <form onSubmit={handleSubmit(onSubmitAddDays)}>
                         <div className="form-floating col-12 mb-4 select_dropdown ">
                           <select
                             className="form-select border border-secondary signup_fields fw-bolder"
@@ -3037,6 +3037,7 @@ const OrderReq = () => {
 
                         <div className="form-floating col-12 mb-4 select_dropdown ">
                           <input
+                            type="text"
                             className="form-control border border-secondary signup_fields fw-bolder"
                             id="floatingSelect1"
                             aria-label="Floating label select example"
@@ -3047,9 +3048,9 @@ const OrderReq = () => {
                               },
                             })}
                           ></input>
-                          {console.log(selectedCity)}
+
                           <label
-                            htmlFor="floatingSelect6"
+                            htmlFor="floatingSelect1"
                             className="mx-2 fw-bolder"
                           >
                             City

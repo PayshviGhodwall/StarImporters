@@ -13,7 +13,6 @@ import {
   pageSubCategory,
 } from "../../atom";
 import Swal from "sweetalert2";
-
 const Navbar = ({ NState, LoginState }) => {
   const width = window.innerWidth;
   const [users, setUsers] = useState([]);
@@ -208,7 +207,7 @@ const Navbar = ({ NState, LoginState }) => {
               </form>
             </div>
 
-            <div className="col-auto  head_cart">
+            <div className="col-auto px-5 head_cart">
               <a className="cart_header">
                 {NState ? (
                   // <Animate>
@@ -230,17 +229,6 @@ const Navbar = ({ NState, LoginState }) => {
                     </Fade>
                   </Link>
                 )}
-              </a>
-            </div>
-            
-            <div className="col-auto head_cart">
-              <a className="cart_header" >
-               
-                  <Link to="/app/help-support" state={{ key: "hii" }}>
-                    <i class="fa-solid fa-circle-info"></i>
-
-                  </Link>
-                
               </a>
             </div>
 

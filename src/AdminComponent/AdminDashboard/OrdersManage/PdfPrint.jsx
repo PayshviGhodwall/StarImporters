@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import html2pdf from "html2pdf.js/dist/html2pdf.min";
 import moment from "moment";
-import html2pdf from "html2pdf.js";
 
 const PdfPrint = () => {
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}user/order/orderPDF`;
@@ -38,47 +37,18 @@ const PdfPrint = () => {
     window.print();
   };
 
-  const generatePDF =async () => {
-    const element = document.getElementById("pdfContent");
-
-    if (!element) {
-      console.error("Could not find the element to convert to PDF");
-      return;
-    }
-
-    const images = element.querySelectorAll('img');
-    const imageLoadPromises = Array.from(images).map((img) => {
-      return new Promise((resolve) => {
-        img.onload = resolve;
-      });
-    });
-  
-    await Promise.all(imageLoadPromises);
-
-    const pdfOptions = {
-      margin: 10,
-      filename: 'generated-document.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    };
-
-    html2pdf(element, pdfOptions);
-  };
-
-
   return (
     <div className="" id="main_pdf">
       <p className="d-flex mx-3 justify-content-between mt-1">
         <img width={100} src={require("../../../assets/img/logo.png")} />
         <button
           className="border text-dark fw-bold text-end"
-          onClick={generatePDF}>
+          onClick={printPdf}>
           <i class="fa fa-print" aria-hidden="true"></i> Print
         </button>
       </p>
 
-      <section className="px-3 mt-0" id="pdfContent">
+      <section className="px-3 mt-0">
         <table
           width="100%"
           style={{ margin: "0 auto", border: 0, borderSpacing: 0 }}>

@@ -238,6 +238,24 @@ const PullerManagement = () => {
                     Puller Management
                   </Link>
                 </li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+                
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link

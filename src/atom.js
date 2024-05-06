@@ -178,3 +178,16 @@ export const orderFormData = atom({
     },
   ], // default value (aka initial value)
 });
+export const orderPdfData = atom({
+  key: "orderPdfData", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+export const approvedData = atom({
+  key: "approvedData", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+export const MultiPdfData = atom({
+  key: "MultiPdfData", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});

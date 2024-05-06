@@ -20,7 +20,7 @@ const Option = (props) => {
           checked={props.isSelected}
           onChange={() => null}
         />{" "}
-        <label className="mx-2 mt-1">{props.label}</label>
+        <label className="mx-2 mt-2">{props.label}</label>
       </components.Option>
     </div>
   );
@@ -35,6 +35,8 @@ export const colourOptions = [
   { value: "Brands Management", label: "Brands Management" },
   { value: "Inventory Management", label: "Inventory Management" },
   { value: "Orders Management", label: "Orders Management" },
+  { value: "Puller", label: "Pullers Management" },
+  { value: "Trade", label: "TradeShow Management" },
   { value: "Gallery", label: "Gallery Management" },
   { value: "Contact", label: "Contact & Support" },
   { value: "catalog", label: "Catalog & flyer" },
@@ -337,7 +339,7 @@ const SubAdmin = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -347,6 +349,23 @@ const SubAdmin = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fas fa-users-gear"></i>{" "}
                     Puller Management
+                  </Link>
+                </li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
                   </Link>
                 </li>
 
@@ -519,7 +538,7 @@ const SubAdmin = () => {
 
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -532,6 +551,7 @@ const SubAdmin = () => {
                   </Link>
                 </li>
 
+
                 <li>
                   <Link
                     className=""
@@ -539,13 +559,16 @@ const SubAdmin = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
+                
                 <li>
                   <Link
                     className=""

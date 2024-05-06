@@ -1,4 +1,5 @@
-import axios from "axios";import { saveAs } from "file-saver";
+import axios from "axios";
+import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -24,21 +25,6 @@ const Option = (props) => {
     </div>
   );
 };
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
 const ViewTradeOrder = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -657,7 +643,18 @@ const ViewTradeOrder = () => {
                               className="text-decoration-none text-dark dropdown-item"
                               onClick={exportOrderXls}
                             >
-                              Export Csv
+                              Export .Xlsx
+                            </Link>
+                          </a>
+
+                          <a href="#">
+                            <Link
+                              className="text-decoration-none text-dark dropdown-item"
+                              to={`/TradeOrderRequest/Pdf/${id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Export .pdf
                             </Link>
                           </a>
                         </div>
@@ -712,7 +709,7 @@ const ViewTradeOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Company Name:</span>
                             <div className="col">
-                              <strong>{orders?.order?.fullName}</strong>
+                              <strong>{orders?.order?.companyName}</strong>
                             </div>
                           </div>
                         </div>
@@ -771,7 +768,14 @@ const ViewTradeOrder = () => {
                           <div className="row view-inner-box border mx-0 w-100">
                             <span>Order Comments(if any):</span>
                             <div className="col">
-                              <strong>{orders?.order?.comments}</strong>
+                              <strong
+                                dangerouslySetInnerHTML={{
+                                  __html: orders?.order?.comments.replace(
+                                    /\n/g,
+                                    "<br>"
+                                  ),
+                                }}
+                              />
                             </div>
                           </div>
                         </div>
@@ -856,112 +860,15 @@ const ViewTradeOrder = () => {
                       <div className="cart_table_2">
                         <div className="">
                           <table className="table">
-                            {/* <thead>
+                            <thead>
                               <tr>
-                                <th>
-                                  {" "}
-                                  <div class="dropdowns">
-                                    <button class="dropdown-btns sort_btn ">
-                                      Scanned by{" "}
-                                      <i class="fa-solid fa-caret-down"></i>
-                                    </button>
-                                    <div class="dropdown-contents DropBg">
-                                      <a
-                                        className="text-decoration-none text-dark "
-                                        onClick={() =>
-                                          OrderDetails("", 1, "qr")
-                                        }
-                                      >
-                                        Qr Scanned
-                                      </a>
-                                      <a
-                                        onClick={() =>
-                                          OrderDetails("", -1, "manual")
-                                        }
-                                        className="text-decoration-none text-dark "
-                                      >
-                                        Manually Scanned
-                                      </a>
-                                    </div>
-                                  </div>
-                                </th>
-                                <th>
-                                  Items{" - "}
-                                  <div class="dropdowns">
-                                    <button class="dropdown-btns sort_btn ">
-                                      Sort{" "}
-                                      <i class="fa-solid fa-caret-down"></i>
-                                    </button>
-                                    <div class="dropdown-contents DropBg">
-                                      <a
-                                        className="text-decoration-none text-dark "
-                                        onClick={() => OrderDetails("", 1)}
-                                      >
-                                        A to Z
-                                      </a>
-                                      <a
-                                        onClick={() => OrderDetails("", -1)}
-                                        className="text-decoration-none text-dark "
-                                      >
-                                        Z to A
-                                      </a>
-                                    </div>
-                                  </div>
-                                </th>
-                                <th>Quantity</th>
-                                <th>
-                                  Pull Status{" - "}
-                                  <div class="dropdowns">
-                                    <button class="dropdown-btns sort_btn ">
-                                      {keySort
-                                        ? (keySort === "scanned" &&
-                                            "Scanned") ||
-                                          (keySort === "overUnderScanned" &&
-                                            "Over/Under Scanned") ||
-                                          (keySort === "outOfStock" &&
-                                            "Out of Stock") ||
-                                          (keySort === "" && "All")
-                                        : "Sort"}
-                                      <i class="fa-solid fa-caret-down mx-2"></i>
-                                    </button>
-                                    <div class="dropdown-contents DropBg">
-                                      <a
-                                        className="text-decoration-none text-dark "
-                                        onClick={() => OrderDetails("", 1)}
-                                      >
-                                        All
-                                      </a>
-                                      <a
-                                        className="text-decoration-none text-dark "
-                                        onClick={() =>
-                                          OrderDetails("scanned", 1)
-                                        }
-                                      >
-                                        Scanned
-                                      </a>
-                                      <a
-                                        onClick={() =>
-                                          OrderDetails("overUnderScanned", 1)
-                                        }
-                                        className="text-decoration-none text-dark "
-                                      >
-                                        Over/Under Scanned
-                                      </a>
-
-                                      <a
-                                        onClick={() =>
-                                          OrderDetails("outOfStock", 1)
-                                        }
-                                        className="text-decoration-none text-dark "
-                                      >
-                                        Out of Stock
-                                      </a>
-                                    </div>
-                                  </div>
-                                </th>
-                                <th>Pull Quantity</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Qty(in units)</th>
+                                <th>Promotion</th>
+                                <th>Product Comment</th>
                               </tr>
-                            </thead> */}
+                            </thead>
                             {orders?.products?.length < 1 ? (
                               <tbody className="border">
                                 <tr
@@ -981,11 +888,12 @@ const ViewTradeOrder = () => {
                               <tbody className="border">
                                 {(orders?.products || [])?.map(
                                   (item, index) => (
-                                    <tr className="border text-center mt-5">
+                                    <tr className="border text-center">
                                       <td className="border rounded">
                                         <div className="col-auto">
-                                          <span className="cart_product">
+                                          <span className=" mb-3">
                                             <img
+                                              width={100}
                                               src={
                                                 item?.flavour?._id
                                                   ? item?.flavour?.flavourImage
@@ -1020,13 +928,18 @@ const ViewTradeOrder = () => {
                                         </div>
                                       </td>
                                       <td className="border rounded ">
-                                        <p className="fs-5 fw-bold bg-light p-2 px-3 rounded mt-5">
+                                        <p className="fs-5 fw-bold bg-light p-2 px-3 rounded ">
                                           {item?.quantity}
                                         </p>
                                       </td>
                                       <td className="border rounded ">
-                                        <p className="fs-5 bg-light p-2 px-3 rounded mt-5">
+                                        <p className="fs-6 bg-light p-2 px-3 rounded">
                                           {item?.promotionalComment}
+                                        </p>
+                                      </td>
+                                      <td className="border rounded ">
+                                        <p className="fs-6 bg-light p-2 px-3 rounded">
+                                          {item?.productComment}
                                         </p>
                                       </td>
                                     </tr>

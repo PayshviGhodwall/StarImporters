@@ -9,7 +9,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/css/flip.css";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { usePDF } from "react-to-pdf";
 
 const PreviewPdfCate = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
@@ -20,7 +19,6 @@ const PreviewPdfCate = () => {
   const [pageS, setPageS] = useState(0);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [downloadLink, setDownloadLink] = useState();
   const navigate = useNavigate();
   useEffect(() => {
@@ -165,7 +163,7 @@ const PreviewPdfCate = () => {
                 <div id="pages" className="pages">
                   {templatePreview?.map((item, index) => (
                     <>
-                      <div className="page shadow" ref={targetRef} key={index}>
+                      <div className="page shadow" key={index}>
                         {item?.pageURL?.length > 0 && (
                           <a
                             href={item?.pageURL}

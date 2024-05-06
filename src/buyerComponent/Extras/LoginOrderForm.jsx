@@ -1,6 +1,6 @@
 import axios from "axios";import classNames from "classnames";
-import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "rsuite";
 import Swal from "sweetalert2";
 
@@ -8,60 +8,61 @@ const LoginOrderForm = () => {
   // axios.defaults.headers.common["x-auth-token-vendor"] =
   //   localStorage.getItem("vendorLog");
   const generatePass = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/forgetPassword`;
-  let { id } = useParams();
+  let { name } = useParams();
   const navigate = useNavigate();
   const apiLogin = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/login`;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState();
 
+  console.log(name);
+
   const Login = async () => {
-    await axios
-      .patch(apiLogin, {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        if (!response.data.error) {
-          localStorage.removeItem("vendorLog");
-          localStorage.removeItem("vendorId");
-          localStorage.removeItem("vendorImage");
-          localStorage.setItem(
-            "vendorImage",
-            response?.data?.results.vendor.image
-          );
-          localStorage.setItem("vendorLog", response?.data?.results.token);
-          localStorage.setItem(
-            "vendorId",
-            JSON.stringify(response?.data?.results?.products)
-          );
-          !response?.data?.results?.firstTimeLogin
-            ? navigate(
-                `/app/OrderForm/${response?.data?.results.vendor.username}`
-              )
-            : navigate(`/app/OrderForm/ResetPassword`, {
-                state: response?.data?.results.vendor.email,
-              });
-        } else {
-          Swal.fire({
-            title: response.data.message,
-            text: "",
-            icon: "error",
-            button: "Okay",
-            timer: 2000,
-          });
-        }
-      })
-      .catch((err) => {
-        let error = err?.response?.data?.message;
-        if (err) {
-          Swal.fire({
-            title: error,
-            text: "401 error",
-            icon: "error",
-            button: "Ok",
-          });
-        }
+    if (email === name) {
+      await axios
+        .patch(apiLogin, {
+          email: email,
+          password: password,
+        })
+        .then((response) => {
+          if (!response.data.error) {
+            localStorage.removeItem("vendorLog");
+            localStorage.setItem("vendorLog", response?.data?.results.token);
+            !response?.data?.results?.firstTimeLogin
+              ? navigate(
+                  `/app/OrderForm/${response?.data?.results.vendor.email}`
+                )
+              : navigate(`/app/OrderForm/ResetPassword`, {
+                  state: response?.data?.results.vendor.email,
+                });
+          } else {
+            Swal.fire({
+              title: response.data.message,
+              text: "",
+              icon: "error",
+              button: "Okay",
+              timer: 2000,
+            });
+          }
+        })
+        .catch((err) => {
+          let error = err?.response?.data?.message;
+          if (err) {
+            Swal.fire({
+              title: error,
+              text: "401 error",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+        });
+    } else {
+      Swal.fire({
+        title: "Email Error!",
+        text: "Please use your specified vendor portal or Enter your correct registered email.",
+        icon: "warning",
+        confirmButtonText: "Okay",
       });
+    }
   };
 
   const GeneratePassword = async () => {
@@ -114,7 +115,7 @@ const LoginOrderForm = () => {
     <div>
       <div className="">
         <div
-          className="container marginTop"
+          className="container"
           style={{
             padding: "80px 20px",
           }}
@@ -132,10 +133,8 @@ const LoginOrderForm = () => {
                       }
                       src="https://starimporters-media.s3.amazonaws.com/1710029749556--Star%20Logo%20Tradeshow%202024.png"
                       alt="Company Logo"
-                      
                       style={{
-                        height: "14vh",
-                        width:"36%"
+                        width: "clamp(80px, 50%, 200px)",
                       }}
                     />
                     <h2 className=" mt-5 fw-bold  fs-2 text-center text-dark headOrder">

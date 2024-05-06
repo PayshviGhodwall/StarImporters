@@ -52,9 +52,11 @@ const ViewTradeStore = () => {
   const getProducts = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/inventory/singleProduct`;
   const getOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getTradeOrders`;
   const getProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendorProducts`;
+  const exportOrdersPdfs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportToPDF`;
   const deleteProductsVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/deleteVendorProduct/`;
   const [edited, setEdited] = useState();
   const [editedComment, setEditedComment] = useState();
+  const [editedPrice, setEditedPrice] = useState();
   const [vendorProducts, setVendorProducts] = useState([]);
   const [product, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -68,6 +70,13 @@ const ViewTradeStore = () => {
   const [activeOrders, setActiveOrders] = useState([]);
   const [files, setFiles] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [activePage2, setActivePage2] = useState(1);
+  const [maxPage2, setMaxPage2] = useState(1);
+  const [searchType, setSearchType] = useState("vendors");
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
+  const [selected, setSelected] = useState([]);
+
   const navigate = useNavigate();
   let { id } = useParams();
   const [formValues, setFormValues] = useState([
@@ -76,8 +85,20 @@ const ViewTradeStore = () => {
       flavour: [],
       Quantity: [],
       comment: "",
+      listingPrice: "",
     },
   ]);
+  const handleClickSelect = (e, productId, id) => {
+    const { checked } = e.target;
+    if (checked) {
+      setSelected([...selected, { productId }]);
+      setIsCheck([...isCheck, productId]);
+    } else {
+      setSelected(selected.filter((item) => item?.productId !== productId));
+      setIsCheck(isCheck.filter((item) => item !== productId));
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -87,7 +108,8 @@ const ViewTradeStore = () => {
 
   useEffect(() => {
     GetProductVendor();
-  }, []);
+    GetOrdersVendor();
+  }, [activePage2]);
   useEffect(() => {
     createOptions();
   }, [searchKey]);
@@ -114,13 +136,17 @@ const ViewTradeStore = () => {
       setVendorProducts(data);
     });
   };
-  const GetOrdersVendor = async () => {
-    await axios.patch(getOrders + "/" + id).then((res) => {
-      let data = res?.data?.results.orders;
-      setOrders(data);
-    });
+  const GetOrdersVendor = async (key) => {
+    await axios
+      .patch(getOrders + "/" + id, { search: key, page: activePage2 })
+      .then((res) => {
+        let data = res?.data?.results.orders?.data;
+        setOrders(data);
+        setMaxPage2(res?.data?.results.totalPages);
+      });
   };
-  console.log(orders);
+
+
   const GeneratePassword = async () => {
     setLoader(true);
     await axios.get(generatePass + "/" + id).then((res) => {
@@ -158,13 +184,19 @@ const ViewTradeStore = () => {
   };
   console.log(options, selectedProduct, "lkjlkjklj");
 
-  const GetProducts = async (id) => {
+  const GetProducts = async (id, index) => {
     await axios.get(getProducts + "/" + id).then((res) => {
       let data = res?.data.results;
-      const optionList = data?.type?.map((item, index) => ({
-        value: item?._id,
-        label: item?.flavour,
-      }));
+      const selectedFlavorIds = formValues
+        ?.filter((itm) => itm?.productName?.value === id)
+        .flatMap((itm) => itm?.flavour?.map((flavor) => flavor.value));
+
+      const optionList = data?.type
+        ?.filter((item) => !selectedFlavorIds?.includes(item._id))
+        .map((item, index) => ({
+          value: item?._id,
+          label: item?.flavour,
+        }));
       setOptionsFlavour(optionList);
 
       setProducts((p) => ({ ...p, [id]: data }));
@@ -172,7 +204,7 @@ const ViewTradeStore = () => {
   };
 
   const handleChange2 = (selected, index) => {
-    GetProducts(selected?.value);
+    GetProducts(selected?.value, index);
     let newFormValues = [...formValues];
     newFormValues[index].productName = selected;
     setFormValues(newFormValues);
@@ -202,6 +234,12 @@ const ViewTradeStore = () => {
     let val = e.target.value;
     let newFormValues = [...formValues];
     newFormValues[i].comment = val;
+    setFormValues(newFormValues);
+  };
+  let handleChangePrice = (e, i) => {
+    let val = e.target.value;
+    let newFormValues = [...formValues];
+    newFormValues[i].listingPrice = val;
     setFormValues(newFormValues);
   };
 
@@ -236,7 +274,7 @@ const ViewTradeStore = () => {
       setVendorDetails(res?.data.results?.vendor);
       let data = res?.data.results?.vendor;
       let defaultValue = {};
-      defaultValue.username = data?.fullName;
+      defaultValue.companyName = data?.companyName;
       defaultValue.address = data?.address;
       defaultValue.email = data?.email;
       defaultValue.representative = data?.repsresentative;
@@ -248,9 +286,10 @@ const ViewTradeStore = () => {
   };
 
   console.log(files);
+
   const onSubmit = async (data) => {
     let formData = new FormData();
-    formData.append("fullName", data?.username?.trim());
+    formData.append("companyName", data?.companyName?.trim());
     formData.append("address", data?.address);
     formData.append("city", data?.city ?? vendorDetails?.city);
     formData.append("state", data?.state ?? vendorDetails?.state);
@@ -305,6 +344,7 @@ const ViewTradeStore = () => {
         productId: itm?.productName.value,
         flavours: itm?.flavour?.map((items) => items?.value),
         promoComment: itm?.comment,
+        listingPrice: itm?.listingPrice,
       });
     });
 
@@ -393,6 +433,7 @@ const ViewTradeStore = () => {
           (items) => items?.value
         ),
         promoComment: editedComment,
+        listingPrice: editedPrice,
       })
       .then((res) => {
         if (res?.data?.message === "Product added") {
@@ -449,6 +490,33 @@ const ViewTradeStore = () => {
       });
     }
   });
+
+  const exportOrdersPdf = async (e) => {
+    // e.preventDefault();
+    if (selected?.length) {
+      const { data } = await axios.patch(exportOrdersPdfs, {
+        productIds: selected?.map((item) => item.productId),
+      });
+      if (!data.error) {
+        // setOrderPdfData(data.results?.orders);
+        navigate("/TradeOrderRequest/MultiplePdf", {
+          state: data.results?.orders,
+        });
+        setSelected([]);
+        setIsCheck([]);
+        setIsCheckAll([]);
+        setSideBar([]);
+        document.getElementById("selectAll").checked = false;
+      }
+    } else {
+      Swal.fire({
+        text: "Please Select atleast One Order!",
+        icon: "warning",
+        confirmButtonText: "Okay",
+        timer: 2000,
+      });
+    }
+  };
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -822,7 +890,7 @@ const ViewTradeStore = () => {
                   >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
+                      class="fa fa-calendar-check"
                     ></i>{" "}
                     Trade Show Management
                   </Link>
@@ -984,6 +1052,7 @@ const ViewTradeStore = () => {
                                   id="image"
                                   src={vendorDetails?.image}
                                   alt="Upload Image ........"
+                                  width={100}
                                 />
                               </div>
 
@@ -1008,9 +1077,9 @@ const ViewTradeStore = () => {
                         <div className="form-group col-4 mb-0 mb-4">
                           <label htmlFor="puller">
                             Company Name{" "}
-                            {errors.username && (
+                            {errors.companyName && (
                               <small className="errorText mx-1 fw-bold">
-                                *{errors.username?.message}
+                                *{errors.companyName?.message}
                               </small>
                             )}
                           </label>
@@ -1020,13 +1089,13 @@ const ViewTradeStore = () => {
                             className={classNames(
                               "form-control border border-secondary",
                               {
-                                "is-invalid": errors.username,
+                                "is-invalid": errors.companyName,
                               }
                             )}
-                            name="username"
+                            name="companyName"
                             placeholder="Enter Name"
-                            {...register("username", {
-                              required: "Vendor Name is required!",
+                            {...register("companyName", {
+                              required: "Company Name is required!",
                             })}
                           />
                         </div>
@@ -1332,14 +1401,19 @@ const ViewTradeStore = () => {
 
                         <div className="form-group col-12">
                           <label htmlFor="">ShopLink </label>
-                          <a
+                          <Link
+                            className="text-primary"
                             target="_blank"
-                            href={`http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/Login/
-                            ${vendorDetails?._id}`}
+                            to={{
+                              pathname: `/orderform/${vendorDetails?.email}`,
+                            }}
+                            onClick={() => {
+                              localStorage.setItem("Vendorkey", "Verified");
+                            }}
                           >
-                            http://ec2-3-210-230-78.compute-1.amazonaws.com/app/OrderForm/Login/
-                            {vendorDetails?._id}
-                          </a>
+                            https://www.starimporters.com/orderform/
+                            {vendorDetails?.email}
+                          </Link>
                         </div>
                         <div className="col-12 text-center">
                           <Button
@@ -1391,7 +1465,7 @@ const ViewTradeStore = () => {
                           {(formValues || [])?.map((item, index) => (
                             <div className="form-group mb-0 col-12 border rounded p-3 mb-2">
                               <div className="row" key={index}>
-                                <div className="form-group col-4">
+                                <div className="form-group col-3">
                                   <label htmlFor="">Select Product</label>
                                   <Select
                                     name="users"
@@ -1408,7 +1482,7 @@ const ViewTradeStore = () => {
                                     placeholder="Type any keyword to Search Product"
                                   />
                                 </div>
-                                <div className="form-group col-4">
+                                <div className="form-group col-3">
                                   <label htmlFor="">Select Flavors</label>
                                   <Select
                                     name="users"
@@ -1460,6 +1534,21 @@ const ViewTradeStore = () => {
                                     placeholder="Enter Comment "
                                     onChange={(value) =>
                                       handleChangeComment(value, index)
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group col-2">
+                                  <label htmlFor="">Listing Price</label>
+                                  <input
+                                    type="text"
+                                    className={classNames(
+                                      "form-control border border-secondary"
+                                    )}
+                                    name="price"
+                                    value={item?.listingPrice || ""}
+                                    placeholder="$"
+                                    onChange={(value) =>
+                                      handleChangePrice(value, index)
                                     }
                                   />
                                 </div>
@@ -1519,8 +1608,9 @@ const ViewTradeStore = () => {
                                     <tr className="">
                                       <th>Image</th>
                                       <th>Product Name</th>
-                                      <th>Flavours</th>
+                                      <th>Flavors</th>
                                       <th>Promotions</th>
+                                      <th>Listing Price</th>
                                       <th>ACTION</th>
                                     </tr>
                                   </thead>
@@ -1558,6 +1648,9 @@ const ViewTradeStore = () => {
                                           {itm?.promoComment}
                                         </td>
                                         <td className="border text-center  align-middle">
+                                          {itm?.listingPrice}
+                                        </td>
+                                        <td className="border text-center  align-middle">
                                           <button
                                             className="comman_btn"
                                             data-bs-toggle="modal"
@@ -1573,6 +1666,10 @@ const ViewTradeStore = () => {
                                                   ),
                                               });
                                               setEdited(itm);
+                                              setEditedPrice(itm?.listingPrice);
+                                              setEditedComment(
+                                                itm?.promoComment
+                                              );
                                               GetProducts(itm?.productId?._id);
                                             }}
                                           >
@@ -1608,86 +1705,205 @@ const ViewTradeStore = () => {
                     <div className="col-auto">
                       <h2 className="main_headers">Orders</h2>
                     </div>
+                    <div className="col-6 text-end">
+                      <form className="form-design" action="">
+                        <div className="form-group mb-0 position-relative icons_set">
+                          <div className="d-flex w-100">
+                            <input
+                              type="text"
+                              className="form-control bg-white  mx-2"
+                              placeholder="Search by Company Name"
+                              name="name"
+                              id="Search"
+                              onChange={(e) => {
+                                GetOrdersVendor(e.target.value);
+                              }}
+                            />
+
+                            <a
+                              className="comman_btn2 mx-1 d-flex "
+                              onClick={() => exportOrdersPdf()}
+                            >
+                              .Pdf
+                            </a>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                   <div className="row">
                     <div className="col-12 design_outter_comman  shadow">
                       <div className="row">
                         <div className="col-12 user-management-tabs px-0">
                           <div className="row mx-0">
-                            <div className="col-12 mb-4">
-                              <div className="cart_table\s">
-                                <div className="table-responsive">
-                                  <table className="table puller_table">
-                                    <thead>
-                                      <tr className="">
-                                        <th>ORDER ID</th>
-                                        <th>COMPANY NAME</th>
-                                        <th>DATE & TIME</th>
-                                        <th>EMAIL</th>
-                                        <th>ORDER TYPE</th>
-                                        <th>STATUS</th>
-                                        <th>ACTION</th>
-                                      </tr>
-                                    </thead>
-
-                                    <tbody className="border">
-                                      {(orders || [])?.map((item, index) => (
-                                        <tr className="border">
-                                        
-                                          <td className="border text-center">
-                                            <div className="cart_content border text-center mt-2">
-                                              {item?.orderId}
-                                            </div>
-                                          </td>
-                                          <td className="border text-center">
-                                            <div className="cart_content border text-center mt-2">
-                                              {item?.fullName}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <span className="ordertext my-2 d-block text-center ">
-                                              {moment(item?.createdAt).format(
-                                                "MMMM Do YYYY, h:mm a"
-                                              )}
-                                            </span>
-                                          </td>
-                                          <td className="border rounded ">
-                                            <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                              {item?.email}
-                                            </span>
-                                          </td>
-                                          <td className="border text-center">
-                                            <div className="cart_content mt-2">
-                                              <h3 className="fs-6">
-                                                {item?.type}
-                                              </h3>
-                                            </div>
-                                          </td>
-
-                                          <td className="border rounded ">
-                                            <span className="fs-6 text-secondary  p-2 px-3 rounded">
-                                              {item?.status}
-                                            </span>
-                                          </td>
-
-                                          <td className="border text-center">
-                                            <span className="fs-5 rounded ">
-                                              <button
-                                                className="comman_btn"
-                                                onClick={() =>
-                                                  navigate(
-                                                    `/admin/trade-show/viewTradeOrder/${item?._id}`
-                                                  )
-                                                }
+                            <div className="col-12">
+                              <div className="row">
+                                <div className="col-12 comman_table_design px-0">
+                                  <div className="table-responsive">
+                                    <div className="row">
+                                      <div className="col-12 comman_table_design px-0">
+                                        <div className="table-responsive">
+                                          <table className="table mb-0">
+                                            <thead>
+                                              <tr
+                                                style={{
+                                                  backgroundColor: "#f2f2f2",
+                                                }}
                                               >
-                                                View
-                                              </button>
-                                            </span>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
+                                                <th>
+                                                  <input
+                                                    type="checkbox"
+                                                    name="selectAll"
+                                                    className="checkbox"
+                                                    id="selectAll"
+                                                    onChange={handleSelectAll}
+                                                    checked={
+                                                      isCheckAll ? true : false
+                                                    }
+                                                    class=""
+                                                  />
+                                                  <span class="checkmark-all"></span>
+                                                  <span className="mx-1">
+                                                    Select All
+                                                  </span>
+                                                </th>
+                                                <th>ORDER ID</th>
+                                                <th>COMPANY NAME</th>
+                                                <th>DATE & TIME</th>
+                                                <th>EMAIL</th>
+                                                <th>ORDER TYPE</th>
+                                                <th>STATUS</th>
+                                                <th>ACTION</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              {(orders || [])?.map(
+                                                (item, index) => (
+                                                  <tr className="border">
+                                                    <td className="border">
+                                                      <input
+                                                        type="checkbox"
+                                                        className="check"
+                                                        F
+                                                        key={item?._id}
+                                                        name={index}
+                                                        id={item?._id}
+                                                        onChange={(e) =>
+                                                          handleClickSelect(
+                                                            e,
+                                                            item?._id,
+                                                            index
+                                                          )
+                                                        }
+                                                        checked={isCheck?.includes(
+                                                          item?._id
+                                                        )}
+                                                        class="checkbox-in"
+                                                      />
+                                                    </td>
+
+                                                    <td className="border text-center">
+                                                      <div className="cart_content border text-center mt-2">
+                                                        {item?.orderId}
+                                                      </div>
+                                                    </td>
+                                                    <td className="border text-center">
+                                                      <div className="cart_content border text-center mt-2">
+                                                        {item?.companyName}
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <span className="ordertext my-2 d-block text-center ">
+                                                        {moment(
+                                                          item?.createdAt
+                                                        ).format(
+                                                          "MMMM Do YYYY, h:mm a"
+                                                        )}
+                                                      </span>
+                                                    </td>
+                                                    <td className="border rounded ">
+                                                      <span className="fs-5 text-secondary  p-2 px-3 rounded">
+                                                        {item?.email}
+                                                      </span>
+                                                    </td>
+                                                    <td className="border text-center">
+                                                      <div className="cart_content mt-2">
+                                                        <h3 className="fs-6">
+                                                          {item?.type}
+                                                        </h3>
+                                                      </div>
+                                                    </td>
+
+                                                    <td className="border rounded ">
+                                                      <span className="fs-6 text-secondary  p-2 px-3 rounded">
+                                                        {item?.status}
+                                                      </span>
+                                                    </td>
+
+                                                    <td className="border text-center">
+                                                      <span className="fs-5 rounded ">
+                                                        <Link
+                                                          to={`/admin/trade-show/viewTradeOrder/${item?._id}`}
+                                                          className="comman_btn"
+                                                        >
+                                                          View
+                                                        </Link>
+                                                      </span>
+                                                    </td>
+                                                  </tr>
+                                                )
+                                              )}
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        ( Total Pages : {maxPage2} )
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 <= 1
+                                                ? setActivePage2(1)
+                                                : setActivePage2(
+                                                    activePage2 - 1
+                                                  )
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage2}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage2 === maxPage2
+                                                ? setActivePage2(maxPage2)
+                                                : setActivePage2(
+                                                    activePage2 + 1
+                                                  )
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1724,7 +1940,10 @@ const ViewTradeStore = () => {
                 data-bs-dismiss="modal"
                 id="modalP"
                 aria-label="Close"
-                onClick={() => (document.getElementById("comment").value = "")}
+                onClick={() => {
+                  document.getElementById("comment").value = "";
+                  document.getElementById("Price").value = "";
+                }}
               />
             </div>
             <div className="modal-body shadow">
@@ -1775,16 +1994,31 @@ const ViewTradeStore = () => {
                 <div className="form-group col-12">
                   <label htmlFor="">Promotional Comment</label>
                   <input
-                    key={edited?.promoComment}
+                    key={edited}
                     id="comment"
                     type="text"
                     className={classNames(
                       "form-control border border-secondary"
                     )}
                     name="promotion"
-                    defaultValue={edited?.promoComment}
+                    value={editedComment}
                     placeholder="Enter Comment "
                     onChange={(e) => setEditedComment(e.target.value)}
+                  />
+                </div>
+                <div className="form-group col-12">
+                  <label htmlFor="">List Price</label>
+                  <input
+                    key={edited}
+                    id="Price"
+                    type="text"
+                    className={classNames(
+                      "form-control border border-secondary"
+                    )}
+                    name="price"
+                    value={editedPrice}
+                    placeholder="Enter Price "
+                    onChange={(e) => setEditedPrice(e.target.value)}
                   />
                 </div>
                 <div className="form-group mb-0 col-12 text-center ">

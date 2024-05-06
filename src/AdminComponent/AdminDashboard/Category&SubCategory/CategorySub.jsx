@@ -533,7 +533,7 @@ const CategorySub = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -545,6 +545,24 @@ const CategorySub = () => {
                     Puller Management
                   </Link>
                 </li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
@@ -713,7 +731,7 @@ const CategorySub = () => {
                 </li>
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -725,9 +743,6 @@ const CategorySub = () => {
                     Puller Management
                   </Link>
                 </li>
-
-
-
                 <li>
                   <Link
                     className=""
@@ -735,14 +750,16 @@ const CategorySub = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-
+                
                 <li>
                   <Link
                     className=""
@@ -1346,7 +1363,7 @@ const CategorySub = () => {
                                                         );
                                                       }}
                                                     />
-                                                    <span  class="sliderUser round"></span>
+                                                    <span class="sliderUser round"></span>
                                                   </label>
                                                 </div>
                                               </td>

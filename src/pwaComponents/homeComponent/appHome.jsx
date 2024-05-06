@@ -36,6 +36,7 @@ import { Autoplay, Pagination, Navigation, FreeMode, Grid } from "swiper";
 import { Carousel } from "react-responsive-carousel";
 import Search from "./search";
 import AppMonthly from "./appMonthly";
+import AppNewArrivals from "./appNewArrivals";
 
 function AppHome() {
   const [banner, setBanner] = useState([]);
@@ -57,11 +58,7 @@ function AppHome() {
   const setSearchKeyRemove = useSetRecoilState(searchKeyRemove);
   const [relateCate, setRelateCate] = useState([]);
 
-  let image4 = require("../../assets/img/hotDealBg.png");
   let image5 = require("../../assets/img/viewAll.png");
-  let image6 = require("../../assets/img/closeHead.png");
-  let image7 = require("../../assets/img/hotHeadNew.png");
-  let image8 = require("../../assets/img/monthly.png");
 
   useEffect(() => {
     getBanner();
@@ -238,7 +235,8 @@ function AppHome() {
               <div></div>
             </div>
           </div>
-        }>
+        }
+      >
         <div className="bg-white mt-0 ">
           {loading ? (
             <div className="">
@@ -318,40 +316,78 @@ function AppHome() {
                 <div>
                   <div className="hero-wrapper bg-white">
                     <div className="container">
-                      <div className="pt-1 px-0 mb-1">
-                        <Carousel
-                          showThumbs={false}
-                          showIndicators={false}
-                          // onChange={onHoverMain}
-                          autoFocus={false}
-                          autoPlay={true}
-                          showStatus={false}
+                      {browserName === "WebKit" ||
+                      browserName === "Chrome WebView" ? (
+                        <div className="pt-1 px-0 mb-1">
+                          <Carousel
+                            showThumbs={false}
+                            showIndicators={false}
+                            // onChange={onHoverMain}
+                            autoFocus={false}
+                            autoPlay={true}
+                            showStatus={false}
 
-                          // selectedItem={itemNo}
-                        >
-                          {banner
-                            ?.filter((itm, id) => id != 0 && id < 6)
-                            .map((item) => (
-                              <div
-                                className=" item slider_image"
-                                onClick={() => {
-                                  item?.isExternalURL
-                                    ? redirectToWeb(item?.url)
-                                    : navigate("/" + item?.url?.slice(26));
-                                }}>
-                                <img
-                                  className="banner_slider_img"
-                                  src={
-                                    item?.banner
-                                      ? item?.banner
-                                      : require("../../assets/img/staticBg.png")
-                                  }
-                                  alt=""
-                                />
-                              </div>
-                            ))}
-                        </Carousel>
-                      </div>
+                            // selectedItem={itemNo}
+                          >
+                            {banner
+                              ?.filter((itm, id) => id != 0 && id < 6)
+                              .map((item) => (
+                                <div
+                                  className=" item slider_image"
+                                  onClick={() => {
+                                    item?.isExternalURL
+                                      ? redirectToWeb(item?.url)
+                                      : navigate("/" + item?.url?.slice(26));
+                                  }}
+                                >
+                                  <img
+                                    className="banner_slider_img"
+                                    src={
+                                      item?.banner
+                                        ? item?.banner
+                                        : require("../../assets/img/staticBg.png")
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                              ))}
+                          </Carousel>
+                        </div>
+                      ) : (
+                        <div className="pt-1 px-0 mb-1">
+                          <Carousel
+                            showThumbs={false}
+                            showIndicators={false}
+                            // onChange={onHoverMain}
+                            autoFocus={false}
+                            autoPlay={true}
+                            showStatus={false}
+
+                            // selectedItem={itemNo}
+                          >
+                            {banner
+                              ?.filter((itm, id) => id != 0 && id < 6)
+                              .map((item) => (
+                                <div
+                                  className=" item slider_image"
+                                  onClick={() => {
+                                    window.location.href = item?.url;
+                                  }}
+                                >
+                                  <img
+                                    className="banner_slider_img"
+                                    src={
+                                      item?.banner
+                                        ? item?.banner
+                                        : require("../../assets/img/staticBg.png")
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                              ))}
+                          </Carousel>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -363,7 +399,8 @@ function AppHome() {
                         </h2>
                         <Link
                           className="btn p-0 text-white"
-                          to="/app/Categories">
+                          to="/app/Categories"
+                        >
                           View All
                           <i className="ms-1 fa-solid fa-arrow-right-long"></i>
                         </Link>
@@ -384,7 +421,8 @@ function AppHome() {
                                     backgroundPosition: "center",
                                     opacity: "unset",
                                     backgroundSize: "cover",
-                                  }}></div>
+                                  }}
+                                ></div>
 
                                 <div className="text-start">
                                   <span
@@ -394,7 +432,8 @@ function AppHome() {
                                       fontSize: "11px",
                                       lineHeight: "15px",
                                       display: "block",
-                                    }}>
+                                    }}
+                                  >
                                     {item?.categoryName}
                                   </span>
                                 </div>
@@ -412,7 +451,8 @@ function AppHome() {
                               backgroundPosition: "center",
                               opacity: "unset",
                               backgroundSize: "cover",
-                            }}></div>
+                            }}
+                          ></div>
                           <div className="text-center">
                             <span
                               style={{
@@ -421,7 +461,8 @@ function AppHome() {
                                 fontSize: "11px",
                                 lineHeight: "15px",
                                 display: "block",
-                              }}>
+                              }}
+                            >
                               {" "}
                               View All{"    "}
                             </span>
@@ -430,47 +471,18 @@ function AppHome() {
                       </div>
                     </div>
                   </div>
-
-                  <div
-                    className="mt-1 "
-                    style={{
-                      backgroundImage: `url(${image4})`,
-                      backgroundPosition: "center",
-                      opacity: "unset",
-                      backgroundSize: "cover",
-                    }}>
-                    <img className="w-100" src={image8} />
-                    <AppMonthly />
+                  <div className=" py-2">
+                    <AppNewArrivals />
                   </div>
+                  <AppMonthly />
 
-                  <div
-                    className="mt-1 "
-                    style={{
-                      backgroundImage: `url(${image4})`,
-                      backgroundPosition: "center",
-                      opacity: "unset",
-                      backgroundSize: "cover",
-                    }}>
-                    <img className="w-100" src={image6} />
-                    <AppClosingOut />
-                  </div>
+                  <AppClosingOut />
 
                   <div className=" py-2">
                     <TopProduct />
                   </div>
 
-                  <div
-                    className="mt-1 "
-                    style={{
-                      backgroundImage: `url(${image4})`,
-                      backgroundPosition: "center",
-                      opacity: "unset",
-                      backgroundSize: "cover",
-                    }}>
-                    <img className="w-100" src={image7} />
-
-                    <AppHotDeals />
-                  </div>
+                  <AppHotDeals />
                   <div className="flash-sale-wrapper py-2  pb-3  shadow mb-0">
                     <div className="container">
                       <div className="d-flex align-items-center justify-content-between rtl-flex-d-row-r mt-2 mb-3">
@@ -478,7 +490,8 @@ function AppHome() {
                         <Link
                           className="btn p-0"
                           to="/app/brands"
-                          state={{ ki: "kjh" }}>
+                          state={{ ki: "kjh" }}
+                        >
                           View All
                           <i className="ms-1 fa-solid fa-arrow-right-long"></i>
                         </Link>
@@ -496,7 +509,8 @@ function AppHome() {
                           }}
                           loop={true}
                           modules={[FreeMode, Pagination, Autoplay, Navigation]}
-                          className="mySwiper">
+                          className="mySwiper"
+                        >
                           {(brand || [])?.map((item, index) => (
                             <SwiperSlide key={index} className="main_hot">
                               <div class="">
@@ -516,7 +530,8 @@ function AppHome() {
                                     backgroundPosition: "center",
                                     opacity: "unset",
                                     backgroundSize: "cover",
-                                  }}></div>
+                                  }}
+                                ></div>
                               </div>
                             </SwiperSlide>
                           ))}
@@ -535,7 +550,8 @@ function AppHome() {
           <div
             ref={ref}
             style={{ opacity: `${hideF.opacity}` }}
-            className="mt-0">
+            className="mt-0"
+          >
             <AppFooter />
           </div>
 
@@ -546,7 +562,8 @@ function AppHome() {
             data-bs-keyboard="false"
             tabindex="-1"
             aria-labelledby="staticBackdropLabel"
-            aria-hidden="true">
+            aria-hidden="true"
+          >
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -558,7 +575,8 @@ function AppHome() {
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    id="modalCloseRD"></button>
+                    id="modalCloseRD"
+                  ></button>
                 </div>
                 <div class="modal-body">Open website in External Browser.</div>
                 <div class="modal-footer">
@@ -566,13 +584,15 @@ function AppHome() {
                     type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
-                    id="modalCLose">
+                    id="modalCLose"
+                  >
                     Close
                   </button>
                   <Link
                     // to={}
 
-                    class="btn btn-primary">
+                    class="btn btn-primary"
+                  >
                     Confirm
                   </Link>
                 </div>

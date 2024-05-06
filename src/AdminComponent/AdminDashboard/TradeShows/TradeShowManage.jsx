@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { Link, useNavigate } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -7,6 +6,8 @@ import classNames from "classnames";
 import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { orderPdfData } from "../../../atom";
+import { useSetRecoilState } from "recoil";
 
 const TradeShowManage = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -14,10 +15,14 @@ const TradeShowManage = () => {
   const cityApi = `${process.env.REACT_APP_APIENDPOINTNEW}user/cityByState`;
   const getVendorsApi = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVendors`;
   const vendorStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/vendorStatus`;
+  const allStatusChange = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeAllVendorStatus `;
   const createVendor = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addVendor`;
   const allOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getAllTradeOrders`;
   const exportOrdersXls = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportTradeExcel`;
+  const exportOrdersPdfs = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/exportToPDF`;
+  const setOrderPdfData = useSetRecoilState(orderPdfData);
   const [allVendors, setAllVendors] = useState([]);
+  const [allStatus, setAllStatus] = useState([]);
   const [orders, setOrders] = useState([]);
   const [cities, setCities] = useState([]);
   const [maxPage, setMaxPage] = useState(1);
@@ -29,6 +34,7 @@ const TradeShowManage = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [selected, setSelected] = useState([]);
+  let navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -62,6 +68,7 @@ const TradeShowManage = () => {
       })
       .then((res) => {
         setAllVendors(res?.data.results.vendors?.data);
+        setAllStatus(res?.data.results.status);
         setMaxPage(res?.data.results.totalPages);
       });
   };
@@ -73,7 +80,7 @@ const TradeShowManage = () => {
         page: activePage2,
       })
       .then((res) => {
-        setOrders(res?.data.results.orders);
+        setOrders(res?.data.results.orders?.data);
         setMaxPage2(res?.data.results.totalPages);
       });
   };
@@ -81,7 +88,7 @@ const TradeShowManage = () => {
   const onSubmit = async (data) => {
     console.log(data);
     let formData = new FormData();
-    formData.append("fullName", data?.username?.trim());
+    formData.append("companyName", data?.companyName?.trim());
     formData.append("repsresentative", data?.representative?.trim());
     formData.append("address", data?.address);
     formData.append("city", data?.city);
@@ -133,6 +140,19 @@ const TradeShowManage = () => {
       getVendors();
       Swal.fire({
         title: "Vendor Status Changed!",
+        icon: "success",
+        confirmButtonText: "Okay",
+      });
+    }
+  };
+  const changeStatus = async (key) => {
+    const { data } = await axios.patch(allStatusChange, {
+      status: key,
+    });
+    if (!data?.error) {
+      getVendors();
+      Swal.fire({
+        title: "Vendors Status Changed!",
         icon: "success",
         confirmButtonText: "Okay",
       });
@@ -193,6 +213,41 @@ const TradeShowManage = () => {
         downloadLink.href = data.results.path ?? "";
         downloadLink.download = "doc";
         downloadLink.click();
+      }
+    } else {
+      Swal.fire({
+        text: "Please Select atleast One Order!",
+        icon: "warning",
+        confirmButtonText: "Okay",
+        timer: 2000,
+      });
+    }
+  };
+
+  const exportOrdersPdf = async (e) => {
+    // e.preventDefault();
+    if (selected?.length) {
+      const { data } = await axios.patch(exportOrdersPdfs, {
+        productIds: selected?.map((item) => item.productId),
+      });
+      if (!data.error) {
+        localStorage.setItem(
+          "orderPdfData",
+          JSON.stringify(data.results?.orders)
+        );
+
+        // Open in new tab
+        const url = "/TradeOrderRequest/MultiplePdf";
+
+        const newTab = window.open(`${url}`, "_blank");
+        if (newTab) {
+          newTab.focus();
+        }
+        setSelected([]);
+        setIsCheck([]);
+        setIsCheckAll([]);
+        setSideBar([]);
+        document.getElementById("selectAll").checked = false;
       }
     } else {
       Swal.fire({
@@ -340,12 +395,11 @@ const TradeShowManage = () => {
                   className={User?.access?.includes("Puller") ? "" : "d-none"}
                 >
                   <Link
-                    className="bg-white"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                      color: "#3e4093",
                     }}
                   >
                     <i
@@ -355,6 +409,24 @@ const TradeShowManage = () => {
                     Puller Management
                   </Link>
                 </li>
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className="bg-white"
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                      color: "#3e4093",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}
                 >
@@ -548,7 +620,7 @@ const TradeShowManage = () => {
                 <li>
                   <Link
                     className=""
-                    to="/Admin/SubAdmin"
+                    to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
@@ -573,9 +645,9 @@ const TradeShowManage = () => {
                   >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
+                      class="fa fa-calendar-check"
                     ></i>{" "}
-                    Trade Show Management
+                    TradeShow Management
                   </Link>
                 </li>
                 <li>
@@ -711,7 +783,7 @@ const TradeShowManage = () => {
                 <div className="col-12 design_outter_comman shadow mb-4">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
-                      <h2>Add Store Details</h2>
+                      <h2>Add Vendor Details</h2>
                     </div>
                   </div>
 
@@ -751,9 +823,9 @@ const TradeShowManage = () => {
                     <div className="form-group col-3 mb-0 mb-4">
                       <label htmlFor="puller">
                         Company Name{" "}
-                        {errors.username && (
+                        {errors.companyName && (
                           <small className="errorText mx-1 fw-bold">
-                            *{errors.username?.message}
+                            *{errors.companyName?.message}
                           </small>
                         )}
                       </label>
@@ -763,13 +835,13 @@ const TradeShowManage = () => {
                         className={classNames(
                           "form-control border border-secondary",
                           {
-                            "is-invalid": errors.username,
+                            "is-invalid": errors.companyName,
                           }
                         )}
-                        name="username"
+                        name="companyName"
                         placeholder="Enter Name"
-                        {...register("username", {
-                          required: "Company Name is required!",
+                        {...register("companyName", {
+                          required: false,
                         })}
                       />
                     </div>
@@ -845,7 +917,7 @@ const TradeShowManage = () => {
                         name="phoneNumber"
                         placeholder="Enter Phone Number "
                         {...register("phoneNumber", {
-                          required: "Phone Number is required!",
+                          required: false,
                           maxLength: {
                             value: 10,
                             message: "maximium 10 Charcarters",
@@ -877,7 +949,7 @@ const TradeShowManage = () => {
                         name="email"
                         placeholder="Enter email address"
                         {...register("email", {
-                          required: "Email is required!",
+                          required: "Email is required",
                           pattern: {
                             value:
                               /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -906,7 +978,7 @@ const TradeShowManage = () => {
                         name="zipcode"
                         placeholder="Enter Zipcode "
                         {...register("zipcode", {
-                          required: "Zipcode is required!",
+                          required: false,
                           maxLength: {
                             value: 10,
                             message: "maximium 10 Charcarters",
@@ -954,7 +1026,7 @@ const TradeShowManage = () => {
                         aria-label="Floating label select example"
                         name="state"
                         {...register("state", {
-                          required: "State is Required*",
+                          required: false,
                           onChange: (e) => {
                             handleCities(e.target.value);
                           },
@@ -1112,29 +1184,46 @@ const TradeShowManage = () => {
                       marginLeft: ".1%",
                     }}
                   >
-                    <div className="col-auto">
-                      <h2>Stores Management</h2>
+                    <div className="col-6">
+                      <h2>Vendors Management</h2>
                     </div>
-                    <div className="col-3 text-end">
+                    <div className="col-6 text-end">
                       <form className="form-design" action="">
                         <div className="form-group mb-0 position-relative icons_set">
                           {searchType === "vendors" ? (
-                            <input
-                              type="search"
-                              className="form-control bg-white "
-                              placeholder="Search by Company / Email"
-                              name="name"
-                              id="Search"
-                              onChange={(e) => {
-                                getVendors(e.target.value);
-                              }}
-                            />
+                            <div className="d-flex w-100">
+                              <input
+                                type="search"
+                                className="form-control bg-white "
+                                placeholder="Search by Company / Email"
+                                name="name"
+                                id="Search"
+                                onChange={(e) => {
+                                  getVendors(e.target.value);
+                                }}
+                              />
+                              {allStatus === "Enabled" ? (
+                                <a
+                                  className="comman_btn2 mx-2  w-50 text-center"
+                                  onClick={() => changeStatus("Disable")}
+                                >
+                                  Disable all vendors
+                                </a>
+                              ) : (
+                                <a
+                                  className="comman_btn2 mx-2 text-center w-50"
+                                  onClick={() => changeStatus("Enable")}
+                                >
+                                  Enable all vendors
+                                </a>
+                              )}
+                            </div>
                           ) : (
                             <div className="d-flex w-100">
                               <input
                                 type="text"
                                 className="form-control bg-white  mx-2"
-                                placeholder="Search by Company Name"
+                                placeholder="Search by Company Name/Account/Address"
                                 name="name"
                                 id="Search"
                                 onChange={(e) => {
@@ -1145,7 +1234,21 @@ const TradeShowManage = () => {
                                 className="comman_btn2 mx-1 d-flex "
                                 onClick={() => exportOrders()}
                               >
-                                Export{" "}
+                                Xlsx{" "}
+                                <i
+                                  class="fa-solid fa-file-export"
+                                  style={{
+                                    position: "relative",
+                                    top: "4px",
+                                    left: "5px",
+                                  }}
+                                ></i>
+                              </a>
+                              <a
+                                className="comman_btn2 mx-1 d-flex "
+                                onClick={() => exportOrdersPdf()}
+                              >
+                                Pdf{" "}
                                 <i
                                   class="fa-solid fa-file-export"
                                   style={{
@@ -1179,6 +1282,7 @@ const TradeShowManage = () => {
                           onClick={() => {
                             document.getElementById("Search").value = "";
                             setSearchType("vendors");
+                            getVendors();
                           }}
                         >
                           Vendors
@@ -1198,6 +1302,7 @@ const TradeShowManage = () => {
                           onClick={() => {
                             document.getElementById("Search").value = "";
                             setSearchType("orders");
+                            getAllOrders();
                           }}
                         >
                           Orders
@@ -1219,12 +1324,51 @@ const TradeShowManage = () => {
                       <div className="row">
                         <div className="col-12 comman_table_design px-0">
                           <div className="table-responsive">
+                            <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                              <span className="totalPage">
+                                ( Total Pages : {maxPage} )
+                              </span>
+                              <ul id="pagination">
+                                <li>
+                                  <a
+                                    class="fs-5"
+                                    href="#"
+                                    onClick={() =>
+                                      activePage <= 1
+                                        ? setActivePage(1)
+                                        : setActivePage(activePage - 1)
+                                    }
+                                  >
+                                    «
+                                  </a>
+                                </li>
+
+                                <li>
+                                  <a href="#" className="active">
+                                    {activePage}
+                                  </a>
+                                </li>
+
+                                <li>
+                                  <a
+                                    className="fs-5"
+                                    href="#"
+                                    onClick={() =>
+                                      activePage === maxPage
+                                        ? setActivePage(maxPage)
+                                        : setActivePage(activePage + 1)
+                                    }
+                                  >
+                                    »
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
                             <table className="table mb-0">
                               <thead>
                                 <tr style={{ backgroundColor: "#f2f2f2" }}>
-                                  <th>S.No.</th>
                                   <th>Date</th>
-                                  <th>Copmany Name</th>
+                                  <th>Company Name</th>
                                   <th>Representative Name</th>
                                   <th>Email</th>
                                   <th>Image</th>
@@ -1236,14 +1380,13 @@ const TradeShowManage = () => {
                               <tbody>
                                 {(allVendors || [])?.map((item, index) => (
                                   <tr key={index} className="border ">
-                                    <td>{index + 1}</td>
                                     <td className="border">
                                       {moment(
                                         item?.createdAt?.slice(0, 10)
                                       ).format("MM/DD/YYYY")}
                                     </td>
                                     <td className="border">
-                                      {item?.username.split(/[0-9]/)[0]}
+                                      {item?.companyName}
                                     </td>
                                     <td className="border">
                                       {item?.repsresentative}
@@ -1379,9 +1522,10 @@ const TradeShowManage = () => {
                                               </span>
                                             </th>
                                             <th>ORDER ID</th>
-                                            <th>COMPANY NAME</th>
                                             <th>DATE & TIME</th>
-                                            <th>EMAIL</th>
+                                            <th>COMPANY NAME</th>
+                                            <th>ACCOUNT NUMBER</th>
+                                            <th>ADDRESS</th>
                                             <th>ORDER TYPE</th>
                                             <th>STATUS</th>
                                             <th>ACTION</th>
@@ -1418,11 +1562,7 @@ const TradeShowManage = () => {
                                                     {item?.orderId}
                                                   </div>
                                                 </td>
-                                                <td className="border text-center">
-                                                  <div className="cart_content border text-center mt-2">
-                                                    {item?.fullName}
-                                                  </div>
-                                                </td>
+
                                                 <td>
                                                   <span className="ordertext my-2 d-block text-center ">
                                                     {moment(
@@ -1432,9 +1572,20 @@ const TradeShowManage = () => {
                                                     )}
                                                   </span>
                                                 </td>
+
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.companyName}
+                                                  </div>
+                                                </td>
+                                                <td className="border text-center">
+                                                  <div className="cart_content border text-center mt-2">
+                                                    {item?.account}
+                                                  </div>
+                                                </td>
                                                 <td className="border rounded ">
                                                   <span className="fs-5 text-secondary  p-2 px-3 rounded">
-                                                    {item?.email}
+                                                    {item?.address}
                                                   </span>
                                                 </td>
                                                 <td className="border text-center">

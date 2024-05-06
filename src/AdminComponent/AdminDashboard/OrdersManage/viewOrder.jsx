@@ -9,8 +9,6 @@ import { components } from "react-select";
 import moment from "moment";
 // import { CSVLink, CSVDownload } from "react-csv";
 import Select from "react-select";
-import { Box, LinearProgress, Typography } from "@mui/material";
-
 const Option = (props) => {
   return (
     <div>
@@ -27,23 +25,9 @@ const Option = (props) => {
   );
 };
 
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "70%", mr: 1, ml: 2 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
-
 const ViewOrder = () => {
   const [sideBar, setSideBar] = useState(true);
+  let location = useLocation();
   const orderView = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/getOrderDetail`;
   const updateOrder = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/updateOrder`;
   const orderExport = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/order/erpOrder`;
@@ -53,7 +37,6 @@ const ViewOrder = () => {
   const [orders, setOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState();
   const [statusComment, setStatusComment] = useState("");
-  const [pullerComment, setPullerComment] = useState("");
   const [options, setOptions] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [selectedPuller, setSelectedPuller] = useState([]);
@@ -98,7 +81,6 @@ const ViewOrder = () => {
       .post(updateOrder + "/" + id, {
         status: orderStatus ? orderStatus : orders?.status,
         statusComment: statusComment,
-        commentForPuller: pullerComment,
       })
       .then((res) => {
         if (!res?.error) {
@@ -137,22 +119,8 @@ const ViewOrder = () => {
         const optionList = data?.map((item, index) => ({
           value: item?._id,
           label: (
-            <div
-              className="d-flex "
-              style={{
-                width: "200%",
-              }}>
-              {item?.fullName} -
-              {item?.isPullerBusy ? (
-                <Box sx={{ width: "60%" }}>
-                  <LinearProgressWithLabel
-                    color="success"
-                    value={item?.scannedPercentage}
-                  />
-                </Box>
-              ) : (
-                ""
-              )}
+            <div>
+              {item?.fullName}-{item?.isPullerBusy ? "Busy" : "Available"}
             </div>
           ),
         }));
@@ -216,34 +184,40 @@ const ViewOrder = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -252,14 +226,17 @@ const ViewOrder = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -268,93 +245,127 @@ const ViewOrder = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -362,7 +373,8 @@ const ViewOrder = () => {
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/OrderRequest"
@@ -370,10 +382,12 @@ const ViewOrder = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -381,25 +395,30 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -408,10 +427,12 @@ const ViewOrder = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -425,10 +446,12 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -436,10 +459,12 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -447,10 +472,12 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -461,10 +488,12 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -472,10 +501,12 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -486,27 +517,32 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
+
 
                 <li>
                   <Link
@@ -515,14 +551,17 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
                 
+
                 <li>
                   <Link
                     className=""
@@ -530,10 +569,12 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -544,10 +585,12 @@ const ViewOrder = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -559,10 +602,12 @@ const ViewOrder = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -570,10 +615,12 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -581,10 +628,12 @@ const ViewOrder = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -593,10 +642,12 @@ const ViewOrder = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -915,7 +966,6 @@ const ViewOrder = () => {
                         <span className="small_header">
                           Customer Notification Status
                         </span>
-
                         <div className="col-12 Change_staus">
                           <form
                             className="form-design row align-items-end"
@@ -959,22 +1009,6 @@ const ViewOrder = () => {
                             ) : (
                               ""
                             )}
-
-                            <div className="form-group mb-0 col">
-                              <label htmlFor="">
-                                Comment for Pullers (if any)
-                              </label>
-                              <textarea
-                                type="text"
-                                name="pullerComment"
-                                defaultValue={orders?.commentForPuller}
-                                placeholder="Add your comment here."
-                                className="form-control"
-                                onChange={(e) => {
-                                  setPullerComment(e.target.value);
-                                }}
-                              />
-                            </div>
 
                             <div className="form-group mb-0 col-auto">
                               <button
@@ -1176,7 +1210,7 @@ const ViewOrder = () => {
                                           {item?.quantity}
                                         </span>
                                       </td>
-                                      <td className="border rounded">
+                                      <td className= "border rounded">
                                         {item?.scanned === "NotScanned" ? (
                                           <span className="text-secondary  p-2 px-3 rounded bg-secondary text-white PullStatusText">
                                             Not Scanned
@@ -1190,7 +1224,7 @@ const ViewOrder = () => {
                                               </span>
                                             )}
                                             {item?.scanned === "OutOfStock" && (
-                                              <span className=" text-secondary  p-2 px-3 rounded bg-danger text-white PullStatusText">
+                                              <span className=" text-secondary  p-2 px-3 rounded bg-danger text-white PullStatusText" >
                                                 Out of Stock
                                               </span>
                                             )}
@@ -1222,6 +1256,7 @@ const ViewOrder = () => {
                                 )}
                               </tbody>
                             )}
+
                           </table>
                         </div>
                       </div>

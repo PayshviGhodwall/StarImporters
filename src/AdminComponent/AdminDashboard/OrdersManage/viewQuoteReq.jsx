@@ -1,5 +1,4 @@
-import axios from "axios";
-import { saveAs } from "file-saver";
+import axios from "axios";import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -111,34 +110,40 @@ const ViewQuoteReq = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -147,14 +152,17 @@ const ViewQuoteReq = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -163,100 +171,136 @@ const ViewQuoteReq = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
+
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/OrderRequest"
@@ -264,10 +308,12 @@ const ViewQuoteReq = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -275,25 +321,30 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -302,10 +353,12 @@ const ViewQuoteReq = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -319,10 +372,12 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -330,10 +385,12 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -341,10 +398,12 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -355,10 +414,12 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -366,10 +427,12 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -380,24 +443,28 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -409,14 +476,16 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -424,10 +493,12 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -438,10 +509,12 @@ const ViewQuoteReq = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -453,10 +526,12 @@ const ViewQuoteReq = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -464,10 +539,12 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -475,10 +552,12 @@ const ViewQuoteReq = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -487,10 +566,12 @@ const ViewQuoteReq = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -510,10 +591,12 @@ const ViewQuoteReq = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "4px" }}
-                      className="fa fa-bars"></i>
+                      className="fa fa-bars"
+                    ></i>
                   </h1>
                 </div>
               ) : (
@@ -523,7 +606,8 @@ const ViewQuoteReq = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -554,14 +638,16 @@ const ViewQuoteReq = () => {
                             <a href="#">
                               <Link
                                 className="text-decoration-none"
-                                onClick={exportOrder}>
+                                onClick={exportOrder}
+                              >
                                 Export .csv
                               </Link>
                             </a>
                             <a href="#">
                               <Link
                                 className="text-decoration-none text-dark dropdown-item"
-                                onClick={exportOrderXls}>
+                                onClick={exportOrderXls}
+                              >
                                 Export .xls
                               </Link>
                             </a>
@@ -570,7 +656,8 @@ const ViewQuoteReq = () => {
                                 className="text-decoration-none text-dark dropdown-item"
                                 to={`/QuoteRequest/Pdf/${id}`}
                                 target="_blank"
-                                rel="noopener noreferrer">
+                                rel="noopener noreferrer"
+                              >
                                 Export .pdf
                               </Link>
                             </a>
@@ -677,7 +764,8 @@ const ViewQuoteReq = () => {
                                               style={{ width: "100px" }}
                                               onChange={(e) => {
                                                 handleChange(index, e);
-                                              }}></input>
+                                              }}
+                                            ></input>
                                           </span>
                                         </div>
                                       </div>
@@ -700,7 +788,8 @@ const ViewQuoteReq = () => {
                           <div className="text-center">
                             <button
                               className="comman_btn"
-                              onClick={shareQuotePrice}>
+                              onClick={shareQuotePrice}
+                            >
                               Share
                             </button>
                           </div>

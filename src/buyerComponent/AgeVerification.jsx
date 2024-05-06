@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../assets/css/main.css";
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AgeVerification = ({ ModalClose }) => {
@@ -23,6 +23,10 @@ const AgeVerification = ({ ModalClose }) => {
   console.log(banner);
   const handleClick = (e) => {
     e.preventDefault();
+    // var expires = new Date(Date.now() + 86400 * 50000).toUTCString();
+    // console.log(expires);
+    // e.preventDefault();
+    // document.cookie = "cookie=NewUser; expires =" + expires + ";";
     sessionStorage.setItem("new", "user");
     nav("/app/home");
   };
@@ -48,13 +52,13 @@ const AgeVerification = ({ ModalClose }) => {
                   </label>
                 </div>
                 <button
-                  className="comman_btn2 shadow mx-2"
+                  className="comman_btn shadow mx-2"
                   type="submit"
                   onClick={handleClick}>
                   Yes, I am
                 </button>
                 <a
-                  className="comman_btn2   shadow mx-2"
+                  className="comman_btn2 shadow mx-2"
                   href="https://www.google.co.in/">
                   Exit
                 </a>

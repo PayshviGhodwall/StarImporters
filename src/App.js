@@ -1,4 +1,5 @@
-import React, { useState } from "react";import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -152,6 +153,9 @@ import LoginOrderForm from "./buyerComponent/Extras/LoginOrderForm";
 import ViewTradeOrder from "./AdminComponent/AdminDashboard/TradeShows/viewTradeOrder";
 import ResetPassOrder from "./buyerComponent/Extras/ResetPassOrder";
 import OrderFormInvent from "./buyerComponent/Extras/OrderFormInvent";
+import TradeOrderPdf from "./AdminComponent/AdminDashboard/TradeShows/TradeOrderPdf";
+import TradeMultiplePdfs from "./AdminComponent/AdminDashboard/TradeShows/TradeMultiplePdfs";
+import GeneratedQr from "./AdminComponent/AdminDashboard/UserManage/GeneratedQr";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -162,6 +166,8 @@ function App() {
     console.log(data);
     setCateName(data);
   };
+  console.log("hey");
+  
 
   return (
     <div className="App">
@@ -191,11 +197,11 @@ function App() {
             <Route path="/Contact" element={<Contact />} />
             <Route path="/BuyAgain" element={<BuyAgain />} />
             <Route path="/app/OrderForm/:name" element={<OrderForm />} />
-            <Route path="/app/OrderForm/viewInventory" element={<OrderFormInvent />} />
             <Route
-              path="/app/OrderForm/Login/:id"
-              element={<LoginOrderForm />}
+              path="/app/OrderForm/viewInventory"
+              element={<OrderFormInvent />}
             />
+            <Route path="/orderform/:name" element={<LoginOrderForm />} />
             <Route
               path="/app/OrderForm/ResetPassword"
               element={<ResetPassOrder />}
@@ -357,6 +363,15 @@ function App() {
             <Route path="/Contact&Support" element={<ContactSupport />} />
             <Route path="/OrderRequest" element={<OrderReq />} />
             <Route path="/OrderRequest/Pdf/:id" element={<PdfPrint />} />
+            <Route
+              path="/TradeOrderRequest/Pdf/:id"
+              element={<TradeOrderPdf />}
+            />
+            <Route
+              path="/TradeOrderRequest/MultiplePdf"
+              element={<TradeMultiplePdfs />}
+            />
+            <Route path="/GeneratedQr/:id" element={<GeneratedQr />} />
             <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
             <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
             <Route path="/OrderRequest/ViewOrder/:id" element={<ViewOrder />} />
@@ -640,10 +655,11 @@ function App() {
               component={width < 999 ? <AppHome /> : <Homepage />}
             />
           </Routes>
+          
         </Router>
       </RecoilRoot>
     </div>
   );
 }
-
+//THis is main file
 export default App;

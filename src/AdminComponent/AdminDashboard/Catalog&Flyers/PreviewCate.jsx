@@ -7,14 +7,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/css/flip.css";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { usePDF } from "react-to-pdf";
 
 const PreviewCate = () => {
   const getTemp = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewTemplate/`;
-  const width = window.innerWidth;
   const [flipKey, setFlipKey] = useState(Math.random());
   const [zoom, setZoom] = useState(1); // Initial zoom level
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
 
   let { id } = useParams();
   const [templatePreview, setTemplatePreview] = useState([]);

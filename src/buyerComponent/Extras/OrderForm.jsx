@@ -1,4 +1,5 @@
-import axios from "axios";import classNames from "classnames";
+/* eslint-disable jsx-a11y/anchor-is-valid */ import axios from "axios";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -7,7 +8,7 @@ import Swal from "sweetalert2";
 import Select from "react-select";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { orderFormData, orderFromProducts } from "../../atom";
-
+import Confetti from "react-confetti";
 const OrderForm = () => {
   axios.defaults.headers.common["x-auth-token-vendor"] =
     localStorage.getItem("vendorLog");
@@ -24,10 +25,13 @@ const OrderForm = () => {
   const [delOption, setDelOption] = useState([]);
   const [products, setProducts] = useState(orderProducts ?? []);
   const barcodeSearch = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendorProducts`;
+  const accountSearch = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getUserByAccountNum/`;
   const vendorApi = `${process.env.REACT_APP_APIENDPOINTNEW}vendor/getVendor`;
   const [vendor, setVendor] = useState([]);
   console.log(orderProducts, "recoild");
   const [userData, setUserData] = useState(orderData);
+  const [confettiLoader, setConfettiLoader] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -63,6 +67,7 @@ const OrderForm = () => {
       type: orderData?.type || "",
       comments: orderData?.comments || "",
     });
+    setDelOption(orderData?.type || "");
     getVendorDetails();
   }, []);
 
@@ -97,6 +102,34 @@ const OrderForm = () => {
     setProductsV(prods);
     setOptions([]);
   };
+  const searchAccount = async (e) => {
+    let value = e.target.value;
+    if (value?.length > 6) {
+      try {
+        const response = await axios.get(accountSearch + value);
+        let data = response?.data.results.user;
+        if (data) {
+          reset({
+            companyName: data?.companyName || "",
+            account: data?.accountNumber || "",
+            fullName: data?.fullName || "",
+            email: data?.email || "",
+            addressLine1: data?.address || "",
+            phoneNumber: data?.phoneNumber || "",
+          });
+        }
+      } catch (error) {
+        // Handle errors
+        Swal.fire({
+          title: "Error",
+          text: "Please login again!",
+          icon: "error",
+          button: "Ok",
+        });
+        console.error("Error fetching account:", error);
+      }
+    }
+  };
   const handleData = (e, key) => {
     const value = e.target.value;
     let data = { ...userData };
@@ -127,18 +160,26 @@ const OrderForm = () => {
       setOptions(optionList);
     } catch (error) {
       // Handle errors
+      Swal.fire({
+        title: "Error",
+        text: "Please login again!",
+        icon: "error",
+        button: "Ok",
+      });
       console.error("Error fetching products:", error);
     }
   };
 
   const onSubmit = (data) => {
-    // setLoader(true);
+    setLoader(true);
+
     let Nprod = [];
     products?.map((itm) => {
       Nprod.push({
         productId: itm?.productId,
         quantity: +itm?.quantity,
         promotionalComment: itm?.comment,
+        productComment: itm?.prodComment,
         flavourId: itm?.flavourId,
       });
     });
@@ -167,8 +208,12 @@ const OrderForm = () => {
           data?.comments?.slice(1).trim(),
       };
 
-      await axios.post(apiUrl, formData).then((response) => {
+      const response = await axios.post(apiUrl, formData);
+      console.log(response);
+      try {
         if (!response.data.error) {
+          setLoader(false);
+          setConfettiLoader(true);
           navigate("/app/OrderForm/:star");
           reset();
           document.getElementById("resetBtn").click();
@@ -176,19 +221,30 @@ const OrderForm = () => {
           setProductsV([]);
           setUserData([]);
           Swal.fire({
-            title: "Thank You! Your Order is submitted.",
+            title: "Hurray!",
+            text: "Thank You! Your Order is submitted.",
             icon: "success",
             confirmButtonText: "Okay",
-          });
-        } else if (response?.data?.error) {
-          Swal.fire({
-            title: response?.data?.message,
-            text: "401 error",
-            icon: "error",
-            button: "Ok",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              setConfettiLoader(false);
+            }
           });
         }
-      });
+      } catch {
+        setConfettiLoader(false);
+        setLoader(false);
+        Swal.fire({
+          title: response?.data?.message,
+          text: "401 error",
+          icon: "error",
+          button: "Ok",
+        });
+      }
+      setTimeout(() => {
+        setConfettiLoader(false);
+        setLoader(false);
+      }, 4000);
     };
 
     SignUpData();
@@ -206,9 +262,21 @@ const OrderForm = () => {
     setProducts(updatedProd);
   };
 
+  const handleChangeComment = async (id, e) => {
+    let val = e.target.value;
+    let prods = [...products];
+    let updatedProd = prods.map((item) => ({ ...item }));
+    updatedProd.forEach((obj) => {
+      if (obj.flavourId === id) {
+        obj.prodComment = val;
+      }
+    });
+    setProducts(updatedProd);
+  };
+
   console.log(products, "prodsss");
 
-  const addProducts = async (pId, fId, uName, flv, bar, comment) => {
+  const addProducts = async (pId, fId, uName, flv, bar, comment, price) => {
     let updatedProd = productsV.filter((item) => item?.type?._id !== fId);
     setProductsV(updatedProd);
     let prods = [...products];
@@ -229,6 +297,7 @@ const OrderForm = () => {
         barcodes: bar,
         comment: comment,
         quantity: 1,
+        listingPrice: price,
       });
     }
     setProducts(prods);
@@ -253,6 +322,7 @@ const OrderForm = () => {
           flavour: itm?.type?.flavour,
           barcodes: itm?.type?.barcode[0],
           comment: itm?.vendorProduct?.promoComment,
+          listingPrice: itm?.vendorProduct?.listingPrice,
           quantity: 1,
         });
       }
@@ -265,31 +335,51 @@ const OrderForm = () => {
     prods = prods.filter((obj) => obj?.flavourId !== fId);
     setProducts(prods);
   };
+  const [value, setValue] = useState("");
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && event.shiftKey) {
+      const { selectionStart, selectionEnd } = event.target;
+      const newValue = `${value.substring(
+        0,
+        selectionStart
+      )}\n${value.substring(selectionEnd)}`;
+      setValue(newValue);
+      event.preventDefault();
+    }
+  };
 
   return (
     <div>
       <div className="">
         {/* <Navbar /> */}
 
-        <div className="container marginTop p-4 p-sm-1 p-xs-0">
+        <div className="container  p-4 p-sm-1 p-xs-0">
           <div className="row justify-content-center">
             <div className="col-lg-12">
               <form
-                className=" mt-3 bg-white p-4  shadow"
+                className=" mt-1 bg-white p-4  shadow"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <div className="d-flex justify-content-between mb-4">
+                <div className="d-flex justify-content-between mb-1">
                   <div className="text-center">
                     <img
                       className={vendor?.image?.length > 0 ? "" : "d-none"}
                       src={vendor?.image}
                       alt="Company Logo"
+                      class="logo"
                       style={{
-                        // height: "14vh",
-                        width: "4vw",
+                        width: "100px",
                       }}
                     />
-                    <h1 className="fs-6 mt-2">{vendor?.fullName}</h1>
+
+                    <h1
+                      style={{
+                        fontSize: "clamp(0.2rem, 0.2rem + .8rem, 1.875rem)",
+                      }}
+                      className=" mt-2"
+                    >
+                      {vendor?.fullName}
+                    </h1>
                   </div>{" "}
                   <div className="text-center">
                     <img
@@ -301,8 +391,7 @@ const OrderForm = () => {
                       src="https://starimporters-media.s3.amazonaws.com/1710029749556--Star%20Logo%20Tradeshow%202024.png"
                       alt="Company Logo"
                       style={{
-                        // height: "14vh",
-                        width: "20vw",
+                        width: "clamp(80px, 50%, 150px)",
                       }}
                     />
                     <h2
@@ -317,12 +406,9 @@ const OrderForm = () => {
                   <div className="text-center ">
                     <p className="fs-6 text-center text-secondary">
                       <Link
-                        to={`/app/OrderForm/Login/${localStorage.getItem(
-                          "vendor"
-                        )}`}
+                        to={`/orderform/${vendor?.email}`}
                         onClick={() => {
                           localStorage.removeItem("vendorLog");
-                          localStorage.removeItem("vendor");
                           localStorage.removeItem("vendorId");
                         }}
                         className="text-decoration-none"
@@ -332,8 +418,47 @@ const OrderForm = () => {
                     </p>
                   </div>
                 </div>
+                <div className="divider_line"></div>
 
-                <div className="row">
+                <div
+                  className="row"
+                  style={{
+                    maxHeight: "70vh",
+                    overflowY: "scroll",
+                  }}
+                >
+                  <div className="form-floating  col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <input
+                      type="text"
+                      className={classNames(
+                        "form-control  border border-secondary text-dark",
+                        { "is-invalid": errors.account }
+                      )}
+                      id="floatingInput3"
+                      name="account"
+                      placeholder="name@example.com"
+                      {...register("account", {
+                        required: "Account Number is required!",
+                        minLength: {
+                          value: 7,
+
+                          message: "Minimum 7 characters required! ",
+                        },
+                        onChange: (e) => {
+                          searchAccount(e);
+                          handleData(e, "account");
+                        },
+                      })}
+                    />
+                    {errors.account && (
+                      <small className="errorText mx-1 fw-bold">
+                        {errors.account?.message}
+                      </small>
+                    )}
+                    <label htmlFor="floatingInput3" className="mx-2 fw-bolder">
+                      Account Number
+                    </label>
+                  </div>
                   <div className="form-floating col-lg-6 col-md-6 col-sm-12 mb-2 ">
                     <input
                       type="text"
@@ -360,32 +485,7 @@ const OrderForm = () => {
                       Company Name
                     </label>
                   </div>
-                  <div className="form-floating  col-lg-6 col-md-6 col-sm-12 mb-4">
-                    <input
-                      type="text"
-                      className={classNames(
-                        "form-control  border border-secondary text-dark",
-                        { "is-invalid": errors.account }
-                      )}
-                      id="floatingInput3"
-                      name="account"
-                      placeholder="name@example.com"
-                      {...register("account", {
-                        required: false,
-                        onChange: (e) => {
-                          handleData(e, "account");
-                        },
-                      })}
-                    />
-                    {errors.account && (
-                      <small className="errorText mx-1 fw-bold">
-                        {errors.account?.message}
-                      </small>
-                    )}
-                    <label htmlFor="floatingInput3" className="mx-2 fw-bolder">
-                      Account Number
-                    </label>
-                  </div>
+
                   <div className="form-floating  col-lg-4 col-md-4 col-sm-6 mb-4">
                     <input
                       type="text"
@@ -420,7 +520,7 @@ const OrderForm = () => {
                       name="email"
                       placeholder="name@example.com"
                       {...register("email", {
-                        required: "Email is Required*",
+                        required: false,
                         pattern: {
                           value:
                             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -438,7 +538,7 @@ const OrderForm = () => {
                     )}
 
                     <label htmlFor="floatingPassword4" className="mx-2 fw-bold">
-                      Email Address <span className="text-danger">*</span>
+                      Email Address
                     </label>
                   </div>
 
@@ -468,7 +568,7 @@ const OrderForm = () => {
                       htmlFor="floatingAddress1"
                       className="mx-2 fw-bolder"
                     >
-                      Full Address
+                      Full Address <span className="text-danger">*</span>
                     </label>
                   </div>
 
@@ -512,7 +612,7 @@ const OrderForm = () => {
                         aria-label="Floating label select example"
                         name="type"
                         {...register("type", {
-                          required: "Please select delivery type.*",
+                          required: "Select delivery option.",
                           onChange: (e) => {
                             setDelOption(e.target.value);
 
@@ -540,7 +640,7 @@ const OrderForm = () => {
                     </div>
 
                     <div className="form-floating  col-lg-4 col-md-4 col-sm-5 mb-4">
-                      <input
+                      <textarea
                         type="text"
                         className={classNames(
                           "form-control  border border-secondary text-dark signup_fields",
@@ -548,6 +648,8 @@ const OrderForm = () => {
                         )}
                         id="floatingAddreesComments"
                         placeholder="name@example.com"
+                        onKeyDown={handleKeyDown}
+                        style={{ height: "100px" }}
                         name="comments"
                         {...register("comments", {
                           required: false,
@@ -583,11 +685,13 @@ const OrderForm = () => {
                           <thead>
                             <tr style={{ backgroundColor: "#f2f2f2" }}>
                               <th>S.No.</th>
-                              <th>Barcodes.</th>
+                              <th>Barcode.</th>
                               <th>Product Name</th>
                               <th>Flavor</th>
                               <th>Qty (in units)</th>
+                              <th>List Price</th>
                               <th>Promotion</th>
+                              <th>Product Comment</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -619,7 +723,27 @@ const OrderForm = () => {
                                     ></input>
                                   </span>
                                 </td>
+                                <td className="border">{item?.listingPrice}</td>
+
                                 <td className="border">{item?.comment}</td>
+                                <td className="border  ">
+                                  <span className="fs-6 ">
+                                    <input
+                                      type="text"
+                                      key={item?._id}
+                                      style={{
+                                        width: "200px",
+                                      }}
+                                      id={item?._id}
+                                      name="comments"
+                                      defaultChecked={item?.prodComment || ""}
+                                      className="border bg-light rounded"
+                                      onChange={(e) => {
+                                        handleChangeComment(item?.flavourId, e);
+                                      }}
+                                    ></input>
+                                  </span>
+                                </td>
                                 <td className="border text-danger">
                                   {" "}
                                   <a
@@ -630,7 +754,14 @@ const OrderForm = () => {
                                       )
                                     }
                                   >
-                                    Remove
+                                    <i
+                                      className="fa fa-trash"
+                                      style={{
+                                        marginLeft: "10px",
+                                        color: "red",
+                                        cursor: "pointer",
+                                      }}
+                                    ></i>
                                   </a>
                                 </td>
                               </tr>
@@ -639,6 +770,42 @@ const OrderForm = () => {
                         </table>
                       </div>
                     )}
+                    {confettiLoader && (
+                      <Confetti
+                        drawShape={(ctx) => {
+                          const colors = ["#3b4093", "#eb3237", "#987980"]; // Colors for the stars
+                          const x = 0;
+                          const y = 0;
+                          const outerRadius = 20;
+                          const innerRadius = 8;
+
+                          ctx.beginPath();
+                          for (let i = 0; i < 5; i++) {
+                            const outerX =
+                              x + Math.cos((Math.PI * 2 * i) / 5) * outerRadius;
+                            const outerY =
+                              y + Math.sin((Math.PI * 2 * i) / 5) * outerRadius;
+                            ctx.lineTo(outerX, outerY);
+
+                            const innerX =
+                              x +
+                              Math.cos((Math.PI * 2 * i) / 5 + Math.PI / 5) *
+                                innerRadius;
+                            const innerY =
+                              y +
+                              Math.sin((Math.PI * 2 * i) / 5 + Math.PI / 5) *
+                                innerRadius;
+                            ctx.lineTo(innerX, innerY);
+                          }
+                          ctx.closePath();
+
+                          ctx.fillStyle =
+                            colors[Math.floor(Math.random() * colors.length)]; // Randomly choose a color
+                          ctx.fill();
+                        }}
+                      />
+                    )}
+
                     {products?.length > 0 && (
                       <div className="col-12 text-center mb-2 ">
                         <Button
@@ -657,7 +824,7 @@ const OrderForm = () => {
                           type="submit"
                           style={{ backgroundColor: "#3e4093", color: "#fff" }}
                         >
-                          Create Order
+                          Submit Order
                         </Button>
                       </div>
                     )}
@@ -679,15 +846,16 @@ const OrderForm = () => {
                           ></Select>
                         </div>
 
-                        <div className="form-floating col-6 mb-4">
+                        <div className="form-group col-6 mb-4">
                           <input
                             type="search"
                             className={classNames(
                               "form-control  border border-secondary text-dark signup_fields"
                             )}
-                            // disabled={keySort?.length ? false : true}
+                            style={{ height: "38px" }}
+                            disabled={keySort?.length ? false : true}
                             id="floatingAddrees122"
-                            placeholder="Type Barcode or Product Name"
+                            placeholder="Filter by flavour name"
                             name="addressLine1"
                             onChange={(e) => {
                               let key = e.target.value.toLowerCase();
@@ -700,13 +868,6 @@ const OrderForm = () => {
                               }
                             }}
                           />
-
-                          <label
-                            htmlFor="floatingAddress122"
-                            className="mx-2 fw-bolder"
-                          >
-                            Filter by Flavours name
-                          </label>
                         </div>
                         {productsV?.length > 0 && (
                           <div className="form-floating col-12 mb-4 text-end">
@@ -729,15 +890,21 @@ const OrderForm = () => {
                       <div className="row">
                         <div className="col-12 mb-4 p-3">
                           <div className="cart_table_2">
-                            <div className="table-responsive">
+                            <div className="table">
                               <table className="table">
                                 {productsV?.length > 0 && (
                                   <tbody className="border">
                                     {(productsV || [])?.map((item, index) => (
-                                      <tr className="border text-center mt-5">
+                                      <tr className="border text-center">
                                         <td className="border rounded">
                                           <div className="col-auto">
-                                            <span className="cart_product">
+                                            <span
+                                              style={{
+                                                top: "-2.6rem",
+                                                position: "relative",
+                                              }}
+                                              className=""
+                                            >
                                               <img
                                                 src={
                                                   item?.type?._id
@@ -758,7 +925,7 @@ const OrderForm = () => {
                                                   className=" mt-4"
                                                   style={{
                                                     fontSize:
-                                                      "clamp(0.9rem, 0.8rem + 1vw, 1.875rem)",
+                                                      "clamp(0.9rem, 0.7rem + .4vw, 1.875rem)",
                                                   }}
                                                 >
                                                   {item?.type?._id
@@ -782,7 +949,7 @@ const OrderForm = () => {
                                           </div>
                                         </td>
                                         <td className="border  ">
-                                          <p className="fs-6 mt-5">
+                                          <p className="fs-6">
                                             {item?.vendorProduct?.promoComment?.slice(
                                               0,
                                               20
@@ -808,7 +975,7 @@ const OrderForm = () => {
                                           ) : (
                                             <Button
                                               appearance="primary"
-                                              className="comman_btn mx-2 fw-bold border rounded mt-5"
+                                              className="comman_btn mx-2 fw-bold border rounded "
                                               style={{
                                                 backgroundColor: "#3e4093",
                                                 color: "#fff",
@@ -821,7 +988,9 @@ const OrderForm = () => {
                                                   item?.type?.flavour,
                                                   item?.type?.barcode[0],
                                                   item?.vendorProduct
-                                                    ?.promoComment
+                                                    ?.promoComment,
+                                                  item?.vendorProduct
+                                                    ?.listingPrice
                                                 )
                                               }
                                             >

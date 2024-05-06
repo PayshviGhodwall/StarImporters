@@ -173,6 +173,7 @@ const GalleryMain = () => {
 
   const onFileSelection2 = (e, key) => {
     let image = [e.target.files];
+    console.log(image);
     let dataImg = [];
     (image || [])?.map((item) => {
       Object.values(item)?.map((img) => {
@@ -190,6 +191,7 @@ const GalleryMain = () => {
     setPdf({ ...pdf, [key]: e.target.files[0] });
   };
 
+  console.log(pdf?.pdf, "jjhj");
 
   const AddPdf = async (e) => {
     e.preventDefault();
@@ -372,7 +374,7 @@ const GalleryMain = () => {
                 <li
                   className={User?.access?.includes("Puller") ? "" : "d-none"}>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -384,7 +386,22 @@ const GalleryMain = () => {
                     Puller Management
                   </Link>
                 </li>
-
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}>
                   <Link
@@ -554,7 +571,7 @@ const GalleryMain = () => {
                 
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -566,6 +583,7 @@ const GalleryMain = () => {
                     Puller Management
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     className=""
@@ -573,13 +591,16 @@ const GalleryMain = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     className="bg-white"

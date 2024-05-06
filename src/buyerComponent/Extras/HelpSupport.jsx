@@ -7,8 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Carousel from "react-grid-carousel";
 import moment from "moment";
 import Footer from "../Footer/Footer";
-import "mui-player/dist/mui-player.min.css";
-import MuiPlayer from "mui-player";
+
+
 const HelpSupport = () => {
   const allContent = `${process.env.REACT_APP_APIENDPOINTNEW}user/getAllContent`;
   const [loader, setLoader] = useState(false);

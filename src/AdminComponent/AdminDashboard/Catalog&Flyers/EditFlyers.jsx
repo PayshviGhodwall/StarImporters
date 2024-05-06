@@ -457,43 +457,40 @@ const EditFlyers = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "2px",
-                      }}
-                      className="fa fa-home"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "2px" }}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
-                    className="bg-white"
+                    className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                      color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-user"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -502,18 +499,20 @@ const EditFlyers = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-layer-group"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -522,124 +521,147 @@ const EditFlyers = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "6px",
-                        top: "3px",
-                      }}
-                      class="far fa-building"></i>{" "}
+                      style={{ position: "relative", left: "6px", top: "3px" }}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-ship"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fas fa-user-cog"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
-                    className=""
+                    className="bg-white"
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                      color: "#3e4093",
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-layer-group"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -647,29 +669,30 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-cog"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -678,14 +701,12 @@ const EditFlyers = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-sign-out-alt"></i>
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -699,33 +720,25 @@ const EditFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "2px",
-                      }}
-                      className="fa fa-home"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "2px" }}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="bg-white"
+                    className=""
                     to="/UserManage"
-                    style={{
-                      textDecoration: "none",
-                      fontSize: "18px",
-                      color: "#3e4093",
-                    }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-user"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -733,14 +746,15 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-layer-group"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -751,14 +765,12 @@ const EditFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "6px",
-                        top: "3px",
-                      }}
-                      class="far fa-building"></i>{" "}
+                      style={{ position: "relative", left: "6px", top: "3px" }}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -766,14 +778,12 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-ship"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -784,32 +794,31 @@ const EditFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fas fa-user-cog"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="d-none at"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
-
                 <li>
                   <Link
                     className=""
@@ -817,10 +826,28 @@ const EditFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Trade Show Management
                   </Link>
                 </li>
@@ -831,24 +858,29 @@ const EditFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="bg-white"
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                      color: "#3e4093",
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -856,14 +888,12 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-layer-group"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -871,14 +901,12 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-cog"></i>{" "}
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -886,10 +914,12 @@ const EditFlyers = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -898,14 +928,12 @@ const EditFlyers = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
-                      style={{
-                        position: "relative",
-                        left: "4px",
-                        top: "3px",
-                      }}
-                      class="fa fa-sign-out-alt"></i>
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>

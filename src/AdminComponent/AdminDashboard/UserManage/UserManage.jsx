@@ -447,7 +447,7 @@ const UserManage = () => {
                     className={User?.access?.includes("Puller") ? "" : "d-none"}
                   >
                     <Link
-                      className="d-none ata"
+                      className=" ata"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
@@ -465,7 +465,28 @@ const UserManage = () => {
                       Puller Management
                     </Link>
                   </li>
-
+                  <li
+                    className={User?.access?.includes("Trade") ? "" : "d-none"}
+                  >
+                    <Link
+                      className=""
+                      to="/admin/Tradeshow-manage"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "18px",
+                      }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fa fa-calendar-check"
+                      ></i>{" "}
+                      Trade Show Management
+                    </Link>
+                  </li>
                   <li
                     className={
                       User?.access?.includes("Gallery") ? "" : "d-none"
@@ -762,7 +783,7 @@ const UserManage = () => {
                     }
                   >
                     <Link
-                      className="d-none at"
+                      className=" ata"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",
@@ -780,6 +801,7 @@ const UserManage = () => {
                       Puller Management
                     </Link>
                   </li>
+
                   <li>
                     <Link
                       className=""
@@ -795,11 +817,12 @@ const UserManage = () => {
                           left: "4px",
                           top: "3px",
                         }}
-                        class="fas fa-image"
+                        class="fa fa-calendar-check"
                       ></i>{" "}
-                      Trade Show Management
+                      TradeShow Management
                     </Link>
                   </li>
+
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
@@ -1410,6 +1433,7 @@ const UserManage = () => {
                                         >
                                           <th>Date</th>
                                           <th>Company Name</th>
+                                          <th>Account Number</th>
                                           <th>User Name</th>
                                           <th>Address</th>
                                           <th>Email</th>
@@ -1429,6 +1453,9 @@ const UserManage = () => {
                                               </td>
                                               <td className="border">
                                                 {User?.companyName}
+                                              </td>
+                                              <td className="border">
+                                                {User?.accountNumber}
                                               </td>
                                               <td className="border">
                                                 {User?.firstName}

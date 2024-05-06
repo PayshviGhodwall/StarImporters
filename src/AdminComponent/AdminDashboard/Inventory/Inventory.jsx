@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { useForm } from "react-hook-form";
 import Starlogo from "../../../assets/img/logo.png";
@@ -652,17 +651,20 @@ const Inventory = () => {
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
                   }
-                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
+                  onClick={() => setPageData([{ page: 1, searchKey: "" }])}
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -670,17 +672,20 @@ const Inventory = () => {
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -689,14 +694,17 @@ const Inventory = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -706,7 +714,8 @@ const Inventory = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/Inventory"
@@ -714,10 +723,12 @@ const Inventory = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -725,14 +736,17 @@ const Inventory = () => {
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -740,68 +754,97 @@ const Inventory = () => {
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
+                  </Link>
+                </li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
                   </Link>
                 </li>
 
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -810,42 +853,51 @@ const Inventory = () => {
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
-                  className={User?.access?.includes("CMS") ? "" : "d-none"}>
+                  className={User?.access?.includes("CMS") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -854,10 +906,12 @@ const Inventory = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -871,10 +925,12 @@ const Inventory = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -882,10 +938,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -893,10 +951,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -908,10 +968,12 @@ const Inventory = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -919,10 +981,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -933,24 +997,28 @@ const Inventory = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -962,14 +1030,16 @@ const Inventory = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
                     className=""
@@ -977,10 +1047,12 @@ const Inventory = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -991,10 +1063,12 @@ const Inventory = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -1002,10 +1076,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -1013,10 +1089,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -1024,10 +1102,12 @@ const Inventory = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -1036,10 +1116,12 @@ const Inventory = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -1059,7 +1141,8 @@ const Inventory = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -1070,7 +1153,8 @@ const Inventory = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -1096,13 +1180,15 @@ const Inventory = () => {
                           data-bs-toggle="modal"
                           id="modal-toggle66"
                           data-bs-target="#staticBackdrop66"
-                          className="comman_btn2 text-decoration-none">
+                          className="comman_btn2 text-decoration-none"
+                        >
                           Import New Inventory
                         </a>
                         <a
                           data-bs-toggle="modal"
                           data-bs-target="#staticBackdrop68"
-                          className="comman_btn2 text-decoration-none mx-2">
+                          className="comman_btn2 text-decoration-none mx-2"
+                        >
                           Import Existing Inventory
                         </a>
                       </div>
@@ -1111,7 +1197,8 @@ const Inventory = () => {
                   <form
                     className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between"
                     action=""
-                    onSubmit={handleSubmit(onSubmit)}>
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div className="form-group col-3">
                       <label htmlFor="">Product Name</label>
                       <input
@@ -1177,7 +1264,8 @@ const Inventory = () => {
                         {...register("category", {
                           required: "category is Required*",
                         })}
-                        onChange={(e) => NewSubCategory(e)}>
+                        onChange={(e) => NewSubCategory(e)}
+                      >
                         <option>Select Category</option>
 
                         {categories?.map((item, index) => (
@@ -1199,7 +1287,8 @@ const Inventory = () => {
                         name="subCategory"
                         {...register("subCategory", {
                           required: "SubCategory is Required*",
-                        })}>
+                        })}
+                      >
                         <option value="">Select Sub Category</option>
                         {(subCategories || [])?.map((item, index) => (
                           <option value={item?.subcategories?._id} key={index}>
@@ -1217,7 +1306,8 @@ const Inventory = () => {
                         name="brands"
                         {...register("brands", {
                           required: "Brands is Required*",
-                        })}>
+                        })}
+                      >
                         <option selected="">Select Brands</option>
                         {(brands || [])?.map((item, index) => (
                           <option value={item?._id} key={index}>
@@ -1234,7 +1324,8 @@ const Inventory = () => {
                             <span className="tag-text">{tag}</span>
                             <span
                               className="close"
-                              onClick={() => removeKeyWord(ind)}>
+                              onClick={() => removeKeyWord(ind)}
+                            >
                               &times;
                             </span>
                           </div>
@@ -1267,7 +1358,8 @@ const Inventory = () => {
                           />
                           <label
                             className="form-check-label fs-6 text-primary fw-bold mx-2"
-                            for="flexCheckAddress2">
+                            for="flexCheckAddress2"
+                          >
                             Select All
                           </label>
                         </span>
@@ -1355,7 +1447,8 @@ const Inventory = () => {
                                   <span>Flavour Image </span>{" "}
                                   <label
                                     htmlFor="upload_video"
-                                    className="inputText">
+                                    className="inputText"
+                                  >
                                     <i className="fa fa-camera me-1" />
                                     Choose File
                                   </label>{" "}
@@ -1383,7 +1476,8 @@ const Inventory = () => {
                                             className="close"
                                             onClick={() =>
                                               removeTag(ind, index)
-                                            }>
+                                            }
+                                          >
                                             &times;
                                           </span>
                                         </div>
@@ -1418,7 +1512,8 @@ const Inventory = () => {
                                     disabled={
                                       formValues?.length <= 1 ? true : false
                                     }
-                                    onClick={() => removeFormFields(index)}>
+                                    onClick={() => removeFormFields(index)}
+                                  >
                                     <i className="fa fa-minus mt-1 mx-1" />
                                   </button>
                                 </div>
@@ -1429,7 +1524,8 @@ const Inventory = () => {
                             <button
                               className="comman_btn add_btn"
                               type="button"
-                              onClick={() => addFormFields()}>
+                              onClick={() => addFormFields()}
+                            >
                               <i className="fa fa-plus mt-1 mx-1" /> Add More
                             </button>
                           </div>
@@ -1441,7 +1537,8 @@ const Inventory = () => {
                         loading={loader}
                         className="comman_btn"
                         style={{ backgroundColor: "#eb3237", color: "#fff" }}
-                        type="submit">
+                        type="submit"
+                      >
                         Save Product
                       </Button>
                     </div>
@@ -1471,7 +1568,8 @@ const Inventory = () => {
                       <div className="col-auto">
                         <button
                           className="comman_btn2 mx-1"
-                          onClick={() => exportProducts()}>
+                          onClick={() => exportProducts()}
+                        >
                           Export <i class="fa-solid fa-file-export"></i>
                         </button>
                       </div>
@@ -1483,20 +1581,23 @@ const Inventory = () => {
                                 src={require("../../../assets/img/iconSort.png")}
                                 width={23}
                                 height={23}
-                                className="mx-3 mt-2"></img>
+                                className="mx-3 mt-2"
+                              ></img>
                             </button>
                             <div class="dropdown-content_sort">
                               <a>
                                 <Link
                                   className="text-decoration-none "
-                                  onClick={() => sorting(1)}>
+                                  onClick={() => sorting(1)}
+                                >
                                   A to Z
                                 </Link>
                               </a>
                               <a>
                                 <Link
                                   className="text-decoration-none"
-                                  onClick={() => sorting(-1)}>
+                                  onClick={() => sorting(-1)}
+                                >
                                   Z to A
                                 </Link>
                               </a>
@@ -1509,7 +1610,8 @@ const Inventory = () => {
                   <form
                     className="form-design py-3 px-4 help-support-form row align-items-end justify-content-between bg-light border-bottom"
                     action=""
-                    onSubmit={handleSubmit2(onSearch)}>
+                    onSubmit={handleSubmit2(onSearch)}
+                  >
                     <div className="form-group col-4">
                       <label htmlFor="">Category</label>
                       <select
@@ -1519,7 +1621,8 @@ const Inventory = () => {
                         )}
                         name="Scategory"
                         {...register2("Scategory")}
-                        onChange={(e) => NewSubCategory(e)}>
+                        onChange={(e) => NewSubCategory(e)}
+                      >
                         <option value="">Select Category</option>
 
                         {categories?.map((item, index) => (
@@ -1538,7 +1641,8 @@ const Inventory = () => {
                           { "is-invalid": errors2.SsubCategory }
                         )}
                         name="SsubCategory"
-                        {...register2("SsubCategory")}>
+                        {...register2("SsubCategory")}
+                      >
                         <option value="">Select Sub Category</option>
                         {(subCategories || [])?.map((item, index) => (
                           <option value={item.subcategories?._id} key={index}>
@@ -1556,7 +1660,8 @@ const Inventory = () => {
                         )}
                         aria-label="Default select example"
                         name="Sbrands"
-                        {...register2("Sbrands")}>
+                        {...register2("Sbrands")}
+                      >
                         <option value="">Select Brands</option>
                         {(brands || [])?.map((item, index) => (
                           <option value={item?._id} key={index}>
@@ -1571,7 +1676,6 @@ const Inventory = () => {
                       </button>
                     </div>
                   </form>
-                  
                   <div className="row recent_orders_invent">
                     {allProducts?.length && !search?.length ? (
                       <div className="col-11 d-flex justify-content-between py-2 mx-5">
@@ -1587,7 +1691,8 @@ const Inventory = () => {
                                 activePage <= 1
                                   ? setActivePage(1)
                                   : setActivePage(activePage - 1)
-                              }>
+                              }
+                            >
                               «
                             </a>
                           </li>
@@ -1618,7 +1723,8 @@ const Inventory = () => {
                                 activePage === maxPage
                                   ? setActivePage(maxPage)
                                   : setActivePage(activePage + 1)
-                              }>
+                              }
+                            >
                               »
                             </a>
                           </li>
@@ -1724,7 +1830,8 @@ const Inventory = () => {
                                         { page: activePage, searchKey: search },
                                       ]);
                                     }}
-                                    id={index}>
+                                    id={index}
+                                  >
                                     View
                                   </Link>
                                 </td>
@@ -1747,7 +1854,8 @@ const Inventory = () => {
                                   activePage <= 1
                                     ? setActivePage(1)
                                     : setActivePage(activePage - 1)
-                                }>
+                                }
+                              >
                                 «
                               </a>
                             </li>
@@ -1778,7 +1886,8 @@ const Inventory = () => {
                                   activePage === maxPage
                                     ? setActivePage(maxPage)
                                     : setActivePage(activePage + 1)
-                                }>
+                                }
+                              >
                                 »
                               </a>
                             </li>
@@ -1801,7 +1910,8 @@ const Inventory = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -1834,7 +1944,8 @@ const Inventory = () => {
                             accept=".csv/*"
                             onClick={() => {
                               importInput.click();
-                            }}>
+                            }}
+                          >
                             <BiEdit />
                           </button>
                         </p>
@@ -1857,7 +1968,8 @@ const Inventory = () => {
                               position: "relative",
                               top: "-2px",
                             }}
-                            onClick={onUpload}>
+                            onClick={onUpload}
+                          >
                             Upload
                           </Button>
                         ) : (
@@ -1866,7 +1978,8 @@ const Inventory = () => {
                             htmlFor=""
                             onClick={() => {
                               importInput.click();
-                            }}>
+                            }}
+                          >
                             Import
                           </button>
                         )}
@@ -1898,7 +2011,8 @@ const Inventory = () => {
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content border-0 rounded-0  rounded-top">
             <div className="modal-body">
@@ -1932,7 +2046,8 @@ const Inventory = () => {
                           accept=".csv/*"
                           onClick={() => {
                             editInput.click();
-                          }}>
+                          }}
+                        >
                           <BiEdit />
                         </button>
                       </p>
@@ -1948,7 +2063,8 @@ const Inventory = () => {
                         <button
                           className="comman_btn"
                           htmlFor=""
-                          onClick={onUploadEdit}>
+                          onClick={onUploadEdit}
+                        >
                           Upload
                         </button>
                       ) : (
@@ -1957,7 +2073,8 @@ const Inventory = () => {
                           htmlFor=""
                           onClick={() => {
                             editInput.click();
-                          }}>
+                          }}
+                        >
                           Choose File
                         </button>
                       )}

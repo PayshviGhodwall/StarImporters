@@ -1,4 +1,5 @@
-import React, { useState } from "react";import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import Starlogo from "../../../assets/img/logo.png";
 import axios from "axios";
@@ -333,7 +334,7 @@ const AdminCateFlyers = () => {
                   className={User?.access?.includes("Puller") ? "" : "d-none"}
                 >
                   <Link
-                    className="d-nont ata"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -347,20 +348,24 @@ const AdminCateFlyers = () => {
                     Puller Management
                   </Link>
                 </li>
-                <li>
+
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
                   <Link
                     className=""
                     to="/admin/Tradeshow-manage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
                     Trade Show Management
                   </Link>
                 </li>
+
                 <li
                   className={User?.access?.includes("Gallery") ? "" : "d-none"}
                 >
@@ -557,7 +562,7 @@ const AdminCateFlyers = () => {
                 </li>
                 <li>
                   <Link
-                    className="d-none ata"
+                    className=""
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -578,10 +583,28 @@ const AdminCateFlyers = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Trade Show Management
                   </Link>
                 </li>

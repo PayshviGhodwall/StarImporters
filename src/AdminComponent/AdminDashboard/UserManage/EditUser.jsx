@@ -89,6 +89,7 @@ const EditUser = () => {
     formData.append("email", data?.email?.trim());
     formData.append("phoneNumber", data?.phoneNumber);
     formData.append("businessPhoneNumber", data?.businessNumber);
+    formData.append("accountNumber", data?.accountNumber);
     formData.append("businessNumber", data?.businessNumber);
     formData.append("federalTaxId", files?.federalTaxId);
     formData.append("businessLicense", files?.businessLicense);
@@ -191,7 +192,6 @@ const EditUser = () => {
     return res.data;
   };
 
-  
   const handleClick = () => {
     localStorage.removeItem("AdminData");
     localStorage.removeItem("AdminLogToken");
@@ -215,28 +215,32 @@ const EditUser = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className="bg-white"
                     to="/UserManage"
@@ -244,14 +248,16 @@ const EditUser = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -260,18 +266,21 @@ const EditUser = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -280,124 +289,162 @@ const EditUser = () => {
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
-                    className="d-none ata"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
 
+                <li className={User?.access?.includes("Trade") ? "" : "d-none"}>
+                  <Link
+                    className=""
+                    to="/admin/Tradeshow-manage"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    Trade Show Management
+                  </Link>
+                </li>
+
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -405,29 +452,48 @@ const EditUser = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
+
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
+                    Contact & Support
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/Contact&Support"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -436,14 +502,16 @@ const EditUser = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -457,14 +525,16 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "2px",
                       }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -476,14 +546,16 @@ const EditUser = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -491,14 +563,16 @@ const EditUser = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -509,14 +583,16 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "6px",
                         top: "3px",
                       }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -524,14 +600,16 @@ const EditUser = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -542,28 +620,32 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li>
                   <Link
-                    className="d-none at"
+                    className=" ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
+                      class="fas fa-users-gear"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -575,14 +657,16 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
-                    Trade Show Management
+                      class="fa fa-calendar-check"
+                    ></i>{" "}
+                    TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -590,10 +674,12 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -604,10 +690,12 @@ const EditUser = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -615,14 +703,16 @@ const EditUser = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -630,26 +720,17 @@ const EditUser = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className=""
-                    to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
-                    <i
-                      style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
-                    Contact & Support
                   </Link>
                 </li>
                 <li>
@@ -657,14 +738,16 @@ const EditUser = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{
                         position: "relative",
                         left: "4px",
                         top: "3px",
                       }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -685,7 +768,8 @@ const EditUser = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -696,7 +780,8 @@ const EditUser = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -729,7 +814,8 @@ const EditUser = () => {
                     <form
                       className="row py-2 form-design"
                       autoComplete="off"
-                      onSubmit={handleSubmit(onSubmit)}>
+                      onSubmit={handleSubmit(onSubmit)}
+                    >
                       <div className="col-12 text-center mb-4">
                         <div className="form-group col-auto">
                           <div className="account_profile position-relative d-inline-block">
@@ -758,7 +844,7 @@ const EditUser = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Company
                         </label>
@@ -779,7 +865,28 @@ const EditUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-6 mb-4">
+                      <div className="form-group col-4 mb-4">
+                        <label htmlFor="accountNumber" className="fw-bold fs-6">
+                          Account Number
+                        </label>
+                        <input
+                          type="text"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields",
+                            { "is-invalid": errors.accountNumber }
+                          )}
+                          name="accountNumber"
+                          defaultValue={user?.accountNumber}
+                          id="accountNumber"
+                          {...register("accountNumber")}
+                        />
+                        {errors.accountNumber && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.accountNumber?.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="form-group col-4 mb-4">
                         <label htmlFor="DBA" className="fw-bold fs-6">
                           DBA
                         </label>
@@ -845,7 +952,8 @@ const EditUser = () => {
                             onChange: (e) => {
                               handleCities(e.target.value);
                             },
-                          })}>
+                          })}
+                        >
                           <option value="">{user?.state}</option>
 
                           <option value="Alabama">Alabama</option>
@@ -946,7 +1054,8 @@ const EditUser = () => {
                           name="city"
                           defaultValue={user?.city}
                           disabled={cities?.length ? false : true}
-                          {...register("city")}>
+                          {...register("city")}
+                        >
                           <option value={user?.city} selected>
                             {user?.city}
                           </option>
@@ -987,7 +1096,8 @@ const EditUser = () => {
                             files?.federalTaxId || user?.federalTaxId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }>
+                          }
+                        >
                           <span className="fw-bold fs-6">Federal Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -1031,7 +1141,8 @@ const EditUser = () => {
                             files?.tobaccoLicence || user?.tobaccoLicence
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }>
+                          }
+                        >
                           <span className="fw-bold fs-6">Tobacco License:</span>
                           <div className="col img_box_show">
                             <input
@@ -1089,7 +1200,8 @@ const EditUser = () => {
                                 onChange={(e) => {
                                   setNewExpiry2(e.target.value);
                                   setNewExpiry("");
-                                }}></input>
+                                }}
+                              ></input>
                               <input
                                 type="date"
                                 id="expiryDate"
@@ -1101,7 +1213,8 @@ const EditUser = () => {
                                   setNewExpiry(date);
                                   setNewExpiry2("");
                                 }}
-                                value={newExpiry}></input>
+                                value={newExpiry}
+                              ></input>
                             </div>
                           </strong>
                         </div>
@@ -1112,7 +1225,8 @@ const EditUser = () => {
                             files?.salesTaxId || user?.salesTaxId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }>
+                          }
+                        >
                           <span className="fw-bold fs-6">Sales Tax ID:</span>
                           <div className="col img_box_show">
                             <input
@@ -1148,7 +1262,8 @@ const EditUser = () => {
                             files?.businessLicense || user?.businessLicense
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }>
+                          }
+                        >
                           <span className="fw-bold fs-6">
                             Business License:
                           </span>
@@ -1236,7 +1351,8 @@ const EditUser = () => {
                             files?.accountOwnerId || user?.accountOwnerId
                               ? "row view-inner-box border  mx-0 w-100"
                               : "row view-inner-box border border-danger text-danger mx-0 w-100"
-                          }>
+                          }
+                        >
                           <span className="fw-bold fs-6">
                             Account Owner ID:
                           </span>
@@ -1335,7 +1451,8 @@ const EditUser = () => {
                           className="form-select form-control border border-secondary "
                           aria-label={user?.heardAboutUs}
                           name="heardAboutUs"
-                          {...register("heardAboutUs")}>
+                          {...register("heardAboutUs")}
+                        >
                           <option selected="" value="">
                             Select
                           </option>
@@ -1515,7 +1632,8 @@ const EditUser = () => {
                           }}
                           appearance="primary"
                           className="comman_btn2 mx-2"
-                          type="submit">
+                          type="submit"
+                        >
                           Submit
                         </Button>
                       </div>
