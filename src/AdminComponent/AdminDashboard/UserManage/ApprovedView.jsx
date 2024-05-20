@@ -15,6 +15,8 @@ import moment from "moment";
 import "rsuite/dist/rsuite.min.css";
 import Swal from "sweetalert2";
 import { MDBDataTable } from "mdbreact";
+import classNames from "classnames";
+import { useForm } from "react-hook-form";
 
 const ApprovedView = () => {
   const [msg, setMsg] = useState("");
@@ -32,6 +34,12 @@ const ApprovedView = () => {
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   const [orders, setOrders] = useState({
     columns: [
@@ -1484,6 +1492,16 @@ const ApprovedView = () => {
                         >
                           {editText}
                         </Link>
+
+                        <button
+                          target="_blank"
+                          className="comman_btn2 mx-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal22"
+                        >
+                          Add Authorised Personal
+                        </button>
+
                         <Button
                           loading={loader}
                           style={{
@@ -1690,6 +1708,55 @@ const ApprovedView = () => {
                 </div>
               </div>
             </div>
+
+            <div className="row mx-0 mt-4">
+              <div className="col-12 design_outter_comman recent_orders shadow">
+                <div className="row comman_header justify-content-between">
+                  <div className="col-auto">
+                    <h2 className="main_headers">All Authorised Perosonals</h2>
+                  </div>
+                  <div className="col-auto d-flex"></div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 px-3 Pending-view-main">
+                    <div className="row py-2">
+                      <div className="col-12 user-management-tabs px-0">
+                        <div className="tab-content" id="nav-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="nav-home"
+                            role="tabpanel"
+                            aria-labelledby="nav-home-tab"
+                          >
+                            <div className="row mx-0">
+                              <div className="col-12">
+                                <div className="row ">
+                                  <div className="col-12 comman_table_design px-0">
+                                    <div className="table-responsive p-0">
+                                      <MDBDataTable
+                                        bordered
+                                        displayEntries={false}
+                                        className="categoryTable"
+                                        hover
+                                        data={account}
+                                        noBottomColumns
+                                        sortable
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1750,10 +1817,10 @@ const ApprovedView = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header comman_modal">
-              <h5 class="modal-title">Preview</h5>
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+          <div class="modal-content shadow">
+            <div class="modal-header comman_modal ">
+              <h5 class="modal-title">Add Authorised Personal</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -1763,8 +1830,143 @@ const ApprovedView = () => {
             </div>
             <div class="modal-body">
               <div className="qrDiv">
-                <strong>Only Images Preview Available!</strong>
-                <p>jgjgh</p>
+                <div className="row justify-content-center">
+                  <div className="col-lg-12">
+                    <form
+                      className=" mt-1 bg-white p-4 "
+                      // onSubmit={handleSubmit(onSubmit)}
+                    >
+                      <div className="row">
+                        <div className="form-floating  col-lg-6 col-md-6 col-sm-12 mb-4">
+                          <input
+                            type="text"
+                            className={classNames(
+                              "form-control  border border-secondary text-dark",
+                              { "is-invalid": errors.username }
+                            )}
+                            id="floatingInput3"
+                            name="username"
+                            placeholder="name@example.com"
+                            {...register("username", {
+                              required: "User Name is required!",
+                              // minLength: {
+                              //   value: 7,
+                              //   message: "Minimum 7 characters required! ",
+                              // },
+                            })}
+                          />
+                          {errors.username && (
+                            <small className="errorText mx-1 fw-bold">
+                              {errors.username?.message}
+                            </small>
+                          )}
+                          <label
+                            htmlFor="floatingInput3"
+                            className="mx-2 fw-bolder"
+                          >
+                            User Name
+                          </label>
+                        </div>
+
+                        <div className="form-floating  col-lg-6 col-md-6 col-sm-6 mb-4">
+                          <input
+                            type="email"
+                            className="form-control shadow-none border border-secondary text-dark"
+                            id="floatingPassword4"
+                            name="email"
+                            placeholder="name@example.com"
+                            {...register("email", {
+                              required: false,
+                              pattern: {
+                                value:
+                                  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                message: "Invalid email address",
+                              },
+                              onChange: (e) => {},
+                            })}
+                          />
+                          {errors.email && (
+                            <small className="errorText mx-1 fw-bold">
+                              {errors.email?.message}
+                            </small>
+                          )}
+
+                          <label
+                            htmlFor="floatingPassword4"
+                            className="mx-2 fw-bold"
+                          >
+                            Email Address
+                          </label>
+                        </div>
+
+                        <>
+                          <div className="form-floating  col-lg-6 col-md-6 col-sm-6 mb-4">
+                            <input
+                              type="number"
+                              className={classNames(
+                                "form-control  border border-secondary text-dark signup_fields ",
+                                { "is-invalid": errors.phoneNumber }
+                              )}
+                              id="floatingPassword3"
+                              placeholder="Password"
+                              name="phoneNumber"
+                              {...register("phoneNumber", {
+                                required: false,
+                                onChange: (e) => {},
+                              })}
+                            />
+                            {errors.phoneNumber && (
+                              <small className="errorText mx-1 fw-bold">
+                                {errors.phoneNumber?.message}
+                              </small>
+                            )}
+                            <label
+                              htmlFor="floatingPassword3"
+                              className="mx-2 fw-bolder"
+                            >
+                              Phone Number
+                            </label>
+                          </div>
+                          <div className="form-floating  col-lg-6 col-md-6 col-sm-5 mb-4 select_dropdown ">
+                            <select
+                              className={classNames(
+                                "form-select border border-secondary signup_fields fw-bolder mt-1",
+                                { "is-invalid": errors.subAccount }
+                              )}
+                              id="floatingSelect1"
+                              aria-label="Floating label select example"
+                              name="subAccount"
+                              {...register("subAccount", {
+                                required: "Select Sub Account.",
+                              })}
+                            >
+                              <option value="">Select an option...</option>
+                              <option value="" selected>
+                                Main Account
+                              </option>
+                            </select>
+                            {errors.subAccount && (
+                              <small className="errorText mx-1 fw-bold">
+                                {errors.subAccount?.message}
+                              </small>
+                            )}
+
+                            <label
+                              htmlFor="floatingSelect1"
+                              className="mx-2 fw-bolder mb-4"
+                            >
+                              Select Delivery Options
+                            </label>
+                          </div>
+
+                          <div className="col-12  text-center">
+                            <button className="comman_btn">Save</button>
+                          </div>
+                        </>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

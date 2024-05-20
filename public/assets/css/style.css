@@ -5,7 +5,10 @@
   }
 
 
-
+  a[download] {
+    display: none;
+  }
+  
   body {
     font-family: "Inter", sans-serif !important;
     color: #444444;
