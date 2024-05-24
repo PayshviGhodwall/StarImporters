@@ -156,6 +156,8 @@ import OrderFormInvent from "./buyerComponent/Extras/OrderFormInvent";
 import TradeOrderPdf from "./AdminComponent/AdminDashboard/TradeShows/TradeOrderPdf";
 import TradeMultiplePdfs from "./AdminComponent/AdminDashboard/TradeShows/TradeMultiplePdfs";
 import GeneratedQr from "./AdminComponent/AdminDashboard/UserManage/GeneratedQr";
+import ViewPersonal from "./AdminComponent/AdminDashboard/UserManage/ViewPersonal";
+import EditPersonal from "./AdminComponent/AdminDashboard/UserManage/EditPersonal";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -167,7 +169,6 @@ function App() {
     setCateName(data);
   };
   console.log("Hello!");
-  
 
   return (
     <div className="App">
@@ -178,7 +179,7 @@ function App() {
 
           <Routes>
             <Route
-              path="*"
+              path="/"
               element={width < 999 ? <AppHome /> : <Homepage />}
             />
             <Route
@@ -271,6 +272,15 @@ function App() {
             <Route
               path="/UserManage/User/Sub-account/:id"
               element={<ViewSubAcc />}
+            />
+
+            <Route
+              path="/UserManage/User/View-Personal/:id"
+              element={<ViewPersonal />}
+            />
+            <Route
+              path="/UserManage/User/Personal/Edit/:id"
+              element={<EditPersonal />}
             />
             <Route
               path="/UserManage/User/Sub-account/Edit/:id"
@@ -655,7 +665,6 @@ function App() {
               component={width < 999 ? <AppHome /> : <Homepage />}
             />
           </Routes>
-          
         </Router>
       </RecoilRoot>
     </div>

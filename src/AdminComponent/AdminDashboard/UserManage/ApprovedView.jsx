@@ -19,10 +19,13 @@ import classNames from "classnames";
 import { useForm } from "react-hook-form";
 
 const ApprovedView = () => {
+  const [files, setFiles] = useState([]);
   const [msg, setMsg] = useState("");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const generatePass = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generatePassword`;
   const UserOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserOrders`;
+  const allAgents = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserAgent/`;
+  const AddAgent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addAgent`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
@@ -34,6 +37,7 @@ const ApprovedView = () => {
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const queryParams = new URLSearchParams(user).toString();
   const {
     register,
     handleSubmit,
@@ -166,6 +170,44 @@ const ApprovedView = () => {
     ],
     rows: [],
   });
+  const [personals, setPersonals] = useState({
+    columns: [
+      {
+        label: "Date",
+        field: "date",
+        sort: "asc",
+        width: 150,
+      },
+
+      {
+        label: "User Name",
+        field: "name",
+        sort: "asc",
+        width: 100,
+      },
+      {
+        label: "Company Name",
+        field: "name_comp",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "Email",
+        field: "email",
+        sort: "asc",
+        width: 100,
+      },
+
+      {
+        label: "Action",
+        field: "action",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: [],
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -214,7 +256,9 @@ const ApprovedView = () => {
     };
     getUser();
     getOrders();
+    getPersonals();
   }, []);
+
   const fileDownload = (url) => {
     saveAs(url);
   };
@@ -283,6 +327,39 @@ const ApprovedView = () => {
       }
     }
   };
+
+  const getPersonals = async () => {
+    const { data } = await axios.get(allAgents + objectId);
+    if (!data.error) {
+      const newRows = [];
+      if (!data.error) {
+        let values = data?.results?.agents;
+        values?.map((list, index) => {
+          const returnData = {};
+          returnData.name = list?.firstName;
+          returnData.email = list?.email;
+          returnData.name_comp = list?.user?.companyName;
+          returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData.action = (
+            <>
+              <button
+                className="comman_btn table_viewbtn"
+                onClick={() => {
+                  navigate(`/UserManage/User/View-Personal/${list?._id}`);
+                }}
+              >
+                View
+              </button>
+            </>
+          );
+          newRows.push(returnData);
+        });
+
+        setPersonals({ ...personals, rows: newRows });
+      }
+    }
+  };
+
   const genPassword = async () => {
     setLoader(true);
     await axios.post(generatePass + "/" + objectId).then((res) => {
@@ -309,6 +386,22 @@ const ApprovedView = () => {
     } else {
       document.getElementById("preview_modal").click();
       document.getElementById("preview_images").src = id;
+    }
+  };
+
+  const onFileSelection = (e, key) => {
+    setFiles({ ...files, [key]: e.target.files[0] });
+  };
+
+  const onSubmit = async (info) => {
+    let formData = new FormData();
+    formData.append("image", files?.videoEdit);
+    formData.append("firstName", info?.username);
+    formData.append("phoneNumber", info?.phoneNumber);
+    formData.append("email", info?.email);
+    formData.append("user", objectId);
+    const { data } = await axios.post(AddAgent, formData);
+    if (!data.error) {
     }
   };
 
@@ -1518,7 +1611,7 @@ const ApprovedView = () => {
                         </Button>
 
                         <Link
-                          to={`/GeneratedQr/${objectId}`}
+                          to={`/GeneratedQr/${objectId}?${queryParams}`}
                           target="_blank"
                           style={{
                             backgroundColor: "#eb3237",
@@ -1739,7 +1832,7 @@ const ApprovedView = () => {
                                         displayEntries={false}
                                         className="categoryTable"
                                         hover
-                                        data={account}
+                                        data={personals}
                                         noBottomColumns
                                         sortable
                                       />
@@ -1756,7 +1849,6 @@ const ApprovedView = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -1828,15 +1920,27 @@ const ApprovedView = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-2">
               <div className="qrDiv">
                 <div className="row justify-content-center">
                   <div className="col-lg-12">
                     <form
                       className=" mt-1 bg-white p-4 "
-                      // onSubmit={handleSubmit(onSubmit)}
+                      onSubmit={handleSubmit(onSubmit)}
                     >
                       <div className="row">
+                        <div className="form-group mb-0 col position-relative ">
+                          <input
+                            type="file"
+                            className="form-control border border-secondary text-dark pt-3 "
+                            defaultValue=""
+                            id="upload_videoEdit"
+                            style={{ height: "58px" }}
+                            accept="image/*"
+                            name="videoEdit"
+                            onChange={(e) => onFileSelection(e, "videoEdit")}
+                          />
+                        </div>
                         <div className="form-floating  col-lg-6 col-md-6 col-sm-12 mb-4">
                           <input
                             type="text"
@@ -1927,7 +2031,7 @@ const ApprovedView = () => {
                               Phone Number
                             </label>
                           </div>
-                          <div className="form-floating  col-lg-6 col-md-6 col-sm-5 mb-4 select_dropdown ">
+                          <div className="form-floating  col-lg-12 col-md-12 col-sm-5 mb-4 select_dropdown ">
                             <select
                               className={classNames(
                                 "form-select border border-secondary signup_fields fw-bolder mt-1",
@@ -1941,7 +2045,7 @@ const ApprovedView = () => {
                               })}
                             >
                               <option value="">Select an option...</option>
-                              <option value="" selected>
+                              <option value="Main" selected={true}>
                                 Main Account
                               </option>
                             </select>

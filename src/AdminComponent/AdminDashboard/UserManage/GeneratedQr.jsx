@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 const GeneratedQr = () => {
   const api = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
@@ -8,16 +8,16 @@ const GeneratedQr = () => {
 
   let { id } = useParams();
   const [user, setUser] = useState([]);
-
+  let location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
-
+  let profileImage = queryParams?.get("profileImage");
+  
   const getUser = async () => {
     const res = await axios.post(apiUrl + "/" + id);
     if (!res.data.error) {
       setUser(res.data.results);
-      document.getElementById("proImage").src = res?.data?.results?.profileImage;
-
     }
   };
   useEffect(() => {
@@ -33,83 +33,85 @@ const GeneratedQr = () => {
   };
 
   const waitForImagesToLoad = (element) => {
-    const imgElements = element.getElementsByTagName('img');
+    const imgElements = element.getElementsByTagName("img");
     const promises = [];
-  
+
     for (let img of imgElements) {
       if (!img.complete) {
-        promises.push(new Promise((resolve, reject) => {
-          img.onload = () => {
-            console.log(`Image loaded: ${img.src}`);
-            resolve();
-          };
-          img.onerror = () => {
-            console.error(`Failed to load image: ${img.src}`);
-            reject(new Error(`Failed to load image: ${img.src}`));
-          };
-        }));
+        promises.push(
+          new Promise((resolve, reject) => {
+            img.onload = () => {
+              console.log(`Image loaded: ${img.src}`);
+              resolve();
+            };
+            img.onerror = () => {
+              console.error(`Failed to load image: ${img.src}`);
+              reject(new Error(`Failed to load image: ${img.src}`));
+            };
+          })
+        );
       } else {
         console.log(`Image already loaded: ${img.src}`);
       }
     }
-  
+
     return Promise.all(promises);
   };
-  
-  
+
   const printDoc = async () => {
     const divToCapture = document.getElementById("qrDiv");
     try {
       await waitForImagesToLoad(divToCapture); // Wait for all images to load
       console.log("All images loaded");
-  
-      await html2canvas(divToCapture, { useCORS: true }).then((canvas) => {
-        canvas.toBlob((blob) => {
-          const url = URL.createObjectURL(blob);
-  
-          // Print the image on the same screen
-          const printContainer = document.createElement("div");
-          printContainer.style.position = "fixed";
-          printContainer.style.top = "0";
-          printContainer.style.left = "0";
-          printContainer.style.width = "100%";
-          printContainer.style.height = "100%";
-          printContainer.style.background = "white";
-          printContainer.style.zIndex = "10000"; // Make sure it's on top
-          printContainer.style.display = "flex";
-          printContainer.style.alignItems = "center";
-          printContainer.style.justifyContent = "center";
-  
-          const img = document.createElement("img");
-          img.src = url;
-          img.style.maxWidth = "100%";
-          img.style.maxHeight = "100%";
-  
-          // Append the image and print container to the body
-          printContainer.appendChild(img);
-          document.body.appendChild(printContainer);
-  
-          // Wait until the image is fully loaded
-          img.onload = () => {
-            setTimeout(() => {
-              window.print();
-              printContainer.remove(); // Clean up after printing
-              URL.revokeObjectURL(url); // Release the object URL
-            }, 1000); // Wait for 1000ms to ensure the image is rendered
-          };
-  
-          img.onerror = (error) => {
-            console.error("Error loading captured image for print:", error);
-          };
+
+      await html2canvas(divToCapture, { useCORS: true })
+        .then((canvas) => {
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+
+            // Print the image on the same screen
+            const printContainer = document.createElement("div");
+            printContainer.style.position = "fixed";
+            printContainer.style.top = "0";
+            printContainer.style.left = "0";
+            printContainer.style.width = "100%";
+            printContainer.style.height = "100%";
+            printContainer.style.background = "white";
+            printContainer.style.zIndex = "10000"; // Make sure it's on top
+            printContainer.style.display = "flex";
+            printContainer.style.alignItems = "center";
+            printContainer.style.justifyContent = "center";
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.style.maxWidth = "100%";
+            img.style.maxHeight = "100%";
+
+            // Append the image and print container to the body
+            printContainer.appendChild(img);
+            document.body.appendChild(printContainer);
+
+            // Wait until the image is fully loaded
+            img.onload = () => {
+              setTimeout(() => {
+                window.print();
+                printContainer.remove(); // Clean up after printing
+                URL.revokeObjectURL(url); // Release the object URL
+              }, 1000); // Wait for 1000ms to ensure the image is rendered
+            };
+
+            img.onerror = (error) => {
+              console.error("Error loading captured image for print:", error);
+            };
+          });
+        })
+        .catch((error) => {
+          console.error("Error capturing div:", error);
         });
-      }).catch((error) => {
-        console.error("Error capturing div:", error);
-      });
     } catch (error) {
       console.error("Error waiting for images to load:", error);
     }
   };
-  
 
   const captureDiv = async () => {
     const divToCapture = document.getElementById("qrDiv");
@@ -132,8 +134,6 @@ const GeneratedQr = () => {
     });
   };
 
-  
-
   return (
     <div
       className=""
@@ -153,7 +153,7 @@ const GeneratedQr = () => {
         </button>
         <button
           className="comman_btn mb-2 mx-2 print_btn"
-          onClick={() =>  printDoc()}
+          onClick={() => printDoc()}
         >
           Print
         </button>
@@ -163,7 +163,7 @@ const GeneratedQr = () => {
             background: "rgb(255,255,255)",
             background:
               "linear-gradient(311deg, rgba(255,255,255,1) 0%, rgba(59,64,147,0.510329131652661) 100%)",
-            width: "35%",
+            width: "500px",
             border: "1px solid #3e4093",
           }}
           className=" h-100 px-5 py-1 bg-white"
@@ -176,9 +176,7 @@ const GeneratedQr = () => {
                 onClick={() =>
                   (window.location.href = "https://www.starimporters.com/")
                 }
-                src={
-                  "http://localhost:3000/static/media/logo.967205a2e98fe897dcdc.png"
-                }
+                src={require("../../../assets/img/logo.png")}
                 alt="Company Logo"
                 style={{
                   width: "clamp(80px, 50%, 200px)",
@@ -192,23 +190,21 @@ const GeneratedQr = () => {
           <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
             <div className="row mt-3">
               <div className="col-6 mb-3">
-                {user?.profileImage?.length > 0 && (
+                {profileImage?.length > 0 && (
                   <img
                     className=""
                     id="proImage"
-                    src={user?.profileImage}
+                    src={profileImage}
                     style={{
                       width: "clamp(60px, 50%, 120px)",
                       borderRadius: "12px",
-                      maxWidth:"100px",
-                      maxHeight:"100px",
-                      borderRadius:"80px"
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      borderRadius: "80px",
                     }}
                   />
                 )}
-                <h1 className="fs-6 mt-1">
-                  {user?.firstName}
-                </h1>
+                <h1 className="fs-6 mt-1">{user?.firstName}</h1>
               </div>
               <div className="col-6 text-end mb-3 align-end">
                 <label className="text-danger fw-bold">Status</label>
@@ -245,7 +241,7 @@ const GeneratedQr = () => {
                     (window.location.href = "https://www.starimporters.com/")
                   }
                   src={require("../../../assets/img/logo.png")}
-                  alt="Company Logo"
+                  alt="Qr"
                   id="qrImage"
                   width={140}
                 />
