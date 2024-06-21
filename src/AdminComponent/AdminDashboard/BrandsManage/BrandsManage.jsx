@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { useForm } from "react-hook-form";
 import Starlogo from "../../../assets/img/logo.png";
@@ -288,6 +289,23 @@ const BrandsManage = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+                <li
+                  className={
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
@@ -532,6 +550,19 @@ const BrandsManage = () => {
                 <li>
                   <Link
                     className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
                     to="/Inventory"
                     style={{
                       textDecoration: "none",
@@ -594,7 +625,7 @@ const BrandsManage = () => {
                     Puller Management
                   </Link>
                 </li>
-               
+
                 <li>
                   <Link
                     className=""

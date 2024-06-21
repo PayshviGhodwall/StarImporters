@@ -198,6 +198,12 @@ const ApprovedView = () => {
         sort: "asc",
         width: 100,
       },
+      {
+        label: "Status",
+        field: "Status",
+        sort: "asc",
+        width: 100,
+      },
 
       {
         label: "Action",
@@ -328,6 +334,18 @@ const ApprovedView = () => {
     }
   };
 
+  const UserStatus = async (id) => {
+    // await axios.post(userStatus + "/" + id).then((res) => {
+    //   if (!res?.data.error) {
+    //     Swal.fire({
+    //       title: res?.data.message,
+    //       icon: "success",
+    //       confirmButtonText: "Okay",
+    //     });
+    //   }
+    // });
+  };
+
   const getPersonals = async () => {
     const { data } = await axios.get(allAgents + objectId);
     if (!data.error) {
@@ -340,6 +358,27 @@ const ApprovedView = () => {
           returnData.email = list?.email;
           returnData.name_comp = list?.user?.companyName;
           returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData.Status = (
+            <>
+              <td className="" key={list._id}>
+                {" "}
+                <div className="">
+                  <label class="switchUser">
+                    <input
+                      type="checkbox"
+                      name="quotation"
+                      id={list._id}
+                      defaultChecked={list.status}
+                      onClick={() => {
+                        UserStatus(list?._id);
+                      }}
+                    />
+                    <span class="sliderUser round"></span>
+                  </label>
+                </div>
+              </td>
+            </>
+          );
           returnData.action = (
             <>
               <button
@@ -359,6 +398,8 @@ const ApprovedView = () => {
       }
     }
   };
+
+
 
   const genPassword = async () => {
     setLoader(true);
@@ -495,6 +536,25 @@ const ApprovedView = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li
+                  className={
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+
                 <li
                   className={
                     User?.access?.includes("Inventory Management")
@@ -785,6 +845,19 @@ const ApprovedView = () => {
                       class="fa fa-layer-group"
                     ></i>{" "}
                     Category &amp; Sub Category
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users"
+                    ></i>{" "}
+                    Visitor Management
                   </Link>
                 </li>
                 <li>
@@ -1592,7 +1665,7 @@ const ApprovedView = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal22"
                         >
-                          Add Authorised Personal
+                          Add Authorized Personal
                         </button>
 
                         <Button
@@ -1806,7 +1879,7 @@ const ApprovedView = () => {
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
-                    <h2 className="main_headers">All Authorised Perosonals</h2>
+                    <h2 className="main_headers">All Authorized Perosonals</h2>
                   </div>
                   <div className="col-auto d-flex"></div>
                 </div>
@@ -1912,7 +1985,7 @@ const ApprovedView = () => {
         <div class="modal-dialog modal-lg modal-dialog-centered ">
           <div class="modal-content shadow">
             <div class="modal-header comman_modal ">
-              <h5 class="modal-title">Add Authorised Personal</h5>
+              <h5 class="modal-title">Add Authorized Personal</h5>
               <button
                 type="button"
                 class="btn-close"

@@ -158,6 +158,7 @@ import TradeMultiplePdfs from "./AdminComponent/AdminDashboard/TradeShows/TradeM
 import GeneratedQr from "./AdminComponent/AdminDashboard/UserManage/GeneratedQr";
 import ViewPersonal from "./AdminComponent/AdminDashboard/UserManage/ViewPersonal";
 import EditPersonal from "./AdminComponent/AdminDashboard/UserManage/EditPersonal";
+import VisitorManagement from "./AdminComponent/AdminDashboard/VisitorPanel/VisitorManagement";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -311,6 +312,10 @@ function App() {
             <Route
               path="/admin/trade-show/viewTradeOrder/:id"
               element={<ViewTradeOrder />}
+            />
+              <Route
+              path="/VisitorPanel"
+              element={<VisitorManagement />}
             />
 
             <Route

@@ -177,6 +177,28 @@ const PullerManagement = () => {
                 </li>
                 <li
                   className={
+                    User?.access?.includes("Visitor Management")
+                      ? ""
+                      : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                   Visitor Management
+                  </Link>
+                </li>
+
+
+
+                <li
+                  className={
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
@@ -379,6 +401,21 @@ const PullerManagement = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+                
                 <li>
                   <Link
                     className=""
@@ -825,6 +862,7 @@ const PullerManagement = () => {
                     </div>
                   </form>
                 </div>
+                
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">

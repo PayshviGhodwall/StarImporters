@@ -189,6 +189,27 @@ const ViewPuller = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li
+                  className={
+                    User?.access?.includes("Visitor Management")
+                      ? ""
+                      : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                   Visitor Management
+                  </Link>
+                </li>
+
                 <li
                   className={
                     User?.access?.includes("Inventory Management")
@@ -392,6 +413,21 @@ const ViewPuller = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+                 
                 <li>
                   <Link
                     className=""

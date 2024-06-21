@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+
 const GeneratedQr = () => {
   const api = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -160,9 +161,7 @@ const GeneratedQr = () => {
         <div
           style={{
             borderRadius: "20px",
-            background: "rgb(255,255,255)",
-            background:
-              "linear-gradient(311deg, rgba(255,255,255,1) 0%, rgba(59,64,147,0.510329131652661) 100%)",
+           
             width: "500px",
             border: "1px solid #3e4093",
           }}

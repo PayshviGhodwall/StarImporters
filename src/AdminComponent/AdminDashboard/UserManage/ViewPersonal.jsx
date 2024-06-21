@@ -29,49 +29,6 @@ const ViewPersonal = () => {
   let { id } = useParams();
   let location = useLocation();
 
-  const [orderHistory, setOrderHistory] = useState({
-    columns: [
-      {
-        label: "DATE",
-        field: "date",
-        sort: "asc",
-        width: 150,
-      },
-
-      {
-        label: "ORDER ID",
-        field: "id",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "ORDER STATUS",
-        field: "status",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "ORDER TYPE",
-        field: "type",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "PULLER STATUS",
-        field: "pull",
-        sort: "asc",
-        width: 100,
-      },
-
-      {
-        label: "ORDER DETAILS",
-        field: "details",
-        sort: "asc",
-        width: 100,
-      },
-    ],
-    rows: [],
-  });
 
   useEffect(() => {
     getSubUser();
@@ -84,106 +41,8 @@ const ViewPersonal = () => {
     }
   };
 
-  const fileDownload = (url) => {
-    saveAs(url);
-  };
-
-  console.log(user);
-  const [orders, setOrders] = useState({
-    columns: [
-      {
-        label: "DATE",
-        field: "date",
-        sort: "asc",
-        width: 150,
-      },
-
-      {
-        label: "ORDER ID",
-        field: "id",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "ORDER STATUS",
-        field: "status",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "ORDER TYPE",
-        field: "type",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "PULLER STATUS",
-        field: "pull",
-        sort: "asc",
-        width: 100,
-      },
-
-      {
-        label: "ORDER DETAILS",
-        field: "details",
-        sort: "asc",
-        width: 100,
-      },
-    ],
-    rows: [],
-  });
-
-  const [quote, setQuote] = useState({
-    columns: [
-      {
-        label: "DATE",
-        field: "date",
-        sort: "asc",
-        width: 150,
-      },
-      {
-        label: "COMPANY NAME",
-        field: "name",
-        sort: "asc",
-        width: 150,
-      },
-
-      {
-        label: "REQUEST ID",
-        field: "id",
-        sort: "asc",
-        width: 100,
-      },
-
-      {
-        label: "STATUS",
-        field: "status",
-        sort: "asc",
-        width: 100,
-      },
-      {
-        label: "REQUEST DETAILS",
-        field: "details",
-        sort: "asc",
-        width: 100,
-      },
-    ],
-    rows: [],
-  });
-
-  const preview = (id) => {
-    if (id.endsWith(".pdf")) {
-      window.location.href = id;
-      Swal.fire({
-        title: "Preview Not Available!",
-        text: "Pdf cannot be shown! Try download and open.",
-        icon: "error",
-      });
-    } else {
-      document.getElementById("preview_modal").click();
-      document.getElementById("preview_images").src = id;
-    }
-  };
+ 
+  
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -275,6 +134,27 @@ const ViewPersonal = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li
+                  className={
+                    User?.access?.includes("Visitor Management")
+                      ? ""
+                      : "d-none"
+                  }
+                >
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
+                   Visitor Management
+                  </Link>
+                </li>
+
                 <li
                   className={
                     User?.access?.includes("Inventory Management")
@@ -567,6 +447,21 @@ const ViewPersonal = () => {
                     Category &amp; Sub Category
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    className=""
+                    to="/VisitorPanel"
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
+                    <i
+                      style={{ position: "relative", left: "4px", top: "3px" }}
+                      class="fas fa-users"
+                    ></i>{" "}
+                    Visitor Management
+                  </Link>
+                </li>
+                
                 <li>
                   <Link
                     className=""
@@ -792,7 +687,7 @@ const ViewPersonal = () => {
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
                     <h2 className="main_headers">
-                      Authorised Personal Details
+                      Authorized Personal Details
                     </h2>
                   </div>
                 </div>
@@ -813,7 +708,7 @@ const ViewPersonal = () => {
 
                       <div className="col-md-4 mb-4 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
-                          <span className="fw-bold">User Name:</span>
+                          <span className="fw-bold">Name:</span>
                           <div className="col">
                             <strong> {user?.firstName}</strong>
                           </div>
