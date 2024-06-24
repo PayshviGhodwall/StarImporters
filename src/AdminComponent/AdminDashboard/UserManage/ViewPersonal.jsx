@@ -29,7 +29,6 @@ const ViewPersonal = () => {
   let { id } = useParams();
   let location = useLocation();
 
-
   useEffect(() => {
     getSubUser();
   }, []);
@@ -40,9 +39,6 @@ const ViewPersonal = () => {
       setUser(res?.data.results.agent);
     }
   };
-
- 
-  
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -137,9 +133,7 @@ const ViewPersonal = () => {
 
                 <li
                   className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -151,7 +145,7 @@ const ViewPersonal = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                   Visitor Management
+                    Visitor Management
                   </Link>
                 </li>
 
@@ -461,7 +455,7 @@ const ViewPersonal = () => {
                     Visitor Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -740,9 +734,8 @@ const ViewPersonal = () => {
                           {editText}
                         </Link>
 
-                        
                         <Link
-                          to={`/GeneratedQr/${id}?${queryParams}`}
+                          to={`/GeneratedQr/${user?._id}?${queryParams}`}
                           target="_blank"
                           style={{
                             backgroundColor: "#eb3237",
@@ -756,9 +749,7 @@ const ViewPersonal = () => {
                         >
                           Generate Qr
                         </Link>
-
                       </div>
-                      
                     </div>
                   </div>
                 </div>

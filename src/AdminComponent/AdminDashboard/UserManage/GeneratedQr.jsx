@@ -4,8 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 const GeneratedQr = () => {
-  const api = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
-  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewAgent`;
 
   let { id } = useParams();
   const [user, setUser] = useState([]);
@@ -14,24 +13,20 @@ const GeneratedQr = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let profileImage = queryParams?.get("profileImage");
-  
+
   const getUser = async () => {
-    const res = await axios.post(apiUrl + "/" + id);
-    if (!res.data.error) {
-      setUser(res.data.results);
+    const { data } = await axios.get(apiUrl + "/" + id);
+    if (!data.error) {
+      setUser(data.results?.agent);
+      let datas = data?.results.agent?.qrcode;
+      document.getElementById("qrImage").src = datas;
     }
   };
+
+  console.log(user);
   useEffect(() => {
     getUser();
-    GetQrCode();
   }, []);
-
-  const GetQrCode = async () => {
-    await axios.patch(api + id).then((res) => {
-      let data = res?.data?.results.path;
-      document.getElementById("qrImage").src = data;
-    });
-  };
 
   const waitForImagesToLoad = (element) => {
     const imgElements = element.getElementsByTagName("img");
@@ -161,7 +156,7 @@ const GeneratedQr = () => {
         <div
           style={{
             borderRadius: "20px",
-           
+
             width: "500px",
             border: "1px solid #3e4093",
           }}
@@ -193,7 +188,11 @@ const GeneratedQr = () => {
                   <img
                     className=""
                     id="proImage"
-                    src={profileImage}
+                    src={
+                      user?.image?.length > 5
+                        ? user?.image
+                        : "/imgs/profileDummy.png"
+                    }
                     style={{
                       width: "clamp(60px, 50%, 120px)",
                       borderRadius: "12px",
@@ -214,12 +213,12 @@ const GeneratedQr = () => {
 
               <div className="col-6 text-start mb-3">
                 <label className="text-danger fw-bold">COMPANY NAME</label>
-                <h1 className="fs-6">{user?.companyName}</h1>
+                <h1 className="fs-6">{user?.user?.companyName}</h1>
               </div>
 
               <div className="col-6 text-end mb-3">
                 <label className="text-danger fw-bold">ACCOUNT NUMBER</label>
-                <h1 className="fs-6">{user?.accountNumber}</h1>
+                <h1 className="fs-6">{user?.user?.accountNumber}</h1>
               </div>
 
               <div className="col-6 text-start mb-3">
@@ -239,7 +238,7 @@ const GeneratedQr = () => {
                   onClick={() =>
                     (window.location.href = "https://www.starimporters.com/")
                   }
-                  src={require("../../../assets/img/logo.png")}
+                  src={user?.qrcode}
                   alt="Qr"
                   id="qrImage"
                   width={140}
