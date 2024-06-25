@@ -181,27 +181,26 @@ const GeneratedQr = () => {
               </h2>
             </div>
           </div>
+          
           <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
             <div className="row mt-3">
               <div className="col-6 mb-3">
-                {profileImage?.length > 0 && (
-                  <img
-                    className=""
-                    id="proImage"
-                    src={
-                      user?.image?.length > 5
-                        ? user?.image
-                        : "/imgs/profileDummy.png"
-                    }
-                    style={{
-                      width: "clamp(60px, 50%, 120px)",
-                      borderRadius: "12px",
-                      maxWidth: "100px",
-                      maxHeight: "100px",
-                      borderRadius: "80px",
-                    }}
-                  />
-                )}
+                <img
+                  className="border mb-2"
+                  id="proImage"
+                  src={
+                    user?.image?.length > 5
+                      ? user?.image
+                      : require("../../../assets/img/profileDummy.png")
+                  }
+                  style={{
+                    width: "clamp(60px, 50%, 120px)",
+                    borderRadius: "12px",
+                    maxWidth: "80px",
+                    maxHeight: "70px",
+                    borderRadius: "100px",
+                  }}
+                />
                 <h1 className="fs-6 mt-1">{user?.firstName}</h1>
               </div>
               <div className="col-6 text-end mb-3 align-end">

@@ -26,6 +26,7 @@ const ApprovedView = () => {
   const UserOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserOrders`;
   const allAgents = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserAgent/`;
   const AddAgent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addAgent`;
+  const apiUrl3 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
@@ -37,6 +38,7 @@ const ApprovedView = () => {
   const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const [subAccounts, setSubAccounts] = useState([]);
   const queryParams = new URLSearchParams(user).toString();
   const {
     register,
@@ -193,12 +195,6 @@ const ApprovedView = () => {
       },
 
       {
-        label: "Email",
-        field: "email",
-        sort: "asc",
-        width: 100,
-      },
-      {
         label: "Status",
         field: "Status",
         sort: "asc",
@@ -215,6 +211,14 @@ const ApprovedView = () => {
     rows: [],
   });
 
+  // const genQr = async () => {
+  //   const { data } = await axios.get(apiUrl3 + objectId);
+  //   if (!data.error) {
+  //     let datas = data?.results.agent?.qrcode;
+  //     document.getElementById("qrImage").src = datas;
+  //   }
+  // };
+  
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
@@ -223,6 +227,7 @@ const ApprovedView = () => {
       const newRows2 = [];
       if (!res.data.error) {
         let values = res?.data.results?.subAccounts;
+        setSubAccounts(values);
         values?.map((list, index) => {
           const returnData = {};
           returnData.name_comp = list?.companyName;
@@ -355,14 +360,13 @@ const ApprovedView = () => {
         values?.map((list, index) => {
           const returnData = {};
           returnData.name = list?.firstName;
-          returnData.email = list?.email;
           returnData.name_comp = list?.user?.companyName;
           returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
           returnData.Status = (
             <>
-              <td className="" key={list._id}>
+              <td className="d-flex justify-content-center" key={list._id}>
                 {" "}
-                <div className="">
+                <div className="text-center">
                   <label class="switchUser">
                     <input
                       type="checkbox"
@@ -398,8 +402,6 @@ const ApprovedView = () => {
       }
     }
   };
-
-
 
   const genPassword = async () => {
     setLoader(true);
@@ -441,8 +443,25 @@ const ApprovedView = () => {
     formData.append("phoneNumber", info?.phoneNumber);
     formData.append("email", info?.email);
     formData.append("user", objectId);
-    const { data } = await axios.post(AddAgent, formData);
-    if (!data.error) {
+    const { data, error } = await axios.post(AddAgent, formData);
+    if (!error) {
+      if (!data.error) {
+        document.getElementById("closePers").click();
+        Swal.fire({
+          title: "Authorised Personal Added!",
+          text: "",
+          icon: "success",
+          timer: 2000,
+        });
+        getPersonals();
+      } else {
+        Swal.fire({
+          title: data?.message,
+          text: "",
+          icon: "error",
+          timer: 2000,
+        });
+      }
     }
   };
 
@@ -1684,7 +1703,7 @@ const ApprovedView = () => {
                         </Button>
 
                         <Link
-                          to={`/GeneratedQr/${objectId}?${queryParams}`}
+                          to={`/GeneratedQrMain/${objectId}`}
                           target="_blank"
                           style={{
                             backgroundColor: "#eb3237",
@@ -1991,6 +2010,7 @@ const ApprovedView = () => {
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="closePers"
               ></button>
             </div>
             <div class="modal-body p-2">
@@ -2118,9 +2138,14 @@ const ApprovedView = () => {
                               })}
                             >
                               <option value="">Select an option...</option>
-                              <option value="Main" selected={true}>
+                              <option value={objectId} selected={true}>
                                 Main Account
                               </option>
+                              {subAccounts?.map((itm) => (
+                                <option value={itm?._id}>
+                                  {itm?.firstName}
+                                </option>
+                              ))}
                             </select>
                             {errors.subAccount && (
                               <small className="errorText mx-1 fw-bold">
@@ -2132,12 +2157,14 @@ const ApprovedView = () => {
                               htmlFor="floatingSelect1"
                               className="mx-2 fw-bolder mb-4"
                             >
-                              Select Delivery Options
+                              Select Account Type
                             </label>
                           </div>
 
                           <div className="col-12  text-center">
-                            <button className="comman_btn">Save</button>
+                            <button type="submit" className="comman_btn">
+                              Save
+                            </button>
                           </div>
                         </>
                       </div>

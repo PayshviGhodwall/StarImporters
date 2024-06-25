@@ -2,17 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
-import { FaFileUpload } from "react-icons/fa";
-import { saveAs } from "file-saver";
 import Starlogo from "../../../assets/img/logo.png";
 import { useEffect } from "react";
 import axios from "axios";
-import { FaFileDownload } from "react-icons/fa";
 import ProfileBar from "../ProfileBar";
-import moment from "moment";
 import "rsuite/dist/rsuite.min.css";
-import Swal from "sweetalert2";
-import { MDBDataTable } from "mdbreact";
 
 const ViewPersonal = () => {
   const [sideBar, setSideBar] = useState(true);
@@ -37,6 +31,7 @@ const ViewPersonal = () => {
     const res = await axios.get(apiUrl + "/" + id);
     if (!res?.data.error) {
       setUser(res?.data.results.agent);
+      document.getElementById("main_img").src = res?.data.results.agent?.image
     }
   };
 
@@ -692,11 +687,16 @@ const ViewPersonal = () => {
                         <div className="Pending-view_img">
                           <img
                             className="UserImage mb-3"
-                            src={
-                              user?.image?.length > 4 ? user?.image : Starlogo
-                            }
+                            src={user?.image}
                             alt="Image not Uploaded"
+                            id="main_img"
+                            style={{
+                              maxWidth:"120px",
+                              maxHeight:"120px",
+                              borderRadius:"5px"
+                            }}
                           />
+
                         </div>
                       </div>
 
@@ -728,7 +728,7 @@ const ViewPersonal = () => {
 
                       <div className="col-12 text-center">
                         <Link
-                          to={`/UserManage/User/Sub-account/Edit/${user?._id}`}
+                          to={`/UserManage/ApprovedView/Personal/Edit/${user?._id}`}
                           className="comman_btn2 text-decoration-none"
                         >
                           {editText}

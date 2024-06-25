@@ -15,38 +15,20 @@ import Swal from "sweetalert2";
 import moment from "moment";
 
 const EditPersonal = () => {
-  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewSubAccounts`;
-  const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editSubUser/`;
+  const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewAgent`;
+  const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/editAgent/`;
   const [loader, setLoader] = useState(false);
   const [files, setFiles] = useState([]);
-
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [prodImg, setProdImg] = useState();
+  const objectId = localStorage.getItem("objectId");
+
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
-  const objectId = localStorage.getItem("objectId");
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
-  const [cities, setCities] = useState([]);
   let { id } = useParams();
-
-  const handleCities = async (state) => {
-    const { data } = await axios.post(
-      "https://countriesnow.space/api/v0.1/countries/state/cities",
-      {
-        country: "United States",
-        state: state ? state : "Georgia",
-      }
-    );
-    if (!data.error) {
-      setCities(data?.data);
-    }
-  };
-
-  useEffect(() => {
-    handleCities();
-  }, []);
 
   const {
     register,
@@ -60,15 +42,15 @@ const EditPersonal = () => {
 
   const onSubmit = async (data) => {
     setLoader(true);
-    console.log(data?.city);
     const formData = new FormData();
-    formData.append("companyName", data?.companyName?.trim());
-    formData.append("dba", data?.dba?.trim());
-    formData.append("addressLine1", data?.addressLine1?.trim());
-    
+    formData.append("firstName", data?.name?.trim());
+    formData.append("image", files?.imageProfile);
+    formData.append("phoneNumber", data?.phoneNumber?.trim());
+    formData.append("email", data?.email?.trim());
+    formData.append("user", objectId);
 
     await axios
-      .post(apiUrl2 + objectId, formData)
+      .put(apiUrl2 + id, formData)
       .then((res) => {
         if (res?.data.error) {
           Swal.fire({
@@ -78,9 +60,14 @@ const EditPersonal = () => {
           });
           setLoader(false);
         }
-        if (res?.data.message === "sub account created") {
+        if (res?.data.message === "Agent Edited") {
           setLoader(false);
           navigate(-1);
+          Swal.fire({
+            title: "Success!",
+            icon: "success",
+            button: "Ok",
+          });
         }
         if (res?.data.message === "Invalid file format") {
           setLoader(false);
@@ -100,8 +87,7 @@ const EditPersonal = () => {
             button: "Ok",
           });
         }
-        if (res?.data.message === "Phone is already registered") { 
-          
+        if (res?.data.message === "Phone is already registered") {
           setLoader(false);
           Swal.fire({
             title: "Phone is already registered!",
@@ -133,16 +119,15 @@ const EditPersonal = () => {
   };
 
   useEffect(() => {
-    getSubUser();
+    getUserDetails();
   }, []);
 
-  const getSubUser = async () => {
+  const getUserDetails = async () => {
     const res = await axios.get(apiUrl + "/" + id);
     if (!res?.data.error) {
       setUser(res?.data.results.agent);
     }
   };
-
 
   const handleClick = () => {
     localStorage.removeItem("AdminData");
@@ -151,6 +136,18 @@ const EditPersonal = () => {
   };
   const today = new Date().toISOString().split("T")[0];
   document.getElementById("expiryDate")?.setAttribute("min", today);
+
+  document.getElementById("image_up")?.addEventListener("change", function () {
+    if (this.files[0]) {
+      var picture = new FileReader();
+      picture.readAsDataURL(this.files[0]);
+      picture.addEventListener("load", function (event) {
+        document
+          .getElementById("image")
+          .setAttribute("src", event.target.result);
+      });
+    }
+  });
 
   return (
     <div className={sideBar ? "admin_main" : "expanded_main"}>
@@ -239,9 +236,7 @@ const EditPersonal = () => {
 
                 <li
                   className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -253,7 +248,7 @@ const EditPersonal = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                   Visitor Management
+                    Visitor Management
                   </Link>
                 </li>
 
@@ -652,7 +647,7 @@ const EditPersonal = () => {
                     TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -754,7 +749,8 @@ const EditPersonal = () => {
                     onClick={() => {
                       console.log("yello");
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -765,7 +761,8 @@ const EditPersonal = () => {
                       onClick={(e) => {
                         console.log(e);
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -789,7 +786,7 @@ const EditPersonal = () => {
                   </div>
                   <div className="col-auto">
                     <div className="Status_box">
-                      Status: <strong>Active</strong>
+                      Status: <strong>{user?.status}</strong>
                     </div>
                   </div>
                 </div>
@@ -798,15 +795,22 @@ const EditPersonal = () => {
                     <form
                       className="row py-2 form-design"
                       autoComplete="off"
-                      onSubmit={handleSubmit(onSubmit)}>
+                      onSubmit={handleSubmit(onSubmit)}
+                    >
                       <div className="col-12 text-center mb-4">
                         <div className="form-group col-auto">
                           <div className="account_profile position-relative d-inline-block">
                             <div className="mb-2 Pending-view_img">
                               <img
                                 className="UserImage"
-                                src={prodImg ? prodImg : user?.ima}
+                                src={prodImg ? prodImg : user?.image}
                                 alt="Upload Image ........"
+                                style={{
+                                  maxWidth: "120px",
+                                  maxHeight: "120px",
+                                  borderRadius: "5px",
+                                }}
+                                id="image"
                               />
                             </div>
 
@@ -816,6 +820,7 @@ const EditPersonal = () => {
                               <input
                                 className="file-uploadIN"
                                 type="file"
+                                id="image_up"
                                 name="imageProfile"
                                 accept="image/*"
                                 {...register("imageProfile")}
@@ -827,49 +832,66 @@ const EditPersonal = () => {
                           </div>
                         </div>
                       </div>
-                    
-                     
 
                       <div className="form-group col-4 mb-4">
-                        <label htmlFor="LastName" className="fw-bold fs-6">
-                          Contact Last name
+                        <label htmlFor="name" className="fw-bold fs-6">
+                          User Name
                         </label>
                         <input
                           type="text"
                           className={classNames(
                             "form-control  border border-secondary signup_fields fw-bold",
-                            { "is-invalid": errors.lastName }
+                            { "is-invalid": errors.name }
                           )}
-                          name="lastName"
-                          id="LastName"
-                          defaultValue={user?.lastName}
-                          {...register("lastName")}
+                          name="name"
+                          id="name"
+                          defaultValue={user?.firstName}
+                          {...register("name")}
                         />
                       </div>
 
                       <div className="form-group col-4 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
-                          Business Number
+                          Phone Number
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           className={classNames(
                             "form-control  border border-secondary signup_fields ",
-                            { "is-invalid": errors.businessNumber }
+                            { "is-invalid": errors.phoneNumber }
                           )}
-                          name="businessNumber"
+                          name="phoneNumber"
                           id="name"
-                          defaultValue={user?.businessPhoneNumber}
-                          {...register("businessNumber")}
+                          defaultValue={user?.phoneNumber}
+                          {...register("phoneNumber")}
                         />
-                        {errors.businessNumber && (
+                        {errors.phoneNumber && (
                           <small className="errorText mx-1 fw-bold">
-                            {errors.businessNumber?.message}
+                            {errors.phoneNumber?.message}
                           </small>
                         )}
                       </div>
-
-                     
+                      <div className="form-group col-4 mb-4">
+                        <label htmlFor="email" className="fw-bold fs-6">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields ",
+                            { "is-invalid": errors.email }
+                          )}
+                          name="email"
+                          id="name"
+                          defaultValue={user?.email}
+                          {...register("email")}
+                        />
+                        {errors.email && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.email?.message}
+                          </small>
+                        )}
+                      </div>
 
                       <div className="col-12 text-center">
                         <Button
@@ -882,7 +904,8 @@ const EditPersonal = () => {
                           }}
                           appearance="primary"
                           className="comman_btn2 mx-2"
-                          type="submit">
+                          type="submit"
+                        >
                           Submit
                         </Button>
                       </div>

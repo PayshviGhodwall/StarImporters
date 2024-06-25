@@ -159,6 +159,7 @@ import GeneratedQr from "./AdminComponent/AdminDashboard/UserManage/GeneratedQr"
 import ViewPersonal from "./AdminComponent/AdminDashboard/UserManage/ViewPersonal";
 import EditPersonal from "./AdminComponent/AdminDashboard/UserManage/EditPersonal";
 import VisitorManagement from "./AdminComponent/AdminDashboard/VisitorPanel/VisitorManagement";
+import GeneratedQrMain from "./AdminComponent/AdminDashboard/UserManage/GeneratedQrMain";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -271,6 +272,10 @@ function App() {
             <Route path="/UserManage/ReturnedView" element={<ReturnedView />} />
             <Route path="/UserManage/ApprovedView" element={<ApprovedView />} />
             <Route
+              path="/UserManage/ApprovedView/Personal/Edit/:id"
+              element={<EditPersonal />}
+            />
+            <Route
               path="/UserManage/User/Sub-account/:id"
               element={<ViewSubAcc />}
             />
@@ -313,10 +318,7 @@ function App() {
               path="/admin/trade-show/viewTradeOrder/:id"
               element={<ViewTradeOrder />}
             />
-              <Route
-              path="/VisitorPanel"
-              element={<VisitorManagement />}
-            />
+            <Route path="/VisitorPanel" element={<VisitorManagement />} />
 
             <Route
               path="/Catelog-Flyers/Create-New/:id"
@@ -387,6 +389,7 @@ function App() {
               element={<TradeMultiplePdfs />}
             />
             <Route path="/GeneratedQr/:id" element={<GeneratedQr />} />
+            <Route path="/GeneratedQrMain/:id" element={<GeneratedQrMain />} />
             <Route path="/OrderRequest/user/Pdf/:id" element={<UserPdf />} />
             <Route path="/QuoteRequest/Pdf/:id" element={<QuotePdf />} />
             <Route path="/OrderRequest/ViewOrder/:id" element={<ViewOrder />} />
