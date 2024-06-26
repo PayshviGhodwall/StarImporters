@@ -6,8 +6,9 @@ import axios from "axios";
 const GeneratedQrMain = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const apiUrl2 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
-
+  const [qrCode, setQrCode] = useState("");
   let { id } = useParams();
+  const [loader, setLoader] = useState(true);
   const [user, setUser] = useState([]);
   let location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -19,22 +20,27 @@ const GeneratedQrMain = () => {
     const { data } = await axios.post(apiUrl + "/" + id);
     if (!data.error) {
       setUser(data.results);
-      let datas = data?.results.agent?.qrcode;
-      document.getElementById("qrImage").src = datas;
     }
   };
+
   const genQr = async () => {
     const { data } = await axios.get(apiUrl2 + id);
     if (!data.error) {
       let datas = data?.results.agent?.qrcode;
+      console.log(datas);
+      setQrCode(datas);
+      setLoader(false);
       document.getElementById("qrImage").src = datas;
     }
   };
 
   console.log(user);
   useEffect(() => {
-    genQr()
+    genQr();
     getUser();
+    setTimeout(() => {
+      setLoader(false);
+    }, [6000]);
   }, []);
 
   const waitForImagesToLoad = (element) => {
@@ -140,127 +146,140 @@ const GeneratedQrMain = () => {
   };
 
   return (
-    <div
-      className=""
-      style={{
-        padding: "80px",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div>
-        <button
-          className="comman_btn mb-2 print_btn"
-          onClick={() => captureDiv()}
-        >
-          Download
-        </button>
-        <button
-          className="comman_btn mb-2 mx-2 print_btn"
-          onClick={() => printDoc()}
-        >
-          Print
-        </button>
+    <div>
+      {loader ? (
+        <div className="load_position">
+          <div className="loader_new"></div>
+        </div>
+      ) : (
         <div
+          className=""
           style={{
-            borderRadius: "20px",
-
-            width: "500px",
-            border: "1px solid #3e4093",
+            padding: "80px",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
           }}
-          className=" h-100 px-5 py-1 bg-white"
-          id="qrDiv"
         >
-          <div className="text-center mt-4">
-            <div>
-              <img
-                className=""
-                onClick={() =>
-                  (window.location.href = "https://www.starimporters.com/")
-                }
-                src={require("../../../assets/img/logo.png")}
-                alt="Company Logo"
-                style={{
-                  width: "clamp(80px, 50%, 200px)",
-                }}
-              />
-              <h2 className=" mt-2 fw-bold  fs-4 text-center text-dark headOrder">
-                Star Importers & Wholesalers
-              </h2>
-            </div>
-          </div>
-          
-          <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
-            <div className="row mt-3">
-              <div className="col-6 mb-3">
-                <img
-                  className="border mb-2"
-                  id="proImage"
-                  src={
-                    user?.profileImage?.length > 5
-                      ? user?.profileImage
-                      : require("../../../assets/img/profileDummy.png")
-                  }
-                  style={{
-                    width: "clamp(60px, 50%, 120px)",
-                    borderRadius: "12px",
-                    maxWidth: "80px",
-                    maxHeight: "70px",
-                    borderRadius: "100px",
-                  }}
-                />
-                <h1 className="fs-6 mt-1">{user?.firstName}</h1>
-              </div>
-              <div className="col-6 text-end mb-3 align-end">
-                <label className="text-danger fw-bold">Status</label>
-                <h1 className="fs-6">
-                  {user?.status ? "Active" : "In-active"}
-                </h1>
+          <div>
+            <button
+              className="comman_btn mb-2 print_btn"
+              onClick={() => captureDiv()}
+            >
+              Download
+            </button>
+            <button
+              className="comman_btn mb-2 mx-2 print_btn"
+              onClick={() => printDoc()}
+            >
+              Print
+            </button>
+            <div
+              style={{
+                borderRadius: "20px",
+
+                width: "500px",
+                border: "1px solid #3e4093",
+              }}
+              className=" h-100 px-5 py-1 bg-white"
+              id="qrDiv"
+            >
+              <div className="text-center mt-4">
+                <div>
+                  <img
+                    className=""
+                    onClick={() =>
+                      (window.location.href = "https://www.starimporters.com/")
+                    }
+                    src={require("../../../assets/img/logo.png")}
+                    alt="Company Logo"
+                    style={{
+                      width: "clamp(80px, 50%, 200px)",
+                    }}
+                  />
+                  <h2 className=" mt-2 fw-bold  fs-4 text-center text-dark headOrder">
+                    Star Importers & Wholesalers
+                  </h2>
+                </div>
               </div>
 
-              <div className="col-6 text-start mb-3">
-                <label className="text-danger fw-bold">COMPANY NAME</label>
-                <h1 className="fs-6">{user?.companyName}</h1>
-              </div>
+              <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
+                <div className="row mt-3">
+                  <div className="col-6 mb-3">
+                    <img
+                      className="border mb-2"
+                      id="proImage"
+                      src={
+                        user?.profileImage?.length > 5
+                          ? user?.profileImage
+                          : require("../../../assets/img/profileDummy.png")
+                      }
+                      style={{
+                        width: "clamp(60px, 50%, 120px)",
+                        borderRadius: "12px",
+                        maxWidth: "80px",
+                        maxHeight: "70px",
+                        borderRadius: "100px",
+                      }}
+                    />
+                    <h1 className="fs-6 mt-1">{user?.firstName}</h1>
+                  </div>
+                  <div className="col-6 text-end mb-3 align-end">
+                    <label className="text-danger fw-bold">Status</label>
+                    <h1 className="fs-6">
+                      {user?.status ? "Active" : "In-active"}
+                    </h1>
+                  </div>
 
-              <div className="col-6 text-end mb-3">
-                <label className="text-danger fw-bold">ACCOUNT NUMBER</label>
-                <h1 className="fs-6">{user?.accountNumber}</h1>
-              </div>
+                  <div className="col-6 text-start mb-3">
+                    <label className="text-danger fw-bold">COMPANY NAME</label>
+                    <h1 className="fs-6">{user?.companyName}</h1>
+                  </div>
 
-              <div className="col-6 text-start mb-3">
-                <label className="text-danger fw-bold">MEMBER'S NAME</label>
-                <h1 className="fs-6">
-                  {user?.firstName + " " + user?.lastName}
-                </h1>
-              </div>
-              <div className="col-6 text-end mb-3">
-                <label className="text-danger fw-bold">MEMBER'S CONTACT</label>
-                <h1 className="fs-6">{user?.phoneNumber}</h1>
-              </div>
+                  <div className="col-6 text-end mb-3">
+                    <label className="text-danger fw-bold">
+                      ACCOUNT NUMBER
+                    </label>
+                    <h1 className="fs-6">{user?.accountNumber}</h1>
+                  </div>
 
-              <div className="col-12 mb-3 mt-3  text-center">
-                <img
-                  className=""
-                  onClick={() =>
-                    (window.location.href = "https://www.starimporters.com/")
-                  }
-                  src={user?.qrcode}
-                  alt="Qr"
-                  id="qrImage"
-                  width={140}
-                />
-              </div>
-              <div className="col-12 text-center">
-                <a href="https://www.starimporters.com">
-                  www.starimporters.com
-                </a>
+                  <div className="col-6 text-start mb-3">
+                    <label className="text-danger fw-bold">MEMBER'S NAME</label>
+                    <h1 className="fs-6">
+                      {user?.firstName + " " + user?.lastName}
+                    </h1>
+                  </div>
+                  <div className="col-6 text-end mb-3">
+                    <label className="text-danger fw-bold">
+                      MEMBER'S CONTACT
+                    </label>
+                    <h1 className="fs-6">{user?.phoneNumber}</h1>
+                  </div>
+                  {console.log(qrCode)}
+                  <div className="col-12 mb-3 mt-3  text-center" key={qrCode}>
+                    <img
+                      className=""
+                      onClick={() =>
+                        (window.location.href =
+                          "https://www.starimporters.com/")
+                      }
+                      src={qrCode}
+                      alt="Qr"
+                      id="qrImage"
+                      width={140}
+                    />
+                  </div>
+                  <div className="col-12 text-center">
+                    <a href="https://www.starimporters.com">
+                      www.starimporters.com
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
