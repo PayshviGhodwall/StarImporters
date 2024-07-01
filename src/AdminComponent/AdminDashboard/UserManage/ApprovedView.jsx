@@ -39,6 +39,7 @@ const ApprovedView = () => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const [subAccounts, setSubAccounts] = useState([]);
+  const [allPersonals, setAllPersonals] = useState([]);
   const queryParams = new URLSearchParams(user).toString();
   const {
     register,
@@ -357,6 +358,7 @@ const ApprovedView = () => {
       const newRows = [];
       if (!data.error) {
         let values = data?.results?.agents;
+        setAllPersonals(values);
         values?.map((list, index) => {
           const returnData = {};
           returnData.name = list?.firstName;
@@ -427,7 +429,7 @@ const ApprovedView = () => {
           text: "Please Check your Email",
           icon: "success",
           showCloseButton: true,
-          timer:3000
+          timer: 3000,
         });
       }
     });
@@ -1732,21 +1734,22 @@ const ApprovedView = () => {
                         >
                           Generate QR
                         </Link>
-
-                        <a
-                          target="_blank"
-                          style={{
-                            backgroundColor: "#eb3237",
-                            fontSize: "20px",
-                            position: "relative",
-                            top: "-2px",
-                          }}
-                          appearance="primary"
-                          className="comman_btn2 mx-2"
-                          onClick={sendQrEmail}
-                        >
-                          Send QR to email
-                        </a>
+                        {allPersonals?.length > 0 && (
+                          <a
+                            target="_blank"
+                            style={{
+                              backgroundColor: "#eb3237",
+                              fontSize: "20px",
+                              position: "relative",
+                              top: "-2px",
+                            }}
+                            appearance="primary"
+                            className="comman_btn2 mx-2"
+                            onClick={sendQrEmail}
+                          >
+                            Send QR to email
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
