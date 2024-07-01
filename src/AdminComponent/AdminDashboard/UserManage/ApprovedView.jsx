@@ -23,10 +23,10 @@ const ApprovedView = () => {
   const [msg, setMsg] = useState("");
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
   const generatePass = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generatePassword`;
+  const QrEmail = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendVisitorCard/`;
   const UserOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserOrders`;
   const allAgents = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserAgent/`;
   const AddAgent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addAgent`;
-  const apiUrl3 = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/generateQRCode/`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
@@ -218,7 +218,7 @@ const ApprovedView = () => {
   //     document.getElementById("qrImage").src = datas;
   //   }
   // };
-  
+
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.post(apiUrl + "/" + objectId);
@@ -418,6 +418,21 @@ const ApprovedView = () => {
       }
     });
   };
+
+  const sendQrEmail = async () => {
+    await axios.get(QrEmail + objectId).then((res) => {
+      if (res?.data.message === "Email send to main account") {
+        Swal.fire({
+          title: "Email send to main account",
+          text: "Please Check your Email",
+          icon: "success",
+          showCloseButton: true,
+          timer:3000
+        });
+      }
+    });
+  };
+
   const preview = (id) => {
     if (id.endsWith(".pdf")) {
       window.location.href = id;
@@ -1715,8 +1730,23 @@ const ApprovedView = () => {
                           className="comman_btn2 mx-2"
                           // onClick={genPassword}
                         >
-                          Generate Qr
+                          Generate QR
                         </Link>
+
+                        <a
+                          target="_blank"
+                          style={{
+                            backgroundColor: "#eb3237",
+                            fontSize: "20px",
+                            position: "relative",
+                            top: "-2px",
+                          }}
+                          appearance="primary"
+                          className="comman_btn2 mx-2"
+                          onClick={sendQrEmail}
+                        >
+                          Send QR to email
+                        </a>
                       </div>
                     </div>
                   </div>
