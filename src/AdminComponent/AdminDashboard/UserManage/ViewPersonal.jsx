@@ -7,9 +7,11 @@ import { useEffect } from "react";
 import axios from "axios";
 import ProfileBar from "../ProfileBar";
 import "rsuite/dist/rsuite.min.css";
+import Swal from "sweetalert2";
 
 const ViewPersonal = () => {
   const [sideBar, setSideBar] = useState(true);
+  const QrEmail = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendOneCard/`;
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewAgent`;
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
@@ -31,8 +33,28 @@ const ViewPersonal = () => {
     const res = await axios.get(apiUrl + "/" + id);
     if (!res?.data.error) {
       setUser(res?.data.results.agent);
-      document.getElementById("main_img").src = res?.data.results.agent?.image
+      document.getElementById("main_img").src = res?.data.results.agent?.image;
     }
+  };
+
+  const sendQrEmail = async () => {
+    await axios.get(QrEmail + id).then((res) => {
+      if (res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "warning",
+          showCloseButton: true,
+          timer: 3000,
+        });
+      } else {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          showCloseButton: true,
+          timer: 3000,
+        });
+      }
+    });
   };
 
   const handleClick = () => {
@@ -691,12 +713,11 @@ const ViewPersonal = () => {
                             alt="Image not Uploaded"
                             id="main_img"
                             style={{
-                              maxWidth:"120px",
-                              maxHeight:"120px",
-                              borderRadius:"5px"
+                              maxWidth: "120px",
+                              maxHeight: "120px",
+                              borderRadius: "5px",
                             }}
                           />
-
                         </div>
                       </div>
 
@@ -749,6 +770,20 @@ const ViewPersonal = () => {
                         >
                           Generate Qr
                         </Link>
+                        <a
+                          target="_blank"
+                          style={{
+                            backgroundColor: "#eb3237",
+                            fontSize: "20px",
+                            position: "relative",
+                            top: "-2px",
+                          }}
+                          appearance="primary"
+                          className="comman_btn2 mx-2"
+                          onClick={sendQrEmail}
+                        >
+                          Send QR to email
+                        </a>
                       </div>
                     </div>
                   </div>

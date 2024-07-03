@@ -1487,7 +1487,7 @@ const UserManage = () => {
                                               <td className="border">
                                                 {User?.companyName}
                                               </td>
-                                              <td className="border">
+                                              <td key={User?.accountNumber} className="border">
                                                 {User?.accountNumber}
                                               </td>
                                               <td className="border">

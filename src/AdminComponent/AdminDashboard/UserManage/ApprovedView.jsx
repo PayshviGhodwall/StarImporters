@@ -181,7 +181,12 @@ const ApprovedView = () => {
         sort: "asc",
         width: 150,
       },
-
+      {
+        label: "Account Type",
+        field: "type",
+        sort: "asc",
+        width: 100,
+      },
       {
         label: "User Name",
         field: "name",
@@ -364,6 +369,7 @@ const ApprovedView = () => {
           returnData.name = list?.firstName;
           returnData.name_comp = list?.user?.companyName;
           returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
+          returnData.type = list?.email === list?.user?.email ? "Main Account" : "Personal";
           returnData.Status = (
             <>
               <td className="d-flex justify-content-center" key={list._id}>
@@ -1931,7 +1937,7 @@ const ApprovedView = () => {
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
-                    <h2 className="main_headers">All Authorized Perosonals</h2>
+                    <h2 className="main_headers">All Authorized Personals</h2>
                   </div>
                   <div className="col-auto d-flex"></div>
                 </div>

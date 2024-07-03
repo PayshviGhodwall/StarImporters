@@ -201,7 +201,6 @@ const GeneratedQr = () => {
                     borderRadius: "100px",
                   }}
                 />
-                <h1 className="fs-6 mt-1">{user?.firstName}</h1>
               </div>
               <div className="col-6 text-end mb-3 align-end">
                 <label className="text-danger fw-bold">Status</label>
