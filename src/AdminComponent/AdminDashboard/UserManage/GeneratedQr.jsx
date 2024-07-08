@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 const GeneratedQr = () => {
@@ -181,7 +181,7 @@ const GeneratedQr = () => {
               </h2>
             </div>
           </div>
-          
+
           <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
             <div className="row mt-3">
               <div className="col-6 mb-3">
@@ -243,9 +243,9 @@ const GeneratedQr = () => {
                 />
               </div>
               <div className="col-12 text-center">
-                <a href="https://www.starimporters.com">
+                <Link target="_blank" to={"https://www.starimporters.com"}>
                   www.starimporters.com
-                </a>
+                </Link>
               </div>
             </div>
           </div>

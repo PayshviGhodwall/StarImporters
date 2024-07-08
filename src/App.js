@@ -160,6 +160,7 @@ import ViewPersonal from "./AdminComponent/AdminDashboard/UserManage/ViewPersona
 import EditPersonal from "./AdminComponent/AdminDashboard/UserManage/EditPersonal";
 import VisitorManagement from "./AdminComponent/AdminDashboard/VisitorPanel/VisitorManagement";
 import GeneratedQrMain from "./AdminComponent/AdminDashboard/UserManage/GeneratedQrMain";
+import NotFound from "./NotFound";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -180,6 +181,10 @@ function App() {
           <ScrollToTop />
 
           <Routes>
+            <Route
+              path="*"
+              element={width < 999 ? <NotFound /> : <NotFound />}
+            />
             <Route
               path="/"
               element={width < 999 ? <AppHome /> : <Homepage />}

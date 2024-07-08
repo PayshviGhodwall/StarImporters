@@ -701,6 +701,11 @@ const ViewPersonal = () => {
                       Authorized Personal Details
                     </h2>
                   </div>
+                  <div className="col-auto">
+                    <h2 className="main_headers">
+                      {user?.status ? "Active" : "In-active"}
+                    </h2>
+                  </div>
                 </div>
                 <div className="row ">
                   <div className="col-12 p-4 Pending-view-main">

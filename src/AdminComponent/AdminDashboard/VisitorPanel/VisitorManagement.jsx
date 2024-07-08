@@ -655,7 +655,7 @@ const VisitorManagement = () => {
                     </div>
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
-                        <h2>Checked Ins</h2>
+                        <h2>Check-Ins</h2>
                         <span>{logCounts?.checkedIn[0]?.count}</span>
 
                       </div>
@@ -675,7 +675,7 @@ const VisitorManagement = () => {
                     </div>
                     <div className="col pe-0">
                       <div className="dashboard_boxcontent">
-                        <h2>Checked Outs</h2>
+                        <h2>Check-Outs</h2>
                         <span>{logCounts?.checkedOut[0]?.count}</span>
 
                       </div>
@@ -723,7 +723,7 @@ const VisitorManagement = () => {
                                   {item?.exitTime}
                                 </td>
                               ) : (
-                                <td className="border">Not CheckedOut Yet</td>
+                                <td className="border">Not Checked-Out Yet</td>
                               )}
 
                               <td className="border">

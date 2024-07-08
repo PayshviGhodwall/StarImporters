@@ -27,6 +27,7 @@ const ApprovedView = () => {
   const UserOrders = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserOrders`;
   const allAgents = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUserAgent/`;
   const AddAgent = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/addAgent`;
+  const personalStatus = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/changeAgentStatus/`;
   const [sideBar, setSideBar] = useState(true);
   const [user, setUser] = useState([]);
   const [editText, setEditText] = useState("Edit");
@@ -346,15 +347,15 @@ const ApprovedView = () => {
   };
 
   const UserStatus = async (id) => {
-    // await axios.post(userStatus + "/" + id).then((res) => {
-    //   if (!res?.data.error) {
-    //     Swal.fire({
-    //       title: res?.data.message,
-    //       icon: "success",
-    //       confirmButtonText: "Okay",
-    //     });
-    //   }
-    // });
+    await axios.get(personalStatus + id).then((res) => {
+      if (!res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    });
   };
 
   const getPersonals = async () => {
@@ -369,7 +370,8 @@ const ApprovedView = () => {
           returnData.name = list?.firstName;
           returnData.name_comp = list?.user?.companyName;
           returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
-          returnData.type = list?.email === list?.user?.email ? "Main Account" : "Personal";
+          returnData.type =
+            list?.email === list?.user?.email ? "Main Account" : "Personal";
           returnData.Status = (
             <>
               <td className="d-flex justify-content-center" key={list._id}>

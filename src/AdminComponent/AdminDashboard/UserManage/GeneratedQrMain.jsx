@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 const GeneratedQrMain = () => {
@@ -269,9 +269,9 @@ const GeneratedQrMain = () => {
                     />
                   </div>
                   <div className="col-12 text-center">
-                    <a href="https://www.starimporters.com">
+                    <Link target="_blank" to={"https://www.starimporters.com"}>
                       www.starimporters.com
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
