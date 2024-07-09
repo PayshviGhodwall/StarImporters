@@ -269,9 +269,14 @@ const GeneratedQrMain = () => {
                     />
                   </div>
                   <div className="col-12 text-center">
-                    <Link target="_blank" to={"https://www.starimporters.com"}>
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open("https://www.starimporters.com", "_blank");
+                      }}
+                    >
                       www.starimporters.com
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>

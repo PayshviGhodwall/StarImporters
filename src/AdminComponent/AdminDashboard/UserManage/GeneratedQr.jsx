@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 const GeneratedQr = () => {
@@ -243,9 +243,14 @@ const GeneratedQr = () => {
                 />
               </div>
               <div className="col-12 text-center">
-                <Link target="_blank" to={"https://www.starimporters.com"}>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open("https://www.starimporters.com", "_blank");
+                  }}
+                >
                   www.starimporters.com
-                </Link>
+                </a>
               </div>
             </div>
           </div>
