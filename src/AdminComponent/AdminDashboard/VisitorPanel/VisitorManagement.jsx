@@ -7,6 +7,27 @@ import ProfileBar from "../ProfileBar";
 import ViewProduct from "../ViewProduct";
 import moment from "moment";
 import UserGuide from "./UserGuide";
+import { default as ReactSelect } from "react-select";
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    minHeight: "45px",
+    height: "45px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    height: "45px",
+    padding: "0 6px",
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: "0px",
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    height: "45px",
+  }),
+};
 
 const VisitorManagement = () => {
   const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVisitorLog  `;
@@ -18,9 +39,49 @@ const VisitorManagement = () => {
   const [maxPage, setMaxPage] = useState(1);
   const [allVisitors, setAllVisitor] = useState();
   const [logCounts, setLogCounts] = useState();
+  const [form, setForm] = useState(false);
+  const [selectTrainers, setSelectTrainers] = useState([]);
+  const [selectedTrainers, setSelectedTrainers] = useState([]);
+
+  const [selectedOption, setSelectedOption] = useState([]);
+  const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
+  const [searchType, setSearchType] = useState("companyName");
   useEffect(() => {
     getAllVisitors();
   }, [activePage]);
+
+  const handleInputChangePull = (inputValue) => {
+    userSearch(inputValue);
+  };
+  const handleChange = (selected) => {
+    setSelectedTrainers({
+      optionSelected: selected,
+    });
+  };
+
+  const userSearch = async (key) => {
+    let string = key;
+    if (string !== "") {
+      const { data, error } = await axios.post(UserSearch, {
+        type: "APPROVED",
+        search: string,
+        searchType: searchType,
+      });
+      if (!error) {
+        if (!data.error) {
+          let vals = data.results?.users;
+          const optionList = vals?.map((item, index) => ({
+            value: item?._id,
+            label: <div>{item?.firstName}-{item?.companyName}</div>,
+          }));
+
+          setSelectTrainers(optionList);
+        } else {
+          setSelectTrainers([]);
+        }
+      }
+    }
+  };
 
   const getAllVisitors = async (filterKey) => {
     const { data } = await axios.patch(contactList, {
@@ -638,7 +699,6 @@ const VisitorManagement = () => {
                       <div className="dashboard_boxcontent">
                         <h2>Total Visitors</h2>
                         <span>{logCounts?.totalVisits[0]?.count}</span>
-
                       </div>
                     </div>
                   </Link>
@@ -657,7 +717,6 @@ const VisitorManagement = () => {
                       <div className="dashboard_boxcontent">
                         <h2>Check-Ins</h2>
                         <span>{logCounts?.checkedIn[0]?.count}</span>
-
                       </div>
                     </div>
                   </Link>
@@ -677,13 +736,74 @@ const VisitorManagement = () => {
                       <div className="dashboard_boxcontent">
                         <h2>Check-Outs</h2>
                         <span>{logCounts?.checkedOut[0]?.count}</span>
-
                       </div>
                     </div>
                   </Link>
                 </div>
               </div>
-
+              <div
+                style={{
+                  position: "absolute",
+                  right: "50px",
+                  marginTop: "8px",
+                }}
+              >
+                {form ? (
+                  <div className="d-flex">
+                    <button className="comman_btn_search ">
+                      <select
+                        className="searchDrop "
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSearchType(e.target.value);
+                        }}
+                      >
+                        <option selected="" value="companyName">
+                          Company
+                        </option>
+                        <option value="firstName">User Name</option>
+                        <option value="email">Email</option>
+                        <option value="addressLine1">Address</option>
+                        <option value="phoneNumber">Mobile</option>
+                      </select>
+                    </button>
+                    <div
+                      style={{ width: "300px" }}
+                      className="react-select mx-2"
+                    >
+                      <ReactSelect
+                        styles={customStyles}
+                        onInputChange={handleInputChangePull}
+                        onChange={handleChange}
+                        options={selectTrainers}
+                        isMulti
+                        closeMenuOnSelect={false}
+                        hideSelectedOptions={false}
+                        allowSelectAll={true}
+                        value={selectedTrainers?.optionSelected}
+                        blurInputOnSelect={false}
+                        className="custom_select3"
+                      />
+                    </div>
+                    <div
+                      onClick={() => setForm(!form)}
+                      className="comman_btn2 mx-2"
+                    >
+                      Send
+                    </div>
+                    <div onClick={() => setForm(!form)} className="comman_btn2">
+                      Cancel
+                    </div>
+                  </div>
+                ) : (
+                  <a
+                    onClick={() => setForm(!form)}
+                    className="comman_btn2 text-end"
+                  >
+                    Send Activation Links
+                  </a>
+                )}
+              </div>
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
