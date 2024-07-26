@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";import "owl.carousel/dist/assets/owl.carousel.css";
+import React, { useEffect, useState } from "react";
+import "owl.carousel/dist/assets/owl.carousel.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { browserName } from "react-device-detect";
 
 function TopProduct() {
   const userData = `${process.env.REACT_APP_APIENDPOINTNEW}user/getUserProfile`;
@@ -50,10 +52,14 @@ function TopProduct() {
 
             <div className="row px-3 ">
               {(product || [])
-                .filter((itm, idx) => idx < 4)
+                ?.filter((itm, idx) =>
+                  browserName === "WebKit" || browserName === "Chrome WebView"
+                    ? itm && idx < 4
+                    : itm && idx < 4
+                )
                 .map((item, index) => (
                   <div
-                    class=" feat_main col-6 mb-5 justify-content-center "
+                    class="feat_main col-6 col-md-3 col-sm-6 mb-5 mt-2 justify-content-center "
                     onClick={() => {
                       navigate(`/app/product-detail/${item?.productId?.slug}`, {
                         state: {
@@ -63,21 +69,21 @@ function TopProduct() {
                       });
                     }}
                   >
-                    <div
-                      class="shadow"
-                      style={{
-                        backgroundImage: `url(${
+                    <div class="border rounded ">
+                      <img
+                        style={{
+                          opacity: "unset",
+                          height: "12rem",
+                          width: "100%",
+                        }}
+                        src={
                           item?.productId?.type?.flavourImage
                             ? item?.productId?.type?.flavourImage
                             : item?.productId?.productImage ||
                               require("../../assets/img/product.jpg")
-                        })`,
-                        backgroundPosition: "center",
-                        opacity: "unset",
-                        height: "12rem",
-                        backgroundSize: "cover",
-                      }}
-                    >
+                        }
+                        alt=""
+                      />
                       {item?.price?.length > 0 && (
                         <span className="product-feat-label px-2">
                           Price : {item?.price ? "-" : ""}

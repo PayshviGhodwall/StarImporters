@@ -14,6 +14,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { charSearchKey } from "../../selecter";
 import Search from "./search";
 import { appSubProd } from "../../atom";
+import { browserName } from "react-device-detect";
 
 function AppSubCategories() {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,6 @@ function AppSubCategories() {
   const navigate = useNavigate();
   let ref = useRef();
   const searchKey = useRecoilValue(charSearchKey);
-
 
   useEffect(() => {
     getCategoryList();
@@ -87,30 +87,36 @@ function AppSubCategories() {
               {activePage}
             </button> */}
               <div className="row mx-0 justify-content-center align-items-end">
-                {categories.map((item, index) => {
-                  return (
-                    <div className="col-sm-5 col-md-5 col-5 mb-2 p-2 m-2 brands_box shadow">
-                      <Link
-                        className="text-center mt-4"
-                        to={`/app/product-subCategory/${item?.subCategoryName}`}
-                      >
-                        <div>
-                          <img
-                            src={
-                              item?.subCategoryImage
-                                ? item?.subCategoryImage
-                                : require("./../../assets/img/product.jpg")
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <p className="text-center mt-2 fs-6">
-                          {item?.subCategoryName}
-                        </p>
-                      </Link>
-                    </div>
-                  );
-                })}
+                {categories
+                  ?.filter((itm, idx) =>
+                    browserName === "WebKit" || browserName === "Chrome WebView"
+                      ? itm
+                      : itm
+                  )
+                  .map((item, index) => {
+                    return (
+                      <div className="col-sm-5 col-md-5 col-5 mb-2 p-2 m-2 brands_box shadow">
+                        <Link
+                          className="text-center mt-4"
+                          to={`/app/product-subCategory/${item?.subCategoryName}`}
+                        >
+                          <div>
+                            <img
+                              src={
+                                item?.subCategoryImage
+                                  ? item?.subCategoryImage
+                                  : require("./../../assets/img/product.jpg")
+                              }
+                              alt=""
+                            />
+                          </div>
+                          <p className="text-center mt-2 fs-6">
+                            {item?.subCategoryName}
+                          </p>
+                        </Link>
+                      </div>
+                    );
+                  })}
                 {/* {categories?.length ? (
                 <div className="col-lg-12 col-sm-12 d-flex justify-content-between mt-3">
                   <div

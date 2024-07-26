@@ -126,7 +126,8 @@ const Search = () => {
             <Link className="  ms-0 mx-2" to="" onClick={microphoneSearch}>
               <img
                 width={30}
-                src={require("../../assets/img/Microphone.png")}></img>
+                src={require("../../assets/img/Microphone.png")}
+              ></img>
             </Link>
             <a className=" ms-1" onClick={() => cameraScan()}>
               <img width={30} src={require("../../assets/img/Scan.png")}></img>
@@ -145,21 +146,29 @@ const Search = () => {
                 <>
                   Related Sub-Categories
                   <div className=" mb-2">
-                    {relateCate?.map((itm, ind) => (
-                      <span
-                        className=" text-primary  fw-bold"
-                        style={{
-                          fontSize: "12px",
-                        }}
-                        onClick={() => {
-                          navigate(
-                            `/app/product-subCategory/${itm?.subCategoryName}`,
-                            {}
-                          );
-                        }}>
-                        {itm?.subCategoryName && itm?.subCategoryName} ,
-                      </span>
-                    ))}
+                    {relateCate
+                      ?.filter((itm, idx) =>
+                        browserName === "WebKit" ||
+                        browserName === "Chrome WebView"
+                          ? !itm?.isTobacco
+                          : itm
+                      )
+                      .map((itm, ind) => (
+                        <span
+                          className=" text-primary  fw-bold"
+                          style={{
+                            fontSize: "12px",
+                          }}
+                          onClick={() => {
+                            navigate(
+                              `/app/product-subCategory/${itm?.subCategoryName}`,
+                              {}
+                            );
+                          }}
+                        >
+                          {itm?.subCategoryName && itm?.subCategoryName} ,
+                        </span>
+                      ))}
                   </div>
                 </>
               ) : (
@@ -167,36 +176,45 @@ const Search = () => {
               )}
               {product?.length ? (
                 <div className="row g-2 ">
-                  {(product || [])?.map((item, index) => {
-                    return (
-                      <div className="col-6 col-md-4" key={index}>
-                        <div className="card product-card">
-                          <div className="card-body">
-                            <Link
-                              className="product-thumbnail d-block"
-                              to={`/app/product-detail/${item.slug}`}
-                              state={{ type: item?.type }}>
-                              <img
-                                className="mb-2"
-                                src={
-                                  item?.productImage ||
-                                  require("../../assets/img/product.jpg")
-                                }
-                                alt=""
-                              />
-                            </Link>
+                  {(product || [])
+                    ?.filter((itm, idx) =>
+                      browserName === "WebKit" ||
+                      browserName === "Chrome WebView"
+                        ? !itm?.isTobaccoProduct
+                        : itm
+                    )
+                    .map((item, index) => {
+                      return (
+                        <div className="col-6 col-md-4" key={index}>
+                          <div className="card product-card">
+                            <div className="card-body">
+                              <Link
+                                className="product-thumbnail d-block"
+                                to={`/app/product-detail/${item.slug}`}
+                                state={{ type: item?.type }}
+                              >
+                                <img
+                                  className="mb-2"
+                                  src={
+                                    item?.productImage ||
+                                    require("../../assets/img/product.jpg")
+                                  }
+                                  alt=""
+                                />
+                              </Link>
 
-                            <Link
-                              className="product-title"
-                              to={`/app/product-detail/${item?.slug}`}
-                              state={{ type: item?.type }}>
-                              {item?.unitName}
-                            </Link>
+                              <Link
+                                className="product-title"
+                                to={`/app/product-detail/${item?.slug}`}
+                                state={{ type: item?.type }}
+                              >
+                                {item?.unitName}
+                              </Link>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               ) : (
                 <div>
@@ -219,7 +237,8 @@ const Search = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -231,7 +250,8 @@ const Search = () => {
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                id="modalCloseRD"></button>
+                id="modalCloseRD"
+              ></button>
             </div>
             <div class="modal-body">Open website in External Browser.</div>
             <div class="modal-footer">
@@ -239,7 +259,8 @@ const Search = () => {
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-                id="modalCLose">
+                id="modalCLose"
+              >
                 Close
               </button>
               <Link
@@ -248,7 +269,8 @@ const Search = () => {
                   redirectToWeb();
                   // document.getElementById("modalClose").click();
                 }}
-                class="btn btn-primary">
+                class="btn btn-primary"
+              >
                 Confirm
               </Link>
             </div>

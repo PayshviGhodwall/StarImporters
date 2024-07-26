@@ -70,6 +70,8 @@ const AddSubAccount = () => {
     formData.append("tobaccoLicence", files?.tobaccoLicence);
     formData.append("salesTaxId", files?.salesTaxId);
     formData.append("accountOwnerId", files?.accountOwnerId);
+    formData.append("accountNumber", data?.account);
+
 
     await axios.post(apiUrl + id, formData).then((res) => {
       console.log(res);
@@ -788,36 +790,7 @@ const AddSubAccount = () => {
                       className="row py-2 form-design"
                       onSubmit={handleSubmit(onSubmit)}>
 
-                      {/* <div className="form-group col-3 text-center mb-0 mt-2">
-                        <div className="col-auto choose_fil">
-                          <div className="account_profile position-relative d-inline-block">
-                            <div className=" mt-4 ">
-                              <label htmlFor="" className="">
-                                <i className="fa fa-file me-1" />
-                                Choose File
-                              </label>
-                              <span></span>
-                              <input
-                                className={classNames("form-control", {
-                                  "is-invalid": errors.imageProfile,
-                                })}
-                                type="file"
-                                name="imageProfile mx-2"
-                                accept="image/*"
-                                {...register("imageProfile")}
-                                onChange={(e) =>
-                                  onFileSelection(e, "imageProfile")
-                                }
-                              />
-                              {errors.imageProfile && (
-                                <small className="errorText text-start fw-bold">
-                                  {errors.imageProfile?.message}
-                                </small>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
+                 
 
                       <div className="form-group col-3 mb-0">
                         <label htmlFor="" className="fw-bold fs-6">
@@ -893,6 +866,8 @@ const AddSubAccount = () => {
                         )}
                       </div>
 
+                      
+
                       <div className="form-group col-3 mb-5">
                         <label htmlFor="address" className="fw-bold fs-6">
                           Company Address Line 1
@@ -926,7 +901,24 @@ const AddSubAccount = () => {
                         )}
                       </div>
 
-                      <div className="form-group col-4 mb-4">
+
+
+                      <div className="form-group col-3 mb-4">
+                        <label htmlFor="" className="fw-bold fs-6">
+                        Account Number
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control border border-secondary "
+                          name="account"
+                          id="account"
+                          {...register("account")}
+                        />
+                      </div>
+
+
+                      
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Company Address Line 2
                         </label>
@@ -938,7 +930,9 @@ const AddSubAccount = () => {
                           {...register("addressLine2")}
                         />
                       </div>
-                      <div className="form-group col-4 mb-4">
+
+
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           State
                         </label>
@@ -1045,7 +1039,7 @@ const AddSubAccount = () => {
                         )}
                       </div>
 
-                      <div className="form-group col-4 mb-4  ">
+                      <div className="form-group col-3 mb-4  ">
                         <label htmlFor="" className="mx-2 fw-bolder">
                           City
                         </label>
@@ -1102,13 +1096,14 @@ const AddSubAccount = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">Tobacco License:</span>
                           <div className="col img_box_show">
                             <input
                               className={classNames(
-                                " d-none form-control  border border-secondary signup_fields",
+                                " d-none form-control border border-secondary signup_fields",
                                 { "is-invalid": errors.tobaccoLicence }
                               )}
                               type="file"
@@ -1132,6 +1127,7 @@ const AddSubAccount = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-md-3 mb-4 mt-2 d-flex align-items-stretch">
                         <div className="row view-inner-box border mx-0 w-100">
                           <span className="fw-bold fs-6">Sales Tax ID:</span>

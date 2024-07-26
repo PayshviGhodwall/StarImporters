@@ -52,7 +52,7 @@ function AppCart() {
     setLoad(true);
     const { data } = await deleteCart({ productId: id, flavour: flavour });
     if (!data?.error) {
-      setIsActive(false)
+      setIsActive(false);
       setLoad(false);
       getCartss();
     }
@@ -216,7 +216,8 @@ function AppCart() {
                 style={{ backgroundColor: "#eb3237" }}
                 onClick={() => {
                   navigate("/app/cart");
-                }}>
+                }}
+              >
                 <p className="text-white fw-bold">
                   <i class="fa fa-shopping-cart"></i> Cart ({cart?.length})
                 </p>
@@ -227,7 +228,8 @@ function AppCart() {
               class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
               data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas">
+              aria-controls="suhaOffcanvas"
+            >
               <div>
                 <span></span>
                 <span></span>
@@ -248,7 +250,8 @@ function AppCart() {
                       <h5 className="total-price mb-0"></h5>
                       <a
                         className="comman_btn2 text-center"
-                        onClick={cameraScan}>
+                        onClick={cameraScan}
+                      >
                         Scan Barcode
                       </a>
                     </div>
@@ -256,7 +259,7 @@ function AppCart() {
                 ) : null}
               </div>
               <div className="cart-table card mb-1">
-                {/* {browserName === "WebKit" ||
+                {browserName === "WebKit" ||
                 browserName === "Chrome WebView" ? (
                   <div className="table-responsive card-body p-1">
                     {load ? <Loader speed="slow" content="Updating.." /> : null}
@@ -283,7 +286,8 @@ function AppCart() {
                                           item?.productId._id,
                                           item?.flavour
                                         )
-                                      }>
+                                      }
+                                    >
                                       <i className="fa-solid fa-xmark"></i>
                                     </Link>
                                   </th>
@@ -305,16 +309,18 @@ function AppCart() {
                                       <Link
                                         to={`/app/product-detail/${item?.productId?.slug}`}
                                         state={{ type: item?.flavour }}
-                                        className={
-                                          item?.isTobacco ? "filter" : ""
-                                        }>
+                                        // className={
+                                        //   item?.isTobacco ? "filter" : ""
+                                        // }
+                                      >
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                      >
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}
@@ -328,7 +334,8 @@ function AppCart() {
                                         }}
                                         onClick={() => {
                                           HandleDecrease(index);
-                                        }}>
+                                        }}
+                                      >
                                         {item?.quantity <= 1 ? (
                                           <i
                                             class="fa fa-trash fs-6 text-danger"
@@ -337,7 +344,8 @@ function AppCart() {
                                                 item?.productId._id,
                                                 item?.flavour
                                               );
-                                            }}></i>
+                                            }}
+                                          ></i>
                                         ) : (
                                           <span className="text-dark">-</span>
                                         )}
@@ -360,7 +368,8 @@ function AppCart() {
                                         }}
                                         onClick={() => {
                                           HandleIncrease(index);
-                                        }}>
+                                        }}
+                                      >
                                         +
                                       </span>
                                     </div>
@@ -369,7 +378,8 @@ function AppCart() {
                               ) : (
                                 <tr
                                   key={index}
-                                  style={{ backgroundColor: "gray" }}>
+                                  style={{ backgroundColor: "gray" }}
+                                >
                                   <th scope="">
                                     {item?.isTobacco ? (
                                       <span class="refFilter text-center" />
@@ -384,7 +394,8 @@ function AppCart() {
                                           item?.productId._id,
                                           item?.flavour
                                         )
-                                      }>
+                                      }
+                                    >
                                       <i className="fa-solid fa-xmark"></i>
                                     </Link>
                                   </th>
@@ -409,14 +420,16 @@ function AppCart() {
                                         state={{ type: item?.flavour }}
                                         className={
                                           item?.isTobacco ? "filter" : ""
-                                        }>
+                                        }
+                                      >
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                      >
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}
@@ -443,7 +456,7 @@ function AppCart() {
                       </table>
                     </div>
                   </div>
-                ) : ( */}
+                ) : (
                   <div className="table-responsive card-body p-1">
                     {load ? <Loader speed="slow" content="Updating.." /> : null}
 
@@ -464,7 +477,8 @@ function AppCart() {
                                           item?.productId._id,
                                           item?.flavour
                                         )
-                                      }>
+                                      }
+                                    >
                                       <i className="fa-solid fa-xmark"></i>
                                     </Link>
                                   </th>
@@ -485,14 +499,16 @@ function AppCart() {
                                     {item?.flavour?._id ? (
                                       <Link
                                         to={`/app/product-detail/${item?.productId?.slug}`}
-                                        state={{ type: item?.flavour }}>
+                                        state={{ type: item?.flavour }}
+                                      >
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                      >
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}
@@ -506,7 +522,8 @@ function AppCart() {
                                         }}
                                         onClick={() => {
                                           HandleDecrease(index);
-                                        }}>
+                                        }}
+                                      >
                                         {item?.quantity <= 1 ? (
                                           <i
                                             class="fa fa-trash fs-6 text-danger"
@@ -515,7 +532,8 @@ function AppCart() {
                                                 item?.productId._id,
                                                 item?.flavour
                                               );
-                                            }}></i>
+                                            }}
+                                          ></i>
                                         ) : (
                                           <span className="text-dark">-</span>
                                         )}
@@ -538,7 +556,8 @@ function AppCart() {
                                         }}
                                         onClick={() => {
                                           HandleIncrease(index);
-                                        }}>
+                                        }}
+                                      >
                                         +
                                       </span>
                                     </div>
@@ -547,7 +566,8 @@ function AppCart() {
                               ) : (
                                 <tr
                                   key={index}
-                                  style={{ backgroundColor: "gray" }}>
+                                  style={{ backgroundColor: "gray" }}
+                                >
                                   <th scope="">
                                     <Link
                                       className="remove-product"
@@ -557,7 +577,8 @@ function AppCart() {
                                           item?.productId._id,
                                           item?.flavour
                                         )
-                                      }>
+                                      }
+                                    >
                                       <i className="fa-solid fa-xmark"></i>
                                     </Link>
                                   </th>
@@ -579,14 +600,16 @@ function AppCart() {
                                     {item?.flavour?._id ? (
                                       <Link
                                         to={`/app/product-detail/${item?.productId?.slug}`}
-                                        state={{ type: item?.flavour }}>
+                                        state={{ type: item?.flavour }}
+                                      >
                                         {item?.productId?.unitName +
                                           "-" +
                                           item?.flavour?.flavour}
                                       </Link>
                                     ) : (
                                       <Link
-                                        to={`/app/product-detail/${item?.productId?.slug}`}>
+                                        to={`/app/product-detail/${item?.productId?.slug}`}
+                                      >
                                         {item?.productId?.unitName}
                                       </Link>
                                     )}
@@ -613,25 +636,24 @@ function AppCart() {
                       </table>
                     </div>
                   </div>
-                {/* )} */}
+                )}
               </div>
             </div>
             {cart?.length ? (
               <div className="d-flex justify-content-between p-2 ">
-                <a className="comman_btn2 "
-                 onClick={() => {
-                  if (isActive) {
-                    Swal.fire({
-                      title:
-                        "Please Remove Un-available products from cart!",
-                      icon: "warning",
-                      timer: 2000,
-                    });
-                  } else {
-                    navigate("/app/checkout");
-                  }
-                }}
-                
+                <a
+                  className="comman_btn2 "
+                  onClick={() => {
+                    if (isActive) {
+                      Swal.fire({
+                        title: "Please Remove Un-available products from cart!",
+                        icon: "warning",
+                        timer: 2000,
+                      });
+                    } else {
+                      navigate("/app/checkout");
+                    }
+                  }}
                 >
                   Place Order
                 </a>
@@ -639,14 +661,16 @@ function AppCart() {
                 {userDetail?.quotation === true ? (
                   <Link
                     className="comman_btn2 text-decoration-none mx-2"
-                    onClick={addToQuotes}>
+                    onClick={addToQuotes}
+                  >
                     Req. for Quote
                   </Link>
                 ) : (
                   <Link
                     className="comman_btn2 text-decoration-none mx-2"
                     onClick={addToQuotes}
-                    style={{ visibility: "hidden" }}>
+                    style={{ visibility: "hidden" }}
+                  >
                     Req. for Quote
                   </Link>
                 )}

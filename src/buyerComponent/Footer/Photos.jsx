@@ -14,7 +14,7 @@ const Photos = () => {
   const [open2, setOpen2] = useState(false);
   const [gallery, setGallery] = useState([]);
   let id = useParams();
-  const [slide, setSlide] = useState([]); 
+  const [slide, setSlide] = useState([]);
   const [videoSlide, setVideoSlide] = useState([]);
   const [preload, setPreload] = React.useState("");
 

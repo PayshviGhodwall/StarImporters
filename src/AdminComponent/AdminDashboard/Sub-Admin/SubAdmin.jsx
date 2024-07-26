@@ -730,7 +730,7 @@ const SubAdmin = () => {
                     onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group col-4">
                       <label htmlFor="">
-                        Sub-Admin Name{" "}
+                        User Name{" "}
                         {errors.subAdminName && (
                           <small className="errorText mx-1 fw-bold">
                             *{errors.subAdminName?.message}
@@ -748,7 +748,7 @@ const SubAdmin = () => {
                         name="subAdminName"
                         placeholder="Enter Name"
                         {...register("subAdminName", {
-                          required: "Admin Name is required!",
+                          required: "User Name is required!",
                           pattern: {
                             value: /^[^*|\":<>[\]{}`\\()';@"&$]+$/,
                             message: "Special Character not allowed",
@@ -793,7 +793,7 @@ const SubAdmin = () => {
                         name="email"
                         placeholder="Enter email address"
                         {...register("email", {
-                          required: "Email is required!",
+                          required: false,
                           pattern: {
                             value:
                               /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,

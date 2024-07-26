@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import { Link, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { saveAs } from "file-saver";
 
 const GeneratedQrMain = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getUser`;
@@ -14,6 +16,7 @@ const GeneratedQrMain = () => {
   const queryParams = new URLSearchParams(location.search);
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
+  const [visitorCardUrl, setVisitorCardUUrl] = useState("");
   let profileImage = queryParams?.get("profileImage");
 
   const getUser = async () => {
@@ -27,6 +30,7 @@ const GeneratedQrMain = () => {
     const { data } = await axios.get(apiUrl2 + id);
     if (!data.error) {
       let datas = data?.results.agent?.qrcode;
+      setVisitorCardUUrl(data?.results.agent?.visitorCardURL);
       console.log(datas);
       setQrCode(datas);
       setLoader(false);
@@ -70,58 +74,59 @@ const GeneratedQrMain = () => {
   };
 
   const printDoc = async () => {
-    const divToCapture = document.getElementById("qrDiv");
-    try {
-      await waitForImagesToLoad(divToCapture); // Wait for all images to load
-      console.log("All images loaded");
+    window.print();
+    // const divToCapture = document.getElementById("qrDiv");
+    // try {
+    //   await waitForImagesToLoad(divToCapture); // Wait for all images to load
+    //   console.log("All images loaded");
 
-      await html2canvas(divToCapture, { useCORS: true })
-        .then((canvas) => {
-          canvas.toBlob((blob) => {
-            const url = URL.createObjectURL(blob);
+    //   await html2canvas(divToCapture, { useCORS: true })
+    //     .then((canvas) => {
+    //       canvas.toBlob((blob) => {
+    //         const url = URL.createObjectURL(blob);
 
-            // Print the image on the same screen
-            const printContainer = document.createElement("div");
-            printContainer.style.position = "fixed";
-            printContainer.style.top = "0";
-            printContainer.style.left = "0";
-            printContainer.style.width = "100%";
-            printContainer.style.height = "100%";
-            printContainer.style.background = "white";
-            printContainer.style.zIndex = "10000"; // Make sure it's on top
-            printContainer.style.display = "flex";
-            printContainer.style.alignItems = "center";
-            printContainer.style.justifyContent = "center";
+    //         // Print the image on the same screen
+    //         const printContainer = document.createElement("div");
+    //         printContainer.style.position = "fixed";
+    //         printContainer.style.top = "0";
+    //         printContainer.style.left = "0";
+    //         printContainer.style.width = "100%";
+    //         printContainer.style.height = "100%";
+    //         printContainer.style.background = "white";
+    //         printContainer.style.zIndex = "10000"; // Make sure it's on top
+    //         printContainer.style.display = "flex";
+    //         printContainer.style.alignItems = "center";
+    //         printContainer.style.justifyContent = "center";
 
-            const img = document.createElement("img");
-            img.src = url;
-            img.style.maxWidth = "100%";
-            img.style.maxHeight = "100%";
+    //         const img = document.createElement("img");
+    //         img.src = url;
+    //         img.style.maxWidth = "100%";
+    //         img.style.maxHeight = "100%";
 
-            // Append the image and print container to the body
-            printContainer.appendChild(img);
-            document.body.appendChild(printContainer);
+    //         // Append the image and print container to the body
+    //         printContainer.appendChild(img);
+    //         document.body.appendChild(printContainer);
 
-            // Wait until the image is fully loaded
-            img.onload = () => {
-              setTimeout(() => {
-                window.print();
-                printContainer.remove(); // Clean up after printing
-                URL.revokeObjectURL(url); // Release the object URL
-              }, 1000); // Wait for 1000ms to ensure the image is rendered
-            };
+    //         // Wait until the image is fully loaded
+    //         img.onload = () => {
+    //           setTimeout(() => {
+    //             window.print();
+    //             printContainer.remove(); // Clean up after printing
+    //             URL.revokeObjectURL(url); // Release the object URL
+    //           }, 1000); // Wait for 1000ms to ensure the image is rendered
+    //         };
 
-            img.onerror = (error) => {
-              console.error("Error loading captured image for print:", error);
-            };
-          });
-        })
-        .catch((error) => {
-          console.error("Error capturing div:", error);
-        });
-    } catch (error) {
-      console.error("Error waiting for images to load:", error);
-    }
+    //         img.onerror = (error) => {
+    //           console.error("Error loading captured image for print:", error);
+    //         };
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error capturing div:", error);
+    //     });
+    // } catch (error) {
+    //   console.error("Error waiting for images to load:", error);
+    // }
   };
 
   const captureDiv = async () => {
@@ -136,13 +141,39 @@ const GeneratedQrMain = () => {
         link.download = "divImage.png";
         link.href = url;
         document.body.appendChild(link);
-
         link.click();
-
         URL.revokeObjectURL(url); // Release the object URL
         document.body.removeChild(link); // Remove link from the DOM
       });
     });
+  };
+
+  const downloadImage = async () => {
+    let url = visitorCardUrl;
+    console.log(user);
+
+    if (url?.length > 4) {
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        saveAs(blob, "divImage.png"); // Use FileSaver.js to trigger the download
+      } catch (error) {
+        console.error("Error downloading the image:", error);
+        Swal.fire({
+          title: "Error downloading the image",
+          text: "Please try again.",
+          timer: 2000,
+          icon: "error",
+        });
+      }
+    } else {
+      Swal.fire({
+        title: "Card is not generated properly!",
+        text: "Please try again.",
+        timer: 2000,
+        icon: "warning",
+      });
+    }
   };
 
   return (
@@ -162,12 +193,13 @@ const GeneratedQrMain = () => {
           }}
         >
           <div>
-            <button
+            <a
               className="comman_btn mb-2 print_btn"
-              onClick={() => captureDiv()}
+              // onClick={() => downloadImage()}
+              href={visitorCardUrl}
             >
               Download
-            </button>
+            </a>
             <button
               className="comman_btn mb-2 mx-2 print_btn"
               onClick={() => printDoc()}
@@ -205,7 +237,7 @@ const GeneratedQrMain = () => {
 
               <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
                 <div className="row mt-3">
-                  <div className="col-6 mb-3">
+                  <div className="col-7 mb-3">
                     <img
                       className="border mb-2"
                       id="proImage"
@@ -215,7 +247,7 @@ const GeneratedQrMain = () => {
                           : require("../../../assets/img/profileDummy.png")
                       }
                       style={{
-                        width: "clamp(60px, 50%, 120px)",
+                        width: "clamp(60px, 40%, 120px)",
                         borderRadius: "12px",
                         maxWidth: "80px",
                         maxHeight: "70px",
@@ -223,10 +255,16 @@ const GeneratedQrMain = () => {
                       }}
                     />
                   </div>
-                  <div className="col-6 text-end mb-3 align-end">
+                  <div className="col-6 text-start mb-3 align-end">
                     <label className="text-danger fw-bold">Status</label>
                     <h1 className="fs-6">
                       {user?.status ? "Active" : "In-active"}
+                    </h1>
+                  </div>
+                  <div className="col-6 text-end mb-3">
+                    <label className="text-danger fw-bold">ACCOUNT TYPE</label>
+                    <h1 className="fs-6">
+                      {user?.subUser ? "Sub-account" : "Main Account"}
                     </h1>
                   </div>
 

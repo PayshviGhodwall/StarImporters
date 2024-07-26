@@ -6983,7 +6983,7 @@ background-color: #3e4093;
     max-height: 50px;
   }
 
-  .pwa-install-alert {
+  /* .pwa-install-alert {
     position: fixed;
     z-index: 999;
     border-radius: 6px;
@@ -7015,7 +7015,7 @@ background-color: #3e4093;
   .pwa-install-alert .close span {
     font-size: 18px;
     color: #ffffff;
-  }
+  } */
 
   .page-nav {
     position: relative;

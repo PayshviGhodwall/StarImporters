@@ -6,8 +6,8 @@ import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import ViewProduct from "../ViewProduct";
 import moment from "moment";
-import UserGuide from "./UserGuide";
 import { default as ReactSelect } from "react-select";
+import { DatePicker, DateRangePicker } from "rsuite";
 const customStyles = {
   control: (provided) => ({
     ...provided,
@@ -31,7 +31,6 @@ const customStyles = {
 
 const VisitorManagement = () => {
   const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVisitorLog  `;
-  const [contacts, setContacts] = useState([]);
   const [sideBar, setSideBar] = useState(true);
   const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
@@ -39,54 +38,57 @@ const VisitorManagement = () => {
   const [maxPage, setMaxPage] = useState(1);
   const [allVisitors, setAllVisitor] = useState();
   const [logCounts, setLogCounts] = useState();
-  const [form, setForm] = useState(false);
   const [selectTrainers, setSelectTrainers] = useState([]);
   const [selectedTrainers, setSelectedTrainers] = useState([]);
-
-  const [selectedOption, setSelectedOption] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
   const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
   const [searchType, setSearchType] = useState("companyName");
+
   useEffect(() => {
     getAllVisitors();
-  }, [activePage]);
+  }, []);
+
+  useEffect(() => {
+    if (searchKey?.length > 1) {
+      userSearch();
+    }
+  }, [searchKey]);
 
   const handleInputChangePull = (inputValue) => {
-    userSearch(inputValue);
+    setSearchKey(inputValue);
   };
-  const handleChange = (selected) => {
-    setSelectedTrainers({
-      optionSelected: selected,
+
+  const handleChangeDates = (values) => {
+    console.log(values);
+    getAllVisitors("",values);
+  };
+
+  const userSearch = async () => {
+    let string = searchKey;
+    const { data } = await axios.post(UserSearch, {
+      type: "APPROVED",
+      search: string,
+      searchType: searchType,
     });
-  };
-
-  const userSearch = async (key) => {
-    let string = key;
-    if (string !== "") {
-      const { data, error } = await axios.post(UserSearch, {
-        type: "APPROVED",
-        search: string,
-        searchType: searchType,
-      });
-      if (!error) {
-        if (!data.error) {
-          let vals = data.results?.users;
-          const optionList = vals?.map((item, index) => ({
-            value: item?._id,
-            label: <div>{item?.firstName}-{item?.companyName}</div>,
-          }));
-
-          setSelectTrainers(optionList);
-        } else {
-          setSelectTrainers([]);
-        }
-      }
+    if (data && !data.error) {
+      const optionList = data.results.users?.map((item) => ({
+        value: item._id,
+        label: (
+          <div>
+            {item.firstName} - {item.companyName}
+          </div>
+        ),
+      }));
+      setSelectTrainers(optionList);
     }
   };
 
-  const getAllVisitors = async (filterKey) => {
+  const getAllVisitors = async (filterKey, dates) => {
+    
     const { data } = await axios.patch(contactList, {
       page: activePage,
       visitType: filterKey,
+      from: dates,
     });
     if (!data.error) {
       setAllVisitor(data.results.visitors?.usersList);
@@ -630,7 +632,6 @@ const VisitorManagement = () => {
                   <h1
                     className="mt-2 text-white"
                     onClick={() => {
-                      console.log("yello");
                       setSideBar(!sideBar);
                     }}
                   >
@@ -685,6 +686,7 @@ const VisitorManagement = () => {
                     </div>
                   </Link>
                 </div>
+
                 <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
                     onClick={() => getAllVisitors("")}
@@ -741,7 +743,7 @@ const VisitorManagement = () => {
                   </Link>
                 </div>
               </div>
-              <div
+              {/* <div
                 style={{
                   position: "absolute",
                   right: "50px",
@@ -768,14 +770,14 @@ const VisitorManagement = () => {
                       </select>
                     </button>
                     <div
-                      style={{ width: "300px" }}
+                      style={{ width: "300px",zIndex:"995" }}
                       className="react-select mx-2"
                     >
                       <ReactSelect
+                        options={selectTrainers}
                         styles={customStyles}
                         onInputChange={handleInputChangePull}
                         onChange={handleChange}
-                        options={selectTrainers}
                         isMulti
                         closeMenuOnSelect={false}
                         hideSelectedOptions={false}
@@ -783,6 +785,7 @@ const VisitorManagement = () => {
                         value={selectedTrainers?.optionSelected}
                         blurInputOnSelect={false}
                         className="custom_select3"
+                        
                       />
                     </div>
                     <div
@@ -803,11 +806,17 @@ const VisitorManagement = () => {
                     Send Activation Links
                   </a>
                 )}
-              </div>
+              </div> */}
               <div className="col-12 design_outter_comman recent_orders shadow">
                 <div className="row comman_header justify-content-between">
-                  <div className="col-auto">
-                    <h2>Visitors Listing</h2>
+                  <div className="col-2">
+                    <h2>Visitors Listings</h2>
+                  </div>
+                  <div className="col">
+                    <DatePicker
+                      placeholder="Filter by Date"
+                      onChange={handleChangeDates}
+                    ></DatePicker>
                   </div>
                 </div>
 

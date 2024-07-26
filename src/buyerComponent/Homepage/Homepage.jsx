@@ -1,4 +1,5 @@
-import React, { useRef } from "react";import Footer from "../Footer/Footer";
+import React, { useRef } from "react";
+import Footer from "../Footer/Footer";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -324,7 +325,6 @@ const Homepage = () => {
             loop={true}
             dots={false}
             nav={true}
-            // video={true}
             lazyLoad={true}
             items={1}
           >
@@ -635,8 +635,7 @@ const Homepage = () => {
                                       : "d-none"
                                   }
                                 >
-                                  Price -{" "}
-                                  {item?.price ? "$" + item.price : ""}
+                                  Price - {item?.price ? "$" + item.price : ""}
                                 </span>
                                 <ul className="product-links">
                                   <li>
@@ -717,7 +716,6 @@ const Homepage = () => {
                                   <a className="text-decoration-none">
                                     {item?.productId?.unitName}
                                   </a>
-                                 
                                 </h3>
                               </div>
                             </div>
@@ -1424,7 +1422,8 @@ const Homepage = () => {
               </div>
             </section>
           )}
-          {hotSell?.length > 0 && (
+
+          {brands?.length > 0 && (
             <section className="category_newdesign">
               <div className="container">
                 <div className="row newdesign_main bg-white">

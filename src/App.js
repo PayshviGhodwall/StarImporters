@@ -160,7 +160,8 @@ import ViewPersonal from "./AdminComponent/AdminDashboard/UserManage/ViewPersona
 import EditPersonal from "./AdminComponent/AdminDashboard/UserManage/EditPersonal";
 import VisitorManagement from "./AdminComponent/AdminDashboard/VisitorPanel/VisitorManagement";
 import GeneratedQrMain from "./AdminComponent/AdminDashboard/UserManage/GeneratedQrMain";
-import NotFound from "./NotFound";
+import VisitorCard from "./VisitorCard";
+import AppNewArrivalsList from "./pwaComponents/homeComponent/appNewArrivalsList";
 
 function App() {
   const [apiData, setApiData] = useState([]);
@@ -183,7 +184,7 @@ function App() {
           <Routes>
             <Route
               path="*"
-              element={width < 999 ? <NotFound /> : <NotFound />}
+              element={width < 999 ? <Homepage /> : <Homepage />}
             />
             <Route
               path="/"
@@ -434,6 +435,7 @@ function App() {
               path="/app/webView"
               element={width < 999 ? <WebView /> : <Homepage />}
             />
+
             <Route
               path="/app/downloads"
               element={width < 999 ? <AppDownloads /> : <Homepage />}
@@ -621,6 +623,10 @@ function App() {
               path="/app/product-list/Hot-Deal"
               element={<AppHotDealList />}
             />
+             <Route
+              path="/app/new-arrival-list"
+              element={<AppNewArrivalsList />}
+            />
             <Route
               path="/app/product-list/Close-Out"
               element={<AppCloseOutList />}
@@ -677,6 +683,7 @@ function App() {
               path="*"
               component={width < 999 ? <AppHome /> : <Homepage />}
             />
+            <Route path="/:7000/visitor/:id" element={<VisitorCard />} />
           </Routes>
         </Router>
       </RecoilRoot>

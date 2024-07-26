@@ -60,7 +60,8 @@ function AppBrands() {
               class="suha-navbar-toggler ms-2"
               data-bs-toggle="offcanvas"
               data-bs-target="#suhaOffcanvas"
-              aria-controls="suhaOffcanvas">
+              aria-controls="suhaOffcanvas"
+            >
               <div>
                 <span></span>
                 <span></span>
@@ -76,25 +77,32 @@ function AppBrands() {
           {searchKey?.length ? null : (
             <div className="brands_section pt-3">
               <div className="row mx-0">
-                {brand?.map((item, index) => {
-                  return (
-                    <div className="col-6 mb-3 pe-2">
-                      <Link
-                        className="brands_box shadow"
-                        to={`/app/productBrands/${item?.brandName}`}>
-                        <img
-                          src={
-                            item?.brandImage
-                              ? item.brandImage
-                              : require("../../assets/img/product.jpg")
-                          }
-                          className="p-2"
-                          alt=""
-                        />
-                      </Link>
-                    </div>
-                  );
-                })}
+                {brand
+                  ?.filter((itm, idx) =>
+                    browserName === "WebKit" || browserName === "Chrome WebView"
+                      ? itm
+                      : itm
+                  )
+                  .map((item, index) => {
+                    return (
+                      <div className="col-6 mb-3 pe-2">
+                        <Link
+                          className="brands_box shadow"
+                          to={`/app/productBrands/${item?.brandName}`}
+                        >
+                          <img
+                            src={
+                              item?.brandImage
+                                ? item.brandImage
+                                : require("../../assets/img/product.jpg")
+                            }
+                            className="p-2"
+                            alt=""
+                          />
+                        </Link>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           )}

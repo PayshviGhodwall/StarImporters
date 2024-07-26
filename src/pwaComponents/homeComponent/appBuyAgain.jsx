@@ -185,7 +185,6 @@ function AppBuyAgain() {
       <div className="">
         <AppHeader cartCount={cartCount} />
         <div className="page-content-wrapper2 mt-1 bg-light ">
-          
           <div className="py-3">
             <div className="row mb-2 p-2 justify-content-between   ">
               <div className="col-auto mx-3 mx-xs-0 col-xs-auto ">
@@ -211,103 +210,119 @@ function AppBuyAgain() {
             <div className="container px-2">
               <div className="row mt-0 buyAgain px-3 py-2">
                 {(purchasedProd || [])?.map((item, index) =>
-                  item.products?.map((val, ind) => (
-                    <div className="col-12 mb-2 card" key={`${ind}${index}`}>
-                      <div>
-                        <label class="checkbox-label ">
-                          <input
-                            type="checkbox"
-                            key={val?.flavour?._id}
-                            name={ind}
-                            id={val?.flavour?._id}
-                            onChange={(e) =>
-                              handleClick(
-                                e,
-                                val?.flavour,
-                                val?.productId?._id,
-                                val?.quantity,
-                                ind
-                              )
-                            }
-                            class="checkbox-input mb-2 mx-3"
-                            checked={isCheck?.includes(val?.flavour?._id)}
-                          />
-                          <span class="checkmark"></span>
-                        </label>
-                      </div>
-                      <div className="horizontal-product-card py-1">
-                        <div className="d-flex align-items-center mt-2 mb-2">
-                          <div className="product-thumbnail-side mt-1">
-                            <Link
-                              className="product-thumbnail shadow-sm d-block"
-                              to={`/app/product-detail/${val?.productId?.slug}`}
-                              state={{ type: val?.flavour }}>
-                              <img
-                                src={
-                                  val?.flavour
-                                    ? val?.flavour?.flavourImage ||
-                                      require("../../assets/img/product.jpg")
-                                    : val?.productId?.productImage ||
-                                      require("../../assets/img/product.jpg")
-                                }
-                                alt="Product"
-                              />
-                            </Link>
-                          </div>
+                  item.products
+                    ?.filter(
+                      (itm, idx) =>
+                        browserName === "WebKit" ||
+                        browserName === "Chrome WebView"
+                          ? itm
+                          : itm // ? !itm?.productIdisTobaccoProduct
+                    )
+                    .map((val, ind) => (
+                      <div className="col-12 mb-2 card" key={`${ind}${index}`}>
+                        <div>
+                          <label class="checkbox-label ">
+                            <input
+                              type="checkbox"
+                              key={val?.flavour?._id}
+                              name={ind}
+                              id={val?.flavour?._id}
+                              onChange={(e) =>
+                                handleClick(
+                                  e,
+                                  val?.flavour,
+                                  val?.productId?._id,
+                                  val?.quantity,
+                                  ind
+                                )
+                              }
+                              class="checkbox-input mb-2 mx-3"
+                              checked={isCheck?.includes(val?.flavour?._id)}
+                            />
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
+                        <div className="horizontal-product-card py-1">
+                          <div className="d-flex align-items-center mt-2 mb-2">
+                            <div className="product-thumbnail-side mt-1">
+                              <Link
+                                className="product-thumbnail shadow-sm d-block"
+                                to={`/app/product-detail/${val?.productId?.slug}`}
+                                state={{ type: val?.flavour }}
+                              >
+                                <img
+                                  src={
+                                    val?.flavour
+                                      ? val?.flavour?.flavourImage ||
+                                        require("../../assets/img/product.jpg")
+                                      : val?.productId?.productImage ||
+                                        require("../../assets/img/product.jpg")
+                                  }
+                                  alt="Product"
+                                />
+                              </Link>
+                            </div>
 
-                          <div className="p-3">
-                            <Link
-                              className="product-title d-block  mb-3"
-                              to={`/app/product-detail/${val?.productId?.slug}`}
-                              state={{ type: val?.flavour }}>
-                              {val?.productId?.unitName}
-                              {"-"}
-                              {val?.flavour ? val?.flavour?.flavour : null}
-                            </Link>
-                            Quantity :
-                            {isCheck?.includes(val?.flavour?._id) ? (
-                              val?.quantity
-                            ) : (
-                              <form className="cart-form w-100" action="#">
-                                <div className="order-plus-minus d-flex align-items-center">
-                                  <span
-                                    className="quantity-button-handler"
-                                    // key={`${ind}${index}`}
-                                    onClick={() =>
-                                      handleQuantityMinus(index, ind)
-                                    }>
-                                    -
-                                  </span>
-                                  <input
-                                    className="cart-quantity-input text-center bg-light"
-                                    type="number"
-                                    key={val?.quantity}
-                                    // id={`${ind}${index}`}
-                                    name="quantity"
-                                    max="999"
-                                    defaultValue={val?.quantity}
-                                    disabled
-                                    onChange={(e) =>
-                                      handleQuantity(index, ind, e.target.value)
-                                    }
-                                  />
+                            <div className="p-3">
+                              <Link
+                                className="product-title d-block  mb-3"
+                                to={`/app/product-detail/${val?.productId?.slug}`}
+                                state={{ type: val?.flavour }}
+                              >
+                                {val?.productId?.unitName}
+                                {"-"}
+                                {val?.flavour ? val?.flavour?.flavour : null}
+                              </Link>
+                              Quantity :
+                              {isCheck?.includes(val?.flavour?._id) ? (
+                                val?.quantity
+                              ) : (
+                                <form className="cart-form w-100" action="#">
+                                  <div className="order-plus-minus d-flex align-items-center">
+                                    <span
+                                      className="quantity-button-handler"
+                                      // key={`${ind}${index}`}
+                                      onClick={() =>
+                                        handleQuantityMinus(index, ind)
+                                      }
+                                    >
+                                      -
+                                    </span>
+                                    <input
+                                      className="cart-quantity-input text-center bg-light"
+                                      type="number"
+                                      key={val?.quantity}
+                                      // id={`${ind}${index}`}
+                                      name="quantity"
+                                      max="999"
+                                      defaultValue={val?.quantity}
+                                      disabled
+                                      onChange={(e) =>
+                                        handleQuantity(
+                                          index,
+                                          ind,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
 
-                                  <span
-                                    className="quantity-button-handler"
-                                    // key={`${ind}${index}`}
-                                    onClick={() =>
-                                      handleQuantityPlus(index, ind)
-                                    }>
-                                    +
-                                  </span>
-                                </div>
-                              </form>
-                            )}
+                                    <span
+                                      className="quantity-button-handler"
+                                      // key={`${ind}${index}`}
+                                      onClick={() =>
+                                        handleQuantityPlus(index, ind)
+                                      }
+                                    >
+                                      +
+                                    </span>
+                                  </div>
+                                </form>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    ))
                 )}
               </div>
             </div>

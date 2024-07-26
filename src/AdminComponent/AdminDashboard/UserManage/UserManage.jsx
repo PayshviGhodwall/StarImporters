@@ -1,4 +1,5 @@
-import React from "react";import { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
 import { Button } from "rsuite";
@@ -22,6 +23,8 @@ const UserManage = () => {
   const genCrendentials = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendUsersCredentials`;
   const totalUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/usersCount`;
   const searchUser = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
+  const sendMail = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendAgentActivationMail`;
+
   const [values, setValues] = useState({ from: "", to: "" });
   const [search, setSearch] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -99,7 +102,18 @@ const UserManage = () => {
       getRejectedUser();
     }
   };
-
+  const sendActivation = async (ids) => {
+    const { data } = await axios.patch(sendMail, {
+      user: [ids],
+    });
+    if (!data.error) {
+      Swal.fire({
+        title: "Mail Sent!",
+        icon:"success",
+        timer: 500,
+      });
+    }
+  };
   const sorting = async (i) => {
     await axios
       .post(apiUrl, {
@@ -361,24 +375,28 @@ const UserManage = () => {
                     </Link>
                   </li>
                   <li
-                  className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
-                  }
-                >
-                  <Link
-                    className=""
-                    to="/VisitorPanel"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
+                    className={
+                      User?.access?.includes("Visitor Management")
+                        ? ""
+                        : "d-none"
+                    }
                   >
-                    <i
-                      style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"
-                    ></i>{" "}
-                   Visitor Management
-                  </Link>
-                </li>
+                    <Link
+                      className=""
+                      to="/VisitorPanel"
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fa fa-layer-group"
+                      ></i>{" "}
+                      Visitor Management
+                    </Link>
+                  </li>
 
                   <li
                     className={
@@ -729,18 +747,22 @@ const UserManage = () => {
                     </Link>
                   </li>
                   <li>
-                  <Link
-                    className=""
-                    to="/VisitorPanel"
-                    style={{ textDecoration: "none", fontSize: "18px" }}
-                  >
-                    <i
-                      style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users"
-                    ></i>{" "}
-                    Visitor Management
-                  </Link>
-                </li>
+                    <Link
+                      className=""
+                      to="/VisitorPanel"
+                      style={{ textDecoration: "none", fontSize: "18px" }}
+                    >
+                      <i
+                        style={{
+                          position: "relative",
+                          left: "4px",
+                          top: "3px",
+                        }}
+                        class="fas fa-users"
+                      ></i>{" "}
+                      Visitor Management
+                    </Link>
+                  </li>
                   <li
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
@@ -1487,7 +1509,10 @@ const UserManage = () => {
                                               <td className="border">
                                                 {User?.companyName}
                                               </td>
-                                              <td key={User?.accountNumber} className="border">
+                                              <td
+                                                key={User?.accountNumber}
+                                                className="border"
+                                              >
                                                 {User?.accountNumber}
                                               </td>
                                               <td className="border">
@@ -1546,6 +1571,15 @@ const UserManage = () => {
                                                   }}
                                                 >
                                                   View
+                                                </Link>
+                                                <Link
+                                                  className="comman_btn2 text-decoration-none mx-1"
+                                                  id={index}
+                                                  onClick={() =>
+                                                    sendActivation(User?._id)
+                                                  }
+                                                >
+                                                  Send Mail For Membership
                                                 </Link>
                                               </td>
                                             </tr>

@@ -76,7 +76,6 @@ const ViewProduct = () => {
         setMaxPage(res?.data.results.allPages);
       });
   };
-  console.log(subCategories);
   const sorting = async (i) => {
     await axios
       .post(getProducts, {

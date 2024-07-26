@@ -1,4 +1,5 @@
-import React from "react";import { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../../assets/css/adminMain.css";
@@ -57,6 +58,7 @@ const AddUser = () => {
     formData.append("addressLine2", data?.addressLine2.trim());
     formData.append("businessPhoneNumber", data?.businessNumber);
     formData.append("city", data?.city.trim());
+    formData.append("accountNumber", data?.account.trim());
     formData.append("state", data?.state);
     formData.append("zipcode", data?.zipcode.trim());
     formData.append("firstName", data?.firstName.trim());
@@ -213,9 +215,7 @@ const AddUser = () => {
 
                 <li
                   className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -227,10 +227,9 @@ const AddUser = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                   Visitor Management
+                    Visitor Management
                   </Link>
                 </li>
-
 
                 <li
                   className={
@@ -627,7 +626,7 @@ const AddUser = () => {
                     TradeShow Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -1176,7 +1175,33 @@ const AddUser = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-4">
+                        <label htmlFor="" className="fw-bold fs-6">
+                          Account Number
+                        </label>
+                        <input
+                          type="number"
+                          className={classNames(
+                            "form-control  border border-secondary signup_fields",
+                            { "is-invalid": errors.account }
+                          )}
+                          name="account"
+                          id="account"
+                          {...register("account", {
+                            required: false,
+                            pattern: {
+                              value: /^[^*|\":<>[\]{}`\\()';%@&$]+$/,
+                              message: "Special Character not allowed",
+                            },
+                          })}
+                        />
+                        {errors.account && (
+                          <small className="errorText mx-1 fw-bold">
+                            {errors.account?.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Contact First name
                         </label>
@@ -1202,7 +1227,7 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
                           Contact Last name
                         </label>
@@ -1227,9 +1252,9 @@ const AddUser = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-group col-4 mb-4">
+                      <div className="form-group col-3 mb-4">
                         <label htmlFor="" className="fw-bold fs-6">
-                          Phone Number
+                          Mobile Number
                         </label>
                         <input
                           type="number"

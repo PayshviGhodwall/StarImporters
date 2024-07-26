@@ -334,7 +334,7 @@ const Cart = () => {
                                             </div>
                                           </div>
                                         </td>
-                                        <td>
+                                        <td className="text-center">
                                           <div className="number me-md-4 mb-md-0 mb-3">
                                             {item?.quantity <= 1 ? (
                                               <i

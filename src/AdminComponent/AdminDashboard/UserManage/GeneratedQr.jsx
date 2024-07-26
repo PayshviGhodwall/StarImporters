@@ -55,80 +55,81 @@ const GeneratedQr = () => {
   };
 
   const printDoc = async () => {
-    const divToCapture = document.getElementById("qrDiv");
-    try {
-      await waitForImagesToLoad(divToCapture); // Wait for all images to load
-      console.log("All images loaded");
+    window.print();
+    // const divToCapture = document.getElementById("qrDiv");
+    // try {
+    //   await waitForImagesToLoad(divToCapture); // Wait for all images to load
+    //   console.log("All images loaded");
 
-      await html2canvas(divToCapture, { useCORS: true })
-        .then((canvas) => {
-          canvas.toBlob((blob) => {
-            const url = URL.createObjectURL(blob);
+    //   await html2canvas(divToCapture, { useCORS: true })
+    //     .then((canvas) => {
+    //       canvas.toBlob((blob) => {
+    //         const url = URL.createObjectURL(blob);
 
-            // Print the image on the same screen
-            const printContainer = document.createElement("div");
-            printContainer.style.position = "fixed";
-            printContainer.style.top = "0";
-            printContainer.style.left = "0";
-            printContainer.style.width = "100%";
-            printContainer.style.height = "100%";
-            printContainer.style.background = "white";
-            printContainer.style.zIndex = "10000"; // Make sure it's on top
-            printContainer.style.display = "flex";
-            printContainer.style.alignItems = "center";
-            printContainer.style.justifyContent = "center";
+    //         // Print the image on the same screen
+    //         const printContainer = document.createElement("div");
+    //         printContainer.style.position = "fixed";
+    //         printContainer.style.top = "0";
+    //         printContainer.style.left = "0";
+    //         printContainer.style.width = "100%";
+    //         printContainer.style.height = "100%";
+    //         printContainer.style.background = "white";
+    //         printContainer.style.zIndex = "10000"; // Make sure it's on top
+    //         printContainer.style.display = "flex";
+    //         printContainer.style.alignItems = "center";
+    //         printContainer.style.justifyContent = "center";
 
-            const img = document.createElement("img");
-            img.src = url;
-            img.style.maxWidth = "100%";
-            img.style.maxHeight = "100%";
+    //         const img = document.createElement("img");
+    //         img.src = url;
+    //         img.style.maxWidth = "100%";
+    //         img.style.maxHeight = "100%";
 
-            // Append the image and print container to the body
-            printContainer.appendChild(img);
-            document.body.appendChild(printContainer);
+    //         // Append the image and print container to the body
+    //         printContainer.appendChild(img);
+    //         document.body.appendChild(printContainer);
 
-            // Wait until the image is fully loaded
-            img.onload = () => {
-              setTimeout(() => {
-                window.print();
-                printContainer.remove(); // Clean up after printing
-                URL.revokeObjectURL(url); // Release the object URL
-              }, 1000); // Wait for 1000ms to ensure the image is rendered
-            };
+    //         // Wait until the image is fully loaded
+    //         img.onload = () => {
+    //           setTimeout(() => {
+    //             window.print();
+    //             printContainer.remove(); // Clean up after printing
+    //             URL.revokeObjectURL(url); // Release the object URL
+    //           }, 1000); // Wait for 1000ms to ensure the image is rendered
+    //         };
 
-            img.onerror = (error) => {
-              console.error("Error loading captured image for print:", error);
-            };
-          });
-        })
-        .catch((error) => {
-          console.error("Error capturing div:", error);
-        });
-    } catch (error) {
-      console.error("Error waiting for images to load:", error);
-    }
+    //         img.onerror = (error) => {
+    //           console.error("Error loading captured image for print:", error);
+    //         };
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error capturing div:", error);
+    //     });
+    // } catch (error) {
+    //   console.error("Error waiting for images to load:", error);
+    // }
   };
 
-  const captureDiv = async () => {
-    const divToCapture = document.getElementById("qrDiv");
-    await waitForImagesToLoad(divToCapture);
+  // const captureDiv = async () => {
+  //   const divToCapture = document.getElementById("qrDiv");
+  //   await waitForImagesToLoad(divToCapture);
 
-    await html2canvas(divToCapture, { useCORS: true }).then((canvas) => {
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
+  //   await html2canvas(divToCapture, { useCORS: true }).then((canvas) => {
+  //     canvas.toBlob((blob) => {
+  //       const url = URL.createObjectURL(blob);
 
-        const link = document.createElement("a");
-        link.download = "divImage.png";
-        link.href = url;
-        document.body.appendChild(link);
+  //       const link = document.createElement("a");
+  //       link.download = "divImage.png";
+  //       link.href = url;
+  //       document.body.appendChild(link);
 
-        link.click();
+  //       link.click();
 
-        URL.revokeObjectURL(url); // Release the object URL
-        document.body.removeChild(link); // Remove link from the DOM
-      });
-    });
-  };
+  //       URL.revokeObjectURL(url); // Release the object URL
+  //       document.body.removeChild(link); // Remove link from the DOM
+  //     });
+  //   });
+  // };
 
   return (
     <div
@@ -141,12 +142,14 @@ const GeneratedQr = () => {
       }}
     >
       <div>
-        <button
+        <a
           className="comman_btn mb-2 print_btn"
-          onClick={() => captureDiv()}
+          // onClick={() => downloadImage()}
+          href={user?.visitorCardUrl}
+          download
         >
           Download
-        </button>
+        </a>
         <button
           className="comman_btn mb-2 mx-2 print_btn"
           onClick={() => printDoc()}
@@ -184,7 +187,7 @@ const GeneratedQr = () => {
 
           <div className=" py-1 px-3 mt-4" style={{ borderRadius: "20px" }}>
             <div className="row mt-3">
-              <div className="col-6 mb-3">
+              <div className="col-7 mb-3">
                 <img
                   className="border mb-2"
                   id="proImage"
@@ -202,21 +205,37 @@ const GeneratedQr = () => {
                   }}
                 />
               </div>
-              <div className="col-6 text-end mb-3 align-end">
+              <div className="col-6 text-start mb-3">
                 <label className="text-danger fw-bold">Status</label>
                 <h1 className="fs-6">
                   {user?.status ? "Active" : "In-active"}
                 </h1>
               </div>
+              <div className="col-6 text-end mb-3">
+                <label className="text-danger fw-bold">ACCOUNT TYPE</label>
+                <h1 className="fs-6">
+                  {user?.subUser ? "Sub-account" : "Main Account"}
+                </h1>
+              </div>
 
               <div className="col-6 text-start mb-3">
                 <label className="text-danger fw-bold">COMPANY NAME</label>
-                <h1 className="fs-6">{user?.user?.companyName}</h1>
+                <h1 className="fs-6">
+                  {" "}
+                  {user?.subUser
+                    ? user?.subUser?.companyName
+                    : user?.user?.companyName}
+                </h1>
               </div>
 
               <div className="col-6 text-end mb-3">
                 <label className="text-danger fw-bold">ACCOUNT NUMBER</label>
-                <h1 className="fs-6">{user?.user?.accountNumber}</h1>
+                <h1 className="fs-6">
+                  {" "}
+                  {user?.subUser
+                    ? user?.subUser?.accountNumber
+                    : user?.user?.accountNumber ?? "Not Added"}
+                </h1>
               </div>
 
               <div className="col-6 text-start mb-3">

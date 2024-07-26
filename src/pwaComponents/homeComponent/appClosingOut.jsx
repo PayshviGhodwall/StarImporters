@@ -170,7 +170,13 @@ function AppClosingOut() {
                   modules={[FreeMode, Pagination, Autoplay, Navigation]}
                   className=""
                 >
-                  {(product || []).map((item, index) => (
+                  {/* .filter((itm, idx) =>
+                      browserName === "WebKit" ||
+                      browserName === "Chrome WebView"
+                        ? !itm?.productId?.isTobaccoProduct && idx < 4
+                        : itm && idx < 4
+                    ) */}
+                  {(product || [])?.map((item, index) => (
                     <SwiperSlide key={index} className="">
                       <div class="hotMain">
                         <div class="w-100">

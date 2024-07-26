@@ -861,7 +861,7 @@ const SingleProduct = () => {
             <section className="brandsnew SIMILAR_prrodct ">
               <div className="container mb-4">
                 <div className="col-12 comman_head mt-1 mb-5 text-center ">
-                  <h2>Similar Products</h2>
+                  <h2 className="text-dark">Similar Products</h2>
                 </div>
 
                 <Swiper

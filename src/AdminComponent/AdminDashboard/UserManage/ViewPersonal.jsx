@@ -698,7 +698,7 @@ const ViewPersonal = () => {
                 <div className="row comman_header justify-content-between">
                   <div className="col-auto">
                     <h2 className="main_headers">
-                      Authorized Personal Details
+                      Authorized Buyer Details
                     </h2>
                   </div>
                   <div className="col-auto">
@@ -748,6 +748,44 @@ const ViewPersonal = () => {
                           <span className="fw-bold">Email Address:</span>
                           <div className="col">
                             <strong>{user?.email}</strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">Company Name:</span>
+                          <div className="col">
+                            <strong>
+                              {user?.subUser
+                                ? user?.subUser?.companyName
+                                : user?.companyName}
+                            </strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">Account Number:</span>
+                          <div className="col">
+                            <strong>
+                              {" "}
+                              {user?.subUser
+                                ? user?.subUser?.accountNumber
+                                : user?.accountNumber}
+                            </strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div className="row view-inner-box border mx-0 w-100">
+                          <span className="fw-bold">Account Type:</span>
+                          <div className="col">
+                            <strong>
+                              {" "}
+                              {user?.subUser
+                                ? "Sub-Account Buyer"
+                                : "Main Account Buyer"}
+                            </strong>
                           </div>
                         </div>
                       </div>
