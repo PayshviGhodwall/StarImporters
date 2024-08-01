@@ -18,6 +18,8 @@ const GeneratedQrMain = () => {
     localStorage.getItem("AdminLogToken");
   const [visitorCardUrl, setVisitorCardUUrl] = useState("");
   let profileImage = queryParams?.get("profileImage");
+  const QrEmail = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendVisitorCard/`;
+
 
   const getUser = async () => {
     const { data } = await axios.post(apiUrl + "/" + id);
@@ -176,6 +178,20 @@ const GeneratedQrMain = () => {
     }
   };
 
+  const sendQrEmail = async () => {
+    await axios.get(QrEmail + id).then((res) => {
+      if (res?.data.message === "Email send to main account") {
+        Swal.fire({
+          title: "Email send to main account",
+          text: "Please Check your Email",
+          icon: "success",
+          showCloseButton: true,
+          timer: 3000,
+        });
+      }
+    });
+  };
+
   return (
     <div>
       {loader ? (
@@ -206,6 +222,21 @@ const GeneratedQrMain = () => {
             >
               Print
             </button>
+
+            <a
+              target="_blank"
+              style={{
+                backgroundColor: "#eb3237",
+                fontSize: "20px",
+                position: "relative",
+                top: "-2px",
+              }}
+              appearance="primary"
+              className="comman_btn2 mx-2 print_btn"
+              onClick={sendQrEmail}
+            >
+              Send QR to email
+            </a>
             <div
               style={{
                 borderRadius: "20px",

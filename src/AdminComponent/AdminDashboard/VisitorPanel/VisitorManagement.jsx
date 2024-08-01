@@ -8,45 +8,23 @@ import ViewProduct from "../ViewProduct";
 import moment from "moment";
 import { default as ReactSelect } from "react-select";
 import { DatePicker, DateRangePicker } from "rsuite";
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    minHeight: "45px",
-    height: "45px",
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    height: "45px",
-    padding: "0 6px",
-  }),
-  input: (provided) => ({
-    ...provided,
-    margin: "0px",
-  }),
-  indicatorsContainer: (provided) => ({
-    ...provided,
-    height: "45px",
-  }),
-};
 
 const VisitorManagement = () => {
   const contactList = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getVisitorLog  `;
   const [sideBar, setSideBar] = useState(true);
-  const navigate = useNavigate();
   let User = JSON.parse(localStorage.getItem("AdminData"));
   const [activePage, setActivePage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [allVisitors, setAllVisitor] = useState();
   const [logCounts, setLogCounts] = useState();
   const [selectTrainers, setSelectTrainers] = useState([]);
-  const [selectedTrainers, setSelectedTrainers] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const UserSearch = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/searchUser`;
   const [searchType, setSearchType] = useState("companyName");
 
   useEffect(() => {
     getAllVisitors();
-  }, []);
+  }, [activePage]);
 
   useEffect(() => {
     if (searchKey?.length > 1) {
@@ -54,9 +32,6 @@ const VisitorManagement = () => {
     }
   }, [searchKey]);
 
-  const handleInputChangePull = (inputValue) => {
-    setSearchKey(inputValue);
-  };
 
   const handleChangeDates = (values) => {
     console.log(values);
@@ -878,6 +853,46 @@ const VisitorManagement = () => {
                           ))}
                         </tbody>
                       </table>
+                          <div className="col-11 d-flex justify-content-between py-2 mx-5">
+                                      <span className="totalPage">
+                                        ( Total Pages : {maxPage} )
+                                      </span>
+                                      <ul id="pagination">
+                                        <li>
+                                          <a
+                                            class="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage <= 1
+                                                ? setActivePage(1)
+                                                : setActivePage(activePage - 1)
+                                            }
+                                          >
+                                            «
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a href="#" className="active">
+                                            {activePage}
+                                          </a>
+                                        </li>
+
+                                        <li>
+                                          <a
+                                            className="fs-5"
+                                            href="#"
+                                            onClick={() =>
+                                              activePage === maxPage
+                                                ? setActivePage(maxPage)
+                                                : setActivePage(activePage + 1)
+                                            }
+                                          >
+                                            »
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
                     </div>
                   </div>
                 </div>

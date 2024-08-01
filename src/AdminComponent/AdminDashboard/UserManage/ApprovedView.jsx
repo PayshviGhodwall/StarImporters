@@ -373,7 +373,9 @@ const ApprovedView = () => {
         values?.map((list, index) => {
           const returnData = {};
           returnData.name = list?.firstName;
-          returnData.name_comp = list?.user?.companyName;
+          returnData.name_comp = list?.subUser
+            ? list?.subUser?.companyName
+            : list?.user?.companyName;
           returnData.date = moment(list?.createdAt).format("MM/DD/YYYY");
           returnData.type = list?.subUser
             ? list?.subUser?.firstName === list?.firstName

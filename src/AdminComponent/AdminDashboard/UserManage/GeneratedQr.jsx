@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const GeneratedQr = () => {
   const apiUrl = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/viewAgent`;
@@ -13,6 +14,7 @@ const GeneratedQr = () => {
   axios.defaults.headers.common["x-auth-token-admin"] =
     localStorage.getItem("AdminLogToken");
   let profileImage = queryParams?.get("profileImage");
+  const QrEmail = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/sendOneCard/`;
 
   const getUser = async () => {
     const { data } = await axios.get(apiUrl + "/" + id);
@@ -28,108 +30,29 @@ const GeneratedQr = () => {
     getUser();
   }, []);
 
-  const waitForImagesToLoad = (element) => {
-    const imgElements = element.getElementsByTagName("img");
-    const promises = [];
-
-    for (let img of imgElements) {
-      if (!img.complete) {
-        promises.push(
-          new Promise((resolve, reject) => {
-            img.onload = () => {
-              console.log(`Image loaded: ${img.src}`);
-              resolve();
-            };
-            img.onerror = () => {
-              console.error(`Failed to load image: ${img.src}`);
-              reject(new Error(`Failed to load image: ${img.src}`));
-            };
-          })
-        );
-      } else {
-        console.log(`Image already loaded: ${img.src}`);
-      }
-    }
-
-    return Promise.all(promises);
-  };
-
   const printDoc = async () => {
     window.print();
-    // const divToCapture = document.getElementById("qrDiv");
-    // try {
-    //   await waitForImagesToLoad(divToCapture); // Wait for all images to load
-    //   console.log("All images loaded");
-
-    //   await html2canvas(divToCapture, { useCORS: true })
-    //     .then((canvas) => {
-    //       canvas.toBlob((blob) => {
-    //         const url = URL.createObjectURL(blob);
-
-    //         // Print the image on the same screen
-    //         const printContainer = document.createElement("div");
-    //         printContainer.style.position = "fixed";
-    //         printContainer.style.top = "0";
-    //         printContainer.style.left = "0";
-    //         printContainer.style.width = "100%";
-    //         printContainer.style.height = "100%";
-    //         printContainer.style.background = "white";
-    //         printContainer.style.zIndex = "10000"; // Make sure it's on top
-    //         printContainer.style.display = "flex";
-    //         printContainer.style.alignItems = "center";
-    //         printContainer.style.justifyContent = "center";
-
-    //         const img = document.createElement("img");
-    //         img.src = url;
-    //         img.style.maxWidth = "100%";
-    //         img.style.maxHeight = "100%";
-
-    //         // Append the image and print container to the body
-    //         printContainer.appendChild(img);
-    //         document.body.appendChild(printContainer);
-
-    //         // Wait until the image is fully loaded
-    //         img.onload = () => {
-    //           setTimeout(() => {
-    //             window.print();
-    //             printContainer.remove(); // Clean up after printing
-    //             URL.revokeObjectURL(url); // Release the object URL
-    //           }, 1000); // Wait for 1000ms to ensure the image is rendered
-    //         };
-
-    //         img.onerror = (error) => {
-    //           console.error("Error loading captured image for print:", error);
-    //         };
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error capturing div:", error);
-    //     });
-    // } catch (error) {
-    //   console.error("Error waiting for images to load:", error);
-    // }
   };
 
-  // const captureDiv = async () => {
-  //   const divToCapture = document.getElementById("qrDiv");
-  //   await waitForImagesToLoad(divToCapture);
-
-  //   await html2canvas(divToCapture, { useCORS: true }).then((canvas) => {
-  //     canvas.toBlob((blob) => {
-  //       const url = URL.createObjectURL(blob);
-
-  //       const link = document.createElement("a");
-  //       link.download = "divImage.png";
-  //       link.href = url;
-  //       document.body.appendChild(link);
-
-  //       link.click();
-
-  //       URL.revokeObjectURL(url); // Release the object URL
-  //       document.body.removeChild(link); // Remove link from the DOM
-  //     });
-  //   });
-  // };
+  const sendQrEmail = async () => {
+    await axios.get(QrEmail + id).then((res) => {
+      if (res?.data.error) {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "warning",
+          showCloseButton: true,
+          timer: 3000,
+        });
+      } else {
+        Swal.fire({
+          title: res?.data.message,
+          icon: "success",
+          showCloseButton: true,
+          timer: 3000,
+        });
+      }
+    });
+  };
 
   return (
     <div
@@ -146,7 +69,6 @@ const GeneratedQr = () => {
           className="comman_btn mb-2 print_btn"
           // onClick={() => downloadImage()}
           href={user?.visitorCardUrl}
-          download
         >
           Download
         </a>
@@ -156,6 +78,20 @@ const GeneratedQr = () => {
         >
           Print
         </button>
+        <a
+          target="_blank"
+          style={{
+            backgroundColor: "#eb3237",
+            fontSize: "20px",
+            position: "relative",
+            top: "-2px",
+          }}
+          appearance="primary"
+          className="comman_btn2 mx-2 print_btn"
+          onClick={sendQrEmail}
+        >
+          Send QR to email
+        </a>
         <div
           style={{
             borderRadius: "20px",
