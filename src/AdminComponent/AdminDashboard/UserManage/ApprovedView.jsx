@@ -492,6 +492,7 @@ const ApprovedView = () => {
     if (!error) {
       if (!data.error) {
         document.getElementById("closePers").click();
+        document.getElementById("resetOne").click();
         Swal.fire({
           title: "Authorised Buyer Added!",
           text: "",
@@ -2235,6 +2236,9 @@ const ApprovedView = () => {
                                 Save
                               </button>
                             )}
+                            <button id="resetOne" type="reset" className="comman_btn d-none">
+                                Save
+                              </button>
                           </div>
                         </>
                       </div>

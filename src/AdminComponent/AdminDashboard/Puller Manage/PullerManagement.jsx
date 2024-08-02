@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Starlogo from "../../../assets/img/logo.png";
 import ProfileBar from "../ProfileBar";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ const PullerManagement = () => {
   const [maxPage, setMaxPage] = useState(1);
   const [files, setFiles] = useState([]);
   const [activePage, setActivePage] = useState(0);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -32,13 +33,25 @@ const PullerManagement = () => {
   useEffect(() => {
     getPullers();
     getPullersDashCount();
+    Swal.fire({
+      title: "This module is in development!",
+      text: "Please view puller management in staging version.",
+      icon:"info",
+      timer: 3000,
+      willClose: () => {
+        navigate("/AdminDashboard");
+      },
+    });
   }, []);
+
+
   const getPullers = async () => {
     await axios.get(getPullerApi).then((res) => {
       setAllPullers(res?.data.results.pullers);
       setMaxPage(res?.data.results.totalPages);
     });
   };
+  
   const getPullersDashCount = async () => {
     await axios.get(dashCount).then((res) => {
       setPullerCounts(res?.data.results.puller[0]);
@@ -128,34 +141,40 @@ const PullerManagement = () => {
                 <li
                   className={
                     User?.access?.includes("Dashboard") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/AdminDashboard"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("User Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/UserManage"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -164,22 +183,23 @@ const PullerManagement = () => {
                     User?.access?.includes("Category Sub-Category Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
                 <li
                   className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -191,61 +211,69 @@ const PullerManagement = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                   Visitor Management
+                    Visitor Management
                   </Link>
                 </li>
-
-
 
                 <li
                   className={
                     User?.access?.includes("Inventory Management")
                       ? ""
                       : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Inventory"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Brands Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Sub-Admin") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Admin/SubAdmin"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}>
+                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                >
                   <Link
                     className="bg-white"
                     to="/Puller-Management"
@@ -253,10 +281,12 @@ const PullerManagement = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Puller Management
                   </Link>
                 </li>
@@ -277,50 +307,59 @@ const PullerManagement = () => {
                     Trade Show Management
                   </Link>
                 </li>
-                
+
                 <li
-                  className={User?.access?.includes("Gallery") ? "" : "d-none"}>
+                  className={User?.access?.includes("Gallery") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Gallery-Management"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("catalogFlyers") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/Catelog-Flyers"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
                 <li
                   className={
                     User?.access?.includes("Orders Management") ? "" : "d-none"
-                  }>
+                  }
+                >
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -328,25 +367,30 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Contact") ? "" : "d-none"}>
+                  className={User?.access?.includes("Contact") ? "" : "d-none"}
+                >
                   <Link
                     className=""
                     to="/Contact&Support"
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -355,10 +399,12 @@ const PullerManagement = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -372,10 +418,12 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "2px" }}
-                      className="fa fa-home"></i>{" "}
+                      className="fa fa-home"
+                    ></i>{" "}
                     Dashboard
                   </Link>
                 </li>
@@ -383,10 +431,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/UserManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-user"></i>{" "}
+                      class="fa fa-user"
+                    ></i>{" "}
                     User Management
                   </Link>
                 </li>
@@ -394,10 +444,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/CategorySub"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Category &amp; Sub Category
                   </Link>
                 </li>
@@ -415,7 +467,7 @@ const PullerManagement = () => {
                     Visitor Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -423,10 +475,12 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "6px", top: "3px" }}
-                      class="far fa-building"></i>{" "}
+                      class="far fa-building"
+                    ></i>{" "}
                     Inventory Management
                   </Link>
                 </li>
@@ -434,10 +488,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/brandsManage"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-ship"></i>{" "}
+                      class="fa fa-ship"
+                    ></i>{" "}
                     Brands Management
                   </Link>
                 </li>
@@ -448,10 +504,12 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-user-cog"></i>{" "}
+                      class="fas fa-user-cog"
+                    ></i>{" "}
                     Sub-Admin Management
                   </Link>
                 </li>
@@ -463,11 +521,13 @@ const PullerManagement = () => {
                       textDecoration: "none",
                       fontSize: "18px",
                       color: "#3e4093",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-users-gear"></i>{" "}
-                    Puller Management
+                      class="fas fa-users-gear"
+                    ></i>{" "}
+                    Puller Management - (In Dev)
                   </Link>
                 </li>
 
@@ -478,14 +538,16 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Trade Show Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -493,10 +555,12 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"></i>{" "}
+                      class="fas fa-image"
+                    ></i>{" "}
                     Gallery Management
                   </Link>
                 </li>
@@ -507,10 +571,12 @@ const PullerManagement = () => {
                     style={{
                       textDecoration: "none",
                       fontSize: "18px",
-                    }}>
+                    }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-book"></i>{" "}
+                      class="fa-solid fa-book"
+                    ></i>{" "}
                     Catalog & Flyers
                   </Link>
                 </li>
@@ -518,10 +584,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/OrderRequest"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-layer-group"></i>{" "}
+                      class="fa fa-layer-group"
+                    ></i>{" "}
                     Order Management
                   </Link>
                 </li>
@@ -529,10 +597,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Cms"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-cog"></i>{" "}
+                      class="fa fa-cog"
+                    ></i>{" "}
                     Content Management
                   </Link>
                 </li>
@@ -540,10 +610,12 @@ const PullerManagement = () => {
                   <Link
                     className=""
                     to="/Contact&Support"
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa-solid fa-handshake-angle"></i>{" "}
+                      class="fa-solid fa-handshake-angle"
+                    ></i>{" "}
                     Contact & Support
                   </Link>
                 </li>
@@ -552,10 +624,12 @@ const PullerManagement = () => {
                     className=""
                     to="/AdminLogin"
                     onClick={handleClick}
-                    style={{ textDecoration: "none", fontSize: "18px" }}>
+                    style={{ textDecoration: "none", fontSize: "18px" }}
+                  >
                     <i
                       style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fa fa-sign-out-alt"></i>
+                      class="fa fa-sign-out-alt"
+                    ></i>
                     Logout
                   </Link>
                 </li>
@@ -575,7 +649,8 @@ const PullerManagement = () => {
                     className="mt-2 text-white"
                     onClick={() => {
                       setSideBar(!sideBar);
-                    }}>
+                    }}
+                  >
                     <i className="fa fa-bars"></i>
                   </h1>
                 </div>
@@ -585,7 +660,8 @@ const PullerManagement = () => {
                     <button
                       onClick={(e) => {
                         setSideBar(!sideBar);
-                      }}>
+                      }}
+                    >
                       X
                     </button>
                   </h3>
@@ -598,19 +674,21 @@ const PullerManagement = () => {
           </div>
         </div>
 
-        <div className="admin_panel_data height_adjust">
+        <div className="admin_panel_data height_adjust d-none">
           <div className="row inventory-management justify-content-center">
             <div className="col-12">
               <div className="row ms-3 mb-4 justify-content-center">
                 <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
                     to="/Puller-Management/LiveDashboard"
-                    className="row dashboard_box box_design me-3 w-100">
+                    className="row dashboard_box box_design me-3 w-100"
+                  >
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i
                           class="fa-regular fa-circle-dot"
-                          style={{ color: "red" }}></i>
+                          style={{ color: "red" }}
+                        ></i>
                       </span>
                     </div>
                     <div className="col pe-0">
@@ -624,7 +702,8 @@ const PullerManagement = () => {
                 <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
                     to="#"
-                    className="row dashboard_box box_design me-3 w-100">
+                    className="row dashboard_box box_design me-3 w-100"
+                  >
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -641,7 +720,8 @@ const PullerManagement = () => {
                 <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
                     to="#"
-                    className="row dashboard_box box_design me-3 w-100">
+                    className="row dashboard_box box_design me-3 w-100"
+                  >
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i class="fa-solid fa-spinner"></i>
@@ -659,7 +739,8 @@ const PullerManagement = () => {
                 <div className="col-3 mb-3 d-flex align-items-stretch">
                   <Link
                     to="#"
-                    className="row dashboard_box box_design me-3 w-100">
+                    className="row dashboard_box box_design me-3 w-100"
+                  >
                     <div className="col-auto px-0">
                       <span className="dashboard_icon">
                         <i class="fa-solid fa-list-check"></i>
@@ -686,7 +767,8 @@ const PullerManagement = () => {
                   <form
                     className="form-design py-4 px-3 help-support-form row align-items-end justify-content-between "
                     action=""
-                    onSubmit={handleSubmit(onSubmit)}>
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div className="form-group mb-0 col-6 choose_fileAdmin position-relative">
                       <span>
                         Cover Image:{" "}
@@ -747,7 +829,8 @@ const PullerManagement = () => {
 
                     <div
                       className="form-group col-4 mb-5
-                    ">
+                    "
+                    >
                       <label htmlFor="">
                         Email Address{" "}
                         {errors.email && (
@@ -778,7 +861,8 @@ const PullerManagement = () => {
                     </div>
                     <div
                       className="form-group col-4 mb-5
-                    ">
+                    "
+                    >
                       <label htmlFor="">
                         Phone Number{" "}
                         {errors.phoneNumber && (
@@ -856,13 +940,14 @@ const PullerManagement = () => {
                       <button
                         className="comman_btn d-none"
                         type="reset"
-                        id="resetF">
+                        id="resetF"
+                      >
                         Reset
                       </button>
                     </div>
                   </form>
                 </div>
-                
+
                 <div className="col-12 design_outter_comman recent_orders shadow">
                   <div className="row comman_header justify-content-between">
                     <div className="col-auto">
@@ -901,7 +986,8 @@ const PullerManagement = () => {
                                       item?.image
                                         ? item?.image
                                         : require("../../../assets/img/product.jpg")
-                                    }></img>
+                                    }
+                                  ></img>
                                 </td>
                                 <td className="border">{item?.fullName}</td>
                                 <td className="border">{item?.phoneNumber}</td>
@@ -927,7 +1013,8 @@ const PullerManagement = () => {
                                   <Link
                                     className="comman_btn2 text-white text-decoration-none"
                                     key={index}
-                                    to={`/Puller-Management/Puller-details/${item?._id}`}>
+                                    to={`/Puller-Management/Puller-details/${item?._id}`}
+                                  >
                                     View
                                   </Link>
                                 </td>
