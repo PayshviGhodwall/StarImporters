@@ -180,7 +180,7 @@ const ChangePassword = () => {
 
                 <li
                   className={
-                    User?.access?.includes("Puller") ? "" : "d-none"
+                    User?.access?.includes("Puller") ? "d-none" : "d-none"
                   }
                 >
                   <Link

@@ -178,13 +178,7 @@ const Cms = () => {
         (no == 3 && videoFile?.video3) ||
         (no == 4 && videoFile?.video4)
     );
-    // formData.append(
-    //   "videoCover",
-    //   (no == 1 && files?.slideV1Img) ||
-    //     (no == 2 && files?.slideV2Img) ||
-    //     (no == 3 && files?.slideV3Img) ||
-    //     (no == 4 && files?.slideV4Img)
-    // );
+
     formData.append(
       "url",
       (no == 1 ? urlV1 : "") ||
@@ -832,9 +826,7 @@ const Cms = () => {
 
                 <li
                   className={
-                    User?.access?.includes("Visitor Management")
-                      ? ""
-                      : "d-none"
+                    User?.access?.includes("Visitor Management") ? "" : "d-none"
                   }
                 >
                   <Link
@@ -846,7 +838,7 @@ const Cms = () => {
                       style={{ position: "relative", left: "4px", top: "3px" }}
                       class="fa fa-layer-group"
                     ></i>{" "}
-                   Visitor Management
+                    Visitor Management
                   </Link>
                 </li>
 
@@ -908,7 +900,7 @@ const Cms = () => {
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className=" ata"
@@ -1106,7 +1098,7 @@ const Cms = () => {
                     Visitor Management
                   </Link>
                 </li>
-                
+
                 <li>
                   <Link
                     className=""
@@ -1154,7 +1146,7 @@ const Cms = () => {
                 </li>
                 <li>
                   <Link
-                    className=" ata"
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -3695,15 +3687,6 @@ const Cms = () => {
                                     wrapperStyle={{}}
                                     editorStyle={{}}
                                     toolbarStyle={{}}
-                                    toolbar={{
-                                      options: [
-                                        "inline",
-                                        "blockType",
-                                        // "fontSize",
-                                        // "fontFamily",
-                                        // "colorPicker",
-                                      ],
-                                    }}
                                   ></Editor>
 
                                   <button

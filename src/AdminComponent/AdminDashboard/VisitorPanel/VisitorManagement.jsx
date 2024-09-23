@@ -226,7 +226,7 @@ const VisitorManagement = () => {
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className=" ata"
@@ -472,7 +472,7 @@ const VisitorManagement = () => {
                 </li>
                 <li>
                   <Link
-                    className=" ata"
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

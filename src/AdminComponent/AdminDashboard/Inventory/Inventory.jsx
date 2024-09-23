@@ -795,7 +795,7 @@ const Inventory = () => {
 
                 <li
                   onClick={() => setPageData([{ page: 1, searchKey: "" }])}
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className=" ata"
@@ -1043,7 +1043,7 @@ const Inventory = () => {
                 </li>
                 <li onClick={() => setPageData([{ page: 1, searchKey: "" }])}>
                   <Link
-                    className=" ata"
+                    className="d-none ata"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

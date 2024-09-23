@@ -413,7 +413,7 @@ const TradeShowManage = () => {
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className=""
@@ -653,7 +653,7 @@ const TradeShowManage = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",

@@ -350,7 +350,7 @@ const AdminCateFlyers = () => {
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className=""
@@ -594,7 +594,7 @@ const AdminCateFlyers = () => {
                 </li>
                 <li>
                   <Link
-                    className=""
+                    className="d-none"
                     to="/Puller-Management"
                     style={{
                       textDecoration: "none",
@@ -624,22 +624,7 @@ const AdminCateFlyers = () => {
                     TradeShow Management
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    className=""
-                    to="/admin/Tradeshow-manage"
-                    style={{
-                      textDecoration: "none",
-                      fontSize: "18px",
-                    }}
-                  >
-                    <i
-                      style={{ position: "relative", left: "4px", top: "3px" }}
-                      class="fas fa-image"
-                    ></i>{" "}
-                    Trade Show Management
-                  </Link>
-                </li>
+               
                 <li>
                   <Link
                     className=""

@@ -482,7 +482,7 @@ const UserManage = () => {
                     onClick={() =>
                       setPageData([{ page: 1, searchKey: "", sortBy: "1" }])
                     }
-                    className={User?.access?.includes("Puller") ? "" : "d-none"}
+                    className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                   >
                     <Link
                       className=" ata"
@@ -838,7 +838,7 @@ const UserManage = () => {
                     }
                   >
                     <Link
-                      className=" ata"
+                      className="d-none ata"
                       to="/Puller-Management"
                       style={{
                         textDecoration: "none",

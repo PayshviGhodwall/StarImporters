@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../Homepage/Navbar";
-import Footer from "./Footer";
-import $ from "jquery";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Starlogo from "../../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const AllCatalogues = () => {
   const allPdf = `${process.env.REACT_APP_APIENDPOINTNEW}api/admin/getCatalog`;
-  // var pages = document.getElementsByClassName("page");
   const navigate = useNavigate();
   const [catalogs, setCatalogs] = useState([]);
 

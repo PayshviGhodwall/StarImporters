@@ -673,7 +673,7 @@ const ViewTradeStore = () => {
                   </Link>
                 </li>
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className="bg-white"

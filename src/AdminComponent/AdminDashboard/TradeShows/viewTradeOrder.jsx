@@ -233,7 +233,7 @@ const ViewTradeOrder = () => {
                 </li>
 
                 <li
-                  className={User?.access?.includes("Puller") ? "" : "d-none"}
+                  className={User?.access?.includes("Puller") ? "d-none" : "d-none"}
                 >
                   <Link
                     className="d-none ata"
